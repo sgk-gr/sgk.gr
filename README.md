@@ -1,73 +1,77 @@
-# Welcome to your Lovable project
+# SGK Digital Agency
 
-## Project info
+> **18 χρόνια εμπειρίας στην πληροφορική** — Κατασκευή Eshop, Web Apps, AI Agents & Telecom Platforms
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🌐 **Website**: [sgk.gr](https://sgk.gr)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🚀 Τι Κάνουμε
 
-**Use Lovable**
+| Υπηρεσία | Περιγραφή |
+|---|---|
+| 🛒 **Κατασκευή Eshop** | WooCommerce & Shopify με PageSpeed 95+ |
+| 💻 **Custom Web Apps** | React dashboards, CRM, booking systems |
+| 🤖 **AI Agents** | Agentic AI για e-commerce, customer support, HR |
+| 📱 **Mobile Apps** | Flutter apps με push notifications & live tracking |
+| 📡 **Telecom Platforms** | Διαχείριση οπτικών ινών, συνεργείων & βλαβών |
+| 🔍 **SEO & Lead Gen** | Google ranking, Local SEO, lead generation |
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 📂 Projects / Case Studies
 
-**Use your preferred IDE**
+| Project | Κατηγορία | Τεχνολογίες |
+|---|---|---|
+| **KM-FIBER** | Telecom Operations | React, Supabase, Google Maps API, AI Vision |
+| **Sigmalabs AI** | Agentic AI for E-commerce | React, OpenAI, WooCommerce, Shopify API |
+| **Skinnera IKE** | Partner Management | Flutter, Firebase, OneSignal, Android |
+| **Harmony Apartments** | Booking & Channel Manager | Website, Booking.com API, Airbnb, VRBO |
+| **yolo8** | Car Rental & AI Support | React, Stripe, PostgreSQL, AI Agent |
+| **Rekrua** | AI HR Platform | React, Supabase, GPT, Edge Functions |
+| **EvolisAI** | AI Customer Support | Flutter Web, Firebase, AI Agents |
+| **Live Tour Guide** | Taxi Tours Mobile App | Flutter, Firebase, Stripe, Google Maps |
+| **Glavinas Energy** | SEO & Landing Page | React, Tailwind, VPS, Google Business |
+| **Super App** | Supermarket Offers App | Flutter, Firebase, Smart Notifications |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠 Tech Stack
 
-Follow these steps:
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
+
+---
+
+## ⚡ Quick Start
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone
+git clone https://github.com/georgia1966revva-ux/sgk.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install
+cd sgk
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Run
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📫 Επικοινωνία
 
-**Use GitHub Codespaces**
+Θέλετε κάτι παρόμοιο για την επιχείρησή σας;
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+🌐 [sgk.gr](https://sgk.gr) — Επισκεφθείτε μας  
+📧 Φόρμα επικοινωνίας στο website
 
-## What technologies are used for this project?
+---
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+**© 2026 SGK Digital Agency** — Tech & Strategy
