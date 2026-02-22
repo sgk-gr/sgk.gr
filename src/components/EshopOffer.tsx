@@ -6,7 +6,7 @@ import mobImage from "../assets/mob.png";
 
 const EshopOffer = () => {
     return (
-        <section className="py-16 sm:py-24 relative overflow-hidden bg-secondary/20">
+        <section id="eshop-offer" className="py-16 sm:py-24 relative overflow-hidden bg-secondary/20">
             {/* Glow Effects */}
             <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 

@@ -54,7 +54,7 @@ const WordPressShowcase = () => {
               για τους πελάτες σας.
             </p>
             <a
-              href="#contact"
+              href="#eshop-offer"
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
             >
               Ζητήστε Προσφορά

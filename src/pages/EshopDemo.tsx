@@ -272,16 +272,18 @@ const EshopDemo = () => {
                         </button>
                     </div>
                 </div>
-                <div className="border-t border-zinc-50 overflow-x-auto no-scrollbar">
-                    <div className="container mx-auto px-4 flex items-center gap-1 py-1.5">
-                        {CATS.map(c => (
-                            <button key={c} onClick={() => selectCat(c)} className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${activeCat === c ? "bg-[#111] text-white" : "hover:bg-zinc-100"}`}>{c}</button>
-                        ))}
+                {view === "home" && (
+                    <div className="border-t border-zinc-50 overflow-x-auto no-scrollbar">
+                        <div className="container mx-auto px-4 flex items-center gap-1 py-1.5">
+                            {CATS.map(c => (
+                                <button key={c} onClick={() => selectCat(c)} className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${activeCat === c ? "bg-[#111] text-white" : "hover:bg-zinc-100"}`}>{c}</button>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </header>
 
-            <main className="pt-[170px] pb-20">
+            <main className={`${view === "home" ? "pt-[170px]" : "pt-[130px]"} pb-20`}>
                 <AnimatePresence mode="wait">
 
                     {/* ========== HOME ========== */}
@@ -574,8 +576,8 @@ const EshopDemo = () => {
                                     {checkStep === 1 && (<div className="space-y-4">
                                         <h2 className="text-xl font-black mb-4">Καλάθι ({cartCount})</h2>
                                         {cart.map(item => (<div key={`${item.id}-${item.selSize}`} className="flex gap-4 p-4 bg-white rounded-xl border border-zinc-100 group">
-                                            <div className="w-20 h-28 rounded-lg overflow-hidden shrink-0"><img src={item.img} className="w-full h-full object-cover" /></div>
-                                            <div className="flex-1"><div className="flex justify-between mb-1"><h4 className="font-bold text-sm">{item.name}</h4><button onClick={() => setCart(c => c.filter(x => !(x.id === item.id && x.selSize === item.selSize)))} className="text-red-400"><X size={14} /></button></div>
+                                            <div onClick={() => { const p = PRODUCTS.find(x => x.id === item.id); if (p) openProd(p); }} className="w-20 h-28 rounded-lg overflow-hidden shrink-0 cursor-pointer"><img src={item.img} className="w-full h-full object-cover" /></div>
+                                            <div className="flex-1"><div className="flex justify-between mb-1"><h4 onClick={() => { const p = PRODUCTS.find(x => x.id === item.id); if (p) openProd(p); }} className="font-bold text-sm cursor-pointer hover:text-[#C5A267] transition-colors">{item.name}</h4><button onClick={() => setCart(c => c.filter(x => !(x.id === item.id && x.selSize === item.selSize)))} className="text-red-400"><X size={14} /></button></div>
                                                 <p className="text-[10px] opacity-40 mb-3">Μέγ: {item.selSize} · <span className="inline-block w-3 h-3 rounded-full border align-middle" style={{ backgroundColor: item.selColor }} /></p>
                                                 <div className="flex items-center justify-between"><div className="flex items-center gap-3 bg-zinc-50 px-3 py-1 rounded-lg border border-zinc-100">
                                                     <button onClick={() => setCart(c => c.map(x => (x.id === item.id && x.selSize === item.selSize) ? { ...x, qty: Math.max(1, x.qty - 1) } : x))}><Minus size={12} /></button>
@@ -602,7 +604,7 @@ const EshopDemo = () => {
                                 </div>
                                 <div className="lg:col-span-2"><div className="sticky top-[200px] bg-zinc-50 p-6 rounded-2xl border border-zinc-100">
                                     <h3 className="text-xs font-black uppercase tracking-widest opacity-40 mb-4">Σύνοψη</h3>
-                                    <div className="space-y-2 text-sm mb-4">{cart.map(i => <div key={i.id + i.selSize} className="flex justify-between"><span className="opacity-40">{i.qty}x {i.name}</span><span className="font-bold">€{i.price * i.qty}</span></div>)}</div>
+                                    <div className="space-y-2 text-sm mb-4">{cart.map(i => <div key={i.id + i.selSize} className="flex justify-between"><span onClick={() => { const p = PRODUCTS.find(x => x.id === i.id); if (p) openProd(p); }} className="opacity-40 cursor-pointer hover:opacity-70 transition-opacity">{i.qty}x {i.name}</span><span className="font-bold">€{i.price * i.qty}</span></div>)}</div>
                                     <div className="pt-3 border-t border-zinc-200 space-y-1"><div className="flex justify-between text-sm"><span className="opacity-40">Μεταφορικά</span><span className="text-green-600 font-bold">ΔΩΡΕΑΝ</span></div><div className="flex justify-between text-xl font-black pt-2"><span>Σύνολο</span><span>€{cartTotal}</span></div></div>
                                 </div></div>
                             </div>
@@ -630,8 +632,8 @@ const EshopDemo = () => {
                     <div className="p-6 border-b border-zinc-100 flex justify-between items-center"><h3 className="text-lg font-black">Καλάθι ({cartCount})</h3><button onClick={() => setCartOpen(false)} className="p-2 rounded-full hover:bg-zinc-100"><X size={18} /></button></div>
                     <div className="flex-1 overflow-y-auto p-6 space-y-5">{cart.length === 0 ? (<div className="h-full flex flex-col items-center justify-center opacity-20"><ShoppingBag size={50} className="mb-3" /><p className="font-bold text-sm">Άδειο καλάθι</p></div>) : cart.map(item => (
                         <div key={`${item.id}-${item.selSize}`} className="flex gap-4 group">
-                            <div className="w-16 h-22 rounded-lg overflow-hidden shrink-0"><img src={item.img} className="w-full h-full object-cover" /></div>
-                            <div className="flex-1"><div className="flex justify-between"><h4 className="font-bold text-xs">{item.name}</h4><button onClick={() => setCart(c => c.filter(x => !(x.id === item.id && x.selSize === item.selSize)))} className="text-red-400"><X size={12} /></button></div>
+                            <div onClick={() => { const p = PRODUCTS.find(x => x.id === item.id); if (p) { setCartOpen(false); openProd(p); } }} className="w-16 h-22 rounded-lg overflow-hidden shrink-0 cursor-pointer"><img src={item.img} className="w-full h-full object-cover" /></div>
+                            <div className="flex-1"><div className="flex justify-between"><h4 onClick={() => { const p = PRODUCTS.find(x => x.id === item.id); if (p) { setCartOpen(false); openProd(p); } }} className="font-bold text-xs cursor-pointer hover:text-[#C5A267] transition-colors">{item.name}</h4><button onClick={() => setCart(c => c.filter(x => !(x.id === item.id && x.selSize === item.selSize)))} className="text-red-400"><X size={12} /></button></div>
                                 <p className="text-[9px] opacity-40 mb-2">{item.selSize}</p>
                                 <div className="flex items-center justify-between"><div className="flex items-center gap-2 bg-zinc-50 px-2 py-1 rounded text-xs"><button onClick={() => setCart(c => c.map(x => (x.id === item.id && x.selSize === item.selSize) ? { ...x, qty: Math.max(1, x.qty - 1) } : x))}>-</button><span className="font-black">{item.qty}</span><button onClick={() => setCart(c => c.map(x => (x.id === item.id && x.selSize === item.selSize) ? { ...x, qty: x.qty + 1 } : x))}>+</button></div><span className="font-black text-sm">€{item.price * item.qty}</span></div></div>
                         </div>
@@ -645,19 +647,38 @@ const EshopDemo = () => {
 
             {/* ========== FLOATING COUNTDOWN OFFER CTA ========== */}
             <div className="fixed bottom-6 right-6 z-[90]">
-                <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2 }}>
-                    <a href="/#contact" className="bg-[#111] text-white px-5 py-3 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,.3)] flex items-center gap-3 cursor-pointer hover:scale-105 transition-transform no-underline">
-                        <Zap size={18} className="text-[#C5A267] shrink-0" />
-                        <div>
-                            <p className="text-xs font-black leading-tight">Πάρε Eshop από €{offerPrice}</p>
-                            <div className="flex items-center gap-1.5 mt-1">
-                                <Clock size={10} className="opacity-50" />
-                                <div className="flex items-center gap-1 font-mono text-[10px] font-bold">
-                                    <span className="bg-white/10 px-1.5 py-0.5 rounded">{countdown.h}</span>
-                                    <span className="opacity-40">:</span>
-                                    <span className="bg-white/10 px-1.5 py-0.5 rounded">{countdown.m}</span>
-                                    <span className="opacity-40">:</span>
-                                    <span className="bg-white/10 px-1.5 py-0.5 rounded text-[#C5A267]">{countdown.s}</span>
+                <motion.div
+                    initial={{ opacity: 0, y: 40, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: 2, type: "spring", stiffness: 200 }}
+                >
+                    <a href="/#contact" className="block no-underline group">
+                        <div className="relative">
+                            {/* Pulsing glow behind */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#C5A267] to-[#e8c96d] rounded-2xl blur-xl opacity-40 animate-pulse" />
+
+                            {/* Main CTA */}
+                            <div className="relative bg-gradient-to-r from-[#111] via-[#1a1a1a] to-[#111] text-white px-6 py-4 rounded-2xl shadow-[0_15px_50px_rgba(197,162,103,.4)] border border-[#C5A267]/30 group-hover:scale-105 transition-transform">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C5A267] to-[#e8c96d] flex items-center justify-center shrink-0 shadow-lg">
+                                        <Zap size={20} className="text-[#111]" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[13px] font-black leading-tight">🔥 Θέλω κι εγώ τέτοιο Eshop!</p>
+                                        <p className="text-[10px] text-[#C5A267] font-bold mt-0.5">Προσφορά από €{offerPrice} — Κάνε το δικό σου</p>
+                                    </div>
+                                    <ArrowRight size={16} className="text-[#C5A267] shrink-0 group-hover:translate-x-1 transition-transform" />
+                                </div>
+                                <div className="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-white/10">
+                                    <Clock size={10} className="opacity-50" />
+                                    <span className="text-[9px] opacity-40 font-bold uppercase tracking-wider">Η προσφορά λήγει σε</span>
+                                    <div className="flex items-center gap-1 font-mono text-[11px] font-black ml-auto">
+                                        <span className="bg-[#C5A267]/20 text-[#C5A267] px-2 py-0.5 rounded">{countdown.h}</span>
+                                        <span className="opacity-40">:</span>
+                                        <span className="bg-[#C5A267]/20 text-[#C5A267] px-2 py-0.5 rounded">{countdown.m}</span>
+                                        <span className="opacity-40">:</span>
+                                        <span className="bg-[#C5A267]/20 text-[#e8c96d] px-2 py-0.5 rounded">{countdown.s}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
