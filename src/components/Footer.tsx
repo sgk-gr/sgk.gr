@@ -93,14 +93,8 @@ const Footer = () => {
                 <a href="mailto:hello@sgk.gr" className="hover:text-primary transition-colors">hello@sgk.gr</a>
               </p>
               <div className="flex items-center gap-6 pt-6">
-                <a href="#" className="hover:scale-110 transition-all duration-300" aria-label="LinkedIn">
-                  <img src={linkedinIcon} alt="LinkedIn" className="w-5 h-5 brightness-0 invert" />
-                </a>
                 <a href="https://github.com/sgk-developers/" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-all duration-300" aria-label="GitHub">
                   <img src={githubIcon} alt="GitHub" className="w-5 h-5 brightness-0 invert" />
-                </a>
-                <a href="#" className="hover:scale-110 transition-all duration-300" aria-label="Behance">
-                  <img src={behanceIcon} alt="Behance" className="w-5 h-5 brightness-0 invert" />
                 </a>
               </div>
             </div>
