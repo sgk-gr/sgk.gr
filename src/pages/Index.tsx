@@ -24,10 +24,20 @@ const Index = () => {
         <meta name="description" content="SGK Software Development Company — 18 χρόνια εμπειρίας. Κατασκευή Eshop (WooCommerce, Shopify), custom web εφαρμογές, AI agents, booking systems, telecom platforms (Cosmote/Vodafone). Δείτε τα projects: KM-FIBER, Sigmalabs AI, Harmony Apartments, yolo8, Rekrua, Skinnera IKE κ.α." />
         <meta name="keywords" content="κατασκευή eshop, woocommerce, shopify, web development, ai agent, custom crm, booking system, σύστημα κρατήσεων, οπτικές ίνες, fiber optics, cosmote, vodafone, dashboard, mobile app, flutter, react, supabase, seo, software development ελλάδα" />
         <link rel="canonical" href="https://sgk.gr" />
+
+        {/* Open Graph / Facebook / Viber */}
         <meta property="og:title" content="SGK Software Development Company | Eshop, Web Apps, AI Agents" />
         <meta property="og:description" content="Κατασκευή Eshop, Web Apps, AI Agents, Booking Systems & Telecom Platforms. 18 χρόνια εμπειρίας στην Ελλάδα." />
         <meta property="og:url" content="https://sgk.gr" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200" />
         <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SGK Digital" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="SGK Software Development Company" />
+        <meta name="twitter:description" content="Custom Software, AI Agents & Next-Gen E-shops." />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200" />
       </Helmet>
       <Navbar />
       <Hero />
