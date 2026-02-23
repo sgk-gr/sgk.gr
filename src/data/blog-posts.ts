@@ -1,30 +1,30 @@
 export interface BlogPost {
-    id: string;
-    slug: string;
-    title: string;
-    excerpt: string;
-    content: string;
-    date: string;
-    author: string;
-    image: string;
-    category: string;
-    metaTitle: string;
-    metaDescription: string;
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  author: string;
+  image: string;
+  category: string;
+  metaTitle: string;
+  metaDescription: string;
 }
 
 export const BLOG_POSTS: BlogPost[] = [
-    {
-        id: "1",
-        slug: "ai-automations-for-business",
-        title: "Γιατί οι AI Αυτοματισμοί είναι το 'Κρυφό Όπλο' των Σύγχρονων Επιχειρήσεων",
-        excerpt: "Ανακαλύψτε πώς οι AI agents μπορούν να εξοικονομήσουν χιλιάδες ώρες εργασίας και να εξαλείψουν τα ανθρώπινα λάθη στις καθημερινές σας λειτουργίες.",
-        date: "23 Φεβρουαρίου 2026",
-        author: "Spiros G. K.",
-        category: "AI & Automation",
-        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
-        metaTitle: "AI Αυτοματισμοί Επιχειρήσεων | SGK Digital Blog",
-        metaDescription: "Πώς οι AI agents μεταμορφώνουν τις επιχειρήσεις. Αυξήστε την παραγωγικότητα και μειώστε τα κόστη με έξυπνους αυτοματισμούς.",
-        content: `
+  {
+    id: "1",
+    slug: "ai-automations-for-business",
+    title: "Γιατί οι AI Αυτοματισμοί είναι το 'Κρυφό Όπλο' των Σύγχρονων Επιχειρήσεων",
+    excerpt: "Ανακαλύψτε πώς οι AI agents μπορούν να εξοικονομήσουν χιλιάδες ώρες εργασίας και να εξαλείψουν τα ανθρώπινα λάθη στις καθημερινές σας λειτουργίες.",
+    date: "23 Φεβρουαρίου 2026",
+    author: "Spiros G. K.",
+    category: "AI & Automation",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
+    metaTitle: "AI Αυτοματισμοί Επιχειρήσεων | SGK Digital Blog",
+    metaDescription: "Πώς οι AI agents μεταμορφώνουν τις επιχειρήσεις. Αυξήστε την παραγωγικότητα και μειώστε τα κόστη με έξυπνους αυτοματισμούς.",
+    content: `
       <h2>Η Επανάσταση της Τεχνητής Νοημοσύνης στην Καθημερινότητα</h2>
       <p>Στον κόσμο των επιχειρήσεων, ο χρόνος είναι το πιο πολύτιμο νόμισμα. Οι <strong>AI αυτοματισμοί</strong> δεν είναι πλέον ένα φουτουριστικό σενάριο, αλλά μια άμεση ανάγκη για κάθε εταιρεία που θέλει να παραμείνει ανταγωνιστική.</p>
       
@@ -39,24 +39,24 @@ export const BLOG_POSTS: BlogPost[] = [
       
       <p>Στην <strong>SGK Digital</strong>, εξειδικευόμαστε στη δημιουργία custom AI agents που ενσωματώνονται πλήρως στις ανάγκες της επιχείρησής σας.</p>
     `
-    },
-    {
-        id: "2",
-        slug: "next-gen-eshops-speed-sales",
-        title: "E-shop Νέας Γενιάς: Πώς η Ταχύτητα και το UX Φέρνουν Πωλήσεις σε Δευτερόλεπτα",
-        excerpt: "Η εποχή των αργών sites τελειώνει. Δείτε γιατί οι Hyper-Fast λύσεις της SGK Digital φέρνουν έως και 300% περισσότερες πωλήσεις.",
-        date: "20 Φεβρουαρίου 2026",
-        author: "Spiros G. K.",
-        category: "eCommerce",
-        image: "https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1200",
-        metaTitle: "Κατασκευή E-shop Νέας Γενιάς | Ταχύτητα & Πωλήσεις",
-        metaDescription: "Γιατί το E-shop σας πρέπει να είναι ταχύτατο. Ανακαλύψτε πώς η ταχύτητα φόρτωσης επηρεάζει τις πωλήσεις και το SEO σας.",
-        content: `
+  },
+  {
+    id: "2",
+    slug: "next-gen-eshops-speed-sales",
+    title: "E-shop Νέας Γενιάς: Πώς η Ταχύτητα και το UX Φέρνουν Πωλήσεις σε Δευτερόλεπτα",
+    excerpt: "Η εποχή των αργών sites τελειώνει. Δείτε γιατί οι Hyper-Fast λύσεις της SGK Digital φέρνουν έως και 300% περισσότερες πωλήσεις.",
+    date: "20 Φεβρουαρίου 2026",
+    author: "Spiros G. K.",
+    category: "eCommerce",
+    image: "https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1200",
+    metaTitle: "Κατασκευή E-shop Νέας Γενιάς | Ταχύτητα & Πωλήσεις",
+    metaDescription: "Γιατί το E-shop σας πρέπει να είναι ταχύτατο. Ανακαλύψτε πώς η ταχύτητα φόρτωσης επηρεάζει τις πωλήσεις και το SEO σας.",
+    content: `
       <h2>Γιατί η Ταχύτητα είναι το 'Κλειδί' στο eCommerce</h2>
       <p>Κάθε δευτερόλεπτο καθυστέρησης στη φόρτωση του e-shop σας μειώνει τις πιθανότητες αγοράς κατά 7%. Τα <strong>E-shop νέας γενιάς</strong> που κατασκευάζουμε είναι σχεδιασμένα για να 'πετούν'.</p>
       
       <h3>Η Εμπειρία Mobile First</h3>
-      <p>Το 80% των αγορών πλέον γίνεται από κινητά. Αν η mobile έκδοση του καταστήματός σας είναι αργή, χάνετε πελάτες καθημερινά. Οι δικές μας λύσεις βασίζονται σε τεχνολογίες React και Supabase, προσφέροντας εμπειρία εφαρμογής σε browser.</p>
+      <p>Το 80% των αγορών πλέον γίνεται από κινητά. Αν η mobile έκδοση του καταστήματός σας είναι αργή, χάνετε πελάτες καθημερινά. Οι δικές μας λύσεις βασίζονται σε τεχνολογίες React και WordPress/WooCommerce, προσφέροντας εμπειρία εφαρμογής σε browser.</p>
       
       <h3>SEO και Google PageSpeed</h3>
       <p>Η Google επιβραβεύει τα γρήγορα sites. Με σκορ 95+ στα Core Web Vitals, τα eshop μας κατατάσσονται ψηλότερα στα αποτελέσματα αναζήτησης, φέρνοντας οργανική κίνηση χωρίς κόστος διαφήμισης.</p>
@@ -66,5 +66,5 @@ export const BLOG_POSTS: BlogPost[] = [
       
       <p>Ενδιαφέρεστε για ένα eshop που πουλάει πραγματικά; Ζητήστε μας μια <strong>δωρεάν εκτίμηση</strong> σήμερα.</p>
     `
-    }
+  }
 ];
