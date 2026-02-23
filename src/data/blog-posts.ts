@@ -75,7 +75,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "18 Φεβρουαρίου 2026",
     author: "Spiros G. K.",
     category: "AI & Innovation",
-    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd05a?q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1200",
     metaTitle: "Agentic AI vs Chatbots: Η Επόμενη Μέρα | SGK Digital",
     metaDescription: "Τι είναι οι AI Agents και πώς διαφέρουν από τα παραδοσιακά chatbots. Ανακαλύψτε πώς μπορούν να αυτοματοποιήσουν πλήρως τις διαδικασίες σας.",
     content: `
