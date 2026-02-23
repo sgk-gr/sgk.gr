@@ -18,7 +18,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <a href="/" className="flex items-center">
-          <img src={logo} alt="SGK" className="h-10 md:h-16 w-auto" />
+          <img src={logo} alt="SGK" className="h-10 md:h-16 w-auto" width="128" height="64" />
         </a>
 
         {/* Desktop */}
@@ -35,6 +35,7 @@ const Navbar = () => {
           <a
             href="/#contact"
             className="px-5 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity"
+            aria-label="Ξεκινήστε ένα Project"
           >
             Ξεκινήστε
           </a>
@@ -44,6 +45,7 @@ const Navbar = () => {
         <button
           className="md:hidden text-foreground"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

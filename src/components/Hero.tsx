@@ -51,6 +51,10 @@ const Hero = () => {
           src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=2072"
           alt="Software Development and Coding"
           className="w-full h-full object-cover opacity-10 mix-blend-overlay"
+          width="1920"
+          height="1080"
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
 
@@ -89,6 +93,7 @@ const Hero = () => {
           <a
             href="#contact"
             className="group relative px-8 sm:px-10 py-3.5 sm:py-4 bg-primary text-primary-foreground font-heading font-bold rounded-md transition-all hover:scale-105 active:scale-95 glow-border overflow-hidden text-sm sm:text-base"
+            aria-label="Ξεκινήστε ένα νέο Project"
           >
             <span className="relative z-10">Ξεκινήστε ένα Project</span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />

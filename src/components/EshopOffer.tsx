@@ -78,6 +78,7 @@ const EshopOffer = () => {
                             <a
                                 href="#contact"
                                 className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 bg-primary text-primary-foreground font-heading font-bold rounded-lg hover:scale-105 transition-all glow-border"
+                                aria-label="Ζητήστε Προσφορά για Eshop"
                             >
                                 Θέλω προσφορά Eshop
                             </a>
@@ -104,6 +105,9 @@ const EshopOffer = () => {
                                 src={deskImage}
                                 alt="Modern E-commerce Interface"
                                 className="w-full h-auto rounded-xl shadow-lg"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
                             />
                         </div>
 
@@ -117,6 +121,9 @@ const EshopOffer = () => {
                                 src={mobImage}
                                 alt="Mobile Shopping App"
                                 className="w-full h-auto"
+                                width="400"
+                                height="600"
+                                loading="lazy"
                             />
                         </motion.div>
 

@@ -36,9 +36,9 @@ const CookieBanner = () => {
                             </div>
 
                             <div className="flex-1">
-                                <h4 className="text-lg font-heading font-bold mb-2">
+                                <h2 className="text-lg font-heading font-bold mb-2">
                                     Cookies & Ιδιωτικότητα
-                                </h4>
+                                </h2>
                                 <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                                     Χρησιμοποιούμε cookies για να διασφαλίσουμε την καλύτερη εμπειρία πλοήγησης. Συνεχίζοντας τη χρήση της σελίδας, αποδέχεστε την πολιτική μας.
                                 </p>
@@ -63,6 +63,7 @@ const CookieBanner = () => {
                         <button
                             onClick={() => setIsVisible(false)}
                             className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+                            aria-label="Κλείσιμο"
                         >
                             <X className="w-4 h-4" />
                         </button>
