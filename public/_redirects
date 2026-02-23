@@ -1,0 +1,2 @@
+/blog-seo/*  /blog-seo/:splat  200
+/*          /index.html      200

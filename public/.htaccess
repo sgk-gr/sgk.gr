@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Αν το αρχείο ή ο φάκελος υπάρχει πραγματικά, σέρβιρέ το κανονικά
+  # Αυτό επιτρέπει την πρόσβαση στα αρχεία του φακέλου blog-seo
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  
+  # Διαφορετικά, στείλε όλα τα αιτήματα στο index.html για το React (Routing)
+  RewriteRule ^ index.html [L]
+</IfModule>

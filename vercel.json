@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/blog-seo/(.*)",
+            "destination": "/blog-seo/$1"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}
