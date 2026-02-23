@@ -2,12 +2,16 @@
   RewriteEngine On
   RewriteBase /
   
-  # Αν το αρχείο ή ο φάκελος υπάρχει πραγματικά, σέρβιρέ το κανονικά
-  # Αυτό επιτρέπει την πρόσβαση στα αρχεία του φακέλου blog-seo
+  # 1. Αν το request είναι για το backend, μην κάνεις rewrite
+  RewriteCond %{REQUEST_URI} ^/backend [NC]
+  RewriteRule ^ - [L]
+  
+  # 2. Αν το αρχείο ή ο φάκελος υπάρχει πραγματικά (π.χ. blog-seo/...), σέρβιρέ το κανονικά
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
   
-  # Διαφορετικά, στείλε όλα τα αιτήματα στο index.html για το React (Routing)
-  RewriteRule ^ index.html [L]
+  # 3. Για όλα τα άλλα (React Routing), στείλε στο index.html
+  RewriteRule ^index\.html$ - [L]
+  RewriteRule . /index.html [L]
 </IfModule>
