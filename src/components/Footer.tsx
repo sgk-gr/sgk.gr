@@ -131,6 +131,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-white/5 gap-6 text-[11px] text-white uppercase tracking-widest">
           <p>© {new Date().getFullYear()} SGK Software Development S.A. All rights reserved.</p>
           <div className="flex gap-8">
+            <Link to="/blog" className="hover:text-primary transition-colors">Blog</Link>
             <Link to="/privacy" className="hover:text-primary transition-colors">Πολιτική Απορρήτου</Link>
             <Link to="/terms" className="hover:text-primary transition-colors">Όροι Χρήσης</Link>
             <a href="/sitemap.xml" className="hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">Sitemap</a>

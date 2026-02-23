@@ -23,6 +23,8 @@ import Terms from "./pages/Terms";
 import EshopDemo from "./pages/EshopDemo";
 import Sitemap from "./pages/Sitemap";
 import Estimate from "./pages/Estimate";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,8 @@ const App = () => (
           <Route path="/eshop-demo" element={<EshopDemo />} />
           <Route path="/sitemap" element={<Sitemap />} />
           <Route path="/estimate" element={<Estimate />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/case-study/sigmalabs-ai" element={<CaseStudySigmalabs />} />
           <Route path="/case-study/skinnera" element={<CaseStudySkinnera />} />
           <Route path="/case-study/harmony-apartments" element={<CaseStudyHarmony />} />

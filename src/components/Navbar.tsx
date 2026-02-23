@@ -10,6 +10,7 @@ const navItems = [
   { label: "Πελάτες", href: "/#portfolio" },
   { label: "Σχετικά", href: "/#about" },
   { label: "Insights", href: "/#insights" },
+  { label: "Blog", href: "/blog" },
 ];
 
 const Navbar = () => {
@@ -44,13 +45,23 @@ const Navbar = () => {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-[17px] font-bold text-white hover:text-white/80 transition-colors duration-300"
-              >
-                {item.label}
-              </a>
+              item.href.startsWith("/#") ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-[17px] font-bold text-white hover:text-white/80 transition-colors duration-300"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="text-[17px] font-bold text-white hover:text-white/80 transition-colors duration-300"
+                >
+                  {item.label}
+                </Link>
+              )
             ))}
           </div>
         </div>
@@ -86,14 +97,25 @@ const Navbar = () => {
           >
             <div className="px-6 py-4 flex flex-col gap-4">
               {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </a>
+                item.href.startsWith("/#") ? (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                )
               ))}
               <Link
                 to="/estimate"
