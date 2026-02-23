@@ -617,7 +617,7 @@ const EshopDemo = () => {
                             <div className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_20px_60px_rgba(34,197,94,.3)]"><CheckCircle2 size={48} /></div>
                             <h2 className="text-4xl font-black mb-3">Η Παραγγελία σας Καταχωρήθηκε!</h2>
                             <p className="text-sm opacity-40 mb-2">Αριθμός: <strong>#SGK-2026-{Math.floor(Math.random() * 9000) + 1000}</strong></p>
-                            <p className="text-sm opacity-40 max-w-md mx-auto mb-10">Θα λάβετε email επιβεβαίωσης. Demo eshop από την <strong>SGK Digital</strong>.</p>
+                            <p className="text-sm opacity-40 max-w-md mx-auto mb-10">Θα λάβετε email επιβεβαίωσης. Demo eshop από την <strong>SGK Software Development</strong>.</p>
                             <button onClick={() => { setView("home"); setCart([]); setCheckStep(1); }} className="bg-[#111] text-white px-10 py-4 rounded-full font-black uppercase tracking-widest text-xs shadow-2xl hover:bg-[#C5A267] transition-all">Πίσω στο Κατάστημα</button>
                         </motion.div>
                     )}
@@ -689,7 +689,7 @@ const EshopDemo = () => {
             {/* ========== FOOTER ========== */}
             <footer className="bg-[#111] text-white mt-16">
                 <div className="container mx-auto px-4 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                    <div><h4 className="text-lg font-black mb-4">MODA<span className="text-[#C5A267]">.</span>gr</h4><p className="text-xs opacity-40 leading-relaxed">Premium fashion demo eshop από την SGK Digital Agency.</p></div>
+                    <div><h4 className="text-lg font-black mb-4">MODA<span className="text-[#C5A267]">.</span>gr</h4><p className="text-xs opacity-40 leading-relaxed">Premium fashion demo eshop από την SGK Software Development.</p></div>
                     <div><h5 className="text-[10px] font-black uppercase tracking-widest mb-4 opacity-50">Κατηγορίες</h5><div className="space-y-2 text-xs opacity-40">{CATS.slice(1).map(c => <p key={c} className="hover:opacity-100 cursor-pointer">{c}</p>)}</div></div>
                     <div><h5 className="text-[10px] font-black uppercase tracking-widest mb-4 opacity-50">Πληροφορίες</h5><div className="space-y-2 text-xs opacity-40">{["Τρόποι Αποστολής", "Πολιτική Επιστροφών", "Όροι Χρήσης", "Απόρρητο", "Επικοινωνία"].map(c => <p key={c} className="hover:opacity-100 cursor-pointer">{c}</p>)}</div></div>
                     <div><h5 className="text-[10px] font-black uppercase tracking-widest mb-4 opacity-50">Newsletter</h5><p className="text-xs opacity-40 mb-3">Εγγραφείτε για προσφορές.</p>
@@ -697,7 +697,7 @@ const EshopDemo = () => {
                         <div className="flex gap-3 mt-6 opacity-40">{[Facebook, Instagram, Twitter].map((Ic, i) => <Ic key={i} size={16} className="hover:opacity-100 cursor-pointer" />)}</div>
                     </div>
                 </div>
-                <div className="border-t border-white/10 py-4 text-center text-[9px] opacity-20 font-bold">© 2026 MODA.gr — Demo by SGK Digital</div>
+                <div className="border-t border-white/10 py-4 text-center text-[9px] opacity-20 font-bold">© 2026 MODA.gr — Demo by SGK Software Development</div>
             </footer>
         </div>
     );

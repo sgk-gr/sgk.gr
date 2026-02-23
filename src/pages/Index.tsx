@@ -29,7 +29,7 @@ const Index = () => {
         <meta property="og:title" content="SGK Software Development Company | Eshop, Web Apps, AI Agents" />
         <meta property="og:description" content="Κατασκευή Eshop, Web Apps, AI Agents, Booking Systems & Telecom Platforms. 18 χρόνια εμπειρίας στην Ελλάδα." />
         <meta property="og:url" content="https://sgk.gr" />
-        <meta property="og:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200" />
+        <meta property="og:image" content="https://sgk.gr/social-preview.png" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="SGK Software Development" />
 
@@ -37,7 +37,7 @@ const Index = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="SGK Software Development Company" />
         <meta name="twitter:description" content="Custom Software, AI Agents & Next-Gen E-shops." />
-        <meta name="twitter:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200" />
+        <meta name="twitter:image" content="https://sgk.gr/social-preview.png" />
       </Helmet>
       <Navbar />
       <Hero />
