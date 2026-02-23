@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
@@ -14,9 +14,27 @@ const navItems = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPastHero, setIsPastHero] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Hide navbar after scrolling past the hero (roughly 100vh)
+      if (window.scrollY > window.innerHeight - 100) {
+        setIsPastHero(true);
+      } else {
+        setIsPastHero(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-50 bg-transparent">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isPastHero ? "opacity-0 -translate-y-full pointer-events-none" : "opacity-100 translate-y-0"
+        } bg-transparent`}
+    >
       <div className="container mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-12">
           <a href="/" className="flex items-center">
