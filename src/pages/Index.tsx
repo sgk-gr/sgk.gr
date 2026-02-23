@@ -29,15 +29,15 @@ const Index = () => {
         <meta property="og:title" content="SGK Software Development Company | Eshop, Web Apps, AI Agents" />
         <meta property="og:description" content="Κατασκευή Eshop, Web Apps, AI Agents, Booking Systems & Telecom Platforms. 18 χρόνια εμπειρίας στην Ελλάδα." />
         <meta property="og:url" content="https://sgk.gr" />
-        <meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="SGK Digital" />
+        <meta property="og:site_name" content="SGK Software Development" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="SGK Software Development Company" />
         <meta name="twitter:description" content="Custom Software, AI Agents & Next-Gen E-shops." />
-        <meta name="twitter:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200" />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200" />
       </Helmet>
       <Navbar />
       <Hero />
