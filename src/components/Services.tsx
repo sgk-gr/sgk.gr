@@ -1,28 +1,23 @@
 import { motion } from "framer-motion";
-import { ShoppingCart, Code2, Bot, Globe } from "lucide-react";
 import { useRef, useState } from "react";
 
 const services = [
   {
-    icon: ShoppingCart,
     title: "eShop Development",
     description:
       "Ολοκληρωμένα ηλεκτρονικά καταστήματα με WordPress/WooCommerce ή custom React solutions. Γρήγορα, ασφαλή, βελτιστοποιημένα.",
   },
   {
-    icon: Code2,
     title: "Web Applications",
     description:
       "Custom web apps με React frontend και robust backend. Από dashboards μέχρι full SaaS platforms.",
   },
   {
-    icon: Bot,
     title: "AI Agentic Systems",
     description:
       "Αυτοματισμοί με AI agents που αναλαμβάνουν tasks, αποφάσεις και workflows — η επιχείρησή σας στον αυτόματο πιλότο.",
   },
   {
-    icon: Globe,
     title: "Ιστοσελίδες",
     description:
       "Μοντέρνες, responsive ιστοσελίδες που κάνουν εντύπωση. WordPress ή custom development, πάντα με στόχο το αποτέλεσμα.",
@@ -57,9 +52,7 @@ const ServiceCard = ({ service, index }: { service: any; index: number }) => {
         }}
       />
 
-      <div className="relative z-10 text-primary mb-5 group-hover:scale-110 transition-transform duration-500">
-        <service.icon className="w-12 h-12" />
-      </div>
+
       <h3 className="text-2xl font-heading font-semibold mb-4 relative z-10 group-hover:text-primary transition-colors">
         {service.title}
       </h3>

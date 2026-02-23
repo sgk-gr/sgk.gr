@@ -20,20 +20,24 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>SGK Digital Agency | Κατασκευή Eshop, Web Apps, AI Agents & Telecom Platforms</title>
-        <meta name="description" content="SGK Digital Agency — 18 χρόνια εμπειρίας. Κατασκευή Eshop (WooCommerce, Shopify), custom web εφαρμογές, AI agents, booking systems, telecom platforms (Cosmote/Vodafone). Δείτε τα projects: KM-FIBER, Sigmalabs AI, Harmony Apartments, yolo8, Rekrua, Skinnera IKE κ.α." />
-        <meta name="keywords" content="κατασκευή eshop, woocommerce, shopify, web development, ai agent, custom crm, booking system, σύστημα κρατήσεων, οπτικές ίνες, fiber optics, cosmote, vodafone, dashboard, mobile app, flutter, react, supabase, seo, digital agency ελλάδα" />
+        <title>SGK Software Development Company | Κατασκευή Eshop, Web Apps, AI Agents & Telecom Platforms</title>
+        <meta name="description" content="SGK Software Development Company — 18 χρόνια εμπειρίας. Κατασκευή Eshop (WooCommerce, Shopify), custom web εφαρμογές, AI agents, booking systems, telecom platforms (Cosmote/Vodafone). Δείτε τα projects: KM-FIBER, Sigmalabs AI, Harmony Apartments, yolo8, Rekrua, Skinnera IKE κ.α." />
+        <meta name="keywords" content="κατασκευή eshop, woocommerce, shopify, web development, ai agent, custom crm, booking system, σύστημα κρατήσεων, οπτικές ίνες, fiber optics, cosmote, vodafone, dashboard, mobile app, flutter, react, supabase, seo, software development ελλάδα" />
         <link rel="canonical" href="https://sgk.gr" />
-        <meta property="og:title" content="SGK Digital Agency | Eshop, Web Apps, AI Agents" />
+        <meta property="og:title" content="SGK Software Development Company | Eshop, Web Apps, AI Agents" />
         <meta property="og:description" content="Κατασκευή Eshop, Web Apps, AI Agents, Booking Systems & Telecom Platforms. 18 χρόνια εμπειρίας στην Ελλάδα." />
         <meta property="og:url" content="https://sgk.gr" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Navbar />
       <Hero />
-      <WordPressShowcase />
-      <WebAppsShowcase />
-      <AIAgentsShowcase />
+      <div id="insights">
+        <WordPressShowcase />
+      </div>
+      <div id="solutions">
+        <WebAppsShowcase />
+        <AIAgentsShowcase />
+      </div>
       <EshopOffer />
       <Services />
       <Process />
@@ -43,7 +47,6 @@ const Index = () => {
       <About />
       <FAQ />
       <CTABanner />
-      <Contact />
       <Footer />
     </div>
   );

@@ -652,7 +652,7 @@ const EshopDemo = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ delay: 2, type: "spring", stiffness: 200 }}
                 >
-                    <a href="/#contact" className="block no-underline group">
+                    <Link to="/estimate" className="block no-underline group">
                         <div className="relative">
                             {/* Pulsing glow behind */}
                             <div className="absolute inset-0 bg-gradient-to-r from-[#C5A267] to-[#e8c96d] rounded-2xl blur-xl opacity-40 animate-pulse" />
@@ -682,7 +682,7 @@ const EshopDemo = () => {
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </Link>
                 </motion.div>
             </div>
 

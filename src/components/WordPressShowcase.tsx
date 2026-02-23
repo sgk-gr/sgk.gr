@@ -1,24 +1,20 @@
 import { motion } from "framer-motion";
-import { Zap, Gauge, ShieldCheck, TrendingUp, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const features = [
   {
-    icon: Zap,
     title: "< 1s Load Time",
     description: "Optimized κώδικας, caching και CDN για instant page loads.",
   },
   {
-    icon: Gauge,
     title: "100/100 PageSpeed",
     description: "Core Web Vitals στο πράσινο — κάθε φορά, χωρίς συμβιβασμούς.",
   },
   {
-    icon: ShieldCheck,
     title: "Enterprise Security",
     description: "SSL, firewall, anti-malware και automated backups by default.",
   },
   {
-    icon: TrendingUp,
     title: "SEO-Ready",
     description: "Schema markup, sitemap, meta optimization — built-in από την αρχή.",
   },
@@ -58,7 +54,6 @@ const WordPressShowcase = () => {
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
             >
               Ζητήστε Προσφορά
-              <ArrowRight size={18} />
             </a>
           </motion.div>
 
@@ -79,9 +74,7 @@ const WordPressShowcase = () => {
                 transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
                 className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-500 group"
               >
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                  <f.icon className="w-5 h-5 text-primary" />
-                </div>
+
                 <h3 className="font-heading font-semibold text-sm mb-2">
                   {f.title}
                 </h3>
@@ -102,7 +95,6 @@ const WordPressShowcase = () => {
           className="mt-16 p-6 rounded-xl bg-card border border-border flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <div className="flex items-center gap-4">
-            <Gauge className="w-8 h-8 text-primary" />
             <div>
               <p className="font-heading font-semibold text-sm">Average Load Time</p>
               <p className="text-xs text-muted-foreground">Τα eshops μας vs industry average</p>

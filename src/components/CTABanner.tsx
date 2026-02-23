@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTABanner = () => {
   return (
@@ -24,13 +24,12 @@ const CTABanner = () => {
               Κλείστε μια δωρεάν συνάντηση και ας δούμε πώς μπορούμε να μετατρέψουμε
               την ιδέα σας σε πραγματικότητα.
             </p>
-            <a
-              href="#contact"
+            <Link
+              to="/estimate"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
             >
-              Δωρεάν Consultation
-              <ArrowRight size={18} />
-            </a>
+              Δωρεάν Εκτίμηση
+            </Link>
           </div>
         </motion.div>
       </div>

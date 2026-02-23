@@ -497,11 +497,10 @@ const CaseStudySigmalabs = () => {
               AI-driven recommendations και αναλύσεις που εξοικονομούν χρόνο και αυξάνουν τα έσοδα.
             </p>
             <Link
-              to="/#contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
+              to="/estimate"
+              className="flex-1 px-4 py-2 border border-primary/20 bg-primary/10 text-primary text-[10px] font-bold rounded-lg hover:bg-primary/20 transition-all text-center flex items-center justify-center gap-2"
             >
-              Θέλω κάτι παρόμοιο
-              <Sparkles className="w-4 h-4" />
+              Ζητήστε Προσφορά
             </Link>
           </motion.div>
         </div>

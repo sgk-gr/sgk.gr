@@ -1,7 +1,7 @@
 /**
  * Στέλνει τα στοιχεία επικοινωνίας μέσω Supabase Edge Function
  */
-export const sendContactEmail = async (email: string, phone: string, offerPrice?: number) => {
+export const sendContactEmail = async (formData: any) => {
     // Το URL της Supabase Edge Function
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || (import.meta.env as any).SUPABASE_URL;
     const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || (import.meta.env as any).SUPABASE_ANON_KEY;
@@ -18,7 +18,7 @@ export const sendContactEmail = async (email: string, phone: string, offerPrice?
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${supabaseAnonKey}`,
             },
-            body: JSON.stringify({ email, phone, offerPrice }),
+            body: JSON.stringify(formData),
         });
 
         const result = await response.json();

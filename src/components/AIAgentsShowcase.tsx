@@ -1,34 +1,28 @@
 import { motion } from "framer-motion";
-import { Bot, MessageSquare, FileText, Package, BrainCircuit, Workflow, ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const agents = [
   {
-    icon: MessageSquare,
     title: "Customer Support Agent",
     description: "Απαντά σε ερωτήσεις πελατών 24/7, διαχειρίζεται tickets και κλιμακώνει μόνο όταν χρειάζεται.",
   },
   {
-    icon: Package,
     title: "eShop Operations Agent",
     description: "Διαχείριση παραγγελιών, stock updates, επιστροφές και ενημέρωση πελατών — αυτόματα.",
   },
   {
-    icon: FileText,
     title: "Invoicing & Finance Agent",
     description: "Αυτόματη τιμολόγηση, payment reminders, αναφορές εσόδων και συμφιλίωση πληρωμών.",
   },
   {
-    icon: BrainCircuit,
     title: "Data Analysis Agent",
     description: "Αναλύει δεδομένα, δημιουργεί reports και προτείνει αποφάσεις βασισμένες σε insights.",
   },
   {
-    icon: Workflow,
     title: "Workflow Automation Agent",
     description: "Αυτοματοποιεί επαναλαμβανόμενα tasks, onboarding, follow-ups και εσωτερικές διαδικασίες.",
   },
   {
-    icon: Bot,
     title: "Custom AI Agent",
     description: "Εκπαιδεύουμε agents προσαρμοσμένους 100% στις ανάγκες και τα δεδομένα της εταιρείας σας.",
   },
@@ -51,7 +45,6 @@ const AIAgentsShowcase = () => {
           className="text-center mb-16 max-w-3xl mx-auto"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-            <Sparkles className="w-3.5 h-3.5" />
             AI Agentic Systems
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-[1.05] mb-6">
@@ -77,9 +70,7 @@ const AIAgentsShowcase = () => {
               transition={{ duration: 0.4, delay: i * 0.08 }}
               className="p-7 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-500 group"
             >
-              <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
-                <agent.icon className="w-5 h-5 text-primary" />
-              </div>
+
               <h3 className="font-heading font-semibold mb-2">
                 {agent.title}
               </h3>
@@ -102,7 +93,6 @@ const AIAgentsShowcase = () => {
           <div className="flex-1 w-full max-w-md space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-primary" />
               </div>
               <div className="px-4 py-2.5 rounded-lg bg-secondary text-sm text-secondary-foreground">
                 Γεια σας! Πώς μπορώ να σας βοηθήσω σήμερα;
@@ -115,7 +105,6 @@ const AIAgentsShowcase = () => {
             </div>
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-primary" />
               </div>
               <div className="px-4 py-2.5 rounded-lg bg-secondary text-sm text-secondary-foreground">
                 Αυτή την εβδομάδα έχετε <span className="text-primary font-semibold">47 παραγγελίες</span>, αξίας €12.340. Θέλετε αναλυτικό report;
@@ -131,13 +120,12 @@ const AIAgentsShowcase = () => {
             <p className="text-sm text-muted-foreground mb-5 max-w-xs">
               Δείτε πώς ένας AI agent μπορεί να αλλάξει τον τρόπο που λειτουργεί η επιχείρησή σας.
             </p>
-            <a
-              href="#contact"
+            <Link
+              to="/estimate"
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
             >
               Δωρεάν Consultation
-              <ArrowRight size={18} />
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>

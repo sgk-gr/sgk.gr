@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { CheckCircle2, CreditCard, Rocket, Smartphone } from "lucide-react";
 import { Link } from "react-router-dom";
 import deskImage from "../assets/desk.png";
 import mobImage from "../assets/mob.png";
@@ -20,7 +19,6 @@ const EshopOffer = () => {
                         transition={{ duration: 0.6 }}
                     >
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-heading font-bold mb-6">
-                            <Rocket className="w-4 h-4" />
                             Προσφορά Περιορισμένου Χρόνου
                         </div>
 
@@ -35,21 +33,12 @@ const EshopOffer = () => {
 
                         <div className="space-y-4 mb-10">
                             <div className="flex items-center gap-3">
-                                <div className="bg-primary/20 p-1 rounded-full text-primary">
-                                    <CreditCard className="w-5 h-5" />
-                                </div>
                                 <span className="text-base sm:text-lg font-medium text-foreground">Πληρωμή σε <span className="text-primary font-bold">2 δόσεις</span> για μεγαλύτερη ευελιξία</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <div className="bg-primary/20 p-1 rounded-full text-primary">
-                                    <Smartphone className="w-5 h-5" />
-                                </div>
                                 <span className="text-base sm:text-lg font-medium text-foreground">Mobile First / Fully Responsive Design</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <div className="bg-primary/20 p-1 rounded-full text-primary">
-                                    <CheckCircle2 className="w-5 h-5" />
-                                </div>
                                 <span className="text-base sm:text-lg font-medium text-foreground">SEO Optimized & Hyper-Fast Loading</span>
                             </div>
 
@@ -75,13 +64,13 @@ const EshopOffer = () => {
                             </div>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 items-center">
-                            <a
-                                href="#contact"
+                            <Link
+                                to="/estimate"
                                 className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 bg-primary text-primary-foreground font-heading font-bold rounded-lg hover:scale-105 transition-all glow-border"
                                 aria-label="Ζητήστε Προσφορά για Eshop"
                             >
                                 Θέλω προσφορά Eshop
-                            </a>
+                            </Link>
                             <Link
                                 to="/eshop-demo"
                                 className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 border border-border text-foreground font-heading font-semibold rounded-lg hover:bg-secondary transition-all"

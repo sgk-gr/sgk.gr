@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Mail, ArrowRight, Phone, CheckCircle2, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
 import {
@@ -64,7 +63,7 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center"
         >
-          <Mail className="w-12 h-12 text-primary mx-auto mb-6" />
+
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-6">
             Ας συνεργαστούμε
           </h2>
@@ -81,9 +80,8 @@ const Contact = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Το email σας"
                   required
-                  className="w-full px-5 py-3.5 bg-card border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all pl-12"
+                  className="w-full px-5 py-3.5 bg-card border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                 />
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               </div>
               <div className="relative flex-1">
                 <input
@@ -92,9 +90,8 @@ const Contact = () => {
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Τηλέφωνο"
                   required
-                  className="w-full px-5 py-3.5 bg-card border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all pl-12"
+                  className="w-full px-5 py-3.5 bg-card border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                 />
-                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               </div>
             </div>
             <button
@@ -103,15 +100,9 @@ const Contact = () => {
               className="w-full px-6 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 disabled:opacity-50 transition-opacity flex items-center justify-center gap-2 glow-border"
             >
               {isSubmitting ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Αποστολή...
-                </>
+                "Αποστολή..."
               ) : (
-                <>
-                  Στείλτε τα στοιχεία σας
-                  <ArrowRight size={18} />
-                </>
+                "Στείλτε τα στοιχεία σας"
               )}
             </button>
           </form>
@@ -132,7 +123,7 @@ const Contact = () => {
               }}
               className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6"
             >
-              <CheckCircle2 className="w-12 h-12 text-primary" />
+              <span className="text-primary font-bold">✓</span>
             </motion.div>
 
             <motion.div

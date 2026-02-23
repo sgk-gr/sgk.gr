@@ -14,7 +14,6 @@ import CaseStudyLTG from "./pages/CaseStudyLTG";
 import CaseStudyEvolis from "./pages/CaseStudyEvolis";
 import CaseStudySuperApp from "./pages/CaseStudySuperApp";
 import CaseStudyKMFiber from "./pages/CaseStudyKMFiber";
-import CustomCursor from "./components/CustomCursor";
 import CookieBanner from "./components/CookieBanner";
 import FloatingCTA from "./components/FloatingCTA";
 import ScrollToTop from "./components/ScrollToTop";
@@ -22,6 +21,8 @@ import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import EshopDemo from "./pages/EshopDemo";
+import Sitemap from "./pages/Sitemap";
+import Estimate from "./pages/Estimate";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,6 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
-        <CustomCursor />
         <CookieBanner />
         <FloatingCTA />
         {/* Noise Overlay */}
@@ -42,6 +42,8 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/eshop-demo" element={<EshopDemo />} />
+          <Route path="/sitemap" element={<Sitemap />} />
+          <Route path="/estimate" element={<Estimate />} />
           <Route path="/case-study/sigmalabs-ai" element={<CaseStudySigmalabs />} />
           <Route path="/case-study/skinnera" element={<CaseStudySkinnera />} />
           <Route path="/case-study/harmony-apartments" element={<CaseStudyHarmony />} />

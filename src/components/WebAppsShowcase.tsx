@@ -1,24 +1,20 @@
 import { motion } from "framer-motion";
-import { LayoutDashboard, CalendarCheck, BarChart3, Users, ArrowRight, Monitor } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const useCases = [
   {
-    icon: LayoutDashboard,
     title: "Custom CRM",
     description: "Διαχείριση πελατών, leads και πωλήσεων σε ένα dashboard φτιαγμένο στα μέτρα σας.",
   },
   {
-    icon: CalendarCheck,
     title: "Σύστημα Κρατήσεων",
     description: "Online booking για Airbnb, ξενοδοχεία, τουριστικά γραφεία — real-time availability.",
   },
   {
-    icon: BarChart3,
     title: "Admin Dashboards",
     description: "Διαχειριστικά panels με analytics, reports και πλήρη εικόνα της επιχείρησής σας.",
   },
   {
-    icon: Users,
     title: "Αυτοματισμοί Εταιρειών",
     description: "Workflows, task management, invoicing — αυτοματοποιούμε τις καθημερινές λειτουργίες σας.",
   },
@@ -62,9 +58,7 @@ const WebAppsShowcase = () => {
                   transition={{ duration: 0.4, delay: 0.15 + i * 0.1 }}
                   className="p-6 rounded-xl bg-background border border-border hover:border-primary/30 transition-all duration-500 group"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <item.icon className="w-5 h-5 text-primary" />
-                  </div>
+
                   <h3 className="font-heading font-semibold text-sm mb-2">
                     {item.title}
                   </h3>
@@ -85,7 +79,6 @@ const WebAppsShowcase = () => {
             className="order-1 lg:order-2"
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-              <Monitor className="w-3.5 h-3.5" />
               Web Applications
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-[1.05] mb-6">
@@ -114,13 +107,12 @@ const WebAppsShowcase = () => {
               ))}
             </div>
 
-            <a
-              href="#contact"
+            <Link
+              to="/estimate"
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
             >
               Ζητήστε Demo
-              <ArrowRight size={18} />
-            </a>
+            </Link>
           </motion.div>
         </div>
       </div>

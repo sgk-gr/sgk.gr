@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useInView } from "framer-motion";
@@ -120,7 +119,6 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
         </span>
         <h3 className="text-xl font-heading font-semibold mb-3 flex items-center gap-2 relative z-20">
           {project.title}
-          <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1 relative z-20">
           {project.description}
@@ -175,6 +173,7 @@ const Portfolio = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-16 text-center"
         >
+
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-secondary/50 border border-border">
             <Counter value={50} />
             <span className="text-lg font-heading font-medium text-muted-foreground">
