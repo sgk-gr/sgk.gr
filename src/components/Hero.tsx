@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
-import videoSrc from "../assets/sgkvideo.mp4";
+"use client";
 
+import { motion } from "framer-motion";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a] pt-20">
@@ -13,7 +13,7 @@ const Hero = () => {
           playsInline
           className="w-full h-full object-cover opacity-90"
         >
-          <source src={videoSrc} type="video/mp4" />
+          <source src="/sgkvideo.mp4" type="video/mp4" />
         </video>
         {/* Subtle Overlay for Readability */}
         <div className="absolute inset-0 bg-black/40" />
@@ -46,6 +46,7 @@ const Hero = () => {
                 <span className="text-lg font-bold text-white tracking-widest">SKINNERA</span>
                 <span className="text-lg font-bold text-white tracking-tighter">KM-FIBER</span>
                 <span className="text-lg font-bold text-white uppercase">REKRUA</span>
+                <span className="text-lg font-bold text-white">H20</span>
               </div>
             </div>
           </motion.div>

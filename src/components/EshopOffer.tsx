@@ -1,5 +1,7 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import deskImage from "../assets/desk.png";
 import mobImage from "../assets/mob.png";
 
@@ -24,7 +26,7 @@ const EshopOffer = () => {
 
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight">
                             Eshop <span className="text-gradient">Νέας Γενιάς</span> <br />
-                            από μόλις 1200€
+                            από μόλις 2.300€
                         </h2>
 
                         <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
@@ -65,14 +67,14 @@ const EshopOffer = () => {
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 items-center">
                             <Link
-                                to="/estimate"
+                                href="/estimate"
                                 className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 bg-primary text-primary-foreground font-heading font-bold rounded-lg hover:scale-105 transition-all glow-border"
                                 aria-label="Ζητήστε Προσφορά για Eshop"
                             >
                                 Θέλω προσφορά Eshop
                             </Link>
                             <Link
-                                to="/eshop-demo"
+                                href="/eshop-demo"
                                 className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 border border-border text-foreground font-heading font-semibold rounded-lg hover:bg-secondary transition-all"
                             >
                                 Δείτε Demo από τα eshop
@@ -91,7 +93,7 @@ const EshopOffer = () => {
                         <div className="relative rounded-2xl border border-white/10 bg-card p-2 shadow-2xl overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                             <img
-                                src={deskImage}
+                                src="/desk.png"
                                 alt="Modern E-commerce Interface"
                                 className="w-full h-auto rounded-xl shadow-lg"
                                 width="1200"
@@ -107,7 +109,7 @@ const EshopOffer = () => {
                             className="absolute -bottom-10 -right-6 md:-right-12 w-32 md:w-48 rounded-[2rem] border-8 border-[#1a1a1a] bg-card shadow-2xl overflow-hidden"
                         >
                             <img
-                                src={mobImage}
+                                src="/mob.png"
                                 alt="Mobile Shopping App"
                                 className="w-full h-auto"
                                 width="400"

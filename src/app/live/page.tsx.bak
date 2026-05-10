@@ -1,0 +1,658 @@
+"use client";
+
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Users, Globe, Clock, Activity, BarChart3, RefreshCcw, 
+  Monitor, Smartphone, Tablet, Laptop, Share2, History,
+  TrendingUp, MousePointer2, Eye, MapPin, Zap, User, 
+  ArrowUpRight, AlertCircle, Search, Radio, Settings, Bell, ChevronDown
+} from "lucide-react";
+import { 
+  XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area, 
+  CartesianGrid, BarChart, Bar, Cell, PieChart, Pie
+} from "recharts";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
+} from "@/components/ui/select";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+import { createClient } from "@supabase/supabase-js";
+
+// Initialize Supabase Client for Realtime
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+// --- Types ---
+interface Visitor {
+  session_id: string;
+  current_path: string;
+  city: string;
+  country_name: string;
+  device_type: string;
+  max_scroll: number;
+  duration_seconds: number;
+  visit_count?: number;
+  event_type?: string;
+  last_action?: string; 
+  timestamp?: string;
+}
+
+interface Stats {
+  live: { count: number; visitors: Visitor[] };
+  summary: {
+    total_sessions: number;
+    total_pageviews: number;
+    unique_today: number;
+    avg_duration: number;
+    avg_scroll: number;
+  };
+  devices: { device_type: string; count: number }[];
+  referrers: { source: string; count: number }[];
+  history: { date: string; count: number }[];
+}
+
+// --- Helpers ---
+const getFormatDuration = (seconds: number) => {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return m > 0 ? `${m}λ ${s}δ` : `${Math.floor(seconds)}δ`;
+};
+
+const getEngagementStatus = (v: Visitor) => {
+  const count = v.visit_count || 1;
+  const scroll = v.max_scroll || 0;
+  if (count >= 3 || (count >= 2 && scroll >= 75)) 
+    return { label: "Υψηλό ενδιαφέρον", color: "text-pink-500", bg: "bg-pink-100", icon: <Zap className="w-3 h-3" /> };
+  if (count >= 2 || scroll >= 50) 
+    return { label: "Ενεργός", color: "text-blue-500", bg: "bg-blue-100", icon: <TrendingUp className="w-3 h-3" /> };
+  return { label: "Περιήγηση", color: "text-slate-400", bg: "bg-slate-100", icon: <Globe className="w-3 h-3" /> };
+};
+
+const getDeviceIcon = (type: string) => {
+  if (type === "Mobile") return <Smartphone className="w-4 h-4" />;
+  if (type === "Tablet") return <Tablet className="w-4 h-4" />;
+  return <Laptop className="w-4 h-4" />;
+};
+
+export default function LiveIntelligenceDashboard() {
+  const [activeTab, setActiveTab] = useState("overview");
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [daysFilter, setDaysFilter] = useState("14");
+  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [eventStream, setEventStream] = useState<any[]>([]);
+
+  const prevLiveCount = useRef<number>(0);
+
+  const fetchStats = async (showRefresh = false) => {
+    if (showRefresh) setIsRefreshing(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/get_full_analytics_stats`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+          "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        },
+        body: JSON.stringify({ p_days_ago: parseInt(daysFilter) })
+      });
+      
+      if (!response.ok) return;
+
+      let data = await response.json();
+      if (Array.isArray(data)) data = data[0];
+
+      if (data && data.live) {
+        // FILTER: 
+        // 1. Remove admin/live paths
+        // 2. Client-Side Ghost TTL: If the signal is > 30s old, they aren't truly 'live' 
+        const now = new Date();
+        data.live.visitors = data.live.visitors.filter((v: Visitor) => {
+          if (v.current_path === '/live' || v.current_path.includes('admin')) return false;
+          
+          if (v.timestamp) {
+            const visitorTime = new Date(v.timestamp);
+            const diffSeconds = (now.getTime() - visitorTime.getTime()) / 1000;
+            return diffSeconds <= 35; // Allow a small buffer (35s) for the 10s heartbeat
+          }
+          return true;
+        });
+        
+        data.live.count = data.live.visitors.length;
+
+        setStats(data);
+        setLastUpdate(new Date());
+
+        if (data.live.count > prevLiveCount.current && prevLiveCount.current !== 0) {
+          toast.success("Νέος επισκέπτης εντοπίστηκε!", {
+            icon: <Zap className="w-4 h-4 text-emerald-500" />,
+            duration: 2000
+          });
+        }
+        prevLiveCount.current = data.live.count;
+
+        const actions = data.live.visitors
+          .filter((v: Visitor) => v.last_action || v.event_type === 'click')
+          .slice(0, 5)
+          .map((v: Visitor) => ({
+            id: v.session_id + Math.random(),
+            type: v.event_type || 'view',
+            label: v.last_action || `Προβολή ${v.current_path}`,
+            path: v.current_path
+          }));
+        setEventStream(prev => [...actions, ...prev].slice(0, 10));
+      }
+    } catch (e) {
+      console.error("Fetch Error:", e);
+    } finally {
+      setLoading(false);
+      if (showRefresh) setTimeout(() => setIsRefreshing(false), 300);
+    }
+  };
+
+  useEffect(() => {
+    setMounted(true);
+    if (typeof window !== "undefined") {
+      localStorage.setItem('sgk_admin_mode', 'true');
+    }
+
+    fetchStats(true);
+    const channel = supabase
+      .channel('lightning_analytics')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'analytics_events' }, () => {
+        fetchStats(false);
+      })
+      .subscribe();
+
+    const interval = setInterval(() => fetchStats(false), 2000);
+    
+    return () => {
+      supabase.removeChannel(channel);
+      clearInterval(interval);
+    };
+  }, [daysFilter]);
+
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F9FAFB] text-slate-900">
+      <div className="relative">
+        <Activity className="w-16 h-16 text-blue-600 animate-pulse relative z-10" />
+      </div>
+      <h1 className="text-2xl font-bold tracking-tight mt-8 animate-pulse text-center italic">Φόρτωση Dashboard...</h1>
+    </div>
+  );
+
+  const pieData = stats?.devices.map(d => ({
+    name: d.device_type === 'Mobile' ? 'Κινητά' : d.device_type === 'Tablet' ? 'Tablets' : 'Υπολογιστές',
+    value: d.count
+  })) || [];
+
+  const COLORS = ['#3B82F6', '#EC4899', '#10B981'];
+
+  return (
+    <div className="flex min-h-screen bg-[#F3F4F6] text-slate-900 font-sans selection:bg-blue-100 overflow-hidden">
+      
+      {/* --- TOP HEADER NAVIGATION --- */}
+      <div className="fixed top-0 left-0 right-0 h-[80px] bg-white border-b border-slate-200 z-50 flex items-center justify-between px-10 shadow-sm">
+          <div className="flex items-center gap-8">
+             <div className="flex items-center gap-3">
+                <div className="p-2 bg-slate-900 rounded-xl shadow-md">
+                   <Activity className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-xl font-bold tracking-tight text-slate-900 italic">SGK <span className="text-blue-600 font-black">Intel</span></h2>
+             </div>
+
+             <nav className="flex items-center bg-slate-100/50 p-1 rounded-2xl">
+                {[
+                  { id: "overview", label: "Κεντρική" },
+                  { id: "users", label: "Χρήστες" },
+                  { id: "sources", label: "Πηγές Traffic" },
+                  { id: "history", label: "Ανάλυση" },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={`px-6 py-2 text-sm font-bold rounded-xl transition-all ${
+                      activeTab === item.id ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/10' : 'text-slate-500 hover:text-slate-900'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+             </nav>
+          </div>
+
+          <div className="flex items-center gap-6">
+             <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-slate-50 p-1 rounded-xl border border-slate-200">
+                  <Select value={daysFilter} onValueChange={setDaysFilter}>
+                      <SelectTrigger className="w-[160px] bg-white border-none focus:ring-0 font-bold text-xs text-slate-600 h-9 rounded-lg shadow-sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border-slate-200 text-slate-900 rounded-xl shadow-xl">
+                          <SelectItem value="1">Τελευταίο 24ωρο</SelectItem>
+                          <SelectItem value="7">Τελευταίες 7 ημέρες</SelectItem>
+                          <SelectItem value="14">Τελευταίες 14 ημέρες</SelectItem>
+                          <SelectItem value="30">Τελευταίες 30 ημέρες</SelectItem>
+                      </SelectContent>
+                   </Select>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-slate-200 border-b-2 shadow-sm font-bold text-xs text-slate-500">
+                   <Clock className="w-4 h-4 text-blue-600" />
+                   Ενημέρωση: {mounted ? lastUpdate.toLocaleTimeString() : "--:--:--"}
+                </div>
+             </div>
+             
+             <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
+                <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden border border-slate-200 shadow-md">
+                   <User className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex flex-col">
+                   <span className="text-sm font-bold text-slate-900 leading-none">Διαχειριστής</span>
+                   <span className="text-[11px] font-medium text-emerald-600 mt-1 tracking-tight font-black">Online</span>
+                </div>
+             </div>
+          </div>
+      </div>
+
+      {/* --- SIDEBAR --- */}
+      <aside className="w-[300px] mt-[80px] bg-white border-r border-slate-200 flex flex-col relative z-20 shrink-0 shadow-sm overflow-y-auto">
+          <div className="p-8">
+             <h3 className="text-[11px] font-black tracking-tight text-slate-400 mb-6 flex items-center gap-2 italic">
+                <Radio className="w-3 h-3 text-emerald-500 animate-pulse" /> Ζωντανή ροή
+             </h3>
+             <div className="space-y-4">
+                {eventStream.length === 0 ? (
+                  <div className="p-4 bg-slate-50 rounded-2xl text-center border border-dashed border-slate-200">
+                     <p className="text-[10px] font-bold text-slate-400 italic">Αναμονή για σήματα...</p>
+                  </div>
+                ) : eventStream.map((event) => (
+                   <motion.div 
+                     key={event.id}
+                     initial={{ opacity: 0, x: -10 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     className="p-4 bg-slate-50/50 border border-slate-100 rounded-2xl flex items-start gap-4 group hover:bg-white hover:shadow-md hover:border-slate-200 transition-all font-bold italic"
+                   >
+                      <div className={`p-2 rounded-xl ${event.type === 'click' ? 'bg-pink-100 text-pink-600' : 'bg-blue-100 text-blue-600'}`}>
+                         {event.type === 'click' ? <MousePointer2 className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                      </div>
+                      <div className="flex flex-col gap-0.5 overflow-hidden">
+                         <p className="text-[10px] font-bold text-slate-800 truncate leading-tight tracking-tight capitalize">{event.label}</p>
+                         <span className="text-[9px] font-bold text-slate-400 font-mono truncate">{event.path}</span>
+                      </div>
+                   </motion.div>
+                ))}
+             </div>
+
+             <div className="mt-12">
+                <h3 className="text-[11px] font-black tracking-tight text-slate-400 mb-6 italic">Χρήση συσκευών</h3>
+                <div className="space-y-6">
+                   {stats?.devices.map((d, i) => (
+                      <div key={i} className="space-y-3">
+                         <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 italic">
+                            <span className="flex items-center gap-2">{getDeviceIcon(d.device_type)} {d.device_type === 'Mobile' ? 'Κινητά' : d.device_type === 'Tablet' ? 'Tablets' : 'Υπολογιστές'}</span>
+                            <span className="text-slate-900 font-black">{stats.summary.total_sessions ? Math.round((d.count / stats.summary.total_sessions) * 100) : 0}%</span>
+                         </div>
+                         <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                            <motion.div 
+                               initial={{ width: 0 }} 
+                               animate={{ width: `${stats.summary.total_sessions ? (d.count / stats.summary.total_sessions) * 100 : 0}%` }} 
+                               className={`h-full ${d.device_type === 'Mobile' ? 'bg-pink-500' : d.device_type === 'Tablet' ? 'bg-blue-500' : 'bg-emerald-500'} rounded-full shadow-lg`}
+                            />
+                         </div>
+                      </div>
+                   ))}
+                </div>
+             </div>
+          </div>
+      </aside>
+
+      {/* --- MAIN CONTENT AREA --- */}
+      <main className="flex-1 flex flex-col relative mt-[80px] overflow-hidden bg-[#F3F4FB]">
+         
+         {/* Internal Header */}
+         <div className="h-[120px] bg-transparent px-10 flex items-center justify-between shrink-0">
+            <div>
+               <h1 className="text-3xl font-black tracking-tight text-slate-900 italic">
+                  {activeTab === 'overview' ? 'Επισκόπηση συστήματος' : 
+                   activeTab === 'users' ? 'Ανάλυση ενεργών χρηστών' : 
+                   activeTab === 'sources' ? 'Πηγές προέλευσης' : 'Ιστορική ανάλυση'}
+               </h1>
+               <p className="text-sm font-medium text-slate-500 mt-1 tracking-tight text-[10px] font-bold italic">Επεξεργασία σε πραγματικό χρόνο: Operational</p>
+            </div>
+
+            <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-slate-200 border-b-2 shadow-sm">
+                   <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
+                   <span className="text-xs font-bold text-slate-900 italic">Live τώρα: {stats?.live.count}</span>
+                </div>
+                <button 
+                  onClick={() => fetchStats(true)}
+                  className="p-2.5 bg-slate-900 text-white rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all outline-none"
+                >
+                  <RefreshCcw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+                </button>
+            </div>
+         </div>
+
+         {/* Content Scroll Grid */}
+         <div className="flex-1 overflow-y-auto px-10 pb-10 space-y-10">
+            
+            {/* Real Stats Summaries */}
+            {(activeTab === 'overview' || activeTab === 'users') && (
+               <>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                     {[
+                       { label: "Ενεργοί τώρα", val: stats?.live.count, icon: Globe, color: "text-emerald-500", bg: "bg-emerald-100", sub: "Ζωντανό σήμα" },
+                       { label: "Μοναδικοί σήμερα", val: stats?.summary.unique_today, icon: Users, color: "text-blue-500", bg: "bg-blue-100", sub: "Μοναδικά IDs" },
+                       { label: "Προβολές σελίδων", val: stats?.summary.total_pageviews, icon: Eye, color: "text-pink-500", bg: "bg-pink-100", sub: "Συνολικά hits" },
+                     ].map((s, i) => (
+                        <Card key={i} className="border-none bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] p-8 hover:shadow-xl transition-all duration-500 group">
+                           <div className="flex justify-between items-start">
+                              <div className={`p-3 rounded-2xl ${s.bg} ${s.color} group-hover:scale-110 transition-transform shadow-sm`}>
+                                 <s.icon className="w-7 h-7" />
+                              </div>
+                              <div className="p-2 rounded-full border border-slate-100 text-slate-300 hover:text-slate-900 hover:bg-slate-50 cursor-pointer transition-all">
+                                 <ArrowUpRight className="w-5 h-5" />
+                              </div>
+                           </div>
+                           <div className="mt-10">
+                              <p className="text-[10px] font-black text-slate-400 mb-1 italic tracking-tight">{s.label}</p>
+                              <div className="flex items-baseline gap-4">
+                                 <span className="text-5xl font-black tracking-tighter text-slate-900">{s.val}</span>
+                              </div>
+                           </div>
+                           <div className="mt-8 flex items-center justify-between pt-6 border-t border-slate-50">
+                              <span className="text-[10px] font-bold text-slate-400 flex items-center gap-2 italic tracking-wider">∞ {s.sub}</span>
+                              <Badge className={`${s.bg} ${s.color} border-none font-bold text-[9px] tracking-tight px-3 shadow-sm italic`}>Real-time</Badge>
+                           </div>
+                        </Card>
+                     ))}
+                  </div>
+
+                  {/* Operational Metrics */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                     {/* Interaction Progress */}
+                     <Card className="lg:col-span-4 border-none bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] p-8">
+                        <div className="mb-6">
+                           <h3 className="text-xl font-bold text-slate-900 italic tracking-tighter">Παλμός αλληλεπίδρασης</h3>
+                           <div className="flex items-baseline gap-3 mt-1">
+                              <span className="text-4xl font-black text-slate-900">{Math.round(stats?.summary.avg_scroll || 0)}%</span>
+                              <span className="text-[10px] font-bold text-slate-400 italic">Μέσο βάθος scroll</span>
+                           </div>
+                        </div>
+
+                        <div className="h-[200px] flex items-end justify-between px-4 mt-8 space-x-6">
+                           {[
+                             { h: `${Math.round((stats?.summary.avg_scroll || 0) * 1.2)}%`, color: "bg-fuchsia-500", label: "Ανάγνωση" },
+                             { h: `${Math.round((stats?.summary.avg_scroll || 0) * 0.8)}%`, color: "bg-blue-500", label: "Κλικς" },
+                             { h: `${Math.round(stats?.summary.avg_scroll || 0)}%`, color: "bg-emerald-500", label: "Ροή" }
+                           ].map((bar, i) => (
+                             <div key={i} className="flex-1 flex flex-col items-center gap-4">
+                                <div className="w-full bg-slate-50 rounded-2xl relative h-[180px] overflow-hidden flex flex-col justify-end shadow-inner">
+                                   <motion.div 
+                                     initial={{ height: 0 }}
+                                     animate={{ height: bar.h }}
+                                     className={`w-full ${bar.color} rounded-t-2xl shadow-lg relative`}
+                                   />
+                                </div>
+                                <span className="text-[10px] font-black text-slate-400 italic">{bar.label}</span>
+                             </div>
+                           ))}
+                        </div>
+                     </Card>
+
+                     {/* Device Distribution Pie */}
+                     <Card className="lg:col-span-4 border-none bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] p-8 flex flex-col items-center justify-center text-center">
+                        <div className="w-full flex justify-between items-center mb-6">
+                           <h3 className="text-xl font-bold text-slate-900 italic tracking-tighter">Τερματικά</h3>
+                           <div className="flex gap-1.5 p-1 bg-slate-100 rounded-lg">
+                              <Settings className="w-3.5 h-3.5 text-slate-400" />
+                           </div>
+                        </div>
+                        
+                        <div className="relative w-[180px] h-[180px] flex items-center justify-center">
+                           <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                 <Pie
+                                   data={pieData}
+                                   cx="50%"
+                                   cy="50%"
+                                   innerRadius={60}
+                                   outerRadius={80}
+                                   paddingAngle={5}
+                                   dataKey="value"
+                                 >
+                                    {pieData.map((entry, index) => (
+                                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={0} />
+                                    ))}
+                                 </Pie>
+                              </PieChart>
+                           </ResponsiveContainer>
+                           <div className="absolute flex flex-col items-center justify-center">
+                              <span className="text-3xl font-black text-slate-900 leading-none italic">{stats?.summary.total_sessions}</span>
+                              <span className="text-[9px] font-bold text-slate-400 mt-1 italic font-mono">sessions</span>
+                           </div>
+                        </div>
+
+                        <div className="w-full mt-8 space-y-4">
+                           {stats?.devices.map((item, i) => (
+                             <div key={i} className="flex flex-col gap-1.5 font-bold italic">
+                                <div className="flex justify-between items-center text-[10px] font-bold tracking-tight">
+                                   <span className="text-slate-500">{item.device_type === 'Mobile' ? 'Κινητά' : item.device_type === 'Tablet' ? 'Tablets' : 'Υπολογιστές'}</span>
+                                   <span className="text-slate-900 font-black">{item.count}</span>
+                                </div>
+                                <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden shadow-inner">
+                                   <div className={`h-full ${COLORS[i % COLORS.length]} rounded-full shadow-sm`} style={{ width: `${(item.count / (stats?.summary.total_sessions || 1)) * 100}%` }} />
+                                </div>
+                             </div>
+                           ))}
+                        </div>
+                     </Card>
+
+                     {/* Visit History */}
+                     <Card className="lg:col-span-4 border-none bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] p-8">
+                        <div className="flex justify-between items-center mb-8">
+                           <h3 className="text-xl font-bold text-slate-900 italic tracking-tighter">Χρονολόγιο</h3>
+                           <Badge className="bg-slate-900 text-white border-none font-bold text-[9px] px-3 italic shadow-md">Ημερήσιος παλμός</Badge>
+                        </div>
+
+                        <div className="h-[200px] w-full mt-4">
+                           <ResponsiveContainer width="100%" height="100%">
+                              <AreaChart data={stats?.history || []}>
+                                 <defs>
+                                    <linearGradient id="g-hist-el-v-min" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#3b82f6" stopOpacity={0.1}/><stop offset="100%" stopColor="#3b82f6" stopOpacity={0}/></linearGradient>
+                                 </defs>
+                                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                                 <XAxis dataKey="date" hide />
+                                 <YAxis hide />
+                                 <Area type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={4} fill="url(#g-hist-el-v-min)" />
+                              </AreaChart>
+                           </ResponsiveContainer>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-4 mt-8 pt-6 border-t border-slate-50">
+                           <div className="flex justify-between items-center">
+                              <div className="flex flex-col gap-1">
+                                 <span className="text-[10px] font-bold text-slate-400 italic">Μέση παραμονή</span>
+                                 <div className="flex items-center gap-2">
+                                    <span className="text-xl font-black text-slate-900 italic">{getFormatDuration(stats?.summary.avg_duration || 0)}</span>
+                                 </div>
+                              </div>
+                              <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl shadow-sm">
+                                 <Clock className="w-5 h-5" />
+                              </div>
+                           </div>
+                        </div>
+                     </Card>
+                  </div>
+
+                  {/* Final Data Stream Table - SMALLER CASE SWEEP */}
+                  <Card className="border-none bg-white rounded-[3rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] overflow-hidden">
+                     <CardHeader className="p-8 border-b border-slate-50 flex justify-between items-center">
+                        <div>
+                           <CardTitle className="text-xl font-bold text-slate-900 italic tracking-tighter">Πίνακας ζωντανής ανάλυσης</CardTitle>
+                           <CardDescription className="text-[10px] font-bold text-slate-400 mt-1 italic">Καταγραφή δραστηριότητας χρηστών σε πραγματικό χρόνο</CardDescription>
+                        </div>
+                        <div className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black animate-pulse shadow-sm shadow-emerald-200 italic">
+                           <div className="w-2 h-2 bg-emerald-500 rounded-full" /> Ζωντανή ροή
+                        </div>
+                     </CardHeader>
+                     <CardContent className="p-0 overflow-x-auto">
+                        <Table>
+                           <TableHeader>
+                              <TableRow className="border-slate-50 hover:bg-transparent">
+                                 <TableHead className="px-10 text-[10px] font-black text-slate-400 h-16 italic tracking-tight">Προφίλ / Τοποθεσία χρήστη</TableHead>
+                                 <TableHead className="text-[10px] font-black text-slate-400 text-center h-16 italic tracking-tight">Λογική επίσκεψης</TableHead>
+                                 <TableHead className="text-[10px] font-black text-slate-400 h-16 italic tracking-tight">Ψηφιακό σήμα</TableHead>
+                                 <TableHead className="text-right px-10 text-[10px] font-black text-slate-400 h-16 italic tracking-tight">Χρόνος συμμετοχής</TableHead>
+                              </TableRow>
+                           </TableHeader>
+                           <TableBody>
+                              <AnimatePresence mode="popLayout" initial={false}>
+                                 {stats?.live.visitors?.map((v) => (
+                                    <motion.tr 
+                                      key={v.session_id} 
+                                      layout
+                                      initial={{ opacity: 0 }} 
+                                      animate={{ opacity: 1 }} 
+                                      className="border-none hover:bg-slate-50/50 transition-all group font-bold italic"
+                                    >
+                                       <TableCell className="px-10 py-6">
+                                          <div className="flex items-center gap-4">
+                                             <div className="p-3 bg-slate-900 border border-slate-700/50 rounded-2xl shadow-lg shadow-slate-900/10 group-hover:scale-110 transition-transform">
+                                                <User className="w-5 h-5 text-white" />
+                                             </div>
+                                             <div className="flex flex-col">
+                                                <span className="text-slate-900 font-black tracking-tighter text-sm truncate max-w-[200px]">{v.current_path === '/' ? 'Αρχική πύλη' : v.current_path.replace('/', '')}</span>
+                                                <span className="text-[9px] text-slate-400 font-bold flex items-center gap-1 italic tracking-tight"><MapPin className="w-3 h-3 text-red-500/50" /> {v.city || "Άγνωστη πόλη"} (E.U.)</span>
+                                             </div>
+                                          </div>
+                                       </TableCell>
+                                       <TableCell className="text-center">
+                                          <Badge className={`border-none rounded-xl px-4 p-1 text-[9px] font-black italic shadow-sm ${v.visit_count && v.visit_count > 1 ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}`}>
+                                             {v.visit_count && v.visit_count > 1 ? `Επιστροφή #${v.visit_count}` : 'Νέος χρήστης'}
+                                          </Badge>
+                                       </TableCell>
+                                       <TableCell>
+                                          <div className="inline-flex items-center gap-3 px-5 py-2 bg-slate-50 border border-slate-100 rounded-2xl text-[10px] font-black text-slate-600 group-hover:bg-slate-900 group-hover:text-white transition-all tracking-tight italic">
+                                             <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-sm" />
+                                             {v.event_type === 'click' ? `Σήμα εντοπίστηκε: ${v.last_action}` : 'Ενεργή συνεδρία: Παρατήρηση'}
+                                          </div>
+                                       </TableCell>
+                                       <TableCell className="text-right px-10">
+                                          <div className="inline-flex items-center px-4 py-2 bg-slate-100 rounded-xl font-mono text-sm font-black text-slate-900 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                             {v.duration_seconds || 0}δ
+                                          </div>
+                                       </TableCell>
+                                    </motion.tr>
+                                 ))}
+                              </AnimatePresence>
+                           </TableBody>
+                        </Table>
+                        {(!stats?.live.visitors || stats.live.visitors.length === 0) && (
+                          <div className="p-20 text-center flex flex-col items-center gap-3 italic">
+                             <div className="p-4 bg-slate-50 rounded-full text-slate-300 animate-pulse shadow-inner"><Radio className="w-12 h-12" /></div>
+                             <p className="text-xs font-black text-slate-400 italic">Δεν εντοπίστηκαν ενεργοί χρήστες στην εμβέλεια</p>
+                          </div>
+                        )}
+                     </CardContent>
+                  </Card>
+               </>
+            )}
+
+            {/* Ιστορική ανάλυση - History View */}
+            {activeTab === 'history' && (
+               <div className="space-y-10">
+                  <Card className="border-none bg-white rounded-[3rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] p-10">
+                     <div className="flex justify-between items-center mb-10">
+                        <div>
+                           <h3 className="text-2xl font-black text-slate-900 italic tracking-tighter">Εξέλιξη επισκέψεων</h3>
+                           <p className="text-sm font-bold text-slate-400 mt-1">Διαχρονική καταγραφή κίνησης στην πλατφόρμα</p>
+                        </div>
+                        <Badge className="bg-blue-600 text-white border-none font-bold text-xs px-4 py-1.5 shadow-lg">Πλήρες χρονολόγιο</Badge>
+                     </div>
+                     
+                     <div className="h-[400px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                           <AreaChart data={stats?.history || []}>
+                              <defs>
+                                 <linearGradient id="g-hist-big" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#3b82f6" stopOpacity={0.2}/><stop offset="100%" stopColor="#3b82f6" stopOpacity={0}/></linearGradient>
+                              </defs>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold', fill: '#94a3b8' }} dy={10} />
+                              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold', fill: '#94a3b8' }} />
+                              <Tooltip contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 40px rgba(0,0,0,0.05)', fontWeight: 'bold' }} />
+                              <Area type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={5} fill="url(#g-hist-big)" activeDot={{ r: 8, fill: "#3b82f6", stroke: "#fff", strokeWidth: 3 }} />
+                           </AreaChart>
+                        </ResponsiveContainer>
+                     </div>
+                  </Card>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                     {[
+                       { label: "Σύνολο προβολών", val: stats?.summary.total_pageviews, icon: Eye, color: "text-blue-600" },
+                       { label: "Μέση παραμονή", val: getFormatDuration(stats?.summary.avg_duration || 0), icon: Clock, color: "text-emerald-600" },
+                       { label: "Μέσο scroll", val: `${Math.round(stats?.summary.avg_scroll || 0)}%`, icon: TrendingUp, color: "text-pink-600" },
+                     ].map((item, i) => (
+                        <Card key={i} className="border-none bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] p-8 flex items-center justify-between group hover:scale-105 transition-all">
+                           <div>
+                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic mb-1">{item.label}</p>
+                              <span className="text-3xl font-black text-slate-900 italic">{item.val}</span>
+                           </div>
+                           <div className={`p-3 rounded-2xl bg-slate-50 ${item.color} group-hover:scale-110 transition-transform`}>
+                              <item.icon className="w-6 h-6" />
+                           </div>
+                        </Card>
+                     ))}
+                  </div>
+               </div>
+            )}
+
+            {/* Sources View */}
+            {activeTab === 'sources' && (
+               <Card className="border-none bg-white rounded-[3rem] shadow-[0_10px_40px_rgb(0,0,0,0.03)] overflow-hidden">
+                  <CardHeader className="p-10">
+                     <CardTitle className="text-3xl font-black text-slate-900 tracking-tighter italic">Κέντρο προέλευσης traffic</CardTitle>
+                     <CardDescription className="text-[10px] font-bold text-slate-400 italic uppercase">Κατανομή επισκεψιμότητας ανά πηγή σήματος</CardDescription>
+                  </CardHeader>
+                  <CardContent className="px-10 pb-10">
+                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {stats?.referrers.map((r, i) => (
+                           <Card key={i} className="bg-slate-50 border-none p-8 rounded-[2.5rem] hover:bg-slate-900 hover:text-white transition-all shadow-sm group">
+                              <div className="flex justify-between items-center mb-8">
+                                 <div className="p-3 bg-white text-slate-900 rounded-2xl shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all"><Share2 className="w-6 h-6" /></div>
+                                 <span className="text-5xl font-black italic tracking-tighter group-hover:text-emerald-400 transition-colors">{r.count}</span>
+                              </div>
+                              <span className="text-[10px] font-black text-slate-400 group-hover:text-slate-500 italic uppercase tracking-wider">Σήμα προέλευσης</span>
+                              <p className="mt-2 text-sm font-bold break-all leading-relaxed italic">{r.source === 'direct' ? 'Απευθείας είσοδος' : r.source}</p>
+                           </Card>
+                        ))}
+                     </div>
+                  </CardContent>
+               </Card>
+            )}
+         </div>
+
+         {/* Final Secure Footer */}
+         <footer className="h-[60px] bg-white border-t border-slate-100 flex items-center justify-between px-10 italic font-black text-[9px] text-slate-400 tracking-widest opacity-50">
+            <span>SGK INTEL OPS CENTER v6.5.0 STABLE</span>
+            <div className="flex gap-8">
+               <span>Κατάσταση σήματος: Βέλτιστη</span>
+               <span>Κρυπτογράφηση TLS ενεργή</span>
+            </div>
+         </footer>
+      </main>
+
+    </div>
+  );
+}

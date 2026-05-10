@@ -1,11 +1,14 @@
+"use client";
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
 import logo from "../assets/sgk-logo.png";
 import linkedinIcon from "../assets/linkedin.png";
 import githubIcon from "../assets/github.png";
 import behanceIcon from "../assets/behance.png";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 const Footer = () => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -22,6 +25,16 @@ const Footer = () => {
         email: newsletterEmail
       });
       toast.success("Ευχαριστούμε για την εγγραφή!");
+
+      // Google Ads Conversion tracking
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', {
+          'send_to': 'AW-18065062632/nJVvCNXa-5UcEOj1i6ZD',
+          'value': 1.0,
+          'currency': 'EUR'
+        });
+      }
+
       setNewsletterEmail("");
     } catch (error) {
       toast.error("Κάτι πήγε στραβά. Δοκιμάστε ξανά.");
@@ -82,25 +95,50 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Main - Company Info & Newsletter */}
+        {/* Bottom Main - Company Info, Services Nav & Newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-12 border-t border-white/5 mb-20">
-          <div className="lg:col-span-6 flex flex-col gap-8">
-            <img src={logo} alt="SGK Logo" className="h-16 w-auto self-start brightness-0 invert" />
+          <div className="lg:col-span-4 flex flex-col gap-8">
+            <img src="/sgk-logo.png" alt="SGK Logo" className="h-16 w-auto self-start brightness-0 invert" />
             <div className="space-y-1 text-sm text-white">
               <p className="font-bold text-white mb-2 text-base">SGK Software Development</p>
 
-              <p className="pt-4">
-                <a href="mailto:hello@sgk.gr" className="hover:text-primary transition-colors">hello@sgk.gr</a>
-              </p>
+              <div className="flex flex-col gap-3 pt-4">
+                <p className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
+                  <Mail className="w-4 h-4 text-primary" />
+                  <a href="mailto:hello@sgk.gr">hello@sgk.gr</a>
+                </p>
+                <p className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
+                  <Phone className="w-4 h-4 text-primary" />
+                  <a href="tel:6999524389">6999524389</a>
+                </p>
+                <div className="flex items-start gap-3 text-sm">
+                  <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                  <div className="flex flex-col">
+                    <span>ΕΡΜΟΥ 1 ΚΑΙ ΛΥΚΟΒΡΥΣΕΩΣ 14</span>
+                    <span>14452 ΜΕΤΑΜΟΡΦΩΣΗ, ΑΤΤΙΚΗΣ</span>
+                  </div>
+                </div>
+              </div>
               <div className="flex items-center gap-6 pt-6">
                 <a href="https://github.com/sgk-developers/" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-all duration-300" aria-label="GitHub">
-                  <img src={githubIcon} alt="GitHub" className="w-5 h-5 brightness-0 invert" />
+                  <img src="/github.png" alt="GitHub" className="w-5 h-5 brightness-0 invert" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-6 flex flex-col gap-8">
+          {/* Services Navigation */}
+          <nav className="lg:col-span-3 flex flex-col gap-4" aria-label="Υπηρεσίες">
+            <h4 className="text-sm font-bold uppercase tracking-widest text-white/60 mb-2">Υπηρεσίες</h4>
+            <Link href="/kataskevi-eshop" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Eshop</Link>
+            <Link href="/kataskevi-eshop-woocommerce" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Eshop WooCommerce</Link>
+            <Link href="/kataskevi-istoselidon" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Ιστοσελίδων</Link>
+            <Link href="/web-development" className="text-sm text-white hover:text-primary transition-colors">Web Development</Link>
+            <Link href="/ai-agents" className="text-sm text-white hover:text-primary transition-colors">AI Agents</Link>
+            <Link href="/estimate" className="text-sm text-primary hover:underline font-bold transition-colors mt-2">→ Δωρεάν Εκτίμηση</Link>
+          </nav>
+
+          <div className="lg:col-span-5 flex flex-col gap-8">
             <div>
               <h4 className="text-xl font-bold mb-4 text-white">Εγγραφή στο Newsletter</h4>
               <p className="text-sm text-white mb-6 max-w-sm">
@@ -131,9 +169,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-white/5 gap-6 text-[11px] text-white uppercase tracking-widest">
           <p>© {new Date().getFullYear()} SGK Software Development S.A. All rights reserved.</p>
           <div className="flex gap-8">
-            <Link to="/blog" className="hover:text-primary transition-colors">Blog</Link>
-            <Link to="/privacy" className="hover:text-primary transition-colors">Πολιτική Απορρήτου</Link>
-            <Link to="/terms" className="hover:text-primary transition-colors">Όροι Χρήσης</Link>
+            <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
+            <Link href="/privacy" className="hover:text-primary transition-colors">Πολιτική Απορρήτου</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Όροι Χρήσης</Link>
             <a href="/sitemap.xml" className="hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">Sitemap</a>
           </div>
         </div>

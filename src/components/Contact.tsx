@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -32,7 +34,7 @@ const Contact = () => {
       const offerPrice = storedOfferPrice ? parseInt(storedOfferPrice) : undefined;
 
       // Πραγματική αποστολή μέσω Resend στο spiros@sigmalabs.gr
-      await sendContactEmail(email, phone, offerPrice);
+      await sendContactEmail({ email, phone, offerPrice });
 
       console.log("Η αποστολή ολοκληρώθηκε για:", { email, phone, offerPrice });
 
@@ -43,6 +45,15 @@ const Contact = () => {
       }
 
       setShowSuccessModal(true);
+
+      // Google Ads Conversion tracking
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', {
+          'send_to': 'AW-18065062632/nJVvCNXa-5UcEOj1i6ZD',
+          'value': 1.0,
+          'currency': 'EUR'
+        });
+      }
 
       setEmail("");
       setPhone("");
@@ -70,6 +81,27 @@ const Contact = () => {
           <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
             Έχετε ένα project στο μυαλό σας; Στείλτε μας τα στοιχεία σας και θα επικοινωνήσουμε μαζί σας εντός 24 ωρών.
           </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
+            <div className="p-6 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center gap-4 group hover:bg-white/10 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                <span className="text-xl font-bold">📍</span>
+              </div>
+              <div>
+                <p className="text-xs uppercase font-black text-slate-500 mb-1">Έδρα</p>
+                <p className="text-sm font-bold">Ύδρας 5, Καστοριά</p>
+              </div>
+            </div>
+            <div className="p-6 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center gap-4 group hover:bg-white/10 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                <span className="text-xl font-bold">📞</span>
+              </div>
+              <div>
+                <p className="text-xs uppercase font-black text-slate-500 mb-1">Τηλέφωνο</p>
+                <p className="text-sm font-bold">6999524389</p>
+              </div>
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto">
             <div className="flex flex-col sm:flex-row gap-4">

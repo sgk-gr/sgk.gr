@@ -1,10 +1,13 @@
+"use client";
+
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 
 const ScrollToTop = () => {
-    const { pathname, hash } = useLocation();
+    const pathname = usePathname();
 
     useEffect(() => {
+        const hash = window.location.hash;
         // Αν δεν έχουμε hash (δηλαδή δεν είναι anchor link), κάνουμε scroll στην κορυφή
         if (!hash) {
             window.scrollTo(0, 0);
@@ -18,7 +21,7 @@ const ScrollToTop = () => {
                 }
             }, 100);
         }
-    }, [pathname, hash]);
+    }, [pathname]);
 
     return null;
 };

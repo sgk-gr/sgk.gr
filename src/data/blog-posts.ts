@@ -22,7 +22,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "Spiros G. K.",
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
-    metaTitle: "AI Αυτοματισμοί Επιχειρήσεων | SGK Digital Blog",
+    metaTitle: "AI Αυτοματισμοί Επιχειρήσεων | SGK Software Development Blog",
     metaDescription: "Πώς οι AI agents μεταμορφώνουν τις επιχειρήσεις. Αυξήστε την παραγωγικότητα και μειώστε τα κόστη με έξυπνους αυτοματισμούς.",
     content: `
       <h2>Η Επανάσταση της Τεχνητής Νοημοσύνης στην Καθημερινότητα</h2>
@@ -37,14 +37,14 @@ export const BLOG_POSTS: BlogPost[] = [
       <h3>3. Εξατομικευμένη Εμπειρία Πελάτη</h3>
       <p>Οι AI αυτοματισμοί επιτρέπουν στις επιχειρήσεις να προσφέρουν εξατομικευμένες προτάσεις σε κάθε πελάτη ξεχωριστά, αυξάνοντας δραματικά το conversion rate και την πιστότητα των πελατών.</p>
       
-      <p>Στην <strong>SGK Digital</strong>, εξειδικευόμαστε στη δημιουργία custom AI agents που ενσωματώνονται πλήρως στις ανάγκες της επιχείρησής σας.</p>
+      <p>Στην <strong>SGK Software Development</strong>, εξειδικευόμαστε στη δημιουργία custom AI agents που ενσωματώνονται πλήρως στις ανάγκες της επιχείρησής σας.</p>
     `
   },
   {
     id: "2",
     slug: "next-gen-eshops-speed-sales",
     title: "E-shop Νέας Γενιάς: Πώς η Ταχύτητα και το UX Φέρνουν Πωλήσεις σε Δευτερόλεπτα",
-    excerpt: "Η εποχή των αργών sites τελειώνει. Δείτε γιατί οι Hyper-Fast λύσεις της SGK Digital φέρνουν έως και 300% περισσότερες πωλήσεις.",
+    excerpt: "Η εποχή των αργών sites τελειώνει. Δείτε γιατί οι Hyper-Fast λύσεις της SGK Software Development φέρνουν έως και 300% περισσότερες πωλήσεις.",
     date: "20 Φεβρουαρίου 2026",
     author: "Spiros G. K.",
     category: "eCommerce",
@@ -71,12 +71,12 @@ export const BLOG_POSTS: BlogPost[] = [
     id: "3",
     slug: "agentic-ai-beyond-chatbots",
     title: "Agentic AI: Το Επόμενο Βήμα μετά τα Chatbots – Πώς οι AI Agents «εκτελούν» Εργασίες",
-    excerpt: "Ξεχάστε τα απλά chatbots που μόνο απαντούν. Οι AI Agents της SGK Digital παίρνουν πρωτοβουλίες, συνδέονται με τα συστήματά σας και ολοκληρώνουν tasks αυτόνομα.",
+    excerpt: "Ξεχάστε τα απλά chatbots που μόνο απαντούν. Οι AI Agents της SGK Software Development παίρνουν πρωτοβουλίες, συνδέονται με τα συστήματά σας και ολοκληρώνουν tasks αυτόνομα.",
     date: "18 Φεβρουαρίου 2026",
     author: "Spiros G. K.",
     category: "AI & Innovation",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1200",
-    metaTitle: "Agentic AI vs Chatbots: Η Επόμενη Μέρα | SGK Digital",
+    metaTitle: "Agentic AI vs Chatbots: Η Επόμενη Μέρα | SGK Software Development",
     metaDescription: "Τι είναι οι AI Agents και πώς διαφέρουν από τα παραδοσιακά chatbots. Ανακαλύψτε πώς μπορούν να αυτοματοποιήσουν πλήρως τις διαδικασίες σας.",
     content: `
       <h2>Από την Απλή Συνομιλία στην Αυτόνομη Δράση</h2>
@@ -104,7 +104,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "Spiros G. K.",
     category: "Software Development",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200",
-    metaTitle: "Custom Software vs SaaS: Τι να επιλέξετε | SGK Digital",
+    metaTitle: "Custom Software vs SaaS: Τι να επιλέξετε | SGK Software Development",
     metaDescription: "Γιατί οι custom εφαρμογές είναι η καλύτερη επένδυση για αναπτυσσόμενες επιχειρήσεις. Πλεονεκτήματα, ασφάλεια και scalability.",
     content: `
       <h2>Το Πρόβλημα με τις «One-Size-Fits-All» Λύσεις</h2>
@@ -119,7 +119,256 @@ export const BLOG_POSTS: BlogPost[] = [
       <h3>3. Scalability και Ασφάλεια</h3>
       <p>Οι εφαρμογές που αναπτύσσουμε (όπως τα portals για τηλεπικοινωνιακά δίκτυα ή HR platforms) είναι σχεδιασμένες να αντέχουν τεράστιο φόρτο δεδομένων και να προσφέρουν μέγιστη ασφάλεια, κάτι που οι γενικές λύσεις συχνά παραλείπουν.</p>
       
-      <p>Στην <strong>SGK Digital</strong>, χτίζουμε το ψηφιακό μέλλον της επιχείρησής σας πάνω σε γερές, custom βάσεις.</p>
+      <p>Στην <strong>SGK Software Development</strong>, χτίζουμε το ψηφιακό μέλλον της επιχείρησής σας πάνω σε γερές, custom βάσεις.</p>
+    `
+  },
+  {
+    id: "5",
+    slug: "poso-kostizei-kataskevi-eshop-2025",
+    title: "Πόσο Κοστίζει η Κατασκευή Eshop το 2025; Πλήρης Οδηγός Τιμών",
+    excerpt: "Αναλυτικός οδηγός κόστους κατασκευής eshop για το 2025. Τιμές για WooCommerce, Shopify, custom React eshops. Τι περιλαμβάνεται και πού μπορείτε να εξοικονομήσετε.",
+    date: "9 Μαΐου 2026",
+    author: "Spiros G. K.",
+    category: "eCommerce",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1200",
+    metaTitle: "Κόστος Κατασκευής Eshop 2025 | Τιμές & Πακέτα | SGK",
+    metaDescription: "Πόσο κοστίζει η κατασκευή eshop το 2025; Αναλυτικές τιμές για WooCommerce, Shopify, custom eshop. Τι περιλαμβάνεται σε κάθε πακέτο.",
+    content: `
+      <h2>Κόστος Κατασκευής Eshop 2025: Η Πλήρης Εικόνα</h2>
+      <p>Μία από τις πρώτες ερωτήσεις που κάνουν οι επιχειρηματίες όταν αποφασίζουν να ανοίξουν online κατάστημα είναι: <strong>"Πόσο κοστίζει η κατασκευή eshop;"</strong>. Η απάντηση εξαρτάται από πολλούς παράγοντες, αλλά σε αυτό το άρθρο θα σας δώσουμε μια πλήρη εικόνα των τιμών για το 2025.</p>
+
+      <h3>Κατηγορίες Κόστους Eshop</h3>
+      <p>Το κόστος κατασκευής eshop χωρίζεται σε:</p>
+      <ul>
+        <li><strong>Κόστος ανάπτυξης</strong> (development cost): Η αμοιβή των developers</li>
+        <li><strong>Κόστος hosting</strong>: Ο server που φιλοξενεί το eshop σας</li>
+        <li><strong>Κόστος domain</strong>: Το όνομα χώρου (.gr ή .com)</li>
+        <li><strong>Κόστος plugins/extensions</strong>: Για WooCommerce/Shopify</li>
+        <li><strong>Κόστος συντήρησης</strong>: Ongoing updates και support</li>
+      </ul>
+
+      <h3>WooCommerce Eshop: Κόστος 2025</h3>
+      <p>Το <strong>WooCommerce</strong> είναι η δημοφιλέστερη πλατφόρμα για ελληνικά eshops. Τα κόστη για το 2025:</p>
+      <ul>
+        <li><strong>Βασικό Headless React eshop</strong>: €2.300 – €3.500 (απίστευτη ταχύτητα, τέλειο SEO, custom design)</li>
+        <li><strong>Μεσαίο Headless React eshop</strong>: €3.500 – €6.000 (όλα τα Greek payment gateways, courier integrations, CRM)</li>
+        <li><strong>Προχωρημένο WooCommerce eshop</strong>: €3.000 – €6.000 (ERP integration, custom plugins, Skroutz feed, myDATA)</li>
+      </ul>
+
+      <h3>Shopify Eshop: Κόστος 2025</h3>
+      <p>Το <strong>Shopify</strong> έχει διαφορετική δομή κόστους — πληρώνετε μηνιαία subscription:</p>
+      <ul>
+        <li><strong>Shopify Basic</strong>: $32/μήνα + κόστος ανάπτυξης €500-€1.500</li>
+        <li><strong>Shopify Standard</strong>: $92/μήνα + κόστος ανάπτυξης €1.000-€2.000</li>
+        <li><strong>Shopify Advanced</strong>: $399/μήνα + κόστος ανάπτυξης €1.500-€3.000</li>
+      </ul>
+      <p>Προσοχή: Το Shopify έχει transaction fees αν δεν χρησιμοποιείτε Shopify Payments (που δεν είναι διαθέσιμο στην Ελλάδα ακόμα).</p>
+
+      <h3>Custom React Eshop: Κόστος 2025</h3>
+      <p>Ένα <strong>custom React/Next.js eshop</strong> είναι η premium επιλογή:</p>
+      <ul>
+        <li><strong>Βασικό custom eshop</strong>: €4.000 – €7.000</li>
+        <li><strong>Προχωρημένο custom eshop</strong>: €7.000 – €15.000</li>
+        <li><strong>Enterprise headless eshop</strong>: €15.000+</li>
+      </ul>
+      <p>Το custom eshop δεν έχει μηνιαία subscription και επιτυγχάνει Core Web Vitals 98+, κάτι που σημαίνει καλύτερο SEO και conversion rate.</p>
+
+      <h3>Τι Επηρεάζει το Κόστος;</h3>
+      <ul>
+        <li><strong>Αριθμός προϊόντων</strong>: 50 vs 10.000 προϊόντα έχει τεράστια διαφορά</li>
+        <li><strong>Custom features</strong>: Loyalty program, subscription boxes, κρατήσεις</li>
+        <li><strong>Integrations</strong>: ERP, courier, marketplace feeds (Skroutz, BestPrice)</li>
+        <li><strong>Multilingual</strong>: Ελληνικά + Αγγλικά doubles the content cost</li>
+        <li><strong>Design complexity</strong>: Custom animations, interactive elements</li>
+      </ul>
+
+      <h3>Ongoing Κόστος Eshop</h3>
+      <p>Μετά την κατασκευή, υπάρχουν recurring κόστη:</p>
+      <ul>
+        <li><strong>Hosting</strong>: €5-50/μήνα (ανάλογα με traffic)</li>
+        <li><strong>Domain</strong>: €8-20/χρόνο</li>
+        <li><strong>SSL</strong>: Συνήθως δωρεάν (Let's Encrypt)</li>
+        <li><strong>Maintenance & Support</strong>: €50-300/μήνα</li>
+        <li><strong>Payment gateway fees</strong>: 1.2-2.9% ανά συναλλαγή</li>
+      </ul>
+
+      <h3>Συμβουλές για να Εξοικονομήσετε Κόστος</h3>
+      <ul>
+        <li>Ξεκινήστε με λιγότερα features και προσθέστε αργότερα</li>
+        <li>Εισάγετε τα προϊόντα σας μόνοι σας (εξοικονόμηση €200-500)</li>
+        <li>Επιλέξτε WooCommerce αντί Shopify για zero ongoing fees</li>
+        <li>Αποφύγετε premium themes — custom είναι καλύτερο long-term</li>
+      </ul>
+
+      <h3>Συμπέρασμα</h3>
+      <p>Το κόστος κατασκευής eshop για το 2025 κυμαίνεται από <strong>€2.300 για Headless React eshops</strong> έως <strong>€15.000+ για enterprise custom λύσεις</strong>. Η επιλογή εξαρτάται από τις ανάγκες, τον ανταγωνισμό και τις προοπτικές ανάπτυξής σας.</p>
+      <p>Στην <strong>SGK Software Development</strong>, σας προσφέρουμε δωρεάν εκτίμηση και ειλικρινή συμβουλή για το ποια λύση ταιριάζει καλύτερα στην περίπτωσή σας.</p>
+    `
+  },
+  {
+    id: "6",
+    slug: "woocommerce-vs-shopify-ellada",
+    title: "WooCommerce vs Shopify 2025: Ποιο να Επιλέξετε για Ελληνικό Eshop;",
+    excerpt: "Λεπτομερής σύγκριση WooCommerce και Shopify για ελληνικές επιχειρήσεις. Κόστος, features, ελληνικά payment gateways, SEO, courier integrations. Η τελική απάντηση.",
+    date: "9 Μαΐου 2026",
+    author: "Spiros G. K.",
+    category: "eCommerce",
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200",
+    metaTitle: "WooCommerce vs Shopify Ελλάδα 2025 | Σύγκριση | SGK Blog",
+    metaDescription: "WooCommerce ή Shopify για ελληνικό eshop; Σύγκριση κόστους, features, payment gateways, courier, SEO. Ποιο κερδίζει για την ελληνική αγορά το 2025.",
+    content: `
+      <h2>WooCommerce vs Shopify για Ελληνικές Επιχειρήσεις: Η Οριστική Σύγκριση</h2>
+      <p>Η ερώτηση <strong>"WooCommerce ή Shopify;"</strong> είναι από τις πιο συχνές που μας κάνουν οι νέοι eshop owners. Και η απάντηση δεν είναι ίδια για όλους. Σε αυτό το άρθρο, κάνουμε μια εξαντλητική σύγκριση με focus στις ιδιαιτερότητες της ελληνικής αγοράς.</p>
+
+      <h3>Κόστος: WooCommerce vs Shopify</h3>
+      <p><strong>WooCommerce:</strong> Open-source, δωρεάν λογισμικό. Πληρώνετε μόνο hosting (€5-30/μήνα) και premium plugins αν χρειαστείτε. Κόστος ανάπτυξης: €1.000-€3.500.</p>
+      <p><strong>Shopify:</strong> Subscription model — Basic $32/μήνα, Standard $92/μήνα, Advanced $399/μήνα. Επιπλέον transaction fees 0.5-2% αν δεν χρησιμοποιείτε Shopify Payments (που δεν είναι ακόμα διαθέσιμο στην Ελλάδα). Σε βάθος 5ετίας, το Shopify κοστίζει πολύ περισσότερο.</p>
+      <p><strong>Νικητής: WooCommerce</strong> — ειδικά για ελληνικές επιχειρήσεις που θέλουν να ελέγχουν τα κόστη τους.</p>
+
+      <h3>Ελληνικά Payment Gateways</h3>
+      <p><strong>WooCommerce:</strong> Εξαιρετική υποστήριξη. Διαθέτει plugins για Alpha Bank, Piraeus Bank, Eurobank, National Bank, Stripe, PayPal και αντικαταβολή.</p>
+      <p><strong>Shopify:</strong> Περιορισμένες επιλογές για Ελλάδα. Δεν υπάρχει native Shopify Payments. Μπορείτε να χρησιμοποιήσετε Stripe ή PayPal, αλλά δεν υπάρχουν επίσημα plugins για τις ελληνικές τράπεζες.</p>
+      <p><strong>Νικητής: WooCommerce</strong> — κατά πολύ, για την ελληνική αγορά.</p>
+
+      <h3>Courier Integrations για Ελλάδα</h3>
+      <p><strong>WooCommerce:</strong> Plugins για ACS, ELTA Courier, Speedex, Geniki Taxydromiki, DHL. Αυτόματη δημιουργία voucher και tracking.</p>
+      <p><strong>Shopify:</strong> Πολύ λίγες επιλογές για ελληνικούς courier. Χρειάζεστε custom integration ή τρίτες εφαρμογές με επιπλέον κόστος.</p>
+      <p><strong>Νικητής: WooCommerce</strong></p>
+
+      <h3>myDATA & Τιμολόγηση</h3>
+      <p><strong>WooCommerce:</strong> Διαθέσιμα plugins για myDATA (ΑΑΔΕ), αυτόματη έκδοση παραστατικών, integration με SoftOne, Epsilon Net, Atlantis.</p>
+      <p><strong>Shopify:</strong> Δεν υπάρχουν ολοκληρωμένες λύσεις myDATA. Χρειάζεται custom development.</p>
+      <p><strong>Νικητής: WooCommerce</strong></p>
+
+      <h3>Skroutz Integration</h3>
+      <p><strong>WooCommerce:</strong> Εύκολη ενσωμάτωση με plugins. Αυτόματο XML feed, Skroutz Smart Cart, realtime order sync.</p>
+      <p><strong>Shopify:</strong> Υπάρχουν λύσεις αλλά είναι πιο περίπλοκες και κοστίζουν περισσότερο.</p>
+      <p><strong>Νικητής: WooCommerce</strong></p>
+
+      <h3>SEO Δυνατότητες</h3>
+      <p><strong>WooCommerce:</strong> Πλήρης έλεγχος — custom URLs, canonical tags, schema markup, Yoast SEO integration. Core Web Vitals εξαρτώνται από το hosting και το theme.</p>
+      <p><strong>Shopify:</strong> Καλό built-in SEO αλλά περιορισμένος έλεγχος URLs. Μερικά URL patterns δεν μπορούν να αλλαχθούν.</p>
+      <p><strong>Νικητής: WooCommerce</strong> — για advanced SEO control.</p>
+
+      <h3>Ευκολία Χρήσης</h3>
+      <p><strong>WooCommerce:</strong> Απαιτεί λίγο περισσότερο χρόνο εκπαίδευσης. Η διαχείριση γίνεται μέσω WordPress dashboard.</p>
+      <p><strong>Shopify:</strong> Πολύ εύκολο interface, ιδανικό αν δεν έχετε technical background.</p>
+      <p><strong>Νικητής: Shopify</strong> — για ευκολία χρήσης.</p>
+
+      <h3>Scalability</h3>
+      <p><strong>WooCommerce:</strong> Με σωστό hosting (VPS ή cloud) αντέχει πολύ μεγάλο traffic. Χρειάζεται technical management.</p>
+      <p><strong>Shopify:</strong> Scalability out-of-the-box. Δεν ανησυχείτε για servers.</p>
+      <p><strong>Νικητής: Shopify</strong> — για μεγάλης κλίμακας B2C χωρίς technical team.</p>
+
+      <h3>Τελικό Αποτέλεσμα — Τι να Επιλέξετε</h3>
+      <p>Επιλέξτε <strong>WooCommerce</strong> αν:</p>
+      <ul>
+        <li>Θέλετε ελληνικά payment gateways και courier</li>
+        <li>Χρειάζεστε myDATA integration</li>
+        <li>Θέλετε πλήρη έλεγχο χωρίς μηνιαία subscription</li>
+        <li>Έχετε technical support (ή χρησιμοποιείτε εταιρεία ανάπτυξης)</li>
+      </ul>
+      <p>Επιλέξτε <strong>Shopify</strong> αν:</p>
+      <ul>
+        <li>Θέλετε να ξεκινήσετε γρήγορα χωρίς technical knowledge</li>
+        <li>Στοχεύετε κυρίως διεθνείς πωλήσεις (εκτός Ελλάδας)</li>
+        <li>Δεν χρειάζεστε ελληνικές τράπεζες ή courier</li>
+      </ul>
+      <p>Για τις περισσότερες <strong>ελληνικές επιχειρήσεις</strong>, το WooCommerce είναι η καλύτερη επιλογή. Στην SGK, αναπτύσσουμε και τις δύο πλατφόρμες — επικοινωνήστε μαζί μας για δωρεάν συμβουλή.</p>
+    `
+  },
+  {
+    id: "7",
+    slug: "ti-einai-ai-agents-epicheiriseis",
+    title: "Τι είναι τα AI Agents και Πώς Μπορούν να Αλλάξουν την Επιχείρησή σας",
+    excerpt: "Πλήρης οδηγός για τα AI agents: τι είναι, πώς λειτουργούν, use cases για ελληνικές επιχειρήσεις. Από customer service μέχρι sales automation — όλα όσα χρειάζεστε να ξέρετε.",
+    date: "9 Μαΐου 2026",
+    author: "Spiros G. K.",
+    category: "AI & Automation",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
+    metaTitle: "Τι είναι τα AI Agents; Οδηγός για Επιχειρήσεις 2025 | SGK Blog",
+    metaDescription: "Τι είναι τα AI agents και πώς λειτουργούν; Use cases, κόστος, τεχνολογίες. Ο πλήρης οδηγός για ελληνικές επιχειρήσεις που θέλουν να αξιοποιήσουν το AI.",
+    content: `
+      <h2>Τι είναι τα AI Agents; Ο Πλήρης Οδηγός για Επιχειρήσεις</h2>
+      <p>Τα <strong>AI agents</strong> είναι η επόμενη εξέλιξη στην τεχνητή νοημοσύνη — και αλλάζουν ριζικά τον τρόπο που λειτουργούν οι επιχειρήσεις. Αν έχετε ακούσει τον όρο αλλά δεν είστε σίγουροι τι σημαίνει ακριβώς, αυτό το άρθρο είναι για εσάς.</p>
+
+      <h3>AI Agent vs Chatbot: Ποια η Διαφορά;</h3>
+      <p>Ένα παραδοσιακό <strong>chatbot</strong> ακολουθεί προκαθορισμένα scripts. Ρωτάτε "Ποιες είναι οι τιμές;" και απαντά με ένα έτοιμο κείμενο.</p>
+      <p>Ένας <strong>AI agent</strong> είναι τελείως διαφορετικός. Μπορεί να:</p>
+      <ul>
+        <li>Κατανοήσει πολύπλοκα ερωτήματα σε φυσική γλώσσα</li>
+        <li>Αναζητήσει πληροφορίες σε εξωτερικά συστήματα (CRM, database, APIs)</li>
+        <li>Εκτελέσει ενέργειες: να κλείσει ραντεβού, να στείλει email, να ενημερώσει στοιχεία</li>
+        <li>Να παίρνει αποφάσεις βάσει context</li>
+        <li>Να μαθαίνει και να βελτιώνεται με τον χρόνο</li>
+      </ul>
+
+      <h3>Πώς Λειτουργεί ένας AI Agent;</h3>
+      <p>Τεχνικά, ένας AI agent αποτελείται από:</p>
+      <ul>
+        <li><strong>LLM (Large Language Model)</strong>: Ο "εγκέφαλος" — GPT-4o, Claude, Gemini</li>
+        <li><strong>Tools</strong>: Λειτουργίες που μπορεί να καλέσει (search, database query, API calls)</li>
+        <li><strong>Memory</strong>: Θυμάται το context της συνομιλίας</li>
+        <li><strong>Planning</strong>: Σπάει πολύπλοκα goals σε απλά βήματα</li>
+      </ul>
+      <p>Όταν λαμβάνει ένα αίτημα, ο agent "σκέφτεται": "Τι χρειάζομαι για να απαντήσω; Ποια tools πρέπει να καλέσω; Ποια είναι η σωστή σειρά ενεργειών;"</p>
+
+      <h3>Use Cases AI Agents για Ελληνικές Επιχειρήσεις</h3>
+
+      <h4>1. Customer Service Agent</h4>
+      <p>Ο πιο δημοφιλής use case. Ένας AI customer service agent μπορεί να:</p>
+      <ul>
+        <li>Απαντά σε ερωτήσεις πελατών 24/7 στα ελληνικά</li>
+        <li>Ελέγχει κατάσταση παραγγελιών</li>
+        <li>Διαχειρίζεται επιστροφές και παράπονα</li>
+        <li>Κάνει escalation σε human agent για σοβαρά θέματα</li>
+      </ul>
+      <p><strong>Εξοικονόμηση</strong>: Μειώνει το κόστος εξυπηρέτησης έως 70%.</p>
+
+      <h4>2. Sales & Lead Qualification Agent</h4>
+      <p>Αυτός ο agent:</p>
+      <ul>
+        <li>Μιλά με νέους leads στον website σας</li>
+        <li>Κατανοεί τις ανάγκες τους</li>
+        <li>Qualifies τους leads (είναι κατάλληλοι πελάτες;)</li>
+        <li>Κλείνει ραντεβού με την sales team</li>
+        <li>Στέλνει follow-up emails αυτόματα</li>
+      </ul>
+
+      <h4>3. Data Analysis Agent</h4>
+      <p>Φανταστείτε να μπορείτε να ρωτάτε τα δεδομένα σας σε φυσική γλώσσα:</p>
+      <ul>
+        <li>"Ποιες ήταν οι top πωλήσεις αυτό το μήνα;"</li>
+        <li>"Ποιοι πελάτες δεν έχουν αγοράσει τους τελευταίους 3 μήνες;"</li>
+        <li>"Ποιο προϊόν έχει τη χαμηλότερη margin;"</li>
+      </ul>
+
+      <h4>4. HR & Recruitment Agent</h4>
+      <p>Όπως το project REKRUA που αναπτύξαμε — ο agent:</p>
+      <ul>
+        <li>Ελέγχει βιογραφικά αυτόματα</li>
+        <li>Κάνει pre-screening calls/chats</li>
+        <li>Αξιολογεί υποψήφιους βάσει κριτηρίων</li>
+        <li>Κλείνει συνεντεύξεις</li>
+      </ul>
+
+      <h3>Κόστος Ανάπτυξης AI Agent</h3>
+      <ul>
+        <li><strong>Απλός AI Chatbot</strong>: €500-€1.500</li>
+        <li><strong>AI Agent με integrations</strong>: €2.000-€6.000</li>
+        <li><strong>Multi-agent system</strong>: €8.000-€20.000</li>
+        <li><strong>Enterprise AI platform</strong>: €20.000+</li>
+      </ul>
+
+      <h3>Είναι Έτοιμη η Επιχείρησή σας για AI Agents;</h3>
+      <p>Για να αξιοποιήσετε AI agents, χρειάζεστε:</p>
+      <ul>
+        <li>Ψηφιοποιημένες διαδικασίες (CRM, database)</li>
+        <li>Σαφώς ορισμένα goals για automation</li>
+        <li>Ευελιξία να εκπαιδεύσετε τους agents με τα δεδομένα σας</li>
+      </ul>
+      <p>Στην <strong>SGK Software Development</strong>, αναπτύσσουμε custom AI agents για ελληνικές επιχειρήσεις. Ξεκινήστε με μια δωρεάν συνάντηση 30 λεπτών όπου θα αναλύσουμε ποιες διαδικασίες σας μπορούν να αυτοματοποιηθούν.</p>
     `
   }
 ];
+

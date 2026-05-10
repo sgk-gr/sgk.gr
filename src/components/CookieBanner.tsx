@@ -1,9 +1,14 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const CookieBanner = () => {
     const [isVisible, setIsVisible] = useState(false);
+    const pathname = usePathname();
+    const isEshopDemo = pathname?.includes("/eshop-demo");
 
     useEffect(() => {
         const consent = localStorage.getItem("cookie-consent");
@@ -11,12 +16,14 @@ const CookieBanner = () => {
             const timer = setTimeout(() => setIsVisible(true), 1500);
             return () => clearTimeout(timer);
         }
-    }, []);
+    }, [pathname]);
 
     const acceptCookies = () => {
         localStorage.setItem("cookie-consent", "true");
         setIsVisible(false);
     };
+
+    if (isEshopDemo) return null;
 
     return (
         <>

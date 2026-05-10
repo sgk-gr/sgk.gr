@@ -1,9 +1,18 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { useInView } from "framer-motion";
 
 const projects = [
+  {
+    title: "vaiacharms.gr",
+    category: "Exclusive Jewelry Boutique",
+    description: "Κατασκευή Headless e-shop νέας γενιάς για exclusive κοσμήματα. Υλοποίηση με custom React frontend για ασύγκριτη ταχύτητα φόρτωσης, με πλήρη διασύνδεση στο WooCommerce backend για τη διαχείριση των παραγγελιών.",
+    tags: ["React Frontend", "WooCommerce", "Headless E-commerce"],
+    link: "/case-study/vaia-charms",
+  },
   {
     title: "KM-FIBER",
     category: "Telecom Operations Platform",
@@ -88,7 +97,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   };
 
   const CardWrapper = project.link ? Link : "div";
-  const wrapperProps = project.link ? { to: project.link } : {};
+  const wrapperProps = project.link ? { href: project.link } : {};
 
   return (
     <motion.div

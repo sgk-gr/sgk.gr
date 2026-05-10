@@ -63,8 +63,8 @@ serve(async (req) => {
         if (type === "newsletter") {
             // Newsletter Specific Email
             emailResult = await resend.emails.send({
-                from: "SGK Digital <sgk@sigmalabs.gr>",
-                to: ["spiros@sigmalabs.gr"],
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: ["info@sgk.gr"],
                 subject: `📩 Νέα εγγραφή στο Newsletter: ${email}`,
                 html: `<p>Νέα εγγραφή στο newsletter από το <strong>${email}</strong></p>`
             });
@@ -78,8 +78,8 @@ serve(async (req) => {
                 : '';
 
             emailResult = await resend.emails.send({
-                from: "SGK Digital <sgk@sigmalabs.gr>",
-                to: ["spiros@sigmalabs.gr"],
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: ["info@sgk.gr"],
                 subject: projectInfo
                     ? `🚀 Νέο Project: ${firstName} ${lastName}`
                     : `🟡 Νέο αίτημα επικοινωνίας - SGK Digital`,

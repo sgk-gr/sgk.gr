@@ -1,0 +1,137 @@
+import type { Metadata } from "next";
+import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
+import CookieBanner from "@/components/CookieBanner";
+import FloatingCTA from "@/components/FloatingCTA";
+import ScrollToTop from "@/components/ScrollToTop";
+import { Inter as InterFont, Space_Grotesk as SpaceFont } from 'next/font/google';
+
+const inter = InterFont({
+    subsets: ['latin'],
+    variable: '--font-inter',
+    display: 'swap',
+});
+
+const spaceGrotesk = SpaceFont({
+    subsets: ['latin'],
+    variable: '--font-space',
+    display: 'swap',
+});
+
+export const metadata: Metadata = {
+    title: "SGK Software Development | Κατασκευή Eshop, Web Apps, AI Agents Ελλάδα",
+    description: "SGK Software Development — 18 χρόνια εμπειρίας. Κατασκευή Eshop (WooCommerce), custom web εφαρμογές, AI agents. Αθήνα, Ελλάδα.",
+    keywords: "κατασκευή eshop, woocommerce ελλάδα, web development ελλάδα, ai agents ελλάδα, κατασκευή ιστοσελίδων, software development αθήνα",
+    metadataBase: new URL("https://sgk.gr"),
+    alternates: { canonical: "https://sgk.gr" },
+    openGraph: {
+        title: "SGK Software Development | Eshop, Web Apps, AI Agents Ελλάδα",
+        description: "18 χρόνια εμπειρίας. Κατασκευή Eshop, custom web εφαρμογές, AI agents. Αθήνα, Ελλάδα.",
+        images: [{ url: "https://sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Software Development" }],
+        url: "https://sgk.gr",
+        type: "website",
+        siteName: "SGK Software Development",
+        locale: "el_GR",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "SGK Software Development | Κατασκευή Eshop, AI Agents Ελλάδα",
+        description: "18 χρόνια εμπειρίας. Κατασκευή Eshop, Web Apps, AI Agents. Αθήνα, Ελλάδα.",
+        images: ["https://sgk.gr/social-preview.png"],
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    },
+};
+
+const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://sgk.gr/#organization",
+    "name": "SGK Software Development",
+    "legalName": "SGK Software Development S.A.",
+    "url": "https://sgk.gr",
+    "logo": "https://sgk.gr/sgk-logo.png",
+    "image": "https://sgk.gr/social-preview.png",
+    "description": "Κατασκευή Eshop, Web Development, AI Agents για επιχειρήσεις στην Ελλάδα. 18 χρόνια εμπειρίας.",
+    "telephone": "+306999524389",
+    "email": "hello@sgk.gr",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ύδρας 5",
+        "addressLocality": "Αθήνα",
+        "addressRegion": "Αττική",
+        "postalCode": "10000",
+        "addressCountry": "GR"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 37.9838, "longitude": 23.7275 },
+    "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+    },
+    "sameAs": ["https://github.com/sgk-developers/"],
+    "priceRange": "€€",
+    "areaServed": { "@type": "Country", "name": "Greece" },
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Web Development Services",
+        "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Eshop" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Development" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Agents" } }
+        ]
+    }
+};
+
+const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://sgk.gr/#website",
+    "url": "https://sgk.gr",
+    "name": "SGK Software Development",
+    "description": "Κατασκευή Eshop, Web Development & AI Agents στην Ελλάδα",
+    "publisher": { "@id": "https://sgk.gr/#organization" },
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://sgk.gr/blog?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+    },
+    "inLanguage": "el-GR"
+};
+
+export default function RootLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
+    return (
+        <html lang="el" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
+            <body className="antialiased bg-background text-foreground" suppressHydrationWarning>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+                />
+                <TooltipProvider>
+                    <AnalyticsTracker />
+                    <Toaster />
+                    <Sonner />
+                    <ScrollToTop />
+                    <CookieBanner />
+                    <FloatingCTA />
+                    {children}
+                </TooltipProvider>
+            </body>
+        </html>
+    );
+}

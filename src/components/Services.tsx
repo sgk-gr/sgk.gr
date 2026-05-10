@@ -1,26 +1,30 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const services = [
   {
-    title: "eShop Development",
-    description:
-      "Ολοκληρωμένα ηλεκτρονικά καταστήματα με WordPress/WooCommerce ή custom React solutions. Γρήγορα, ασφαλή, βελτιστοποιημένα.",
+    title: "Κατασκευή Eshop",
+    description: "Ολοκληρωμένα ηλεκτρονικά καταστήματα με WordPress/WooCommerce ή custom React solutions. Γρήγορα, ασφαλή, βελτιστοποιημένα για πωλήσεις.",
+    href: "/kataskevi-eshop",
   },
   {
-    title: "Web Applications",
-    description:
-      "Custom web apps με React frontend και robust backend. Από dashboards μέχρι full SaaS platforms.",
+    title: "Web Development",
+    description: "Custom web apps με React frontend και robust backend. Από dashboards μέχρι full SaaS platforms.",
+    href: "/web-development",
   },
   {
-    title: "AI Agentic Systems",
-    description:
-      "Αυτοματισμοί με AI agents που αναλαμβάνουν tasks, αποφάσεις και workflows — η επιχείρησή σας στον αυτόματο πιλότο.",
+    title: "AI Agents",
+    description: "Αυτοματισμοί με AI agents που αναλαμβάνουν tasks, αποφάσεις και workflows — η επιχείρησή σας στον αυτόματο πιλότο.",
+    href: "/ai-agents",
   },
   {
-    title: "Ιστοσελίδες",
-    description:
-      "Μοντέρνες, responsive ιστοσελίδες που κάνουν εντύπωση. WordPress ή custom development, πάντα με στόχο το αποτέλεσμα.",
+    title: "Κατασκευή Ιστοσελίδων",
+    description: "Μοντέρνες, responsive ιστοσελίδες που κάνουν εντύπωση. WordPress ή custom development, πάντα με στόχο το αποτέλεσμα.",
+    href: "/kataskevi-istoselidon",
   },
 ];
 
@@ -52,13 +56,20 @@ const ServiceCard = ({ service, index }: { service: any; index: number }) => {
         }}
       />
 
-
       <h3 className="text-2xl font-heading font-semibold mb-4 relative z-10 group-hover:text-primary transition-colors">
         {service.title}
       </h3>
-      <p className="text-muted-foreground leading-relaxed relative z-10 group-hover:text-foreground transition-colors">
+      <p className="text-muted-foreground leading-relaxed relative z-10 group-hover:text-foreground transition-colors mb-6">
         {service.description}
       </p>
+      {service.href && (
+        <Link
+          href={service.href}
+          className="inline-flex items-center gap-2 text-sm font-bold text-primary/70 group-hover:text-primary transition-colors relative z-10"
+        >
+          Μάθετε Περισσότερα <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+      )}
 
       {/* Decorative Corner */}
       <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none overflow-hidden">

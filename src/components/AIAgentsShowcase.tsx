@@ -1,5 +1,7 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const agents = [
   {
@@ -118,10 +120,10 @@ const AIAgentsShowcase = () => {
               Ένας agent, άπειρες δυνατότητες
             </h3>
             <p className="text-sm text-muted-foreground mb-5 max-w-xs">
-              Δείτε πώς ένας AI agent μπορεί να αλλάξει τον τρόπο που λειτουργεί η επιχείρησή σας.
+              Δείτε πώς ένας AI agent μπορεί να αλλάσει τον τρόπο που λειτουργεί η επιχείρησή σας.
             </p>
             <Link
-              to="/estimate"
+              href="/estimate"
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
             >
               Δωρεάν Consultation

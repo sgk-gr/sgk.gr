@@ -3,12 +3,12 @@
  */
 export const sendContactEmail = async (formData: any) => {
     // Το URL της Supabase Edge Function
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || (import.meta.env as any).SUPABASE_URL;
-    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || (import.meta.env as any).SUPABASE_ANON_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseAnonKey) {
-        console.error("Supabase configuration is missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
-        throw new Error("Η υπηρεσία επικοινωνίας δεν είναι ακόμα έτοιμη. Προσθέστε το Supabase URL και Key.");
+        console.error("Supabase configuration is missing. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.");
+        throw new Error("Η υπηρεσία επικοινωνίας δεν είναι ακόμα έτοιμη.");
     }
 
     try {

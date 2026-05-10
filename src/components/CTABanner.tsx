@@ -1,5 +1,7 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const CTABanner = () => {
   return (
@@ -25,7 +27,7 @@ const CTABanner = () => {
               την ιδέα σας σε πραγματικότητα.
             </p>
             <Link
-              to="/estimate"
+              href="/estimate"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
             >
               Δωρεάν Εκτίμηση

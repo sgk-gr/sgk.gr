@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import logo from "../assets/sgk-logo.png";
 
@@ -39,7 +41,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-12">
           <a href="/" className="flex items-center">
-            <img src={logo} alt="SGK" className="h-12 md:h-14 w-auto brightness-0 invert" />
+            <img src="/sgk-logo.png" alt="SGK" className="h-12 md:h-14 w-auto brightness-0 invert" />
           </a>
 
           {/* Desktop Nav */}
@@ -56,7 +58,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   key={item.label}
-                  to={item.href}
+                  href={item.href}
                   className="text-[17px] font-bold text-white hover:text-white/80 transition-colors duration-300"
                 >
                   {item.label}
@@ -69,7 +71,7 @@ const Navbar = () => {
         {/* Action Button */}
         <div className="hidden md:block">
           <Link
-            to="/estimate"
+            href="/estimate"
             className="group flex items-center gap-2 px-8 py-3.5 text-[17px] font-bold border-2 border-white rounded-sm hover:bg-white hover:text-black transition-all duration-300 text-white"
           >
             Εκτίμηση Έργου
@@ -109,7 +111,7 @@ const Navbar = () => {
                 ) : (
                   <Link
                     key={item.label}
-                    to={item.href}
+                    href={item.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
@@ -118,7 +120,7 @@ const Navbar = () => {
                 )
               ))}
               <Link
-                to="/estimate"
+                href="/estimate"
                 className="px-5 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md text-center"
                 onClick={() => setIsOpen(false)}
               >
