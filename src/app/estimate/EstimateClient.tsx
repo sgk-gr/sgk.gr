@@ -101,7 +101,7 @@ const EstimateClient = () => {
                             <span className="text-[#00D16B]">Είμαστε εδώ για να βοηθήσουμε.</span>
                         </h1>
                         <p className="text-lg text-white/70 max-w-2xl leading-relaxed">
-                            Θα θέλαμε να κατανοήσουμε τις ανάγκες σας. Πριν ξεκινήσουμε, παρακαλούμε συμπληρώστε τη φόρμα ή στείλτε μας το αίτημά σας μέσω email στο <a href="mailto:hello@sgk.gr" className="text-white underline hover:text-[#00D16B] transition-colors">hello@sgk.gr</a>.
+                            Θα θέλαμε να κατανοήσουμε τις ανάγκες σας. Πριν ξεκινήσουμε, παρακαλούμε συμπληρώστε τη φόρμα ή στείλτε μας το αίτημά σας μέσω email στο <a href="mailto:info@sgk.gr" className="text-white underline hover:text-[#00D16B] transition-colors">info@sgk.gr</a>.
                         </p>
                     </motion.div>
 

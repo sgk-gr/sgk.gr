@@ -1,0 +1,68 @@
+# SGK Software Development
+
+> SGK Software Development is a Greek software company based in Athens (Metamorfosi, Attica) with 18+ years of experience, specializing in eCommerce development, custom web applications, and AI agentic systems.
+
+## Company
+
+- **Website:** https://sgk.gr
+- **Email:** info@sgk.gr
+- **Phone:** +30 6999524389
+- **Address:** Ermou 1 & Lykovriseos 1, 14452 Metamorfosi, Attica, Greece
+- **Founded:** 18+ years ago
+- **Legal entity:** SGK Software Development S.A.
+
+## Services
+
+- **eShop Development:** Custom WooCommerce & headless React/Next.js e-commerce stores. Sub-1s load times, 100/100 PageSpeed scores, SEO-ready, enterprise security.
+- **Web Development:** Custom web apps with React frontend and Node.js/Python backend. CRM systems, booking platforms, admin dashboards, SaaS platforms.
+- **AI Agents:** Custom AI agentic systems for business automation — customer support agents, eShop operations agents, invoicing & finance agents, data analysis agents, workflow automation agents.
+- **Website Development:** Modern, responsive WordPress or custom React websites optimized for performance and lead generation.
+
+## Tech Stack
+
+- **Frontend:** React, Next.js, TypeScript, Tailwind CSS
+- **CMS/eCommerce:** WordPress, WooCommerce
+- **Backend:** Node.js, Python
+- **Database:** PostgreSQL, MongoDB
+- **AI:** OpenAI, LangChain
+- **Cloud:** AWS, Google Cloud
+- **DevOps:** Docker, Git
+- **Payments:** Stripe
+
+## Notable Projects
+
+- **KM-FIBER** (https://sgk.gr/case-study/km-fiber): Telecom operations platform for a Cosmote partner. Fiber optic management, crew scheduling with live tracking, real-time fault reporting, AI photo recognition, live connection closing. Stack: React, Supabase, PostgreSQL, Google Maps API.
+- **Sigmalabs AI** (https://sgk.gr/case-study/sigmalabs-ai): First-of-its-kind agentic AI for e-commerce — controls and executes tasks in WooCommerce and Shopify stores autonomously. Stack: Agentic AI, React, OpenAI, Stripe.
+- **Rekrua** (https://sgk.gr/case-study/rekrua): AI HR platform with candidate rating system for intelligent screening and hiring. Stack: React, Supabase, GPT-5.2 Mini, PostgreSQL.
+- **Vaia Charms** (https://sgk.gr/case-study/vaia-charms): Headless e-commerce for exclusive jewelry boutique. Custom React frontend with WooCommerce backend.
+- **Harmony Apartments** (https://sgk.gr/case-study/harmony-apartments): Custom booking system with channel manager syncing Booking.com, Airbnb, VRBO, TripAdvisor automatically.
+- **yolo8** (https://sgk.gr/case-study/yolo8): Smart car rental booking system with AI customer support, Stripe payments, VPS hosting.
+- **Skinnera IKE** (https://sgk.gr/case-study/skinnera): Partner management platform with rewards system, real-time notifications, and mobile app for ESPA/DYPA application tracking. Stack: Flutter, Firebase.
+- **Glavinas Energy Solutions** (https://sgk.gr/case-study/energy-solutions): Landing page with SEO and Google Business Profile for energy solutions company — 40+ leads/month.
+- **EvolisAI** (https://sgk.gr/case-study/evolis-ai): Web app for creating AI agents for customer support in tourism and real estate.
+
+## Pricing
+
+- eShop starting from €2,300 (payment in 2 installments available)
+- Free project estimation: https://sgk.gr/estimate
+
+## Industries Served
+
+Tourism agencies, Airbnb management, Hotels, eCommerce, Logistics, Real Estate, Food & Beverage, Healthcare, Telecom
+
+## Partnerships & Recognition
+
+- Microsoft Partner
+- AWS Partner
+- Google Cloud Partner
+- INTED recognition
+
+## Links
+
+- Homepage: https://sgk.gr
+- eShop Development: https://sgk.gr/kataskevi-eshop
+- Web Development: https://sgk.gr/web-development
+- AI Agents: https://sgk.gr/ai-agents
+- Website Development: https://sgk.gr/kataskevi-istoselidon
+- Blog: https://sgk.gr/blog
+- Free Estimate: https://sgk.gr/estimate

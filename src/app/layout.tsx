@@ -60,7 +60,7 @@ const localBusinessSchema = {
     "image": "https://sgk.gr/social-preview.png",
     "description": "Κατασκευή Eshop, Web Development, AI Agents για επιχειρήσεις στην Ελλάδα. 18 χρόνια εμπειρίας.",
     "telephone": "+306999524389",
-    "email": "hello@sgk.gr",
+    "email": "info@sgk.gr",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "Ύδρας 5",

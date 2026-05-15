@@ -105,7 +105,7 @@ const Footer = () => {
               <div className="flex flex-col gap-3 pt-4">
                 <p className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
                   <Mail className="w-4 h-4 text-primary" />
-                  <a href="mailto:hello@sgk.gr">hello@sgk.gr</a>
+                  <a href="mailto:info@sgk.gr">info@sgk.gr</a>
                 </p>
                 <p className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
                   <Phone className="w-4 h-4 text-primary" />

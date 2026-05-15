@@ -1,83 +1,103 @@
-# SGK Digital Agency
+# SGK Software Development - Official Website
 
-> **18 χρόνια εμπειρίας στην πληροφορική** — Κατασκευή Eshop, Web Apps, AI Agents & Telecom Platforms
-
-🌐 **Website**: [sgk.gr](https://sgk.gr)
-
----
-
-## 👤 Ποιοι Είμαστε
-
-Είμαστε η **SGK Digital Agency**, μια ομάδα εξειδικευμένων επαγγελματιών με **18 χρόνια εμπειρίας** στον χώρο της πληροφορικής. Εστιάζουμε στην παροχή καινοτόμων, υψηλής ποιότητας λύσεων λογισμικού που βοηθούν τις επιχειρήσεις να μετασχηματιστούν ψηφιακά και να αναπτυχθούν στο σύγχρονο ανταγωνιστικό περιβάλλον.
-
----
-
-## 🚀 Τι Κάνουμε
-
-| Υπηρεσία | Περιγραφή |
-|---|---|
-| 🛒 **Κατασκευή Eshop** | WooCommerce & Shopify με PageSpeed 95+ |
-| 💻 **Custom Web Apps** | React dashboards, CRM, booking systems |
-| 🤖 **AI Agents** | Agentic AI για e-commerce, customer support, HR |
-| 📱 **Mobile Apps** | Flutter apps με push notifications & live tracking |
-| 📡 **Telecom Platforms** | Διαχείριση οπτικών ινών, συνεργείων & βλαβών |
-| 🔍 **SEO & Lead Gen** | Google ranking, Local SEO, lead generation |
+<div align="center">
+  <img src="public/logo.png" alt="SGK Logo" width="120" />
+  <h3>High-Performance eCommerce, Custom Web Apps & Agentic AI Solutions</h3>
+  <p>
+    <a href="https://sgk.gr"><strong>Website</strong></a> ·
+    <a href="https://sgk.gr/estimate"><strong>Free Estimate</strong></a> ·
+    <a href="https://sgk.gr/ai-agents"><strong>AI Agents</strong></a>
+  </p>
+</div>
 
 ---
 
-## 📂 Projects / Case Studies
+## 🚀 Overview
 
-| Project | Κατηγορία | Τεχνολογίες |
-|---|---|---|
-| **KM-FIBER** | Telecom Operations | React, Supabase, Google Maps API, AI Vision |
-| **Sigmalabs AI** | Agentic AI for E-commerce | React, OpenAI, WooCommerce, Shopify API |
-| **Skinnera IKE** | Partner Management | Flutter, Firebase, OneSignal, Android |
-| **Harmony Apartments** | Booking & Channel Manager | Website, Booking.com API, Airbnb, VRBO |
-| **yolo8** | Car Rental & AI Support | React, Stripe, PostgreSQL, AI Agent |
-| **Rekrua** | AI HR Platform | React, Supabase, GPT, Edge Functions |
-| **EvolisAI** | AI Customer Support | Flutter Web, Firebase, AI Agents |
-| **Live Tour Guide** | Taxi Tours Mobile App | Flutter, Firebase, Stripe, Google Maps |
-| **Glavinas Energy** | SEO & Landing Page | React, Tailwind, VPS, Google Business |
-| **Super App** | Supermarket Offers App | Flutter, Firebase, Smart Notifications |
+SGK Software Development is a premium software agency based in Athens, Greece. With over 18 years of experience, we specialize in building lightning-fast eCommerce stores, custom enterprise web applications, and autonomous AI agentic systems.
 
----
+This repository contains the official SGK website, built with **Next.js 15**, **TypeScript**, and **Tailwind CSS**, optimized for maximum performance (100/100 PageSpeed) and SEO.
 
 ## 🛠 Tech Stack
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
+- **Frontend:** Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS
+- **Animations:** Framer Motion, Lucide React
+- **Backend/DB:** Supabase, PostgreSQL
+- **AI Integration:** OpenAI SDK, LangChain (Agentic AI)
+- **Deployment:** Vercel (Optimized for SSR/ISR)
+- **Forms & Emails:** Resend, React Hook Form, Zod
 
----
+## ✨ Key Features
 
-## ⚡ Quick Start
+- **Sub-second Performance:** Optimized for Core Web Vitals with near-instant load times.
+- **Agentic AI Ready:** Integrated showcases and infrastructure for autonomous AI agents.
+- **Headless eCommerce:** Ready for headless WooCommerce and Shopify integrations.
+- **SEO Optimized:** Dynamic sitemaps, structured data (JSON-LD), and server-side rendering.
+- **Premium UX/UI:** Dark-mode first design with glassmorphism and smooth micro-animations.
 
-```sh
-# Clone
-git clone https://github.com/sgk-developers/sgk.git
+## 📁 Project Structure
 
-# Install
-cd sgk
-npm install
-
-# Run
-npm run dev
+```bash
+src/
+├── app/            # Next.js App Router (Pages, Layouts, Sitemap)
+├── components/     # UI Components (Shadcn/UI, Custom Blocks)
+├── data/           # Static data (Blog posts, Portfolio, Services)
+├── hooks/          # Custom React hooks
+├── lib/            # Utility functions and shared logic
+└── assets/         # Images, fonts, and global styles
 ```
 
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- Bun or NPM
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sgk-gr/sgk.gr.git
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   bun install
+   ```
+
+3. Set up environment variables:
+   Create a `.env.local` file with:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+   RESEND_API_KEY=your_resend_key
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 🌍 Deployment
+
+The site is optimized for **Vercel**. To deploy:
+
+1. Push your changes to GitHub.
+2. Connect your repository to Vercel.
+3. Vercel will automatically detect the Next.js framework and deploy with optimal settings.
+
+## 📞 Contact
+
+- **Website:** [sgk.gr](https://sgk.gr)
+- **Email:** info@sgk.gr
+- **Phone:** +30 6999524389
+- **Address:** Ermou 1 & Lykovriseos 1, 14452 Metamorfosi, Attica, Greece
+
 ---
 
-## 📫 Επικοινωνία
-
-Θέλετε κάτι παρόμοιο για την επιχείρησή σας;
-
-🌐 [sgk.gr](https://sgk.gr) — Επισκεφθείτε μας  
-📧 Φόρμα επικοινωνίας στο website
-
----
-
-**© 2026 SGK Digital Agency** — Tech & Strategy
+<p align="center">
+  Built with ❤️ by <strong>SGK Software Development</strong>
+</p>

@@ -9,7 +9,7 @@ import { Phone, MessageSquare } from "lucide-react";
 const FloatingCTA = () => {
     const [isVisible, setIsVisible] = useState(false);
     const pathname = usePathname();
-    const isEshopDemo = pathname?.includes("/eshop-demo");
+    const isExcluded = pathname?.includes("/eshop-demo") || pathname?.includes("/eshop-offer");
 
     useEffect(() => {
         const toggleVisibility = () => {
@@ -24,8 +24,8 @@ const FloatingCTA = () => {
         return () => window.removeEventListener("scroll", toggleVisibility);
     }, []);
 
-    // Hide on eshop-demo page (it has its own CTA)
-    if (isEshopDemo) return null;
+    // Hide on excluded pages
+    if (isExcluded) return null;
 
     return (
         <AnimatePresence>

@@ -26,15 +26,23 @@ serve(async (req) => {
             type = "estimate",
             firstName,
             lastName,
+            name, // Fallback for name
             email,
             phone,
             company,
             howDidYouHear,
             projectInfo,
+            message, // Fallback for message
             needsNDA,
             offerPrice,
             marketingConsent
         } = payload;
+
+        // Map simplified fields if present
+        const finalFirstName = firstName || (name ? name.split(' ')[0] : '');
+        const finalLastName = lastName || (name && name.includes(' ') ? name.split(' ').slice(1).join(' ') : '');
+        const finalProjectInfo = projectInfo || message || '';
+
 
         // 1. Save to Database
         const { error: dbError } = await supabase
@@ -42,12 +50,12 @@ serve(async (req) => {
             .insert([{
                 type,
                 email,
-                first_name: firstName,
-                last_name: lastName,
+                first_name: finalFirstName,
+                last_name: finalLastName,
                 phone,
                 company,
                 how_did_you_hear: howDidYouHear,
-                project_info: projectInfo,
+                project_info: finalProjectInfo,
                 needs_nda: needsNDA,
                 offer_price: offerPrice,
                 marketing_consent: marketingConsent
@@ -80,15 +88,15 @@ serve(async (req) => {
             emailResult = await resend.emails.send({
                 from: "SGK Digital <noreply@sgk.gr>",
                 to: ["info@sgk.gr"],
-                subject: projectInfo
-                    ? `🚀 Νέο Project: ${firstName} ${lastName}`
+                subject: finalProjectInfo
+                    ? `🚀 Νέο Project: ${finalFirstName} ${finalLastName}`
                     : `🟡 Νέο αίτημα επικοινωνίας - SGK Digital`,
                 html: `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
                 <h2 style="color: #333; border-bottom: 2px solid #00D16B; padding-bottom: 10px;">Νέο αίτημα Εκτίμησης Έργου</h2>
                 
                 <div style="margin: 20px 0; display: grid; grid-template-cols: 1fr 1fr; gap: 10px;">
-                    <p><strong>Όνομα:</strong> ${firstName} ${lastName}</p>
+                    <p><strong>Όνομα:</strong> ${finalFirstName} ${finalLastName}</p>
                     <p><strong>Email:</strong> ${email}</p>
                     <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
                     <p><strong>Εταιρεία:</strong> ${company || 'Δεν δηλώθηκε'}</p>
@@ -96,10 +104,10 @@ serve(async (req) => {
                     <p><strong>Χρειάζεται NDA:</strong> ${needsNDA === 'Yes' ? '✅ Ναι' : '❌ Όχι'}</p>
                 </div>
 
-                ${projectInfo ? `
+                ${finalProjectInfo ? `
                 <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
                     <h3 style="margin-top: 0; font-size: 16px;">Περιγραφή Έργου:</h3>
-                    <p style="white-space: pre-wrap;">${projectInfo}</p>
+                    <p style="white-space: pre-wrap;">${finalProjectInfo}</p>
                 </div>
                 ` : ''}
 

@@ -39,6 +39,19 @@ const links = [
         ]
     },
     {
+        title: "Blog & Insights",
+        items: [
+            { name: "Όλα τα άρθρα", path: "/blog" },
+            { name: "Headless eCommerce 2026", path: "/blog/headless-ecommerce-2026-speed" },
+            { name: "Αυτοματοποίηση με AI Agents", path: "/blog/business-automation-ai-agents-2026" },
+            { name: "AI Customer Support", path: "/blog/ai-customer-support-24-7" },
+            { name: "SEO Στρατηγική 2026", path: "/blog/seo-strategy-2026-ai-search" },
+            { name: "Future of Business: AI & Headless", path: "/blog/future-business-agentic-ai-headless" },
+            { name: "Γιατί AI Αυτοματισμοί;", path: "/blog/ai-automations-for-business" },
+            { name: "E-shop Νέας Γενιάς", path: "/blog/next-gen-eshops-speed-sales" },
+        ]
+    },
+    {
         title: "Νομικά",
         items: [
             { name: "Πολιτική Απορρήτου", path: "/privacy" },

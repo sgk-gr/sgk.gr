@@ -19,7 +19,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "Γιατί οι AI Αυτοματισμοί είναι το 'Κρυφό Όπλο' των Σύγχρονων Επιχειρήσεων",
     excerpt: "Ανακαλύψτε πώς οι AI agents μπορούν να εξοικονομήσουν χιλιάδες ώρες εργασίας και να εξαλείψουν τα ανθρώπινα λάθη στις καθημερινές σας λειτουργίες.",
     date: "23 Φεβρουαρίου 2026",
-    author: "Spiros G. K.",
+    author: "sgk.gr",
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
     metaTitle: "AI Αυτοματισμοί Επιχειρήσεων | SGK Software Development Blog",
@@ -46,7 +46,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "E-shop Νέας Γενιάς: Πώς η Ταχύτητα και το UX Φέρνουν Πωλήσεις σε Δευτερόλεπτα",
     excerpt: "Η εποχή των αργών sites τελειώνει. Δείτε γιατί οι Hyper-Fast λύσεις της SGK Software Development φέρνουν έως και 300% περισσότερες πωλήσεις.",
     date: "20 Φεβρουαρίου 2026",
-    author: "Spiros G. K.",
+    author: "sgk.gr",
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1200",
     metaTitle: "Κατασκευή E-shop Νέας Γενιάς | Ταχύτητα & Πωλήσεις",
@@ -73,7 +73,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "Agentic AI: Το Επόμενο Βήμα μετά τα Chatbots – Πώς οι AI Agents «εκτελούν» Εργασίες",
     excerpt: "Ξεχάστε τα απλά chatbots που μόνο απαντούν. Οι AI Agents της SGK Software Development παίρνουν πρωτοβουλίες, συνδέονται με τα συστήματά σας και ολοκληρώνουν tasks αυτόνομα.",
     date: "18 Φεβρουαρίου 2026",
-    author: "Spiros G. K.",
+    author: "sgk.gr",
     category: "AI & Innovation",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1200",
     metaTitle: "Agentic AI vs Chatbots: Η Επόμενη Μέρα | SGK Software Development",
@@ -101,7 +101,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "Custom Software: Γιατί η Επιχείρησή σας χρειάζεται Λύσεις «στα Μέτρα της» και όχι Έτοιμα Πακέτα",
     excerpt: "Τα έτοιμα λογισμικά (SaaS) συχνά περιορίζουν την ανάπτυξη. Ανακαλύψτε τα πλεονεκτήματα του custom software και πώς σας δίνει ανταγωνιστικό πλεονέκτημα.",
     date: "15 Φεβρουαρίου 2026",
-    author: "Spiros G. K.",
+    author: "sgk.gr",
     category: "Software Development",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200",
     metaTitle: "Custom Software vs SaaS: Τι να επιλέξετε | SGK Software Development",
@@ -128,7 +128,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "Πόσο Κοστίζει η Κατασκευή Eshop το 2025; Πλήρης Οδηγός Τιμών",
     excerpt: "Αναλυτικός οδηγός κόστους κατασκευής eshop για το 2025. Τιμές για WooCommerce, Shopify, custom React eshops. Τι περιλαμβάνεται και πού μπορείτε να εξοικονομήσετε.",
     date: "9 Μαΐου 2026",
-    author: "Spiros G. K.",
+    author: "sgk.gr",
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1200",
     metaTitle: "Κόστος Κατασκευής Eshop 2025 | Τιμές & Πακέτα | SGK",
@@ -211,7 +211,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "WooCommerce vs Shopify 2025: Ποιο να Επιλέξετε για Ελληνικό Eshop;",
     excerpt: "Λεπτομερής σύγκριση WooCommerce και Shopify για ελληνικές επιχειρήσεις. Κόστος, features, ελληνικά payment gateways, SEO, courier integrations. Η τελική απάντηση.",
     date: "9 Μαΐου 2026",
-    author: "Spiros G. K.",
+    author: "sgk.gr",
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200",
     metaTitle: "WooCommerce vs Shopify Ελλάδα 2025 | Σύγκριση | SGK Blog",
@@ -283,7 +283,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "Τι είναι τα AI Agents και Πώς Μπορούν να Αλλάξουν την Επιχείρησή σας",
     excerpt: "Πλήρης οδηγός για τα AI agents: τι είναι, πώς λειτουργούν, use cases για ελληνικές επιχειρήσεις. Από customer service μέχρι sales automation — όλα όσα χρειάζεστε να ξέρετε.",
     date: "9 Μαΐου 2026",
-    author: "Spiros G. K.",
+    author: "sgk.gr",
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
     metaTitle: "Τι είναι τα AI Agents; Οδηγός για Επιχειρήσεις 2025 | SGK Blog",
@@ -368,6 +368,157 @@ export const BLOG_POSTS: BlogPost[] = [
         <li>Ευελιξία να εκπαιδεύσετε τους agents με τα δεδομένα σας</li>
       </ul>
       <p>Στην <strong>SGK Software Development</strong>, αναπτύσσουμε custom AI agents για ελληνικές επιχειρήσεις. Ξεκινήστε με μια δωρεάν συνάντηση 30 λεπτών όπου θα αναλύσουμε ποιες διαδικασίες σας μπορούν να αυτοματοποιηθούν.</p>
+    `
+  },
+  {
+    id: "8",
+    slug: "headless-ecommerce-2026-speed",
+    title: "Headless eCommerce 2026: Γιατί η Ταχύτητα δεν είναι πλέον Επιλογή, αλλά Προϋπόθεση",
+    excerpt: "Το 2026, η ταχύτητα φόρτωσης κάτω από 1 δευτερόλεπτο είναι το νέο standard. Ανακαλύψτε πώς η Headless αρχιτεκτονική της SGK δίνει το απόλυτο πλεονέκτημα.",
+    date: "15 Μαΐου 2026",
+    author: "sgk.gr",
+    category: "eCommerce",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200",
+    metaTitle: "Headless eCommerce 2026 | Ταχύτητα & SEO | SGK",
+    metaDescription: "Γιατί το 2026 το e-shop σας πρέπει να είναι headless. Ταχύτητα sub-1s, Next.js και η τεχνολογία της SGK που εκτοξεύει τις πωλήσεις.",
+    content: `
+      <h2>Η Νέα Πραγματικότητα στο eCommerce του 2026</h2>
+      <p>Μπαίνοντας στο 2026, οι απαιτήσεις των καταναλωτών έχουν αλλάξει ριζικά. Η υπομονή για sites που φορτώνουν "αργά" (πάνω από 2 δευτερόλεπτα) έχει μηδενιστεί. Στην <strong>SGK Software Development</strong>, προετοιμάζουμε τις επιχειρήσεις για αυτή τη νέα εποχή με <strong>Headless eCommerce</strong> λύσεις.</p>
+      
+      <h3>Τι είναι το Headless eCommerce;</h3>
+      <p>Σε ένα παραδοσιακό eshop, το frontend (αυτό που βλέπει ο χρήστης) και το backend (η διαχείριση) είναι "παντρεμένα". Στο Headless, τα διαχωρίζουμε. Χρησιμοποιούμε το <strong>Next.js</strong> για ένα ταχύτατο frontend και το <strong>WooCommerce</strong> ή custom APIs για το backend. Αυτό επιτρέπει:</p>
+      <ul>
+        <li><strong>Sub-1s Load Times:</strong> Το eshop σας φορτώνει σχεδόν ακαριαία.</li>
+        <li><strong>100/100 PageSpeed Score:</strong> Η Google λατρεύει την αρχιτεκτονική μας, κατατάσσοντάς σας στην κορυφή.</li>
+        <li><strong>Απόλυτη Σχεδιαστική Ελευθερία:</strong> Δεν περιοριζόμαστε από έτοιμα themes.</li>
+      </ul>
+
+      <h3>Η Τεχνολογία της SGK: Το Δικό σας Πλεονέκτημα</h3>
+      <p>Δεν φτιάχνουμε απλά eshops. Φτιάχνουμε μηχανές πωλήσεων. Χρησιμοποιώντας <strong>React, TypeScript και Tailwind CSS</strong>, δημιουργούμε εμπειρίες που θυμίζουν native εφαρμογές κινητού μέσα στον browser.</p>
+      
+      <p>Αν το eshop σας δεν είναι έτοιμο για τις απαιτήσεις του 2026, χάνετε ήδη πελάτες. <a href="/estimate">Ζητήστε μας μια δωρεάν ανάλυση ταχύτητας</a> σήμερα.</p>
+    `
+  },
+  {
+    id: "9",
+    slug: "business-automation-ai-agents-2026",
+    title: "Αυτοματοποίηση Επιχειρήσεων με AI Agents: Από την Τιμολόγηση στα Logistics",
+    excerpt: "Οι AI agents δεν είναι πια θεωρία. Δείτε πώς αυτοματοποιούμε καθημερινές εργασίες όπως η τιμολόγηση, η διαχείριση αποθήκης και το customer support.",
+    date: "14 Μαΐου 2026",
+    author: "sgk.gr",
+    category: "AI & Automation",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1200",
+    metaTitle: "Αυτοματοποίηση Επιχειρήσεων με AI Agents | SGK Software",
+    metaDescription: "Πώς οι AI agents της SGK αυτοματοποιούν τις επιχειρήσεις. Τιμολόγηση, logistics και workflow automation με τεχνητή νοημοσύνη.",
+    content: `
+      <h2>Αφήστε τα Robots να κάνουν τη "Βαρετή" Δουλειά</h2>
+      <p>Πόσες ώρες ξοδεύει η ομάδα σας σε χειροκίνητη καταχώρηση τιμολογίων ή στον έλεγχο των logistics; Οι <strong>AI Agents</strong> που αναπτύσσουμε στην SGK Software Development έρχονται να αλλάξουν τα δεδομένα, αναλαμβάνοντας πλήρως αυτές τις διαδικασίες.</p>
+      
+      <h3>Πώς λειτουργεί ένας AI Agent στην πράξη;</h3>
+      <p>Σε αντίθεση με τα απλά scripts, ένας AI agent μπορεί να "καταλάβει" το context. Για παράδειγμα:</p>
+      <ul>
+        <li><strong>AI Finance Agent:</strong> Διαβάζει εισερχόμενα τιμολόγια (PDF/Image), τα κατηγοριοποιεί και τα καταχωρεί αυτόματα στο ERP σας (π.χ. SoftOne, Epsilon Net).</li>
+        <li><strong>Logistics Agent:</strong> Παρακολουθεί το απόθεμα σε πραγματικό χρόνο, προβλέπει ελλείψεις και προτείνει (ή εκτελεί) παραγγελίες σε προμηθευτές.</li>
+        <li><strong>Workflow Assistant:</strong> Συντονίζει τις εργασίες μεταξύ διαφορετικών τμημάτων, εξασφαλίζοντας ότι τίποτα δεν "ξεχνιέται".</li>
+      </ul>
+
+      <h3>Γιατί να επιλέξετε AI λύσεις από την SGK;</h3>
+      <p>Η εξειδίκευσή μας στο <strong>Agentic AI</strong> μας επιτρέπει να χτίζουμε συστήματα που δεν απαντούν απλά σε ερωτήσεις, αλλά <strong>εκτελούν εργασίες</strong>. Χρησιμοποιούμε frameworks όπως το LangChain και μοντέλα της OpenAI για να προσφέρουμε ασφαλείς και αποδοτικούς αυτοματισμούς.</p>
+      
+      <p>Η επένδυση στο AI δεν είναι κόστος, είναι το μέλλον της παραγωγικότητάς σας.</p>
+    `
+  },
+  {
+    id: "10",
+    slug: "ai-customer-support-24-7",
+    title: "24/7 Εξυπηρέτηση Πελατών με AI Agents: Η Εμπειρία που Αξίζουν οι Πελάτες σας",
+    excerpt: "Μειώστε το χρόνο αναμονής στο μηδέν. Οι AI Customer Support agents της SGK προσφέρουν άμεσες, ακριβείς απαντήσεις και κλείνουν πωλήσεις μέρα-νύχτα.",
+    date: "12 Μαΐου 2026",
+    author: "sgk.gr",
+    category: "AI & Automation",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200",
+    metaTitle: "AI Customer Support 24/7 | Αυτοματισμός Εξυπηρέτησης | SGK",
+    metaDescription: "Βελτιώστε την εξυπηρέτηση πελατών με AI agents. 24/7 υποστήριξη στα ελληνικά, μείωση κόστους και αύξηση ικανοποίησης πελατών.",
+    content: `
+      <h2>Η Επανάσταση στην Εξυπηρέτηση Πελατών</h2>
+      <p>Οι πελάτες σήμερα δεν θέλουν να περιμένουν. Θέλουν απαντήσεις <strong>τώρα</strong>. Αν η επιχείρησή σας κλείνει στις 5 το απόγευμα, χάνετε τις πωλήσεις που θα γίνονταν το βράδυ. Οι AI Support Agents της SGK λειτουργούν αδιάκοπα.</p>
+      
+      <h3>Chatbot vs AI Agent: Η Μεγάλη Διαφορά</h3>
+      <p>Τα παλιά chatbots ήταν εκνευριστικά γιατί δεν καταλάβαιναν. Οι δικοί μας <strong>AI Agents</strong> εκπαιδεύονται πάνω στα δικά σας δεδομένα (knowledge base) και μπορούν να απαντήσουν σε πολύπλοκες ερωτήσεις με φυσικότητα και ευγένεια, σαν ένας έμπειρος υπάλληλος.</p>
+      
+      <h3>Τα Οφέλη για το eShop σας:</h3>
+      <ul>
+        <li><strong>Άμεση Επίλυση:</strong> Απαντήσεις σε ερωτήσεις για μεταφορικά, διαθεσιμότητα και επιστροφές σε δευτερόλεπτα.</li>
+        <li><strong>Lead Generation:</strong> Ο agent μπορεί να πάρει στοιχεία από ενδιαφερόμενους πελάτες και να τα στείλει στην ομάδα πωλήσεών σας.</li>
+        <li><strong>Πολυκαναλική Υποστήριξη:</strong> Ένας agent που λειτουργεί σε Website, WhatsApp και Messenger ταυτόχρονα.</li>
+      </ul>
+
+      <p>Στην <strong>SGK Software Development</strong>, δημιουργούμε τον AI "υπάλληλο" που δεν κοιμάται ποτέ και προσφέρει πάντα την καλύτερη εξυπηρέτηση.</p>
+    `
+  },
+  {
+    id: "11",
+    slug: "seo-strategy-2026-ai-search",
+    title: "SEO Στρατηγική 2026: Πώς να Καταταγείτε στην Εποχή των AI Search Engines",
+    excerpt: "Το Google Search αλλάζει. Ανακαλύψτε πώς το AI Search (SGE) επηρεάζει το SEO and πώς οι τεχνολογίες της SGK σας κρατούν στην πρώτη σελίδα.",
+    date: "10 Μαΐου 2026",
+    author: "sgk.gr",
+    category: "SEO",
+    image: "https://images.unsplash.com/photo-1432888497205-40f18121f14b?q=80&w=1200",
+    metaTitle: "SEO Στρατηγική 2026 | AI Search & Google SGE | SGK",
+    metaDescription: "Πώς να βελτιστοποιήσετε το site σας για τις μηχανές αναζήτησης AI το 2026. Content quality, Core Web Vitals και SEO tips από την SGK.",
+    content: `
+      <h2>SEO: Το Τοπίο Αλλάζει Δραματικά</h2>
+      <p>Με την έλευση του AI Search (Search Generative Experience), η παραδοσιακή αναζήτηση στη Google έχει μεταμορφωθεί. Το 2026, δεν αρκεί απλά να έχετε keywords. Πρέπει να έχετε <strong>αυθεντικότητα και τεχνική τελειότητα</strong>.</p>
+      
+      <h3>Core Web Vitals: Η Βάση των Πάντων</h3>
+      <p>Η Google δίνει πλέον τεράστια βαρύτητα στην εμπειρία του χρήστη. Τα sites που κατασκευάζουμε στην SGK χρησιμοποιούν <strong>Edge Computing</strong> και <strong>Static Site Generation (SSG)</strong>, εξασφαλίζοντας ότι οι σελίδες σας είναι οι πιο γρήγορες στον κλάδο σας.</p>
+
+      <h3>Content for Humans, Optimized for AI</h3>
+      <p>Οι μηχανές αναζήτησης πλέον καταλαβαίνουν την πρόθεση του χρήστη. Η στρατηγική μας περιλαμβάνει:</p>
+      <ul>
+        <li><strong>Semantic SEO:</strong> Εστίαση σε θέματα, όχι μόνο σε λέξεις-κλειδιά.</li>
+        <li><strong>Structured Data:</strong> Βοηθάμε το AI να "διαβάσει" σωστά τα προϊόντα και τις υπηρεσίες σας.</li>
+        <li><strong>High Authority Content:</strong> Δημιουργία περιεχομένου που απαντάει πραγματικά στις ανάγκες του κοινού σας.</li>
+      </ul>
+
+      <p>Μην αφήνετε την ορατότητα της επιχείρησής σας στην τύχη. <a href="/web-development">Δείτε πώς μπορούμε να αναβαθμίσουμε την παρουσία σας.</a></p>
+    `
+  },
+  {
+    id: "12",
+    slug: "future-business-agentic-ai-headless",
+    title: "Building the Future of Business with Agentic AI and Headless Architecture",
+    excerpt: "Discover how SGK Software Development is pioneering the next wave of digital transformation through autonomous AI agents and hyper-fast headless eCommerce solutions.",
+    date: "15 May 2026",
+    author: "sgk.gr",
+    category: "Technology",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200",
+    metaTitle: "Future of Business: AI & Headless | SGK Software Development",
+    metaDescription: "An in-depth look at how Agentic AI and Headless architectures are reshaping the business landscape in 2026. Expert insights from SGK.",
+    content: `
+      <h2>The Paradigm Shift in Digital Business</h2>
+      <p>As we navigate through 2026, the digital landscape has shifted from simple automation to <strong>intelligent autonomy</strong>. At SGK Software Development, we are at the forefront of this revolution, combining the power of <em>Agentic AI</em> with the performance of <em>Headless Architecture</em>.</p>
+      
+      <h3>1. The Rise of Agentic AI</h3>
+      <p>Traditional software follows linear logic. In contrast, <strong>Agentic AI</strong> systems are goal-oriented. Our custom-built AI agents leverage Large Language Models (LLMs) and advanced frameworks like LangChain to not only process information but to take meaningful actions. Whether it's autonomous customer support, automated financial reconciliation, or intelligent supply chain management, our agents act as digital employees that learn and adapt.</p>
+      
+      <h3>2. Why Headless is the Only Way Forward</h3>
+      <p>In an era where every millisecond counts, traditional monolithic platforms are becoming bottlenecks. Our <strong>Headless eCommerce</strong> approach decouples the frontend from the backend. By using <strong>Next.js, TypeScript, and Tailwind CSS</strong>, we deliver sub-second load times and 100/100 PageSpeed scores. This isn't just about speed; it's about providing a frictionless user experience that converts visitors into loyal customers.</p>
+      
+      <h3>3. SGK's Core Tech Stack</h3>
+      <p>Our commitment to excellence is reflected in our choice of tools:</p>
+      <ul>
+        <li><strong>Frontend:</strong> React, Next.js (App Router), Framer Motion for premium animations.</li>
+        <li><strong>Backend:</strong> Node.js, Python, Supabase, PostgreSQL.</li>
+        <li><strong>AI & Automation:</strong> OpenAI, LangChain, custom RAG (Retrieval-Augmented Generation) pipelines.</li>
+        <li><strong>Cloud:</strong> AWS and Google Cloud for scalable, global infrastructure.</li>
+      </ul>
+
+      <h3>Our Vision for 2026 and Beyond</h3>
+      <p>SGK Software Development isn't just a service provider; we are a strategic partner in innovation. Our goal is to empower Greek and international businesses with the tools they need to thrive in a world driven by AI and high-performance web technologies.</p>
+      
+      <p>Ready to build the future? <a href="/estimate">Get a free project estimation</a> and join the revolution.</p>
     `
   }
 ];
