@@ -1,20 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 const Hero = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a] pt-20">
       {/* Background - Optimized for LCP */}
@@ -28,19 +16,6 @@ const Hero = () => {
           sizes="100vw"
           quality={90}
         />
-        {/* Desktop Video - Layered on top, only rendered on non-mobile */}
-        {!isMobile && (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-90 hidden md:block"
-            title="Background video"
-          >
-            <source src="/sgkvideo.mp4" type="video/mp4" />
-          </video>
-        )}
         {/* Subtle Overlay for Readability */}
         <div className="absolute inset-0 bg-black/40" />
       </div>
