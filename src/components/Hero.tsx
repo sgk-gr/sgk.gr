@@ -12,6 +12,8 @@ const Hero = () => {
           loop
           muted
           playsInline
+          preload="none"
+          onCanPlay={(e) => (e.target as HTMLVideoElement).play()}
           className="absolute inset-0 w-full h-full object-cover opacity-50"
           poster="/hero-bg.jpg"
         >

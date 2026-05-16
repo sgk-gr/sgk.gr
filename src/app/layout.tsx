@@ -126,6 +126,8 @@ export default function RootLayout({
             <head>
                 <link rel="preconnect" href="https://xrmvingehhiymchoggka.supabase.co" crossOrigin="anonymous" />
                 <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+                <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+                <link rel="dns-prefetch" href="https://stats.g.doubleclick.net" />
                 <Script src="https://www.googletagmanager.com/gtag/js?id=AW-18166808794" strategy="afterInteractive" />
                 <Script id="google-ads-init" strategy="afterInteractive">
                     {`
@@ -141,9 +143,9 @@ export default function RootLayout({
                             'analytics_storage': 'denied'
                         });
 
-                        gtag('config', 'AW-18065062632');
-                        gtag('config', 'AW-18166808794');
-                        gtag('config', 'G-Z3Q0NFJ2VT');
+                        gtag('config', 'AW-18065062632', { 'animate_ad_signals': false });
+                        gtag('config', 'AW-18166808794', { 'animate_ad_signals': false });
+                        gtag('config', 'G-Z3Q0NFJ2VT', { 'send_page_view': true });
                     `}
                 </Script>
             </head>
