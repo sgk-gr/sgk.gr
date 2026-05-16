@@ -21,16 +21,23 @@ const Navbar = () => {
   const [isPastHero, setIsPastHero] = useState(false);
 
   useEffect(() => {
+    // Optimized scroll check using requestAnimationFrame
+    let ticking = false;
     const handleScroll = () => {
-      // Hide navbar after scrolling past the hero (roughly 100vh)
-      if (window.scrollY > window.innerHeight - 100) {
-        setIsPastHero(true);
-      } else {
-        setIsPastHero(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > window.innerHeight - 100) {
+            setIsPastHero(true);
+          } else {
+            setIsPastHero(false);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

@@ -1,27 +1,32 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a] pt-20">
-      {/* Video Background - Optimized for LCP */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* Background - Optimized for LCP */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/hero-bg.jpg"
+          alt="SGK Digital Hero Background"
+          fill
+          priority
+          className="object-cover opacity-90"
+          sizes="100vw"
+          quality={90}
+        />
+        {/* Desktop Video - Layered on top */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          poster="/hero-bg.jpg"
-          className="w-full h-full object-cover opacity-90 hidden md:block"
+          className="absolute inset-0 w-full h-full object-cover opacity-90 hidden md:block"
           title="Background video"
         >
           <source src="/sgkvideo.mp4" type="video/mp4" />
         </video>
-        {/* Fallback Image for Mobile */}
-        <div 
-          className="md:hidden absolute inset-0 bg-cover bg-center opacity-90"
-          style={{ backgroundImage: 'url(/hero-bg.jpg)' }}
-        />
         {/* Subtle Overlay for Readability */}
         <div className="absolute inset-0 bg-black/40" />
       </div>
@@ -29,11 +34,7 @@ const Hero = () => {
       <div className="relative z-10 container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-0">
         {/* Left Content */}
         <div className="flex-1 max-w-2xl pt-12 lg:pt-0">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+          <div className="animate-fade-up">
             <h1 className="text-6xl md:text-8xl lg:text-[110px] font-heading font-normal leading-[0.95] tracking-tight mb-10">
               Modern <br />
               <span 
@@ -59,7 +60,7 @@ const Hero = () => {
                 <span className="text-lg font-bold text-white">H20</span>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Right Content - Glow Only (Bubble and Photo removed) */}
