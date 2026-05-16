@@ -112,8 +112,15 @@ const EshopOfferPageContent = () => {
 
       // Google Ads Conversion tracking
       if (typeof window !== 'undefined' && (window as any).gtag) {
+        // Old account
         (window as any).gtag('event', 'conversion', {
           'send_to': 'AW-18065062632/nJVvCNXa-5UcEOj1i6ZD',
+          'value': 2300.0,
+          'currency': 'EUR'
+        });
+        // New account
+        (window as any).gtag('event', 'conversion', {
+          'send_to': 'AW-18166808794/SJ5hCNjI-K0cENqBztZD',
           'value': 2300.0,
           'currency': 'EUR'
         });
