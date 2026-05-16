@@ -102,29 +102,34 @@ const EshopOfferPageContent = () => {
       });
 
 
-      router.push("/eshop-offer/thank-you");
-      setName("");
-      setEmail("");
-      setPhone("");
-      setCategory("");
-      setStep(1);
-
-
-      // Google Ads Conversion tracking
+      // 1. Google Ads Conversion tracking (BEFORE redirect)
       if (typeof window !== 'undefined' && (window as any).gtag) {
+        console.log("🔔 [Analytics] Triggering Google Ads Conversion...");
+        
         // Old account
         (window as any).gtag('event', 'conversion', {
           'send_to': 'AW-18065062632/nJVvCNXa-5UcEOj1i6ZD',
           'value': 2300.0,
           'currency': 'EUR'
         });
+        console.log("✅ [Analytics] Conversion sent to AW-18065062632");
+
         // New account
         (window as any).gtag('event', 'conversion', {
           'send_to': 'AW-18166808794/SJ5hCNjI-K0cENqBztZD',
           'value': 2300.0,
           'currency': 'EUR'
         });
+        console.log("✅ [Analytics] Conversion sent to AW-18166808794");
       }
+
+      // 2. Redirect
+      router.push("/eshop-offer/thank-you");
+      setName("");
+      setEmail("");
+      setPhone("");
+      setCategory("");
+      setStep(1);
     } catch (error) {
       toast.error("Κάτι πήγε στραβά. Δοκιμάστε ξανά αργότερα.");
     } finally {

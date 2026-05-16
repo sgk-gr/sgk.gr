@@ -55,16 +55,18 @@ const EstimateClient = () => {
 
         try {
             await sendContactEmail(formData);
-            setShowSuccessModal(true);
-
             // Google Ads Conversion tracking
             if (typeof window !== 'undefined' && (window as any).gtag) {
+                console.log("🔔 [Analytics] Triggering Google Ads Conversion (Estimate Page)...");
                 (window as any).gtag('event', 'conversion', {
                     'send_to': 'AW-18065062632/nJVvCNXa-5UcEOj1i6ZD',
                     'value': 1.0,
                     'currency': 'EUR'
                 });
+                console.log("✅ [Analytics] Conversion sent to AW-18065062632");
             }
+
+            setShowSuccessModal(true);
 
             setFormData({
                 firstName: "",
