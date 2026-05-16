@@ -148,13 +148,14 @@ function AnalyticsTrackerContent() {
 
   return (
     <>
-      <Script src="https://www.googletagmanager.com/gtag/js?id=AW-18065062632" strategy="afterInteractive" />
+      <Script src="https://www.googletagmanager.com/gtag/js?id=AW-18166808794" strategy="afterInteractive" />
       <Script id="google-ads-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'AW-18065062632');
+          gtag('config', 'AW-18166808794');
         `}
       </Script>
     </>
