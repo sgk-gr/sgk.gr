@@ -3,16 +3,10 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { sendContactEmail } from "@/lib/resend";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { 
   CheckCircle2, 
   Layout, 
@@ -79,11 +73,11 @@ const testimonials = [
 
 
 const EshopOfferPageContent = () => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [step, setStep] = useState(1);
   const [category, setCategory] = useState("");
 
@@ -108,7 +102,7 @@ const EshopOfferPageContent = () => {
       });
 
 
-      setShowSuccessModal(true);
+      router.push("/eshop-offer/thank-you");
       setName("");
       setEmail("");
       setPhone("");
@@ -518,29 +512,7 @@ const EshopOfferPageContent = () => {
 
 
 
-      <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-        <DialogContent className="sm:max-w-md border-primary/20 bg-card/95 backdrop-blur-xl">
-          <div className="flex flex-col items-center text-center py-6">
-            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-              <CheckCircle2 className="w-10 h-10 text-primary" />
-            </div>
-            <DialogHeader>
-              <DialogTitle className="text-2xl font-heading font-bold text-center mb-2">
-                Ευχαριστούμε!
-              </DialogTitle>
-              <DialogDescription className="text-base text-muted-foreground text-center">
-                Λάβαμε το ενδιαφέρον σας. Ένας εξειδικευμένος συνεργάτης μας θα επικοινωνήσει μαζί σας εντός 24 ωρών για να συζητήσουμε τις λεπτομέρειες.
-              </DialogDescription>
-            </DialogHeader>
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="mt-8 px-8 py-2.5 bg-primary text-primary-foreground font-heading font-semibold rounded-full hover:opacity-90 transition-opacity"
-            >
-              Κλείσιμο
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Dialog removed */}
     </div>
   );
 };
