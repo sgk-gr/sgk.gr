@@ -12,7 +12,18 @@ const CookieBanner = () => {
 
     useEffect(() => {
         const consent = localStorage.getItem("cookie-consent");
-        if (!consent) {
+        
+        // Αν έχει ήδη δώσει συναίνεση, ενημερώνουμε το gtag
+        if (consent === "true") {
+            if (typeof window !== 'undefined' && (window as any).gtag) {
+                (window as any).gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'ad_user_data': 'granted',
+                    'ad_personalization': 'granted',
+                    'analytics_storage': 'granted'
+                });
+            }
+        } else {
             const timer = setTimeout(() => setIsVisible(true), 4000);
             return () => clearTimeout(timer);
         }
@@ -20,6 +31,18 @@ const CookieBanner = () => {
 
     const acceptCookies = () => {
         localStorage.setItem("cookie-consent", "true");
+        
+        // Ενημέρωση Google Consent Mode σε 'granted'
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('consent', 'update', {
+                'ad_storage': 'granted',
+                'ad_user_data': 'granted',
+                'ad_personalization': 'granted',
+                'analytics_storage': 'granted'
+            });
+            console.log("🍪 [Consent Mode] Consent updated to GRANTED");
+        }
+        
         setIsVisible(false);
     };
 
