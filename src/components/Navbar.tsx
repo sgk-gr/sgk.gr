@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import logo from "../assets/sgk-logo.png";
 
@@ -41,7 +42,15 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-12">
           <a href="/" className="flex items-center">
-            <img src="/sgk-logo.png" alt="SGK" className="h-12 md:h-14 w-auto brightness-0 invert" />
+            <Image 
+              src="/sgk-logo.png" 
+              alt="SGK" 
+              width={180}
+              height={60}
+              className="h-12 md:h-14 w-auto brightness-0 invert" 
+              priority
+              loading="eager"
+            />
           </a>
 
           {/* Desktop Nav */}

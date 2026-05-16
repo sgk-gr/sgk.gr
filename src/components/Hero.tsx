@@ -4,17 +4,24 @@ import { motion } from "framer-motion";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a] pt-20">
-      {/* Video Background */}
+      {/* Video Background - Optimized for LCP */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-90"
+          poster="/hero-bg.jpg"
+          className="w-full h-full object-cover opacity-90 hidden md:block"
+          title="Background video"
         >
           <source src="/sgkvideo.mp4" type="video/mp4" />
         </video>
+        {/* Fallback Image for Mobile */}
+        <div 
+          className="md:hidden absolute inset-0 bg-cover bg-center opacity-90"
+          style={{ backgroundImage: 'url(/hero-bg.jpg)' }}
+        />
         {/* Subtle Overlay for Readability */}
         <div className="absolute inset-0 bg-black/40" />
       </div>
@@ -29,7 +36,10 @@ const Hero = () => {
           >
             <h1 className="text-6xl md:text-8xl lg:text-[110px] font-heading font-normal leading-[0.95] tracking-tight mb-10">
               Modern <br />
-              <span className="text-[#00d563] drop-shadow-[0_0_15px_rgba(0,213,99,0.3)]">
+              <span 
+                className="text-[#00d563]"
+                style={{ textShadow: '0 0 15px rgba(0,213,99,0.3)' }}
+              >
                 commerce
               </span>
             </h1>

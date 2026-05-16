@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import EshopOfferPageContent from "@/components/EshopOfferPageContent";
 
 
@@ -66,10 +67,14 @@ export default function EshopOfferPage() {
       <div className="container mx-auto px-6 pt-10 pb-2">
         <div className="flex justify-center lg:justify-start">
           <Link href="/" className="flex items-center">
-            <img 
+            <Image 
               src="/sgk-logo.png" 
               alt="SGK Digital" 
+              width={200}
+              height={80}
               className="h-16 md:h-20 w-auto brightness-0 invert" 
+              priority
+              loading="eager"
             />
           </Link>
         </div>

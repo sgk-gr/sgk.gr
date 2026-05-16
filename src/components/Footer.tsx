@@ -129,7 +129,7 @@ const Footer = () => {
 
           {/* Services Navigation */}
           <nav className="lg:col-span-3 flex flex-col gap-4" aria-label="Υπηρεσίες">
-            <h4 className="text-sm font-bold uppercase tracking-widest text-white/60 mb-2">Υπηρεσίες</h4>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-white/60 mb-2">Υπηρεσίες</h3>
             <Link href="/kataskevi-eshop" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Eshop</Link>
             <Link href="/kataskevi-eshop-woocommerce" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Eshop WooCommerce</Link>
             <Link href="/kataskevi-istoselidon" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Ιστοσελίδων</Link>

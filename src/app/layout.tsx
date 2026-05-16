@@ -13,12 +13,14 @@ const inter = InterFont({
     subsets: ['latin'],
     variable: '--font-inter',
     display: 'swap',
+    preload: true,
 });
 
 const spaceGrotesk = SpaceFont({
     subsets: ['latin'],
     variable: '--font-space',
     display: 'swap',
+    preload: true,
 });
 
 export const metadata: Metadata = {
@@ -106,6 +108,12 @@ const websiteSchema = {
     "inLanguage": "el-GR"
 };
 
+export const viewport = {
+    themeColor: "#0a0a0a",
+    width: "device-width",
+    initialScale: 1,
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -113,6 +121,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="el" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
+            <head>
+                <link rel="preconnect" href="https://xrmvingehhiymchoggka.supabase.co" crossOrigin="anonymous" />
+                <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+            </head>
             <body className="antialiased bg-background text-foreground" suppressHydrationWarning>
                 <script
                     type="application/ld+json"

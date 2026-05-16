@@ -41,6 +41,7 @@ const FloatingCTA = () => {
                         href="tel:6999524389"
                         className="group flex items-center justify-center p-3.5 bg-[#1a1a1a] text-white border border-white/10 rounded-full shadow-xl hover:scale-110 transition-all duration-300"
                         title="Καλέστε μας"
+                        aria-label="Καλέστε μας"
                     >
                         <Phone className="w-5 h-5" />
                     </a>

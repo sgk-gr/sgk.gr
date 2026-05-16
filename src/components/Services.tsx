@@ -66,6 +66,7 @@ const ServiceCard = ({ service, index }: { service: any; index: number }) => {
         <Link
           href={service.href}
           className="inline-flex items-center gap-2 text-sm font-bold text-primary/70 group-hover:text-primary transition-colors relative z-10"
+          aria-label={`Μάθετε περισσότερα για ${service.title}`}
         >
           Μάθετε Περισσότερα <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
