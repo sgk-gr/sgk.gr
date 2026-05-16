@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -124,6 +125,17 @@ export default function RootLayout({
             <head>
                 <link rel="preconnect" href="https://xrmvingehhiymchoggka.supabase.co" crossOrigin="anonymous" />
                 <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+                <Script src="https://www.googletagmanager.com/gtag/js?id=AW-18166808794" strategy="afterInteractive" />
+                <Script id="google-ads-init" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'AW-18065062632');
+                        gtag('config', 'AW-18166808794');
+                        gtag('config', 'G-Z3Q0NFJ2VT');
+                    `}
+                </Script>
             </head>
             <body className="antialiased bg-background text-foreground" suppressHydrationWarning>
                 <script
