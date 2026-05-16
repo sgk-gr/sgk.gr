@@ -136,6 +136,18 @@ const EshopOfferPageContent = () => {
     <div className="pb-16" key="offer-page-root">
       {/* Hero Section */}
       <section id="hero" className="relative overflow-hidden py-10 lg:py-20">
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-10"
+            poster="/hero-bg.jpg"
+          >
+            <source src="/sgkvideo.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="flex-1 text-center lg:text-left">

@@ -5,19 +5,20 @@ import Image from "next/image";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a] pt-20">
-      {/* Background - Optimized for LCP */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/hero-bg.jpg"
-          alt="SGK Digital Hero Background"
-          fill
-          priority
-          className="object-cover opacity-90"
-          sizes="100vw"
-          quality={90}
-        />
+      {/* Background - Video Restored */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+          poster="/hero-bg.jpg"
+        >
+          <source src="/sgkvideo.mp4" type="video/mp4" />
+        </video>
         {/* Subtle Overlay for Readability */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-0">
