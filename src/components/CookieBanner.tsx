@@ -13,7 +13,7 @@ const CookieBanner = () => {
     useEffect(() => {
         const consent = localStorage.getItem("cookie-consent");
         if (!consent) {
-            const timer = setTimeout(() => setIsVisible(true), 1500);
+            const timer = setTimeout(() => setIsVisible(true), 4000);
             return () => clearTimeout(timer);
         }
     }, [pathname]);
