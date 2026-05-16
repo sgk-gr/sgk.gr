@@ -50,7 +50,8 @@ const FloatingCTA = () => {
                         title="Καλέστε μας"
                         aria-label="Καλέστε μας"
                     >
-                        <Phone className="w-5 h-5" />
+                        <Phone className="w-5 h-5" aria-hidden="true" />
+                        <span className="sr-only">Καλέστε μας</span>
                     </a>
 
                     {/* Estimate Button */}

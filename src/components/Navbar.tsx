@@ -100,7 +100,8 @@ const Navbar = () => {
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+          <span className="sr-only">{isOpen ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}</span>
         </button>
       </div>
 

@@ -32,7 +32,8 @@ const CookieBanner = () => {
                 className="fixed bottom-6 left-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg z-[90] hover:scale-110 transition-transform"
                 aria-label="Ρυθμίσεις Cookies"
             >
-                <Cookie className="w-5 h-5 text-black" />
+                <Cookie className="w-5 h-5 text-black" aria-hidden="true" />
+                <span className="sr-only">Ρυθμίσεις Cookies</span>
             </button>
 
             <AnimatePresence>
