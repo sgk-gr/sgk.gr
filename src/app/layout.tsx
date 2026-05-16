@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import CookieBanner from "@/components/CookieBanner";
 import FloatingCTA from "@/components/FloatingCTA";
@@ -162,6 +163,7 @@ export default function RootLayout({
                     <ScrollToTop />
                     <CookieBanner />
                     <FloatingCTA />
+                    <SpeedInsights />
                     {children}
                 </TooltipProvider>
             </body>
