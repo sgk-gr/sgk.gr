@@ -156,6 +156,7 @@ function AnalyticsTrackerContent() {
           gtag('js', new Date());
           gtag('config', 'AW-18065062632');
           gtag('config', 'AW-18166808794');
+          gtag('config', 'G-Z3Q0NFJ2VT');
         `}
       </Script>
     </>
