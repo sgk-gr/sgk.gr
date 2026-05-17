@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import CookieBanner from "@/components/CookieBanner";
-import FloatingCTA from "@/components/FloatingCTA";
+import FloatingChatBot from "@/components/FloatingChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Inter as InterFont, Space_Grotesk as SpaceFont } from 'next/font/google';
 
@@ -67,10 +67,10 @@ const localBusinessSchema = {
     "email": "info@sgk.gr",
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Ύδρας 5",
-        "addressLocality": "Αθήνα",
+        "streetAddress": "Ερμού 1 & Λυκοβρύσεως 14",
+        "addressLocality": "Μεταμόρφωση",
         "addressRegion": "Αττική",
-        "postalCode": "10000",
+        "postalCode": "14452",
         "addressCountry": "GR"
     },
     "geo": { "@type": "GeoCoordinates", "latitude": 37.9838, "longitude": 23.7275 },
@@ -164,7 +164,7 @@ export default function RootLayout({
                     <Sonner />
                     <ScrollToTop />
                     <CookieBanner />
-                    <FloatingCTA />
+                    <FloatingChatBot />
                     <SpeedInsights />
                     {children}
                 </TooltipProvider>

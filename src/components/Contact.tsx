@@ -91,7 +91,7 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-xs uppercase font-black text-slate-500 mb-1">Έδρα</p>
-                <p className="text-sm font-bold">Ύδρας 5, Καστοριά</p>
+                <p className="text-sm font-bold text-balance text-center">Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής</p>
               </div>
             </div>
             <div className="p-6 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center gap-4 group hover:bg-white/10 transition-all">
