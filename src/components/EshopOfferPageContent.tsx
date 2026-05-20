@@ -40,8 +40,8 @@ const features = [
   },
   {
     icon: Zap,
-    title: "Παράδοση σε 30 ημέρες",
-    description: "Εγγυημένος χρόνος παράδοσης 30 ημερών για να ξεκινήσετε τις πωλήσεις σας το συντομότερο δυνατό."
+    title: "Παράδοση σε 14 ημέρες",
+    description: "Εγγυημένος χρόνος παράδοσης 14 ημερών για να ξεκινήσετε τις πωλήσεις σας το συντομότερο δυνατό."
   },
   {
     icon: Lock,
@@ -98,7 +98,7 @@ const EshopOfferPageContent = () => {
         email, 
         phone, 
         message: `Ενδιαφέρον για eshop: ${category}`,
-        offerPrice: 2300 
+        offerPrice: 1999 
       });
 
 
@@ -109,7 +109,7 @@ const EshopOfferPageContent = () => {
         // Old account
         (window as any).gtag('event', 'conversion', {
           'send_to': 'AW-18065062632/nJVvCNXa-5UcEOj1i6ZD',
-          'value': 2300.0,
+          'value': 1999.0,
           'currency': 'EUR'
         });
         console.log("✅ [Analytics] Conversion sent to AW-18065062632");
@@ -117,7 +117,7 @@ const EshopOfferPageContent = () => {
         // New account
         (window as any).gtag('event', 'conversion', {
           'send_to': 'AW-18166808794/SJ5hCNjI-K0cENqBztZD',
-          'value': 2300.0,
+          'value': 1999.0,
           'currency': 'EUR'
         });
         console.log("✅ [Analytics] Conversion sent to AW-18166808794");
@@ -169,13 +169,13 @@ const EshopOfferPageContent = () => {
 
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                   Το ηλεκτρονικό σου κατάστημα χάνει πελάτες γιατί αργεί να φορτώσει. 
-                  Εμείς το φτιάχνουμε αστραπιαίο — παράδοση σε 30 μέρες.
+                  Εμείς το φτιάχνουμε αστραπιαίο — παράδοση σε 14 μέρες.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 mb-10">
                   <div className="text-left">
                     <p className="text-sm text-muted-foreground uppercase font-bold tracking-widest mb-1">Προσφορά Μαΐου</p>
-                    <p className="text-3xl sm:text-4xl font-heading font-black">2.300€ <span className="text-lg font-normal text-muted-foreground line-through ml-2">3.500€</span></p>
+                    <p className="text-3xl sm:text-4xl font-heading font-black">1.999€ <span className="text-lg font-normal text-muted-foreground line-through ml-2">3.500€</span></p>
                   </div>
                   <div className="h-12 w-px bg-border hidden sm:block"></div>
                 </div>

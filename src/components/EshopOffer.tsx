@@ -26,7 +26,7 @@ const EshopOffer = () => {
 
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight">
                             Eshop <span className="text-gradient">Νέας Γενιάς</span> <br />
-                            από μόλις 2.300€
+                            από μόλις 1.999€
                         </h2>
 
                         <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
