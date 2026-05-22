@@ -42,7 +42,7 @@ const teamSchema = {
         "url": "https://sgk.gr"
       },
       "description": "Η Βασιλική συνδυάζει τη στρατηγική σκέψη του digital marketing με τις τεχνολογίες AI για την ανάπτυξη των e-commerce επιχειρήσεων.",
-      "image": "https://sgk.gr/giakoumaki.png",
+      "image": "https://sgk.gr/giakoumaki.webp",
       "url": "https://sgk.gr/#team"
     }
   ]
@@ -144,7 +144,7 @@ const Team = () => {
           >
             <div className="w-36 h-36 sm:w-44 sm:h-44 shrink-0 relative rounded-full overflow-hidden border-4 border-primary/20 bg-background">
               <Image 
-                src="/giakoumaki.png" 
+                src="/giakoumaki.webp" 
                 alt="Βασιλική Γιακουμάκη - Marketing & AI Strategist / E-commerce Specialist"
                 fill
                 className="object-contain p-3"
