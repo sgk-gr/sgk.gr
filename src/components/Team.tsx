@@ -61,13 +61,13 @@ const Team = () => {
             transition={{ duration: 0.6 }}
             className="flex flex-col md:flex-row items-center gap-10 bg-card border border-border rounded-3xl p-8 lg:p-12 shadow-xl hover:shadow-primary/5 transition-all"
           >
-            <div className="w-48 h-48 sm:w-56 sm:h-56 shrink-0 relative rounded-full overflow-hidden border-4 border-primary/20 bg-background">
+            <div className="w-36 h-36 sm:w-44 sm:h-44 shrink-0 relative rounded-full overflow-hidden border-4 border-primary/20 bg-background">
               <Image 
                 src="/tsavos.png" 
                 alt="Σπύρος Τσάβος - Founder & Lead Developer"
                 fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 192px, 224px"
+                className="object-contain p-3"
+                sizes="(max-width: 768px) 144px, 176px"
               />
             </div>
             
@@ -94,13 +94,13 @@ const Team = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-col md:flex-row items-center gap-10 bg-card border border-border rounded-3xl p-8 lg:p-12 shadow-xl hover:shadow-primary/5 transition-all"
           >
-            <div className="w-48 h-48 sm:w-56 sm:h-56 shrink-0 relative rounded-full overflow-hidden border-4 border-primary/20 bg-background">
+            <div className="w-36 h-36 sm:w-44 sm:h-44 shrink-0 relative rounded-full overflow-hidden border-4 border-primary/20 bg-background">
               <Image 
                 src="/mousorli.png" 
                 alt="Χρυσή Μουσορλή - UI/UX Designer & Web Developer"
                 fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 192px, 224px"
+                className="object-contain p-3"
+                sizes="(max-width: 768px) 144px, 176px"
               />
             </div>
             
