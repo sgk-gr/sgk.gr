@@ -164,12 +164,12 @@ const EshopOfferPageContent = () => {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-4xl sm:text-5xl lg:text-7xl font-heading font-black tracking-tighter leading-[1.1] mb-8"
               >
-                Δημιουργήστε ένα <span className="text-primary">Προηγμένο</span> Eshop που ξεχωρίζει
+                Κατασκευή Eshop
               </motion.h1>
 
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  Το ηλεκτρονικό σου κατάστημα χάνει πελάτες γιατί αργεί να φορτώσει. 
-                  Εμείς το φτιάχνουμε αστραπιαίο — παράδοση σε 14 μέρες.
+                  Η επαγγελματική κατασκευή eshop είναι το κλειδί για περισσότερες πωλήσεις. 
+                  Εμείς αναλαμβάνουμε την κατασκευή eshop σας με αστραπιαία ταχύτητα — παράδοση σε 14 μέρες.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 mb-10">
@@ -234,7 +234,7 @@ const EshopOfferPageContent = () => {
                 </div>
                 
                 <h3 className="text-2xl font-heading font-bold mb-6 text-center">
-                  {step === 1 ? "Τι είδους κατάστημα θέλετε να φτιάξετε;" : "Εκδήλωση Ενδιαφέροντος"}
+                  {step === 1 ? "Τι είδους κατασκευή eshop χρειάζεστε;" : "Εκδήλωση Ενδιαφέροντος"}
                 </h3>
 
                 <form onSubmit={(e) => {
@@ -338,7 +338,7 @@ const EshopOfferPageContent = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-heading font-bold mb-4">Τεχνική Ανάλυση & Πλεονεκτήματα</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Συνδυάζουμε την ταχύτητα των στατικών σελίδων με τη δυναμική διαχείριση του ηλεκτρονικού εμπορίου.
+              Η κατασκευή eshop με εμάς συνδυάζει την ταχύτητα των στατικών σελίδων με τη δυναμική διαχείριση του ηλεκτρονικού εμπορίου.
             </p>
           </div>
 
@@ -379,7 +379,7 @@ const EshopOfferPageContent = () => {
               Τα <span className="text-primary">Πλεονεκτήματα</span> μας
             </motion.h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Γιατί το δικό μας eshop είναι η καλύτερη επένδυση για την επιχείρησή σας.
+              Γιατί η κατασκευή eshop με την SGK είναι η καλύτερη επένδυση για την επιχείρησή σας.
             </p>
           </div>
 

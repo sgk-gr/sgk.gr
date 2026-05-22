@@ -8,11 +8,11 @@ import EshopOfferPageContent from "@/components/EshopOfferPageContent";
 
 
 export const metadata: Metadata = {
-  title: "Προσφορά Κατασκευής Eshop | SGK Digital",
-  description: "Δημιουργήστε το δικό σας Eshop με την πιο σύγχρονη τεχνολογία (Next.js & Headless WooCommerce) από μόλις 1.999€. Υψηλή ταχύτητα, κορυφαίο SEO και μοναδική εμπειρία χρήστη.",
+  title: "Κατασκευή Eshop | Προσφορά SGK Digital",
+  description: "Επαγγελματική κατασκευή eshop με την πιο σύγχρονη τεχνολογία (Next.js & Headless WooCommerce) από μόλις 1.999€. Υψηλή ταχύτητα, κορυφαίο SEO και μοναδική εμπειρία χρήστη.",
   openGraph: {
-    title: "Προσφορά Κατασκευής Eshop | SGK Digital",
-    description: "Δημιουργήστε ένα Eshop που πουλάει. Next.js & Headless WooCommerce από μόλις 1.999€.",
+    title: "Κατασκευή Eshop | Προσφορά SGK Digital",
+    description: "Επαγγελματική κατασκευή eshop που πουλάει. Next.js & Headless WooCommerce από μόλις 1.999€.",
     url: "https://sgk.gr/eshop-offer",
     siteName: "SGK Digital",
     images: [
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Προσφορά Κατασκευής Eshop | SGK Digital",
-    description: "Δημιουργήστε ένα Eshop που πουλάει. Next.js & Headless WooCommerce από μόλις 1.999€.",
+    title: "Κατασκευή Eshop | Προσφορά SGK Digital",
+    description: "Επαγγελματική κατασκευή eshop που πουλάει. Next.js & Headless WooCommerce από μόλις 1.999€.",
     images: ["https://sgk.gr/social-preview.png"],
   },
 };
