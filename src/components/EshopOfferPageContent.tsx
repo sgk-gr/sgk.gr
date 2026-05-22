@@ -427,6 +427,48 @@ const EshopOfferPageContent = () => {
         </div>
       </section>
 
+      {/* Recent Work Section */}
+      <section id="recent-work" className="py-20 bg-slate-950/20 border-y border-border">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-heading font-bold mb-4">Πρόσφατα Έργα Μας</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Δείτε το τελευταίο eshop που παραδώσαμε, κατασκευασμένο ακριβώς όπως το ονειρεύτηκε η πελάτισσά μας.
+            </p>
+          </div>
+          
+          <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+            <div className="flex-1 w-full relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div className="relative rounded-2xl overflow-hidden border border-border shadow-2xl">
+                <img 
+                  src="/vaia-charms.png" 
+                  alt="Vaia Charms Eshop - Πρόσφατη κατασκευή eshop" 
+                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700" 
+                />
+              </div>
+            </div>
+            
+            <div className="flex-1 w-full">
+              <h3 className="text-2xl font-heading font-bold mb-4">Vaia Charms</h3>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Το <strong>Vaia Charms</strong> είναι μια πρόσφατη κατασκευή eshop από την ομάδα μας. Σχεδιάστηκε με γνώμονα τη λεπτομέρεια, τα χρώματα και το συνολικό design ακριβώς όπως το ονειρευόταν η Βάια. 
+              </p>
+              <p className="text-muted-foreground mb-8 leading-relaxed">
+                Δώσαμε τεράστια βάση στην αστραπιαία ταχύτητα φόρτωσης και τη βελτιστοποίηση SEO, ώστε το κατάστημα όχι μόνο να είναι εντυπωσιακό αισθητικά, αλλά και να φέρνει άμεσα αποτελέσματα.
+              </p>
+              <a 
+                href="https://www.vaiacharms.gr/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground font-semibold rounded-xl transition-all"
+              >
+                Επισκεφθείτε το eshop <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* What's Included */}
       <section id="whats-included" className="py-20">
