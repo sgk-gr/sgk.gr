@@ -65,7 +65,7 @@ const EshopOffer = () => {
                                 ))}
                             </div>
                         </div>
-                        <div className="flex flex-col sm:flex-row gap-4 items-center">
+                        <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
                             <Link
                                 href="/estimate"
                                 className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 bg-primary text-primary-foreground font-heading font-bold rounded-lg hover:scale-105 transition-all glow-border"
@@ -79,6 +79,22 @@ const EshopOffer = () => {
                             >
                                 Δείτε Demo από τα eshop
                             </Link>
+                        </div>
+
+                        {/* Recent Work Banner */}
+                        <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 backdrop-blur-sm">
+                            <div className="flex-1 text-sm text-left">
+                                <span className="font-bold text-primary block mb-1">✨ Η πιο πρόσφατη δουλειά μας!</span>
+                                <span className="text-muted-foreground text-xs leading-relaxed">Δείτε το <strong className="text-foreground">Vaia Charms</strong>, κατασκευασμένο με έμφαση στην ταχύτητα, το SEO και τα χρώματα που ονειρεύτηκε η πελάτισσά μας.</span>
+                            </div>
+                            <a 
+                                href="https://www.vaiacharms.gr/" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="w-full sm:w-auto px-5 py-2.5 bg-background border border-border rounded-lg text-xs font-bold hover:bg-primary/10 transition-colors whitespace-nowrap text-center"
+                            >
+                                Δείτε το Project
+                            </a>
                         </div>
                     </motion.div>
 
