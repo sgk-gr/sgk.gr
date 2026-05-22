@@ -7,6 +7,12 @@ import { useInView } from "framer-motion";
 
 const projects = [
   {
+    title: "Lemon tree 1 Paros",
+    category: "Booking System",
+    description: "Κατασκευή custom ιστοσελίδας και συστήματος κρατήσεων (booking) για ενοικιαζόμενα studios & apartments στην Πάρο (Κυκλάδες).",
+    tags: ["Booking System", "Airbnb", "Paros", "Tourism"],
+  },
+  {
     title: "vaiacharms.gr",
     category: "Exclusive Jewelry Boutique",
     description: "Κατασκευή Headless e-shop νέας γενιάς για exclusive κοσμήματα. Υλοποίηση με custom React frontend για ασύγκριτη ταχύτητα φόρτωσης, με πλήρη διασύνδεση στο WooCommerce backend για τη διαχείριση των παραγγελιών.",
