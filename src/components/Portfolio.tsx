@@ -11,6 +11,7 @@ const projects = [
     category: "Booking System",
     description: "Κατασκευή custom ιστοσελίδας και συστήματος κρατήσεων (booking) για ενοικιαζόμενα studios & apartments στην Πάρο (Κυκλάδες).",
     tags: ["Booking System", "Airbnb", "Paros", "Tourism"],
+    link: "https://lemontree1.gr/",
   },
   {
     title: "vaiacharms.gr",
@@ -103,7 +104,12 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   };
 
   const CardWrapper = project.link ? Link : "div";
-  const wrapperProps = project.link ? { href: project.link } : {};
+  const wrapperProps = project.link 
+    ? { 
+        href: project.link,
+        ...(project.link.startsWith('http') ? { target: "_blank", rel: "noopener noreferrer" } : {})
+      } 
+    : {};
 
   return (
     <motion.div

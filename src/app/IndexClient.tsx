@@ -14,6 +14,7 @@ const Portfolio = dynamic(() => import("@/components/Portfolio"), { ssr: false }
 const TechStack = dynamic(() => import("@/components/TechStack"), { ssr: false });
 const Testimonials = dynamic(() => import("@/components/Testimonials"), { ssr: false });
 const About = dynamic(() => import("@/components/About"), { ssr: false });
+const Team = dynamic(() => import("@/components/Team"), { ssr: false });
 const FAQ = dynamic(() => import("@/components/FAQ"), { ssr: false });
 const CTABanner = dynamic(() => import("@/components/CTABanner"), { ssr: false });
 const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
@@ -37,6 +38,7 @@ export default function IndexClient() {
             <TechStack />
             <Testimonials />
             <About />
+            <Team />
             <FAQ />
             <CTABanner />
             <Footer />
