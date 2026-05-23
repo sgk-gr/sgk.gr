@@ -2,10 +2,11 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { BLOG_POSTS } from "@/data/blog-posts";
 
 const links = [
     {
-        title: "Κύριες Σελίδες",
+        title: "Κύριες Σελίδες & Landing Pages",
         items: [
             { name: "Αρχική", path: "/" },
             { name: "Υπηρεσίες", path: "/#services" },
@@ -14,10 +15,16 @@ const links = [
             { name: "Σχετικά", path: "/#about" },
             { name: "Insights", path: "/#insights" },
             { name: "Επικοινωνία", path: "/#contact" },
+            { name: "Κατασκευή Eshop", path: "/kataskevi-eshop" },
+            { name: "Κατασκευή Eshop WooCommerce", path: "/kataskevi-eshop-woocommerce" },
+            { name: "AI Agents", path: "/ai-agents" },
+            { name: "Web Development", path: "/web-development" },
+            { name: "Κατασκευή Ιστοσελίδων", path: "/kataskevi-istoselidon" },
+            { name: "Φόρμα Εκτίμησης", path: "/estimate" },
         ]
     },
     {
-        title: "Case Studies",
+        title: "Case Studies (Έργα)",
         items: [
             { name: "Sigmalabs AI", path: "/case-study/sigmalabs-ai" },
             { name: "Skinnera", path: "/case-study/skinnera" },
@@ -29,26 +36,25 @@ const links = [
             { name: "Evolis AI", path: "/case-study/evolis-ai" },
             { name: "Super App", path: "/case-study/super-app" },
             { name: "KM-Fiber", path: "/case-study/km-fiber" },
+            { name: "Lemon Tree Paros", path: "/case-study/lemon-tree-paros" },
+            { name: "Vaia Charms", path: "/case-study/vaia-charms" },
         ]
     },
     {
         title: "Προσφορές & Demo",
         items: [
             { name: "Eshop Demo", path: "/eshop-demo" },
-            { name: "Προσφορά Eshop", path: "/#eshop-offer" },
+            { name: "Προσφορά Eshop", path: "/eshop-offer" },
         ]
     },
     {
-        title: "Blog & Insights",
+        title: "Blog & Insights (Άρθρα)",
         items: [
             { name: "Όλα τα άρθρα", path: "/blog" },
-            { name: "Headless eCommerce 2026", path: "/blog/headless-ecommerce-2026-speed" },
-            { name: "Αυτοματοποίηση με AI Agents", path: "/blog/business-automation-ai-agents-2026" },
-            { name: "AI Customer Support", path: "/blog/ai-customer-support-24-7" },
-            { name: "SEO Στρατηγική 2026", path: "/blog/seo-strategy-2026-ai-search" },
-            { name: "Future of Business: AI & Headless", path: "/blog/future-business-agentic-ai-headless" },
-            { name: "Γιατί AI Αυτοματισμοί;", path: "/blog/ai-automations-for-business" },
-            { name: "E-shop Νέας Γενιάς", path: "/blog/next-gen-eshops-speed-sales" },
+            ...BLOG_POSTS.map(post => ({
+                name: post.title,
+                path: `/blog/${post.slug}`
+            }))
         ]
     },
     {
@@ -85,9 +91,9 @@ export default function SitemapClient() {
                                         <li key={link.path}>
                                             <Link
                                                 href={link.path}
-                                                className="text-muted-foreground hover:text-white transition-colors duration-300 flex items-center gap-2 group"
+                                                className="text-muted-foreground hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
                                             >
-                                                <span className="w-1 h-1 bg-white/20 rounded-full group-hover:bg-primary transition-colors"></span>
+                                                <span className="w-1.5 h-1.5 bg-white/20 rounded-full group-hover:bg-primary transition-colors flex-shrink-0"></span>
                                                 {link.name}
                                             </Link>
                                         </li>

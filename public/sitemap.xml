@@ -3,7 +3,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://sgk.gr/</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,41 +11,71 @@
   <!-- SEO Landing Pages -->
   <url>
     <loc>https://sgk.gr/kataskevi-eshop</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://sgk.gr/kataskevi-eshop-woocommerce</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://sgk.gr/ai-agents</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://sgk.gr/web-development</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://sgk.gr/kataskevi-istoselidon</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/eshop-offer</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
   </url>
 
-  <!-- Blog -->
+  <!-- Blog & Articles -->
   <url>
     <loc>https://sgk.gr/blog</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/ai-automations-for-business</loc>
+    <lastmod>2026-02-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/next-gen-eshops-speed-sales</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/agentic-ai-beyond-chatbots</loc>
+    <lastmod>2026-02-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/custom-software-vs-ready-made</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://sgk.gr/blog/poso-kostizei-kataskevi-eshop-2025</loc>
@@ -66,28 +96,70 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://sgk.gr/blog/ai-automations-for-business</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://sgk.gr/blog/headless-ecommerce-2026-speed</loc>
+    <lastmod>2026-05-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://sgk.gr/blog/next-gen-eshops-speed-sales</loc>
-    <lastmod>2026-02-20</lastmod>
+    <loc>https://sgk.gr/blog/business-automation-ai-agents-2026</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://sgk.gr/blog/agentic-ai-beyond-chatbots</loc>
-    <lastmod>2026-02-18</lastmod>
+    <loc>https://sgk.gr/blog/ai-customer-support-24-7</loc>
+    <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://sgk.gr/blog/custom-software-vs-ready-made</loc>
-    <lastmod>2026-02-15</lastmod>
+    <loc>https://sgk.gr/blog/seo-strategy-2026-ai-search</loc>
+    <lastmod>2026-05-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/future-business-agentic-ai-headless</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/kataskevi-eshop-2026-taseis-poliseis</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/headless-eshop-vs-paradosiaka-eshops-2026</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/mobile-commerce-2026-responsive-eshop</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/ai-agents-2026-ensomatosi-epicheiriseis</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/ai-sales-agents-2026</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/mellon-exypiretisis-pelaton-ai-agents-2026</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
 
   <!-- Eshop Demo -->
@@ -95,7 +167,7 @@
     <loc>https://sgk.gr/eshop-demo</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.80</priority>
   </url>
 
   <!-- Case Studies -->
@@ -103,61 +175,73 @@
     <loc>https://sgk.gr/case-study/km-fiber</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/sigmalabs-ai</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/skinnera</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/harmony-apartments</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/yolo8</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/energy-solutions</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/rekrua</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/live-tour-guide</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/evolis-ai</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
   </url>
   <url>
     <loc>https://sgk.gr/case-study/super-app</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/case-study/lemon-tree-paros</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/case-study/vaia-charms</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
   </url>
 
   <!-- Estimate -->
@@ -165,7 +249,7 @@
     <loc>https://sgk.gr/estimate</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.90</priority>
   </url>
 
   <!-- Legal -->
@@ -173,12 +257,12 @@
     <loc>https://sgk.gr/privacy</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.30</priority>
   </url>
   <url>
     <loc>https://sgk.gr/terms</loc>
     <lastmod>2026-02-22</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.30</priority>
   </url>
 </urlset>
