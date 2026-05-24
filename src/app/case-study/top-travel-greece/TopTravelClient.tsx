@@ -495,15 +495,15 @@ export default function TopTravelClient() {
                             </div>
                         </div>
                         <div className="p-6 rounded-2xl bg-card border border-border space-y-4 text-center">
-                            <h4 className="text-sm font-bold text-foreground">Χρειάζεστε εξατομικευμένη προσφορά;</h4>
+                            <h4 className="text-sm font-bold text-foreground">Θέλετε ένα αντίστοιχο σύστημα;</h4>
                             <p className="text-xs text-muted-foreground leading-normal">
-                                Είμαστε στη διάθεσή σας 24/7 για να σχεδιάσουμε την τέλεια εκδρομή για εσάς, την οικογένειά σας ή το γκρουπ σας.
+                                Αναβαθμίστε την ταξιδιωτική ή τουριστική σας επιχείρηση με μια custom πλατφόρμα εκδρομών και Vibe Quiz.
                             </p>
                             <Link
                                 href="/estimate"
                                 className="w-full inline-flex items-center justify-center py-3 bg-primary text-primary-foreground font-heading font-bold text-xs rounded-md hover:opacity-90 transition-opacity"
                             >
-                                Ζητήστε Δωρεάν Πλάνο
+                                Ζητήστε Προσφορά
                             </Link>
                         </div>
                     </div>
