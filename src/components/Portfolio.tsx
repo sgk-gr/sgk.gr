@@ -12,6 +12,7 @@ const projects = [
     description: "Κατασκευή custom ιστοσελίδας και συστήματος κρατήσεων (booking) για ενοικιαζόμενα studios & apartments στην Πάρο (Κυκλάδες).",
     tags: ["Booking System", "Airbnb", "Paros", "Tourism"],
     link: "/case-study/lemon-tree-paros",
+    websiteLink: "https://lemontree1.gr/",
   },
   {
     title: "vaiacharms.gr",
@@ -19,6 +20,7 @@ const projects = [
     description: "Κατασκευή Headless e-shop νέας γενιάς για exclusive κοσμήματα. Υλοποίηση με custom React frontend για ασύγκριτη ταχύτητα φόρτωσης, με πλήρη διασύνδεση στο WooCommerce backend για τη διαχείριση των παραγγελιών.",
     tags: ["React Frontend", "WooCommerce", "Headless E-commerce"],
     link: "/case-study/vaia-charms",
+    websiteLink: "https://www.vaiacharms.gr/",
   },
   {
     title: "diador.eu",
@@ -26,6 +28,7 @@ const projects = [
     description: "Κατασκευή Headless e-shop νέας γενιάς για ρούχα εργασίας και διαφημιστικά είδη. Υλοποίηση με custom React frontend για μέγιστη ταχύτητα φόρτωσης, με πλήρη διασύνδεση στο WooCommerce API για τη διαχείριση των παραγγελιών.",
     tags: ["React Frontend", "WooCommerce", "Headless E-commerce"],
     link: "/case-study/diador",
+    websiteLink: "https://diador.eu/",
   },
   {
     title: "toptravelgreece.com",
@@ -33,6 +36,7 @@ const projects = [
     description: "Σύγχρονη πλατφόρμα κρατήσεων και παρουσίασης private/shared εκδρομών και υπηρεσιών ενοικίασης αυτοκινήτων για το κορυφαίο ταξιδιωτικό γραφείο Top Travel Greece στα Χανιά της Κρήτης. Υλοποίηση με διαδραστικό Vibe Quiz.",
     tags: ["React", "Tailwind CSS", "Booking System", "Car Rental", "Crete Tourism"],
     link: "/case-study/top-travel-greece",
+    websiteLink: "https://toptravelgreece.com/",
   },
   {
     title: "KM-FIBER",
@@ -47,6 +51,7 @@ const projects = [
     description: "Το πρώτο παγκοσμίως Agentic AI για e-commerce που ελέγχει και εκτελεί εργασίες σε WooCommerce και Shopify.",
     tags: ["Agentic AI", "WooCommerce", "Shopify", "React", "OpenAI", "Stripe"],
     link: "/case-study/sigmalabs-ai",
+    websiteLink: "https://sigmalabs.gr/",
   },
   {
     title: "Skinnera IKE",
@@ -54,6 +59,7 @@ const projects = [
     description: "Πλατφόρμα διαχείρισης συνεργατών με σύστημα επιβράβευσης, real-time notifications και mobile app για tracking αιτήσεων ΕΣΠΑ/ΔΥΠΑ.",
     tags: ["Flutter", "Firebase", "Android", "OneSignal", "ΕΣΠΑ"],
     link: "/case-study/skinnera",
+    websiteLink: "https://www.skinneradev.gr/",
   },
   {
     title: "Harmony Apartments",
@@ -68,6 +74,7 @@ const projects = [
     description: "Smart booking system με AI customer support για ενοικιάσεις αυτοκινήτων, Stripe πληρωμές και VPS hosting.",
     tags: ["React", "AI Agent", "Booking System", "Stripe", "PostgreSQL"],
     link: "/case-study/yolo8",
+    websiteLink: "https://yolo8.eu/",
   },
   {
     title: "Glavinas Energy Solutions",
@@ -75,6 +82,7 @@ const projects = [
     description: "Γρήγορο landing page με SEO και Google Business για ενεργειακές λύσεις, με focus στο local lead generation.",
     tags: ["React", "SEO", "Google Business Profile", "VPS", "Tailwind CSS"],
     link: "/case-study/energy-solutions",
+    websiteLink: "https://www.glavinasnikos.online/",
   },
   {
     title: "Rekrua",
@@ -82,6 +90,7 @@ const projects = [
     description: "AI HR πλατφόρμα με candidate rating system για έξυπνο hiring, intelligent screening και GPT-5 integration.",
     tags: ["React", "Supabase", "AI", "GPT-5.2 Mini", "PostgreSQL"],
     link: "/case-study/rekrua",
+    websiteLink: "https://rekrua.com/",
   },
   {
     title: "Live Tour Guide (LTG)",
@@ -103,6 +112,14 @@ const projects = [
     description: "Mobile app με προσφορές από γνωστές αλυσίδες σούπερ μάρκετ (Μασούτης, Σκλαβενίτης κ.α.) με smart notifications.",
     tags: ["Flutter", "Firebase", "NoSQL", "Notifications", "Video Player"],
     link: "/case-study/super-app",
+  },
+  {
+    title: "ΚΑΒΕ Α.Ε. Καστανίδης",
+    category: "WooCommerce E-shop",
+    description: "Κατασκευή καθαρού WordPress & WooCommerce e-shop για την κορυφαία εταιρεία εμπορίας ειδών υγιεινής, πλακιδίων, laminate και θέρμανσης.",
+    tags: ["WordPress", "WooCommerce", "E-shop", "Custom Theme"],
+    link: "/case-study/kastanidis",
+    websiteLink: "https://www.kastanidis.com/",
   },
 ];
 
@@ -169,7 +186,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
         <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1 relative z-20">
           {project.description}
         </p>
-        <div className="flex flex-wrap gap-2 relative z-20">
+        <div className="flex flex-wrap gap-2 relative z-20 mb-5">
           {project.tags.map((tag: string) => (
             <span
               key={tag}
@@ -178,6 +195,24 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
               {tag}
             </span>
           ))}
+        </div>
+
+        <div className="flex justify-between items-center mt-auto pt-4 border-t border-border/50 relative z-20">
+          <span className="text-xs text-primary font-semibold flex items-center gap-1 group-hover:text-primary transition-colors">
+            Δείτε το Case Study →
+          </span>
+          {project.websiteLink && (
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                window.open(project.websiteLink, '_blank', 'noopener,noreferrer');
+              }}
+              className="text-xs text-muted-foreground hover:text-foreground font-medium transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              Επίσκεψη στο site ↗
+            </span>
+          )}
         </div>
       </CardWrapper>
     </motion.div>

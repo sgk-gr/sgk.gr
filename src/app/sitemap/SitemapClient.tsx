@@ -40,6 +40,7 @@ const links = [
             { name: "Vaia Charms", path: "/case-study/vaia-charms" },
             { name: "Diador.eu", path: "/case-study/diador" },
             { name: "Top Travel Greece", path: "/case-study/top-travel-greece" },
+            { name: "ΚΑΒΕ Α.Ε. Καστανίδης", path: "/case-study/kastanidis" },
         ]
     },
     {
