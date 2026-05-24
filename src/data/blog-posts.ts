@@ -686,6 +686,87 @@ export const BLOG_POSTS: BlogPost[] = [
       
       <p>Στην <strong>SGK Digital</strong> διαθέτουμε την τεχνογνωσία για να ενσωματώσουμε υπερσύγχρονους AI Agents στην εξυπηρέτηση πελατών σας, τοποθετώντας την επιχείρησή σας στην κορυφή για το 2026.</p>
     `
+  },
+  {
+    id: "19",
+    slug: "pos-aytopatoiome-epicheiriseis-me-ai",
+    title: "Πώς Αυτοματοποιούμε Επιχειρήσεις με AI: Η Δική μας Μεθοδολογία και οι Λύσεις που Υλοποιούμε",
+    excerpt: "Μάθετε τη μεθοδολογία της SGK Digital για την κατασκευή custom AI agents που αυτοματοποιούν πλήρως τις επιχειρηματικές διαδικασίες, από το ERP στα logistics.",
+    date: "24 Μαΐου 2026",
+    author: "sgk.gr",
+    category: "AI & Automation",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1200",
+    metaTitle: "Πώς Αυτοματοποιούμε Επιχειρήσεις με AI | SGK Digital",
+    metaDescription: "Η μεθοδολογία της SGK Digital για την ανάπτυξη AI Agents που αυτοματοποιούν τις καθημερινές λειτουργίες των επιχειρήσεων. Δείτε πώς δουλεύει.",
+    content: `
+      <h2>Από τη Θεωρία της Τεχνητής Νοημοσύνης στην Πράξη</h2>
+      <p>Η <strong>αυτοματοποίηση επιχειρήσεων με AI Agents</strong> είναι πλέον το κλειδί για να απαλλαγείτε από χειροκίνητες και βαρετές εργασίες. Στην SGK Digital, δεν φτιάχνουμε απλά chatbots — δημιουργούμε αυτόνομους AI πράκτορες που εκτελούν tasks απευθείας στα συστήματά σας.</p>
+      
+      <h3>Η Δική μας Μεθοδολογία Ανάπτυξης</h3>
+      <p>Κάθε έργο AI ακολουθεί μια δομημένη πορεία για να εξασφαλιστεί 100% ασφάλεια και απόδοση:</p>
+      <ul>
+        <li><strong>Ανάλυση Διαδικασιών (Mapping)</strong>: Χαρτογραφούμε τις καθημερινές εργασίες που καταναλώνουν χρόνο στην ομάδα σας (π.χ. τιμολόγηση, emails, updating συστημάτων).</li>
+        <li><strong>Εκπαίδευση με Δικά σας Δεδομένα</strong>: Ο agent δεν μαντεύει. Του δίνουμε πρόσβαση στα PDFs, στις βάσεις δεδομένων ή στο knowledge base σας, ώστε να γνωρίζει ακριβώς τι πρέπει να κάνει.</li>
+        <li><strong>Διασύνδεση με APIs & ERP</strong>: Συνδέουμε τον agent με SoftOne, Epsilon Net, Shopify, WooCommerce ή οποιοδήποτε άλλο σύστημα χρησιμοποιείτε.</li>
+      </ul>
+      
+      <h3>Πραγματικές Λύσεις που Υλοποιούμε</h3>
+      <p>Μερικές από τις πιο επιτυχημένες custom υλοποιήσεις μας περιλαμβάνουν AI Agents για αυτόματη απάντηση emails, data entry σε λογιστικά συστήματα, αυτόματη δημιουργία voucher και analytics data analysis σε φυσική γλώσσα.</p>
+    `
+  },
+  {
+    id: "20",
+    slug: "lemon-tree-paros-booking-case-study",
+    title: "Case Study: Lemon Tree 1 Paros – Κατασκευή Custom Συστήματος Κρατήσεων χωρίς Προμήθειες",
+    excerpt: "Δείτε πώς η Lemon Tree 1 Paros απέκτησε μια πανέμορφη custom ιστοσελίδα και αυτόνομο booking engine, κλείνοντας κρατήσεις απευθείας και γλυτώνοντας χιλιάδες ευρώ από προμήθειες.",
+    date: "24 Μαΐου 2026",
+    author: "sgk.gr",
+    category: "eCommerce",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200",
+    metaTitle: "Lemon Tree 1 Paros Case Study | Κατασκευή Booking System",
+    metaDescription: "Πώς σχεδιάσαμε και αναπτύξαμε την ιστοσελίδα και το custom σύστημα κρατήσεων για τα studios της Lemon Tree 1 στην Πάρο. Απευθείας κρατήσεις χωρίς προμήθειες.",
+    content: `
+      <h2>Αυτονομία από τις Μεγάλες Πλατφόρμες Κρατήσεων</h2>
+      <p>Για τα τουριστικά καταλύματα στην Ελλάδα, οι προμήθειες των OTAs (Booking, Airbnb κλπ.) αποτελούν ένα τεράστιο έξοδο. Το <strong>Lemon Tree 1 Paros</strong> αποφάσισε να αλλάξει τα δεδομένα, επενδύοντας σε μια **custom, γρήγορη ιστοσελίδα και αυτόνομο booking engine**.</p>
+      
+      <h3>Το Ζητούμενο & Η Πρόκληση</h3>
+      <p>Το brand χρειαζόταν μια premium ψηφιακή παρουσία που να αποπνέει την αύρα των Κυκλάδων, με ένα απλό και γρήγορο σύστημα κρατήσεων. Ο στόχος ήταν να αυξηθούν οι απευθείας κρατήσεις (direct bookings) και να προσφερθεί μια τέλεια mobile εμπειρία.</p>
+      
+      <h3>Η Λύση της SGK Digital</h3>
+      <p>Σχεδιάσαμε μια custom React ιστοσελίδα από το μηδέν και αναπτύξαμε ένα **Property & Booking Management System** που επιτρέπει:</p>
+      <ul>
+        <li><strong>Real-time διαθεσιμότητα</strong> και τιμές ανάλογα με την εποχικότητα.</li>
+        <li><strong>Μηδενικές προμήθειες</strong> σε τρίτους για τις κρατήσεις που γίνονται από το site.</li>
+        <li><strong>Ακαριαία ταχύτητα φόρτωσης</strong> (Google PageSpeed 98/100) για μέγιστο SEO.</li>
+      </ul>
+      <p>Το αποτέλεσμα ήταν η άμεση αύξηση των direct κρατήσεων από τον πρώτο κιόλας μήνα λειτουργίας της πλατφόρμας!</p>
+    `
+  },
+  {
+    id: "21",
+    slug: "vaiacharms-headless-ecommerce-case-study",
+    title: "Case Study: vaiacharms.gr – Η Κατασκευή ενός Premium Headless E-shop",
+    excerpt: "Ανακαλύψτε πώς το vaiacharms.gr άλλαξε τα δεδομένα στο e-commerce κοσμημάτων με React frontend, WooCommerce backend και ταχύτητες sub-1s.",
+    date: "24 Μαΐου 2026",
+    author: "sgk.gr",
+    category: "eCommerce",
+    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1200",
+    metaTitle: "vaiacharms.gr Case Study | Κατασκευή Headless E-shop | SGK",
+    metaDescription: "Πώς η SGK Digital σχεδίασε και υλοποίησε το premium eshop vaiacharms.gr με headless React αρχιτεκτονική και WooCommerce backend για απίστευτες ταχύτητες φόρτωσης.",
+    content: `
+      <h2>Premium Κοσμήματα με Premium eCommerce Τεχνολογία</h2>
+      <p>Το <strong>vaiacharms.gr</strong> αποτελεί ένα exclusive brand κοσμημάτων με έμφαση στη λεπτομέρεια και την αισθητική. Η ανάγκη τους ήταν ξεκάθαρη: ένα eshop που να αποπνέει πολυτέλεια, να φορτώνει ακαριαία και να προσφέρει μια app-like εμπειρία χρήστη.</p>
+      
+      <h3>Η Headless Αρχιτεκτονική</h3>
+      <p>Για να πετύχουμε κορυφαία ταχύτητα και απόλυτη σχεδιαστική ελευθερία, επιλέξαμε τη **Headless αρχιτεκτονική**:
+      <ul>
+        <li><strong>Frontend (React / Next.js)</strong>: Μια πανέμορφη, ακαριαία βιτρίνα που «πετάει» στο κινητό και στο desktop (sub-1s load times).</li>
+        <li><strong>Backend (WooCommerce API)</strong>: Ένα σταθερό και οικείο περιβάλλον για τη διαχείριση παραγγελιών, αποθεμάτων και προϊόντων από την ομάδα της Vaia Charms.</li>
+      </ul>
+      
+      <h3>Μετρήσιμα Αποτελέσματα</h3>
+      <p>Χάρη στην αφαίρεση περιττού κώδικα και στη χρήση edge technologies, το eshop πέτυχε Google PageSpeed 98/100 και **+45% αύξηση στο conversion rate**, αποδεικνύοντας ότι η ταχύτητα είναι η καλύτερη επένδυση για τις πωλήσεις!</p>
+    `
   }
 ];
 

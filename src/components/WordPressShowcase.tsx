@@ -37,9 +37,9 @@ const WordPressShowcase = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
+            <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4">
               WordPress eShops
-            </span>
+            </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-[1.05] mb-6">
               eShops νέας γενιάς
               <br />

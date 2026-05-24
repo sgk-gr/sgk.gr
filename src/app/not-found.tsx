@@ -17,9 +17,9 @@ export default function NotFound() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
+                        <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4">
                             404 Error
-                        </span>
+                        </p>
                         <h1 className="text-6xl md:text-8xl font-heading font-bold mb-6">
                             Oops!
                         </h1>

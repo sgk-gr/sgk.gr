@@ -46,9 +46,9 @@ const AIAgentsShowcase = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16 max-w-3xl mx-auto"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
+          <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4">
             AI Agentic Systems
-          </span>
+          </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-[1.05] mb-6">
             AI Agents που
             <br />

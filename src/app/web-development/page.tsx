@@ -130,9 +130,9 @@ export default function WebDevelopmentPage() {
                     {/* Hero */}
                     <section className="container mx-auto px-6 py-16 md:py-24">
                         <div className="max-w-4xl">
-                            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold tracking-wider uppercase mb-6">
+                            <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4">
                                 18 Χρόνια Εμπειρία • Αθήνα, Ελλάδα
-                            </span>
+                            </p>
                             <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
                                 Web Development<br />
                                 <span className="text-gradient">Ελλάδα</span>

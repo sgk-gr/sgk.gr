@@ -252,7 +252,7 @@ export default function LTGClient() {
                                             <p className="text-[9px] text-primary uppercase font-bold tracking-wider">VIP Tour Active</p>
                                             <h3 className="text-xs font-heading font-bold">Athens VIP Sightseeing</h3>
                                         </div>
-                                        <span className="px-2 py-0.5 text-[8px] bg-primary/10 text-primary border border-primary/20 rounded-full font-semibold">
+                                        <span className="px-2 py-0.5 text-[8px] bg-emerald-500/10 text-emerald-500 border border-emerald-500/25 rounded-full font-semibold">
                                             Live
                                         </span>
                                     </div>
@@ -311,7 +311,7 @@ export default function LTGClient() {
                                     {/* Premium Driver Profile card */}
                                     <div className="mt-3 bg-[#18181b] border border-border/40 p-2.5 rounded-2xl flex items-center justify-between shadow-xl">
                                         <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+                                            <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-300">
                                                 G
                                             </div>
                                             <div>
@@ -406,9 +406,9 @@ export default function LTGClient() {
                             className="p-8 rounded-2xl bg-card border border-primary/20 flex flex-col justify-between shadow-[0_0_30px_rgba(34,197,94,0.02)]"
                         >
                             <div>
-                                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-heading font-semibold tracking-wider uppercase mb-5">
+                                <p className="text-primary font-heading text-[10px] tracking-[0.2em] uppercase mb-4">
                                     Τι Υλοποιήσαμε
-                                </span>
+                                </p>
                                 <h3 className="text-2xl font-heading font-bold mb-4 text-foreground flex items-center gap-2">
                                     Η High-End Λύση μας
                                 </h3>
@@ -437,10 +437,10 @@ export default function LTGClient() {
             <section id="simulator" className="py-20 bg-secondary/30 border-y border-border">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="text-center mb-12 max-w-2xl mx-auto">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-4">
+                        <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4 flex items-center justify-center gap-2">
                             <Navigation className="w-3.5 h-3.5 animate-spin-slow" />
                             Live Telemetry Showcase
-                        </span>
+                        </p>
                         <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-foreground">
                             Διαδραστικός Προσομοιωτής GPS
                         </h2>
@@ -633,10 +633,10 @@ export default function LTGClient() {
             <section className="py-24">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="text-center mb-16 max-w-2xl mx-auto">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-4">
+                        <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4 flex items-center justify-center gap-2">
                             <Award className="w-3.5 h-3.5" />
                             Premium Architecture
-                        </span>
+                        </p>
                         <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-foreground">
                             Λειτουργίες Υψηλού Επιπέδου
                         </h2>
@@ -675,10 +675,10 @@ export default function LTGClient() {
             <section id="calculator" className="py-20 bg-secondary/20 border-t border-border">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="text-center mb-16 max-w-2xl mx-auto">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-4">
+                        <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4 flex items-center justify-center gap-2">
                             <DollarSign className="w-3.5 h-3.5" />
                             Cost &amp; Estimation Tool
-                        </span>
+                        </p>
                         <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-foreground">
                             Υπολογίστε το δικό σας Flutter App
                         </h2>
