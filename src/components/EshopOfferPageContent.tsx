@@ -352,9 +352,6 @@ const EshopOfferPageContent = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="p-8 bg-card border border-border rounded-2xl group hover:border-primary/50 transition-colors"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                  <feature.icon className="w-6 h-6" />
-                </div>
                 <h4 className="text-xl font-heading font-bold mb-3">{feature.title}</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {feature.description}
@@ -414,9 +411,6 @@ const EshopOfferPageContent = () => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="relative group p-8 rounded-3xl border border-border bg-card/30 hover:bg-card/50 transition-all duration-300"
               >
-                <div className="mb-6 w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
-                  <adv.icon className="w-7 h-7" />
-                </div>
                 <h3 className="text-xl font-heading font-bold mb-3">{adv.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {adv.description}

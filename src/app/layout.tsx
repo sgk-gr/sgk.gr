@@ -158,6 +158,11 @@ export default function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
                 />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `document.addEventListener('contextmenu', e => e.preventDefault());`
+                    }}
+                />
                 <TooltipProvider>
                     <AnalyticsTracker />
                     <Toaster />
