@@ -35,10 +35,6 @@ export default function SuperAppClient() {
             <section className="pt-32 pb-20">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="max-w-4xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            Case Study
-                        </span>
                         <p className="text-primary font-heading text-sm tracking-[0.3em] uppercase mb-3">
                             Consumer Mobile App
                         </p>
@@ -145,7 +141,6 @@ export default function SuperAppClient() {
                             className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
                         >
                             Θέλω μια τέτοια εφαρμογή
-                            <Sparkles className="w-4 h-4" />
                         </Link>
                     </motion.div>
                 </div>

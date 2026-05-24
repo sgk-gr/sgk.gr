@@ -36,10 +36,6 @@ const SkinneraClient = () => {
             <section className="pt-32 pb-20">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="max-w-4xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            Case Study
-                        </span>
                         <p className="text-primary font-heading text-sm tracking-[0.3em] uppercase mb-3">
                             Business Services
                         </p>
@@ -171,9 +167,7 @@ const SkinneraClient = () => {
                                 transition={{ duration: 0.4, delay: i * 0.08 }}
                                 className="p-7 rounded-xl bg-card border border-border hover:border-primary/30 transition-all group"
                             >
-                                <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
-                                    <feature.icon className="w-5 h-5 text-primary" />
-                                </div>
+
                                 <h3 className="font-heading font-semibold mb-2 text-white">{feature.title}</h3>
                                 <p className="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
                             </motion.div>

@@ -125,10 +125,6 @@ const SigmalabsClient = () => {
             <section className="pt-32 pb-20">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="max-w-4xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            Case Study
-                        </span>
                         <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold leading-[1.05] mb-6">
                             Sigmalabs AI
                         </h1>
@@ -214,10 +210,6 @@ const SigmalabsClient = () => {
             <section className="py-20 bg-secondary/30">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="text-center mb-16 max-w-3xl mx-auto">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-                            <Bot className="w-3.5 h-3.5" />
-                            Κύρια Λειτουργία
-                        </span>
                         <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4">
                             AI Chat Assistant
                         </h2>

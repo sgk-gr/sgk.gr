@@ -21,6 +21,20 @@ const projects = [
     link: "/case-study/vaia-charms",
   },
   {
+    title: "diador.eu",
+    category: "Headless E-commerce",
+    description: "Κατασκευή Headless e-shop νέας γενιάς για ρούχα εργασίας και διαφημιστικά είδη. Υλοποίηση με custom React frontend για μέγιστη ταχύτητα φόρτωσης, με πλήρη διασύνδεση στο WooCommerce API για τη διαχείριση των παραγγελιών.",
+    tags: ["React Frontend", "WooCommerce", "Headless E-commerce"],
+    link: "/case-study/diador",
+  },
+  {
+    title: "toptravelgreece.com",
+    category: "Travel & Booking Platform",
+    description: "Σύγχρονη πλατφόρμα κρατήσεων και παρουσίασης private/shared εκδρομών και υπηρεσιών ενοικίασης αυτοκινήτων για το κορυφαίο ταξιδιωτικό γραφείο Top Travel Greece στα Χανιά της Κρήτης. Υλοποίηση με διαδραστικό Vibe Quiz.",
+    tags: ["React", "Tailwind CSS", "Booking System", "Car Rental", "Crete Tourism"],
+    link: "/case-study/top-travel-greece",
+  },
+  {
     title: "KM-FIBER",
     category: "Telecom Operations Platform",
     description: "Ολοκληρωμένο σύστημα διαχείρισης οπτικών ινών για συνεργάτη της Cosmote. Καταχώρηση πελατών Cosmote/Vodafone, οργάνωση συνεργείων με live tracking, real-time σύστημα βλαβών, AI αναγνώριση φωτογραφιών αυτοψιών και live κλείσιμο συνδέσεων.",
@@ -104,11 +118,11 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   };
 
   const CardWrapper = project.link ? Link : "div";
-  const wrapperProps = project.link 
-    ? { 
-        href: project.link,
-        ...(project.link.startsWith('http') ? { target: "_blank", rel: "noopener noreferrer" } : {})
-      } 
+  const wrapperProps = project.link
+    ? {
+      href: project.link,
+      ...(project.link.startsWith('http') ? { target: "_blank", rel: "noopener noreferrer" } : {})
+    }
     : {};
 
   return (
@@ -134,6 +148,17 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, hsl(var(--primary) / 0.15), transparent 80%)`,
           }}
         />
+
+        {project.image && (
+          <div className="relative w-full h-48 mb-5 overflow-hidden rounded-md border border-border/80 group-hover:border-primary/40 transition-colors z-20">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-card/40 to-transparent pointer-events-none" />
+          </div>
+        )}
 
         <span className="text-xs font-heading font-medium text-primary uppercase tracking-wider mb-3 relative z-20">
           {project.category}

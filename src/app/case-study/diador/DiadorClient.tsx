@@ -1,53 +1,52 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, MapPin, Users, Wrench, Camera, Wifi, AlertTriangle, CheckCircle2, BarChart3, Clock, Shield, Zap, Eye } from "lucide-react";
+import { ArrowLeft, Sparkles, Shirt, Printer, Zap, Search, ShieldCheck, CheckCircle2, ShoppingBag, Truck, CreditCard } from "lucide-react";
 import Link from "next/link";
 
 const techStack = [
-    "React", "Supabase", "PostgreSQL", "Google Maps API", "AI Vision",
-    "Real-time Subscriptions", "Edge Functions", "Leaflet.js",
-    "Resend API", "TailwindCSS", "TypeScript", "VPS Hosting",
+    "React", "WooCommerce", "Next.js", "TailwindCSS", "REST API",
+    "Framer Motion", "TypeScript", "Vercel", "Stripe API", "GraphQL"
 ];
 
 const systemModules = [
     {
-        icon: Users,
-        title: "Διαχείριση Πελατών",
-        description: "Καταχώρηση και διαχείριση πελατών Cosmote, Vodafone και λοιπών παρόχων με πλήρες ιστορικό συνδέσεων.",
+        icon: Shirt,
+        title: "Workwear Customization",
+        description: "Premium UI/UX σχεδιασμένο για να αναδεικνύει την εταιρική ταυτότητα μέσω ρούχων εργασίας, στολών και ειδικής ένδυσης.",
     },
     {
-        icon: Wrench,
-        title: "Οργάνωση Συνεργείων",
-        description: "Real-time ανάθεση εργασιών σε συνεργεία, live tracking θέσης και πρόοδος εργασιών ανά ομάδα.",
+        icon: Printer,
+        title: "Promotional Printing Engine",
+        description: "Διασύνδεση με custom παραμετροποιητή για επιλογή μεθόδων εκτύπωσης (κέντημα, μεταξοτυπία, ψηφιακή εκτύπωση) απευθείας στο eshop.",
     },
     {
-        icon: MapPin,
-        title: "Live Χάρτης Συνδέσεων",
-        description: "Google Maps integration με markers για κάθε σύνδεση, φίλτρα ανά περιοχή, status και πάροχο.",
+        icon: Zap,
+        title: "Headless Architecture",
+        description: "Διαχωρισμός frontend (React) από το backend (WooCommerce) για απίστευτες ταχύτητες φόρτωσης (Core Web Vitals 95+).",
     },
     {
-        icon: AlertTriangle,
-        title: "Σύστημα Βλαβών",
-        description: "Real-time αναφορές βλαβών με push notifications, ανάθεση σε τεχνικούς και live status tracking.",
+        icon: Search,
+        title: "Advanced B2B Filtering",
+        description: "Άμεση εύρεση και φιλτράρισμα ανά κατηγορία επαγγέλματος, μέγεθος, χρώμα και υλικό χωρίς reload σελίδας.",
     },
     {
-        icon: Camera,
-        title: "AI Αυτοψίες",
-        description: "Σύστημα φωτογραφικών αυτοψιών με AI αναγνώριση εικόνας για αυτόματη ταξινόμηση και επαλήθευση εργασιών.",
+        icon: CreditCard,
+        title: "B2B & B2C Billing",
+        description: "Ασφαλές checkout με αυτόματο υπολογισμό τιμολογίου, B2B εκπτώσεων βάσει ποσότητας και υποστήριξη όλων των σύγχρονων πληρωμών.",
     },
     {
-        icon: Wifi,
-        title: "Κλείσιμο Συνδέσεων",
-        description: "Live σύστημα κλεισίματος συνδέσεων οπτικών ινών με real-time ενημέρωση status και ειδοποιήσεις.",
+        icon: Truck,
+        title: "Courier & Logistics Integration",
+        description: "Αυτόματη δημιουργία voucher και υποστήριξη ογκωδών/πολλαπλών αποστολών απευθείας από το διαχειριστικό του WooCommerce.",
     },
 ];
 
 const results = [
-    { icon: Clock, value: "80%", label: "Μείωση χρόνου καταχώρησης" },
-    { icon: CheckCircle2, value: "Real-time", label: "Live δεδομένα συνεργείων" },
-    { icon: Eye, value: "AI", label: "Αυτόματη αναγνώριση αυτοψιών" },
-    { icon: Shield, value: "100%", label: "Ακρίβεια data" },
+    { icon: Zap, value: "99/100", label: "Google PageSpeed" },
+    { icon: CheckCircle2, value: "< 0.8s", label: "Χρόνος φόρτωσης" },
+    { icon: ShoppingBag, value: "+52%", label: "Αύξηση Conversion" },
+    { icon: Shirt, value: "100%", label: "Custom B2B Catalog" },
 ];
 
 const fadeUp = {
@@ -57,7 +56,7 @@ const fadeUp = {
     transition: { duration: 0.5 },
 };
 
-const KMFiberClient = () => {
+export default function DiadorClient() {
     return (
         <div className="min-h-screen bg-background font-sans">
             {/* Navigation */}
@@ -78,17 +77,17 @@ const KMFiberClient = () => {
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="max-w-4xl">
                         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold leading-[1.05] mb-6">
-                            KM-FIBER
+                            diador.eu
                         </h1>
                         <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-3xl mb-4">
-                            Ολοκληρωμένο σύστημα διαχείρισης <span className="text-foreground font-medium">οπτικών ινών</span> για συνεργάτη της Cosmote.
-                            Καταχώρηση πελατών, οργάνωση συνεργείων, real-time βλάβες και AI αυτοψίες.
+                            «Premium επαγγελματική ένδυση και διαφήμιση με κορυφαία ταχύτητα.»<br />
+                            Κατασκευή <span className="text-foreground font-medium">Headless e-shop νέας γενιάς</span> με React και WooCommerce.
                         </p>
                         <p className="text-sm text-muted-foreground mb-8 text-white">
-                            Telecom Operations Platform — Cosmote / Vodafone Partner
+                            Work Clothes & Advertising Solutions — E-Commerce
                         </p>
                         <div className="flex flex-wrap gap-2">
-                            {["React", "Supabase", "PostgreSQL", "Google Maps API", "AI Vision", "Real-time"].map(
+                            {["React Frontend", "WooCommerce", "Headless E-commerce"].map(
                                 (tag) => (
                                     <span
                                         key={tag}
@@ -115,9 +114,7 @@ const KMFiberClient = () => {
                                 Πρόβλημα
                             </h2>
                             <p className="text-muted-foreground leading-relaxed">
-                                Η εταιρεία KM-FIBER, συνεργάτης της Cosmote στον τομέα οπτικών ινών, διαχειριζόταν
-                                τους πελάτες, τα συνεργεία και τις βλάβες με χειροκίνητα εργαλεία (Excel, τηλέφωνα, χαρτιά).
-                                Αυτό δημιουργούσε λάθη, καθυστερήσεις και αδυναμία real-time ελέγχου στο πεδίο.
+                                Το Diador.eu, ως ηγετική εταιρεία σε ρούχα εργασίας και διαφημιστικά προϊόντα, χρειαζόταν μια σύγχρονη B2B/B2C πλατφόρμα. Τα κλασικά e-shop δυσκολεύονταν να διαχειριστούν τις πολλαπλές παραμετροποιήσεις (λογότυπα, κεντήματα, μεγέθη, χρώματα) και τις κλιμακωτές τιμές χονδρικής, ενώ εμφάνιζαν μεγάλες καθυστερήσεις στη φόρτωση χιλιάδων κωδικών.
                             </p>
                         </motion.div>
 
@@ -129,9 +126,7 @@ const KMFiberClient = () => {
                                 Λύση
                             </h2>
                             <p className="text-muted-foreground leading-relaxed">
-                                Χτίσαμε μια ολοκληρωμένη web πλατφόρμα με React και Supabase που κεντρικοποιεί
-                                τη διαχείριση πελατών, συνεργείων, βλαβών και αυτοψιών. Live χάρτης, AI αναγνώριση
-                                φωτογραφιών, real-time notifications και σύστημα κλεισίματος συνδέσεων — όλα σε ένα dashboard.
+                                Εφαρμόσαμε Headless αρχιτεκτονική συνδέοντας custom React frontend με WooCommerce API. Αναπτύξαμε έναν έξυπνο B2B παραμετροποιητή για άμεσο υπολογισμό κόστους εκτύπωσης/κεντήματος και κλιμακωτών εκπτώσεων. Το eshop πλέον φορτώνει σε λιγότερο από 0.8 δευτερόλεπτα, διευκολύνοντας τις εταιρικές παραγγελίες μεγάλου όγκου.
                             </p>
                         </motion.div>
                     </div>
@@ -171,10 +166,10 @@ const KMFiberClient = () => {
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="text-center mb-16 max-w-3xl mx-auto">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-4">
-                            Τα Modules του Συστήματος
+                            Βασικά Χαρακτηριστικά
                         </h2>
                         <p className="text-muted-foreground text-lg">
-                            6 βασικά modules που καλύπτουν κάθε πτυχή της λειτουργίας.
+                            Τεχνολογική ανωτερότητα και B2B αυτοματοποίηση.
                         </p>
                     </motion.div>
 
@@ -201,68 +196,8 @@ const KMFiberClient = () => {
                 </div>
             </section>
 
-            {/* How It Works */}
-            <section className="py-16 sm:py-20">
-                <div className="container mx-auto px-6">
-                    <div className="grid md:grid-cols-2 gap-12 items-start max-w-5xl">
-                        <motion.div {...fadeUp}>
-                            <p className="text-primary font-heading text-sm tracking-[0.3em] uppercase mb-3">
-                                Ροή Λειτουργίας
-                            </p>
-                            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-                                Πώς δουλεύει
-                            </h2>
-                            <p className="text-muted-foreground leading-relaxed mb-6">
-                                Από την καταχώρηση πελάτη μέχρι το κλείσιμο σύνδεσης — όλα online, σε πραγματικό χρόνο.
-                            </p>
-                            <ul className="space-y-3">
-                                {[
-                                    { icon: Users, text: "Καταχώρηση νέου πελάτη Cosmote/Vodafone στο σύστημα" },
-                                    { icon: MapPin, text: "Τοποθέτηση στον χάρτη με Google Maps — αυτόματη εύρεση διεύθυνσης" },
-                                    { icon: Wrench, text: "Ανάθεση σε συνεργείο & live tracking πορείας εργασιών" },
-                                    { icon: Camera, text: "Αυτοψία στο πεδίο — AI αναγνώριση φωτογραφιών" },
-                                    { icon: CheckCircle2, text: "Κλείσιμο σύνδεσης & ενημέρωση σε real-time" },
-                                ].map((item) => (
-                                    <li key={item.text} className="flex items-start gap-3 text-sm text-muted-foreground">
-                                        <item.icon className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                                        {item.text}
-                                    </li>
-                                ))}
-                            </ul>
-                        </motion.div>
-
-                        <motion.div
-                            {...fadeUp}
-                            transition={{ duration: 0.5, delay: 0.15 }}
-                            className="p-6 rounded-xl bg-card border border-border"
-                        >
-                            <p className="text-xs text-muted-foreground uppercase tracking-wider font-heading mb-4">
-                                Live Data Flow
-                            </p>
-                            <div className="space-y-4">
-                                {[
-                                    "Νέα σύνδεση καταχωρείται στο σύστημα",
-                                    "Ανάθεση σε συνεργείο → push notification στον τεχνικό",
-                                    "Τεχνικός ανεβάζει φωτογραφίες αυτοψίας",
-                                    "AI αναλύει τις εικόνες & επαληθεύει την εργασία",
-                                    "Σύνδεση κλείνει → live ενημέρωση dashboard",
-                                    "Αν υπάρξει βλάβη → άμεση ειδοποίηση & ανάθεση",
-                                ].map((step, i) => (
-                                    <div key={i} className="flex items-start gap-3">
-                                        <span className="w-6 h-6 rounded-full bg-primary/15 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                                            {i + 1}
-                                        </span>
-                                        <p className="text-sm text-muted-foreground">{step}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
             {/* Results */}
-            <section className="py-16 sm:py-20 bg-secondary/30">
+            <section className="py-16 sm:py-20">
                 <div className="container mx-auto px-6 max-w-4xl">
                     <motion.div {...fadeUp} className="text-center mb-12">
                         <p className="text-primary font-heading text-sm tracking-[0.3em] uppercase mb-3">
@@ -293,23 +228,23 @@ const KMFiberClient = () => {
             </section>
 
             {/* CTA */}
-            <section className="py-16 sm:py-20">
+            <section className="py-16 sm:py-20 bg-secondary/30">
                 <div className="container mx-auto px-6 max-w-3xl text-center">
                     <motion.div {...fadeUp}>
                         <p className="text-primary font-heading text-sm tracking-[0.3em] uppercase mb-3">
                             Σας ενδιαφέρει;
                         </p>
                         <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
-                            Θέλετε κάτι παρόμοιο;
+                            Θέλετε ένα B2B Headless E-shop;
                         </h2>
                         <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                            Χτίζουμε custom πλατφόρμες διαχείρισης για κάθε κλάδο. Μιλήστε μας για τις ανάγκες σας.
+                            Βελτιστοποιήστε τη χονδρική σας πώληση και προσφέρετε ασύγκριτη ταχύτητα στους εταιρικούς σας πελάτες.
                         </p>
                         <Link
                             href="/estimate"
                             className="inline-flex items-center justify-center px-10 py-4 bg-primary text-primary-foreground font-heading font-bold rounded-sm hover:scale-105 transition-all"
                         >
-                            Θέλω κάτι παρόμοιο
+                            Ζητήστε Προσφορά
                         </Link>
                     </motion.div>
                 </div>
@@ -319,6 +254,4 @@ const KMFiberClient = () => {
             <div className="h-16 bg-background" />
         </div>
     );
-};
-
-export default KMFiberClient;
+}

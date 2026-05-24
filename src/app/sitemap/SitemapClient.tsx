@@ -38,6 +38,8 @@ const links = [
             { name: "KM-Fiber", path: "/case-study/km-fiber" },
             { name: "Lemon Tree Paros", path: "/case-study/lemon-tree-paros" },
             { name: "Vaia Charms", path: "/case-study/vaia-charms" },
+            { name: "Diador.eu", path: "/case-study/diador" },
+            { name: "Top Travel Greece", path: "/case-study/top-travel-greece" },
         ]
     },
     {

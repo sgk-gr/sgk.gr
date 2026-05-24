@@ -76,10 +76,6 @@ const VaiaCharmsClient = () => {
             <section className="pt-32 pb-20">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="max-w-4xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            Case Study
-                        </span>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold leading-[1.05] mb-6">
                             Vaia Charms
                         </h1>
@@ -169,10 +165,6 @@ const VaiaCharmsClient = () => {
             <section className="py-16 sm:py-20 bg-secondary/30">
                 <div className="container mx-auto px-6">
                     <motion.div {...fadeUp} className="text-center mb-16 max-w-3xl mx-auto">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-heading font-semibold tracking-wider uppercase mb-6">
-                            <Zap className="w-3.5 h-3.5" />
-                            Features
-                        </span>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-4">
                             Βασικά Χαρακτηριστικά
                         </h2>
@@ -191,9 +183,7 @@ const VaiaCharmsClient = () => {
                                 transition={{ duration: 0.4, delay: i * 0.08 }}
                                 className="p-7 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-500 group"
                             >
-                                <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
-                                    <mod.icon className="w-5 h-5 text-primary" />
-                                </div>
+
                                 <h3 className="font-heading font-semibold mb-2 text-white">
                                     {mod.title}
                                 </h3>
@@ -228,9 +218,7 @@ const VaiaCharmsClient = () => {
                                 transition={{ duration: 0.4, delay: i * 0.08 }}
                                 className="p-6 rounded-xl bg-card border border-border text-center hover:border-primary/30 transition-colors"
                             >
-                                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                                    <r.icon className="w-5 h-5 text-primary" />
-                                </div>
+
                                 <p className="text-2xl sm:text-3xl font-heading font-bold text-[#00D16B] mb-1">{r.value}</p>
                                 <p className="text-xs text-muted-foreground">{r.label}</p>
                             </motion.div>
