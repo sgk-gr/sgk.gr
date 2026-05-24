@@ -197,9 +197,14 @@ export default function TopTravelClient() {
                         <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                         Πίσω στο Portfolio
                     </Link>
-                    <span className="text-xs font-heading font-semibold text-primary/80 uppercase tracking-widest bg-primary/5 border border-primary/10 px-3 py-1 rounded-full">
-                        Travel & Booking Agency Case Study
-                    </span>
+                    <a
+                        href="https://toptravelgreece.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-4 py-2 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/80 transition-colors"
+                    >
+                        Επίσκεψη στο site ↗
+                    </a>
                 </div>
             </nav>
 

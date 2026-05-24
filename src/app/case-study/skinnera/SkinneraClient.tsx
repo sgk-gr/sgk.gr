@@ -21,7 +21,7 @@ const SkinneraClient = () => {
         <div className="min-h-screen bg-background font-sans">
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-                <div className="container mx-auto px-6 h-16 flex items-center">
+                <div className="container mx-auto px-6 h-16 flex items-center justify-between">
                     <Link
                         href="/#portfolio"
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -29,6 +29,14 @@ const SkinneraClient = () => {
                         <ArrowLeft className="w-4 h-4" />
                         Πίσω στο Portfolio
                     </Link>
+                    <a
+                        href="https://www.skinneradev.gr/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-4 py-2 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/80 transition-colors"
+                    >
+                        Επίσκεψη στο site ↗
+                    </a>
                 </div>
             </nav>
 
