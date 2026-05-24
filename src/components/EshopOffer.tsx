@@ -20,9 +20,7 @@ const EshopOffer = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-heading font-bold mb-6">
-                            Προσφορά Περιορισμένου Χρόνου
-                        </div>
+
 
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight">
                             Eshop <span className="text-gradient">Νέας Γενιάς</span> <br />
@@ -84,7 +82,7 @@ const EshopOffer = () => {
                         {/* Recent Work Banner */}
                         <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 backdrop-blur-sm">
                             <div className="flex-1 text-sm text-left">
-                                <span className="font-bold text-primary block mb-1">✨ Η πιο πρόσφατη δουλειά μας!</span>
+                                <span className="font-bold text-primary block mb-1">Η πιο πρόσφατη δουλειά μας!</span>
                                 <span className="text-muted-foreground text-xs leading-relaxed">Δείτε το <strong className="text-foreground">Vaia Charms</strong>, κατασκευασμένο με έμφαση στην ταχύτητα, το SEO και τα χρώματα που ονειρεύτηκε η πελάτισσά μας.</span>
                             </div>
                             <a 
