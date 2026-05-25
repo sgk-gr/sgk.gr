@@ -17,16 +17,34 @@ import {
 const EstimateClient = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-    const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, result: 0, answer: "" });
+    const [captcha, setCaptcha] = useState({ question: "", result: 0, answer: "" });
     const [honeypot, setHoneypot] = useState("");
     const [mounted, setMounted] = useState(false);
 
+    const generateCaptcha = () => {
+        const ops = ['+', '-', '*'];
+        const op = ops[Math.floor(Math.random() * ops.length)];
+        let n1, n2, res;
+        if (op === '+') {
+            n1 = Math.floor(Math.random() * 40) + 10;
+            n2 = Math.floor(Math.random() * 40) + 10;
+            res = n1 + n2;
+        } else if (op === '-') {
+            n1 = Math.floor(Math.random() * 30) + 20;
+            n2 = Math.floor(Math.random() * 19) + 1;
+            res = n1 - n2;
+        } else {
+            n1 = Math.floor(Math.random() * 8) + 2;
+            n2 = Math.floor(Math.random() * 8) + 2;
+            res = n1 * n2;
+        }
+        const sign = op === '*' ? 'x' : op;
+        return { question: `${n1} ${sign} ${n2}`, result: res, answer: "" };
+    };
+
     useEffect(() => {
         setMounted(true);
-        const n1 = Math.floor(Math.random() * 10) + 1;
-        const n2 = Math.floor(Math.random() * 10) + 1;
-        setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
+        setCaptcha(generateCaptcha());
     }, []);
 
     const [formData, setFormData] = useState({
@@ -61,9 +79,7 @@ const EstimateClient = () => {
 
         if (parseInt(captcha.answer) !== captcha.result) {
             toast.error("Λάθος απάντηση ελέγχου ασφαλείας. Προσπαθήστε ξανά.");
-            const n1 = Math.floor(Math.random() * 10) + 1;
-            const n2 = Math.floor(Math.random() * 10) + 1;
-            setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
+            setCaptcha(generateCaptcha());
             return;
         }
 
@@ -100,9 +116,7 @@ const EstimateClient = () => {
                 needsNDA: "No",
                 marketingConsent: false
             });
-            const n1 = Math.floor(Math.random() * 10) + 1;
-            const n2 = Math.floor(Math.random() * 10) + 1;
-            setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
+            setCaptcha(generateCaptcha());
         } catch (error) {
             toast.error("Κάτι πήγε στραβά. Δοκιμάστε ξανά αργότερα.");
         } finally {
@@ -268,7 +282,7 @@ const EstimateClient = () => {
                             />
                             <div className="flex flex-col gap-2 max-w-sm">
                                 <label className="text-sm font-bold uppercase tracking-wider text-white/50">
-                                    Επαλήθευση Ασφαλείας: {mounted ? `Πόσο κάνει ${captcha.num1} + ${captcha.num2} ;` : 'Φόρτωση...'} *
+                                    Επαλήθευση Ασφαλείας: {mounted ? `Πόσο κάνει ${captcha.question} ;` : 'Φόρτωση...'} *
                                 </label>
                                 <input
                                     type="text"
