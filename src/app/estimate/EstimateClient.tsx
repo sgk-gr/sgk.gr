@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
@@ -17,6 +17,17 @@ import {
 const EstimateClient = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+    const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, result: 0, answer: "" });
+    const [honeypot, setHoneypot] = useState("");
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+        const n1 = Math.floor(Math.random() * 10) + 1;
+        const n2 = Math.floor(Math.random() * 10) + 1;
+        setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
+    }, []);
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -45,6 +56,16 @@ const EstimateClient = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (honeypot) return;
+
+        if (parseInt(captcha.answer) !== captcha.result) {
+            toast.error("Λάθος απάντηση ελέγχου ασφαλείας. Προσπαθήστε ξανά.");
+            const n1 = Math.floor(Math.random() * 10) + 1;
+            const n2 = Math.floor(Math.random() * 10) + 1;
+            setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
+            return;
+        }
 
         if (!formData.firstName || !formData.lastName || !formData.email || !formData.howDidYouHear || !formData.projectInfo) {
             toast.error("Παρακαλούμε συμπληρώστε όλα τα απαιτούμενα πεδία (*)");
@@ -79,6 +100,9 @@ const EstimateClient = () => {
                 needsNDA: "No",
                 marketingConsent: false
             });
+            const n1 = Math.floor(Math.random() * 10) + 1;
+            const n2 = Math.floor(Math.random() * 10) + 1;
+            setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
         } catch (error) {
             toast.error("Κάτι πήγε στραβά. Δοκιμάστε ξανά αργότερα.");
         } finally {
@@ -233,6 +257,28 @@ const EstimateClient = () => {
                                     Συμφωνώ να λαμβάνω ενημερώσεις και επικοινωνία μάρκετινγκ από την SGK Software Development.
                                 </span>
                             </label>
+
+                            <input 
+                                type="text" 
+                                value={honeypot} 
+                                onChange={(e) => setHoneypot(e.target.value)} 
+                                style={{ display: 'none' }} 
+                                tabIndex={-1} 
+                                autoComplete="off" 
+                            />
+                            <div className="flex flex-col gap-2 max-w-sm">
+                                <label className="text-sm font-bold uppercase tracking-wider text-white/50">
+                                    Επαλήθευση Ασφαλείας: {mounted ? `Πόσο κάνει ${captcha.num1} + ${captcha.num2} ;` : 'Φόρτωση...'} *
+                                </label>
+                                <input
+                                    type="text"
+                                    value={captcha.answer}
+                                    onChange={(e) => setCaptcha({ ...captcha, answer: e.target.value })}
+                                    className="bg-white/5 border-b border-white/20 px-0 py-3 focus:outline-none focus:border-[#00D16B] transition-colors text-white"
+                                    placeholder="Αποτέλεσμα"
+                                    required
+                                />
+                            </div>
 
                             <button
                                 type="submit"

@@ -52,7 +52,7 @@ const CookieBanner = () => {
         <>
             <button
                 onClick={() => setIsVisible(true)}
-                className="fixed bottom-6 left-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg z-[90] hover:scale-110 transition-transform"
+                className="fixed bottom-6 left-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg z-[90] hover:scale-110 transition-transform no-print"
                 aria-label="Ρυθμίσεις Cookies"
             >
                 <Cookie className="w-5 h-5 text-black" aria-hidden="true" />
@@ -65,7 +65,7 @@ const CookieBanner = () => {
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
-                        className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-md z-[100]"
+                        className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-md z-[100] no-print"
                     >
                         <div className="bg-card/80 backdrop-blur-xl border border-primary/20 rounded-2xl p-6 shadow-2xl relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-1 h-full bg-primary" />

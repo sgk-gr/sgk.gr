@@ -152,7 +152,7 @@ export default function FloatingChatBot() {
   return (
     <AnimatePresence>
       {(isVisible || isOpen) && (
-        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-[90] flex flex-col items-end">
+        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-[90] flex flex-col items-end no-print">
           <AnimatePresence>
             {isOpen && (
               <motion.div

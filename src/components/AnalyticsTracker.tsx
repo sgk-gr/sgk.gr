@@ -95,14 +95,9 @@ function AnalyticsTrackerContent() {
   }, [pathname]);
 
   const sendEvent = async (type = "page_view", path: string, extra: any = {}) => {
-    // ADMIN SHIELD: Never track events from the /live path or if admin_mode is on
-    const isAdmin = typeof window !== 'undefined' && (localStorage.getItem('sgk_admin_mode') === 'true' || path === '/live');
+    // ADMIN SHIELD: Never track events if admin_mode is on
+    const isAdmin = typeof window !== 'undefined' && localStorage.getItem('sgk_admin_mode') === 'true';
     if (isAdmin) {
-      if (path === '/live') {
-        localStorage.setItem('sgk_admin_mode', 'true');
-        // Ensure no heartbeats run for admin
-        if (heartbeatInterval.current) clearInterval(heartbeatInterval.current);
-      }
       return;
     }
 

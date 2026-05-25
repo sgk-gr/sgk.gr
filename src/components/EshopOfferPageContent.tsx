@@ -80,10 +80,29 @@ const EshopOfferPageContent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [step, setStep] = useState(1);
   const [category, setCategory] = useState("");
+  const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, result: 0, answer: "" });
+  const [honeypot, setHoneypot] = useState("");
+  const [mounted, setMounted] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+    const n1 = Math.floor(Math.random() * 10) + 1;
+    const n2 = Math.floor(Math.random() * 10) + 1;
+    setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (honeypot) return;
+
+    if (parseInt(captcha.answer) !== captcha.result) {
+      toast.error("Λάθος απάντηση ελέγχου ασφαλείας. Προσπαθήστε ξανά.");
+      const n1 = Math.floor(Math.random() * 10) + 1;
+      const n2 = Math.floor(Math.random() * 10) + 1;
+      setCaptcha({ num1: n1, num2: n2, result: n1 + n2, answer: "" });
+      return;
+    }
 
     if (!name || !email || !phone) {
       toast.error("Παρακαλούμε συμπληρώστε τα υποχρεωτικά πεδία (Όνομα, Email, Τηλέφωνο)");
@@ -306,6 +325,29 @@ const EshopOfferPageContent = () => {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="6900000000"
+                          required
+                          className="w-full px-5 py-3.5 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        />
+                      </div>
+
+                      <input 
+                        type="text" 
+                        value={honeypot} 
+                        onChange={(e) => setHoneypot(e.target.value)} 
+                        style={{ display: 'none' }} 
+                        tabIndex={-1} 
+                        autoComplete="off" 
+                      />
+                      <div>
+                        <label htmlFor="captcha" className="block text-sm font-bold mb-2 text-slate-400 uppercase">
+                          ΕΠΑΛΗΘΕΥΣΗ ΑΣΦΑΛΕΙΑΣ: {mounted ? `ΠΟΣΟ ΚΑΝΕΙ ${captcha.num1} + ${captcha.num2} ;` : 'ΦΟΡΤΩΣΗ...'} *
+                        </label>
+                        <input
+                          id="captcha"
+                          type="text"
+                          value={captcha.answer}
+                          onChange={(e) => setCaptcha({ ...captcha, answer: e.target.value })}
+                          placeholder="Εισάγετε το άθροισμα"
                           required
                           className="w-full px-5 py-3.5 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         />

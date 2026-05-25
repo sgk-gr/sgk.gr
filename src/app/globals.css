@@ -106,4 +106,137 @@
   .animate-fade-up {
     animation: fade-up 0.5s ease-out forwards;
   }
+
+}
+
+/* GLOBAL PRINT CONFIGURATIONS */
+@media print {
+  /* Hide all elements with no-print class globally */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Suppress browser dev feedback widgets, fast refresh indicators, nextjs-portals, chatbots, cookie buttons, custom cursors */
+  nextjs-portal,
+  #nextjs-dev-overlay,
+  #__next-build-watcher,
+  [data-nextjs-toast],
+  [data-nextjs-feedback-button],
+  #scroll-to-top,
+  #floating-chatbot,
+  .cookie-banner,
+  .chatbot-container,
+  .custom-cursor,
+  [class*="cookie"],
+  [class*="chatbot"] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* Force background colors and images in print preview inside our sheets only */
+  body, html, div, span, table, tr, th, td {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Suppress default browser header URLs, titles, dates and margins */
+  @page {
+    size: A4 portrait !important;
+    margin: 0 !important;
+  }
+  
+  /* Reset global backgrounds and body sizes to white A4 sheets */
+  body, html {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* Strip dark background colors, absolute glow divs, and scroll bars from parent dashboard containers */
+  .min-h-screen {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  .min-h-screen > .absolute {
+    display: none !important;
+  }
+
+  .relative.z-10.max-w-7xl.mx-auto.px-6.mt-8 {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  .grid.grid-cols-1.lg\:grid-cols-12 {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Hide all global and page-level layout panels during printing */
+  header, footer, nav, aside, form, button, 
+  #scroll-to-top, #floating-chatbot, .cookie-banner, .chatbot-container {
+    display: none !important;
+  }
+  
+  /* Force main content container display */
+  main {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Force hide left-hand input panel on AADE tab */
+  .lg\:col-span-5 {
+    display: none !important;
+  }
+  
+  
+  /* Force AADE invoice mockup card wrapper to collapse to perfect print width */
+  .lg\:col-span-7 {
+    display: block !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .lg\:col-span-7 > * {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Format the invoice page card specifically for print */
+  .aade-invoice-page {
+    width: 210mm !important;
+    height: 296mm !important;
+    min-height: 296mm !important;
+    max-height: 296mm !important;
+    padding: 8mm 12mm !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    page-break-after: avoid !important;
+    break-after: avoid-page !important;
+    position: relative !important;
+    background: white !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
 }
