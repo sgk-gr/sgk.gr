@@ -3,6 +3,7 @@
   const scriptTag = document.currentScript || document.querySelector('script[src*="sigmalabs-chat.js"]');
   const userToken = scriptTag ? scriptTag.getAttribute('data-token') : '';
   const shopDomain = window.location.hostname;
+  const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhYm9yc3JueWRua3pjdXh4eG9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxMDg4OTUsImV4cCI6MjA3MDY4NDg5NX0.IEig8uMu62fzYZm4KFUVCCUAZelQUiHuil_C-zTQXPs";
 
   if (!userToken) {
     console.error("SigmaLabs Chat Widget Error: Missing 'data-token' attribute.");
@@ -658,7 +659,9 @@
       const apiRes = await fetch("https://aaborsrnydnkzcuxxxol.supabase.co/functions/v1/chat-widget", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${supabaseAnonKey}`,
+          "apikey": supabaseAnonKey
         },
         body: JSON.stringify({
           messages: chatHistory,
