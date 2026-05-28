@@ -18,6 +18,12 @@
   const widgetColor = scriptTag ? scriptTag.getAttribute("data-color") || "#10b981" : "#10b981";
   const widgetName = scriptTag ? scriptTag.getAttribute("data-name") || (capitalizedStoreName + " AI Assistant") : (capitalizedStoreName + " AI Assistant");
   const widgetWelcome = scriptTag ? scriptTag.getAttribute("data-welcome") || "Hello! I'm your AI shopping assistant. How can I help you find products or answer your questions today?" : "Hello! I'm your AI shopping assistant. How can I help you find products or answer your questions today?";
+  const widgetHeaderBg = scriptTag ? scriptTag.getAttribute("data-header-bg") || "#0b0f19" : "#0b0f19";
+  const widgetHeaderColor = scriptTag ? scriptTag.getAttribute("data-header-color") || "#ffffff" : "#ffffff";
+  const widgetBodyBg = scriptTag ? scriptTag.getAttribute("data-body-bg") || "#0b0f19" : "#0b0f19";
+  const widgetBodyColor = scriptTag ? scriptTag.getAttribute("data-body-color") || "#cbd5e1" : "#cbd5e1";
+  const widgetInputBg = scriptTag ? scriptTag.getAttribute("data-input-bg") || "#0f172a" : "#0f172a";
+  const widgetInputColor = scriptTag ? scriptTag.getAttribute("data-input-color") || "#ffffff" : "#ffffff";
 
   // 3. Create target container element
   const container = document.createElement("div");
@@ -81,7 +87,7 @@
       height: 520px;
       max-height: calc(100vh - 130px);
       max-width: calc(100vw - 48px);
-      background-color: #0b0f19;
+      background-color: ${widgetBodyBg};
       border: 1px solid #1e293b;
       border-radius: 16px;
       box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
@@ -102,7 +108,7 @@
 
     /* Header Section */
     .chat-header {
-      background: linear-gradient(135deg, #111827 0%, ${widgetColor}22 100%);
+      background: linear-gradient(135deg, ${widgetHeaderBg} 0%, ${widgetColor}22 100%);
       padding: 18px 20px;
       border-bottom: 1px solid #1e293b;
       display: flex;
@@ -129,7 +135,7 @@
     }
 
     .store-name {
-      color: #ffffff;
+      color: ${widgetHeaderColor};
       font-weight: 600;
       font-size: 15px;
       margin: 0;
@@ -163,7 +169,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      background-color: #0b0f19;
+      background-color: ${widgetBodyBg};
     }
 
     /* Custom Scrollbar */
@@ -208,8 +214,8 @@
 
     .message.ai {
       align-self: flex-start;
-      background-color: #0f172a;
-      color: #cbd5e1;
+      background-color: ${widgetInputBg};
+      color: ${widgetBodyColor};
       border-bottom-left-radius: 4px;
       border: 1px solid #1e293b;
     }
@@ -227,7 +233,7 @@
     /* Loading Bubble */
     .loading-bubble {
       align-self: flex-start;
-      background-color: #0f172a;
+      background-color: ${widgetInputBg};
       border: 1px solid #1e293b;
       padding: 14px 18px;
       border-radius: 14px;
@@ -257,7 +263,7 @@
     .chat-footer {
       padding: 16px 20px;
       border-top: 1px solid #1e293b;
-      background-color: #0b0f19;
+      background-color: ${widgetBodyBg};
       display: flex;
       gap: 10px;
       align-items: center;
@@ -266,11 +272,11 @@
     .chat-input {
       flex: 1;
       height: 40px;
-      background-color: #0f172a;
+      background-color: ${widgetInputBg};
       border: 1px solid #1e293b;
       border-radius: 20px;
       padding: 0 16px;
-      color: #ffffff;
+      color: ${widgetInputColor};
       font-size: 13.5px;
       outline: none;
       transition: border-color 0.2s ease;
@@ -314,7 +320,7 @@
       color: #475569;
       text-align: center;
       padding: 6px 0 12px 0;
-      background-color: #0b0f19;
+      background-color: ${widgetBodyBg};
     }
 
     .branding-footer a {
