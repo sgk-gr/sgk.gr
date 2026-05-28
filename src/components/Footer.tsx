@@ -173,6 +173,7 @@ const Footer = () => {
             <Link href="/privacy" className="hover:text-primary transition-colors">Πολιτική Απορρήτου</Link>
             <Link href="/terms" className="hover:text-primary transition-colors">Όροι Χρήσης</Link>
             <a href="/sitemap.xml" className="hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">Sitemap</a>
+            <a href="/llms.txt" className="hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">AI Directory</a>
           </div>
         </div>
       </div>
