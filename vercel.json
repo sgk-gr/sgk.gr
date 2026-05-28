@@ -1,6 +1,18 @@
 {
     "rewrites": [
         {
+            "source": "/llms.txt",
+            "destination": "https://aaborsrnydnkzcuxxxol.supabase.co/functions/v1/llms-master"
+        },
+        {
+            "source": "/stores/:store/llms.txt",
+            "destination": "https://aaborsrnydnkzcuxxxol.supabase.co/functions/v1/llms-store?shop=:store"
+        },
+        {
+            "source": "/stores/:store/llms-full.txt",
+            "destination": "https://aaborsrnydnkzcuxxxol.supabase.co/functions/v1/llms-store?shop=:store&full=true"
+        },
+        {
             "source": "/blog-seo/(.*)",
             "destination": "/blog-seo/$1"
         },
