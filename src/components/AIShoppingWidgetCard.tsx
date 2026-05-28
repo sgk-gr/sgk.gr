@@ -93,7 +93,7 @@ export const AIShoppingWidgetCard: React.FC<AIShoppingWidgetCardProps> = ({
           <div className="lg:col-span-6 flex flex-col justify-center">
             <Label className="text-neutral-450 text-xs mb-2 block">{isEl ? 'Ζωντανή Προεπισκόπηση Σχεδίου' : 'Live Design Preview'}</Label>
             
-            <div className="border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[380px] w-full bg-[#f8fafc] text-neutral-850 font-sans">
+            <div className="border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[480px] w-full bg-[#f8fafc] text-neutral-850 font-sans">
               {/* Live Header */}
               <div className="p-3 border-b border-neutral-200 flex items-center justify-between bg-white/90 backdrop-blur-md">
                 <div className="w-8 h-8 border border-neutral-200 rounded-lg flex items-center justify-center bg-white text-neutral-500">
@@ -115,42 +115,44 @@ export const AIShoppingWidgetCard: React.FC<AIShoppingWidgetCardProps> = ({
                   {widgetWelcome || "Γεια σας! Πώς μπορώ να βοηθήσω;"}
                 </div>
                 
-                {/* Customer Bubble Mockup */}
+                {/* Customer Bubble Mockup (Clothing Shop context!) */}
                 <div className="p-3 rounded-2xl rounded-br-sm text-[12px] max-w-[85%] self-end bg-[#1e293b] text-white leading-relaxed">
-                  {isEl ? 'Ψάχνω για ελαιόλαδο δώρου' : 'I am looking for a gift olive oil'}
+                  {isEl ? 'Ψάχνω για ένα κομψό καλοκαιρινό φόρεμα' : 'I am looking for a stylish summer dress'}
                 </div>
 
                 {/* AI Response Mockup */}
                 <div className="p-3 rounded-2xl rounded-bl-sm text-[12px] max-w-[85%] border border-neutral-200 bg-white text-neutral-800 shadow-sm leading-relaxed self-start">
-                  {isEl ? 'Προτείνουμε τις εξής εξαιρετικές επιλογές:' : 'We recommend the following excellent options:'}
+                  {isEl ? 'Προτείνουμε τις εξής εξαιρετικές επιλογές από τη νέα μας συλλογή:' : 'We recommend the following premium options from our new collection:'}
                 </div>
 
-                {/* Product Carousel Mockup (Skroutz-style!) */}
-                <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
-                  <div className="flex-shrink-0 w-[150px] bg-white border border-neutral-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
-                    <div className="relative h-[110px] bg-[#f8fafc] flex items-center justify-center border-b border-neutral-100 p-1">
-                      <span className="text-3xl">🫙</span>
-                      <div className="absolute bottom-1.5 right-1.5 bg-[#f55139] text-[8px] font-bold px-2 py-0.5 rounded-full text-white shadow-sm">Δες το</div>
+                {/* Product Carousel Mockup (Skroutz-style Premium Clothing Cards!) */}
+                <div className="flex gap-3 overflow-x-auto pb-3 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+                  {/* Dress Card */}
+                  <div className="flex-shrink-0 w-[155px] bg-white border border-neutral-200 rounded-xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-all duration-200">
+                    <div className="relative h-[115px] bg-[#fff0f3] flex items-center justify-center border-b border-neutral-100 p-2">
+                      <span className="text-4xl filter drop-shadow-md">👗</span>
+                      <div className="absolute bottom-1.5 right-1.5 bg-[#f55139] text-[8px] font-bold px-2 py-0.5 rounded-full text-white shadow-md">Δες το</div>
                     </div>
-                    <div className="p-2 flex flex-col flex-1">
-                      <h5 className="font-bold text-[10px] text-neutral-800 truncate">Organic Olive Oil</h5>
+                    <div className="p-2 flex flex-col flex-1 justify-between min-h-[60px]">
+                      <h5 className="font-bold text-[10px] text-neutral-800 line-clamp-1">Floral Summer Dress</h5>
                       <div className="flex flex-col mt-1">
-                        <span className="text-[#f55139] text-[8px] font-semibold">★ 4.9</span>
-                        <span className="font-extrabold text-[10px] text-emerald-600">από 12,50 €</span>
+                        <span className="text-[#f55139] text-[8px] font-semibold">★ 4.8</span>
+                        <span className="font-extrabold text-[10px] text-emerald-600">από 39,90 €</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex-shrink-0 w-[150px] bg-white border border-neutral-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
-                    <div className="relative h-[110px] bg-[#f8fafc] flex items-center justify-center border-b border-neutral-100 p-1">
-                      <span className="text-3xl">🏺</span>
-                      <div className="absolute bottom-1.5 right-1.5 bg-[#f55139] text-[8px] font-bold px-2 py-0.5 rounded-full text-white shadow-sm">Δες το</div>
+                  {/* Shirt Card */}
+                  <div className="flex-shrink-0 w-[155px] bg-white border border-neutral-200 rounded-xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-all duration-200">
+                    <div className="relative h-[115px] bg-[#f0f4ff] flex items-center justify-center border-b border-neutral-100 p-2">
+                      <span className="text-4xl filter drop-shadow-md">👚</span>
+                      <div className="absolute bottom-1.5 right-1.5 bg-[#f55139] text-[8px] font-bold px-2 py-0.5 rounded-full text-white shadow-md">Δες το</div>
                     </div>
-                    <div className="p-2 flex flex-col flex-1">
-                      <h5 className="font-bold text-[10px] text-neutral-800 truncate">Premium Amphora</h5>
+                    <div className="p-2 flex flex-col flex-1 justify-between min-h-[60px]">
+                      <h5 className="font-bold text-[10px] text-neutral-800 line-clamp-1">Linen Casual Shirt</h5>
                       <div className="flex flex-col mt-1">
-                        <span className="text-[#f55139] text-[8px] font-semibold">★ 5.0</span>
-                        <span className="font-extrabold text-[10px] text-emerald-600">από 24,00 €</span>
+                        <span className="text-[#f55139] text-[8px] font-semibold">★ 4.9</span>
+                        <span className="font-extrabold text-[10px] text-emerald-600">από 29,90 €</span>
                       </div>
                     </div>
                   </div>
@@ -159,7 +161,7 @@ export const AIShoppingWidgetCard: React.FC<AIShoppingWidgetCardProps> = ({
 
               {/* Live Footer / Input */}
               <div className="p-2.5 border-t border-neutral-200 flex items-center gap-2 bg-white">
-                <div className="flex-1 h-9 rounded-full border border-neutral-200 px-3 text-[11px] text-neutral-400 flex items-center bg-white">
+                <div className="flex-1 h-9 rounded-full border border-neutral-200 px-3 text-[11px] text-neutral-450 flex items-center bg-white">
                   {isEl ? 'Γράψτε το μήνυμά σας...' : 'Write your message...'}
                 </div>
                 <div className="w-9 h-9 rounded-full flex items-center justify-center bg-[#f55139] flex-shrink-0 shadow-md">
