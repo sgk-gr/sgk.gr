@@ -584,97 +584,166 @@
     msg.innerHTML = text;
     msgContainer.appendChild(msg);
 
-    // Render horizontal products carousel if recommendations exist
+    // Render horizontal products carousel with FULL inline styles (no class dependency)
     if (products && products.length > 0) {
       const carousel = document.createElement("div");
-      carousel.className = "products-carousel";
-      
+      // Inline carousel styles - guaranteed to work regardless of Shadow DOM CSS
+      Object.assign(carousel.style, {
+        display: "flex",
+        gap: "12px",
+        overflowX: "auto",
+        overflowY: "visible",
+        padding: "6px 2px 14px 2px",
+        margin: "4px 0",
+        width: "100%",
+        scrollSnapType: "x mandatory",
+        scrollbarWidth: "thin",
+        boxSizing: "border-box"
+      });
+
       products.forEach(p => {
         const card = document.createElement("div");
-        card.className = "product-card";
-        
+        // Inline card styles
+        Object.assign(card.style, {
+          flex: "0 0 200px",
+          minWidth: "200px",
+          width: "200px",
+          background: "#ffffff",
+          border: "1px solid #e2e8f0",
+          borderRadius: "14px",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          scrollSnapAlign: "start",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+          cursor: "pointer",
+          boxSizing: "border-box",
+          fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        });
+
         // Format price
-        const formattedPrice = p.price ? `${parseFloat(p.price).toFixed(2)} €` : "N/A";
-        
+        const formattedPrice = p.price ? `${parseFloat(p.price).toFixed(2)} €` : "";
+
         // Clean short description
         let shortDesc = p.description || "";
         shortDesc = shortDesc.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-        if (shortDesc.length > 120) {
-          shortDesc = shortDesc.substring(0, 110) + "...";
-        }
-        if (!shortDesc) shortDesc = "Εξαιρετική επιλογή προϊόντος για εσάς.";
+        if (shortDesc.length > 100) shortDesc = shortDesc.substring(0, 90) + "...";
 
-        // Build image container using DOM APIs (no inline onclick - breaks in Shadow DOM)
-        const imgContainer = document.createElement("div");
-        imgContainer.className = "product-img-container";
-        imgContainer.style.cursor = "pointer";
+        // ── IMAGE SECTION ──
+        const imgWrap = document.createElement("div");
+        Object.assign(imgWrap.style, {
+          position: "relative",
+          width: "100%",
+          height: "130px",
+          minHeight: "130px",
+          background: "#f8fafc",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderBottom: "1px solid #e2e8f0",
+          overflow: "hidden",
+          flexShrink: "0"
+        });
 
         if (p.image_url) {
           const img = document.createElement("img");
           img.src = p.image_url;
           img.alt = p.name || "";
-          img.className = "product-img";
           img.setAttribute("referrerpolicy", "no-referrer");
+          Object.assign(img.style, {
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            padding: "6px",
+            display: "block"
+          });
           img.onerror = function() {
             this.style.display = "none";
-            const placeholder = document.createElement("div");
-            placeholder.className = "product-img-placeholder";
-            placeholder.textContent = "📦";
-            imgContainer.insertBefore(placeholder, imgContainer.firstChild);
+            const ph = document.createElement("div");
+            ph.textContent = "📦";
+            ph.style.fontSize = "34px";
+            imgWrap.appendChild(ph);
           };
-          imgContainer.appendChild(img);
+          imgWrap.appendChild(img);
         } else {
-          const placeholder = document.createElement("div");
-          placeholder.className = "product-img-placeholder";
-          placeholder.textContent = "📦";
-          imgContainer.appendChild(placeholder);
+          const ph = document.createElement("div");
+          ph.textContent = "📦";
+          ph.style.fontSize = "34px";
+          imgWrap.appendChild(ph);
         }
 
-        const buyBadge = document.createElement("span");
-        buyBadge.className = "buy-badge-btn";
-        buyBadge.textContent = "Δες το";
-        imgContainer.appendChild(buyBadge);
-
-        // Click on image → open product page
-        imgContainer.addEventListener("click", () => {
-          if (p.permalink) window.open(p.permalink, "_blank");
+        // "Δες το" badge overlay
+        const badge = document.createElement("span");
+        badge.textContent = "Δες το";
+        Object.assign(badge.style, {
+          position: "absolute",
+          bottom: "8px",
+          right: "8px",
+          background: "#fbbf24",
+          color: "#000",
+          fontWeight: "700",
+          fontSize: "10px",
+          padding: "4px 10px",
+          borderRadius: "20px",
+          pointerEvents: "none"
         });
+        imgWrap.appendChild(badge);
+        imgWrap.addEventListener("click", () => { if (p.permalink) window.open(p.permalink, "_blank"); });
 
-        // Build product details
+        // ── DETAILS SECTION ──
         const details = document.createElement("div");
-        details.className = "product-details";
-
-        const title = document.createElement("h5");
-        title.className = "product-title";
-        title.title = p.name || "";
-        title.style.cursor = "pointer";
-        title.textContent = p.name || "";
-        title.addEventListener("click", () => {
-          if (p.permalink) window.open(p.permalink, "_blank");
+        Object.assign(details.style, {
+          padding: "10px",
+          display: "flex",
+          flexDirection: "column",
+          flex: "1",
+          gap: "4px",
+          boxSizing: "border-box"
         });
 
-        const priceLine = document.createElement("div");
-        priceLine.className = "product-rating-price";
+        const titleEl = document.createElement("div");
+        titleEl.textContent = p.name || "";
+        Object.assign(titleEl.style, {
+          fontSize: "12px",
+          fontWeight: "700",
+          color: "#0f172a",
+          lineHeight: "16px",
+          maxHeight: "32px",
+          overflow: "hidden",
+          cursor: "pointer"
+        });
+        titleEl.addEventListener("click", () => { if (p.permalink) window.open(p.permalink, "_blank"); });
+
         const priceEl = document.createElement("div");
-        priceEl.className = "product-price";
-        priceEl.textContent = `από ${formattedPrice}`;
-        priceLine.appendChild(priceEl);
+        priceEl.textContent = formattedPrice ? `από ${formattedPrice}` : "";
+        Object.assign(priceEl.style, {
+          fontSize: "13px",
+          fontWeight: "800",
+          color: "#0f172a"
+        });
 
-        const descEl = document.createElement("p");
-        descEl.className = "product-desc";
+        const descEl = document.createElement("div");
         descEl.textContent = shortDesc;
+        Object.assign(descEl.style, {
+          fontSize: "10px",
+          color: "#64748b",
+          lineHeight: "14px",
+          maxHeight: "42px",
+          overflow: "hidden"
+        });
 
-        details.appendChild(title);
-        details.appendChild(priceLine);
+        details.appendChild(titleEl);
+        if (formattedPrice) details.appendChild(priceEl);
         details.appendChild(descEl);
 
-        card.appendChild(imgContainer);
+        card.appendChild(imgWrap);
         card.appendChild(details);
         carousel.appendChild(card);
       });
+
       msgContainer.appendChild(carousel);
     }
-    
+
     msgContainer.scrollTop = msgContainer.scrollHeight;
   };
 
