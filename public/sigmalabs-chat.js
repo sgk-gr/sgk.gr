@@ -605,12 +605,14 @@
         if (!shortDesc) shortDesc = "Εξαιρετική επιλογή προϊόντος για εσάς.";
 
         card.innerHTML = `
-          <div class="product-img-container">
+          <a href="${p.permalink}" target="_blank" class="product-img-container" style="display: flex; text-decoration: none;">
             ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}" class="product-img" />` : `<div class="product-img-placeholder">📦</div>`}
-            <a href="${p.permalink}" target="_blank" class="buy-badge-btn">Δες το</a>
-          </div>
+            <span class="buy-badge-btn">Δες το</span>
+          </a>
           <div class="product-details">
-            <h5 class="product-title" title="${p.name}">${p.name}</h5>
+            <a href="${p.permalink}" target="_blank" style="text-decoration: none;">
+              <h5 class="product-title" title="${p.name}">${p.name}</h5>
+            </a>
             <div class="product-rating-price">
               <div class="product-price">από ${formattedPrice}</div>
             </div>
