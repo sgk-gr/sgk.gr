@@ -604,21 +604,72 @@
         }
         if (!shortDesc) shortDesc = "Εξαιρετική επιλογή προϊόντος για εσάς.";
 
-        card.innerHTML = `
-          <a href="${p.permalink}" target="_blank" class="product-img-container" style="display: flex; text-decoration: none;">
-            ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}" class="product-img" />` : `<div class="product-img-placeholder">📦</div>`}
-            <span class="buy-badge-btn">Δες το</span>
-          </a>
-          <div class="product-details">
-            <a href="${p.permalink}" target="_blank" style="text-decoration: none;">
-              <h5 class="product-title" title="${p.name}">${p.name}</h5>
-            </a>
-            <div class="product-rating-price">
-              <div class="product-price">από ${formattedPrice}</div>
-            </div>
-            <p class="product-desc">${shortDesc}</p>
-          </div>
-        `;
+        // Build image container using DOM APIs (no inline onclick - breaks in Shadow DOM)
+        const imgContainer = document.createElement("div");
+        imgContainer.className = "product-img-container";
+        imgContainer.style.cursor = "pointer";
+
+        if (p.image_url) {
+          const img = document.createElement("img");
+          img.src = p.image_url;
+          img.alt = p.name || "";
+          img.className = "product-img";
+          img.setAttribute("referrerpolicy", "no-referrer");
+          img.onerror = function() {
+            this.style.display = "none";
+            const placeholder = document.createElement("div");
+            placeholder.className = "product-img-placeholder";
+            placeholder.textContent = "📦";
+            imgContainer.insertBefore(placeholder, imgContainer.firstChild);
+          };
+          imgContainer.appendChild(img);
+        } else {
+          const placeholder = document.createElement("div");
+          placeholder.className = "product-img-placeholder";
+          placeholder.textContent = "📦";
+          imgContainer.appendChild(placeholder);
+        }
+
+        const buyBadge = document.createElement("span");
+        buyBadge.className = "buy-badge-btn";
+        buyBadge.textContent = "Δες το";
+        imgContainer.appendChild(buyBadge);
+
+        // Click on image → open product page
+        imgContainer.addEventListener("click", () => {
+          if (p.permalink) window.open(p.permalink, "_blank");
+        });
+
+        // Build product details
+        const details = document.createElement("div");
+        details.className = "product-details";
+
+        const title = document.createElement("h5");
+        title.className = "product-title";
+        title.title = p.name || "";
+        title.style.cursor = "pointer";
+        title.textContent = p.name || "";
+        title.addEventListener("click", () => {
+          if (p.permalink) window.open(p.permalink, "_blank");
+        });
+
+        const priceLine = document.createElement("div");
+        priceLine.className = "product-rating-price";
+        const priceEl = document.createElement("div");
+        priceEl.className = "product-price";
+        priceEl.textContent = `από ${formattedPrice}`;
+        priceLine.appendChild(priceEl);
+
+        const descEl = document.createElement("p");
+        descEl.className = "product-desc";
+        descEl.textContent = shortDesc;
+
+        details.appendChild(title);
+        details.appendChild(priceLine);
+        details.appendChild(descEl);
+
+        card.appendChild(imgContainer);
+        card.appendChild(details);
         carousel.appendChild(card);
       });
       msgContainer.appendChild(carousel);
