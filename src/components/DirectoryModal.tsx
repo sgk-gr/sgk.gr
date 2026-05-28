@@ -92,8 +92,8 @@ export const DirectoryModal: React.FC<DirectoryModalProps> = ({
       tagColor: 'text-neutral-400',
       icon: <MessageSquare className="w-5 h-5 text-neutral-400" />,
       description: language === 'el'
-        ? 'AI Agent ο οποίος αναλαμβάνει την εξυπηρέτηση πελατών, σας προτείνει και πουλάει προϊόντα 24/7.'
-        : 'AI Agent that handles customer support, recommends, and sells products 24/7.',
+        ? 'AI Agent ο οποίος αναλαμβάνει την εξυπηρέτηση πελατών, προτείνει στους πελάτες σας και πουλάει προϊόντα 24/7.'
+        : 'AI Agent that handles customer support, recommends products to your customers, and sells 24/7.',
       connected: true
     },
     {
