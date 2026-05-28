@@ -76,17 +76,6 @@ export const AIShoppingWidgetCard: React.FC<AIShoppingWidgetCardProps> = ({
                 />
               </div>
             </div>
-
-            <div className="p-4 bg-emerald-950/20 rounded-xl border border-emerald-900/30">
-              <h5 className="text-xs font-semibold text-emerald-400 mb-1 flex items-center gap-1">
-                <span>✨</span> {isEl ? 'Ενοποιημένο Premium Design' : 'Unified Premium Design'}
-              </h5>
-              <p className="text-[11px] text-emerald-300 leading-relaxed font-sans">
-                {isEl 
-                  ? 'Τα χρώματα του widget είναι πλέον ενοποιημένα με ένα κορυφαίας αισθητικής γυάλινο (glassmorphic) στυλ, που ταιριάζει απόλυτα σε κάθε ιστοσελίδα. Δεν χρειάζεται πλέον καμία ρύθμιση χρωμάτων!'
-                  : 'Widget colors are now unified into a premium glassmorphic style, matching every e-commerce theme out-of-the-box. No color configuration needed!'}
-              </p>
-            </div>
           </div>
 
           {/* Real-time Visual Chat Widget Mockup - Right (6 cols) */}
