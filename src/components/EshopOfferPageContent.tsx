@@ -25,18 +25,18 @@ import {
 const features = [
   {
     icon: Layout,
-    title: "Σύγχρονη Εμπειρία Χρήστη",
-    description: "Custom σχεδιασμός με Next.js για αστραπιαία πλοήγηση και αισθητική που κερδίζει τον πελάτη."
+    title: "Eshop που Πουλάει 24/7",
+    description: "Επαγγελματικός σχεδιασμός που κερδίζει τον πελάτη και αυξάνει τις πωλήσεις σας."
   },
   {
     icon: Store,
-    title: "Εύκολη Διαχείριση",
-    description: "Πλήρης έλεγχος των προϊόντων και παραγγελιών σας μέσα από το γνώριμο περιβάλλον του WooCommerce."
+    title: "Απλή Διαχείριση Προϊόντων",
+    description: "Ανεβάστε και διαχειριστείτε τα προϊόντα σας εύκολα, χωρίς τεχνικές γνώσεις."
   },
   {
     icon: BarChart3,
-    title: "Στρατηγικό SEO",
-    description: "Καθαρός κώδικας και βελτιστοποιημένη δομή για την υψηλότερη δυνατή κατάταξη στη Google."
+    title: "Βγείτε Πρώτοι στη Google",
+    description: "Το eshop σας βελτιστοποιημένο για να σας βρίσκουν οι πελάτες σας."
   },
   {
     icon: Zap,
@@ -204,8 +204,7 @@ const EshopOfferPageContent = () => {
               </motion.h1>
 
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  Η επαγγελματική κατασκευή eshop είναι το κλειδί για περισσότερες πωλήσεις. 
-                  Εμείς αναλαμβάνουμε την κατασκευή eshop σας με αστραπιαία ταχύτητα — παράδοση σε 14 μέρες.
+                  Αναλαμβάνουμε την κατασκευή eshop σας από την αρχή ως το τέλος. Σχεδιασμός, προϊόντα, σύνδεση με Skroutz και ERP — όλα έτοιμα σε 14 μέρες.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 mb-10">
@@ -395,7 +394,7 @@ const EshopOfferPageContent = () => {
       <section id="technical-stack" className="py-20 bg-slate-950/50 border-y border-border">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-heading font-bold mb-4">Τεχνική Ανάλυση & Πλεονεκτήματα</h2>
+            <h2 className="text-3xl sm:text-4xl font-heading font-bold mb-4">Γιατί να μας επιλέξετε για την κατασκευή eshop σας</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Η κατασκευή eshop με εμάς συνδυάζει την ταχύτητα των στατικών σελίδων με τη δυναμική διαχείριση του ηλεκτρονικού εμπορίου.
             </p>
@@ -443,13 +442,13 @@ const EshopOfferPageContent = () => {
             {[
               {
                 icon: Zap,
-                title: "Ασύλληπτη Ταχύτητα",
-                description: "Χρησιμοποιούμε Next.js για ακαριαίο φόρτωμα. 100/100 στο PageSpeed σημαίνει περισσότερες πωλήσεις."
+                title: "Eshop που Φορτώνει Αστραπιαία",
+                description: "Γρήγορο eshop σημαίνει περισσότερους πελάτες και περισσότερες πωλήσεις."
               },
               {
                 icon: Search,
-                title: "Στρατηγικό SEO",
-                description: "Δομή βελτιστοποιημένη για την Google. Εμφανιστείτε εκεί που σας ψάχνουν οι πελάτες σας."
+                title: "Βγείτε Πρώτοι στη Google",
+                description: "Βελτιστοποιημένο eshop που εμφανίζεται εκεί που σας ψάχνουν."
               },
               {
                 icon: Palette,
@@ -538,6 +537,15 @@ const EshopOfferPageContent = () => {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* SEO Paragraph Before Reviews */}
+      <section className="py-12 bg-background border-y border-border">
+        <div className="container mx-auto px-6 text-center max-w-4xl">
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            Η κατασκευή eshop με την SGK Digital είναι η πιο ολοκληρωμένη λύση για επιχειρήσεις που θέλουν να πουλάνε online. Αναλαμβάνουμε την κατασκευή eshop από την αρχή — σχεδιασμός, ανέβασμα προϊόντων, σύνδεση με Skroutz και ERP. Το eshop σας έτοιμο σε 14 μέρες, από €1.999.
+          </p>
         </div>
       </section>
 
