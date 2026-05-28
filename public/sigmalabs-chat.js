@@ -593,13 +593,6 @@
         const card = document.createElement("div");
         card.className = "product-card";
         
-        // Stars calculation
-        const reviewsCount = p.name.charCodeAt(0) % 20 + 25;
-        let starsHtml = "";
-        for (let i = 0; i < 5; i++) {
-          starsHtml += `<span style="color: #fbbf24; margin-right: 1px;">★</span>`;
-        }
-
         // Format price
         const formattedPrice = p.price ? `${parseFloat(p.price).toFixed(2)} €` : "N/A";
         
@@ -619,7 +612,6 @@
           <div class="product-details">
             <h5 class="product-title" title="${p.name}">${p.name}</h5>
             <div class="product-rating-price">
-              <div class="product-stars">${starsHtml} <span class="reviews-count">(${reviewsCount})</span></div>
               <div class="product-price">από ${formattedPrice}</div>
             </div>
             <p class="product-desc">${shortDesc}</p>
