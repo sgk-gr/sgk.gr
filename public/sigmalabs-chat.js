@@ -9,7 +9,17 @@
     return;
   }
 
-  // 2. Create target container element
+  // Extract store name
+  const storeNameFormatted = shopDomain.replace("www.", "").split(".")[0];
+  const capitalizedStoreName = storeNameFormatted.charAt(0).toUpperCase() + storeNameFormatted.slice(1);
+  const firstLetter = capitalizedStoreName.charAt(0);
+
+  // 2. Parse customization attributes with standard elegant fallbacks
+  const widgetColor = scriptTag ? scriptTag.getAttribute("data-color") || "#10b981" : "#10b981";
+  const widgetName = scriptTag ? scriptTag.getAttribute("data-name") || (capitalizedStoreName + " AI Assistant") : (capitalizedStoreName + " AI Assistant");
+  const widgetWelcome = scriptTag ? scriptTag.getAttribute("data-welcome") || "Hello! I'm your AI shopping assistant. How can I help you find products or answer your questions today?" : "Hello! I'm your AI shopping assistant. How can I help you find products or answer your questions today?";
+
+  // 3. Create target container element
   const container = document.createElement("div");
   container.id = "sigmalabs-chat-widget-root";
   container.style.position = "fixed";
@@ -18,10 +28,10 @@
   container.style.zIndex = "999999";
   document.body.appendChild(container);
 
-  // 3. Attach Shadow DOM to prevent theme style pollution
+  // 4. Attach Shadow DOM to prevent theme style pollution
   const shadow = container.attachShadow({ mode: "open" });
 
-  // 4. Define CSS styles inside Shadow DOM (Ultra-Premium Glassmorphic Dark Tech Theme)
+  // 5. Define Dynamic CSS styles (using parsed widgetColor for pure theme-aligned glowing interface)
   const styles = `
     * {
       box-sizing: border-box;
@@ -36,8 +46,8 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #10b981 0%, #8b5cf6 100%);
-      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, ${widgetColor} 0%, ${widgetColor}bb 100%);
+      box-shadow: 0 8px 30px ${widgetColor}55;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -48,7 +58,7 @@
 
     .chat-bubble-btn:hover {
       transform: scale(1.08) translateY(-2px);
-      box-shadow: 0 12px 35px rgba(139, 92, 246, 0.5);
+      box-shadow: 0 12px 35px ${widgetColor}88;
     }
 
     .chat-bubble-btn svg {
@@ -92,7 +102,7 @@
 
     /* Header Section */
     .chat-header {
-      background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%);
+      background: linear-gradient(135deg, #111827 0%, ${widgetColor}22 100%);
       padding: 18px 20px;
       border-bottom: 1px solid #1e293b;
       display: flex;
@@ -103,7 +113,7 @@
     .store-avatar {
       width: 38px;
       height: 38px;
-      background: linear-gradient(135deg, #10b981 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${widgetColor} 0%, ${widgetColor}bb 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -129,7 +139,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      color: #10b981;
+      color: ${widgetColor};
       font-size: 11px;
       margin: 3px 0 0 0;
       font-weight: 500;
@@ -139,10 +149,10 @@
       content: "";
       width: 6px;
       height: 6px;
-      background-color: #10b981;
+      background-color: ${widgetColor};
       border-radius: 50%;
       display: inline-block;
-      box-shadow: 0 0 8px #10b981;
+      box-shadow: 0 0 8px ${widgetColor};
     }
 
     /* Message History Area */
@@ -205,13 +215,13 @@
     }
 
     .message.ai a {
-      color: #38bdf8;
+      color: ${widgetColor};
       font-weight: 600;
       text-decoration: underline;
     }
 
     .message.ai a:hover {
-      color: #7dd3fc;
+      filter: brightness(1.2);
     }
 
     /* Loading Bubble */
@@ -271,26 +281,26 @@
     }
 
     .chat-input:focus {
-      border-color: #38bdf8;
+      border-color: ${widgetColor};
     }
 
     .send-btn {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #10b981 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, ${widgetColor} 0%, ${widgetColor}bb 100%);
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 12px ${widgetColor}4d;
       transition: all 0.2s ease;
     }
 
     .send-btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+      box-shadow: 0 6px 16px ${widgetColor}66;
     }
 
     .send-btn svg {
@@ -314,7 +324,7 @@
     }
   `;
 
-  // 5. Create DOM structures inside Shadow DOM
+  // 6. Create DOM structures inside Shadow DOM
   const styleEl = document.createElement("style");
   styleEl.textContent = styles;
   shadow.appendChild(styleEl);
@@ -323,22 +333,17 @@
   const chatWindow = document.createElement("div");
   chatWindow.className = "chat-window";
 
-  // Dynamic store name extraction
-  const storeNameFormatted = shopDomain.replace("www.", "").split(".")[0];
-  const capitalizedStoreName = storeNameFormatted.charAt(0).toUpperCase() + storeNameFormatted.slice(1);
-  const firstLetter = capitalizedStoreName.charAt(0);
-
   chatWindow.innerHTML = `
     <div class="chat-header">
       <div class="store-avatar">${firstLetter}</div>
       <div class="store-info">
-        <h4 class="store-name">${capitalizedStoreName} AI Assistant</h4>
+        <h4 class="store-name">${widgetName}</h4>
         <p class="store-status">Active Shopper</p>
       </div>
     </div>
     <div class="messages-area" id="messages-container">
       <div class="message ai">
-        Hello! I'm your AI shopping assistant. How can I help you find products or answer your questions today?
+        ${widgetWelcome}
       </div>
     </div>
     <div class="chat-footer">
@@ -365,7 +370,7 @@
   `;
   shadow.appendChild(chatBtn);
 
-  // 6. Interactive Logic & Event Listeners
+  // Interactive Logic & Event Listeners
   const msgContainer = chatWindow.querySelector("#messages-container");
   const inputField = chatWindow.querySelector("#chat-input-field");
   const sendBtn = chatWindow.querySelector("#send-message-btn");
