@@ -79,14 +79,14 @@
       position: fixed;
       bottom: 96px;
       right: 24px;
-      width: 370px;
-      height: 550px;
-      max-height: calc(100vh - 130px);
-      max-width: calc(100vw - 48px);
+      width: 430px;
+      height: 620px;
+      max-height: calc(100vh - 120px);
+      max-width: calc(100vw - 40px);
       background-color: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -584,65 +584,81 @@
     msg.innerHTML = text;
     msgContainer.appendChild(msg);
 
-    // Render horizontal products carousel with FULL inline styles (no class dependency)
+    // Render horizontal products carousel — Skroutz-style large cards
     if (products && products.length > 0) {
       const carousel = document.createElement("div");
-      // Inline carousel styles - guaranteed to work regardless of Shadow DOM CSS
+      // EXPLICIT height = prevents collapse on second message
       Object.assign(carousel.style, {
         display: "flex",
+        flexDirection: "row",
         gap: "12px",
         overflowX: "auto",
-        overflowY: "visible",
-        padding: "6px 2px 14px 2px",
-        margin: "4px 0",
+        overflowY: "hidden",
+        height: "330px",
+        minHeight: "330px",
+        maxHeight: "330px",
         width: "100%",
-        scrollSnapType: "x mandatory",
-        scrollbarWidth: "thin",
-        boxSizing: "border-box"
+        padding: "4px 2px 12px 2px",
+        margin: "6px 0 8px 0",
+        boxSizing: "border-box",
+        alignItems: "flex-start",
+        flexShrink: "0",
+        flexWrap: "nowrap"
       });
 
       products.forEach(p => {
         const card = document.createElement("div");
-        // Inline card styles
+        // Skroutz-style card: 210px wide, 310px tall
         Object.assign(card.style, {
-          flex: "0 0 200px",
-          minWidth: "200px",
-          width: "200px",
+          flexShrink: "0",
+          flexGrow: "0",
+          width: "210px",
+          minWidth: "210px",
+          height: "310px",
+          minHeight: "310px",
           background: "#ffffff",
           border: "1px solid #e2e8f0",
-          borderRadius: "14px",
+          borderRadius: "16px",
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
-          scrollSnapAlign: "start",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-          cursor: "pointer",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
           boxSizing: "border-box",
-          fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          transition: "transform 0.18s ease, box-shadow 0.18s ease"
+        });
+        card.addEventListener("mouseenter", () => {
+          card.style.transform = "translateY(-3px)";
+          card.style.boxShadow = "0 8px 24px rgba(0,0,0,0.13)";
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "translateY(0)";
+          card.style.boxShadow = "0 2px 12px rgba(0,0,0,0.08)";
         });
 
         // Format price
-        const formattedPrice = p.price ? `${parseFloat(p.price).toFixed(2)} €` : "";
+        const formattedPrice = p.price ? `από ${parseFloat(p.price).toFixed(2)} €` : "";
 
         // Clean short description
         let shortDesc = p.description || "";
         shortDesc = shortDesc.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-        if (shortDesc.length > 100) shortDesc = shortDesc.substring(0, 90) + "...";
+        if (shortDesc.length > 110) shortDesc = shortDesc.substring(0, 100) + "...";
 
-        // ── IMAGE SECTION ──
+        // ── IMAGE SECTION ── 190px - big like Skroutz
         const imgWrap = document.createElement("div");
         Object.assign(imgWrap.style, {
           position: "relative",
           width: "100%",
-          height: "130px",
-          minHeight: "130px",
+          height: "190px",
+          minHeight: "190px",
+          maxHeight: "190px",
           background: "#f8fafc",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderBottom: "1px solid #e2e8f0",
           overflow: "hidden",
-          flexShrink: "0"
+          flexShrink: "0",
+          cursor: "pointer"
         });
 
         if (p.image_url) {
@@ -651,85 +667,98 @@
           img.alt = p.name || "";
           img.setAttribute("referrerpolicy", "no-referrer");
           Object.assign(img.style, {
-            width: "100%",
-            height: "100%",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            width: "auto",
+            height: "auto",
             objectFit: "contain",
-            padding: "6px",
-            display: "block"
+            display: "block",
+            padding: "10px"
           });
           img.onerror = function() {
             this.style.display = "none";
             const ph = document.createElement("div");
             ph.textContent = "📦";
-            ph.style.fontSize = "34px";
+            ph.style.fontSize = "48px";
             imgWrap.appendChild(ph);
           };
           imgWrap.appendChild(img);
         } else {
           const ph = document.createElement("div");
           ph.textContent = "📦";
-          ph.style.fontSize = "34px";
+          ph.style.fontSize = "48px";
           imgWrap.appendChild(ph);
         }
 
-        // "Δες το" badge overlay
+        // "Δες το" button — bottom right of image
         const badge = document.createElement("span");
         badge.textContent = "Δες το";
         Object.assign(badge.style, {
           position: "absolute",
-          bottom: "8px",
-          right: "8px",
+          bottom: "10px",
+          right: "10px",
           background: "#fbbf24",
           color: "#000",
           fontWeight: "700",
-          fontSize: "10px",
-          padding: "4px 10px",
+          fontSize: "11px",
+          padding: "5px 12px",
           borderRadius: "20px",
-          pointerEvents: "none"
+          pointerEvents: "none",
+          whiteSpace: "nowrap",
+          boxShadow: "0 2px 6px rgba(251,191,36,0.4)"
         });
         imgWrap.appendChild(badge);
         imgWrap.addEventListener("click", () => { if (p.permalink) window.open(p.permalink, "_blank"); });
 
-        // ── DETAILS SECTION ──
+        // ── DETAILS SECTION ── 120px height
         const details = document.createElement("div");
         Object.assign(details.style, {
-          padding: "10px",
+          padding: "12px 12px 10px 12px",
           display: "flex",
           flexDirection: "column",
-          flex: "1",
-          gap: "4px",
-          boxSizing: "border-box"
+          height: "120px",
+          minHeight: "120px",
+          gap: "5px",
+          boxSizing: "border-box",
+          overflow: "hidden",
+          flexShrink: "0",
+          borderTop: "1px solid #f1f5f9"
         });
 
+        // Product name
         const titleEl = document.createElement("div");
         titleEl.textContent = p.name || "";
         Object.assign(titleEl.style, {
-          fontSize: "12px",
+          fontSize: "13px",
           fontWeight: "700",
           color: "#0f172a",
-          lineHeight: "16px",
-          maxHeight: "32px",
+          lineHeight: "17px",
+          maxHeight: "34px",
           overflow: "hidden",
           cursor: "pointer"
         });
         titleEl.addEventListener("click", () => { if (p.permalink) window.open(p.permalink, "_blank"); });
 
+        // Price
         const priceEl = document.createElement("div");
-        priceEl.textContent = formattedPrice ? `από ${formattedPrice}` : "";
+        priceEl.textContent = formattedPrice;
         Object.assign(priceEl.style, {
-          fontSize: "13px",
+          fontSize: "14px",
           fontWeight: "800",
-          color: "#0f172a"
+          color: "#16a34a",
+          lineHeight: "18px",
+          flexShrink: "0"
         });
 
+        // Description
         const descEl = document.createElement("div");
         descEl.textContent = shortDesc;
         Object.assign(descEl.style, {
-          fontSize: "10px",
+          fontSize: "10.5px",
           color: "#64748b",
           lineHeight: "14px",
-          maxHeight: "42px",
-          overflow: "hidden"
+          overflow: "hidden",
+          maxHeight: "42px"
         });
 
         details.appendChild(titleEl);
