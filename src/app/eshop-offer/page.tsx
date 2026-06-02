@@ -62,34 +62,14 @@ const serviceSchema = {
 
 export default function EshopOfferPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
-      <div className="container mx-auto px-6 pt-10 pb-2">
-        <div className="flex justify-center lg:justify-start">
-          <Link href="/" className="flex items-center">
-            <Image 
-              src="/sgk-logo.png" 
-              alt="SGK Digital" 
-              width={200}
-              height={80}
-              className="h-16 md:h-20 w-auto brightness-0 invert" 
-              priority
-              loading="eager"
-            />
-          </Link>
-        </div>
-      </div>
-
       <EshopOfferPageContent />
-      {/* Minimal Footer */}
-      <footer className="py-12 border-t border-border mt-20">
-        <div className="container mx-auto px-6 text-center text-muted-foreground text-sm">
-          © {new Date().getFullYear()} SGK Digital. All rights reserved.
-        </div>
-      </footer>
-    </main>
+    </>
   );
 }

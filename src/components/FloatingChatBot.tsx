@@ -68,6 +68,12 @@ export default function FloatingChatBot() {
         body: JSON.stringify({ messages: newMessages }),
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Chat API Error:", response.status, errorText);
+        throw new Error(`API Error ${response.status}: ${errorText}`);
+      }
+
       if (!response.body) throw new Error('No response body');
 
       const reader = response.body.getReader();
@@ -113,10 +119,8 @@ export default function FloatingChatBot() {
         try {
           const emailData = JSON.parse(match[1]);
           await sendContactEmail({
-            name: emailData.name,
-            email: emailData.email,
-            phone: emailData.phone,
-            message: `[ΑΠΟ AI CHATBOT]\n\n${emailData.message}`
+            ...emailData,
+            message: emailData.message ? `[ΑΠΟ AI CHATBOT]\n\n${emailData.message}` : undefined
           });
         } catch(e) { 
           console.error('Failed to parse or send email data', e); 
@@ -137,7 +141,7 @@ export default function FloatingChatBot() {
     setInput('');
   };
 
-  const isExcluded = pathname?.includes("/eshop-demo");
+  const isExcluded = pathname?.includes("/eshop-demo") || pathname?.includes("/eshop-offer");
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

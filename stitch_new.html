@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="el" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EcomScale - High Performance E-shops</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error": "#ba1a1a",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#ffdbcc",
+                        "outline-variant": "#e2bfb0",
+                        "on-secondary-container": "#f9f7ff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e1e2e8",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d8dadf",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e1e2e8",
+                        "tertiary-container": "#939aa1",
+                        "primary-fixed-dim": "#ffb693",
+                        "surface-container-high": "#e6e8ed",
+                        "tertiary": "#585f66",
+                        "secondary-fixed-dim": "#b3c5ff",
+                        "background": "#f8f9ff",
+                        "secondary": "#0050cc",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb693",
+                        "on-tertiary-fixed": "#151c22",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#40484e",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "inverse-surface": "#2e3135",
+                        "on-background": "#191c20",
+                        "surface-container": "#eceef3",
+                        "primary": "#a04100",
+                        "tertiary-fixed": "#dce3eb",
+                        "on-secondary-fixed": "#001849",
+                        "surface-container-low": "#f2f3f9",
+                        "on-tertiary-container": "#2b3238",
+                        "primary-container": "#ff6b00",
+                        "on-secondary-fixed-variant": "#003fa4",
+                        "on-surface": "#191c20",
+                        "surface-tint": "#a04100",
+                        "on-primary-fixed": "#351000",
+                        "secondary-container": "#0266ff",
+                        "secondary-fixed": "#dae1ff",
+                        "on-surface-variant": "#5a4136",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#572000",
+                        "outline": "#8e7164",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-on-surface": "#eff0f6",
+                        "tertiary-fixed-dim": "#c0c7cf"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1200px",
+                        "base": "8px",
+                        "section-padding-desktop": "120px",
+                        "gutter": "24px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "stack-md": "24px",
+                        "section-padding-mobile": "64px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-sm": ["Montserrat"],
+                        "label-bold": ["Inter"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        .shadow-glow {
+            box-shadow: 0 4px 20px rgba(0, 80, 204, 0.2);
+        }
+        .shadow-soft {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface/90 backdrop-blur-md dark:bg-surface-dim/90 docked full-width top-0 sticky shadow-sm dark:bg-surface-container z-50">
+<div class="flex justify-between items-center w-full px-gutter py-base max-w-container-max mx-auto z-50">
+<div class="text-headline-sm font-display-lg text-primary dark:text-primary-fixed-dim tracking-tight">
+                EcomScale
+            </div>
+<nav class="hidden md:flex gap-6 items-center">
+<!-- No links defined in JSON, placeholder if needed -->
+</nav>
+<button class="bg-primary-container text-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-primary transition-colors duration-200 shadow-glow active:scale-95">
+                Πάρε Προσφορά
+            </button>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-surface to-primary-fixed opacity-50 -z-10"></div>
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center">
+<div class="flex flex-col gap-stack-md z-10">
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface leading-tight">
+                    Αποκτήστε ένα <span class="text-primary">E-shop</span> με αστραπιαία ταχύτητα που φέρνει Πωλήσεις.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Ένα γρήγορο e-shop φέρνει διπλάσιες πωλήσεις. Εγγύηση επιστροφής χρημάτων αν το e-shop σας δεν είναι τόσο γρήγορο όσο υποσχόμαστε.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-4">
+<button class="bg-primary-container text-on-primary rounded-full px-8 py-4 font-label-bold text-label-bold text-lg hover:bg-primary transition-all duration-300 shadow-glow active:scale-95 flex items-center gap-2">
+                        Πάρε Προσφορά
+                        <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">arrow_forward</span>
+</button>
+<span class="font-label-bold text-label-bold text-primary-container bg-primary-fixed px-4 py-2 rounded-full border border-primary-container/20">
+                        Μόνο με 1500€
+                    </span>
+</div>
+<div class="flex items-center gap-2 mt-4 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">verified</span>
+<span class="font-caption text-caption">100% Εγγύηση Ταχύτητας &amp; Επιστροφής Χρημάτων</span>
+</div>
+</div>
+<div class="relative z-10 hidden md:flex flex-col gap-4"><div class="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white">
+<img alt="Modern Retail E-shop Homepage Design" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqyfplGuIgO2qai0CnHiEUA-gGpr3t26Ws07L_PuQHbUhAighB1yvOqXTP_zyr1285V9M1P9KIRP3GZ3KVBcX_fq2MPqytk-R4-lst58ojz5nJcL7J81XKhF2zrRNDBpKnnYnmG4jbs3xg6u0qXKRh6poPEUmeU47_W2IwmjOorR2jbDHLdnKwYebxEuc6pEI2gX4Fm35pj6vfEHlzc4KoVf9i7A5eUKBpSNTGMTXTIA3GKqo02NySZJFR8cxz5x6Mf4QGiyptYvQB">
+<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
+</div>
+<div class="absolute -right-8 -bottom-8 w-72 h-72 bg-primary-fixed opacity-30 rounded-full blur-3xl -z-10"></div></div>
+</div>
+</section>
+<!-- Social Proof Section -->
+<section class="py-stack-lg bg-surface-container-low px-gutter">
+<div class="max-w-container-max mx-auto text-center flex flex-col gap-stack-sm">
+<h3 class="font-headline-sm text-headline-sm text-tertiary">Μας εμπιστεύονται 200+ επιχειρήσεις</h3>
+<div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 mt-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+<!-- Placeholders for logos -->
+<div class="font-headline-md text-headline-md text-tertiary font-bold tracking-tighter">LOGO<span class="text-secondary">ONE</span></div>
+<div class="font-headline-md text-headline-md text-tertiary font-bold tracking-tighter">Brand<span class="text-primary-container">Two</span></div>
+<div class="font-headline-md text-headline-md text-tertiary font-bold tracking-tighter">CORP<span class="text-secondary">3</span></div>
+<div class="font-headline-md text-headline-md text-tertiary font-bold tracking-tighter">Nexus<span class="text-primary-container">Tech</span></div>
+<div class="font-headline-md text-headline-md text-tertiary font-bold tracking-tighter">Echo<span class="text-secondary">Com</span></div>
+</div>
+</div>
+</section>
+<!-- Offer Details Bento Grid -->
+<section class="py-section-padding-desktop px-gutter bg-surface">
+<div class="max-w-container-max mx-auto flex flex-col gap-stack-lg">
+<div class="text-center max-w-2xl mx-auto"><h2 class="font-headline-md text-headline-md text-on-surface mb-4">Όλα όσα περιλαμβάνει το πακέτο σας</h2><p class="font-body-md text-body-md text-on-surface-variant">Πλήρης λύση χωρίς κρυφά κόστη, σχεδιασμένη για να πουλάτε από την πρώτη μέρα.</p></div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6"><!-- Hosting -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300 md:col-span-2 relative overflow-hidden">
+    <div class="absolute right-0 top-0 w-64 h-64 bg-secondary-fixed opacity-20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+    <div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary-container relative z-10">
+        <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">dns</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface relative z-10">Φιλοξενία (Hosting)</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant relative z-10 max-w-md"><b>Δωρεάν για τον 1ο χρόνο.</b> VPS Server για αστραπιαίες ταχύτητες. (180€/έτος μετά τον πρώτο χρόνο)</p>
+</div>
+
+<!-- Domain Name -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300">
+    <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-container">
+        <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">language</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface">Domain Name</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant"><b>Δωρεάν για 2 χρόνια.</b> (20€/έτος μετά τα δύο χρόνια)</p>
+</div>
+
+<!-- Security & Payments -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300">
+    <div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary-container">
+        <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">payments</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface">Ασφάλεια &amp; Πληρωμές</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant"><b>Δωρεάν SSL για ασφαλείς συναλλαγές.</b> Σύνδεση με τράπεζες και IRIS.</p>
+</div>
+
+<!-- Speed & SEO -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300 md:col-span-2 relative overflow-hidden">
+    <div class="absolute left-0 bottom-0 w-64 h-64 bg-primary-fixed opacity-20 rounded-full blur-3xl -ml-20 -mb-20"></div>
+    <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-container relative z-10">
+        <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">rocket_launch</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface relative z-10">Ταχύτητα &amp; SEO</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant relative z-10 max-w-md">Βελτιστοποίηση για μέγιστη ταχύτητα φόρτωσης και εμφάνιση στην πρώτη σελίδα της Google.</p>
+</div><div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300">
+    <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-container">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_basket</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface">Διασύνδεση Skroutz</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant">Πλήρης διασύνδεση με το Skroutz Marketplace για αύξηση των πωλήσεών σας.</p>
+</div><div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300">
+    <div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary-container">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface">Απεριόριστα Προϊόντα</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant">Δημιουργήστε απεριόριστες κατηγορίες και προϊόντα χωρίς κανέναν περιορισμό.</p>
+</div><div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300">
+    <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-container">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface">Τρόποι Πληρωμής &amp; Courier</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant">Διασύνδεση με όλες τις δημοφιλείς εταιρείες courier και πύλες πληρωμών.</p>
+</div><div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-surface-container hover:shadow-glow transition-shadow duration-300 md:col-span-2 relative overflow-hidden">
+    <div class="absolute right-0 bottom-0 w-48 h-48 bg-secondary-fixed opacity-10 rounded-full blur-2xl -mr-16 -mb-16"></div>
+    <div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary-container relative z-10">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+    </div>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface relative z-10">Εκμάθηση Πλατφόρμας</h3>
+    <p class="font-body-md text-body-md text-on-surface-variant relative z-10 max-w-md">Σας εκπαιδεύουμε στην αποτελεσματική διαχείριση παραγγελιών και προϊόντων για να λειτουργείτε το e-shop σας με αυτοπεποίθηση.</p>
+</div></div>
+</div>
+</section>
+<!-- Guarantee Block -->
+<section class="py-section-padding-mobile px-gutter">
+<div class="max-w-4xl mx-auto bg-surface-container-high rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-soft border-2 border-primary-fixed">
+<div class="absolute inset-0 bg-gradient-to-r from-primary-fixed/30 to-transparent"></div>
+<div class="relative z-10 flex flex-col md:flex-row gap-8 items-center text-center md:text-left">
+<div class="w-24 h-24 shrink-0 rounded-full bg-surface flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: &quot;FILL&quot; 1;">security</span>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Money Back Guarantee for Speed</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
+                        Είμαστε τόσο σίγουροι για την τεχνολογία μας. Αν το e-shop σας δεν πετύχει κορυφαία σκορ ταχύτητας στο Google PageSpeed Insights, σας επιστρέφουμε τα χρήματά σας.
+                    </p>
+<button class="bg-primary-container text-on-primary rounded-full px-8 py-3 font-label-bold text-label-bold hover:bg-primary transition-colors duration-200 shadow-glow active:scale-95">
+                        Ξεκινήστε Χωρίς Ρίσκο
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container-highest full-width bg-tertiary-fixed dark:bg-tertiary-container flat no shadows">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-gutter py-stack-lg max-w-container-max mx-auto gap-8">
+<div class="text-headline-sm font-display-lg text-primary">
+                EcomScale
+            </div>
+<nav class="flex flex-wrap gap-6 justify-center">
+<a class="font-body-md text-body-md text-on-tertiary-fixed-variant hover:text-primary transition-all underline underline-offset-4" href="#">Υπηρεσίες</a>
+<a class="font-body-md text-body-md text-on-tertiary-fixed-variant hover:text-primary transition-all underline underline-offset-4" href="#">Χαρτοφυλάκιο</a>
+<a class="font-body-md text-body-md text-on-tertiary-fixed-variant hover:text-primary transition-all underline underline-offset-4" href="#">Επικοινωνία</a>
+<a class="font-body-md text-body-md text-on-tertiary-fixed-variant hover:text-primary transition-all underline underline-offset-4" href="#">Όροι Χρήσης</a>
+</nav>
+<div class="font-caption text-caption text-on-tertiary-fixed-variant">
+                © 2024 EcomScale Development. Όλα τα δικαιώματα διατηρούνται.
+            </div>
+</div>
+</footer>
+
+
+
+
+</body></html>

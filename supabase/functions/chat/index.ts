@@ -38,19 +38,19 @@ serve(async (req) => {
 Ο ΣΤΟΧΟΣ ΣΟΥ ΩΣ AI ASSISTANT:
 - Να απαντάς σε ερωτήσεις των επισκεπτών για την SGK και τις υπηρεσίες μας.
 - Να προωθείς τα δυνατά μας σημεία (πχ. "Ασύλληπτη Ταχύτητα", "Custom Design", "24/7 Υποστήριξη", "Αποτελέσματα").
-- ΑΥΣΤΗΡΟΣ ΚΑΝΟΝΑΣ: Αν ο χρήστης ρωτήσει για προσφορά, πες του την πληροφορία (π.χ. τιμή) αλλά ΠΡΕΠΕΙ ΠΑΝΤΑ να ρωτάς ευγενικά στο ίδιο μήνυμα: "Για να μιλήσουμε αναλυτικά, ποιο είναι το όνομά σας, το τηλέφωνο και το email σας;".
-- ΑΠΑΓΟΡΕΥΕΤΑΙ να πεις "Θα σας καλέσουμε" αν ο χρήστης δεν σου έχει δώσει πρώτα το τηλέφωνο, το όνομα και το email του!
-- ΜΟΛΙΣ μαζέψεις και τα 4 αυτά στοιχεία (Όνομα, Email, Τηλέφωνο, Περιγραφή), επιβεβαίωσε λέγοντας ΜΟΝΟ ΑΥΤΟ: "Τέλεια! Κατέγραψα τα στοιχεία σας και η ομάδα μας θα επικοινωνήσει μαζί σας άμεσα."
+- ΑΥΣΤΗΡΟΣ ΚΑΝΟΝΑΣ: Αν ο χρήστης ρωτήσει για προσφορά, πες του την πληροφορία (π.χ. τιμή) αλλά ΠΡΕΠΕΙ ΠΑΝΤΑ να ρωτάς ευγενικά στο ίδιο μήνυμα: "Για να σας στείλουμε την αναλυτική προσφορά μας, ποιο είναι το email σας;".
+- ΑΠΑΓΟΡΕΥΕΤΑΙ να πεις ότι στείλατε προσφορά αν ο χρήστης δεν σου έχει δώσει πρώτα το email του!
+- ΜΟΛΙΣ ο χρήστης σου δώσει το Email του, επιβεβαίωσε λέγοντας ΜΟΝΟ ΑΥΤΟ: "Τέλεια! Σας έχουμε στείλει την προσφορά στο email σας. Η ομάδα μας είναι στη διάθεσή σας."
 
 ΣΗΜΑΝΤΙΚΟ (ΑΠΟΣΤΟΛΗ EMAIL): 
-ΜΟΛΙΣ μαζέψεις τα στοιχεία, ΠΡΕΠΕΙ ΝΑ ΕΚΤΕΛΕΣΕΙΣ ΤΗΝ ΑΠΟΣΤΟΛΗ προσθέτοντας ακριβώς αυτό το κείμενο στο τέλος της απάντησής σου (μην το ξεχάσεις!):
-<SEND_EMAIL>{"name": "το όνομα", "email": "το email", "phone": "το τηλέφωνο", "message": "η περιγραφή"}</SEND_EMAIL>
+ΜΟΛΙΣ λάβεις το email, ΠΡΕΠΕΙ ΝΑ ΕΚΤΕΛΕΣΕΙΣ ΤΗΝ ΑΠΟΣΤΟΛΗ προσθέτοντας ακριβώς αυτό το κείμενο στο τέλος της απάντησής σου (μην το ξεχάσεις!):
+<SEND_EMAIL>{"email": "το email", "type": "eshop_offer"}</SEND_EMAIL>
 
 ΣΤΥΛ ΕΠΙΚΟΙΝΩΝΙΑΣ:
 - Μίλα πάντα Ελληνικά (εκτός αν ο χρήστης μιλήσει Αγγλικά).
 - Να είσαι επαγγελματίας αλλά και φιλικός (χρησιμοποίησε 1-2 emojis).
 - ΠΡΕΠΕΙ ΝΑ ΕΙΣΑΙ ΕΞΑΙΡΕΤΙΚΑ ΛΑΚΩΝΙΚΗ. Οι απαντήσεις σου πρέπει να είναι ΠΟΛΥ ΣΥΝΤΟΜΕΣ και απόλυτα "to the point". Απάντα σε 1-2 μικρές προτάσεις το πολύ. ΠΟΤΕ μην γράφεις μεγάλες παραγράφους ή φλυαρίες.
-- Ποτέ μην υπόσχεσαι ακριβείς τιμές εκτός αν είναι γνωστές (πχ. προσφορά Eshop από 3.500€ στα 1.999€).
+- Ποτέ μην υπόσχεσαι ακριβείς τιμές εκτός αν είναι γνωστές (πχ. προσφορά Eshop από 3.500€ στα 1.500€).
 - Αν δεν ξέρεις κάτι, δώσε απλώς το 6999524389 ή το info@sgk.gr.`;
 
     // Convert to Gemini API format
@@ -59,9 +59,8 @@ serve(async (req) => {
       parts: [{ text: m.content || " " }]
     }));
 
-    // Add system instruction as the first message or use systemInstruction parameter
     const payload = {
-      model: "models/gemini-3-flash-preview",
+      model: "models/gemini-2.5-flash",
       contents,
       systemInstruction: {
         role: "user",
@@ -70,7 +69,7 @@ serve(async (req) => {
     };
 
     // I will use REST API directly to avoid esm.sh version issues
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:streamGenerateContent?key=${apiKey}&alt=sse`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=${apiKey}&alt=sse`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -78,6 +77,7 @@ serve(async (req) => {
 
     if (!response.ok) {
       const err = await response.text();
+      console.error(`Gemini API Error details: ${response.status} ${err}`);
       throw new Error(`Gemini API Error: ${response.status} ${err}`);
     }
 
@@ -118,7 +118,7 @@ serve(async (req) => {
             }
           }
         } catch (e) {
-          console.error(e);
+          console.error("Stream reading error:", e);
         } finally {
           controller.close();
         }
@@ -132,7 +132,8 @@ serve(async (req) => {
       },
     });
   } catch (error: any) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    console.error("Chat Function Error:", error);
+    return new Response(JSON.stringify({ error: error.message, stack: error.stack }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

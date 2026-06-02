@@ -10,6 +10,7 @@ import {
   Briefcase, Edit3
 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 // --- Types ---
 interface Transaction {
@@ -139,20 +140,30 @@ export default function AdminVatDashboard() {
   // Load persistent transactions
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("sgk_vat_ledger");
-    if (stored) {
-      try {
-        setTransactions(JSON.parse(stored));
-      } catch (e) {
-        console.error("Error loading vat ledger", e);
+    const fetchTransactions = async () => {
+      const { data, error } = await supabase.from('ledger_transactions').select('*').order('created_at', { ascending: false });
+      if (error) {
+        console.error("Error loading vat ledger", error);
+      } else if (data) {
+        const mapped = data.map((t: any) => ({
+          id: t.id,
+          type: t.type,
+          grossAmount: Number(t.gross_amount),
+          netAmount: Number(t.net_amount),
+          vatAmount: Number(t.vat_amount),
+          date: t.date,
+          description: t.description,
+          category: t.category
+        }));
+        setTransactions(mapped);
       }
-    }
+    };
+    fetchTransactions();
   }, []);
 
   // Save persistent transactions
   const saveTransactions = (newTxList: Transaction[]) => {
     setTransactions(newTxList);
-    localStorage.setItem("sgk_vat_ledger", JSON.stringify(newTxList));
   };
 
   // Reset category selection when type changes
@@ -200,7 +211,7 @@ export default function AdminVatDashboard() {
 
 
   // Ledger Add Transaction Form Submission
-  const handleAddTransaction = (e: React.FormEvent) => {
+  const handleAddTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsedAmount = parseFloat(grossAmount);
     if (isNaN(parsedAmount) || parsedAmount <= 0) {
@@ -220,47 +231,75 @@ export default function AdminVatDashboard() {
     const calculatedNet = parsedAmount / 1.24;
     const calculatedVat = parsedAmount - calculatedNet;
 
-    const newTx: Transaction = {
-      id: "tx_" + Math.random().toString(36).substring(2, 11) + Date.now().toString(36),
+    const { data, error } = await supabase.from('ledger_transactions').insert({
       type: txType,
-      grossAmount: parsedAmount,
-      netAmount: parseFloat(calculatedNet.toFixed(2)),
-      vatAmount: parseFloat(calculatedVat.toFixed(2)),
+      gross_amount: parsedAmount,
+      net_amount: parseFloat(calculatedNet.toFixed(2)),
+      vat_amount: parseFloat(calculatedVat.toFixed(2)),
       date,
       description: description.trim(),
       category
+    }).select().single();
+
+    if (error) {
+      toast.error("Σφάλμα Βάσης", { description: error.message });
+      return;
+    }
+
+    const newTx: Transaction = {
+      id: data.id,
+      type: data.type,
+      grossAmount: Number(data.gross_amount),
+      netAmount: Number(data.net_amount),
+      vatAmount: Number(data.vat_amount),
+      date: data.date,
+      description: data.description,
+      category: data.category
     };
 
-    const updated = [newTx, ...transactions];
-    saveTransactions(updated);
+    setTransactions(prev => [newTx, ...prev]);
     
     // Reset Form
     setGrossAmount("");
     setDescription("");
     toast.success("Επιτυχής Καταχώρηση", {
-      description: `${txType === "income" ? "Το έσοδο" : "Το έξοδο"} προστέθηκε με επιτυχία.`
+      description: `${txType === "income" ? "Το έσοδο" : "Το έξοδο"} προστέθηκε με επιτυχία στη βάση.`
     });
   };
 
   // Add AADE generated invoice to Ledger
-  const handleAddAadeInvoiceToLedger = () => {
+  const handleAddAadeInvoiceToLedger = async () => {
     if (aadeMath.payable <= 0) return;
 
-    const newTx: Transaction = {
-      id: "tx_" + Math.random().toString(36).substring(2, 11) + Date.now().toString(36),
+    const { data, error } = await supabase.from('ledger_transactions').insert({
       type: "income",
-      grossAmount: aadeMath.gross,
-      netAmount: aadeMath.net,
-      vatAmount: aadeMath.vat,
+      gross_amount: aadeMath.gross,
+      net_amount: aadeMath.net,
+      vat_amount: aadeMath.vat,
       date: aadeDate,
       description: `Τιμολόγιο #${aadeDocNo} - ${aadeClientName}`,
       category: "Παροχή Υπηρεσιών (Software)"
+    }).select().single();
+
+    if (error) {
+      toast.error("Σφάλμα Βάσης", { description: error.message });
+      return;
+    }
+
+    const newTx: Transaction = {
+      id: data.id,
+      type: data.type,
+      grossAmount: Number(data.gross_amount),
+      netAmount: Number(data.net_amount),
+      vatAmount: Number(data.vat_amount),
+      date: data.date,
+      description: data.description,
+      category: data.category
     };
 
-    const updated = [newTx, ...transactions];
-    saveTransactions(updated);
+    setTransactions(prev => [newTx, ...prev]);
     toast.success("Αυτόματη Καταχώρηση", {
-      description: "Το τιμολόγιο προστέθηκε επιτυχώς στα έσοδα του τριμήνου σας!"
+      description: "Το τιμολόγιο προστέθηκε επιτυχώς στη βάση σας!"
     });
   };
   // Preset Loading Helper
@@ -330,20 +369,29 @@ export default function AdminVatDashboard() {
   };
 
   // Delete Transaction
-  const handleDeleteTransaction = (id: string) => {
-    const updated = transactions.filter(t => t.id !== id);
-    saveTransactions(updated);
+  const handleDeleteTransaction = async (id: string) => {
+    const { error } = await supabase.from('ledger_transactions').delete().eq('id', id);
+    if (error) {
+      toast.error("Σφάλμα Βάσης", { description: error.message });
+      return;
+    }
+    setTransactions(prev => prev.filter(t => t.id !== id));
     toast.info("Διαγραφή Τιμολογίου", {
-      description: "Το τιμολόγιο αφαιρέθηκε από το ιστορικό."
+      description: "Το τιμολόγιο αφαιρέθηκε από τη βάση."
     });
   };
 
   // Clear All Transactions
-  const handleClearAll = () => {
+  const handleClearAll = async () => {
     if (window.confirm("ΠΡΟΣΟΧΗ! Είστε σίγουροι ότι θέλετε να διαγράψετε ΟΛΑ τα καταχωρημένα τιμολόγια; Αυτή η ενέργεια δεν αναιρείται.")) {
-      saveTransactions([]);
+      const { error } = await supabase.from('ledger_transactions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if (error) {
+        toast.error("Σφάλμα Βάσης", { description: error.message });
+        return;
+      }
+      setTransactions([]);
       toast.error("Καθαρισμός Βάσης", {
-        description: "Όλα τα δεδομένα διαγράφηκαν."
+        description: "Όλα τα δεδομένα διαγράφηκαν οριστικά."
       });
     }
   };
@@ -368,20 +416,48 @@ export default function AdminVatDashboard() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    fileReader.onload = (event) => {
+    fileReader.onload = async (event) => {
       try {
         const parsed = JSON.parse(event.target?.result as string);
         if (Array.isArray(parsed)) {
           const isValid = parsed.every(item => 
-            item.id && 
             (item.type === "income" || item.type === "expense") &&
             typeof item.grossAmount === "number" &&
             typeof item.date === "string"
           );
           if (isValid) {
-            saveTransactions(parsed);
+            const toInsert = parsed.map(item => ({
+              type: item.type,
+              gross_amount: item.grossAmount,
+              net_amount: item.netAmount,
+              vat_amount: item.vatAmount,
+              date: item.date,
+              description: item.description || "Εισαγωγή",
+              category: item.category || "Άλλα Έσοδα"
+            }));
+            
+            const { data, error } = await supabase.from('ledger_transactions').insert(toInsert).select();
+            if (error) {
+               toast.error("Σφάλμα Βάσης", { description: error.message });
+               return;
+            }
+            
+            if (data) {
+              const mapped = data.map((t: any) => ({
+                id: t.id,
+                type: t.type,
+                grossAmount: Number(t.gross_amount),
+                netAmount: Number(t.net_amount),
+                vatAmount: Number(t.vat_amount),
+                date: t.date,
+                description: t.description,
+                category: t.category
+              }));
+              setTransactions(prev => [...mapped, ...prev]);
+            }
+
             toast.success("Εισαγωγή Δεδομένων", {
-              description: `Εισήχθησαν επιτυχώς ${parsed.length} τιμολόγια!`
+              description: `Εισήχθησαν επιτυχώς ${parsed.length} τιμολόγια στη βάση!`
             });
           } else {
             toast.error("Σφάλμα Αρχείου", {

@@ -24,7 +24,7 @@ const EshopOffer = () => {
 
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight">
                             Eshop <span className="text-gradient">Νέας Γενιάς</span> <br />
-                            από μόλις 1.999€
+                            από μόλις 1.500€
                         </h2>
 
                         <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
@@ -40,6 +40,12 @@ const EshopOffer = () => {
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="text-base sm:text-lg font-medium text-foreground">SEO Optimized & Hyper-Fast Loading</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">100% Εγγύηση Ταχύτητας & Επιστροφής Χρημάτων</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">ΣΕΟ Εγγύηση</span>
                             </div>
 
                             {/* Google PageSpeed Scores */}
@@ -80,19 +86,22 @@ const EshopOffer = () => {
                         </div>
 
                         {/* Recent Work Banner */}
-                        <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 backdrop-blur-sm">
-                            <div className="flex-1 text-sm text-left">
-                                <span className="font-bold text-primary block mb-1">Η πιο πρόσφατη δουλειά μας!</span>
-                                <span className="text-muted-foreground text-xs leading-relaxed">Δείτε το <strong className="text-foreground">Vaia Charms</strong>, κατασκευασμένο με έμφαση στην ταχύτητα, το SEO και τα χρώματα που ονειρεύτηκε η πελάτισσά μας.</span>
+                        <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 flex flex-col sm:flex-row items-center gap-4 backdrop-blur-sm">
+                            <div className="w-full sm:w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border shadow-md">
+                                <img src="/V.png" alt="Vaia Charms Eshop" className="w-full h-full object-cover" loading="lazy" />
                             </div>
-                            <a 
-                                href="https://www.vaiacharms.gr/" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="w-full sm:w-auto px-5 py-2.5 bg-background border border-border rounded-lg text-xs font-bold hover:bg-primary/10 transition-colors whitespace-nowrap text-center"
-                            >
-                                Δείτε το Project
-                            </a>
+                            <div className="flex-1 text-sm text-left">
+                                <span className="font-bold text-primary block mb-1">Δες eshop που φτιάξαμε για την Βάια!</span>
+                                <span className="text-muted-foreground text-xs leading-relaxed block mb-2">To <strong className="text-foreground">Vaia Charms</strong>, κατασκευασμένο με έμφαση στην ταχύτητα, το SEO και τα χρώματα που ονειρεύτηκε η πελάτισσά μας.</span>
+                                <a 
+                                    href="https://www.vaiacharms.gr/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="inline-flex items-center justify-center px-4 py-2 bg-background border border-border rounded-lg text-xs font-bold hover:bg-primary/10 transition-colors"
+                                >
+                                    Δείτε το Project
+                                </a>
+                            </div>
                         </div>
                     </motion.div>
 
