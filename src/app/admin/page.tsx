@@ -76,7 +76,7 @@ const getQuarterName = (q: "Q1" | "Q2" | "Q3" | "Q4") => {
 export default function AdminVatDashboard() {
   const [mounted, setMounted] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade">("ledger");
+  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "tax">("ledger");
   
   // Year & Ledger State
   const [filterYear, setFilterYear] = useState<string>(() => String(new Date().getFullYear()));
@@ -137,6 +137,12 @@ export default function AdminVatDashboard() {
   const [newItemTitle, setNewItemTitle] = useState<string>("");
   const [newItemDesc, setNewItemDesc] = useState<string>("");
   const [newItemDuration, setNewItemDuration] = useState<string>("");
+
+  // --- Tax Estimator State ---
+  const [taxNetSalary, setTaxNetSalary] = useState<string>("1050");
+  const [taxMonths, setTaxMonths] = useState<string>("10");
+  const [taxChildren, setTaxChildren] = useState<string>("0");
+  const [isNewBusiness, setIsNewBusiness] = useState<boolean>(true);
 
   // Load persistent transactions
   useEffect(() => {
@@ -557,6 +563,86 @@ export default function AdminVatDashboard() {
     };
   }, []);
 
+  // --- Tax Estimator Math ---
+  const taxMath = useMemo(() => {
+    const netMonthly = parseFloat(taxNetSalary) || 0;
+    const months = parseFloat(taxMonths) || 10;
+    const annualNetSalary = netMonthly * (months * (14 / 12));
+    const annualGrossSalary = annualNetSalary / 0.78;
+
+    const businessNetProfit = yearlySummary.incomeNet - yearlySummary.expenseNet;
+    const taxableBusinessIncome = Math.max(0, businessNetProfit);
+    const totalTaxableIncome = annualGrossSalary + taxableBusinessIncome;
+
+    let tax = 0;
+    let remaining = totalTaxableIncome;
+
+    let businessTaxDiscount = 0;
+    if (isNewBusiness && yearlySummary.incomeGross <= 10000 && taxableBusinessIncome > 0) {
+      const eligibleAmount = Math.min(10000, taxableBusinessIncome);
+      businessTaxDiscount = eligibleAmount * 0.045;
+    }
+
+    if (remaining > 40000) { tax += (remaining - 40000) * 0.44; remaining = 40000; }
+    if (remaining > 30000) { tax += (remaining - 30000) * 0.36; remaining = 30000; }
+    if (remaining > 20000) { tax += (remaining - 20000) * 0.28; remaining = 20000; }
+    if (remaining > 10000) { tax += (remaining - 10000) * 0.22; remaining = 10000; }
+    if (remaining > 0) { tax += remaining * 0.09; }
+
+    tax -= businessTaxDiscount;
+
+    let taxDiscount = 777;
+    const children = parseInt(taxChildren) || 0;
+    if (children === 1) taxDiscount = 810;
+    if (children === 2) taxDiscount = 900;
+    if (children === 3) taxDiscount = 1120;
+    if (children >= 4) taxDiscount = 1340;
+
+    if (totalTaxableIncome > 12000) {
+      const reduction = Math.floor((totalTaxableIncome - 12000) / 1000) * 20;
+      taxDiscount = Math.max(0, taxDiscount - reduction);
+    }
+
+    tax = Math.max(0, tax - taxDiscount);
+
+    let salaryTax = 0;
+    let sRem = annualGrossSalary;
+    if (sRem > 40000) { salaryTax += (sRem - 40000) * 0.44; sRem = 40000; }
+    if (sRem > 30000) { salaryTax += (sRem - 30000) * 0.36; sRem = 30000; }
+    if (sRem > 20000) { salaryTax += (sRem - 20000) * 0.28; sRem = 20000; }
+    if (sRem > 10000) { salaryTax += (sRem - 10000) * 0.22; sRem = 10000; }
+    if (sRem > 0) { salaryTax += sRem * 0.09; }
+    
+    let salaryDiscount = 777;
+    if (children === 1) salaryDiscount = 810;
+    if (children === 2) salaryDiscount = 900;
+    if (children === 3) salaryDiscount = 1120;
+    if (children >= 4) salaryDiscount = 1340;
+    if (annualGrossSalary > 12000) {
+      const sReduction = Math.floor((annualGrossSalary - 12000) / 1000) * 20;
+      salaryDiscount = Math.max(0, salaryDiscount - sReduction);
+    }
+    const withheldTax = Math.max(0, salaryTax - salaryDiscount);
+
+    const proportionOfBusiness = totalTaxableIncome > 0 ? (taxableBusinessIncome / totalTaxableIncome) : 0;
+    const baseBusinessTax = tax * proportionOfBusiness;
+    const advanceTaxRate = isNewBusiness ? 0.275 : 0.55;
+    const advanceTax = baseBusinessTax * advanceTaxRate;
+
+    const finalTaxToPay = Math.max(0, tax - withheldTax) + advanceTax;
+
+    return {
+      annualGrossSalary,
+      businessNetProfit: taxableBusinessIncome,
+      totalTaxableIncome,
+      totalCalculatedTax: tax + withheldTax,
+      withheldTax,
+      advanceTax,
+      finalTaxToPay,
+      taxDiscount
+    };
+  }, [taxNetSalary, taxMonths, taxChildren, isNewBusiness, yearlySummary]);
+
   // Live Dissection Quick Calculator (sidebar widget)
   const quickCalcResults = useMemo(() => {
     const input = parseFloat(calcInput);
@@ -686,7 +772,18 @@ export default function AdminVatDashboard() {
             }`}
           >
             <Calculator className="w-4 h-4" />
-            Πρότυπο Τιμολογίου & Αναλυτική Προσφορά (2 Σελίδες)
+            Πρότυπο Τιμολογίου
+          </button>
+          <button
+            onClick={() => setActivePortalTab("tax")}
+            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
+              activePortalTab === "tax"
+                ? "bg-[#10b981] text-[#030712] shadow-lg shadow-emerald-500/10"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Briefcase className="w-4 h-4" />
+            Εκτίμηση Φόρου (Παράλληλη)
           </button>
         </div>
       </div>
@@ -1733,6 +1830,164 @@ export default function AdminVatDashboard() {
               </div>
 
             </div>
+          </motion.div>
+        )}
+
+        {/* --- TAB 3: TAX ESTIMATOR PORTAL --- */}
+        {activePortalTab === "tax" && (
+          <motion.div
+            key="tax-tab"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="relative z-10"
+          >
+            <main className="max-w-7xl mx-auto px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+              
+              {/* LEFT COLUMN: INPUTS */}
+              <div className="lg:col-span-4 space-y-8">
+                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl">
+                  <h3 className="text-sm font-black text-white italic tracking-wide uppercase mb-4 flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-[#10b981]" />
+                    Στοιχεια Μισθωτου
+                  </h3>
+
+                  <div className="space-y-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Καθαρός Μηνιαίος Μισθός</label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          value={taxNetSalary}
+                          onChange={(e) => setTaxNetSalary(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none pr-10"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">€</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Μήνες Εργασίας (έως 12)</label>
+                      <input
+                        type="number"
+                        value={taxMonths}
+                        onChange={(e) => setTaxMonths(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Αριθμός Τέκνων</label>
+                      <select
+                        value={taxChildren}
+                        onChange={(e) => setTaxChildren(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-3 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none"
+                      >
+                        <option value="0">Χωρίς Τέκνα</option>
+                        <option value="1">1 Τέκνο</option>
+                        <option value="2">2 Τέκνα</option>
+                        <option value="3">3 Τέκνα</option>
+                        <option value="4">4+ Τέκνα</option>
+                      </select>
+                    </div>
+
+                    <label className="flex items-center gap-2 cursor-pointer bg-slate-950 p-3 rounded-xl border border-slate-800/50 hover:bg-slate-900 transition-colors group">
+                      <input 
+                        type="checkbox" 
+                        checked={isNewBusiness}
+                        onChange={(e) => setIsNewBusiness(e.target.checked)}
+                        className="w-4 h-4 rounded border-slate-700 bg-slate-800 text-[#10b981] focus:ring-[#10b981] focus:ring-offset-slate-950 cursor-pointer accent-[#10b981]"
+                      />
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-slate-300 transition-colors">Νέα Επιχείρηση (< 3 ετών)</span>
+                    </label>
+                    {isNewBusiness && (
+                      <p className="text-[10px] text-slate-500 italic px-2">Μειωμένος συντελεστής 4.5% (για εισόδημα έως 10.000€) και προκαταβολή φόρου 27.5%.</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: RESULTS */}
+              <div className="lg:col-span-8 space-y-6">
+                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl">
+                  <h3 className="text-sm font-black text-white italic tracking-wide uppercase mb-6 flex items-center gap-2 border-b border-slate-800 pb-4">
+                    <Calculator className="w-4 h-4 text-[#10b981]" />
+                    Αποτελεσματα Εκκαθαρισης Φορου
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    {/* Breakdown */}
+                    <div className="space-y-4">
+                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mb-2">Φορολογητέο Εισόδημα</p>
+                      
+                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
+                        <span className="text-slate-400">Μικτό Μισθωτών (Εκτίμηση):</span>
+                        <span className="font-mono text-slate-300">{taxMath.annualGrossSalary.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
+                        <span className="text-slate-400">Καθαρό Κέρδος Επιχείρησης:</span>
+                        <span className="font-mono text-slate-300">{taxMath.businessNetProfit.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center text-xs font-bold border-b border-slate-800 pb-2">
+                        <span className="text-emerald-400">Σύνολο Φορολογητέου Εισοδήματος:</span>
+                        <span className="font-mono text-emerald-400">{taxMath.totalTaxableIncome.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+
+                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mt-6 mb-2">Υπολογισμός Φόρου</p>
+
+                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
+                        <span className="text-slate-400">Αρχικός Φόρος Κλίμακας:</span>
+                        <span className="font-mono text-slate-300">{taxMath.totalCalculatedTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+
+                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
+                        <span className="text-slate-400">Μείον Έκπτωση Φόρου (Αφορολόγητο):</span>
+                        <span className="font-mono text-emerald-400">-{taxMath.taxDiscount.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+
+                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
+                        <span className="text-slate-400">Μείον Φόρος που Παρακρατήθηκε (Μισθός):</span>
+                        <span className="font-mono text-emerald-400">-{taxMath.withheldTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+
+                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
+                        <span className="text-slate-400">Συν Προκαταβολή Επόμενου Έτους ({isNewBusiness ? '27.5%' : '55%'}):</span>
+                        <span className="font-mono text-rose-400">+{taxMath.advanceTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+
+                    </div>
+
+                    {/* Final Pay */}
+                    <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-center items-center text-center relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                        <Coins className="w-24 h-24 text-rose-500" />
+                      </div>
+                      
+                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">Εκτιμωμενο Ποσο Πληρωμης Εφοριας</p>
+                      
+                      <h3 className="text-4xl font-black text-rose-400 mt-4 mb-2">
+                        {taxMath.finalTaxToPay.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€
+                      </h3>
+                      
+                      <p className="text-[10px] text-slate-400">
+                        Περιλαμβάνει τον φόρο εκκαθάρισης<br/>και την προκαταβολή φόρου επιχειρηματικής δραστηριότητας.
+                      </p>
+                      
+                      <div className="mt-6 pt-4 border-t border-slate-900 w-full text-left flex items-center gap-2 text-[10px] text-emerald-500 font-bold bg-emerald-500/5 p-3 rounded-xl border border-emerald-500/20">
+                        <CheckCircle2 className="w-6 h-6 shrink-0" />
+                        Ως μισθωτός υπερκαλύπτεις την 2η ασφαλιστική κατηγορία του ΕΦΚΑ (περίπου 240€/μήνα). Επομένως, απαλλάσσεσαι πλήρως από ΕΦΚΑ για την ατομική επιχείρηση.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </main>
           </motion.div>
         )}
 
