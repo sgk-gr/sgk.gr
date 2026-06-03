@@ -96,6 +96,7 @@ export default function AdminVatDashboard() {
   });
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<string>(CATEGORIES.income[0]);
+  const [isZeroVat, setIsZeroVat] = useState<boolean>(false);
 
   // Live Quick Calculator State
   const [calcInput, setCalcInput] = useState<string>("");
@@ -228,8 +229,8 @@ export default function AdminVatDashboard() {
       return;
     }
 
-    const calculatedNet = parsedAmount / 1.24;
-    const calculatedVat = parsedAmount - calculatedNet;
+    const calculatedNet = isZeroVat ? parsedAmount : parsedAmount / 1.24;
+    const calculatedVat = isZeroVat ? 0 : parsedAmount - calculatedNet;
 
     const { data, error } = await supabase.from('ledger_transactions').insert({
       type: txType,
@@ -262,6 +263,7 @@ export default function AdminVatDashboard() {
     // Reset Form
     setGrossAmount("");
     setDescription("");
+    setIsZeroVat(false);
     toast.success("Επιτυχής Καταχώρηση", {
       description: `${txType === "income" ? "Το έσοδο" : "Το έξοδο"} προστέθηκε με επιτυχία στη βάση.`
     });
@@ -897,6 +899,17 @@ export default function AdminVatDashboard() {
                       </button>
                     </div>
 
+                    {/* Zero VAT Toggle */}
+                    <label className="flex items-center gap-2 cursor-pointer bg-slate-950 p-3 rounded-xl border border-slate-800/50 hover:bg-slate-900 transition-colors group">
+                      <input 
+                        type="checkbox" 
+                        checked={isZeroVat}
+                        onChange={(e) => setIsZeroVat(e.target.checked)}
+                        className="w-4 h-4 rounded border-slate-700 bg-slate-800 text-[#10b981] focus:ring-[#10b981] focus:ring-offset-slate-950 cursor-pointer accent-[#10b981]"
+                      />
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-slate-300 transition-colors">Τιμολογιο Χωρις ΦΠΑ (π.χ. Ενδοκοινοτικη 0%)</span>
+                    </label>
+
                     {/* Amount field (Gross) */}
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Ποσο Τιμολογιου με ΦΠΑ (24%)</label>
@@ -914,15 +927,23 @@ export default function AdminVatDashboard() {
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 font-mono">€</span>
                       </div>
                       {grossAmount && parseFloat(grossAmount) > 0 && (
-                        <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-900 text-[10px] font-bold space-y-1 mt-1 text-slate-500 animate-in fade-in">
+                        <div className="bg-slate-950 p-3 rounded-lg border border-slate-900 text-[10px] font-bold space-y-1 mt-2 text-slate-500 animate-in fade-in">
                           <div className="flex justify-between">
                             <span>Καθαρή Αξία:</span>
-                            <span className="text-slate-300 font-mono">{(parseFloat(grossAmount) / 1.24).toFixed(2)}€</span>
+                            <span className="text-slate-300 font-mono">{isZeroVat ? parseFloat(grossAmount).toFixed(2) : (parseFloat(grossAmount) / 1.24).toFixed(2)}€</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>ΦΠΑ 24%:</span>
-                            <span className="text-emerald-500/80 font-mono">{(parseFloat(grossAmount) - (parseFloat(grossAmount) / 1.24)).toFixed(2)}€</span>
+                            <span>ΦΠΑ {isZeroVat ? '0%' : '24%'}:</span>
+                            <span className="text-emerald-500/80 font-mono">{isZeroVat ? '0.00' : (parseFloat(grossAmount) - (parseFloat(grossAmount) / 1.24)).toFixed(2)}€</span>
                           </div>
+                          {txType === "expense" && (
+                            <div className="flex justify-between border-t border-slate-800/80 pt-1.5 mt-1.5">
+                              <span className="text-emerald-400">Μείωση Φόρου Εισοδήματος (22%):</span>
+                              <span className="text-emerald-400 font-mono">
+                                {(isZeroVat ? parseFloat(grossAmount) * 0.22 : (parseFloat(grossAmount) / 1.24) * 0.22).toFixed(2)}€
+                              </span>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
