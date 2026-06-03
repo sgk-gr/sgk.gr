@@ -75,6 +75,9 @@ const getQuarterName = (q: "Q1" | "Q2" | "Q3" | "Q4") => {
 
 export default function AdminVatDashboard() {
   const [mounted, setMounted] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pinInput, setPinInput] = useState("");
+  const [pinError, setPinError] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "tax">("ledger");
   
@@ -148,6 +151,9 @@ export default function AdminVatDashboard() {
   // Load persistent transactions
   useEffect(() => {
     setMounted(true);
+    const savedAuth = sessionStorage.getItem("admin_auth");
+    if (savedAuth === "true") setIsAuthenticated(true);
+
     const fetchTransactions = async () => {
       const { data, error } = await supabase.from('ledger_transactions').select('*').order('created_at', { ascending: false });
       if (error) {
@@ -706,7 +712,74 @@ export default function AdminVatDashboard() {
     });
   }, [transactions, filterYear, filterQuarter, filterType, searchQuery]);
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pinInput === "TsavosGeo1987@") {
+      setIsAuthenticated(true);
+      setPinError(false);
+      sessionStorage.setItem("admin_auth", "true");
+      toast.success("Επιτυχής Είσοδος", { description: "Καλωσήρθες στο SGK Admin Portal." });
+    } else {
+      setPinError(true);
+      toast.error("Σφάλμα Πρόσβασης", { description: "Ο κωδικός που εισάγατε είναι λανθασμένος." });
+    }
+  };
+
   if (!mounted) return null;
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#030712] text-slate-300 font-sans antialiased flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#10b981]/25">
+        <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-[#10b981]/5 to-transparent pointer-events-none z-0" />
+        <div className="absolute top-1/4 right-10 w-[300px] h-[300px] bg-[#10b981]/3 rounded-full blur-[120px] pointer-events-none z-0" />
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="relative z-10 w-full max-w-sm"
+        >
+          <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-8 rounded-3xl shadow-2xl text-center">
+            <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center p-2.5 shadow-md mb-6">
+              <img src="/sgk-logo.png" alt="SGK Logo" className="w-full h-full object-contain" />
+            </div>
+            
+            <h1 className="text-xl font-black text-white tracking-tight flex items-center justify-center gap-2 mb-2">
+              SGK <span className="text-[#10b981]">ADMIN</span>
+            </h1>
+            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mb-8">
+              Απαιτείται Εξουσιοδότηση Πρόσβασης
+            </p>
+
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-1.5 text-left">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1">
+                  Master Password
+                </label>
+                <input
+                  type="password"
+                  value={pinInput}
+                  onChange={(e) => {
+                    setPinInput(e.target.value);
+                    setPinError(false);
+                  }}
+                  className={`w-full bg-slate-950 border ${pinError ? 'border-rose-500/50' : 'border-slate-850'} rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none transition-colors text-center tracking-widest`}
+                  placeholder="••••••••"
+                  autoFocus
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3 mt-2 rounded-xl font-black text-xs italic tracking-wider transition-all bg-[#10b981] hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/10"
+              >
+                ΕΙΣΟΔΟΣ
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#030712] text-slate-300 font-sans antialiased pb-20 selection:bg-[#10b981]/25">
