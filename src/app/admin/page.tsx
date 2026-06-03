@@ -1899,7 +1899,7 @@ export default function AdminVatDashboard() {
                         onChange={(e) => setIsNewBusiness(e.target.checked)}
                         className="w-4 h-4 rounded border-slate-700 bg-slate-800 text-[#10b981] focus:ring-[#10b981] focus:ring-offset-slate-950 cursor-pointer accent-[#10b981]"
                       />
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-slate-300 transition-colors">Νέα Επιχείρηση (< 3 ετών)</span>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-slate-300 transition-colors">Νέα Επιχείρηση (&lt; 3 ετών)</span>
                     </label>
                     {isNewBusiness && (
                       <p className="text-[10px] text-slate-500 italic px-2">Μειωμένος συντελεστής 4.5% (για εισόδημα έως 10.000€) και προκαταβολή φόρου 27.5%.</p>
