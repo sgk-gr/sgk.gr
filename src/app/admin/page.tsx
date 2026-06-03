@@ -143,6 +143,7 @@ export default function AdminVatDashboard() {
   const [taxMonths, setTaxMonths] = useState<string>("10");
   const [taxChildren, setTaxChildren] = useState<string>("0");
   const [isNewBusiness, setIsNewBusiness] = useState<boolean>(true);
+  const [taxWithheldB2B, setTaxWithheldB2B] = useState<string>("");
 
   // Load persistent transactions
   useEffect(() => {
@@ -563,6 +564,18 @@ export default function AdminVatDashboard() {
     };
   }, []);
 
+  // Estimate 20% withholding from Ledger automatically
+  const estimatedWithheld20 = useMemo(() => {
+    let total = 0;
+    transactions.forEach(t => {
+      const tYear = t.date.split("-")[0];
+      if (tYear === filterYear && t.type === "income" && t.netAmount > 300) {
+        total += t.netAmount * 0.20;
+      }
+    });
+    return total;
+  }, [transactions, filterYear]);
+
   // --- Tax Estimator Math ---
   const taxMath = useMemo(() => {
     const netMonthly = parseFloat(taxNetSalary) || 0;
@@ -629,7 +642,14 @@ export default function AdminVatDashboard() {
     const advanceTaxRate = isNewBusiness ? 0.275 : 0.55;
     const advanceTax = baseBusinessTax * advanceTaxRate;
 
-    const finalTaxToPay = Math.max(0, tax - withheldTax) + advanceTax;
+    const userWithheldB2B = taxWithheldB2B === "" ? estimatedWithheld20 : (parseFloat(taxWithheldB2B) || 0);
+
+    const totalTaxLiabilities = tax + advanceTax;
+    const totalTaxPaid = withheldTax + userWithheldB2B;
+    const balance = totalTaxLiabilities - totalTaxPaid;
+    
+    const isRefund = balance < 0;
+    const finalAmount = Math.abs(balance);
 
     return {
       annualGrossSalary,
@@ -638,10 +658,12 @@ export default function AdminVatDashboard() {
       totalCalculatedTax: tax + withheldTax,
       withheldTax,
       advanceTax,
-      finalTaxToPay,
+      userWithheldB2B,
+      isRefund,
+      finalAmount,
       taxDiscount
     };
-  }, [taxNetSalary, taxMonths, taxChildren, isNewBusiness, yearlySummary]);
+  }, [taxNetSalary, taxMonths, taxChildren, isNewBusiness, yearlySummary, taxWithheldB2B, estimatedWithheld20]);
 
   // Live Dissection Quick Calculator (sidebar widget)
   const quickCalcResults = useMemo(() => {
@@ -1904,6 +1926,26 @@ export default function AdminVatDashboard() {
                     {isNewBusiness && (
                       <p className="text-[10px] text-slate-500 italic px-2">Μειωμένος συντελεστής 4.5% (για εισόδημα έως 10.000€) και προκαταβολή φόρου 27.5%.</p>
                     )}
+
+                    {/* Withholding Input */}
+                    <div className="space-y-1.5 pt-4 border-t border-slate-800/80">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                        Φόρος 20% που Παρακρατήθηκε
+                      </label>
+                      <p className="text-[10px] text-slate-500 italic leading-tight pb-2">
+                        Υπολογίζεται αυτόματα από τα έσοδα του Ledger (άνω των 300€). Μπορείς να το διορθώσεις αν κάποια ήταν προς ιδιώτες.
+                      </p>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          placeholder={estimatedWithheld20.toFixed(2)}
+                          value={taxWithheldB2B}
+                          onChange={(e) => setTaxWithheldB2B(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none pr-10"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">€</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1959,18 +2001,25 @@ export default function AdminVatDashboard() {
                         <span className="font-mono text-rose-400">+{taxMath.advanceTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
+                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
+                        <span className="text-slate-400">Μείον Παρακρατούμενος Φόρος 20% (από τιμολόγια):</span>
+                        <span className="font-mono text-emerald-400">-{taxMath.userWithheldB2B.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      </div>
+
                     </div>
 
                     {/* Final Pay */}
-                    <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-center items-center text-center relative overflow-hidden group">
+                    <div className={`p-6 rounded-2xl border flex flex-col justify-center items-center text-center relative overflow-hidden group transition-colors ${taxMath.isRefund ? 'bg-[#10b981]/10 border-[#10b981]/30' : 'bg-slate-950 border-slate-800'}`}>
                       <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                        <Coins className="w-24 h-24 text-rose-500" />
+                        <Coins className={`w-24 h-24 ${taxMath.isRefund ? 'text-emerald-500' : 'text-rose-500'}`} />
                       </div>
                       
-                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">Εκτιμωμενο Ποσο Πληρωμης Εφοριας</p>
+                      <p className={`text-[10px] font-bold uppercase tracking-wider italic ${taxMath.isRefund ? 'text-emerald-500' : 'text-slate-500'}`}>
+                        {taxMath.isRefund ? 'Εκτιμωμενο Ποσο Επιστροφης Φορου' : 'Εκτιμωμενο Ποσο Πληρωμης Εφοριας'}
+                      </p>
                       
-                      <h3 className="text-4xl font-black text-rose-400 mt-4 mb-2">
-                        {taxMath.finalTaxToPay.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€
+                      <h3 className={`text-4xl font-black mt-4 mb-2 ${taxMath.isRefund ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {taxMath.finalAmount.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€
                       </h3>
                       
                       <p className="text-[10px] text-slate-400">
