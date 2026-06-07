@@ -55,8 +55,8 @@ const EshopOfferPageContent = () => {
           <div className="flex flex-col gap-stack-md">
             <h1 className="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-vivid-on-surface leading-tight">
               Αποκτήστε ένα <span className="font-sans font-black text-vivid-primary tracking-tight">E-</span><br className="hidden md:block" />
-              <span className="font-sans font-black text-vivid-primary tracking-tight">shop</span> με αστραπιαία<br className="hidden md:block" />
-              ταχύτητα που φέρνει<br className="hidden md:block" />
+              <span className="font-sans font-black text-vivid-primary tracking-tight">shop</span> με αστραπιαία{' '}<br className="hidden md:block" />
+              ταχύτητα που φέρνει{' '}<br className="hidden md:block" />
               Πωλήσεις.
             </h1>
             <p className="font-body-lg text-body-lg text-vivid-on-surface-variant max-w-lg">
