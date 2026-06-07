@@ -45,6 +45,8 @@ serve(async (req) => {
 
 
         // 1. Save to Database
+        const unsubscribeToken = crypto.randomUUID();
+        
         const { error: dbError } = await supabase
             .from("sgk_mails")
             .insert([{
@@ -58,7 +60,9 @@ serve(async (req) => {
                 project_info: finalProjectInfo,
                 needs_nda: needsNDA,
                 offer_price: offerPrice,
-                marketing_consent: marketingConsent
+                marketing_consent: marketingConsent,
+                email_sequence_step: 1,
+                unsubscribe_token: unsubscribeToken
             }]);
 
         if (dbError) {
@@ -181,7 +185,8 @@ serve(async (req) => {
                 <div style="text-align: center; margin-top: 30px;">
                     <p style="color: #888888; font-size: 13px; line-height: 1.5;">
                         Αυτό το email στάλθηκε αυτόματα. Παρακαλούμε μην απαντήσετε σε αυτό το μήνυμα.<br>
-                        <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style="color: #FF6B00; text-decoration: none;">sgk.gr</a>
+                        <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style="color: #FF6B00; text-decoration: none;">sgk.gr</a><br><br>
+                        <a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" style="color: #999; text-decoration: underline; font-size: 12px;">Κατάργηση εγγραφής (Unsubscribe)</a>
                     </p>
                 </div>
             </div>
