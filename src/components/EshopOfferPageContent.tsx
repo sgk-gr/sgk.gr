@@ -56,11 +56,11 @@ const EshopOfferPageContent = () => {
             <h1 className="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-vivid-on-surface leading-tight">
               Αποκτήστε ένα <span className="font-sans font-black text-vivid-primary tracking-tight">E-</span><br className="hidden md:block" />
               <span className="font-sans font-black text-vivid-primary tracking-tight">shop</span> με αστραπιαία{' '}<br className="hidden md:block" />
-              ταχύτητα που φέρνει{' '}<br className="hidden md:block" />
-              Πωλήσεις.
+              ταχύτητα και αποδεδειγμένη{' '}<br className="hidden md:block" />
+              απόδοση.
             </h1>
             <p className="font-body-lg text-body-lg text-vivid-on-surface-variant max-w-lg">
-              Ένα γρήγορο e-shop αυξάνει κατακόρυφα τις πωλήσεις. Απόλυτη δέσμευση αποτελέσματος για τη μέγιστη ταχύτητα του E-shop σας.
+              Ένα γρήγορο e-shop βελτιώνει σημαντικά την εμπειρία χρήστη και την κατάταξη στη Google. Δεσμευόμαστε για κορυφαίες επιδόσεις PageSpeed.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-4">
               <button 
@@ -153,7 +153,7 @@ const EshopOfferPageContent = () => {
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>rocket_launch</span>
               </div>
               <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface relative z-10">Κορυφαία Ταχύτητα & SEO</h3>
-              <p className="font-body-md text-body-md text-vivid-on-surface-variant relative z-10 max-w-md">Βελτιστοποίηση για μέγιστη ταχύτητα φόρτωσης και ενισχυμένη εμφάνιση στη Google. <b>Απόλυτη Δέσμευση Ταχύτητας & Αποτελέσματος</b>.</p>
+              <p className="font-body-md text-body-md text-vivid-on-surface-variant relative z-10 max-w-md">Βελτιστοποίηση για μέγιστη ταχύτητα φόρτωσης και ενισχυμένη εμφάνιση στη Google. <b>Υψηλές Επιδόσεις PageSpeed — μετρήσιμα αποτελέσματα</b>.</p>
             </div>
 
             {/* Skroutz */}
@@ -214,7 +214,7 @@ const EshopOfferPageContent = () => {
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: '"FILL" 1' }}>security</span>
             </div>
             <div className="flex-1">
-              <h2 className="font-headline-md text-headline-md text-vivid-on-surface mb-2">Απόλυτη Δέσμευση Αποτελέσματος</h2>
+              <h2 className="font-headline-md text-headline-md text-vivid-on-surface mb-2">Η Δέσμευσή μας</h2>
               <p className="font-body-lg text-body-lg text-vivid-on-surface-variant mb-6">
                 Είμαστε τόσο σίγουροι για την τεχνολογία μας. Δεσμευόμαστε να πετύχουμε κορυφαία σκορ ταχύτητας στο Google PageSpeed Insights για το δικό σας έργο.
               </p>
@@ -222,7 +222,7 @@ const EshopOfferPageContent = () => {
                 onClick={() => setIsModalOpen(true)}
                 className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95"
               >
-                Ξεκινήστε Χωρίς Ρίσκο
+                Ξεκινήστε Σήμερα
               </button>
             </div>
           </div>
@@ -235,9 +235,15 @@ const EshopOfferPageContent = () => {
           <div className="flex items-center">
             <img src="/sgk-logo.png" alt="SGK Logo" className="h-10 md:h-12 w-auto object-contain brightness-0" />
           </div>
-          <div className="flex gap-4">
-            <a href="/eshop-offer/privacy-policy" className="font-body-md text-body-md text-vivid-on-tertiary-fixed-variant hover:text-vivid-primary transition-all underline underline-offset-4 uppercase">ΠΟΛΙΤΙΚΗ ΑΠΟΡΡΗΤΟΥ</a>
-            <a href="/eshop-offer/terms-of-use" className="font-body-md text-body-md text-vivid-on-tertiary-fixed-variant hover:text-vivid-primary transition-all underline underline-offset-4 uppercase">ΟΡΟΙ ΧΡΗΣΗΣ</a>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="flex gap-4 text-vivid-on-tertiary-fixed-variant font-body-md text-body-md">
+              <a href="tel:6999524389" className="hover:text-vivid-primary transition-all">📞 6999524389</a>
+              <a href="mailto:info@sgk.gr" className="hover:text-vivid-primary transition-all">📧 info@sgk.gr</a>
+            </div>
+            <div className="flex gap-4">
+              <a href="/eshop-offer/privacy-policy" className="font-body-md text-body-md text-vivid-on-tertiary-fixed-variant hover:text-vivid-primary transition-all underline underline-offset-4 uppercase">ΠΟΛΙΤΙΚΗ ΑΠΟΡΡΗΤΟΥ</a>
+              <a href="/eshop-offer/terms-of-use" className="font-body-md text-body-md text-vivid-on-tertiary-fixed-variant hover:text-vivid-primary transition-all underline underline-offset-4 uppercase">ΟΡΟΙ ΧΡΗΣΗΣ</a>
+            </div>
           </div>
           <div className="font-caption text-caption text-vivid-on-tertiary-fixed-variant">
             © 2026 sgk.gr. Όλα τα δικαιώματα διατηρούνται.
