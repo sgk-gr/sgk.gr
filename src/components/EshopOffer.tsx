@@ -42,10 +42,10 @@ const EshopOffer = () => {
                                 <span className="text-base sm:text-lg font-medium text-foreground">SEO Optimized & Hyper-Fast Loading</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">100% Εγγύηση Ταχύτητας & Επιστροφής Χρημάτων</span>
+                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">Κορυφαία Ποιότητα & Αξιοπιστία</span>
                             </div>
                             <div className="flex items-center gap-3">
-                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">ΣΕΟ Εγγύηση</span>
+                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">Βελτιστοποίηση SEO</span>
                             </div>
 
                             {/* Google PageSpeed Scores */}
