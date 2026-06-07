@@ -58,6 +58,11 @@ export function EmailsTab() {
   const [campaignBody, setCampaignBody] = useState("");
   const [sendingProgress, setSendingProgress] = useState<{ current: number; total: number; active: boolean; statusText: string } | null>(null);
   const [singleLeadTarget, setSingleLeadTarget] = useState<any | null>(null);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [importData, setImportData] = useState("");
+  const [importConsent, setImportConsent] = useState(true);
+  const [importStartSequence, setImportStartSequence] = useState<"campaign_only" | "sequence_start">("campaign_only");
+  const [importingProgress, setImportingProgress] = useState(false);
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -196,6 +201,76 @@ export function EmailsTab() {
     await fetchLeads();
   };
 
+  const handleImportLeads = async () => {
+    if (!importData.trim()) {
+      toast.error("Παρακαλώ εισάγετε δεδομένα");
+      return;
+    }
+
+    setImportingProgress(true);
+    const lines = importData.split("\n");
+    const newLeads: any[] = [];
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed) return;
+
+      let email = "";
+      let first_name = "";
+      let last_name = "";
+
+      if (trimmed.includes(",")) {
+        const parts = trimmed.split(",").map(p => p.trim());
+        email = parts[0];
+        first_name = parts[1] || "";
+        last_name = parts[2] || "";
+      } else {
+        email = trimmed;
+      }
+
+      if (emailRegex.test(email)) {
+        newLeads.push({
+          email,
+          first_name,
+          last_name,
+          type: "imported",
+          marketing_consent: importConsent,
+          email_sequence_step: importStartSequence === "campaign_only" ? 4 : 1,
+          unsubscribe_token: crypto.randomUUID(),
+          unsubscribed: false,
+          converted: importStartSequence === "campaign_only"
+        });
+      }
+    });
+
+    if (newLeads.length === 0) {
+      toast.error("Δεν βρέθηκαν έγκυρα emails");
+      setImportingProgress(false);
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from("sgk_mails")
+        .insert(newLeads);
+
+      if (error) {
+        throw error;
+      }
+
+      toast.success(`Επιτυχής εισαγωγή ${newLeads.length} leads!`);
+      setImportData("");
+      setIsImportModalOpen(false);
+      await fetchLeads();
+    } catch (err: any) {
+      console.error("Error importing:", err);
+      toast.error(`Σφάλμα κατά την εισαγωγή: ${err.message || err.details || "Άγνωστο σφάλμα"}`);
+    } finally {
+      setImportingProgress(false);
+    }
+  };
+
   if (loading) {
     return <div className="flex justify-center p-12"><RefreshCcw className="animate-spin text-vivid-primary" size={32} /></div>;
   }
@@ -222,6 +297,18 @@ export function EmailsTab() {
               Μαζική Αποστολή ({selectedLeads.length})
             </button>
           )}
+          <button
+            onClick={() => {
+              setImportData("");
+              setImportConsent(true);
+              setImportStartSequence("campaign_only");
+              setIsImportModalOpen(true);
+            }}
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all text-sm font-semibold cursor-pointer shadow-sm hover:shadow-md"
+          >
+            <Users size={16} />
+            Εισαγωγή Leads
+          </button>
           <button 
             onClick={fetchLeads}
             className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
@@ -505,6 +592,119 @@ export function EmailsTab() {
                 >
                   <Send size={14} />
                   Αποστολή Email
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Import Leads Modal */}
+      {isImportModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-gray-100">
+            {/* Header */}
+            <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+              <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                <Users className="text-emerald-600" size={20} />
+                Εισαγωγή Leads από Λίστα
+              </h3>
+              <button 
+                onClick={() => {
+                  if (importingProgress) return;
+                  setIsImportModalOpen(false);
+                }}
+                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                disabled={importingProgress}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-6 space-y-4">
+              {importingProgress ? (
+                <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
+                  <Loader2 className="animate-spin text-emerald-600 w-12 h-12" />
+                  <p className="font-medium text-gray-800 text-lg">Γίνεται εισαγωγή των Leads στη βάση δεδομένων...</p>
+                </div>
+              ) : (
+                <>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500 block mb-1">
+                      Δεδομένα Εισαγωγής (Email ή Email, Όνομα, Επίθετο)
+                    </label>
+                    <textarea 
+                      value={importData}
+                      onChange={(e) => setImportData(e.target.value)}
+                      rows={6}
+                      placeholder={`Format: 1 ανά γραμμή\n\ninfo@example.com\ncontact@example.com, Γιάννης, Παπαδόπουλος`}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-emerald-600 text-gray-900 focus:ring-1 focus:ring-emerald-600 font-mono text-xs"
+                    />
+                  </div>
+
+                  <div className="space-y-3 pt-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500 block">Ρυθμίσεις Εισαγωγής</label>
+                    
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="checkbox"
+                        id="importConsent"
+                        checked={importConsent}
+                        onChange={(e) => setImportConsent(e.target.checked)}
+                        className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-600 h-4 w-4 cursor-pointer"
+                      />
+                      <label htmlFor="importConsent" className="text-sm text-gray-700 cursor-pointer select-none">
+                        Έχω λάβει συγκατάθεση για μάρκετινγκ (Marketing Consent)
+                      </label>
+                    </div>
+
+                    <div className="space-y-2 pt-1">
+                      <span className="text-xs font-semibold text-gray-600 block">Ακολουθία Emails:</span>
+                      <div className="flex flex-col gap-2">
+                        <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none">
+                          <input 
+                            type="radio"
+                            name="startSequence"
+                            checked={importStartSequence === "campaign_only"}
+                            onChange={() => setImportStartSequence("campaign_only")}
+                            className="text-emerald-600 focus:ring-emerald-600 cursor-pointer"
+                          />
+                          Μόνο για καμπάνιες (Ολοκληρωμένη ακολουθία - προτείνεται για παλιούς πελάτες)
+                        </label>
+                        <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none">
+                          <input 
+                            type="radio"
+                            name="startSequence"
+                            checked={importStartSequence === "sequence_start"}
+                            onChange={() => setImportStartSequence("sequence_start")}
+                            className="text-emerald-600 focus:ring-emerald-600 cursor-pointer"
+                          />
+                          Έναρξη αυτόματης ακολουθίας (Email #1 μετά από 3 μέρες)
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Footer */}
+            {!importingProgress && (
+              <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
+                <button
+                  onClick={() => setIsImportModalOpen(false)}
+                  className="px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  Ακύρωση
+                </button>
+                <button
+                  onClick={handleImportLeads}
+                  disabled={!importData.trim()}
+                  className="px-5 py-2 text-sm font-bold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 shadow-sm disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <Users size={14} />
+                  Εισαγωγή
                 </button>
               </div>
             )}
