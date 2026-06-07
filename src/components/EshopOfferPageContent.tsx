@@ -60,7 +60,7 @@ const EshopOfferPageContent = () => {
               Πωλήσεις.
             </h1>
             <p className="font-body-lg text-body-lg text-vivid-on-surface-variant max-w-lg">
-              Ένα γρήγορο e-shop φέρνει διπλάσιες πωλήσεις. Εγγύηση επιστροφής χρημάτων αν το e-shop σας δεν είναι τόσο γρήγορο όσο υποσχόμαστε.
+              Ένα γρήγορο e-shop αυξάνει κατακόρυφα τις πωλήσεις. Απόλυτη δέσμευση αποτελέσματος για τη μέγιστη ταχύτητα του E-shop σας.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-4">
               <button 
@@ -76,7 +76,7 @@ const EshopOfferPageContent = () => {
             </div>
             <div className="flex items-center gap-2 mt-4 text-vivid-secondary">
               <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>verified</span>
-              <span className="font-caption text-caption">100% Εγγύηση Ταχύτητας & SEO, Επιστροφής Χρημάτων</span>
+              <span className="font-caption text-caption">Κορυφαία Ποιότητα, Ταχύτητα & Βελτιστοποίηση SEO</span>
             </div>
           </div>
           <div className="relative z-10 hidden md:flex flex-col gap-4">
@@ -152,8 +152,8 @@ const EshopOfferPageContent = () => {
               <div className="w-12 h-12 rounded-full bg-vivid-primary-fixed flex items-center justify-center text-vivid-primary-container relative z-10">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>rocket_launch</span>
               </div>
-              <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface relative z-10">Ταχύτητα & SEO Εγγύηση</h3>
-              <p className="font-body-md text-body-md text-vivid-on-surface-variant relative z-10 max-w-md">Βελτιστοποίηση για μέγιστη ταχύτητα φόρτωσης και εγγυημένη εμφάνιση στην πρώτη σελίδα της Google. <b>100% Εγγύηση Ταχύτητας & Επιστροφής Χρημάτων</b>.</p>
+              <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface relative z-10">Κορυφαία Ταχύτητα & SEO</h3>
+              <p className="font-body-md text-body-md text-vivid-on-surface-variant relative z-10 max-w-md">Βελτιστοποίηση για μέγιστη ταχύτητα φόρτωσης και ενισχυμένη εμφάνιση στη Google. <b>Απόλυτη Δέσμευση Ταχύτητας & Αποτελέσματος</b>.</p>
             </div>
 
             {/* Skroutz */}
@@ -214,9 +214,9 @@ const EshopOfferPageContent = () => {
               <span className="material-symbols-outlined text-[48px]" style={{ fontVariationSettings: '"FILL" 1' }}>security</span>
             </div>
             <div className="flex-1">
-              <h2 className="font-headline-md text-headline-md text-vivid-on-surface mb-2">Εγγύηση Επιστροφής Χρημάτων</h2>
+              <h2 className="font-headline-md text-headline-md text-vivid-on-surface mb-2">Απόλυτη Δέσμευση Αποτελέσματος</h2>
               <p className="font-body-lg text-body-lg text-vivid-on-surface-variant mb-6">
-                Είμαστε τόσο σίγουροι για την τεχνολογία μας. Αν το e-shop σας δεν πετύχει κορυφαία σκορ ταχύτητας στο Google PageSpeed Insights, σας επιστρέφουμε τα χρήματά σας.
+                Είμαστε τόσο σίγουροι για την τεχνολογία μας. Δεσμευόμαστε να πετύχουμε κορυφαία σκορ ταχύτητας στο Google PageSpeed Insights για το δικό σας έργο.
               </p>
               <button 
                 onClick={() => setIsModalOpen(true)}
