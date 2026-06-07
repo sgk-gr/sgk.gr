@@ -208,49 +208,72 @@ export function EmailsTab() {
     }
 
     setImportingProgress(true);
-    const lines = importData.split("\n");
-    const newLeads: any[] = [];
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    lines.forEach(line => {
-      const trimmed = line.trim();
-      if (!trimmed) return;
-
-      let email = "";
-      let first_name = "";
-      let last_name = "";
-
-      if (trimmed.includes(",")) {
-        const parts = trimmed.split(",").map(p => p.trim());
-        email = parts[0];
-        first_name = parts[1] || "";
-        last_name = parts[2] || "";
-      } else {
-        email = trimmed;
-      }
-
-      if (emailRegex.test(email)) {
-        newLeads.push({
-          email,
-          first_name,
-          last_name,
-          type: "imported",
-          marketing_consent: importConsent,
-          email_sequence_step: importStartSequence === "campaign_only" ? 4 : 1,
-          unsubscribe_token: crypto.randomUUID(),
-          unsubscribed: false,
-          converted: importStartSequence === "campaign_only"
-        });
-      }
-    });
-
-    if (newLeads.length === 0) {
-      toast.error("Δεν βρέθηκαν έγκυρα emails");
-      setImportingProgress(false);
-      return;
-    }
-
+    
     try {
+      // 1. Φόρτωση υπαρχόντων emails από τη βάση για έλεγχο διπλοτύπων
+      const { data: existingLeads, error: fetchError } = await supabase
+        .from("sgk_mails")
+        .select("email");
+
+      if (fetchError) {
+        throw fetchError;
+      }
+
+      const existingSet = new Set((existingLeads || []).map(l => l.email.toLowerCase()));
+      const lines = importData.split("\n");
+      const newLeads: any[] = [];
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      let skippedCount = 0;
+
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+
+        let email = "";
+        let first_name = "";
+        let last_name = "";
+
+        if (trimmed.includes(",")) {
+          const parts = trimmed.split(",").map(p => p.trim());
+          email = parts[0];
+          first_name = parts[1] || "";
+          last_name = parts[2] || "";
+        } else {
+          email = trimmed;
+        }
+
+        const emailLower = email.toLowerCase();
+
+        if (emailRegex.test(email)) {
+          if (existingSet.has(emailLower)) {
+            skippedCount++;
+          } else {
+            existingSet.add(emailLower); // Αποτροπή διπλοτύπων και μέσα στο ίδιο το κείμενο επικόλλησης
+            newLeads.push({
+              email,
+              first_name,
+              last_name,
+              type: "imported",
+              marketing_consent: importConsent,
+              email_sequence_step: importStartSequence === "campaign_only" ? 4 : 1,
+              unsubscribe_token: crypto.randomUUID(),
+              unsubscribed: false,
+              converted: importStartSequence === "campaign_only"
+            });
+          }
+        }
+      });
+
+      if (newLeads.length === 0) {
+        if (skippedCount > 0) {
+          toast.info(`Όλα τα εισαχθέντα emails (${skippedCount}) υπάρχουν ήδη στη λίστα!`);
+        } else {
+          toast.error("Δεν βρέθηκαν έγκυρα emails");
+        }
+        setImportingProgress(false);
+        return;
+      }
+
       const { error } = await supabase
         .from("sgk_mails")
         .insert(newLeads);
@@ -259,7 +282,12 @@ export function EmailsTab() {
         throw error;
       }
 
-      toast.success(`Επιτυχής εισαγωγή ${newLeads.length} leads!`);
+      if (skippedCount > 0) {
+        toast.success(`Εισήχθησαν ${newLeads.length} νέα leads! (${skippedCount} διπλότυπα παρακάμφθηκαν)`);
+      } else {
+        toast.success(`Επιτυχής εισαγωγή ${newLeads.length} leads!`);
+      }
+
       setImportData("");
       setIsImportModalOpen(false);
       await fetchLeads();
