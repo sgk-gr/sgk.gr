@@ -22,13 +22,17 @@ function UnsubscribeContent() {
     const unsubscribe = async () => {
       try {
         const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
         
-        if (!supabaseUrl) {
-          throw new Error("Supabase URL not found");
+        if (!supabaseUrl || !supabaseAnonKey) {
+          throw new Error("Supabase config not found");
         }
 
         const response = await fetch(`${supabaseUrl}/functions/v1/unsubscribe?token=${token}`, {
           method: "GET",
+          headers: {
+            "Authorization": `Bearer ${supabaseAnonKey}`
+          }
         });
 
         if (!response.ok) {
