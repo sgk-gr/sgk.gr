@@ -116,8 +116,7 @@ serve(async (req) => {
                     <div style="text-align: center; margin-top: 30px; border-top: 1px solid #f2e3db; padding-top: 20px;">
                         <p style="color: #4a4a4a; font-size: 15px; font-weight: bold; margin-bottom: 15px; margin-top: 0;">Επικοινωνήστε μαζί μας σήμερα για να λύσουμε αυτά τα προβλήματα:</p>
                         <div style="margin-bottom: 15px;">
-                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
-                            <a href="https://viber.me/306999524389" style="display: inline-block; background-color: #7360F2; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(115, 96, 242, 0.2);">💜 Viber Message</a>
+                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
                         </div>
                         <p style="color: #666; font-size: 14px; margin: 0;">
                             📞 Ή καλέστε μας απευθείας στο: <a href="tel:6999524389" style="color: #FF6B00; text-decoration: none; font-weight: bold;">6999524389</a>
@@ -160,8 +159,7 @@ serve(async (req) => {
                     <div style="text-align: center; margin-top: 30px; border-top: 1px solid #f2e3db; padding-top: 20px;">
                         <p style="color: #4a4a4a; font-size: 15px; font-weight: bold; margin-bottom: 15px; margin-top: 0;">Επικοινωνήστε μαζί μας σήμερα για να αποκτήσετε ένα eshop σαν αυτό:</p>
                         <div style="margin-bottom: 15px;">
-                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
-                            <a href="https://viber.me/306999524389" style="display: inline-block; background-color: #7360F2; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(115, 96, 242, 0.2);">💜 Viber Message</a>
+                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
                         </div>
                         <p style="color: #666; font-size: 14px; margin: 0;">
                             📞 Ή καλέστε μας απευθείας στο: <a href="tel:6999524389" style="color: #FF6B00; text-decoration: none; font-weight: bold;">6999524389</a>
@@ -197,8 +195,7 @@ serve(async (req) => {
                     <div style="text-align: center; margin-top: 35px; border-top: 1px solid #f2e3db; padding-top: 20px;">
                         <p style="color: #4a4a4a; font-size: 15px; font-weight: bold; margin-bottom: 15px; margin-top: 0;">Επικοινωνήστε μαζί μας σήμερα για να κλείσετε την προσφορά:</p>
                         <div style="margin-bottom: 15px;">
-                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
-                            <a href="https://viber.me/306999524389" style="display: inline-block; background-color: #7360F2; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(115, 96, 242, 0.2);">💜 Viber Message</a>
+                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
                         </div>
                         <p style="color: #666; font-size: 14px; margin: 0;">
                             📞 Ή καλέστε μας απευθείας στο: <a href="tel:6999524389" style="color: #FF6B00; text-decoration: none; font-weight: bold;">6999524389</a>
