@@ -2,6 +2,8 @@
 ALTER TABLE sgk_mails ADD COLUMN IF NOT EXISTS email_sequence_step integer DEFAULT 1;
 ALTER TABLE sgk_mails ADD COLUMN IF NOT EXISTS unsubscribed boolean DEFAULT false;
 ALTER TABLE sgk_mails ADD COLUMN IF NOT EXISTS unsubscribe_token text UNIQUE;
+ALTER TABLE sgk_mails ALTER COLUMN unsubscribe_token SET DEFAULT gen_random_uuid()::text;
+UPDATE sgk_mails SET unsubscribe_token = gen_random_uuid()::text WHERE unsubscribe_token IS NULL;
 ALTER TABLE sgk_mails ADD COLUMN IF NOT EXISTS converted boolean DEFAULT false;
 ALTER TABLE sgk_mails ADD COLUMN IF NOT EXISTS last_email_sent_at timestamptz DEFAULT now();
 ALTER TABLE sgk_mails ADD COLUMN IF NOT EXISTS emails_opened integer DEFAULT 0;
