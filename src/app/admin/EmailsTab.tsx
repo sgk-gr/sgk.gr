@@ -19,7 +19,7 @@ const templates = [
 <ul>
   <li><strong>Υψηλή Ταχύτητα:</strong> Φιλοξενία σε VPS servers για άμεσο φόρτωμα.</li>
   <li><strong>Mobile First:</strong> Σχεδιασμός προσαρμοσμένος τέλεια για αγορές από κινητά.</li>
-  <li><strong>Έτοιμες Διασυνδέσεις:</strong> Πλήρης σύνδεση με Skroutz, Courier & όλες τις ελληνικές τράπεζες.</li>
+  <li><strong>Έτοιμες Διασυνδέσεις:</strong> Google Merchant, Courier & όλες τις ελληνικές τράπεζες.</li>
 </ul>
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσουμε!</p>`
   },
@@ -40,9 +40,9 @@ const templates = [
 <p>Θέλουμε να μοιραστούμε μαζί σας ένα success story από την κατασκευή eshop για το <strong>Vaia Charms</strong>.</p>
 <p>Μετά τη μετάβαση στη δική μας πλατφόρμα, η επιχείρηση πέτυχε:</p>
 <ul>
-  <li><strong>3x αύξηση πωλήσεων</strong> από τον πρώτο μήνα λειτουργίας.</li>
-  <li><strong>100/100 Mobile Performance Score</strong> στην Google.</li>
-  <li><strong>Αυτόματη ενημέρωση</strong> τιμών & αποθεμάτων στο Skroutz.</li>
+  <li><strong>100/100 σκορ ταχύτητας</strong> στην Google.</li>
+  <li><strong>Αυξημένο SEO</strong> με κορυφαίες κατατάξεις.</li>
+  <li><strong>Απρόσκοπτη εμπειρία</strong> στο κινητό (mobile optimized).</li>
 </ul>
 <p>Μπορούμε να σχεδιάσουμε μια αντίστοιχη στρατηγική επιτυχίας και για τη δική σας επιχείρηση!</p>`
   }

@@ -109,8 +109,8 @@ serve(async (req) => {
                         <h3 style="color: #a04100; margin-bottom: 5px;">2. Κακή εμπειρία στο Κινητό (Mobile)</h3>
                         <p style="color: #666; font-size: 14px; margin-top: 0;">Πάνω από το 70% των αγορών γίνονται από κινητό. Τα eshops που φτιάχνουμε έχουν σχεδιαστεί πρωτίστως για κινητά τηλέφωνα (Mobile First).</p>
 
-                        <h3 style="color: #a04100; margin-bottom: 5px;">3. Δεν εμφανίζεστε στο Skroutz</h3>
-                        <p style="color: #666; font-size: 14px; margin-top: 0;">Το Skroutz είναι το μεγαλύτερο κανάλι πωλήσεων στην Ελλάδα. Η προσφορά μας στα 1.500€ περιλαμβάνει πλήρη, αυτοματοποιημένη διασύνδεση.</p>
+                        <h3 style="color: #a04100; margin-bottom: 5px;">3. Χαμηλή ορατότητα στην Google (SEO)</h3>
+                        <p style="color: #666; font-size: 14px; margin-top: 0;">Αν το eshop σας δεν εμφανίζεται στις πρώτες θέσεις της Google, χάνετε καθημερινά έτοιμους αγοραστές. Η προσφορά μας περιλαμβάνει πλήρη βελτιστοποίηση SEO.</p>
                     </div>
 
                     <div style="text-align: center; margin-top: 30px;">
@@ -177,7 +177,7 @@ serve(async (req) => {
                     </div>
 
                     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; text-align: center;">
-                        Μην χάσετε την ευκαιρία να αποκτήσετε ένα επαγγελματικό eshop με <strong>δωρεάν φιλοξενία</strong> (1ος χρόνος), <strong>δωρεάν domain</strong> (2 χρόνια), <strong>σύνδεση Skroutz</strong> και <strong>εκπαίδευση</strong>.
+                        Μην χάσετε την ευκαιρία να αποκτήσετε ένα επαγγελματικό eshop με <strong>δωρεάν φιλοξενία</strong> (1ος χρόνος), <strong>δωρεάν domain</strong> (2 χρόνια), <strong>SEO & Google Shopping</strong> και <strong>εκπαίδευση</strong>.
                     </p>
 
                     <div style="text-align: center; margin-top: 35px;">

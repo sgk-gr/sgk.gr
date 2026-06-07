@@ -189,7 +189,7 @@ serve(async (req) => {
                             </li>
                             <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🛒</span>
-                                <strong>Διασύνδεση Skroutz:</strong> Πλήρης διασύνδεση με το Skroutz Marketplace.
+                                <strong>Google Shopping & Ads:</strong> Έτοιμη διασύνδεση για διαφημίσεις προϊόντων στην Google.
                             </li>
                             <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">📦</span>
