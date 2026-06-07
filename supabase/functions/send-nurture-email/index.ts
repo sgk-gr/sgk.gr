@@ -49,8 +49,9 @@ serve(async (req) => {
 
         const couponBannerHTML = couponCode ? `
             <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-                <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ</p>
+                <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
                 <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-${couponCode}</span>
+                <p style="color: #888; font-size: 12px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
                 <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν ${remainingDays} ημέρες για εξαργύρωση</p>
             </div>
         ` : '';

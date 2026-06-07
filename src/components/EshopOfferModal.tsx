@@ -126,14 +126,14 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center py-8 flex flex-col items-center"
                 >
-                  <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
                     <CheckCircle size={32} />
                   </div>
                   <h3 className="text-xl font-bold text-vivid-on-surface mb-2">
-                    Το αίτημά σας στάλθηκε!
+                    Σας έχουμε ένα δώρο! 🎁
                   </h3>
-                  <p className="text-vivid-on-surface-variant mb-6">
-                    Ελέγξτε το email σας για επιβεβαίωση. Ένας συνεργάτης μας θα επικοινωνήσει σύντομα μαζί σας.
+                  <p className="text-vivid-on-surface-variant mb-6 text-sm">
+                    Σας στείλαμε έναν μοναδικό κωδικό προσφοράς στο email σας. Ελέγξτε τα εισερχόμενά σας (και τα spam) για να τον βρείτε!
                   </p>
                   <button
                     onClick={handleClose}

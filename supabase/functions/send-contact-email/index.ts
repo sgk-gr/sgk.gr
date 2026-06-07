@@ -44,31 +44,59 @@ serve(async (req) => {
         const finalProjectInfo = projectInfo || message || '';
 
 
-        // 1. Save to Database
-        const unsubscribeToken = crypto.randomUUID();
-        const couponCode = Math.floor(1000 + Math.random() * 9000).toString();
-        
-        const { error: dbError } = await supabase
+        // 1. Save to Database (checking for duplicates first)
+        const { data: existingLead, error: checkError } = await supabase
             .from("sgk_mails")
-            .insert([{
-                type,
-                email,
-                first_name: finalFirstName,
-                last_name: finalLastName,
-                phone,
-                company,
-                how_did_you_hear: howDidYouHear,
-                project_info: finalProjectInfo,
-                needs_nda: needsNDA,
-                offer_price: offerPrice,
-                marketing_consent: marketingConsent,
-                email_sequence_step: 1,
-                unsubscribe_token: unsubscribeToken,
-                coupon_code: type === "eshop_offer" ? couponCode : null
-            }]);
+            .select("coupon_code, unsubscribe_token")
+            .eq("email", email)
+            .maybeSingle();
 
-        if (dbError) {
-            console.error("Database Insert Error:", dbError);
+        if (checkError) {
+            console.error("Database Check Error:", checkError);
+        }
+
+        let unsubscribeToken = existingLead?.unsubscribe_token || crypto.randomUUID();
+        let couponCode = existingLead?.coupon_code;
+        const isNewLead = !existingLead;
+
+        if (isNewLead) {
+            couponCode = Math.floor(1000 + Math.random() * 9000).toString();
+            
+            const { error: dbError } = await supabase
+                .from("sgk_mails")
+                .insert([{
+                    type,
+                    email,
+                    first_name: finalFirstName,
+                    last_name: finalLastName,
+                    phone,
+                    company,
+                    how_did_you_hear: howDidYouHear,
+                    project_info: finalProjectInfo,
+                    needs_nda: needsNDA,
+                    offer_price: offerPrice,
+                    marketing_consent: marketingConsent,
+                    email_sequence_step: 1,
+                    unsubscribe_token: unsubscribeToken,
+                    coupon_code: type === "eshop_offer" ? couponCode : null
+                }]);
+
+            if (dbError) {
+                console.error("Database Insert Error:", dbError);
+            }
+        } else {
+            // If lead already exists but doesn't have a coupon code (e.g. from an old signup or manual import)
+            if (type === "eshop_offer" && !couponCode) {
+                couponCode = Math.floor(1000 + Math.random() * 9000).toString();
+                const { error: updateError } = await supabase
+                    .from("sgk_mails")
+                    .update({ coupon_code: couponCode })
+                    .eq("email", email);
+
+                if (updateError) {
+                    console.error("Database Update Coupon Error:", updateError);
+                }
+            }
         }
 
         // 2. Send Emails
@@ -87,10 +115,14 @@ serve(async (req) => {
             await resend.emails.send({
                 from: "SGK Digital <noreply@sgk.gr>",
                 to: ["info@sgk.gr"],
-                subject: `🔥 Νέο Αίτημα Προσφοράς Eshop από: ${email}`,
+                subject: isNewLead 
+                    ? `🔥 Νέο Αίτημα Προσφοράς Eshop από: ${email}` 
+                    : `🔄 Διπλότυπο Αίτημα Προσφοράς Eshop από: ${email}`,
                 html: `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-                <h2 style="color: #333; border-bottom: 2px solid #FF6B00; padding-bottom: 10px;">Νέο Αίτημα Προσφοράς Eshop 1500€</h2>
+                <h2 style="color: #333; border-bottom: 2px solid #FF6B00; padding-bottom: 10px;">
+                    ${isNewLead ? 'Νέο Αίτημα Προσφοράς Eshop 1500€' : 'Επαναλαμβανόμενο Αίτημα Προσφοράς Eshop 1500€'}
+                </h2>
                 
                 <div style="margin: 20px 0; display: grid; grid-template-cols: 1fr 1fr; gap: 10px;">
                     <p><strong>Email:</strong> ${email}</p>
@@ -105,7 +137,7 @@ serve(async (req) => {
             emailResult = await resend.emails.send({
                 from: "SGK Digital <noreply@sgk.gr>",
                 to: [email],
-                subject: "Λάβαμε το αίτημά σας για προσφορά Eshop!",
+                subject: "Σας έχουμε ένα δώρο! 🎁 Προσφορά για την κατασκευή του Eshop σας",
                 html: `
             <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
                 <div style="text-align: center; margin-bottom: 30px;">
@@ -114,16 +146,17 @@ serve(async (req) => {
                 
                 <div style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
                     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 0;">
-                        Λάβαμε με επιτυχία το αίτημά σας για την <strong>κατασκευή Eshop με την προσφορά των 1.500€</strong>.
+                        Λάβαμε με επιτυχία το αίτημά σας για την κατασκευή του Eshop σας!
                     </p>
                     
                     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                        Ένας εξειδικευμένος συνεργάτης της ομάδας μας θα επικοινωνήσει σύντομα μαζί σας μέσω email για να συζητήσουμε τις λεπτομέρειες του project σας και τα επόμενα βήματα.
+                        Η αρχική τιμή της προσφοράς μας είναι 1.500€, αλλά <strong>με τον προσωπικό σας κωδικό προσφοράς (κουπόνι), η τελική τιμή διαμορφώνεται στα 1.200€!</strong>
                     </p>
                     
                     <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-                        <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΜΟΝΑΔΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ</p>
+                        <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΜΟΝΑΔΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
                         <span style="font-family: monospace; font-size: 32px; font-weight: bold; color: #FF6B00; letter-spacing: 4px;">SGK-${couponCode}</span>
+                        <p style="color: #888; font-size: 13px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
                         <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Λήξη σε 60 ημέρες</p>
                     </div>
                     
