@@ -113,8 +113,15 @@ serve(async (req) => {
                         <p style="color: #666; font-size: 14px; margin-top: 0;">Αν το eshop σας δεν εμφανίζεται στις πρώτες θέσεις της Google, χάνετε καθημερινά έτοιμους αγοραστές. Η προσφορά μας περιλαμβάνει πλήρη βελτιστοποίηση SEO.</p>
                     </div>
 
-                    <div style="text-align: center; margin-top: 30px;">
-                        <a href="https://sgk.gr/eshop-offer" style="display: inline-block; background-color: #FF6B00; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);">Λύστε αυτά τα προβλήματα σήμερα &rarr;</a>
+                    <div style="text-align: center; margin-top: 30px; border-top: 1px solid #f2e3db; padding-top: 20px;">
+                        <p style="color: #4a4a4a; font-size: 15px; font-weight: bold; margin-bottom: 15px; margin-top: 0;">Επικοινωνήστε μαζί μας σήμερα για να λύσουμε αυτά τα προβλήματα:</p>
+                        <div style="margin-bottom: 15px;">
+                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
+                            <a href="viber://chat?number=%2B306999524389" style="display: inline-block; background-color: #7360F2; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(115, 96, 242, 0.2);">💜 Viber Message</a>
+                        </div>
+                        <p style="color: #666; font-size: 14px; margin: 0;">
+                            📞 Ή καλέστε μας απευθείας στο: <a href="tel:6999524389" style="color: #FF6B00; text-decoration: none; font-weight: bold;">6999524389</a>
+                        </p>
                     </div>
                     ${couponBannerHTML}
                 </div>
@@ -150,8 +157,15 @@ serve(async (req) => {
                         <li><strong>Απρόσκοπτη εμπειρία</strong> στο κινητό (mobile optimized)</li>
                     </ul>
 
-                    <div style="text-align: center; margin-top: 30px;">
-                        <a href="https://sgk.gr/eshop-offer" style="display: inline-block; background-color: #FF6B00; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);">Αποκτήστε και εσείς ένα eshop σαν αυτό! &rarr;</a>
+                    <div style="text-align: center; margin-top: 30px; border-top: 1px solid #f2e3db; padding-top: 20px;">
+                        <p style="color: #4a4a4a; font-size: 15px; font-weight: bold; margin-bottom: 15px; margin-top: 0;">Επικοινωνήστε μαζί μας σήμερα για να αποκτήσετε ένα eshop σαν αυτό:</p>
+                        <div style="margin-bottom: 15px;">
+                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
+                            <a href="viber://chat?number=%2B306999524389" style="display: inline-block; background-color: #7360F2; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(115, 96, 242, 0.2);">💜 Viber Message</a>
+                        </div>
+                        <p style="color: #666; font-size: 14px; margin: 0;">
+                            📞 Ή καλέστε μας απευθείας στο: <a href="tel:6999524389" style="color: #FF6B00; text-decoration: none; font-weight: bold;">6999524389</a>
+                        </p>
                     </div>
                     ${couponBannerHTML}
                 </div>
@@ -180,8 +194,15 @@ serve(async (req) => {
                         Μην χάσετε την ευκαιρία να αποκτήσετε ένα επαγγελματικό eshop με <strong>δωρεάν φιλοξενία</strong> (1ος χρόνος), <strong>δωρεάν domain</strong> (2 χρόνια), <strong>SEO & Google Shopping</strong> και <strong>εκπαίδευση</strong>.
                     </p>
 
-                    <div style="text-align: center; margin-top: 35px;">
-                        <a href="https://sgk.gr/eshop-offer" style="display: inline-block; background-color: #FF6B00; color: #ffffff; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);">Κλείστε την Τιμή Τώρα &rarr;</a>
+                    <div style="text-align: center; margin-top: 35px; border-top: 1px solid #f2e3db; padding-top: 20px;">
+                        <p style="color: #4a4a4a; font-size: 15px; font-weight: bold; margin-bottom: 15px; margin-top: 0;">Επικοινωνήστε μαζί μας σήμερα για να κλείσετε την προσφορά:</p>
+                        <div style="margin-bottom: 15px;">
+                            <a href="https://wa.me/306999524389" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">💬 WhatsApp Chat</a>
+                            <a href="viber://chat?number=%2B306999524389" style="display: inline-block; background-color: #7360F2; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; margin: 5px; box-shadow: 0 4px 10px rgba(115, 96, 242, 0.2);">💜 Viber Message</a>
+                        </div>
+                        <p style="color: #666; font-size: 14px; margin: 0;">
+                            📞 Ή καλέστε μας απευθείας στο: <a href="tel:6999524389" style="color: #FF6B00; text-decoration: none; font-weight: bold;">6999524389</a>
+                        </p>
                     </div>
                     ${couponBannerHTML}
                 </div>
