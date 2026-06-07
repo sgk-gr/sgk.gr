@@ -28,6 +28,40 @@ serve(async (req) => {
             throw new Error("Missing email, step or customSubject");
         }
 
+        // Fetch coupon code and creation date to show reminder in nurturing emails
+        const { data: leadData, error: leadError } = await supabase
+            .from("sgk_mails")
+            .select("coupon_code, created_at")
+            .eq("email", email)
+            .maybeSingle();
+
+        const couponCode = leadData?.coupon_code;
+        const createdAt = leadData?.created_at;
+
+        let remainingDays = 60;
+        if (createdAt) {
+            const createdDate = new Date(createdAt);
+            const currentDate = new Date();
+            const diffTime = currentDate.getTime() - createdDate.getTime();
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            remainingDays = Math.max(0, 60 - diffDays);
+        }
+
+        const couponBannerHTML = couponCode ? `
+            <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+                <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ</p>
+                <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-${couponCode}</span>
+                <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν ${remainingDays} ημέρες για εξαργύρωση</p>
+            </div>
+        ` : '';
+
+        let finalCustomHtml = customHtml || "";
+        if (couponCode) {
+            finalCustomHtml = finalCustomHtml.replace(/\{\{COUPON_BANNER\}\}/g, couponBannerHTML);
+        } else {
+            finalCustomHtml = finalCustomHtml.replace(/\{\{COUPON_BANNER\}\}/g, "");
+        }
+
         let subject = customSubject || "";
         let htmlContent = "";
         const unsubscribeLink = `https://sgk.gr/unsubscribe?token=${unsubscribe_token}`;
@@ -46,7 +80,7 @@ serve(async (req) => {
             htmlContent = `
             <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
                 <div style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-                    ${customHtml}
+                    ${finalCustomHtml}
                 </div>
                 ${footerHTML}
             </div>`;
@@ -81,6 +115,7 @@ serve(async (req) => {
                     <div style="text-align: center; margin-top: 30px;">
                         <a href="https://sgk.gr/eshop-offer" style="display: inline-block; background-color: #FF6B00; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);">Λύστε αυτά τα προβλήματα σήμερα &rarr;</a>
                     </div>
+                    ${couponBannerHTML}
                 </div>
                 ${footerHTML}
             </div>`;
@@ -117,6 +152,7 @@ serve(async (req) => {
                     <div style="text-align: center; margin-top: 30px;">
                         <a href="https://sgk.gr/eshop-offer" style="display: inline-block; background-color: #FF6B00; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);">Αποκτήστε και εσείς ένα eshop σαν αυτό! &rarr;</a>
                     </div>
+                    ${couponBannerHTML}
                 </div>
                 ${footerHTML}
             </div>`;
@@ -146,6 +182,7 @@ serve(async (req) => {
                     <div style="text-align: center; margin-top: 35px;">
                         <a href="https://sgk.gr/eshop-offer" style="display: inline-block; background-color: #FF6B00; color: #ffffff; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);">Κλείστε την Τιμή Τώρα &rarr;</a>
                     </div>
+                    ${couponBannerHTML}
                 </div>
                 ${footerHTML}
             </div>`;

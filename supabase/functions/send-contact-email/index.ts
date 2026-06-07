@@ -46,6 +46,7 @@ serve(async (req) => {
 
         // 1. Save to Database
         const unsubscribeToken = crypto.randomUUID();
+        const couponCode = Math.floor(1000 + Math.random() * 9000).toString();
         
         const { error: dbError } = await supabase
             .from("sgk_mails")
@@ -62,7 +63,8 @@ serve(async (req) => {
                 offer_price: offerPrice,
                 marketing_consent: marketingConsent,
                 email_sequence_step: 1,
-                unsubscribe_token: unsubscribeToken
+                unsubscribe_token: unsubscribeToken,
+                coupon_code: type === "eshop_offer" ? couponCode : null
             }]);
 
         if (dbError) {
@@ -118,6 +120,12 @@ serve(async (req) => {
                     <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6;">
                         Ένας εξειδικευμένος συνεργάτης της ομάδας μας θα επικοινωνήσει σύντομα μαζί σας μέσω email για να συζητήσουμε τις λεπτομέρειες του project σας και τα επόμενα βήματα.
                     </p>
+                    
+                    <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+                        <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΜΟΝΑΔΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ</p>
+                        <span style="font-family: monospace; font-size: 32px; font-weight: bold; color: #FF6B00; letter-spacing: 4px;">SGK-${couponCode}</span>
+                        <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Λήξη σε 60 ημέρες</p>
+                    </div>
                     
                     <div style="background-color: #fff0e6; padding: 15px 20px; border-left: 4px solid #FF6B00; border-radius: 4px; margin: 25px 0;">
                         <p style="color: #c25100; margin: 0; font-size: 15px; font-weight: 600;">

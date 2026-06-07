@@ -367,6 +367,7 @@ export function EmailsTab() {
                 </th>
                 <th className="p-4 font-semibold text-gray-600">Email / Όνομα</th>
                 <th className="p-4 font-semibold text-gray-600">Ημ/νία Εγγραφής</th>
+                <th className="p-4 font-semibold text-gray-600 text-center">Κουπόνι</th>
                 <th className="p-4 font-semibold text-gray-600 text-center">Status Ακολουθίας</th>
                 <th className="p-4 font-semibold text-gray-600 text-center">Πελάτης;</th>
                 <th className="p-4 font-semibold text-gray-600 text-center">Ενέργειες</th>
@@ -409,6 +410,15 @@ export function EmailsTab() {
                     </td>
                     <td className="p-4 text-sm text-gray-600">
                       {new Date(lead.created_at).toLocaleDateString("el-GR")}
+                    </td>
+                    <td className="p-4 text-center">
+                      {lead.coupon_code ? (
+                        <span className="inline-block px-2.5 py-1 bg-orange-50 text-orange-700 rounded-md border border-orange-100 font-semibold font-mono text-xs shadow-sm animate-fade-in">
+                          SGK-{lead.coupon_code}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400 font-normal">-</span>
+                      )}
                     </td>
                     <td className="p-4">
                       <div className="flex items-center justify-center gap-1">
@@ -471,7 +481,7 @@ export function EmailsTab() {
               })}
               {leads.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-gray-500">
+                  <td colSpan={7} className="p-8 text-center text-gray-500">
                     Δεν βρέθηκαν leads
                   </td>
                 </tr>
@@ -562,7 +572,8 @@ export function EmailsTab() {
                         className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary font-sans text-sm"
                       />
                     </div>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-400 font-medium">
+                      💡 Χρησιμοποιήστε το tag <code className="bg-orange-50 px-1 py-0.5 rounded font-mono text-[11px] text-orange-600 font-bold">{"{{COUPON_BANNER}}"}</code> για να εμφανίσετε το προσωπικό κουπόνι του πελάτη (αν υπάρχει).<br />
                       💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα η υπογραφή της <strong>SGK Digital</strong> και το link <strong>Unsubscribe</strong> για τη συμμόρφωση με το GDPR.
                     </p>
                   </div>
@@ -583,7 +594,14 @@ export function EmailsTab() {
                             style={{ fontSize: "14px" }}
                             dangerouslySetInnerHTML={{ 
                               __html: campaignBody 
-                                ? campaignBody.replace(/\n/g, '<br />') 
+                                ? campaignBody.replace(/\n/g, '<br />')
+                                    .replace(/\{\{COUPON_BANNER\}\}/g, `
+                                      <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+                                          <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ</p>
+                                          <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-9999</span>
+                                          <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν 60 ημέρες για εξαργύρωση</p>
+                                      </div>
+                                    `) 
                                 : "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>" 
                             }} 
                           />
