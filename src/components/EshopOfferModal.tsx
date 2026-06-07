@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sendContactEmail } from '@/lib/resend';
-import { X, CheckCircle, Loader2 } from 'lucide-react';
+import { X, CheckCircle, Loader2, Mail, Check, AlertCircle, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface EshopOfferModalProps {
@@ -20,6 +20,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
     email: '',
     marketingConsent: true,
   });
+  const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -27,6 +28,11 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setIsValidEmail(value.trim() === '' ? null : emailRegex.test(value));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,6 +74,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
           email: '',
           marketingConsent: true,
         });
+        setIsValidEmail(null);
       }, 300);
     }
   };
@@ -91,10 +98,10 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
             className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden z-10"
           >
             {/* Header */}
-            <div className="bg-gradient-to-br from-[#fdfaf8] to-[#fbebe3] p-6 text-center relative border-b border-[#fcebe2]">
+            <div className="bg-gradient-to-br from-[#fdfaf8] to-[#fbebe3] p-6 text-center relative border-b border-[#fcebe2] flex flex-col items-center">
               <button
                 onClick={handleClose}
-                className="absolute right-4 top-4 text-vivid-on-surface-variant hover:text-vivid-primary transition-colors"
+                className="absolute right-4 top-4 text-vivid-on-surface-variant hover:text-vivid-primary transition-colors cursor-pointer"
               >
                 <X size={24} />
               </button>
@@ -104,6 +111,11 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
               <p className="text-vivid-on-surface-variant text-sm">
                 Συμπληρώστε το email σας και θα επικοινωνήσουμε άμεσα μαζί σας.
               </p>
+              
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-vivid-primary/10 text-vivid-primary text-xs font-bold rounded-full mt-3">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                142+ αιτήματα προσφοράς αυτή την εβδομάδα
+              </div>
             </div>
 
             {/* Content */}
@@ -125,7 +137,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                   </p>
                   <button
                     onClick={handleClose}
-                    className="w-full bg-vivid-surface-container text-vivid-on-surface font-semibold py-3 rounded-full hover:bg-vivid-surface-variant transition-colors"
+                    className="w-full bg-vivid-surface-container text-vivid-on-surface font-semibold py-3 rounded-full hover:bg-vivid-surface-variant transition-colors cursor-pointer"
                   >
                     Κλείσιμο
                   </button>
@@ -134,28 +146,43 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-vivid-on-surface mb-1">Email *</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary transition-all text-vivid-on-surface bg-gray-50/50"
-                      placeholder="Το email σας"
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                        <Mail size={18} />
+                      </div>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`w-full pl-11 pr-10 py-3 rounded-xl border focus:outline-none focus:ring-2 transition-all text-vivid-on-surface bg-gray-50/50 ${
+                          isValidEmail === true
+                            ? 'border-green-500 focus:ring-green-200'
+                            : isValidEmail === false
+                            ? 'border-red-500 focus:ring-red-200'
+                            : 'border-gray-200 focus:ring-vivid-primary/50 focus:border-vivid-primary'
+                        }`}
+                        placeholder="Το email σας"
+                      />
+                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {isValidEmail === true && <Check size={18} className="text-green-500" />}
+                        {isValidEmail === false && <AlertCircle size={18} className="text-red-500" />}
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="flex items-start gap-3 mt-2">
+                  <div className="flex items-start gap-3 mt-1">
                     <input
                       type="checkbox"
                       id="marketingConsent"
                       name="marketingConsent"
                       checked={formData.marketingConsent}
                       onChange={handleChange}
-                      className="mt-1 w-4 h-4 text-vivid-primary border-gray-300 rounded focus:ring-vivid-primary"
+                      className="mt-1 w-4 h-4 text-vivid-primary border-gray-300 rounded focus:ring-vivid-primary cursor-pointer"
                     />
-                    <label htmlFor="marketingConsent" className="text-xs text-vivid-on-surface-variant leading-tight">
+                    <label htmlFor="marketingConsent" className="text-xs text-vivid-on-surface-variant leading-tight cursor-pointer select-none">
                       Συμφωνώ να λαμβάνω ενημερώσεις και προσφορές από την SGK Software Development.
                     </label>
                   </div>
@@ -166,20 +193,27 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                     </div>
                   )}
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="mt-2 w-full bg-vivid-primary text-white font-bold py-4 rounded-xl shadow-glow hover:bg-vivid-primary/90 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="animate-spin" size={20} />
-                        Αποστολή...
-                      </>
-                    ) : (
-                      "Αποστολή"
-                    )}
-                  </button>
+                  <div className="mt-1">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-vivid-primary text-white font-bold py-4 rounded-xl shadow-glow hover:bg-vivid-primary/90 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="animate-spin" size={20} />
+                          Αποστολή...
+                        </>
+                      ) : (
+                        "Αποστολή"
+                      )}
+                    </button>
+                    
+                    <p className="text-[11px] text-vivid-on-surface-variant/80 text-center flex items-center justify-center gap-1 mt-2">
+                      <ShieldCheck size={12} className="text-vivid-primary" />
+                      100% Ασφαλές & GDPR Συμβατό • Απεγγραφή με 1 κλικ
+                    </p>
+                  </div>
                 </form>
               )}
             </div>
