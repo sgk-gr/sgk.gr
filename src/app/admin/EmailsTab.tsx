@@ -108,7 +108,7 @@ export function EmailsTab() {
             <tbody>
               {leads.map((lead) => {
                 const step = lead.email_sequence_step || 1;
-                const canSendNext = lead.marketing_consent && !lead.unsubscribed && !lead.converted && step < 4;
+                const canSendNext = !lead.unsubscribed && !lead.converted && step < 4;
                 
                 return (
                   <tr key={lead.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
