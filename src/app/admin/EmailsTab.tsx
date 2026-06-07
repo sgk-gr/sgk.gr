@@ -3,6 +3,51 @@ import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X } from "lucide-react";
 
+const templates = [
+  {
+    name: "Κενό (Σύνταξη από την αρχή)",
+    subject: "",
+    body: ""
+  },
+  {
+    name: "🔥 Ειδική Προσφορά Eshop στα 1.500€",
+    subject: "Ειδική Προσφορά: Κατασκευή Eshop στα 1.500€",
+    body: `<h2>Αποκτήστε το δικό σας Eshop σήμερα! 🎉</h2>
+<p>Γεια σας,</p>
+<p>Θέλουμε να σας προσφέρουμε μια ειδική έκπτωση για την κατασκευή του Eshop σας στην προνομιακή τιμή των <strong>1.500€</strong>.</p>
+<p><strong>Τι περιλαμβάνει η προσφορά μας:</strong></p>
+<ul>
+  <li><strong>Υψηλή Ταχύτητα:</strong> Φιλοξενία σε VPS servers για άμεσο φόρτωμα.</li>
+  <li><strong>Mobile First:</strong> Σχεδιασμός προσαρμοσμένος τέλεια για αγορές από κινητά.</li>
+  <li><strong>Έτοιμες Διασυνδέσεις:</strong> Πλήρης σύνδεση με Skroutz, Courier & όλες τις ελληνικές τράπεζες.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσουμε!</p>`
+  },
+  {
+    name: "📞 Follow-up Επικοινωνία",
+    subject: "Σχετικά με το ενδιαφέρον σας για Eshop",
+    body: `<h2>Θέλετε να συζητήσουμε τις ανάγκες σας; 🤝</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας σχετικά με το αίτημα προσφοράς που συμπληρώσατε στην ιστοσελίδα της <strong>SGK Digital</strong>.</p>
+<p>Θα θέλαμε να προγραμματίσουμε μια σύντομη κλήση 10 λεπτών για να λύσουμε οποιαδήποτε απορία έχετε σχετικά με την πλατφόρμα και να βρούμε την κατάλληλη λύση για εσάς.</p>
+<p>Ποια ημέρα και ώρα σας εξυπηρετεί για μια σύντομη κουβέντα;</p>`
+  },
+  {
+    name: "📈 Case Study: Vaia Charms (+300% Πωλήσεις)",
+    subject: "Πώς η Βάια τριπλασίασε τις πωλήσεις της",
+    body: `<h2>Δείτε πώς δουλεύουμε στην SGK Digital 🚀</h2>
+<p>Γεια σας,</p>
+<p>Θέλουμε να μοιραστούμε μαζί σας ένα success story από την κατασκευή eshop για το <strong>Vaia Charms</strong>.</p>
+<p>Μετά τη μετάβαση στη δική μας πλατφόρμα, η επιχείρηση πέτυχε:</p>
+<ul>
+  <li><strong>3x αύξηση πωλήσεων</strong> από τον πρώτο μήνα λειτουργίας.</li>
+  <li><strong>100/100 Mobile Performance Score</strong> στην Google.</li>
+  <li><strong>Αυτόματη ενημέρωση</strong> τιμών & αποθεμάτων στο Skroutz.</li>
+</ul>
+<p>Μπορούμε να σχεδιάσουμε μια αντίστοιχη στρατηγική επιτυχίας και για τη δική σας επιχείρηση!</p>`
+  }
+];
+
 export function EmailsTab() {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -324,7 +369,7 @@ export function EmailsTab() {
       {/* Campaign Email Modal */}
       {isCampaignModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-gray-100">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden border border-gray-100">
             {/* Header */}
             <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
@@ -338,7 +383,7 @@ export function EmailsTab() {
                   if (sendingProgress?.active) return;
                   setIsCampaignModalOpen(false);
                 }}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
                 disabled={sendingProgress?.active}
               >
                 <X size={20} />
@@ -346,9 +391,9 @@ export function EmailsTab() {
             </div>
 
             {/* Body */}
-            <div className="p-6 space-y-4">
+            <div className="p-6">
               {sendingProgress ? (
-                <div className="py-8 flex flex-col items-center justify-center text-center space-y-4">
+                <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
                   {sendingProgress.current < sendingProgress.total ? (
                     <Loader2 className="animate-spin text-vivid-primary w-12 h-12" />
                   ) : (
@@ -363,31 +408,84 @@ export function EmailsTab() {
                   </div>
                 </div>
               ) : (
-                <>
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Θέμα Email (Subject)</label>
-                    <input 
-                      type="text"
-                      value={campaignSubject}
-                      onChange={(e) => setCampaignSubject(e.target.value)}
-                      placeholder="π.χ. Ειδική προσφορά για την κατασκευή του Eshop σας"
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary"
-                    />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Left Column: Form Editor */}
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Πρότυπο (Template)</label>
+                      <select
+                        onChange={(e) => {
+                          const idx = parseInt(e.target.value);
+                          setCampaignSubject(templates[idx].subject);
+                          setCampaignBody(templates[idx].body);
+                        }}
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
+                      >
+                        {templates.map((t, i) => (
+                          <option key={i} value={i}>{t.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Θέμα Email (Subject)</label>
+                      <input 
+                        type="text"
+                        value={campaignSubject}
+                        onChange={(e) => setCampaignSubject(e.target.value)}
+                        placeholder="π.χ. Ειδική προσφορά για την κατασκευή του Eshop σας"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Περιεχόμενο Email (HTML ή απλό κείμενο)</label>
+                      <textarea 
+                        value={campaignBody}
+                        onChange={(e) => setCampaignBody(e.target.value)}
+                        rows={10}
+                        placeholder="Γράψτε το μήνυμά σας εδώ... (Υποστηρίζει HTML tags όπως <strong>, <a>, <p> κλπ.)"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary font-sans text-sm"
+                      />
+                    </div>
+                    <p className="text-xs text-gray-400">
+                      💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα η υπογραφή της <strong>SGK Digital</strong> και το link <strong>Unsubscribe</strong> για τη συμμόρφωση με το GDPR.
+                    </p>
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Περιεχόμενο Email (HTML ή απλό κείμενο)</label>
-                    <textarea 
-                      value={campaignBody}
-                      onChange={(e) => setCampaignBody(e.target.value)}
-                      rows={8}
-                      placeholder="Γράψτε το μήνυμά σας εδώ... (Υποστηρίζει HTML tags όπως <strong>, <a>, <p> κλπ.)"
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary font-sans text-sm"
-                    />
+
+                  {/* Right Column: Live Email Preview */}
+                  <div className="flex flex-col space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Προεπισκόπηση Email (Live Preview)</label>
+                    <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-grow overflow-y-auto max-h-[460px] shadow-inner">
+                      <div className="text-xs text-gray-400 mb-3 pb-3 border-b border-orange-100 flex flex-col gap-1">
+                        <div><strong>Από:</strong> SGK Digital &lt;noreply@sgk.gr&gt;</div>
+                        <div><strong>Θέμα:</strong> <span className="text-gray-700 font-medium">{campaignSubject || "(Χωρίς Θέμα)"}</span></div>
+                      </div>
+                      
+                      <div style={{ fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif", maxWidth: "100%", margin: "0 auto", padding: "10px 0" }}>
+                        <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #f2e3db", boxShadow: "0 2px 10px rgba(0,0,0,0.01)" }}>
+                          <div 
+                            className="prose prose-sm prose-orange max-w-none text-gray-800 leading-relaxed font-sans"
+                            style={{ fontSize: "14px" }}
+                            dangerouslySetInnerHTML={{ 
+                              __html: campaignBody 
+                                ? campaignBody.replace(/\n/g, '<br />') 
+                                : "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>" 
+                            }} 
+                          />
+                        </div>
+                        
+                        {/* SGK Footer */}
+                        <div style={{ textAlign: "center", marginTop: "25px", paddingTop: "15px", borderTop: "1px solid #ebdcd5" }}>
+                          <p style={{ color: "#888888", fontSize: "11px", lineHeight: "1.5", margin: 0 }}>
+                            Αυτό το email στάλθηκε επειδή ζητήσατε προσφορά για Eshop από το <strong>sgk.gr</strong>.<br />
+                            <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style={{ color: "#FF6B00", textDecoration: "none", fontWeight: "bold" }}>sgk.gr</a><br /><br />
+                            <span style={{ color: "#999", textDecoration: "underline", fontSize: "10px", cursor: "pointer" }}>Κατάργηση εγγραφής (Unsubscribe)</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-xs text-gray-400">
-                    💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα η υπογραφή της <strong>SGK Digital</strong> και το link <strong>Unsubscribe</strong> για τη συμμόρφωση με το GDPR.
-                  </p>
-                </>
+                </div>
               )}
             </div>
 
