@@ -9,13 +9,13 @@ import EshopOfferPageContent from "@/components/EshopOfferPageContent";
 
 export const metadata: Metadata = {
   title: "Κατασκευή Eshop | Προσφορά SGK Digital",
-  description: "Επαγγελματική κατασκευή eshop με σύνδεση Skroutz & ERP από 1.999€. Παράδοση σε 14 μέρες.",
+  description: "Επαγγελματική κατασκευή eshop με σύνδεση Skroutz & ERP, μόνο με 1.500€. 100% Εγγύηση Επιστροφής Χρημάτων.",
   alternates: {
     canonical: "https://sgk.gr/eshop-offer",
   },
   openGraph: {
     title: "Κατασκευή Eshop | Προσφορά SGK Digital",
-    description: "Επαγγελματική κατασκευή eshop με σύνδεση Skroutz & ERP από 1.999€. Παράδοση σε 14 μέρες.",
+    description: "Επαγγελματική κατασκευή eshop με σύνδεση Skroutz & ERP, μόνο με 1.500€. 100% Εγγύηση Επιστροφής Χρημάτων.",
     url: "https://sgk.gr/eshop-offer",
     siteName: "SGK Digital",
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Κατασκευή Eshop | Προσφορά SGK Digital",
-    description: "Επαγγελματική κατασκευή eshop με σύνδεση Skroutz & ERP από 1.999€. Παράδοση σε 14 μέρες.",
+    description: "Επαγγελματική κατασκευή eshop με σύνδεση Skroutz & ERP, μόνο με 1.500€. 100% Εγγύηση Επιστροφής Χρημάτων.",
     images: ["https://sgk.gr/social-preview.png"],
   },
 };
@@ -49,7 +49,7 @@ const serviceSchema = {
   },
   "offers": {
     "@type": "Offer",
-    "price": "1999.00",
+    "price": "1500.00",
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock",
     "url": "https://sgk.gr/eshop-offer"
