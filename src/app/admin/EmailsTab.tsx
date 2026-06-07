@@ -131,7 +131,7 @@ export function EmailsTab() {
                                 ? "bg-green-100 text-green-700" 
                                 : "bg-gray-100 text-gray-400"
                             }`}
-                            title={s <= step ? \`Email #\${s} Στάλθηκε\` : \`Email #\${s} Εκκρεμεί\`}
+                            title={s <= step ? `Email #${s} Στάλθηκε` : `Email #${s} Εκκρεμεί`}
                           >
                             {s <= step ? <Check size={12} /> : s}
                           </div>
