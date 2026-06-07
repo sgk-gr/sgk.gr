@@ -22,13 +22,13 @@ serve(async (req) => {
         );
 
         const payload = await req.json();
-        const { email, step, unsubscribe_token } = payload;
+        const { email, step, unsubscribe_token, customSubject, customHtml } = payload;
 
-        if (!email || !step) {
-            throw new Error("Missing email or step");
+        if (!email || (!step && !customSubject)) {
+            throw new Error("Missing email, step or customSubject");
         }
 
-        let subject = "";
+        let subject = customSubject || "";
         let htmlContent = "";
         const unsubscribeLink = `https://sgk.gr/unsubscribe?token=${unsubscribe_token}`;
         
@@ -42,7 +42,15 @@ serve(async (req) => {
             </div>
         `;
 
-        if (step === 2) {
+        if (customHtml) {
+            htmlContent = `
+            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
+                <div style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                    ${customHtml}
+                </div>
+                ${footerHTML}
+            </div>`;
+        } else if (step === 2) {
             subject = "3 λόγοι που το eshop σου χάνει χρήματα";
             htmlContent = `
             <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
@@ -152,12 +160,15 @@ serve(async (req) => {
             });
 
             // Update database
+            const updateData: any = {
+                last_email_sent_at: new Date().toISOString()
+            };
+            if (step && !customSubject) {
+                updateData.email_sequence_step = step;
+            }
             const { error: dbError } = await supabase
                 .from("sgk_mails")
-                .update({
-                    email_sequence_step: step,
-                    last_email_sent_at: new Date().toISOString()
-                })
+                .update(updateData)
                 .eq("email", email);
 
             if (dbError) {
