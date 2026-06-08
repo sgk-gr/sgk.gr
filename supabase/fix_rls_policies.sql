@@ -10,3 +10,6 @@ FOR ALL
 TO anon 
 USING (true) 
 WITH CHECK (true);
+
+-- Αφαίρεση του UNIQUE περιορισμού από το business_name για να επιτρέπονται διπλά ονόματα με διαφορετικά emails
+ALTER TABLE sgk_prospects DROP CONSTRAINT IF EXISTS sgk_prospects_business_name_key;
