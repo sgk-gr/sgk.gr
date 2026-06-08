@@ -20,14 +20,20 @@ export async function generateMetadata(
         };
     }
 
+    const url = `https://sgk.gr/blog/${slug}`;
+
     return {
         title: post.metaTitle,
         description: post.metaDescription,
+        alternates: {
+            canonical: url,
+        },
         openGraph: {
             title: post.title,
             description: post.excerpt,
             images: [post.image],
             type: "article",
+            url: url,
         },
         twitter: {
             card: "summary_large_image",
