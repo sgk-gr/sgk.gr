@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { 
-  Mail, Trash2, RefreshCcw, 
+  Mail, Trash2, RefreshCcw, Loader2,
   CheckCircle2, AlertTriangle, ArrowRight, UserCheck, Check, Send, X
 } from "lucide-react";
 
