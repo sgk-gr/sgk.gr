@@ -12,6 +12,7 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { EmailsTab } from "./EmailsTab";
+import { ScraperTab } from "./ScraperTab";
 
 // --- Types ---
 interface Transaction {
@@ -80,7 +81,7 @@ export default function AdminVatDashboard() {
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "tax" | "emails">("ledger");
+  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "tax" | "emails" | "scraper">("ledger");
   
   // Year & Ledger State
   const [filterYear, setFilterYear] = useState<string>(() => String(new Date().getFullYear()));
@@ -891,6 +892,17 @@ export default function AdminVatDashboard() {
           >
             <Mail className="w-4 h-4" />
             Email Leads
+          </button>
+          <button
+            onClick={() => setActivePortalTab("scraper")}
+            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
+              activePortalTab === "scraper"
+                ? "bg-[#10b981] text-[#030712] shadow-lg shadow-emerald-500/10"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Sparkles className="w-4 h-4" />
+            Prospect Scraper
           </button>
         </div>
       </div>
@@ -2137,6 +2149,22 @@ export default function AdminVatDashboard() {
           >
             <main className="max-w-7xl mx-auto px-6 mt-8">
               <EmailsTab />
+            </main>
+          </motion.div>
+        )}
+
+        {/* --- TAB 5: SCRAPER PORTAL --- */}
+        {activePortalTab === "scraper" && (
+          <motion.div
+            key="scraper-tab"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
+            className="relative z-10"
+          >
+            <main className="max-w-7xl mx-auto px-6 mt-8">
+              <ScraperTab />
             </main>
           </motion.div>
         )}
