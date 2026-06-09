@@ -7,7 +7,9 @@ const templates = [
   {
     name: "Κενό (Σύνταξη από την αρχή)",
     subject: "",
-    body: ""
+    body: "",
+    defaultButtonText: "",
+    defaultButtonLink: ""
   },
   {
     name: "🔥 Ειδική Προσφορά Eshop στα 1.500€",
@@ -21,7 +23,9 @@ const templates = [
   <li><strong>Mobile First:</strong> Σχεδιασμός προσαρμοσμένος τέλεια για αγορές από κινητά.</li>
   <li><strong>Έτοιμες Διασυνδέσεις:</strong> Google Merchant, Courier & όλες τις ελληνικές τράπεζες.</li>
 </ul>
-<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσουμε!</p>`
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσουμε!</p>`,
+    defaultButtonText: "Δείτε την Προσφορά",
+    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
   },
   {
     name: "📞 Follow-up Επικοινωνία",
@@ -30,7 +34,9 @@ const templates = [
 <p>Γεια σας,</p>
 <p>Επικοινωνούμε μαζί σας σχετικά με το αίτημα προσφοράς που συμπληρώσατε στην ιστοσελίδα της <strong>SGK Digital</strong>.</p>
 <p>Θα θέλαμε να προγραμματίσουμε μια σύντομη κλήση 10 λεπτών για να λύσουμε οποιαδήποτε απορία έχετε σχετικά με την πλατφόρμα και να βρούμε την κατάλληλη λύση για εσάς.</p>
-<p>Ποια ημέρα και ώρα σας εξυπηρετεί για μια σύντομη κουβέντα;</p>`
+<p>Ποια ημέρα και ώρα σας εξυπηρετεί για μια σύντομη κουβέντα;</p>`,
+    defaultButtonText: "",
+    defaultButtonLink: ""
   },
   {
     name: "📈 Case Study: Vaia Charms (+300% Πωλήσεις)",
@@ -44,7 +50,9 @@ const templates = [
   <li><strong>Αυξημένο SEO</strong> με κορυφαίες κατατάξεις.</li>
   <li><strong>Απρόσκοπτη εμπειρία</strong> στο κινητό (mobile optimized).</li>
 </ul>
-<p>Μπορούμε να σχεδιάσουμε μια αντίστοιχη στρατηγική επιτυχίας και για τη δική σας επιχείρηση!</p>`
+<p>Μπορούμε να σχεδιάσουμε μια αντίστοιχη στρατηγική επιτυχίας και για τη δική σας επιχείρηση!</p>`,
+    defaultButtonText: "Δείτε το Case Study",
+    defaultButtonLink: "https://www.sgk.gr/case-study/vaia-charms"
   }
 ];
 
@@ -56,6 +64,8 @@ export function EmailsTab() {
   const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
   const [campaignSubject, setCampaignSubject] = useState("");
   const [campaignBody, setCampaignBody] = useState("");
+  const [buttonText, setButtonText] = useState("");
+  const [buttonLink, setButtonLink] = useState("");
   const [sendingProgress, setSendingProgress] = useState<{ current: number; total: number; active: boolean; statusText: string } | null>(null);
   const [singleLeadTarget, setSingleLeadTarget] = useState<any | null>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
@@ -169,7 +179,19 @@ export function EmailsTab() {
             email: lead.email,
             unsubscribe_token: lead.unsubscribe_token,
             customSubject: campaignSubject,
-            customHtml: campaignBody.replace(/\n/g, '<br />')
+            customHtml: (() => {
+              let html = campaignBody.replace(/\n/g, '<br />');
+              if (buttonText && buttonLink) {
+                html += `
+                  <div style="text-align: center; margin: 25px 0;">
+                    <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                      ${buttonText}
+                    </a>
+                  </div>
+                `;
+              }
+              return html;
+            })()
           })
         });
 
@@ -192,6 +214,8 @@ export function EmailsTab() {
     setSelectedLeads([]);
     setCampaignSubject("");
     setCampaignBody("");
+    setButtonText("");
+    setButtonLink("");
     
     setTimeout(() => {
       setSendingProgress(null);
@@ -317,6 +341,8 @@ export function EmailsTab() {
                 setSingleLeadTarget(null);
                 setCampaignSubject("");
                 setCampaignBody("");
+                setButtonText("");
+                setButtonLink("");
                 setIsCampaignModalOpen(true);
               }}
               className="inline-flex items-center gap-2 px-4 py-2 bg-vivid-primary text-white rounded-lg hover:bg-vivid-primary/90 transition-all text-sm font-semibold shadow-glow animate-fade-in cursor-pointer"
@@ -465,6 +491,8 @@ export function EmailsTab() {
                             setSingleLeadTarget(lead);
                             setCampaignSubject("");
                             setCampaignBody("");
+                            setButtonText("");
+                            setButtonLink("");
                             setIsCampaignModalOpen(true);
                           }}
                           className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white rounded-lg transition-all text-sm font-medium border border-emerald-100 cursor-pointer"
@@ -494,7 +522,7 @@ export function EmailsTab() {
       {/* Campaign Email Modal */}
       {isCampaignModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden border border-gray-100">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden border border-gray-100 flex flex-col h-[85vh] max-h-[750px]">
             {/* Header */}
             <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
@@ -516,7 +544,7 @@ export function EmailsTab() {
             </div>
 
             {/* Body */}
-            <div className="p-6">
+            <div className="p-6 flex-1 overflow-hidden min-h-0">
               {sendingProgress ? (
                 <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
                   {sendingProgress.current < sendingProgress.total ? (
@@ -533,9 +561,9 @@ export function EmailsTab() {
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
                   {/* Left Column: Form Editor */}
-                  <div className="space-y-4">
+                  <div className="space-y-4 flex flex-col h-full min-h-0">
                     <div className="space-y-1">
                       <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Πρότυπο (Template)</label>
                       <select
@@ -543,6 +571,8 @@ export function EmailsTab() {
                           const idx = parseInt(e.target.value);
                           setCampaignSubject(templates[idx].subject);
                           setCampaignBody(templates[idx].body);
+                          setButtonText(templates[idx].defaultButtonText || "");
+                          setButtonLink(templates[idx].defaultButtonLink || "");
                         }}
                         className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
                       >
@@ -562,14 +592,37 @@ export function EmailsTab() {
                         className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary"
                       />
                     </div>
-                    <div className="space-y-1">
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Κείμενο Κουμπιού (Προαιρετικό)</label>
+                        <input 
+                          type="text"
+                          value={buttonText}
+                          onChange={(e) => setButtonText(e.target.value)}
+                          placeholder="π.χ. Δείτε την Προσφορά"
+                          className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Σύνδεσμος Κουμπιού (Link)</label>
+                        <input 
+                          type="text"
+                          value={buttonLink}
+                          onChange={(e) => setButtonLink(e.target.value)}
+                          placeholder="π.χ. https://www.sgk.gr/eshop-offer"
+                          className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1 flex-1 flex flex-col min-h-0">
                       <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Περιεχόμενο Email (HTML ή απλό κείμενο)</label>
                       <textarea 
                         value={campaignBody}
                         onChange={(e) => setCampaignBody(e.target.value)}
-                        rows={10}
                         placeholder="Γράψτε το μήνυμά σας εδώ... (Υποστηρίζει HTML tags όπως <strong>, <a>, <p> κλπ.)"
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary font-sans text-sm"
+                        className="w-full flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary font-sans text-sm resize-none overflow-y-auto min-h-0"
                       />
                     </div>
                     <p className="text-xs text-gray-400 font-medium">
@@ -579,9 +632,9 @@ export function EmailsTab() {
                   </div>
 
                   {/* Right Column: Live Email Preview */}
-                  <div className="flex flex-col space-y-2">
+                  <div className="flex flex-col space-y-2 h-full min-h-0">
                     <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Προεπισκόπηση Email (Live Preview)</label>
-                    <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-grow overflow-y-auto max-h-[460px] shadow-inner">
+                    <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-1 overflow-y-auto shadow-inner min-h-0">
                       <div className="text-xs text-gray-400 mb-3 pb-3 border-b border-orange-100 flex flex-col gap-1">
                         <div><strong>Από:</strong> SGK Digital &lt;noreply@sgk.gr&gt;</div>
                         <div><strong>Θέμα:</strong> <span className="text-gray-700 font-medium">{campaignSubject || "(Χωρίς Θέμα)"}</span></div>
@@ -593,17 +646,29 @@ export function EmailsTab() {
                             className="prose prose-sm prose-orange max-w-none text-gray-800 leading-relaxed font-sans"
                             style={{ fontSize: "14px" }}
                             dangerouslySetInnerHTML={{ 
-                              __html: campaignBody 
-                                ? campaignBody.replace(/\n/g, '<br />')
-                                    .replace(/\{\{COUPON_BANNER\}\}/g, `
-                                      <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0; font-family: sans-serif;">
-                                          <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
-                                          <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-9999</span>
-                                          <p style="color: #888; font-size: 12px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
-                                          <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν 60 ημέρες για εξαργύρωση</p>
-                                      </div>
-                                    `) 
-                                : "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>" 
+                              __html: (() => {
+                                if (!campaignBody) return "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>";
+                                let html = campaignBody.replace(/\n/g, '<br />')
+                                  .replace(/\{\{COUPON_BANNER\}\}/g, `
+                                    <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0; font-family: sans-serif;">
+                                        <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
+                                        <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-9999</span>
+                                        <p style="color: #888; font-size: 12px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
+                                        <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν 60 ημέρες για εξαργύρωση</p>
+                                    </div>
+                                  `);
+                                
+                                if (buttonText && buttonLink) {
+                                  html += `
+                                    <div style="text-align: center; margin: 25px 0;">
+                                      <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                                        ${buttonText}
+                                      </a>
+                                    </div>
+                                  `;
+                                }
+                                return html;
+                              })()
                             }} 
                           />
                         </div>
