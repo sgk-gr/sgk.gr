@@ -31,8 +31,10 @@ const PROSPECT_TEMPLATES = [
   <li><strong>Επαγγελματική Σχεδίαση:</strong> Στα μέτρα σας, προσαρμοσμένη για κινητά (Mobile First).</li>
   <li><strong>Ασύλληπτη Ταχύτητα:</strong> Με Core Web Vitals 95+ για καλύτερη κατάταξη στη Google (SEO).</li>
   <li><strong>Σύνδεση με Social Media & Google Maps:</strong> Για να σας βρίσκουν εύκολα.</li>
-</ul>
-<p>Αν ενδιαφέρεστε να συζητήσουμε πώς μπορούμε να αναβαθμίσουμε την παρουσία σας στο διαδίκτυο, απαντήστε σε αυτό το email ή καλέστε μας απευθείας στο <strong>6999524389</strong>.</p>`
+ </ul>
+<p>Αν ενδιαφέρεστε να συζητήσουμε πώς μπορούμε να αναβαθμίσουμε την παρουσία σας στο διαδίκτυο, απαντήστε σε αυτό το email ή καλέστε μας απευθείας στο <strong>6999524389</strong>.</p>`,
+    defaultButtonText: "Δείτε την Προσφορά",
+    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
   },
   {
     name: "⚡ Προσφορά Eshop στα 1.500€ (Ειδική Έκπτωση)",
@@ -46,8 +48,10 @@ const PROSPECT_TEMPLATES = [
   <li><strong>Σύνδεση με Skroutz & ERP:</strong> Για αυτόματη ενημέρωση προϊόντων και παραγγελιών.</li>
   <li><strong>Όλες οι Ελληνικές Τράπεζες & Courier:</strong> Έτοιμες διασυνδέσεις πληρωμών και αποστολών.</li>
   <li><strong>100% Ταχύτητα PageSpeed:</strong> Για κορυφαίο SEO.</li>
-</ul>
-<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις λεπτομέρειες!</p>`
+ </ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις λεπτομέρειες!</p>`,
+    defaultButtonText: "Δείτε την Προσφορά",
+    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
   }
 ];
 
@@ -63,6 +67,8 @@ export function ScraperTab() {
   const [selectedProspect, setSelectedProspect] = useState<Prospect | null>(null);
   const [emailSubject, setEmailSubject] = useState("");
   const [emailBody, setEmailBody] = useState("");
+  const [buttonText, setButtonText] = useState("");
+  const [buttonLink, setButtonLink] = useState("");
   const [sendingEmail, setSendingEmail] = useState(false);
 
   const fetchProspects = async () => {
@@ -111,6 +117,8 @@ export function ScraperTab() {
     const template = PROSPECT_TEMPLATES[0];
     setEmailSubject(template.subject.replace("[BUSINESS_NAME]", prospect.business_name));
     setEmailBody(template.body.replace(/\[BUSINESS_NAME\]/g, prospect.business_name));
+    setButtonText(template.defaultButtonText || "");
+    setButtonLink(template.defaultButtonLink || "");
     setIsModalOpen(true);
   };
 
@@ -120,6 +128,8 @@ export function ScraperTab() {
     const template = PROSPECT_TEMPLATES[index];
     setEmailSubject(template.subject.replace("[BUSINESS_NAME]", selectedProspect.business_name));
     setEmailBody(template.body.replace(/\[BUSINESS_NAME\]/g, selectedProspect.business_name));
+    setButtonText(template.defaultButtonText || "");
+    setButtonLink(template.defaultButtonLink || "");
   };
 
   const handleSendEmail = async () => {
@@ -130,8 +140,18 @@ export function ScraperTab() {
       // Δημιουργούμε ένα unsubscribe token
       const unsubscribeToken = crypto.randomUUID();
       
+      // Κατασκευή του τελικού HTML σώματος με το κουμπί αν έχει οριστεί
+      let finalBody = emailBody;
+      if (buttonText && buttonLink) {
+        finalBody += `
+<div style="text-align: center; margin: 25px 0;">
+  <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #f97316; color: #000000; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+    ${buttonText}
+  </a>
+</div>`;
+      }
+
       // Αποστολή μέσω edge function send-nurture-email
-      // Στέλνουμε το σώμα του email με το banner προσφοράς/κουπόνι mock
       const res = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
         method: "POST",
         headers: {
@@ -141,7 +161,7 @@ export function ScraperTab() {
         body: JSON.stringify({
           email: selectedProspect.email,
           customSubject: emailSubject,
-          customBody: emailBody,
+          customBody: finalBody,
           step: 1, // Θέτουμε step = 1, ώστε η επόμενη αυτόματη ακολουθία να ξεκινήσει από το step 2
           unsubscribe_token: unsubscribeToken,
           business_name: selectedProspect.business_name
@@ -335,13 +355,13 @@ export function ScraperTab() {
               </button>
             </div>
 
-            {/* Template Selector & Subject */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 border-b border-white/5 bg-white/5 p-4 rounded-xl my-4">
+            {/* Template Selector, Subject & Button Settings */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 py-3 border-b border-white/5 bg-white/5 p-4 rounded-xl my-2">
               <div className="space-y-1">
                 <label className="text-xs text-zinc-400 font-semibold">Επιλογή Template</label>
                 <select 
                   onChange={(e) => handleTemplateChange(parseInt(e.target.value))}
-                  className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
                 >
                   {PROSPECT_TEMPLATES.map((tmpl, idx) => (
                     <option key={idx} value={idx}>{tmpl.name}</option>
@@ -354,27 +374,47 @@ export function ScraperTab() {
                   type="text" 
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
-                  className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs text-zinc-400 font-semibold">Κείμενο Κουμπιού (Προαιρετικό)</label>
+                <input 
+                  type="text" 
+                  value={buttonText}
+                  onChange={(e) => setButtonText(e.target.value)}
+                  placeholder="π.χ. Δείτε την Προσφορά"
+                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs text-zinc-400 font-semibold">Σύνδεσμος Κουμπιού (Link)</label>
+                <input 
+                  type="text" 
+                  value={buttonLink}
+                  onChange={(e) => setButtonLink(e.target.value)}
+                  placeholder="π.χ. https://www.sgk.gr/eshop-offer"
+                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
                 />
               </div>
             </div>
 
             {/* Body Editor & Preview */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-hidden min-h-0">
               {/* HTML Editor */}
-              <div className="flex flex-col h-full space-y-1">
+              <div className="flex flex-col h-full space-y-1 min-h-0">
                 <label className="text-xs text-zinc-400 font-semibold">Περιεχόμενο (HTML)</label>
                 <textarea 
                   value={emailBody}
                   onChange={(e) => setEmailBody(e.target.value)}
-                  className="w-full flex-1 p-3 rounded-lg bg-zinc-900 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-orange-500 resize-none overflow-y-auto"
+                  className="w-full flex-1 p-3 rounded-lg bg-zinc-900 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-orange-500 resize-none overflow-y-auto min-h-0"
                 />
               </div>
 
               {/* Live Preview */}
-              <div className="flex flex-col h-full space-y-1">
+              <div className="flex flex-col h-full space-y-1 min-h-0">
                 <label className="text-xs text-zinc-400 font-semibold">Προεπισκόπηση</label>
-                <div className="w-full flex-1 p-4 rounded-lg bg-white text-black text-sm overflow-y-auto border border-zinc-200">
+                <div className="w-full flex-1 p-4 rounded-lg bg-white text-black text-sm overflow-y-auto border border-zinc-200 min-h-0">
                   {/* Email Container Mimic */}
                   <div style={{ maxWidth: "600px", margin: "0 auto", fontFamily: "sans-serif" }}>
                     {/* Header */}
@@ -382,10 +422,32 @@ export function ScraperTab() {
                       <span style={{ color: "#f97316", fontWeight: "bold", fontSize: "20px" }}>SGK Digital</span>
                     </div>
                     {/* Content */}
-                    <div 
-                      style={{ padding: "20px", background: "#ffffff", border: "1px solid #e4e4e7" }}
-                      dangerouslySetInnerHTML={{ __html: emailBody }}
-                    />
+                    <div style={{ padding: "20px", background: "#ffffff", border: "1px solid #e4e4e7" }}>
+                      <div dangerouslySetInnerHTML={{ __html: emailBody }} />
+                      
+                      {buttonText && buttonLink && (
+                        <div style={{ textAlign: "center", margin: "25px 0" }}>
+                          <a 
+                            href={buttonLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            style={{
+                              display: "inline-block",
+                              padding: "12px 24px",
+                              backgroundColor: "#f97316",
+                              color: "#000000",
+                              fontWeight: "bold",
+                              textDecoration: "none",
+                              borderRadius: "8px",
+                              fontSize: "14px",
+                              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                            }}
+                          >
+                            {buttonText}
+                          </a>
+                        </div>
+                      )}
+                    </div>
                     {/* Footer / Unsubscribe Mimic */}
                     <div style={{ padding: "20px", textAlign: "center", fontSize: "11px", color: "#71717a", background: "#f4f4f5", borderRadius: "0 0 8px 8px" }}>
                       © 2026 SGK Software Development. Όλα τα δικαιώματα κατοχυρωμένα.<br />
