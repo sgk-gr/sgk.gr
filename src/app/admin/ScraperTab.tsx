@@ -145,7 +145,7 @@ export function ScraperTab() {
       if (buttonText && buttonLink) {
         finalBody += `
 <div style="text-align: center; margin: 25px 0;">
-  <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #f97316; color: #000000; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+  <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
     ${buttonText}
   </a>
 </div>`;
@@ -339,120 +339,127 @@ export function ScraperTab() {
 
       {/* Email Composer Modal */}
       {isModalOpen && selectedProspect && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-4xl rounded-2xl border border-white/10 bg-zinc-950 p-6 flex flex-col h-[85vh] max-h-[750px]">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden border border-gray-100 flex flex-col h-[85vh] max-h-[750px]">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div>
-                <h3 className="text-lg font-bold text-white">Αποστολή Προσφοράς Συνεργασίας</h3>
-                <p className="text-xs text-zinc-400 font-mono">Προς: {selectedProspect.business_name} ({selectedProspect.email})</p>
-              </div>
+            <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+              <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                <Mail className="text-vivid-primary" size={20} />
+                <span>Αποστολή Email στο {selectedProspect.email}</span>
+              </h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-white/5 transition-all"
+                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X size={20} />
               </button>
             </div>
 
-            {/* Template Selector, Subject & Button Settings */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 py-3 border-b border-white/5 bg-white/5 p-4 rounded-xl my-2">
-              <div className="space-y-1">
-                <label className="text-xs text-zinc-400 font-semibold">Επιλογή Template</label>
-                <select 
-                  onChange={(e) => handleTemplateChange(parseInt(e.target.value))}
-                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
-                >
-                  {PROSPECT_TEMPLATES.map((tmpl, idx) => (
-                    <option key={idx} value={idx}>{tmpl.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs text-zinc-400 font-semibold">Θέμα Email</label>
-                <input 
-                  type="text" 
-                  value={emailSubject}
-                  onChange={(e) => setEmailSubject(e.target.value)}
-                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs text-zinc-400 font-semibold">Κείμενο Κουμπιού (Προαιρετικό)</label>
-                <input 
-                  type="text" 
-                  value={buttonText}
-                  onChange={(e) => setButtonText(e.target.value)}
-                  placeholder="π.χ. Δείτε την Προσφορά"
-                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs text-zinc-400 font-semibold">Σύνδεσμος Κουμπιού (Link)</label>
-                <input 
-                  type="text" 
-                  value={buttonLink}
-                  onChange={(e) => setButtonLink(e.target.value)}
-                  placeholder="π.χ. https://www.sgk.gr/eshop-offer"
-                  className="w-full h-9 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500 transition-colors"
-                />
-              </div>
-            </div>
+            {/* Body */}
+            <div className="p-6 flex-1 overflow-hidden min-h-0">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
+                {/* Left Column: Form Editor */}
+                <div className="space-y-4 flex flex-col h-full min-h-0">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Πρότυπο (Template)</label>
+                    <select 
+                      onChange={(e) => handleTemplateChange(parseInt(e.target.value))}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
+                    >
+                      {PROSPECT_TEMPLATES.map((tmpl, idx) => (
+                        <option key={idx} value={idx}>{tmpl.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Θέμα Email (Subject)</label>
+                    <input 
+                      type="text" 
+                      value={emailSubject}
+                      onChange={(e) => setEmailSubject(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary"
+                    />
+                  </div>
 
-            {/* Body Editor & Preview */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-hidden min-h-0">
-              {/* HTML Editor */}
-              <div className="flex flex-col h-full space-y-1 min-h-0">
-                <label className="text-xs text-zinc-400 font-semibold">Περιεχόμενο (HTML)</label>
-                <textarea 
-                  value={emailBody}
-                  onChange={(e) => setEmailBody(e.target.value)}
-                  className="w-full flex-1 p-3 rounded-lg bg-zinc-900 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-orange-500 resize-none overflow-y-auto min-h-0"
-                />
-              </div>
-
-              {/* Live Preview */}
-              <div className="flex flex-col h-full space-y-1 min-h-0">
-                <label className="text-xs text-zinc-400 font-semibold">Προεπισκόπηση</label>
-                <div className="w-full flex-1 p-4 rounded-lg bg-white text-black text-sm overflow-y-auto border border-zinc-200 min-h-0">
-                  {/* Email Container Mimic */}
-                  <div style={{ maxWidth: "600px", margin: "0 auto", fontFamily: "sans-serif" }}>
-                    {/* Header */}
-                    <div style={{ background: "#0a0a0a", padding: "20px", textAlign: "center", borderRadius: "8px 8px 0 0" }}>
-                      <span style={{ color: "#f97316", fontWeight: "bold", fontSize: "20px" }}>SGK Digital</span>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Κείμενο Κουμπιού (Προαιρετικό)</label>
+                      <input 
+                        type="text"
+                        value={buttonText}
+                        onChange={(e) => setButtonText(e.target.value)}
+                        placeholder="π.χ. Δείτε την Προσφορά"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white"
+                      />
                     </div>
-                    {/* Content */}
-                    <div style={{ padding: "20px", background: "#ffffff", border: "1px solid #e4e4e7" }}>
-                      <div dangerouslySetInnerHTML={{ __html: emailBody }} />
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Σύνδεσμος Κουμπιού (Link)</label>
+                      <input 
+                        type="text"
+                        value={buttonLink}
+                        onChange={(e) => setButtonLink(e.target.value)}
+                        placeholder="π.χ. https://www.sgk.gr/eshop-offer"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1 flex-1 flex flex-col min-h-0">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Περιεχόμενο Email (HTML ή απλό κείμενο)</label>
+                    <textarea 
+                      value={emailBody}
+                      onChange={(e) => setEmailBody(e.target.value)}
+                      placeholder="Γράψτε το μήνυμά σας εδώ... (Υποστηρίζει HTML tags όπως <strong>, <a>, <p> κλπ.)"
+                      className="w-full flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary font-sans text-sm resize-none overflow-y-auto min-h-0"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-400 font-medium">
+                    💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα η υπογραφή της <strong>SGK Digital</strong> και το link <strong>Unsubscribe</strong> για τη συμμόρφωση με το GDPR.
+                  </p>
+                </div>
+
+                {/* Right Column: Live Email Preview */}
+                <div className="flex flex-col space-y-2 h-full min-h-0">
+                  <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Προεπισκόπηση Email (Live Preview)</label>
+                  <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-1 overflow-y-auto shadow-inner min-h-0">
+                    <div className="text-xs text-gray-400 mb-3 pb-3 border-b border-orange-100 flex flex-col gap-1">
+                      <div><strong>Από:</strong> SGK Digital &lt;noreply@sgk.gr&gt;</div>
+                      <div><strong>Θέμα:</strong> <span className="text-gray-700 font-medium">{emailSubject || "(Χωρίς Θέμα)"}</span></div>
+                    </div>
+                    
+                    <div style={{ fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif", maxWidth: "100%", margin: "0 auto", padding: "10px 0" }}>
+                      <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #f2e3db", boxShadow: "0 2px 10px rgba(0,0,0,0.01)" }}>
+                        <div 
+                          className="prose prose-sm prose-orange max-w-none text-gray-800 leading-relaxed font-sans"
+                          style={{ fontSize: "14px" }}
+                          dangerouslySetInnerHTML={{ 
+                            __html: (() => {
+                              if (!emailBody) return "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>";
+                              let html = emailBody;
+                              if (buttonText && buttonLink) {
+                                html += `
+                                  <div style="text-align: center; margin: 25px 0;">
+                                    <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                                      ${buttonText}
+                                    </a>
+                                  </div>
+                                `;
+                              }
+                              return html;
+                            })()
+                          }} 
+                        />
+                      </div>
                       
-                      {buttonText && buttonLink && (
-                        <div style={{ textAlign: "center", margin: "25px 0" }}>
-                          <a 
-                            href={buttonLink} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            style={{
-                              display: "inline-block",
-                              padding: "12px 24px",
-                              backgroundColor: "#f97316",
-                              color: "#000000",
-                              fontWeight: "bold",
-                              textDecoration: "none",
-                              borderRadius: "8px",
-                              fontSize: "14px",
-                              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-                            }}
-                          >
-                            {buttonText}
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                    {/* Footer / Unsubscribe Mimic */}
-                    <div style={{ padding: "20px", textAlign: "center", fontSize: "11px", color: "#71717a", background: "#f4f4f5", borderRadius: "0 0 8px 8px" }}>
-                      © 2026 SGK Software Development. Όλα τα δικαιώματα κατοχυρωμένα.<br />
-                      Λάβατε αυτό το email ως πρόταση συνεργασίας.<br />
-                      <a href="#" style={{ color: "#f97316", textDecoration: "none" }}>Κατάργηση εγγραφής (Unsubscribe)</a>
+                      {/* SGK Footer */}
+                      <div style={{ textAlign: "center", marginTop: "25px", paddingTop: "15px", borderTop: "1px solid #ebdcd5" }}>
+                        <p style={{ color: "#888888", fontSize: "11px", lineHeight: "1.5", margin: 0 }}>
+                          Αυτό το email στάλθηκε επειδή ζητήσατε προσφορά για Eshop από το <strong>sgk.gr</strong>.<br />
+                          <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style={{ color: "#FF6B00", textDecoration: "none", fontWeight: "bold" }}>sgk.gr</a><br /><br />
+                          <span style={{ color: "#999", textDecoration: "underline", fontSize: "10px", cursor: "pointer" }}>Κατάργηση εγγραφής (Unsubscribe)</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -460,27 +467,27 @@ export function ScraperTab() {
             </div>
 
             {/* Footer Buttons */}
-            <div className="flex justify-end gap-3 border-t border-white/10 pt-4 mt-4">
+            <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
               <button 
                 onClick={() => setIsModalOpen(false)}
                 disabled={sendingEmail}
-                className="px-4 py-2 border border-white/10 hover:bg-white/5 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all"
+                className="px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
               >
                 Ακύρωση
               </button>
               <button 
                 onClick={handleSendEmail}
-                disabled={sendingEmail}
-                className="bg-orange-500 hover:bg-orange-600 disabled:bg-orange-850 text-black px-5 py-2 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all"
+                disabled={sendingEmail || !emailSubject || !emailBody}
+                className="px-5 py-2 text-sm font-bold text-white bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
               >
                 {sendingEmail ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-black" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
                     <span>Αποστολή...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-3.5 h-3.5 text-black" />
+                    <Send className="w-3.5 h-3.5 text-white" size={14} />
                     <span>Αποστολή Email Προσφοράς</span>
                   </>
                 )}
