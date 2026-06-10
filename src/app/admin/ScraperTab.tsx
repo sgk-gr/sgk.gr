@@ -246,6 +246,8 @@ export function ScraperTab() {
         {
           email: selectedProspect.email,
           name: selectedProspect.business_name,
+          first_name: selectedProspect.business_name,
+          last_name: "",
           phone: selectedProspect.phone,
           marketing_consent: true,
           unsubscribed: false,
