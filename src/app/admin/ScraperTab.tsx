@@ -229,7 +229,7 @@ export function ScraperTab() {
         body: JSON.stringify({
           email: selectedProspect.email,
           customSubject: emailSubject,
-          customBody: finalBody,
+          customHtml: finalBody,
           step: 1, // Θέτουμε step = 1, ώστε η επόμενη αυτόματη ακολουθία να ξεκινήσει από το step 2
           unsubscribe_token: unsubscribeToken,
           business_name: selectedProspect.business_name
