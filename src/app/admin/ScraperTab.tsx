@@ -242,21 +242,49 @@ export function ScraperTab() {
 
       // 2. Εισαγωγή του lead στον πίνακα sgk_mails (leads list)
       // Ώστε να παρακολουθούμε την πορεία του και να συνεχίσει να λαμβάνει τα αυτόματα follow-ups
-      const { error: upsertError } = await supabase.from("sgk_mails").upsert([
-        {
-          email: selectedProspect.email,
-          first_name: selectedProspect.business_name,
-          last_name: "",
-          phone: selectedProspect.phone,
-          marketing_consent: true,
-          unsubscribed: false,
-          unsubscribe_token: unsubscribeToken,
-          email_sequence_step: 1,
-          last_email_sent_at: new Date().toISOString()
-        }
-      ], { onConflict: "email" });
+      const { data: existingLead, error: selectError } = await supabase
+        .from("sgk_mails")
+        .select("id")
+        .eq("email", selectedProspect.email)
+        .maybeSingle();
 
-      if (upsertError) throw upsertError;
+      if (selectError) throw selectError;
+
+      if (existingLead) {
+        // Ενημέρωση υπάρχοντος lead
+        const { error: updateError } = await supabase
+          .from("sgk_mails")
+          .update({
+            first_name: selectedProspect.business_name,
+            phone: selectedProspect.phone,
+            marketing_consent: true,
+            unsubscribed: false,
+            email_sequence_step: 1,
+            last_email_sent_at: new Date().toISOString()
+          })
+          .eq("id", existingLead.id);
+
+        if (updateError) throw updateError;
+      } else {
+        // Εισαγωγή νέου lead
+        const { error: insertError } = await supabase
+          .from("sgk_mails")
+          .insert([
+            {
+              email: selectedProspect.email,
+              first_name: selectedProspect.business_name,
+              last_name: "",
+              phone: selectedProspect.phone,
+              marketing_consent: true,
+              unsubscribed: false,
+              unsubscribe_token: unsubscribeToken,
+              email_sequence_step: 1,
+              last_email_sent_at: new Date().toISOString()
+            }
+          ]);
+
+        if (insertError) throw insertError;
+      }
 
       // 3. Ενημέρωση κατάστασης στον πίνακα sgk_prospects
       await supabase
