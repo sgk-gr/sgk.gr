@@ -242,10 +242,9 @@ export function ScraperTab() {
 
       // 2. Εισαγωγή του lead στον πίνακα sgk_mails (leads list)
       // Ώστε να παρακολουθούμε την πορεία του και να συνεχίσει να λαμβάνει τα αυτόματα follow-ups
-      await supabase.from("sgk_mails").upsert([
+      const { error: upsertError } = await supabase.from("sgk_mails").upsert([
         {
           email: selectedProspect.email,
-          name: selectedProspect.business_name,
           first_name: selectedProspect.business_name,
           last_name: "",
           phone: selectedProspect.phone,
@@ -256,6 +255,8 @@ export function ScraperTab() {
           last_email_sent_at: new Date().toISOString()
         }
       ], { onConflict: "email" });
+
+      if (upsertError) throw upsertError;
 
       // 3. Ενημέρωση κατάστασης στον πίνακα sgk_prospects
       await supabase
