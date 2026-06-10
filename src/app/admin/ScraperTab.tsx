@@ -18,13 +18,104 @@ interface Prospect {
   sent_at: string | null;
 }
 
+function getInCityPhrase(city: string): string {
+  if (!city) return "";
+  const trimmed = city.trim();
+  
+  // 1. Plural Neuter
+  const pluralNeuterCities = [
+    "Χανιά", "Γρεβενά", "Τρίκαλα", "Ιωάννινα", "Γιαννιτσά", 
+    "Καλάβρυτα", "Μέγαρα", "Φάρσαλα", "Λεχαινά", "Κύθηρα", 
+    "Ψαρά", "Κουφονήσια", "Λιμενάρια", "Μάλια", "Καμένα Βούρλα",
+    "Λουτρά", "Λιμάνια", "Μέθανα"
+  ];
+  
+  if (pluralNeuterCities.some(c => c.toLowerCase() === trimmed.toLowerCase())) {
+    return `στα ${trimmed}`;
+  }
+
+  // 2. Feminine ending in -ος (needs accusative, drops 'ς')
+  const feminineOsCities = [
+    "Ρόδος", "Μύκονος", "Νάξος", "Πάρος", "Μήλος", "Σίφνος", 
+    "Σέριφος", "Κύθνος", "Κίμωλος", "Αμοργός", "Αλόννησος", 
+    "Σκόπελος", "Σκιάθος", "Ζάκυνθος", "Κάρπαθος", "Λέρος", 
+    "Πάτμος", "Σύρος", "Τήνος", "Άνδρος", "Κόρινθος", "Πύλος"
+  ];
+  
+  const isFeminineOs = feminineOsCities.some(c => c.toLowerCase() === trimmed.toLowerCase());
+  
+  if (isFeminineOs) {
+    const accusative = trimmed.endsWith("ς") ? trimmed.slice(0, -1) : trimmed;
+    const firstChar = accusative.charAt(0).toUpperCase();
+    const firstTwo = accusative.slice(0, 2).toLowerCase();
+    
+    const vowels = ["Α", "Ε", "Η", "Ι", "Ο", "Υ", "Ω", "Ά", "Έ", "Ή", "Ί", "Ό", "Ύ", "Ώ"];
+    const stopConsonants = ["Κ", "Π", "Τ", "Ξ", "Ψ"];
+    const stopClusters = ["μπ", "ντ", "γκ", "τσ", "τζ"];
+    
+    const needsN = vowels.includes(firstChar) || 
+                   stopConsonants.includes(firstChar) || 
+                   stopClusters.some(cluster => firstTwo.startsWith(cluster));
+                   
+    return needsN ? `στην ${accusative}` : `στη ${accusative}`;
+  }
+
+  // 3. Masculine/Feminine ending in -ος, -ης, -ας / -ός, -ής, -άς (needs accusative, drops 'ς')
+  if (trimmed.endsWith("ς") || trimmed.endsWith("Σ")) {
+    const accusative = trimmed.slice(0, -1);
+    if (trimmed.toLowerCase() === "άργος") {
+      return `στο ${trimmed}`;
+    }
+    return `στο ${accusative}`;
+  }
+
+  // 4. Neuter ending in -ο, -ό, -ι, -ί, -υ, -ύ
+  const lastChar = trimmed.slice(-1).toLowerCase();
+  if (["ο", "ό", "ι", "ί", "υ", "ύ"].includes(lastChar)) {
+    return `στο ${trimmed}`;
+  }
+
+  // 5. Feminine singular ending in -α, -ά, -η, -ή or anything else
+  const firstChar = trimmed.charAt(0).toUpperCase();
+  const firstTwo = trimmed.slice(0, 2).toLowerCase();
+  
+  const vowels = ["Α", "Ε", "Η", "Ι", "Ο", "Υ", "Ω", "Ά", "Έ", "Ή", "Ί", "Ό", "Ύ", "Ώ"];
+  const stopConsonants = ["Κ", "Π", "Τ", "Ξ", "Ψ"];
+  const stopClusters = ["μπ", "ντ", "γκ", "τσ", "τζ"];
+  
+  const needsN = vowels.includes(firstChar) || 
+                 stopConsonants.includes(firstChar) || 
+                 stopClusters.some(cluster => firstTwo.startsWith(cluster));
+                 
+  return needsN ? `στην ${trimmed}` : `στη ${trimmed}`;
+}
+
+const applyTemplateVariables = (body: string, subject: string, prospect: Prospect) => {
+  const businessName = prospect.business_name || "";
+  const city = prospect.city || "";
+  const inCityPhrase = getInCityPhrase(city);
+
+  const replaceAll = (text: string) => {
+    if (!text) return "";
+    return text
+      .replace(/\[BUSINESS_NAME\]/g, businessName)
+      .replace(/\[CITY\]/g, city)
+      .replace(/\[IN_CITY\]/g, inCityPhrase);
+  };
+
+  return {
+    subject: replaceAll(subject),
+    body: replaceAll(body)
+  };
+};
+
 const PROSPECT_TEMPLATES = [
   {
     name: "🚀 Πρόταση Ψηφιακής Παρουσίας (Website/Eshop)",
-    subject: "Πρόταση Συνεργασίας: Ψηφιακή Παρουσία για την [BUSINESS_NAME]",
+    subject: "Πρόταση Συνεργασίας: Ψηφιακή Παρουσία για την [BUSINESS_NAME] [IN_CITY]",
     body: `<h2>Αποκτήστε τη δική σας επαγγελματική ιστοσελίδα ή eshop! 🚀</h2>
 <p>Γεια σας,</p>
-<p>Επισκεφθήκαμε την καταχώρησή σας για την επιχείρηση <strong>[BUSINESS_NAME]</strong> και παρατηρήσαμε ότι δεν διαθέτετε δικό σας επίσημο website ή eshop για την online προβολή σας.</p>
+<p>Επισκεφθήκαμε την καταχώρησή σας για την επιχείρηση <strong>[BUSINESS_NAME]</strong> [IN_CITY] και παρατηρήσαμε ότι δεν διαθέτετε δικό σας επίσημο website ή eshop για την online προβολή σας.</p>
 <p>Στην <strong>SGK Software Development</strong> εξειδικευόμαστε στην κατασκευή ταχύτατων ιστοσελίδων και eshops νέας γενιάς (με τεχνολογία Next.js / React) που βοηθούν τις επιχειρήσεις να αποκτήσουν σύγχρονη παρουσία στο διαδίκτυο και να αυξήσουν τους πελάτες τους.</p>
 <p><strong>Τι σας προσφέρουμε:</strong></p>
 <ul>
@@ -38,10 +129,10 @@ const PROSPECT_TEMPLATES = [
   },
   {
     name: "⚡ Προσφορά Eshop στα 1.500€ (Ειδική Έκπτωση)",
-    subject: "Ειδική Προσφορά: Κατασκευή Eshop στα 1.500€ για την [BUSINESS_NAME]",
+    subject: "Ειδική Προσφορά: Κατασκευή Eshop για την [BUSINESS_NAME] [IN_CITY]",
     body: `<h2>Ξεκινήστε τις Online Πωλήσεις σας Σήμερα! 🛍️</h2>
 <p>Γεια σας,</p>
-<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong>.</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
 <p>Θέλουμε να σας προσφέρουμε μια ειδική έκπτωση για την κατασκευή ενός υπερσύγχρονου eshop στην προνομιακή τιμή των <strong>1.500€</strong>.</p>
 <p><strong>Τι περιλαμβάνει η προσφορά:</strong></p>
 <ul>
@@ -54,45 +145,63 @@ const PROSPECT_TEMPLATES = [
     defaultButtonLink: "https://www.sgk.gr/eshop-offer"
   },
   {
+    name: "🍱 Αποκλειστική Εφαρμογή Delivery (Για Εστιατόρια/Καφέ)",
+    subject: "Πρόταση: Mobile App & Web Delivery για την [BUSINESS_NAME] [IN_CITY]",
+    body: `<h2>Αποκτήστε το δικό σας Web & Mobile App Delivery! 🍱</h2>
+<p>Γεια σας,</p>
+<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> [IN_CITY] και είδαμε ότι δραστηριοποιείστε στον χώρο της εστίασης/καφέ.</p>
+<p>Στην <strong>SGK Software Development</strong> σχεδιάζουμε <strong>αποκλειστικές (custom) εφαρμογές online παραγγελιών και delivery</strong>, βοηθώντας εστιατόρια, καφετέριες και delivery shops να απαλλαγούν από τις υψηλές προμήθειες των 3rd party πλατφορμών (E-food, Wolt, Box) που αγγίζουν το 25-30%.</p>
+<p><strong>Τι σας προσφέρει η δική σας πλατφόρμα Delivery:</strong></p>
+<ul>
+  <li><strong>0% Προμήθειες:</strong> Όλα τα έσοδα από τις παραγγελίες πηγαίνουν απευθείας σε εσάς.</li>
+  <li><strong>Web App & Mobile Apps (Android/iOS):</strong> Δικό σας app στο Google Play και App Store με το brand σας.</li>
+  <li><strong>Σύστημα Loyalty & Push Notifications:</strong> Στείλτε δωρεάν προσφορές απευθείας στα κινητά των πελατών σας.</li>
+  <li><strong>Διαχείριση Τραπεζιών & QR Menu:</strong> Για εύκολη παραγγελία και από το τραπέζι.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong>.</p>`,
+    defaultButtonText: "Δείτε το Demo Delivery",
+    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
+  },
+  {
     name: "📊 Custom Διαχειριστικά Συστήματα (ERP/CRM)",
-    subject: "Πρόταση Αναβάθμισης: Custom ERP/CRM για την [BUSINESS_NAME]",
+    subject: "Πρόταση Αναβάθμισης: Custom ERP/CRM για την [BUSINESS_NAME] [IN_CITY]",
     body: `<h2>Ψηφιοποιήστε τις λειτουργίες της επιχείρησής σας! 📊</h2>
 <p>Γεια σας,</p>
-<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong>.</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
 <p>Παρατηρούμε ότι πολλές επιχειρήσεις σήμερα δαπανούν πολύτιμο χρόνο σε χειροκίνητες διαδικασίες, excel και ασύνδετα συστήματα. Σχεδιάζουμε <strong>custom διαχειριστικά συστήματα (ERP, CRM, WMS)</strong> κομμένα και ραμμένα αποκλειστικά στις δικές σας ανάγκες.</p>
 <p><strong>Τι μπορούμε να αυτοματοποιήσουμε για εσάς:</strong></p>
 <ul>
   <li><strong>Διαχείριση Πελατολογίου (CRM):</strong> Παρακολούθηση προσφορών, leads και ιστορικού επικοινωνίας.</li>
   <li><strong>Ηλεκτρονική Τιμολόγηση & myDATA:</strong> Αυτόματη έκδοση παραστατικών και διασύνδεση με την ΑΑΔΕ.</li>
   <li><strong>Έλεγχος Αποθήκης & Παραγγελιών:</strong> Real-time ενημέρωση αποθεμάτων και διαχείριση προμηθευτών.</li>
-</ul>
+ </ul>
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να αναλύσουμε τις ανάγκες σας και να σχεδιάσουμε μια δωρεάν πρόταση υλοποίησης.</p>`,
     defaultButtonText: "Δείτε τις Υπηρεσίες μας",
     defaultButtonLink: "https://www.sgk.gr/web-development"
   },
   {
     name: "🏨 Website για Ξενοδοχεία & Βίλες (Απευθείας Κρατήσεις)",
-    subject: "Πρόταση για την [BUSINESS_NAME]: Αυξήστε τις Απευθείας Κρατήσεις χωρίς προμήθειες!",
+    subject: "Πρόταση για την [BUSINESS_NAME] [IN_CITY]: Αυξήστε τις Απευθείας Κρατήσεις!",
     body: `<h2>Απελευθερωθείτε από τις υψηλές προμήθειες της Booking & Airbnb! 🏨</h2>
 <p>Γεια σας,</p>
-<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> και παρατηρήσαμε ότι βασίζεστε κυρίως σε εξωτερικές πλατφόρμες για τις κρατήσεις σας.</p>
+<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> [IN_CITY] και παρατηρήσαμε ότι βασίζεστε κυρίως σε εξωτερικές πλατφόρμες για τις κρατήσεις σας.</p>
 <p>Στην <strong>SGK Software Development</strong> κατασκευάζουμε υπερσύγχρονες ιστοσελίδες για ξενοδοχεία, βίλες και τουριστικά καταλύματα με <strong>ενσωματωμένο σύστημα απευθείας κρατήσεων (Booking Engine)</strong> και σύνδεση με Channel Manager.</p>
 <p><strong>Πλεονεκτήματα:</strong></p>
 <ul>
   <li><strong>0% Προμήθειες:</strong> Κρατήσεις απευθείας στον δικό σας τραπεζικό λογαριασμό.</li>
   <li><strong>Κορυφαία Παρουσίαση:</strong> Custom design που αναδεικνύει τις παροχές και τις φωτογραφίες του καταλύματος.</li>
   <li><strong>Live Διαθεσιμότητα & Πληρωμές:</strong> Άμεση πληρωμή με κάρτα και αυτόματη ενημέρωση ημερολογίων.</li>
-</ul>
+ </ul>
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σχεδιάσουμε τη νέα σας τουριστική ιστοσελίδα!</p>`,
     defaultButtonText: "Δείτε Case Studies",
     defaultButtonLink: "https://www.sgk.gr/case-study/lemon-tree-paros"
   },
   {
     name: "🚗 Σύστημα Κρατήσεων & Site για Rent a Car",
-    subject: "Σύγχρονη Ιστοσελίδα με Booking Engine για την [BUSINESS_NAME]",
+    subject: "Σύγχρονη Ιστοσελίδα με Booking Engine για την [BUSINESS_NAME] [IN_CITY]",
     body: `<h2>Αυτοματοποιήστε τις ενοικιάσεις του στόλου σας! 🚗</h2>
 <p>Γεια σας,</p>
-<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong>.</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
 <p>Προσφέρουμε μια ολοκληρωμένη λύση για εταιρείες ενοικίασης αυτοκινήτων και σκαφών, η οποία περιλαμβάνει <strong>υπερσύγχρονο site και έξυπνο σύστημα online κρατήσεων</strong>.</p>
 <p><strong>Τι περιλαμβάνει η λύση Rent a Car:</strong></p>
 <ul>
@@ -106,10 +215,10 @@ const PROSPECT_TEMPLATES = [
   },
   {
     name: "🤖 AI Agents & Αυτοματοποιήσεις Επιχειρήσεων",
-    subject: "Αυτοματοποίηση Λειτουργιών με Τεχνητή Νοημοσύνη (AI Agents) για την [BUSINESS_NAME]",
+    subject: "Αυτοματοποίηση Λειτουργιών με Τεχνητή Νοημοσύνη (AI Agents) για την [BUSINESS_NAME] [IN_CITY]",
     body: `<h2>Βάλτε την Τεχνητή Νοημοσύνη να δουλέψει για εσάς! 🤖</h2>
 <p>Γεια σας,</p>
-<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong>.</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
 <p>Σχεδιάζουμε και ενσωματώνουμε <strong>AI Agents και Intelligent Chatbots</strong> που αναλαμβάνουν να αυτοματοποιήσουν καθημερινές εργασίες της επιχείρησής σας, λειτουργώντας 24/7 χωρίς διακοπή.</p>
 <p><strong>Τι μπορεί να κάνει ένας AI Agent για εσάς:</strong></p>
 <ul>
@@ -183,8 +292,9 @@ export function ScraperTab() {
     setSelectedProspect(prospect);
     // Χρησιμοποιούμε το πρώτο template ως default
     const template = PROSPECT_TEMPLATES[0];
-    setEmailSubject(template.subject.replace("[BUSINESS_NAME]", prospect.business_name));
-    setEmailBody(template.body.replace(/\[BUSINESS_NAME\]/g, prospect.business_name));
+    const { subject, body } = applyTemplateVariables(template.body, template.subject, prospect);
+    setEmailSubject(subject);
+    setEmailBody(body);
     setButtonText(template.defaultButtonText || "");
     setButtonLink(template.defaultButtonLink || "");
     setIsModalOpen(true);
@@ -194,8 +304,9 @@ export function ScraperTab() {
   const handleTemplateChange = (index: number) => {
     if (!selectedProspect) return;
     const template = PROSPECT_TEMPLATES[index];
-    setEmailSubject(template.subject.replace("[BUSINESS_NAME]", selectedProspect.business_name));
-    setEmailBody(template.body.replace(/\[BUSINESS_NAME\]/g, selectedProspect.business_name));
+    const { subject, body } = applyTemplateVariables(template.body, template.subject, selectedProspect);
+    setEmailSubject(subject);
+    setEmailBody(body);
     setButtonText(template.defaultButtonText || "");
     setButtonLink(template.defaultButtonLink || "");
   };

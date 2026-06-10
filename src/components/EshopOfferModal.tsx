@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sendContactEmail } from '@/lib/resend';
-import { X, CheckCircle, Loader2, Mail, Check, AlertCircle, ShieldCheck } from 'lucide-react';
+import { X, CheckCircle, Loader2, Mail, Check, AlertCircle, ShieldCheck, User, Phone, FileText } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface EshopOfferModalProps {
@@ -17,16 +17,38 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
   const [error, setError] = useState('');
 
   const [formData, setFormData] = useState({
+    firstName: '',
+    phone: '',
     email: '',
+    projectInfo: '',
     marketingConsent: true,
   });
   const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
+  
+  const [captcha, setCaptcha] = useState({ question: "", result: 0, answer: "" });
+  const [honeypot, setHoneypot] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const generateCaptcha = () => {
+    const n1 = Math.floor(Math.random() * 9) + 1;
+    const n2 = Math.floor(Math.random() * 9) + 1;
+    return { question: `${n1} + ${n2}`, result: n1 + n2, answer: "" };
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      setCaptcha(generateCaptcha());
+      setHoneypot("");
+    }
+  }, [isOpen]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const isCheckbox = e.target instanceof HTMLInputElement && e.target.type === 'checkbox';
+    const checked = e.target instanceof HTMLInputElement && e.target.type === 'checkbox' ? e.target.checked : false;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: isCheckbox ? checked : value,
     }));
 
     if (name === 'email') {
@@ -37,6 +59,19 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (honeypot) {
+      // Silent discard for bots
+      setIsSuccess(true);
+      return;
+    }
+
+    if (parseInt(captcha.answer) !== captcha.result) {
+      setError("Λάθος απάντηση ελέγχου ασφαλείας. Προσπαθήστε ξανά.");
+      setCaptcha(generateCaptcha());
+      return;
+    }
+
     setIsSubmitting(true);
     setError('');
 
@@ -44,9 +79,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
       await sendContactEmail({
         type: 'eshop_offer',
         offerPrice: '1500',
-        firstName: '', // Pass empty strings to satisfy potential backend checks
         lastName: '',
-        phone: '',
         ...formData,
       });
       setIsSuccess(true);
@@ -71,7 +104,10 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
         setIsSuccess(false);
         setError('');
         setFormData({
+          firstName: '',
+          phone: '',
           email: '',
+          projectInfo: '',
           marketingConsent: true,
         });
         setIsValidEmail(null);
@@ -95,10 +131,10 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', duration: 0.5 }}
-            className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden z-10"
+            className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden z-10 max-h-[95vh] flex flex-col"
           >
             {/* Header */}
-            <div className="bg-gradient-to-br from-[#fdfaf8] to-[#fbebe3] p-6 text-center relative border-b border-[#fcebe2] flex flex-col items-center">
+            <div className="bg-gradient-to-br from-[#fdfaf8] to-[#fbebe3] p-6 text-center relative border-b border-[#fcebe2] flex flex-col items-center flex-shrink-0">
               <button
                 onClick={handleClose}
                 className="absolute right-4 top-4 text-vivid-on-surface-variant hover:text-vivid-primary transition-colors cursor-pointer"
@@ -109,7 +145,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                 Αποκτήστε την Προσφορά
               </h2>
               <p className="text-vivid-on-surface-variant text-sm">
-                Συμπληρώστε το email σας και θα επικοινωνήσουμε άμεσα μαζί σας.
+                Συμπληρώστε τα στοιχεία σας και θα επικοινωνήσουμε άμεσα μαζί σας.
               </p>
               
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-vivid-primary/10 text-vivid-primary text-xs font-bold rounded-full mt-3">
@@ -119,7 +155,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
             </div>
 
             {/* Content */}
-            <div className="p-6">
+            <div className="p-6 overflow-y-auto flex-1">
               {isSuccess ? (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -130,10 +166,10 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                     <CheckCircle size={32} />
                   </div>
                   <h3 className="text-xl font-bold text-vivid-on-surface mb-2">
-                    Σας έχουμε ένα δώρο! 🎁
+                    Το αίτημά σας καταχωρήθηκε! 🎉
                   </h3>
                   <p className="text-vivid-on-surface-variant mb-6 text-sm">
-                    Σας στείλαμε έναν μοναδικό κωδικό προσφοράς στο email σας. Ελέγξτε τα εισερχόμενά σας (και τα spam) για να τον βρείτε!
+                    Σας στείλαμε έναν μοναδικό κωδικό προσφοράς (έκπτωση 300€) στο email σας. Ελέγξτε τα εισερχόμενά σας (και τα spam) για να τον βρείτε!
                   </p>
                   <button
                     onClick={handleClose}
@@ -144,6 +180,47 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  {/* Name */}
+                  <div>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-vivid-on-surface mb-1">Όνομα *</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                        <User size={18} />
+                      </div>
+                      <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        required
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary text-vivid-on-surface bg-gray-50/50"
+                        placeholder="Το όνομά σας"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-vivid-on-surface mb-1">Τηλέφωνο *</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                        <Phone size={18} />
+                      </div>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary text-vivid-on-surface bg-gray-50/50"
+                        placeholder="Το τηλέφωνό σας"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-vivid-on-surface mb-1">Email *</label>
                     <div className="relative">
@@ -173,6 +250,54 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                     </div>
                   </div>
 
+                  {/* Project Info */}
+                  <div>
+                    <label htmlFor="projectInfo" className="block text-sm font-medium text-vivid-on-surface mb-1">Περιγραφή Έργου *</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 pt-3 flex items-start pointer-events-none text-gray-400">
+                        <FileText size={18} />
+                      </div>
+                      <textarea
+                        id="projectInfo"
+                        name="projectInfo"
+                        required
+                        rows={3}
+                        value={formData.projectInfo}
+                        onChange={handleChange}
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary text-vivid-on-surface bg-gray-50/50 font-sans resize-none"
+                        placeholder="Περιγράψτε σύντομα τι eshop θέλετε να φτιάξετε..."
+                      />
+                    </div>
+                  </div>
+
+                  {/* Honeypot field (hidden from users, visible to bots) */}
+                  <input
+                    type="text"
+                    name="website_url_field"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    style={{ display: 'none' }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+
+                  {/* Math Captcha */}
+                  <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 flex flex-col gap-2">
+                    <label htmlFor="captchaAnswer" className="text-xs font-bold text-vivid-primary uppercase tracking-wider">
+                      Επαλήθευση Ασφαλείας: Πόσο κάνει {captcha.question} ; *
+                    </label>
+                    <input
+                      type="text"
+                      id="captchaAnswer"
+                      required
+                      value={captcha.answer}
+                      onChange={(e) => setCaptcha(prev => ({ ...prev, answer: e.target.value }))}
+                      className="w-full px-4 py-2 rounded-lg border border-orange-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/30 focus:border-vivid-primary text-vivid-on-surface bg-white text-sm"
+                      placeholder="Αποτέλεσμα"
+                    />
+                  </div>
+
+                  {/* Marketing Consent */}
                   <div className="flex items-start gap-3 mt-1">
                     <input
                       type="checkbox"
@@ -223,3 +348,4 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
     </AnimatePresence>
   );
 };
+

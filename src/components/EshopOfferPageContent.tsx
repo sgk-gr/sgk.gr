@@ -2,10 +2,33 @@
 
 import React, { useState, useEffect } from 'react';
 import { EshopOfferModal } from './EshopOfferModal';
+import { sendContactEmail } from '@/lib/resend';
+import { Mail, Check, AlertCircle, ShieldCheck, User, Phone, FileText, Loader2, CheckCircle } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 const EshopOfferPageContent = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Direct Form State
+  const [firstName, setFirstName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [projectInfo, setProjectInfo] = useState('');
+  const [marketingConsent, setMarketingConsent] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
+
+  const [formIsSubmitting, setFormIsSubmitting] = useState(false);
+  const [formIsSuccess, setFormIsSuccess] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [formCaptcha, setFormCaptcha] = useState({ question: "", result: 0, answer: "" });
+  const [formHoneypot, setFormHoneypot] = useState("");
+
+  const generateFormCaptcha = () => {
+    const n1 = Math.floor(Math.random() * 9) + 1;
+    const n2 = Math.floor(Math.random() * 9) + 1;
+    return { question: `${n1} + ${n2}`, result: n1 + n2, answer: "" };
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,11 +40,67 @@ const EshopOfferPageContent = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    setFormCaptcha(generateFormCaptcha());
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const scrollToForm = () => {
+    const el = document.getElementById("contact-form");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setEmail(val);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsValidEmail(val.trim() === '' ? null : emailRegex.test(val));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formHoneypot) {
+      setFormIsSuccess(true);
+      return;
+    }
+    if (parseInt(formCaptcha.answer) !== formCaptcha.result) {
+      setFormError("Λάθος απάντηση ελέγχου ασφαλείας. Προσπαθήστε ξανά.");
+      setFormCaptcha(generateFormCaptcha());
+      return;
+    }
+
+    setFormIsSubmitting(true);
+    setFormError('');
+
+    try {
+      await sendContactEmail({
+        type: 'eshop_offer',
+        offerPrice: '1500',
+        firstName,
+        phone,
+        email,
+        projectInfo,
+        marketingConsent,
+        lastName: '',
+      });
+      setFormIsSuccess(true);
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.8 },
+        colors: ['#FF6B00', '#00D16B', '#FFD100', '#1a1a1a']
+      });
+    } catch (err: any) {
+      setFormError(err.message || 'Παρουσιάστηκε σφάλμα. Παρακαλώ προσπαθήστε ξανά.');
+    } finally {
+      setFormIsSubmitting(false);
+    }
   };
 
   return (
@@ -32,11 +111,16 @@ const EshopOfferPageContent = () => {
           <div className="flex items-center">
             <img src="/sgk-logo.png" alt="SGK Logo" className="h-14 md:h-20 w-auto object-contain brightness-0" />
           </div>
-          <nav className="hidden md:flex gap-6 items-center">
-            {/* No links defined in JSON, placeholder if needed */}
-          </nav>
+          <div className="hidden sm:flex gap-6 items-center text-sm font-semibold text-vivid-on-surface-variant">
+            <a href="tel:6999524389" className="hover:text-vivid-primary transition-colors flex items-center gap-1.5">
+              <span>📞</span> 6999524389
+            </a>
+            <a href="mailto:info@sgk.gr" className="hover:text-vivid-primary transition-colors flex items-center gap-1.5">
+              <span>📧</span> info@sgk.gr
+            </a>
+          </div>
           <button 
-            onClick={() => setIsModalOpen(true)}
+            onClick={scrollToForm}
             className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95"
           >
             Πάρε Προσφορά
@@ -64,7 +148,7 @@ const EshopOfferPageContent = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-4">
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={scrollToForm}
                 className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-4 font-label-bold text-label-bold text-lg hover:bg-vivid-primary transition-all duration-300 shadow-glow active:scale-95 flex items-center gap-2"
               >
                 Πάρε Προσφορά
@@ -219,7 +303,7 @@ const EshopOfferPageContent = () => {
                 Είμαστε τόσο σίγουροι για την τεχνολογία μας. Δεσμευόμαστε να πετύχουμε κορυφαία σκορ ταχύτητας στο Google PageSpeed Insights για το δικό σας έργο.
               </p>
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={scrollToForm}
                 className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95"
               >
                 Ξεκινήστε Σήμερα
@@ -227,6 +311,194 @@ const EshopOfferPageContent = () => {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Direct Contact Form Section */}
+      <section id="contact-form" className="py-section-padding-desktop px-gutter bg-gradient-to-br from-[#fdfaf8] to-[#fbebe3] relative border-t border-vivid-surface-variant/10">
+        <div className="max-w-2xl mx-auto bg-white rounded-3xl p-8 md:p-12 shadow-glow border border-[#fbebe3] relative z-10">
+          <div className="text-center mb-8">
+            <h2 className="font-headline-md text-headline-md text-vivid-on-surface mb-3">
+              Ζητήστε Δωρεάν Μελέτη & Εκτίμηση
+            </h2>
+            <p className="font-body-md text-body-md text-vivid-on-surface-variant max-w-md mx-auto">
+              Συμπληρώστε τα στοιχεία σας και η ομάδα μας θα αναλύσει το έργο σας για να σας καλέσει εντός 24 ωρών.
+            </p>
+          </div>
+
+          {formIsSuccess ? (
+            <div className="text-center py-12 flex flex-col items-center">
+              <div className="w-20 h-20 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-6 shadow-sm">
+                <CheckCircle size={40} />
+              </div>
+              <h3 className="text-2xl font-bold text-vivid-on-surface mb-2">
+                Το αίτημά σας καταχωρήθηκε! 🎉
+              </h3>
+              <p className="text-vivid-on-surface-variant mb-6 text-sm max-w-md mx-auto">
+                Σας στείλαμε έναν μοναδικό κωδικό προσφοράς (έκπτωση 300€) στο email σας. Ελέγξτε τα εισερχόμενά σας (και τα spam) για να τον βρείτε!
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Name */}
+                <div>
+                  <label htmlFor="form_firstName" className="block text-sm font-bold text-vivid-on-surface mb-2">Όνομα *</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                      <User size={18} />
+                    </div>
+                    <input
+                      type="text"
+                      id="form_firstName"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary text-vivid-on-surface bg-gray-50/30 text-sm"
+                      placeholder="Το όνομά σας"
+                    />
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label htmlFor="form_phone" className="block text-sm font-bold text-vivid-on-surface mb-2">Τηλέφωνο *</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                      <Phone size={18} />
+                    </div>
+                    <input
+                      type="tel"
+                      id="form_phone"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary text-vivid-on-surface bg-gray-50/30 text-sm"
+                      placeholder="Το τηλέφωνό σας"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="form_email" className="block text-sm font-bold text-vivid-on-surface mb-2">Email *</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                    <Mail size={18} />
+                  </div>
+                  <input
+                    type="email"
+                    id="form_email"
+                    required
+                    value={email}
+                    onChange={handleEmailChange}
+                    className={`w-full pl-11 pr-10 py-3.5 rounded-2xl border focus:outline-none focus:ring-2 transition-all text-vivid-on-surface bg-gray-50/30 text-sm ${
+                      isValidEmail === true
+                        ? 'border-green-500 focus:ring-green-200'
+                        : isValidEmail === false
+                        ? 'border-red-500 focus:ring-red-200'
+                        : 'border-gray-200 focus:ring-vivid-primary/50 focus:border-vivid-primary'
+                    }`}
+                    placeholder="Το email σας"
+                  />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    {isValidEmail === true && <Check size={18} className="text-green-500" />}
+                    {isValidEmail === false && <AlertCircle size={18} className="text-red-500" />}
+                  </div>
+                </div>
+              </div>
+
+              {/* Project Info */}
+              <div>
+                <label htmlFor="form_projectInfo" className="block text-sm font-bold text-vivid-on-surface mb-2">Περιγράψτε σύντομα τι eshop θέλετε να φτιάξετε *</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 pt-3 flex items-start pointer-events-none text-gray-400">
+                    <FileText size={18} />
+                  </div>
+                  <textarea
+                    id="form_projectInfo"
+                    required
+                    rows={4}
+                    value={projectInfo}
+                    onChange={(e) => setProjectInfo(e.target.value)}
+                    className="w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary text-vivid-on-surface bg-gray-50/30 font-sans resize-none text-sm"
+                    placeholder="π.χ. Θέλω ένα eshop για χειροποίητα κοσμήματα, περίπου 150 προϊόντα, με πληρωμή με κάρτα και IRIS..."
+                  />
+                </div>
+              </div>
+
+              {/* Honeypot field (hidden from users, visible to bots) */}
+              <input
+                type="text"
+                name="website_url_field"
+                value={formHoneypot}
+                onChange={(e) => setFormHoneypot(e.target.value)}
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
+              {/* Math Captcha */}
+              <div className="bg-orange-50 border border-orange-100 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <label htmlFor="form_captchaAnswer" className="text-xs font-bold text-vivid-primary uppercase tracking-wider leading-snug">
+                  🛡️ Επαλήθευση Ασφαλείας:<br />
+                  Πόσο κάνει {formCaptcha.question} ; *
+                </label>
+                <input
+                  type="text"
+                  id="form_captchaAnswer"
+                  required
+                  value={formCaptcha.answer}
+                  onChange={(e) => setFormCaptcha(prev => ({ ...prev, answer: e.target.value }))}
+                  className="w-full sm:w-32 px-4 py-2 rounded-xl border border-orange-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/30 focus:border-vivid-primary text-vivid-on-surface bg-white text-sm text-center"
+                  placeholder="Αποτέλεσμα"
+                />
+              </div>
+
+              {/* Marketing Consent */}
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="form_marketingConsent"
+                  checked={marketingConsent}
+                  onChange={(e) => setMarketingConsent(e.target.checked)}
+                  className="mt-1 w-4 h-4 text-vivid-primary border-gray-300 rounded focus:ring-vivid-primary cursor-pointer"
+                />
+                <label htmlFor="form_marketingConsent" className="text-xs text-vivid-on-surface-variant leading-tight cursor-pointer select-none">
+                  Συμφωνώ να λαμβάνω ενημερώσεις και προσφορές από την SGK Software Development.
+                </label>
+              </div>
+
+              {formError && (
+                <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg">
+                  {formError}
+                </div>
+              )}
+
+              <div className="mt-2">
+                <button
+                  type="submit"
+                  disabled={formIsSubmitting}
+                  className="w-full bg-vivid-primary text-white font-bold py-4 rounded-2xl shadow-glow hover:bg-vivid-primary/90 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                >
+                  {formIsSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin" size={20} />
+                      Αποστολή Αιτήματος...
+                    </>
+                  ) : (
+                    "Υποβολή Αιτήματος & Λήψη Έκπτωσης 300€"
+                  )}
+                </button>
+                <p className="text-[11px] text-vivid-on-surface-variant/80 text-center flex items-center justify-center gap-1 mt-3">
+                  <ShieldCheck size={12} className="text-vivid-primary" />
+                  100% Ασφαλές & GDPR Συμβατό • Απαντάμε εντός 24 ωρών
+                </p>
+              </div>
+            </form>
+          )}
+        </div>
+        <div className="absolute -left-10 bottom-0 w-80 h-80 bg-vivid-primary-fixed opacity-10 rounded-full blur-3xl -z-10"></div>
       </section>
 
       {/* Footer */}
