@@ -125,6 +125,9 @@ const detectIndustry = (industryText: string): string => {
   if (text.includes("rent") || text.includes("ενοικια") || text.includes("aut") || text.includes("car") || text.includes("οχημα") || text.includes("moto")) {
     return "rent_a_car";
   }
+  if (text.includes("κομμωτ") || text.includes("hair") || text.includes("salon") || text.includes("barber") || text.includes("νυχια") || text.includes("nail") || text.includes("αισθητικ") || text.includes("beauty") || text.includes("κουρει")) {
+    return "hair_salon";
+  }
   
   return "generic";
 };
@@ -221,6 +224,22 @@ const EMAIL_TEMPLATES: Record<
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις ανάγκες σας.</p>`,
       buttonText: "Δείτε το Demo",
       buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    hair_salon: {
+      subject: "Πρόταση: Σύγχρονη Ιστοσελίδα με Online Ραντεβού για το [BUSINESS_NAME]",
+      body: `<h2>Αναβαθμίστε την ψηφιακή παρουσία του κομμωτηρίου σας! 💇‍♀️💈</h2>
+<p>Γεια σας,</p>
+<p>Επισκεφθήκαμε την online παρουσία για το κομμωτήριο/κέντρο αισθητικής <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Στην <strong>SGK Software Development</strong> σχεδιάζουμε επαγγελματικές ιστοσελίδες ειδικά για κομμωτήρια, κουρεία και κέντρα ομορφιάς, οι οποίες διευκολύνουν τους πελάτες σας να κλείνουν ραντεβού online.</p>
+<p><strong>Τι θα περιλαμβάνει η ιστοσελίδα σας:</strong></p>
+<ul>
+  <li><strong>Σύστημα Online Ραντεβού:</strong> Οι πελάτες βλέπουν τη διαθεσιμότητα των στυλίστ και κλείνουν ραντεβού 24/7.</li>
+  <li><strong>Interactive Gallery & Portfolio:</strong> Αναδείξτε τη δουλειά σας, τα κουρέματα, τα χτενίσματα και τις υπηρεσίες σας.</li>
+  <li><strong>Τοπικό SEO (Local SEO):</strong> Για να εμφανίζεστε πρώτοι όταν κάποιος ψάχνει για υπηρεσίες ομορφιάς στην περιοχή σας.</li>
+</ul>
+<p>Αν θέλετε να συζητήσουμε πώς μπορούμε να βοηθήσουμε το κομμωτήριό σας να αναπτυχθεί, απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong>.</p>`,
+      buttonText: "Δείτε την Πρότασή μας",
+      buttonLink: "https://www.sgk.gr/web-development"
     }
   },
   eshop: {
@@ -301,6 +320,22 @@ const EMAIL_TEMPLATES: Record<
   <li><strong>Διαχείριση Συμβολαίων:</strong> Αυτόματη αποστολή PDF επιβεβαίωσης κράτησης και όρων ενοικίασης.</li>
 </ul>
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσουμε.</p>`,
+      buttonText: "Δείτε την Προσφορά",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    hair_salon: {
+      subject: "Προσφορά: Κατασκευή Eshop Προϊόντων Ομορφιάς για το [BUSINESS_NAME]",
+      body: `<h2>Πουλήστε επαγγελματικά προϊόντα μαλλιών και ομορφιάς online! 🛍️✨</h2>
+<p>Γεια σας,</p>
+<p>Επισκεφθήκαμε την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σας προτείνουμε τη δημιουργία ενός υπερσύγχρονου eshop για την πώληση των προϊόντων περιποίησης μαλλιών, καλλυντικών ή ειδών ομορφιάς που διαθέτετε, στην ειδική τιμή των <strong>1.500€</strong>.</p>
+<p><strong>Τι σας προσφέρουμε:</strong></p>
+<ul>
+  <li><strong>Σύνδεση με Skroutz, BestPrice & ERP:</strong> Για αυτόματη ενημέρωση των αποθεμάτων και τιμών σας.</li>
+  <li><strong>Courier & Τράπεζες:</strong> Έτοιμες διασυνδέσεις πληρωμών και αυτόματη έκδοση voucher για άμεση αποστολή.</li>
+  <li><strong>Αστραπιαία Ταχύτητα & Mobile Optimized:</strong> Οι πελάτες αγοράζουν εύκολα από το κινητό τους με Apple Pay & Google Pay.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσετε τις δικές σας online πωλήσεις.</p>`,
       buttonText: "Δείτε την Προσφορά",
       buttonLink: "https://www.sgk.gr/eshop-offer"
     }
@@ -385,6 +420,22 @@ const EMAIL_TEMPLATES: Record<
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να δείτε ένα demo!</p>`,
       buttonText: "Δείτε AI Λύσεις",
       buttonLink: "https://www.sgk.gr/ai-agents"
+    },
+    hair_salon: {
+      subject: "🤖 AI Agent για το Κομμωτήριο [BUSINESS_NAME]: Αυτόματο Κλείσιμο Ραντεβού 24/7",
+      body: `<h2>Αυτοματοποιήστε τα ραντεβού του κομμωτηρίου σας με Τεχνητή Νοημοσύνη! 🤖💈</h2>
+<p>Γεια σας,</p>
+<p>Επισκεφθήκαμε την online παρουσία για το κομμωτήριο/κέντρο αισθητικής <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Θέλουμε να σας προτείνουμε την ενσωμάτωση ενός <strong>AI Agent (Τεχνητής Νοημοσύνης)</strong> ο οποίος αναλαμβάνει να απαντά στους πελάτες σας 24/7 και να κλείνει αυτόματα ραντεβού στο Instagram, το Facebook Messenger και το WhatsApp.</p>
+<p><strong>Πώς βοηθάει το κομμωτήριό σας:</strong></p>
+<ul>
+  <li><strong>Αυτόματο Κλείσιμο Ραντεβού:</strong> Ο AI Agent συνδέεται με το ημερολόγιό σας (π.χ. Google Calendar ή CRM) και κλείνει ραντεβού αυτόματα, ρωτώντας τον πελάτη για την υπηρεσία και τον στυλίστ.</li>
+  <li><strong>Αποστολή Υπενθυμίσεων:</strong> Αυτόματη υπενθύμιση ραντεβού στους πελάτες για να εκμηδενίσετε τα no-shows.</li>
+  <li><strong>Απαντήσεις 24/7:</strong> Απαντά άμεσα σε ερωτήσεις για τιμές, ωράριο λειτουργίας και τοποθεσία, ακόμη και τις ώρες που είστε κλειστά.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σας δείξουμε ένα live demo!</p>`,
+      buttonText: "Δείτε AI Λύσεις",
+      buttonLink: "https://www.sgk.gr/ai-agents"
     }
   },
   mobile_app: {
@@ -467,6 +518,22 @@ const EMAIL_TEMPLATES: Record<
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τη λύση.</p>`,
       buttonText: "Δείτε την Προσφορά",
       buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    hair_salon: {
+      subject: "Custom Mobile App για τους Πελάτες του Κομμωτηρίου [BUSINESS_NAME]",
+      body: `<h2>Μια σύγχρονη εφαρμογή (Android/iOS) για το κομμωτήριό σας! 📱💇‍♀️</h2>
+<p>Γεια σας,</p>
+<p>Επισκεφθήκαμε την online παρουσία για το <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σας προτείνουμε τη δημιουργία μιας custom εφαρμογής για κινητά (Android & iOS) με το brand σας, χτίζοντας μια άμεση και πιστή σχέση με τους πελάτες σας.</p>
+<p><strong>Τι θα προσφέρει η εφαρμογή σας:</strong></p>
+<ul>
+  <li><strong>Push Notifications:</strong> Στείλτε δωρεάν προσφορές, νέα ή ειδοποιήσεις για κενές ώρες ραντεβού απευθείας στην οθόνη του πελάτη.</li>
+  <li><strong>Σύστημα Loyalty & Επιβράβευσης:</strong> Οι πελάτες μαζεύουν πόντους με κάθε κούρεμα/υπηρεσία και κερδίζουν δώρα ή εκπτώσεις.</li>
+  <li><strong>Γρήγορη Κράτηση & Επιλογή Stylist:</strong> Ο πελάτης κλείνει το ραντεβού του σε λιγότερο από 10 δευτερόλεπτα μέσα από το app.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σχεδιάσουμε τη δική σας mobile εφαρμογή!</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
     }
   },
   erp_crm: {
@@ -705,6 +772,8 @@ export function ScraperTab() {
             phone: selectedProspect.phone,
             marketing_consent: true,
             unsubscribed: false,
+            type: selectedService + "_offer",
+            company: selectedIndustry,
             email_sequence_step: 1,
             last_email_sent_at: new Date().toISOString()
           })
@@ -724,6 +793,8 @@ export function ScraperTab() {
               marketing_consent: true,
               unsubscribed: false,
               unsubscribe_token: unsubscribeToken,
+              type: selectedService + "_offer",
+              company: selectedIndustry,
               email_sequence_step: 1,
               last_email_sent_at: new Date().toISOString()
             }
@@ -933,6 +1004,7 @@ export function ScraperTab() {
                         <option value="food_service">Εστίαση / Καφέ</option>
                         <option value="hotel">Ξενοδοχείο / Κατάλυμα</option>
                         <option value="rent_a_car">Ενοικίαση Αυτοκινήτων</option>
+                        <option value="hair_salon">Κομμωτήριο / Κέντρο Αισθητικής</option>
                       </select>
                     </div>
                   </div>
