@@ -143,14 +143,14 @@ export const WebsiteOfferModal: React.FC<WebsiteOfferModalProps> = ({ isOpen, on
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center py-8 flex flex-col items-center"
                 >
-                  <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
                     <CheckCircle size={32} />
                   </div>
                   <h3 className="text-xl font-bold text-vivid-on-surface mb-2">
-                    Σας έχουμε ένα δώρο! 🎁
+                    Ευχαριστούμε! 🎉
                   </h3>
                   <p className="text-vivid-on-surface-variant mb-6 text-sm">
-                    Σας στείλαμε έναν μοναδικό κωδικό προσφοράς στο email σας. Ελέγξτε τα εισερχόμενά σας (και τα spam) για να τον βρείτε!
+                    Το αίτημά σας καταχωρήθηκε με επιτυχία. Θα επικοινωνήσουμε μαζί σας σύντομα.
                   </p>
                   <button
                     onClick={handleClose}

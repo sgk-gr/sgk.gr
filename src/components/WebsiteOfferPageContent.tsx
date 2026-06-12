@@ -40,7 +40,7 @@ const WebsiteOfferPageContent = () => {
       {/* Hero Section */}
       <section className="py-section-padding-mobile md:py-section-padding-desktop px-gutter relative overflow-hidden bg-gradient-to-br from-[#fdfaf8] to-[#fbebe3]">
         <div className="absolute inset-0 z-0 md:hidden opacity-[0.08] pointer-events-none flex items-center justify-center">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqyfplGuIgO2qai0CnHiEUA-gGpr3t26Ws07L_PuQHbUhAighB1yvOqXTP_zyr1285V9M1P9KIRP3GZ3KVBcX_fq2MPqytk-R4-lst58ojz5nJcL7J81XKhF2zrRNDBpKnnYnmG4jbs3xg6u0qXKRh6poPEUmeU47_W2IwmjOorR2jbDHLdnKwYebxEuc6pEI2gX4Fm35pj6vfEHlzc4KoVf9i7A5eUKBpSNTGMTXTIA3GKqo02NySZJFR8cxz5x6Mf4QGiyptYvQB" alt="Website Mockup Faint Background" className="w-full h-full object-cover grayscale" />
+          <img src="/yolo.png" alt="Website Mockup Faint Background" className="w-full h-full object-cover grayscale" />
         </div>
         
         <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center relative z-10">
@@ -73,7 +73,7 @@ const WebsiteOfferPageContent = () => {
           </div>
           <div className="relative z-10 hidden md:flex flex-col gap-4">
             <div className="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white">
-              <img alt="Modern Website Homepage Design" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqyfplGuIgO2qai0CnHiEUA-gGpr3t26Ws07L_PuQHbUhAighB1yvOqXTP_zyr1285V9M1P9KIRP3GZ3KVBcX_fq2MPqytk-R4-lst58ojz5nJcL7J81XKhF2zrRNDBpKnnYnmG4jbs3xg6u0qXKRh6poPEUmeU47_W2IwmjOorR2jbDHLdnKwYebxEuc6pEI2gX4Fm35pj6vfEHlzc4KoVf9i7A5eUKBpSNTGMTXTIA3GKqo02NySZJFR8cxz5x6Mf4QGiyptYvQB" />
+              <img alt="Modern Website Homepage Design" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" src="/yolo.png" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
             </div>
             <div className="absolute -right-8 -bottom-8 w-72 h-72 bg-vivid-primary-fixed opacity-30 rounded-full blur-3xl -z-10"></div>
