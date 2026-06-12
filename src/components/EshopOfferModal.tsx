@@ -71,9 +71,11 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
         origin: { y: 0.6 },
         colors: ['#FF6B00', '#00D16B', '#FFD100', '#1a1a1a']
       });
+      setTimeout(() => {
+        window.location.href = '/eshop-offer/thank-you';
+      }, 1500);
     } catch (err: any) {
       setError(err.message || 'Παρουσιάστηκε σφάλμα. Παρακαλώ προσπαθήστε ξανά.');
-    } finally {
       setIsSubmitting(false);
     }
   };
