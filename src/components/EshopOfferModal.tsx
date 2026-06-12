@@ -18,6 +18,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
 
   const [formData, setFormData] = useState({
     email: '',
+    phone: '',
     marketingConsent: true,
   });
   const [isValidEmail, setIsValidEmail] = useState<boolean | null>(null);
@@ -89,6 +90,7 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
         setError('');
         setFormData({
           email: '',
+          phone: '',
           marketingConsent: true,
         });
         setIsValidEmail(null);
@@ -198,6 +200,24 @@ export const EshopOfferModal: React.FC<EshopOfferModalProps> = ({ isOpen, onClos
                         {isValidEmail === true && <Check size={18} className="text-green-500" />}
                         {isValidEmail === false && <AlertCircle size={18} className="text-red-500" />}
                       </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-vivid-on-surface mb-1">Τηλέφωνο (Προαιρετικό)</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                        <Phone size={18} />
+                      </div>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-vivid-primary/50 focus:border-vivid-primary text-vivid-on-surface bg-gray-50/50 transition-all"
+                        placeholder="π.χ. 69... (για άμεση επικοινωνία)"
+                      />
                     </div>
                   </div>
 

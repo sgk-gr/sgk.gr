@@ -126,6 +126,7 @@ serve(async (req) => {
                 
                 <div style="margin: 20px 0; display: grid; grid-template-cols: 1fr 1fr; gap: 10px;">
                     <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
                     <p><strong>Τιμή Προσφοράς:</strong> 1500€</p>
                     <p><strong>Marketing Consent:</strong> ${marketingConsent ? '✅ Ναι' : '❌ Όχι'}</p>
                 </div>
