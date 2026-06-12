@@ -6,6 +6,23 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const FREE_EMAIL_DOMAINS = ["gmail.com", "yahoo.gr", "yahoo.com", "hotmail.com", "outlook.com", "otenet.gr", "mail.com", "yandex.com"];
 
+const GREEK_CITIES_KEYWORDS = {
+  "αθήνα": ["athens", "αθηνα", "αθηνων", "marousi", "peiraias", "glyfada", "kallithea", "peristeri"],
+  "θεσσαλονίκη": ["thessaloniki", "salonika", "θεσσαλονικη", "θεσσαλονικης"],
+  "πάτρα": ["patra", "πατρα"],
+  "λάρισα": ["larisa", "larissa", "λαρισα"],
+  "ηράκλειο": ["heraklion", "iraklio", "ηρακλειο"],
+  "καστοριά": ["kastoria", "καστορια", "καστοριας"],
+  "κοζάνη": ["kozani", "κοζανη", "κοζανης"],
+  "φλώρινα": ["florina", "φλωρινα", "φλωρινας"],
+  "γρεβενά": ["grevena", "γρεβενα", "γρεβενων"],
+  "πτολεμαΐδα": ["ptolemaida", "πτολεμαιδα", "πτολεμαϊδα"],
+  "βέροια": ["veroia", "veria", "βεροια", "βεροιας"],
+  "έδεσσα": ["edessa", "εδεσσα"],
+  "νάουσα": ["naousa", "naoussa", "ναουσα"],
+  "κατερίνη": ["katerini", "κατερινη"]
+};
+
 function extractBusinessNameFromUrl(link) {
   if (!link) return null;
   try {
@@ -154,8 +171,8 @@ function isResultRelevant(title, snippet, industry) {
     "εστιατοριο": ["εστιατ", "ταβερν", "ψητοπ", "φαγητ", "food", "restau", "pizza", "burger", "delivery", "ψησταρ", "οβελιστ", "snack", "ψητο", "μαγειρ"],
     "καφετέρια": ["καφε", "cafe", "coffee", "bar", "snack", "delivery", "ροφημα", "brunch"],
     "καφετερια": ["καφε", "cafe", "coffee", "bar", "snack", "delivery", "ροφημα", "brunch"],
-    "ξενοδοχείο": ["ξενοδ", "hotel", "room", "apart", "villa", "studios", "stay", "διαμον", "ξενων", "resort", "booking"],
     "ξενοδοχειο": ["ξενοδ", "hotel", "room", "apart", "villa", "studios", "stay", "διαμον", "ξενων", "resort", "booking"],
+    "ξενοδοχείο": ["ξενοδ", "hotel", "room", "apart", "villa", "studios", "stay", "διαμον", "ξενων", "resort", "booking"],
     "rent a car": ["rent", "car", "moto", "αυτοκιν", "ενοικιαζ", "vehicle", "hire", "σκαφ"],
     "ενοικίαση αυτοκινήτων": ["rent", "car", "moto", "αυτοκιν", "ενοικιαζ", "vehicle", "hire", "σκαφ"],
     "έπιπλα": ["επιπλ", "furniture", "στρωμα", "κρεβατ", "καναπ", "wood", "επιπλο", "κουζιν"],
@@ -220,7 +237,7 @@ function extractTargetUrl(url) {
       }
     }
   } catch (e) {
-    console.error("Failed to decode Bing URL:", cleanUrl, e);
+    // ignore
   }
   return cleanUrl;
 }
@@ -270,19 +287,40 @@ async function searchViaBingScrape(query) {
   }
 }
 
-async function run() {
-  const industry = process.argv[2];
-  const city = process.argv[3];
+// Check if a prospect belongs to another city than the target
+function isWrongCity(title, link, snippet, targetCity) {
+  const targetCityLower = targetCity.toLowerCase();
+  const titleLower = title.toLowerCase();
+  const linkLower = link.toLowerCase();
+  const snippetLower = snippet.toLowerCase();
   
-  if (!industry || !city) {
-    console.error("Usage: node scripts/local_scraper.js <industry> <city>");
-    process.exit(1);
+  // Find other cities in the map
+  const otherCities = Object.keys(GREEK_CITIES_KEYWORDS).filter(c => c !== targetCityLower);
+  
+  for (const otherCity of otherCities) {
+    const keywords = GREEK_CITIES_KEYWORDS[otherCity];
+    // If an other city is mentioned in the link (very strong indicator) or title/snippet,
+    // and the target city is NOT mentioned in the link or title, it's likely the wrong city.
+    const otherCityInLink = keywords.some(kw => linkLower.includes(kw));
+    const targetCityInLink = GREEK_CITIES_KEYWORDS[targetCityLower] ? GREEK_CITIES_KEYWORDS[targetCityLower].some(kw => linkLower.includes(kw)) : false;
+    
+    if (otherCityInLink && !targetCityInLink) {
+      return true;
+    }
+    
+    // Also, if the title explicitly states another city (e.g. "Oxonouathens" or "Lola Maroneia")
+    const otherCityInTitle = keywords.some(kw => titleLower.includes(kw));
+    const targetCityInTitle = GREEK_CITIES_KEYWORDS[targetCityLower] ? GREEK_CITIES_KEYWORDS[targetCityLower].some(kw => titleLower.includes(kw)) : false;
+    
+    if (otherCityInTitle && !targetCityInTitle) {
+      return true;
+    }
   }
   
-  console.log(`\n========================================`);
-  console.log(`Starting Local Scraper: '${industry}' in '${city}'`);
-  console.log(`========================================`);
+  return false;
+}
 
+async function scrapeSingle(industry, city) {
   const cleanCity = city.trim().replace(/\s+/g, " ");
   const cleanIndustry = industry.trim().replace(/\s+/g, " ");
 
@@ -335,39 +373,56 @@ async function run() {
     }
   }
 
-  const queries = Array.from(new Set(queriesList)).slice(0, 6);
-  
-  console.log(`Generated Queries:`, queries);
+  const queries = Array.from(new Set(queriesList)).slice(0, 4); // limit queries per run to avoid spamming
   const allResults = [];
   
   for (const q of queries) {
-    console.log(`Searching: ${q}...`);
     const results = await searchViaBingScrape(q);
-    console.log(`-> Found ${results.length} raw results`);
     allResults.push(...results);
   }
   
-  console.log(`\nProcessing ${allResults.length} combined search results...`);
-  const prospectsMap = new Map();
+  const prospects = [];
   for (const res of allResults) {
-    const combinedText = `${res.title} ${res.snippet}`;
-    
-    // Check if result is actually related to the industry
+    // Check if the result matches the requested category/industry
     if (!isResultRelevant(res.title, res.snippet, industry)) {
       continue;
     }
 
+    // Check city filter
+    if (isWrongCity(res.title, res.link, res.snippet, city)) {
+      continue;
+    }
+
+    const combinedText = `${res.title} ${res.snippet}`;
     const emails = extractEmails(combinedText);
     const phone = extractPhone(combinedText);
     
     for (const email of emails) {
-      // Comment out free email check to allow any email domain (like the API route)
+      // Comment out free email domains check
       // const domain = email.split("@")[1];
       // const isFree = FREE_EMAIL_DOMAINS.includes(domain);
       // if (!isFree) continue;
+      
+      // Comment out the website filter
+      /*
+      const linkLower = res.link.toLowerCase();
+      const isDirectoryOrSocial = 
+        linkLower.includes("facebook.com") || 
+        linkLower.includes("instagram.com") || 
+        linkLower.includes("xo.gr") || 
+        linkLower.includes("vrisko.gr") || 
+        linkLower.includes("goldenpages.gr") || 
+        linkLower.includes("google.com/maps") || 
+        linkLower.includes("youtube.com") ||
+        linkLower.includes("tiktok.com");
+
+      if (!isDirectoryOrSocial && res.link !== "") {
+        continue;
+      }
+      */
 
       const rawName = cleanBusinessName(res.title, city, res.link);
-      
+
       // Skip if the business name is garbage/junk
       if (isJunkName(rawName)) {
         continue;
@@ -375,7 +430,7 @@ async function run() {
 
       const finalName = rawName.length > 2 ? rawName : `${industry} - ${city}`;
 
-      prospectsMap.set(email, {
+      prospects.push({
         business_name: finalName,
         email: email,
         phone: phone,
@@ -386,18 +441,63 @@ async function run() {
     }
   }
   
-  const prospectsToSave = Array.from(prospectsMap.values());
-  console.log(`\nFound ${prospectsToSave.length} valid B2B email prospects.`);
+  return prospects;
+}
+
+async function runBulk() {
+  const cities = ["Καστοριά", "Κοζάνη", "Φλώρινα", "Γρεβενά", "Πτολεμαΐδα", "Βέροια", "Έδεσσα", "Νάουσα", "Κατερίνη", "Ιωάννινα"];
+  const industries = ["ταβέρνα", "κομμωτήριο", "καφετέρια", "έπιπλα", "ζαχαροπλαστείο", "γυμναστήριο", "συνεργείο αυτοκινήτων", "ανθοπωλείο"];
   
-  if (prospectsToSave.length === 0) {
-    console.log("No new prospects found to save.");
+  console.log(`\n==================================================`);
+  console.log(`Starting BULK B2B Scraper Loop for 50+ Leads Goal`);
+  console.log(`==================================================`);
+  
+  const allProspectsMap = new Map();
+  
+  // We will run random city/industry combinations until we get a good amount of leads
+  // or until we run out of iterations to avoid infinite loops.
+  let targetLeadsCount = 60;
+  let iterations = 0;
+  let maxIterations = 15;
+  
+  while (allProspectsMap.size < targetLeadsCount && iterations < maxIterations) {
+    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+    const randomIndustry = industries[Math.floor(Math.random() * industries.length)];
+    
+    console.log(`\n[Iteration ${iterations + 1}] Scanning for '${randomIndustry}' in '${randomCity}'...`);
+    
+    try {
+      const results = await scrapeSingle(randomIndustry, randomCity);
+      console.log(`Found ${results.length} valid prospects in this iteration.`);
+      
+      for (const p of results) {
+        allProspectsMap.set(p.email, p);
+      }
+      
+      console.log(`Current unique leads collected so far: ${allProspectsMap.size}`);
+    } catch (err) {
+      console.error(`Error in iteration:`, err);
+    }
+    
+    iterations++;
+    // Sleep 1 second to avoid rate limits
+    await new Promise(r => setTimeout(r, 1000));
+  }
+  
+  const finalLeads = Array.from(allProspectsMap.values());
+  console.log(`\n==================================================`);
+  console.log(`Bulk Scan completed. Total unique leads collected: ${finalLeads.length}`);
+  console.log(`==================================================`);
+  
+  if (finalLeads.length === 0) {
+    console.log("No leads found.");
     return;
   }
   
-  console.log("Saving to Supabase Database...");
+  console.log("Saving new leads to Supabase...");
   let savedCount = 0;
-  for (const prospect of prospectsToSave) {
-    console.log(`- Upserting: ${prospect.business_name} (${prospect.email})`);
+  for (const prospect of finalLeads) {
+    // Upsert into Supabase
     const { data, error } = await supabase
       .from("sgk_prospects")
       .upsert([prospect], { onConflict: "email" })
@@ -405,14 +505,10 @@ async function run() {
       
     if (!error && data && data.length > 0) {
       savedCount++;
-    } else if (error) {
-      console.error(`Error saving ${prospect.email}:`, error);
     }
   }
   
-  console.log(`\n========================================`);
-  console.log(`SUCCESS: Saved ${savedCount} prospects to the database.`);
-  console.log(`========================================\n`);
+  console.log(`Saved ${savedCount} new prospects to database.`);
 }
 
-run();
+runBulk();

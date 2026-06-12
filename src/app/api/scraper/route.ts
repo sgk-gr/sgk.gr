@@ -4,6 +4,134 @@ import { supabase } from "@/lib/supabase";
 // Λίστα με δωρεάν παρόχους email για φιλτράρισμα
 const FREE_EMAIL_DOMAINS = ["gmail.com", "yahoo.gr", "yahoo.com", "hotmail.com", "outlook.com", "otenet.gr", "mail.com", "yandex.com"];
 
+const GREEK_CITIES_KEYWORDS: Record<string, string[]> = {
+  "αθήνα": ["athens", "αθηνα", "αθηνων", "marousi", "peiraias", "glyfada", "kallithea", "peristeri", "maroussi", "kifisia", "kifissia", "chalandri", "halandri"],
+  "θεσσαλονίκη": ["thessaloniki", "salonika", "θεσσαλονικη", "θεσσαλονικης"],
+  "πάτρα": ["patra", "πατρα", "πατρων"],
+  "λάρισα": ["larisa", "larissa", "λαρισα", "λαρισας"],
+  "ηράκλειο": ["heraklion", "iraklio", "ηρακλειο", "ηρακλειου"],
+  "χανιά": ["chania", "xania", "χανια", "χανιων"],
+  "ιωάννινα": ["ioannina", "ιωαννινα", "ιωαννινων"],
+  "χαλκίδα": ["chalkida", "xalkida", "χαλκιδα", "χαλκιδας"],
+  "τρίκαλα": ["trikala", "τρικαλα", "τρικαλων"],
+  "καρδίτσα": ["karditsa", "καρδιτσα", "καρδιτσας"],
+  "βέροια": ["veroia", "veria", "βεροια", "βεροιας"],
+  "δράμα": ["drama", "δραμα", "δραμας"],
+  "καβάλα": ["kavala", "καβαλα", "καβαλας"],
+  "ροδος": ["rodos", "rhodes", "ροδος", "ροδου"],
+  "κέρκυρα": ["kerkyra", "corfu", "κερκυρα", "κερκυρας"],
+  "καλαμάτα": ["kalamata", "καλαματα", "καλαματας"],
+  "κατερίνη": ["katerini", "κατερινη", "κατερινης"],
+  "καστοριά": ["kastoria", "καστορια", "καστοριας"],
+  "κοζάνη": ["kozani", "κοζανη", "κοζανης"],
+  "φλώρινα": ["florina", "φλωρινα", "φλωρινας"],
+  "γρεβενά": ["grevena", "γρεβενα", "γρεβενων"],
+  "πτολεμαΐδα": ["ptolemaida", "πτολεμαιδα", "πτολεμαϊδα"],
+  "έδεσσα": ["edessa", "εδεσσα"],
+  "νάουσα": ["naousa", "naoussa", "ναουσα"]
+};
+
+function isWrongCity(title: string, link: string, snippet: string, targetCity: string): boolean {
+  const stripAccentsLocal = (str: string) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const targetCityNorm = stripAccentsLocal(targetCity);
+  const titleLower = title.toLowerCase();
+  const linkLower = link.toLowerCase();
+  
+  for (const [otherCity, keywords] of Object.entries(GREEK_CITIES_KEYWORDS)) {
+    const otherCityNorm = stripAccentsLocal(otherCity);
+    if (otherCityNorm === targetCityNorm) continue;
+    
+    const otherCityInLink = keywords.some(kw => linkLower.includes(kw));
+    const targetKey = Object.keys(GREEK_CITIES_KEYWORDS).find(k => stripAccentsLocal(k) === targetCityNorm) || targetCity.toLowerCase();
+    const targetKeywords = GREEK_CITIES_KEYWORDS[targetKey] || [targetCityNorm];
+    const targetCityInLink = targetKeywords.some(kw => linkLower.includes(kw));
+    
+    if (otherCityInLink && !targetCityInLink) {
+      return true;
+    }
+    
+    const otherCityInTitle = keywords.some(kw => titleLower.includes(kw));
+    const targetCityInTitle = targetKeywords.some(kw => titleLower.includes(kw));
+    
+    if (otherCityInTitle && !targetCityInTitle) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+function isJunkName(name: string | null): boolean {
+  if (!name) return true;
+  const trimmed = name.trim();
+  if (trimmed.length <= 2) return true;
+  
+  if (/\.[a-z]{2,4}$/i.test(trimmed)) return true;
+  
+  const words = trimmed.split(/\s+/);
+  for (const word of words) {
+    if (word.length > 7) {
+      const hasVowels = /[aeiouyαεηιοωυάέήίόώύϊϋ]/i.test(word);
+      const isRandom = /^[a-zA-Z0-9]+$/.test(word) && !hasVowels;
+      const hasUpper = /[A-Z]/.test(word);
+      const hasLower = /[a-z]/.test(word);
+      const hasDigit = /[0-9]/.test(word);
+      const isBase64Like = word.length > 10 && hasUpper && hasLower && (hasDigit || !hasVowels);
+      if (isRandom || isBase64Like) return true;
+    }
+  }
+  
+  const generics = ["reel", "reels", "video", "post", "posts", "photo", "photos", "cover", "image", "profile", "timeline", "story", "stories"];
+  if (generics.includes(trimmed.toLowerCase())) return true;
+  
+  return false;
+}
+
+function isResultRelevant(title: string, snippet: string, industry: string): boolean {
+  const text = `${title} ${snippet}`.toLowerCase();
+  const ind = industry.toLowerCase();
+  
+  const industryKeywords: Record<string, string[]> = {
+    "οδοντιατρείο": ["οδοντ", "δοντ", "dent", "smile", "tooth", "teeth"],
+    "οδοντιατρος": ["οδοντ", "δοντ", "dent", "smile", "tooth", "teeth"],
+    "κομμωτήριο": ["κομμωτ", "hair", "salon", "barber", "κουρε", "beauty", "haircut", "νυχια", "nails", "spa", "αισθητικ"],
+    "κομμωτηριο": ["κομμωτ", "hair", "salon", "barber", "κουρε", "beauty", "haircut", "νυχια", "nails", "spa", "αισθητικ"],
+    "εστιατόριο": ["εστιατ", "ταβερν", "ψητοπ", "φαγητ", "food", "restau", "pizza", "burger", "delivery", "ψησταρ", "οβελιστ", "snack", "ψητο", "μαγειρ"],
+    "εστιατοριο": ["εστιατ", "ταβερν", "ψητοπ", "φαγητ", "food", "restau", "pizza", "burger", "delivery", "ψησταρ", "οβελιστ", "snack", "ψητο", "μαγειρ"],
+    "καφετέρια": ["καφε", "cafe", "coffee", "bar", "snack", "delivery", "ροφημα", "brunch"],
+    "καφετερια": ["καφε", "cafe", "coffee", "bar", "snack", "delivery", "ροφημα", "brunch"],
+    "ξενοδοχείο": ["ξενοδ", "hotel", "room", "apart", "villa", "studios", "stay", "διαμον", "ξενων", "resort", "booking"],
+    "ξενοδοχειο": ["ξενοδ", "hotel", "room", "apart", "villa", "studios", "stay", "διαμον", "ξενων", "resort", "booking"],
+    "rent a car": ["rent", "car", "moto", "αυτοκιν", "ενοικιαζ", "vehicle", "hire", "σκαφ"],
+    "ενοικίαση αυτοκινήτων": ["rent", "car", "moto", "αυτοκιν", "ενοικιαζ", "vehicle", "hire", "σκαφ"],
+    "έπιπλα": ["επιπλ", "furniture", "στρωμα", "κρεβατ", "καναπ", "wood", "επιπλο", "κουζιν"],
+    "επιπλα": ["επιπλ", "furniture", "στρωμα", "κρεβατ", "καναπ", "wood", "επιπλο", "κουζιν"],
+    "ζαχαροπλαστείο": ["ζαχαρ", "sweet", "cake", "γλυκ", "pastry", "ice cream", "παγωτ"],
+    "ζαχαροπλαστειο": ["ζαχαρ", "sweet", "cake", "γλυκ", "pastry", "ice cream", "παγωτ"],
+    "γυμναστήριο": ["γυμνασ", "gym", "fit", "crossfit", "workout", "sports", "pilates", "yoga"],
+    "γυμναστηριο": ["γυμνασ", "gym", "fit", "crossfit", "workout", "sports", "pilates", "yoga"],
+    "συνεργείο αυτοκινήτων": ["συνεργ", "service", "car", "moto", "μηχανικ", "ελαστικ", "tyre", "repair", "φανοποι"],
+    "συνεργειο αυτοκινητων": ["συνεργ", "service", "car", "moto", "μηχανικ", "ελαστικ", "tyre", "repair", "φανοποι"],
+    "ανθοπωλείο": ["ανθοπ", "flower", "florist", "φυτ", "plant", "λουλουδ"],
+    "ανθοπωλειο": ["ανθοπ", "flower", "florist", "φυτ", "plant", "λουλουδ"]
+  };
+  
+  let keywords: string[] = [];
+  for (const [key, list] of Object.entries(industryKeywords)) {
+    if (ind.includes(key) || key.includes(ind)) {
+      keywords = list;
+      break;
+    }
+  }
+  
+  if (keywords.length === 0) {
+    const stem = ind.substring(0, Math.max(4, Math.floor(ind.length * 0.7)));
+    keywords = [stem];
+  }
+  
+  return keywords.some(kw => text.includes(kw));
+}
+
 function extractBusinessNameFromUrl(link: string): string | null {
   if (!link) return null;
   try {
@@ -366,17 +494,28 @@ export async function POST(req: NextRequest) {
 
     for (const res of allSearchResults) {
       const combinedText = `${res.title} ${res.snippet}`;
+
+      // Check if the result matches the requested category/industry
+      if (!isResultRelevant(res.title, res.snippet, industry)) {
+        continue;
+      }
+
+      // Check if the result belongs to another city
+      if (isWrongCity(res.title, res.link, res.snippet, city)) {
+        continue;
+      }
+
       const emails = extractEmails(combinedText);
       const phone = extractPhone(combinedText);
 
-      // Κρατάμε μόνο όσα έχουν email
+      // Keep all found emails
       for (const email of emails) {
-        // Ελέγχουμε αν είναι δωρεάν πάροχος (Gmail/Yahoo κλπ) για να είμαστε σίγουροι ότι δεν έχουν website
-        const domain = email.split("@")[1];
-        if (!FREE_EMAIL_DOMAINS.includes(domain)) continue;
+        // Comment out free email domains check as requested (do not filter out based on custom domain eshop/website)
+        // const domain = email.split("@")[1];
+        // if (!FREE_EMAIL_DOMAINS.includes(domain)) continue;
 
-        // Έλεγχος αν ο σύνδεσμος του αποτελέσματος δείχνει ότι έχουν ήδη δικό τους site
-        // Αν το link είναι facebook, instagram, xo, vrisko, goldenpages, κλπ., είναι σωστός prospect
+        // Comment out the website filter as requested: we want to find the business even if they have an eshop or website
+        /*
         const linkLower = res.link.toLowerCase();
         const isDirectoryOrSocial = 
           linkLower.includes("facebook.com") || 
@@ -388,15 +527,18 @@ export async function POST(req: NextRequest) {
           linkLower.includes("youtube.com") ||
           linkLower.includes("tiktok.com");
 
-        // Αν το link δείχνει κάποιο άλλο custom site (π.χ. www.papadopoulos.gr), τότε μάλλον έχουν site
         if (!isDirectoryOrSocial && res.link !== "") {
-          // Εξαίρεση: Μερικές φορές είναι απλά άλλη πηγή (π.χ. blog post), αλλά αν έχει custom domain μάλλον έχουν site.
-          // Συνεχίζουμε για ασφάλεια
+          continue;
+        }
+        */
+
+        const rawName = cleanBusinessName(res.title, city, res.link);
+        
+        // Filter out junk/garbage business names
+        if (isJunkName(rawName)) {
           continue;
         }
 
-        const rawName = cleanBusinessName(res.title, city, res.link);
-        // Αν το όνομα είναι πολύ μικρό ή άσχετο, βάζουμε έναν συνδυασμό
         const finalName = rawName.length > 2 ? rawName : `${industry} - ${city}`;
 
         prospectsMap.set(email, {
