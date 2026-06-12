@@ -109,114 +109,206 @@ const applyTemplateVariables = (body: string, subject: string, prospect: Prospec
   };
 };
 
-const PROSPECT_TEMPLATES = [
-  {
-    name: "🚀 Πρόταση Ψηφιακής Παρουσίας (Website/Eshop)",
-    subject: "Πρόταση Συνεργασίας: Ψηφιακή Παρουσία για την [BUSINESS_NAME] [IN_CITY]",
-    body: `<h2>Αποκτήστε τη δική σας επαγγελματική ιστοσελίδα ή eshop! 🚀</h2>
+const detectIndustry = (industryText: string): string => {
+  if (!industryText) return "generic";
+  const text = industryText.toLowerCase();
+  
+  if (text.includes("οδοντ") || text.includes("dent") || text.includes("tooth") || text.includes("smile") || text.includes("στοματ") || text.includes("odont")) {
+    return "dentist";
+  }
+  if (text.includes("εστια") || text.includes("καφε") || text.includes("restau") || text.includes("cafe") || text.includes("ψητο") || text.includes("ταβερ") || text.includes("pizza") || text.includes("burger") || text.includes("φαγητ") || text.includes("bar") || text.includes("delivery") || text.includes("μπαρ")) {
+    return "food_service";
+  }
+  if (text.includes("ξενοδ") || text.includes("hotel") || text.includes("villa") || text.includes("rooms") || text.includes("καταλυμ") || text.includes("διαμον") || text.includes("studios") || text.includes("suites")) {
+    return "hotel";
+  }
+  if (text.includes("rent") || text.includes("ενοικια") || text.includes("aut") || text.includes("car") || text.includes("οχημα") || text.includes("moto")) {
+    return "rent_a_car";
+  }
+  
+  return "generic";
+};
+
+const EMAIL_TEMPLATES: Record<
+  string,
+  Record<
+    string,
+    {
+      subject: string;
+      body: string;
+      buttonText: string;
+      buttonLink: string;
+    }
+  >
+> = {
+  website: {
+    generic: {
+      subject: "Πρόταση Συνεργασίας: Ψηφιακή Παρουσία για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Αποκτήστε τη δική σας επαγγελματική ιστοσελίδα! 🚀</h2>
 <p>Γεια σας,</p>
-<p>Επισκεφθήκαμε την καταχώρησή σας για την επιχείρηση <strong>[BUSINESS_NAME]</strong> [IN_CITY] και παρατηρήσαμε ότι δεν διαθέτετε δικό σας επίσημο website ή eshop για την online προβολή σας.</p>
-<p>Στην <strong>SGK Software Development</strong> εξειδικευόμαστε στην κατασκευή ταχύτατων ιστοσελίδων και eshops νέας γενιάς (με τεχνολογία Next.js / React) που βοηθούν τις επιχειρήσεις να αποκτήσουν σύγχρονη παρουσία στο διαδίκτυο και να αυξήσουν τους πελάτες τους.</p>
+<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> [IN_CITY] και παρατηρήσαμε ότι δεν διαθέτετε δικό σας επίσημο website για την προβολή των υπηρεσιών σας.</p>
+<p>Στην <strong>SGK Software Development</strong> εξειδικευόμαστε στην κατασκευή ταχύτατων ιστοσελίδων νέας γενιάς (με Next.js / React) που βοηθούν τις επιχειρήσεις να αποκτήσουν σύγχρονη παρουσία στο διαδίκτυο και να προσελκύσουν νέους πελάτες.</p>
 <p><strong>Τι σας προσφέρουμε:</strong></p>
 <ul>
-  <li><strong>Επαγγελματική Σχεδίαση:</strong> Στα μέτρα σας, προσαρμοσμένη για κινητά (Mobile First).</li>
-  <li><strong>Ασύλληπτη Ταχύτητα:</strong> Με Core Web Vitals 95+ για καλύτερη κατάταξη στη Google (SEO).</li>
-  <li><strong>Σύνδεση με Social Media & Google Maps:</strong> Για να σας βρίσκουν εύκολα.</li>
- </ul>
-<p>Αν ενδιαφέρεστε να συζητήσουμε πώς μπορούμε να αναβαθμίσουμε την παρουσία σας στο διαδίκτυο, απαντήστε σε αυτό το email ή καλέστε μας απευθείας στο <strong>6999524389</strong>.</p>`,
-    defaultButtonText: "Δείτε την Προσφορά",
-    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
-  },
-  {
-    name: "⚡ Προσφορά Eshop στα 1.500€ (Ειδική Έκπτωση)",
-    subject: "Ειδική Προσφορά: Κατασκευή Eshop για την [BUSINESS_NAME] [IN_CITY]",
-    body: `<h2>Ξεκινήστε τις Online Πωλήσεις σας Σήμερα! 🛍️</h2>
-<p>Γεια σας,</p>
-<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
-<p>Θέλουμε να σας προσφέρουμε μια ειδική έκπτωση για την κατασκευή ενός υπερσύγχρονου eshop στην προνομιακή τιμή των <strong>1.500€</strong>.</p>
-<p><strong>Τι περιλαμβάνει η προσφορά:</strong></p>
-<ul>
-  <li><strong>Σύνδεση με Skroutz & ERP:</strong> Για αυτόματη ενημέρωση προϊόντων και παραγγελιών.</li>
-  <li><strong>Όλες οι Ελληνικές Τράπεζες & Courier:</strong> Έτοιμες διασυνδέσεις πληρωμών και αποστολών.</li>
-  <li><strong>100% Ταχύτητα PageSpeed:</strong> Για κορυφαίο SEO.</li>
- </ul>
-<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις λεπτομέρειες!</p>`,
-    defaultButtonText: "Δείτε την Προσφορά",
-    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
-  },
-  {
-    name: "🍱 Αποκλειστική Εφαρμογή Delivery (Για Εστιατόρια/Καφέ)",
-    subject: "Πρόταση: Mobile App & Web Delivery για την [BUSINESS_NAME] [IN_CITY]",
-    body: `<h2>Αποκτήστε το δικό σας Web & Mobile App Delivery! 🍱</h2>
-<p>Γεια σας,</p>
-<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> [IN_CITY] και είδαμε ότι δραστηριοποιείστε στον χώρο της εστίασης/καφέ.</p>
-<p>Στην <strong>SGK Software Development</strong> σχεδιάζουμε <strong>αποκλειστικές (custom) εφαρμογές online παραγγελιών και delivery</strong>, βοηθώντας εστιατόρια, καφετέριες και delivery shops να απαλλαγούν από τις υψηλές προμήθειες των 3rd party πλατφορμών (E-food, Wolt, Box) που αγγίζουν το 25-30%.</p>
-<p><strong>Τι σας προσφέρει η δική σας πλατφόρμα Delivery:</strong></p>
-<ul>
-  <li><strong>0% Προμήθειες:</strong> Όλα τα έσοδα από τις παραγγελίες πηγαίνουν απευθείας σε εσάς.</li>
-  <li><strong>Web App & Mobile Apps (Android/iOS):</strong> Δικό σας app στο Google Play και App Store με το brand σας.</li>
-  <li><strong>Σύστημα Loyalty & Push Notifications:</strong> Στείλτε δωρεάν προσφορές απευθείας στα κινητά των πελατών σας.</li>
-  <li><strong>Διαχείριση Τραπεζιών & QR Menu:</strong> Για εύκολη παραγγελία και από το τραπέζι.</li>
+  <li><strong>Επαγγελματική Σχεδίαση:</strong> Mobile-first, προσαρμοσμένη απόλυτα στο δικό σας brand.</li>
+  <li><strong>Ασύλληπτη Ταχύτητα:</strong> Με Core Web Vitals 95+ για κορυφαία κατάταξη στη Google (SEO).</li>
+  <li><strong>Σύνδεση με Social Media & Google Maps:</strong> Για εύκολο εντοπισμό από νέους πελάτες.</li>
 </ul>
-<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong>.</p>`,
-    defaultButtonText: "Δείτε το Demo Delivery",
-    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
-  },
-  {
-    name: "📊 Custom Διαχειριστικά Συστήματα (ERP/CRM)",
-    subject: "Πρόταση Αναβάθμισης: Custom ERP/CRM για την [BUSINESS_NAME] [IN_CITY]",
-    body: `<h2>Ψηφιοποιήστε τις λειτουργίες της επιχείρησής σας! 📊</h2>
+<p>Αν ενδιαφέρεστε να συζητήσουμε πώς μπορούμε να αναβαθμίσουμε την παρουσία σας στο διαδίκτυο, απαντήστε σε αυτό το email ή καλέστε μας απευθείας στο <strong>6999524389</strong>.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    dentist: {
+      subject: "Πρόταση: Σύγχρονη Ιστοσελίδα με Online Ραντεβού για το Οδοντιατρείο [BUSINESS_NAME]",
+      body: `<h2>Αναβαθμίστε την ψηφιακή παρουσία του οδοντιατρείου σας! 🦷</h2>
 <p>Γεια σας,</p>
-<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
-<p>Παρατηρούμε ότι πολλές επιχειρήσεις σήμερα δαπανούν πολύτιμο χρόνο σε χειροκίνητες διαδικασίες, excel και ασύνδετα συστήματα. Σχεδιάζουμε <strong>custom διαχειριστικά συστήματα (ERP, CRM, WMS)</strong> κομμένα και ραμμένα αποκλειστικά στις δικές σας ανάγκες.</p>
-<p><strong>Τι μπορούμε να αυτοματοποιήσουμε για εσάς:</strong></p>
+<p>Επισκεφθήκαμε την καταχώρηση για το οδοντιατρείο <strong>[BUSINESS_NAME]</strong> [IN_CITY] και θα θέλαμε να σας προτείνουμε τη δημιουργία μιας σύγχρονης, επαγγελματικής ιστοσελίδας.</p>
+<p>Στην <strong>SGK Software Development</strong> σχεδιάζουμε ιστοσελίδες ειδικά για οδοντιάτρους, οι οποίες διευκολύνουν τους ασθενείς να σας βρουν και να κλείσουν ραντεβού.</p>
+<p><strong>Τι θα περιλαμβάνει η ιστοσελίδα σας:</strong></p>
 <ul>
-  <li><strong>Διαχείριση Πελατολογίου (CRM):</strong> Παρακολούθηση προσφορών, leads και ιστορικού επικοινωνίας.</li>
-  <li><strong>Ηλεκτρονική Τιμολόγηση & myDATA:</strong> Αυτόματη έκδοση παραστατικών και διασύνδεση με την ΑΑΔΕ.</li>
-  <li><strong>Έλεγχος Αποθήκης & Παραγγελιών:</strong> Real-time ενημέρωση αποθεμάτων και διαχείριση προμηθευτών.</li>
- </ul>
-<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να αναλύσουμε τις ανάγκες σας και να σχεδιάσουμε μια δωρεάν πρόταση υλοποίησης.</p>`,
-    defaultButtonText: "Δείτε τις Υπηρεσίες μας",
-    defaultButtonLink: "https://www.sgk.gr/web-development"
-  },
-  {
-    name: "🏨 Website για Ξενοδοχεία & Βίλες (Απευθείας Κρατήσεις)",
-    subject: "Πρόταση για την [BUSINESS_NAME] [IN_CITY]: Αυξήστε τις Απευθείας Κρατήσεις!",
-    body: `<h2>Απελευθερωθείτε από τις υψηλές προμήθειες της Booking & Airbnb! 🏨</h2>
+  <li><strong>Σύστημα Online Ραντεβού:</strong> Οι ασθενείς βλέπουν τη διαθεσιμότητά σας και κλείνουν ραντεβού 24/7.</li>
+  <li><strong>Παρουσίαση Υπηρεσιών & Περιστατικών:</strong> Αναδείξτε την εξειδίκευσή σας και φωτογραφίες πριν/μετά.</li>
+  <li><strong>Κορυφαίο Τοπικό SEO (Local SEO):</strong> Για να εμφανίζεστε πρώτοι στις αναζητήσεις ασθενών [IN_CITY].</li>
+</ul>
+<p>Αν θέλετε να συζητήσουμε πώς μπορούμε να βοηθήσουμε το οδοντιατρείο σας να αναπτυχθεί, απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong>.</p>`,
+      buttonText: "Δείτε την Πρότασή μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    food_service: {
+      subject: "Πρόταση Συνεργασίας: Επαγγελματικό Website για το [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Αναδείξτε το μενού και τον χώρο σας στο διαδίκτυο! 🍽️</h2>
 <p>Γεια σας,</p>
-<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> [IN_CITY] και παρατηρήσαμε ότι βασίζεστε κυρίως σε εξωτερικές πλατφόρμες για τις κρατήσεις σας.</p>
-<p>Στην <strong>SGK Software Development</strong> κατασκευάζουμε υπερσύγχρονες ιστοσελίδες για ξενοδοχεία, βίλες και τουριστικά καταλύματα με <strong>ενσωματωμένο σύστημα απευθείας κρατήσεων (Booking Engine)</strong> και σύνδεση με Channel Manager.</p>
+<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> [IN_CITY] και είδαμε ότι δραστηριοποιείστε στον χώρο της εστίασης.</p>
+<p>Στην <strong>SGK Software Development</strong> κατασκευάζουμε εντυπωσιακές, γρήγορες ιστοσελίδες για εστιατόρια, καφέ και μπαρ, που αναδεικνύουν το μενού σας και διευκολύνουν τις κρατήσεις.</p>
+<p><strong>Τι σας προσφέρουμε:</strong></p>
+<ul>
+  <li><strong>Digital Interactive Μενού:</strong> Εύχρηστο, καθαρό μενού με φωτογραφίες και τιμές, ιδανικό για κινητά.</li>
+  <li><strong>Σύστημα Online Κρατήσεων:</strong> Οι πελάτες σας κάνουν κράτηση τραπεζιού γρήγορα και εύκολα.</li>
+  <li><strong>Σύνδεση με Tripadvisor & Google Maps:</strong> Για να προσελκύετε εύκολα τουρίστες και ντόπιους.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε πώς μπορούμε να αναδείξουμε τη γαστρονομία σας online.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    hotel: {
+      subject: "Πρόταση: Website Ξενοδοχείου με Σύστημα Απευθείας Κρατήσεων για την [BUSINESS_NAME]",
+      body: `<h2>Απελευθερωθείτε από τις υψηλές προμήθειες της Booking & Airbnb! 🏨</h2>
+<p>Γεια σας,</p>
+<p>Επισκεφθήκαμε την online παρουσία του καταλύματος <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Στην <strong>SGK Software Development</strong> κατασκευάζουμε υπερσύγχρονες ιστοσελίδες για ξενοδοχεία και τουριστικά καταλύματα με <strong>ενσωματωμένο σύστημα απευθείας κρατήσεων (Booking Engine)</strong>.</p>
 <p><strong>Πλεονεκτήματα:</strong></p>
 <ul>
   <li><strong>0% Προμήθειες:</strong> Κρατήσεις απευθείας στον δικό σας τραπεζικό λογαριασμό.</li>
-  <li><strong>Κορυφαία Παρουσίαση:</strong> Custom design που αναδεικνύει τις παροχές και τις φωτογραφίες του καταλύματος.</li>
-  <li><strong>Live Διαθεσιμότητα & Πληρωμές:</strong> Άμεση πληρωμή με κάρτα και αυτόματη ενημέρωση ημερολογίων.</li>
- </ul>
+  <li><strong>Channel Manager:</strong> Αυτόματος συγχρονισμός με Booking, Expedia, Airbnb για αποφυγή double bookings.</li>
+  <li><strong>Live Πληρωμές:</strong> Άμεση εξόφληση με πιστωτική κάρτα, Apple Pay ή Google Pay.</li>
+</ul>
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σχεδιάσουμε τη νέα σας τουριστική ιστοσελίδα!</p>`,
-    defaultButtonText: "Δείτε Case Studies",
-    defaultButtonLink: "https://www.sgk.gr/case-study/lemon-tree-paros"
-  },
-  {
-    name: "🚗 Σύστημα Κρατήσεων & Site για Rent a Car",
-    subject: "Σύγχρονη Ιστοσελίδα με Booking Engine για την [BUSINESS_NAME] [IN_CITY]",
-    body: `<h2>Αυτοματοποιήστε τις ενοικιάσεις του στόλου σας! 🚗</h2>
+      buttonText: "Δείτε Case Studies",
+      buttonLink: "https://www.sgk.gr/case-study/lemon-tree-paros"
+    },
+    rent_a_car: {
+      subject: "Σύγχρονη Ιστοσελίδα με Booking Engine για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Αυτοματοποιήστε τις ενοικιάσεις του στόλου σας! 🚗</h2>
 <p>Γεια σας,</p>
 <p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
 <p>Προσφέρουμε μια ολοκληρωμένη λύση για εταιρείες ενοικίασης αυτοκινήτων και σκαφών, η οποία περιλαμβάνει <strong>υπερσύγχρονο site και έξυπνο σύστημα online κρατήσεων</strong>.</p>
 <p><strong>Τι περιλαμβάνει η λύση Rent a Car:</strong></p>
 <ul>
   <li><strong>Real-time Booking Engine:</strong> Υπολογισμός τιμών βάσει εποχικότητας, ημερών και έξτρα παροχών (ασφάλεια, GPS κλπ.).</li>
-  <li><strong>Διαχείριση Στόλου (Fleet Management):</strong> Πλήρης έλεγχος διαθεσιμότητας οχημάτων και προγραμματισμός παραδόσεων/παραλαβών.</li>
+  <li><strong>Διαχείριση Στόλου (Fleet Management):</strong> Πλήρης έλεγχος διαθεσιμότητας οχημάτων και προγραμματισμός παραλαβών.</li>
   <li><strong>Πολλαπλά Σημεία Παράδοσης:</strong> Επιλογή τοποθεσίας (π.χ. Αεροδρόμιο, Λιμάνι, Ξενοδοχείο) με αντίστοιχες χρεώσεις.</li>
 </ul>
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις ανάγκες σας.</p>`,
-    defaultButtonText: "Δείτε το Demo",
-    defaultButtonLink: "https://www.sgk.gr/eshop-offer"
+      buttonText: "Δείτε το Demo",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    }
   },
-  {
-    name: "🤖 AI Agents & Αυτοματοποιήσεις Επιχειρήσεων",
-    subject: "Αυτοματοποίηση Λειτουργιών με Τεχνητή Νοημοσύνη (AI Agents) για την [BUSINESS_NAME] [IN_CITY]",
-    body: `<h2>Βάλτε την Τεχνητή Νοημοσύνη να δουλέψει για εσάς! 🤖</h2>
+  eshop: {
+    generic: {
+      subject: "Ειδική Προσφορά: Κατασκευή Eshop για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Ξεκινήστε τις Online Πωλήσεις σας Σήμερα! 🛍️</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Θέλουμε να σας προσφέρουμε μια ειδική προσφορά για την κατασκευή ενός υπερσύγχρονου eshop στην προνομιακή τιμή των <strong>1.500€</strong>.</p>
+<p><strong>Τι περιλαμβάνει η προσφορά:</strong></p>
+<ul>
+  <li><strong>Σύνδεση με Skroutz & ERP:</strong> Για αυτόματη ενημέρωση προϊόντων και παραγγελιών.</li>
+  <li><strong>Όλες οι Ελληνικές Τράπεζες & Courier:</strong> Έτοιμες διασυνδέσεις πληρωμών και αποστολών με αυτόματη έκδοση voucher.</li>
+  <li><strong>100% Ταχύτητα PageSpeed:</strong> Για κορυφαίο SEO και πωλήσεις από κινητά.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις λεπτομέρειες!</p>`,
+      buttonText: "Δείτε την Προσφορά",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    dentist: {
+      subject: "Προσφορά: Κατασκευή Eshop Οδοντιατρικών Προϊόντων για την [BUSINESS_NAME]",
+      body: `<h2>Πουλήστε οδοντιατρικά είδη ή προϊόντα στοματικής υγιεινής online! 🦷🛍️</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το οδοντιατρείο ή την εταιρεία σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε εξειδικευμένα eshop για την πώληση οδοντιατρικών ειδών, αναλωσίμων ή προϊόντων στοματικής υγιεινής, συνδεδεμένα με τις αποθήκες και τα συστήματα τιμολόγησής σας.</p>
+<p><strong>Τι σας προσφέρουμε:</strong></p>
+<ul>
+  <li><strong>B2B & B2C Λειτουργίες:</strong> Διαφορετικές τιμολογιακές πολιτικές για οδοντιάτρους (χονδρική) και για ιδιώτες (λιανική).</li>
+  <li><strong>Διασύνδεση με ERP & Αποθήκη:</strong> Πλήρης αυτοματοποίηση των αποθεμάτων και των παραγγελιών.</li>
+  <li><strong>Αυτόματοι Υπολογισμοί ΦΠΑ & Μεταφορικών:</strong> Σύμφωνα με τις νομικές απαιτήσεις των ιατρικών ειδών.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις ανάγκες σας.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    food_service: {
+      subject: "Online Eshop Παραγγελιών & Takeaway για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Δεχτείτε online παραγγελίες από το δικό σας site! 🍕🛍️</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Θέλουμε να σας βοηθήσουμε να αποκτήσετε το δικό σας eshop παραγγελιών (delivery/takeaway) ώστε να μην πληρώνετε τις υπέρογκες προμήθειες των 3rd party πλατφορμών.</p>
+<p><strong>Χαρακτηριστικά του Eshop Παραγγελιών:</strong></p>
+<ul>
+  <li><strong>Real-time Λήψη Παραγγελιών:</strong> Με ειδικό tablet ή εκτυπωτή στην κουζίνα σας.</li>
+  <li><strong>Υποστήριξη Ζωνών Delivery:</strong> Χαρτογράφηση και ορισμός ελάχιστης παραγγελίας ανά περιοχή.</li>
+  <li><strong>Ασφαλείς Πληρωμές με Κάρτα & Apple Pay:</strong> Τα χρήματα πηγαίνουν απευθείας σε εσάς.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσετε τις δικές σας online πωλήσεις.</p>`,
+      buttonText: "Δείτε την Προσφορά",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    hotel: {
+      subject: "Πρόταση: Eshop Κρατήσεων & Vouchers για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Πουλήστε Vouchers & Υπηρεσίες του Ξενοδοχείου σας Online! 🏨🛍️</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το κατάλυμά σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σας προτείνουμε τη δημιουργία ενός eshop για την online πώληση Gift Vouchers, διαμονών, υπηρεσιών spa ή δραστηριοτήτων, αυξάνοντας τα έσοδα της επιχείρησής σας εκτός της Booking.</p>
+<p><strong>Τι μπορείτε να πουλήσετε online:</strong></p>
+<ul>
+  <li><strong>Gift Cards & Vouchers:</strong> Οι πελάτες αγοράζουν δωροκάρτες για διαμονή ή γεύματα στο ξενοδοχείο σας.</li>
+  <li><strong>Add-ons & Εμπειρίες:</strong> Κρατήσεις για massage, ξεναγήσεις, ενοικίαση σκαφών ή μεταφορές από/προς αεροδρόμιο.</li>
+  <li><strong>Premium Προϊόντα:</strong> Πώληση τοπικών προϊόντων, amenities ή ειδών που χρησιμοποιείτε στο ξενοδοχείο σας.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις ιδέες σας.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    rent_a_car: {
+      subject: "Online Eshop & Κρατήσεις Στόλου για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Δεχτείτε online εξοφλήσεις για τις ενοικιάσεις σας! 🚗🛍️</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιαζουμε eshops ειδικά για Rent a Car, επιτρέποντας στους πελάτες σας να ολοκληρώσουν την κράτηση και να πληρώσουν προκαταβολή ή το πλήρες ποσό της ενοικίασης online.</p>
+<p><strong>Τι περιλαμβάνει η λύση:</strong></p>
+<ul>
+  <li><strong>Ασφαλείς Online Πληρωμές:</strong> Διασύνδεση με Viva Wallet, Stripe ή Ελληνικές Τράπεζες.</li>
+  <li><strong>Εγγυήσεις & Δέσμευση Ποσού (Pre-authorization):</strong> Δυνατότητα δέσμευσης εγγύησης στην κάρτα του πελάτη online.</li>
+  <li><strong>Διαχείριση Συμβολαίων:</strong> Αυτόματη αποστολή PDF επιβεβαίωσης κράτησης και όρων ενοικίασης.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να ξεκινήσουμε.</p>`,
+      buttonText: "Δείτε την Προσφορά",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    }
+  },
+  ai_agents: {
+    generic: {
+      subject: "Αυτοματοποίηση Λειτουργιών με Τεχνητή Νοημοσύνη (AI Agents) για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Βάλτε την Τεχνητή Νοημοσύνη να δουλέψει για εσάς! 🤖</h2>
 <p>Γεια σας,</p>
 <p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
 <p>Σχεδιάζουμε και ενσωματώνουμε <strong>AI Agents και Intelligent Chatbots</strong> που αναλαμβάνουν να αυτοματοποιήσουν καθημερινές εργασίες της επιχείρησής σας, λειτουργώντας 24/7 χωρίς διακοπή.</p>
@@ -227,12 +319,246 @@ const PROSPECT_TEMPLATES = [
   <li><strong>Κλείσιμο Ραντεβού & Κρατήσεων:</strong> Συνεννόηση με τον πελάτη και αυτόματη καταχώρηση στο ημερολόγιο.</li>
 </ul>
 <p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να δούμε πώς το AI μπορεί να μειώσει τα λειτουργικά σας έξοδα!</p>`,
-    defaultButtonText: "Δείτε AI Λύσεις",
-    defaultButtonLink: "https://www.sgk.gr/ai-agents"
+      buttonText: "Δείτε AI Λύσεις",
+      buttonLink: "https://www.sgk.gr/ai-agents"
+    },
+    dentist: {
+      subject: "🤖 AI Agent για το Οδοντιατρείο [BUSINESS_NAME]: Αυτόματο Κλείσιμο Ραντεβού 24/7",
+      body: `<h2>Αυτοματοποιήστε τα ραντεβού του οδοντιατρείου σας με Τεχνητή Νοημοσύνη! 🦷🤖</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το οδοντιατρείο σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Θέλουμε να σας προτείνουμε την ενσωμάτωση ενός <strong>AI Agent (Τεχνητής Νοημοσύνης)</strong> ο οποίος αναλαμβάνει να απαντά στους ασθενείς σας 24/7 και να κλείνει αυτόματα ραντεβού.</p>
+<p><strong>Πώς βοηθάει το οδοντιατρείο σας:</strong></p>
+<ul>
+  <li><strong>Αυτόματο Κλείσιμο Ραντεβού:</strong> Ο AI Agent συνδέεται με το Google Calendar ή το ιατρικό σας λογισμικό και κλείνει ραντεβού μέσω WhatsApp, Viber ή Instagram.</li>
+  <li><strong>Υπενθυμίσεις Ασθενών:</strong> Αυτόματη αποστολή μηνυμάτων υπενθύμισης για την αποφυγή ακυρώσεων.</li>
+  <li><strong>Απαντήσεις σε Συχνές Ερωτήσεις:</strong> Πληροφορίες για το ωράριο, την τοποθεσία, τις ασφάλειες που δέχεστε κλπ.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να δούμε ένα live demo του AI Agent!</p>`,
+      buttonText: "Δείτε AI Λύσεις",
+      buttonLink: "https://www.sgk.gr/ai-agents"
+    },
+    food_service: {
+      subject: "🤖 AI Agent Λήψης Παραγγελιών & Κρατήσεων για το [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Αυτοματοποιήστε τις παραγγελίες και τις κρατήσεις σας στα Social Media! 🍕🤖</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Προσφέρουμε μια πρωτοποριακή λύση: <strong>AI Agents</strong> που απαντούν αυτόματα στους πελάτες σας στο Instagram, το Messenger και το WhatsApp, λαμβάνοντας παραγγελίες delivery ή κάνοντας κρατήσεις τραπεζιών.</p>
+<p><strong>Τι κάνει ο AI Agent για την εστίαση:</strong></p>
+<ul>
+  <li><strong>Λήψη Παραγγελιών:</strong> Συνομιλεί με τον πελάτη, του προτείνει πιάτα από το μενού και καταχωρεί την παραγγελία στο σύστημά σας.</li>
+  <li><strong>Κρατήσεις Τραπεζιών:</strong> Ελέγχει τη διαθεσιμότητα και επιβεβαιώνει την κράτηση άμεσα, στέλνοντας SMS επιβεβαίωσης.</li>
+  <li><strong>24/7 Λειτουργία:</strong> Απαντά σε λιγότερο από 2 δευτερόλεπτα, εξασφαλίζοντας ότι δεν θα χάσετε ποτέ κανέναν πελάτη.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σας δείξουμε πώς λειτουργεί!</p>`,
+      buttonText: "Δείτε AI Λύσεις",
+      buttonLink: "https://www.sgk.gr/ai-agents"
+    },
+    hotel: {
+      subject: "🤖 AI Concierge για την [BUSINESS_NAME]: Εξυπηρέτηση Πελατών 24/7",
+      body: `<h2>Αναβαθμίστε την εμπειρία των επισκεπτών σας με έναν AI Virtual Assistant! 🏨🤖</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το κατάλυμά σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Θέλουμε να σας προτείνουμε την υλοποίηση ενός <strong>AI Agent (Virtual Concierge)</strong>, ο οποίος θα εξυπηρετεί τους πελάτες σας 24/7 στο WhatsApp, στο Viber ή στην ιστοσελίδα σας.</p>
+<p><strong>Τι προσφέρει ο AI Concierge στους πελάτες σας:</strong></p>
+<ul>
+  <li><strong>Άμεσες Απαντήσεις:</strong> Πληροφορίες για check-in/out, κωδικούς WiFi, πρωινό, στάθμευση και πολιτικές του ξενοδοχείου.</li>
+  <li><strong>Κρατήσεις Υπηρεσιών:</strong> Οι επισκέπτες μπορούν να παραγγείλουν room service, να κλείσουν spa ή μεταφορά, μιλώντας απλά με το AI.</li>
+  <li><strong>Πολύγλωσση Υποστήριξη:</strong> Απαντά αυτόματα σε πάνω από 30 γλώσσες (Αγγλικά, Γερμανικά, Γαλλικά κλπ.) ανάλογα με τη γλώσσα του πελάτη.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε αυτή τη λύση.</p>`,
+      buttonText: "Δείτε AI Λύσεις",
+      buttonLink: "https://www.sgk.gr/ai-agents"
+    },
+    rent_a_car: {
+      subject: "🤖 AI Agent για Rent a Car: Αυτόματες Απαντήσεις & Κρατήσεις 24/7",
+      body: `<h2>Αυξήστε τις κρατήσεις σας με AI Agent στο WhatsApp & Instagram! 🚗🤖</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σας προτείνουμε την εγκατάσταση ενός <strong>AI Agent</strong> ο οποίος αναλαμβάνει να απαντά αυτόματα σε υποψήφιους πελάτες που ψάχνουν να νοικιάσουν αυτοκίνητο, ελέγχοντας τη διαθεσιμότητα real-time.</p>
+<p><strong>Τι προσφέρει ο AI Agent στο Rent a Car:</strong></p>
+<ul>
+  <li><strong>Έλεγχος Διαθεσιμότητας & Τιμών:</strong> Ο AI Agent συνδέεται με το Fleet Manager σας και δίνει τιμές για τις ημερομηνίες που ζητά ο πελάτης.</li>
+  <li><strong>Συλλογή Στοιχείων (Leads):</strong> Συλλέγει άδειες οδήγησης, στοιχεία επικοινωνίας και τα καταχωρεί αυτόματα στο σύστημά σας.</li>
+  <li><strong>24/7 Εξυπηρέτηση σε Πολλές Γλώσσες:</strong> Απαντά άμεσα σε τουρίστες στη γλώσσα τους, αυξάνοντας τις πιθανότητες κράτησης.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να δείτε ένα demo!</p>`,
+      buttonText: "Δείτε AI Λύσεις",
+      buttonLink: "https://www.sgk.gr/ai-agents"
+    }
+  },
+  mobile_app: {
+    generic: {
+      subject: "Custom Mobile App (Android/iOS) για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Αποκτήστε τη δική σας εφαρμογή στα Google Play & App Store! 📱</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε και αναπτύσσουμε <strong>custom εφαρμογές για κινητά (Android & iOS)</strong> που βοηθούν τις επιχειρήσεις να συνδεθούν απευθείας με τους πελάτες τους και να χτίσουν πιστότητα (loyalty).</p>
+<p><strong>Τι περιλαμβάνει η λύση Mobile App:</strong></p>
+<ul>
+  <li><strong>Push Notifications:</strong> Στείλτε δωρεάν ενημερώσεις, προσφορές και νέα απευθείας στις οθόνες των πελατών σας.</li>
+  <li><strong>Σύστημα Loyalty & Πόντων:</strong> Επιβραβεύστε τους πελάτες σας για τις αγορές τους μέσα από την εφαρμογή.</li>
+  <li><strong>Custom Σχεδίαση & Λειτουργικότητα:</strong> Φτιαγμένη ακριβώς για τις ανάγκες της δικής σας επιχείρησης.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σχεδιάσουμε τη δική σας mobile εφαρμογή!</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    dentist: {
+      subject: "Custom Mobile App για τους Ασθενείς του Οδοντιατρείου [BUSINESS_NAME]",
+      body: `<h2>Μια σύγχρονη εφαρμογή για τους ασθενείς του οδοντιατρείου σας! 🦷📱</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το οδοντιατρείο σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σας προτείνουμε τη δημιουργία μιας custom εφαρμογής για κινητά (Android/iOS) αποκλειστικά για τους ασθενείς του ιατρείου σας.</p>
+<p><strong>Τι θα προσφέρει η εφαρμογή στους ασθενείς σας:</strong></p>
+<ul>
+  <li><strong>Ιστορικό & Ακτινογραφίες:</strong> Οι ασθενείς έχουν πρόσβαση στο ιατρικό τους ιστορικό, οδηγίες θεραπείας και ακτινογραφίες.</li>
+  <li><strong>Υπενθυμίσεις & Push Notifications:</strong> Αυτόματες ειδοποιήσεις στο κινητό για το επόμενο ραντεβού ή τον καθαρισμό τους.</li>
+  <li><strong>Άμεση Επικοινωνία & Ραντεβού:</strong> Εύκολες κρατήσεις ραντεβού και άμεση επικοινωνία με το ιατρείο σας.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε αυτή την καινοτόμο λύση.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    food_service: {
+      subject: "Δικό σας App Delivery (χωρίς προμήθειες) για το [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Απαλλαγείτε από τις προμήθειες των E-food, Wolt και Box! 🍕📱</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε <strong>αποκλειστικές (custom) εφαρμογές online παραγγελιών και delivery (Android & iOS)</strong>, βοηθώντας καφετέριες και εστιατόρια να αποκτήσουν το δικό τους κανάλι πωλήσεων χωρίς μεσάζοντες.</p>
+<p><strong>Πλεονεκτήματα του δικού σας App Delivery:</strong></p>
+<ul>
+  <li><strong>0% Προμήθειες:</strong> Όλα τα έσοδα από τις παραγγελίες παραμένουν στην επιχείρησή σας.</li>
+  <li><strong>Direct Marketing & Push Notifications:</strong> Στείλτε δωρεάν προσφορές (π.χ. «1+1 Δώρο μόνο για σήμερα!») απευθείας στα κινητά των πελατών σας.</li>
+  <li><strong>Σύστημα Loyalty:</strong> Οι πελάτες μαζεύουν πόντους και κερδίζουν εκπτώσεις, αυξάνοντας τις επαναλαμβανόμενες παραγγελίες.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σχεδιάσουμε τη δική σας εφαρμογή!</p>`,
+      buttonText: "Δείτε το Demo Delivery",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    },
+    hotel: {
+      subject: "Custom Mobile App Concierge & Room Service για την [BUSINESS_NAME]",
+      body: `<h2>Αναβαθμίστε τη διαμονή των πελατών σας με ένα Custom Mobile App! 🏨📱</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το κατάλυμά σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σας προτείνουμε τη δημιουργία μιας mobile εφαρμογής (Android & iOS) με το brand σας, η οποία θα λειτουργεί ως ο απόλυτος ψηφιακός οδηγός για τους επισκέπτες σας κατά τη διαμονή τους.</p>
+<p><strong>Λειτουργίες της Εφαρμογής:</strong></p>
+<ul>
+  <li><strong>Digital Key (Ψηφιακό Κλειδί):</strong> Οι πελάτες ανοίγουν την πόρτα του δωματίου τους απευθείας με το κινητό τους.</li>
+  <li><strong>Mobile Room Service & Παραγγελίες:</strong> Παραγγελία φαγητού, ποτών ή πετσετών απευθείας στο δωμάτιο μέσω του app.</li>
+  <li><strong>Τοπικός Οδηγός & Concierge:</strong> Προτάσεις για παραλίες, εστιατόρια, αξιοθέατα και δυνατότητα κράτησης εκδρομών.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τις προοπτικές.</p>`,
+      buttonText: "Δείτε Case Studies",
+      buttonLink: "https://www.sgk.gr/case-study/lemon-tree-paros"
+    },
+    rent_a_car: {
+      subject: "Custom Mobile App για Rent a Car: Ψηφιακά Συμβόλαια & Keyless Delivery",
+      body: `<h2>Ψηφιοποιήστε την εμπειρία ενοικίασης οχημάτων με δικό σας App! 🚗📱</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σας προτείνουμε την ανάπτυξη μιας custom mobile εφαρμογής για την Rent a Car επιχείρησή σας, απλοποιώντας τις διαδικασίες παραλαβής και παράδοσης των οχημάτων.</p>
+<p><strong>Τι προσφέρει η εφαρμογή:</strong></p>
+<ul>
+  <li><strong>Keyless Entry:</strong> Οι πελάτες ξεκλειδώνουν το ενοικιαζόμενο όχημα μέσω Bluetooth από την εφαρμογή.</li>
+  <li><strong>Ψηφιακό Συμβόλαιο & Check-in:</strong> Ανέβασμα διπλώματος, υπογραφή όρων και έλεγχος ζημιών με φωτογραφίες μέσω του app.</li>
+  <li><strong>Push Notifications & Υπενθυμίσεις:</strong> Ειδοποιήσεις για την ώρα επιστροφής, παράταση ενοικίασης ή προσφορές για επόμενο ταξίδι.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε τη λύση.</p>`,
+      buttonText: "Δείτε την Προσφορά",
+      buttonLink: "https://www.sgk.gr/eshop-offer"
+    }
+  },
+  erp_crm: {
+    generic: {
+      subject: "Custom Διαχειριστικά Συστήματα (ERP/CRM) για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Ψηφιοποιήστε και αυτοματοποιήστε τις λειτουργίες της επιχείρησής σας! 📊</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε <strong>custom διαχειριστικά συστήματα (ERP, CRM, WMS)</strong> κομμένα και ραμμένα αποκλειστικά στις δικές σας ανάγκες, απαλλάσσοντάς σας από πολύπλοκα excel και χειροκίνητες διαδικασίες.</p>
+<p><strong>Τι μπορούμε να αυτοματοποιήσουμε για εσάς:</strong></p>
+<ul>
+  <li><strong>Διαχείριση Πελατολογίου (CRM):</strong> Παρακολούθηση προσφορών, leads και ιστορικού επικοινωνίας.</li>
+  <li><strong>Ηλεκτρονική Τιμολόγηση & myDATA:</strong> Αυτόματη έκδοση παραστατικών και διασύνδεση με την ΑΑΔΕ.</li>
+  <li><strong>Έλεγχος Αποθήκης & Παραγγελιών:</strong> Real-time ενημέρωση αποθεμάτων και διαχείριση προμηθευτών.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να αναλύσουμε τις ανάγκες σας και να σχεδιάσουμε μια δωρεάν πρόταση υλοποίησης.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    dentist: {
+      subject: "Custom CRM & Λογισμικό Διαχείρισης Ασθενών για το Οδοντιατρείο [BUSINESS_NAME]",
+      body: `<h2>Οργανώστε το οδοντιατρείο σας με ένα custom σύστημα διαχείρισης! 🦷📊</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το οδοντιατρείο σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε <strong>custom ιατρικά CRM/ERP</strong> προσαρμοσμένα ακριβώς στον τρόπο που λειτουργεί το δικό σας ιατρείο, προσφέροντας ασφαλή διαχείριση των δεδομένων των ασθενών σας.</p>
+<p><strong>Δυνατότητες του Custom CRM:</strong></p>
+<ul>
+  <li><strong>Ηλεκτρονική Καρτέλα Ασθενούς:</strong> Ιστορικό θεραπειών, οδοντόγραμμα, φωτογραφίες και ακτινογραφίες συγκεντρωμένα σε ένα σημείο.</li>
+  <li><strong>Διαχείριση Ραντεβού & SMS Υπενθυμίσεις:</strong> Αυτόματο κλείσιμο και αποστολή υπενθυμίσεων για μείωση των no-shows.</li>
+  <li><strong>Ηλεκτρονική Τιμολόγηση & myDATA:</strong> Άμεση έκδοση αποδείξεων παροχής υπηρεσιών και σύνδεση με την ΑΑΔΕ.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να σχεδιάσουμε μια δωρεάν πρόταση υλοποίησης.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    food_service: {
+      subject: "Custom ERP & Σύστημα Διαχείρισης Αποθήκης (WMS) για το [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Ελέγξτε το food cost και την αποθήκη σας σε πραγματικό χρόνο! 🍕📊</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε custom διαχειριστικά συστήματα (ERP/CRM) ειδικά για επιχειρήσεις εστίασης, επιτρέποντάς σας να ελέγχετε τις πρώτες ύλες, το κόστος των πιάτων και τους προμηθευτές σας.</p>
+<p><strong>Τι σας προσφέρει το Custom ERP:</strong></p>
+<ul>
+  <li><strong>Υπολογισμός Food Cost:</strong> Αυτόματη κοστολόγηση συνταγών βάσει των τρεχουσών τιμών των προμηθευτών.</li>
+  <li><strong>Διαχείριση Αποθεμάτων & Φύρας:</strong> Real-time έλεγχος αποθήκης και ειδοποιήσεις για ελλείψεις.</li>
+  <li><strong>Στατιστικά Πωλήσεων:</strong> Αναλυτικά γραφήματα για τα πιο κερδοφόρα πιάτα και τις ώρες αιχμής.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να αναλύσουμε τις ανάγκες σας.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    hotel: {
+      subject: "Custom PMS & Σύστημα Διαχείρισης Καταλύματος για την [BUSINESS_NAME]",
+      body: `<h2>Ψηφιοποιήστε τη διαχείριση του ξενοδοχείου σας με custom PMS/CRM! 🏨📊</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με το κατάλυμά σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε <strong>custom Property Management Systems (PMS)</strong> και CRM που προσαρμόζονται απόλυτα στις δικές σας ανάγκες, προσφέροντας πλήρη έλεγχο των δωματίων και των εργασιών.</p>
+<p><strong>Τι περιλαμβάνει η custom λύση:</strong></p>
+<ul>
+  <li><strong>Διαδραστικό Πλάνο Κρατήσεων:</strong> Εύχρηστο ημερολόγιο για check-in/out, μετακινήσεις δωματίων και διαθεσιμότητα.</li>
+  <li><strong>Διαχείριση Προσωπικού & Καθαριότητας:</strong> Ανάθεση εργασιών καθαρισμού ή συντήρησης και real-time ενημέρωση κατάστασης δωματίων.</li>
+  <li><strong>CRM Επισκεπτών:</strong> Ιστορικό προτιμήσεων πελατών, αυτόματες καμπάνιες email πριν την άφιξη και μετά την αναχώρηση.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να συζητήσουμε μια δωρεάν πρόταση.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    },
+    rent_a_car: {
+      subject: "Custom ERP & Σύστημα Fleet Management για την [BUSINESS_NAME] [IN_CITY]",
+      body: `<h2>Πλήρης έλεγχος του στόλου και των συμβολαίων σας online! 🚗📊</h2>
+<p>Γεια σας,</p>
+<p>Επικοινωνούμε μαζί σας από την <strong>SGK Software Development</strong> σχετικά με την επιχείρησή σας, <strong>[BUSINESS_NAME]</strong> [IN_CITY].</p>
+<p>Σχεδιάζουμε custom ERP/CRM συστήματα ειδικά για Rent a Car, προσφέροντας ολοκληρωμένη παρακολούθηση του στόλου, των κρατήσεων και των οικονομικών στοιχείων.</p>
+<p><strong>Λειτουργίες του Custom ERP:</strong></p>
+<ul>
+  <li><strong>Fleet Management:</strong> Παρακολούθηση KTEO, service, ασφαλειών και τελών κυκλοφορίας για κάθε όχημα με αυτόματες ειδοποιήσεις.</li>
+  <li><strong>Συμβόλαια & Ηλεκτρονικές Υπογραφές:</strong> Αυτόματη δημιουργία μισθωτηρίων συμβολαίων και ψηφιακή υπογραφή από το tablet/κινητό.</li>
+  <li><strong>Σύνδεση με myDATA:</strong> Αυτόματη έκδοση τιμολογίων/αποδείξεων και διαβίβαση στην ΑΑΔΕ.</li>
+</ul>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong> για να αναλύσουμε τις ανάγκες σας.</p>`,
+      buttonText: "Δείτε τις Υπηρεσίες μας",
+      buttonLink: "https://www.sgk.gr/web-development"
+    }
   }
-];
+};
+
+const PROSPECT_TEMPLATES = [];
+
 
 export function ScraperTab() {
+  const [selectedService, setSelectedService] = useState<string>("website");
+  const [selectedIndustry, setSelectedIndustry] = useState<string>("generic");
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [loading, setLoading] = useState(false);
   
@@ -290,25 +616,34 @@ export function ScraperTab() {
   // Άνοιγμα modal σύνταξης email
   const openEmailModal = (prospect: Prospect) => {
     setSelectedProspect(prospect);
-    // Χρησιμοποιούμε το πρώτο template ως default
-    const template = PROSPECT_TEMPLATES[0];
-    const { subject, body } = applyTemplateVariables(template.body, template.subject, prospect);
-    setEmailSubject(subject);
-    setEmailBody(body);
-    setButtonText(template.defaultButtonText || "");
-    setButtonLink(template.defaultButtonLink || "");
+    const industry = detectIndustry(prospect.industry);
+    setSelectedService("website");
+    setSelectedIndustry(industry);
+    
+    const template = EMAIL_TEMPLATES["website"]?.[industry] || EMAIL_TEMPLATES["website"]?.["generic"];
+    if (template) {
+      const { subject, body } = applyTemplateVariables(template.body, template.subject, prospect);
+      setEmailSubject(subject);
+      setEmailBody(body);
+      setButtonText(template.buttonText || "");
+      setButtonLink(template.buttonLink || "");
+    }
     setIsModalOpen(true);
   };
 
-  // Αλλαγή template στο modal
-  const handleTemplateChange = (index: number) => {
+  // Αλλαγή template στο modal (Service / Industry)
+  const handleServiceOrIndustryChange = (service: string, industry: string) => {
     if (!selectedProspect) return;
-    const template = PROSPECT_TEMPLATES[index];
-    const { subject, body } = applyTemplateVariables(template.body, template.subject, selectedProspect);
-    setEmailSubject(subject);
-    setEmailBody(body);
-    setButtonText(template.defaultButtonText || "");
-    setButtonLink(template.defaultButtonLink || "");
+    setSelectedService(service);
+    setSelectedIndustry(industry);
+    const template = EMAIL_TEMPLATES[service]?.[industry] || EMAIL_TEMPLATES[service]?.["generic"];
+    if (template) {
+      const { subject, body } = applyTemplateVariables(template.body, template.subject, selectedProspect);
+      setEmailSubject(subject);
+      setEmailBody(body);
+      setButtonText(template.buttonText || "");
+      setButtonLink(template.buttonLink || "");
+    }
   };
 
   const handleSendEmail = async () => {
@@ -570,16 +905,36 @@ export function ScraperTab() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
                 {/* Left Column: Form Editor */}
                 <div className="space-y-4 flex flex-col h-full min-h-0">
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Πρότυπο (Template)</label>
-                    <select 
-                      onChange={(e) => handleTemplateChange(parseInt(e.target.value))}
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
-                    >
-                      {PROSPECT_TEMPLATES.map((tmpl, idx) => (
-                        <option key={idx} value={idx}>{tmpl.name}</option>
-                      ))}
-                    </select>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Υπηρεσία (Service)</label>
+                      <select 
+                        value={selectedService}
+                        onChange={(e) => handleServiceOrIndustryChange(e.target.value, selectedIndustry)}
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
+                      >
+                        <option value="website">Ιστοσελίδα (Website)</option>
+                        <option value="eshop">Ηλ. Κατάστημα (Eshop)</option>
+                        <option value="ai_agents">AI Agents & Chatbots</option>
+                        <option value="mobile_app">Εφαρμογή (Mobile App)</option>
+                        <option value="erp_crm">Διαχειριστικό (ERP/CRM)</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Κλάδος (Industry)</label>
+                      <select 
+                        value={selectedIndustry}
+                        onChange={(e) => handleServiceOrIndustryChange(selectedService, e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
+                      >
+                        <option value="generic">Γενικό (Generic)</option>
+                        <option value="dentist">Οδοντιατρείο</option>
+                        <option value="food_service">Εστίαση / Καφέ</option>
+                        <option value="hotel">Ξενοδοχείο / Κατάλυμα</option>
+                        <option value="rent_a_car">Ενοικίαση Αυτοκινήτων</option>
+                      </select>
+                    </div>
                   </div>
                   
                   <div className="space-y-1">
