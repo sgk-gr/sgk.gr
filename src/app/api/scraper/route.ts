@@ -395,6 +395,93 @@ async function searchViaGoogleScrape(query: string) {
   }
 }
 
+interface GooglePlace {
+  name: string;
+  phone: string | null;
+  website: string | null;
+  types: string[];
+}
+
+async function searchViaGooglePlaces(city: string, industry: string, apiKey: string): Promise<GooglePlace[]> {
+  const query = `${industry} ${city}`;
+  const searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}&language=el`;
+  
+  try {
+    const res = await fetch(searchUrl);
+    if (!res.ok) throw new Error(`Google Places API returned ${res.status}`);
+    const data = await res.json();
+    if (!data.results) return [];
+    
+    const places: GooglePlace[] = [];
+    const results = data.results.slice(0, 15);
+    
+    for (const result of results) {
+      const placeId = result.place_id;
+      const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_phone_number,website,types&key=${apiKey}&language=el`;
+      
+      try {
+        const detailsRes = await fetch(detailsUrl);
+        if (detailsRes.ok) {
+          const detailsData = await detailsRes.json();
+          if (detailsData.result) {
+            places.push({
+              name: detailsData.result.name,
+              phone: detailsData.result.formatted_phone_number || null,
+              website: detailsData.result.website || null,
+              types: detailsData.result.types || []
+            });
+          }
+        }
+      } catch (err) {
+        console.error(`Failed to get details for place ${placeId}:`, err);
+      }
+    }
+    
+    return places;
+  } catch (err) {
+    console.error("Google Places search failed:", err);
+    return [];
+  }
+}
+
+async function findEmailForPlace(name: string, website: string | null, city: string): Promise<string | null> {
+  if (website) {
+    try {
+      const res = await fetch(website, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        },
+        signal: AbortSignal.timeout(4000)
+      });
+      if (res.ok) {
+        const html = await res.text();
+        const emails = extractEmails(html);
+        if (emails.length > 0) {
+          return emails[0];
+        }
+      }
+    } catch (e) {
+      console.error(`Failed to scrape website ${website}:`, e);
+    }
+  }
+  
+  const searchQuery = `"${name}" "${city}" email`;
+  try {
+    const searchResults = await searchViaBingScrape(searchQuery);
+    for (const r of searchResults) {
+      const combinedText = `${r.title} ${r.snippet}`;
+      const emails = extractEmails(combinedText);
+      if (emails.length > 0) {
+        return emails[0];
+      }
+    }
+  } catch (err) {
+    console.error(`Failed to search email fallback for ${name}:`, err);
+  }
+  
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { city, industry } = await req.json();
@@ -403,12 +490,64 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "City and industry are required" }, { status: 400 });
     }
 
-    const apiKey = process.env.GOOGLE_SEARCH_API_KEY;
-    const cx = process.env.GOOGLE_SEARCH_CX;
-
-    // Normalize and clean inputs for search engine tolerance
     const cleanCity = city.trim().replace(/\s+/g, " ");
     const cleanIndustry = industry.trim().replace(/\s+/g, " ");
+
+    const mapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+
+    if (mapsApiKey) {
+      console.log("Using Premium Google Places API Search...");
+      const places = await searchViaGooglePlaces(cleanCity, cleanIndustry, mapsApiKey);
+      const prospectsMap = new Map<string, any>();
+      
+      for (const place of places) {
+        if (!isResultRelevant(place.name, place.types.join(" "), cleanIndustry)) {
+          continue;
+        }
+
+        const email = await findEmailForPlace(place.name, place.website, cleanCity);
+        if (email) {
+          if (isJunkName(place.name)) {
+            continue;
+          }
+
+          prospectsMap.set(email, {
+            business_name: place.name,
+            email: email,
+            phone: place.phone,
+            city: city,
+            industry: industry,
+            status: "pending"
+          });
+        }
+      }
+      
+      const prospectsList = Array.from(prospectsMap.values());
+      let savedCount = 0;
+      for (const prospect of prospectsList) {
+        const { data, error } = await supabase
+          .from("sgk_prospects")
+          .upsert([prospect], { onConflict: "email" })
+          .select();
+        if (!error && data && data.length > 0) {
+          savedCount++;
+        } else if (error) {
+          console.error("Error saving Google Places prospect:", error);
+        }
+      }
+      
+      return NextResponse.json({
+        success: true,
+        using_google_places: true,
+        places_scanned: places.length,
+        prospects_extracted: prospectsList.length,
+        prospects_saved_to_db: savedCount,
+        leads: prospectsList
+      });
+    }
+
+    const apiKey = process.env.GOOGLE_SEARCH_API_KEY;
+    const cx = process.env.GOOGLE_SEARCH_CX;
 
     const stripAccents = (str: string) => {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
