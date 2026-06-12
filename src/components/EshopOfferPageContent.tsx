@@ -97,12 +97,14 @@ const EshopOfferPageContent = () => {
             <div className="flex flex-nowrap md:flex-wrap items-center gap-12 md:gap-20 group animate-marquee md:animate-none w-max md:w-auto">
               <img src="/logo.png" alt="Kastanidis" className="h-6 md:h-8 w-auto object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 shrink-0" />
               <img src="/logotipo13.33eb14ea.png" alt="Vaia Charms" className="h-20 md:h-28 w-auto object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 shrink-0" />
+              <img src="/GL.png" alt="GL" className="h-10 md:h-14 w-auto object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 shrink-0" />
               <div className="font-headline-md text-headline-md text-vivid-tertiary font-bold tracking-tighter opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 shrink-0">H2<span className="text-vivid-secondary">o</span></div>
               <div className="font-headline-md text-headline-md text-vivid-tertiary font-bold tracking-tighter opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 shrink-0">Yolo<span className="text-vivid-primary-container">8</span></div>
               
               {/* Duplicate set for seamless mobile marquee loop (hidden on desktop) */}
               <img src="/logo.png" alt="Kastanidis" className="h-6 w-auto object-contain opacity-60 grayscale transition-all duration-500 shrink-0 md:hidden" />
               <img src="/logotipo13.33eb14ea.png" alt="Vaia Charms" className="h-20 w-auto object-contain opacity-60 grayscale transition-all duration-500 shrink-0 md:hidden" />
+              <img src="/GL.png" alt="GL" className="h-10 w-auto object-contain opacity-60 grayscale transition-all duration-500 shrink-0 md:hidden" />
               <div className="font-headline-md text-headline-md text-vivid-tertiary font-bold tracking-tighter opacity-60 grayscale transition-all duration-500 shrink-0 md:hidden">H2<span className="text-vivid-secondary">o</span></div>
               <div className="font-headline-md text-headline-md text-vivid-tertiary font-bold tracking-tighter opacity-60 grayscale transition-all duration-500 shrink-0 md:hidden">Yolo<span className="text-vivid-primary-container">8</span></div>
             </div>
