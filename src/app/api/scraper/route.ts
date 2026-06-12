@@ -404,42 +404,37 @@ interface GooglePlace {
 
 async function searchViaGooglePlaces(city: string, industry: string, apiKey: string): Promise<GooglePlace[]> {
   const query = `${industry} ${city}`;
-  const searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}&language=el`;
+  const url = `https://places.googleapis.com/v1/places:searchText?key=${apiKey}`;
   
   try {
-    const res = await fetch(searchUrl);
-    if (!res.ok) throw new Error(`Google Places API returned ${res.status}`);
-    const data = await res.json();
-    if (!data.results) return [];
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.types"
+      },
+      body: JSON.stringify({
+        textQuery: query,
+        languageCode: "el"
+      })
+    });
     
-    const places: GooglePlace[] = [];
-    const results = data.results.slice(0, 15);
-    
-    for (const result of results) {
-      const placeId = result.place_id;
-      const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_phone_number,website,types&key=${apiKey}&language=el`;
-      
-      try {
-        const detailsRes = await fetch(detailsUrl);
-        if (detailsRes.ok) {
-          const detailsData = await detailsRes.json();
-          if (detailsData.result) {
-            places.push({
-              name: detailsData.result.name,
-              phone: detailsData.result.formatted_phone_number || null,
-              website: detailsData.result.website || null,
-              types: detailsData.result.types || []
-            });
-          }
-        }
-      } catch (err) {
-        console.error(`Failed to get details for place ${placeId}:`, err);
-      }
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Google Places API (New) returned ${res.status}: ${errText}`);
     }
     
-    return places;
+    const data = await res.json();
+    if (!data.places) return [];
+    
+    return data.places.map((p: any) => ({
+      name: p.displayName?.text || "",
+      phone: p.nationalPhoneNumber || null,
+      website: p.websiteUri || null,
+      types: p.types || []
+    }));
   } catch (err) {
-    console.error("Google Places search failed:", err);
+    console.error("Google Places (New) search failed:", err);
     return [];
   }
 }
