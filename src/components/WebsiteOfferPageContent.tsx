@@ -6,6 +6,7 @@ import { WebsiteOfferModal } from './WebsiteOfferModal';
 const WebsiteOfferPageContent = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +23,16 @@ const WebsiteOfferPageContent = () => {
 
   return (
     <div className="bg-vivid-surface text-vivid-on-surface font-body-md antialiased overflow-x-hidden">
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes cta-pulse {
+          0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.4); }
+          70% { transform: scale(1.04); box-shadow: 0 0 0 10px rgba(255, 107, 0, 0); }
+          100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 0, 0); }
+        }
+        .animate-cta-pulse {
+          animation: cta-pulse 2s infinite ease-in-out;
+        }
+      `}} />
       {/* TopNavBar */}
       <header className="bg-vivid-surface/90 backdrop-blur-md dark:bg-vivid-surface-dim/90 docked full-width top-0 sticky shadow-sm dark:bg-vivid-surface-container z-50">
         <div className="flex justify-between items-center w-full px-gutter py-base max-w-container-max mx-auto z-50">
@@ -30,7 +41,7 @@ const WebsiteOfferPageContent = () => {
           </div>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95"
+            className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
           >
             Πάρε Προσφορά
           </button>
@@ -57,14 +68,19 @@ const WebsiteOfferPageContent = () => {
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-4">
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-4 font-label-bold text-label-bold text-lg hover:bg-vivid-primary transition-all duration-300 shadow-glow active:scale-95 flex items-center gap-2"
+                className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-4 font-label-bold text-label-bold text-lg hover:bg-vivid-primary transition-all duration-300 shadow-glow active:scale-95 flex items-center gap-2 animate-cta-pulse"
               >
                 Πάρε Προσφορά
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>arrow_forward</span>
               </button>
-              <span className="font-label-bold text-label-bold text-vivid-primary-container bg-vivid-primary-fixed px-4 py-2 rounded-full border border-vivid-primary-container/20">
-                Μόνο με 300€
-              </span>
+              <div className="flex flex-col">
+                <span className="font-label-bold text-label-bold text-vivid-primary-container bg-vivid-primary-fixed px-4 py-2 rounded-full border border-vivid-primary-container/20 w-fit">
+                  Μόνο με 300€
+                </span>
+                <span className="text-[11px] text-vivid-primary font-bold mt-1.5 animate-pulse">
+                  ⚡ Απομένουν 5 slots για αυτόν το μήνα
+                </span>
+              </div>
             </div>
             <div className="flex items-center gap-2 mt-4 text-vivid-secondary">
               <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>verified</span>
@@ -183,6 +199,90 @@ const WebsiteOfferPageContent = () => {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-section-padding-desktop px-gutter bg-vivid-surface-container-lowest">
+        <div className="max-w-4xl mx-auto flex flex-col gap-8">
+          <div className="text-center">
+            <h2 className="font-headline-md text-headline-md text-vivid-on-surface mb-2">Συχνές Ερωτήσεις (FAQ)</h2>
+            <p className="font-body-md text-body-md text-vivid-on-surface-variant">Όλα όσα θέλετε να γνωρίζετε για την υπηρεσία κατασκευής ιστοσελίδας</p>
+          </div>
+          
+          <div className="flex flex-col gap-4">
+            {/* FAQ 1 */}
+            <div className="border border-vivid-surface-variant/20 rounded-2xl bg-white overflow-hidden transition-all duration-300">
+              <button 
+                onClick={() => setOpenFaq(openFaq === 0 ? null : 0)}
+                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-lg text-vivid-on-surface hover:text-vivid-primary transition-colors focus:outline-none"
+              >
+                <span>Πόσο χρόνο χρειάζεται για να κατασκευαστεί η ιστοσελίδα;</span>
+                <span className="material-symbols-outlined transition-transform duration-300" style={{ transform: openFaq === 0 ? 'rotate(180deg)' : 'rotate(0)' }}>
+                  keyboard_arrow_down
+                </span>
+              </button>
+              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 0 ? 'max-h-40 border-t border-vivid-surface-variant/10' : 'max-h-0'}`}>
+                <p className="px-6 py-4 text-sm text-vivid-on-surface-variant leading-relaxed">
+                  Η ιστοσελίδα σας θα είναι έτοιμη σε 7-10 εργάσιμες ημέρες από τη στιγμή που θα μας στείλετε το υλικό σας (κείμενα, φωτογραφίες κ.λπ.).
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ 2 */}
+            <div className="border border-vivid-surface-variant/20 rounded-2xl bg-white overflow-hidden transition-all duration-300">
+              <button 
+                onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}
+                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-lg text-vivid-on-surface hover:text-vivid-primary transition-colors focus:outline-none"
+              >
+                <span>Τι πληρώνω μετά τον πρώτο χρόνο;</span>
+                <span className="material-symbols-outlined transition-transform duration-300" style={{ transform: openFaq === 1 ? 'rotate(180deg)' : 'rotate(0)' }}>
+                  keyboard_arrow_down
+                </span>
+              </button>
+              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 1 ? 'max-h-40 border-t border-vivid-surface-variant/10' : 'max-h-0'}`}>
+                <p className="px-6 py-4 text-sm text-vivid-on-surface-variant leading-relaxed">
+                  Δεν υπάρχουν μηνιαίες συνδρομές. Μετά τον πρώτο χρόνο, το κόστος είναι 100€/έτος για το VPS hosting και 20€/έτος για το domain name.
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ 3 */}
+            <div className="border border-vivid-surface-variant/20 rounded-2xl bg-white overflow-hidden transition-all duration-300">
+              <button 
+                onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}
+                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-lg text-vivid-on-surface hover:text-vivid-primary transition-colors focus:outline-none"
+              >
+                <span>Η ιστοσελίδα θα εμφανίζεται σωστά στα κινητά;</span>
+                <span className="material-symbols-outlined transition-transform duration-300" style={{ transform: openFaq === 2 ? 'rotate(180deg)' : 'rotate(0)' }}>
+                  keyboard_arrow_down
+                </span>
+              </button>
+              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 2 ? 'max-h-40 border-t border-vivid-surface-variant/10' : 'max-h-0'}`}>
+                <p className="px-6 py-4 text-sm text-vivid-on-surface-variant leading-relaxed">
+                  Φυσικά. Όλες οι ιστοσελίδες μας σχεδιάζονται με mobile-first λογική, προσφέροντας τέλεια εμπειρία πλοήγησης σε smartphones, tablets και υπολογιστές.
+                </p>
+              </div>
+            </div>
+
+            {/* FAQ 4 */}
+            <div className="border border-vivid-surface-variant/20 rounded-2xl bg-white overflow-hidden transition-all duration-300">
+              <button 
+                onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}
+                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-lg text-vivid-on-surface hover:text-vivid-primary transition-colors focus:outline-none"
+              >
+                <span>Τι είναι το τοπικό SEO (Local SEO) που περιλαμβάνεται;</span>
+                <span className="material-symbols-outlined transition-transform duration-300" style={{ transform: openFaq === 3 ? 'rotate(180deg)' : 'rotate(0)' }}>
+                  keyboard_arrow_down
+                </span>
+              </button>
+              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 3 ? 'max-h-40 border-t border-vivid-surface-variant/10' : 'max-h-0'}`}>
+                <p className="px-6 py-4 text-sm text-vivid-on-surface-variant leading-relaxed">
+                  Βελτιστοποιούμε το Google Business Profile (Google Maps) της επιχείρησής σας ώστε να εμφανίζεστε στις πρώτες θέσεις όταν οι πελάτες αναζητούν τις υπηρεσίες σας στην περιοχή σας.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Guarantee Block */}
       <section className="py-section-padding-mobile px-gutter">
         <div className="max-w-4xl mx-auto bg-vivid-surface-container-high rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-soft border-2 border-vivid-primary-fixed">
@@ -198,7 +298,7 @@ const WebsiteOfferPageContent = () => {
               </p>
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95"
+                className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
               >
                 Ξεκινήστε Σήμερα
               </button>
