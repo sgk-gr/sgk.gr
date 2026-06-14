@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2 } from "lucide-react";
 
 const templates = [
   {
@@ -136,6 +136,48 @@ export function EmailsTab() {
       toast.error("Σφάλμα κατά την ενημέρωση");
     } else {
       toast.success("Ενημερώθηκε επιτυχώς!");
+      fetchLeads();
+    }
+  };
+
+  const handleDeleteLead = async (id: string, email: string) => {
+    if (!window.confirm(`Είστε σίγουροι ότι θέλετε να διαγράψετε το lead με email: ${email};`)) {
+      return;
+    }
+    
+    const { error } = await supabase
+      .from("sgk_mails")
+      .delete()
+      .eq("id", id);
+      
+    if (error) {
+      toast.error("Σφάλμα κατά τη διαγραφή του lead");
+      console.error(error);
+    } else {
+      toast.success("Το lead διαγράφηκε επιτυχώς!");
+      setSelectedLeads(prev => prev.filter(item => item !== id));
+      fetchLeads();
+    }
+  };
+
+  const handleDeleteSelectedLeads = async () => {
+    if (selectedLeads.length === 0) return;
+    
+    if (!window.confirm(`Είστε σίγουροι ότι θέλετε να διαγράψετε τα ${selectedLeads.length} επιλεγμένα leads;`)) {
+      return;
+    }
+    
+    const { error } = await supabase
+      .from("sgk_mails")
+      .delete()
+      .in("id", selectedLeads);
+      
+    if (error) {
+      toast.error("Σφάλμα κατά τη διαγραφή των επιλεγμένων leads");
+      console.error(error);
+    } else {
+      toast.success("Τα επιλεγμένα leads διαγράφηκαν επιτυχώς!");
+      setSelectedLeads([]);
       fetchLeads();
     }
   };
@@ -336,20 +378,29 @@ export function EmailsTab() {
         </h2>
         <div className="flex items-center gap-3">
           {selectedLeads.length > 0 && (
-            <button
-              onClick={() => {
-                setSingleLeadTarget(null);
-                setCampaignSubject("");
-                setCampaignBody("");
-                setButtonText("");
-                setButtonLink("");
-                setIsCampaignModalOpen(true);
-              }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-vivid-primary text-white rounded-lg hover:bg-vivid-primary/90 transition-all text-sm font-semibold shadow-glow animate-fade-in cursor-pointer"
-            >
-              <Users size={16} />
-              Μαζική Αποστολή ({selectedLeads.length})
-            </button>
+            <>
+              <button
+                onClick={() => {
+                  setSingleLeadTarget(null);
+                  setCampaignSubject("");
+                  setCampaignBody("");
+                  setButtonText("");
+                  setButtonLink("");
+                  setIsCampaignModalOpen(true);
+                }}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-vivid-primary text-white rounded-lg hover:bg-vivid-primary/90 transition-all text-sm font-semibold shadow-glow animate-fade-in cursor-pointer"
+              >
+                <Users size={16} />
+                Μαζική Αποστολή ({selectedLeads.length})
+              </button>
+              <button
+                onClick={handleDeleteSelectedLeads}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all text-sm font-semibold cursor-pointer shadow-sm hover:shadow-md animate-fade-in"
+              >
+                <Trash2 size={16} />
+                Διαγραφή ({selectedLeads.length})
+              </button>
+            </>
           )}
           <button
             onClick={() => {
@@ -476,33 +527,42 @@ export function EmailsTab() {
                       </button>
                     </td>
                     <td className="p-4 text-center">
-                      {canSendNext ? (
+                      <div className="flex items-center justify-center gap-2">
+                        {canSendNext ? (
+                          <button
+                            onClick={() => handleSendNextEmail(lead)}
+                            disabled={sending === lead.id}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-vivid-primary/10 text-vivid-primary hover:bg-vivid-primary hover:text-white rounded-lg transition-all text-sm font-medium disabled:opacity-50 cursor-pointer"
+                          >
+                            {sending === lead.id ? <RefreshCcw size={14} className="animate-spin" /> : <Send size={14} />}
+                            Στείλε #{step + 1}
+                          </button>
+                        ) : !lead.unsubscribed ? (
+                          <button
+                            onClick={() => {
+                              setSingleLeadTarget(lead);
+                              setCampaignSubject("");
+                              setCampaignBody("");
+                              setButtonText("");
+                              setButtonLink("");
+                              setIsCampaignModalOpen(true);
+                            }}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white rounded-lg transition-all text-sm font-medium border border-emerald-100 cursor-pointer"
+                          >
+                            <Mail size={14} />
+                            Γράψε Email
+                          </button>
+                        ) : (
+                          <span className="text-xs text-gray-400">Δεν απαιτείται</span>
+                        )}
                         <button
-                          onClick={() => handleSendNextEmail(lead)}
-                          disabled={sending === lead.id}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-vivid-primary/10 text-vivid-primary hover:bg-vivid-primary hover:text-white rounded-lg transition-all text-sm font-medium disabled:opacity-50 cursor-pointer"
+                          onClick={() => handleDeleteLead(lead.id, lead.email)}
+                          className="inline-flex items-center justify-center p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
+                          title="Διαγραφή Lead"
                         >
-                          {sending === lead.id ? <RefreshCcw size={14} className="animate-spin" /> : <Send size={14} />}
-                          Στείλε #{step + 1}
+                          <Trash2 size={16} />
                         </button>
-                      ) : !lead.unsubscribed ? (
-                        <button
-                          onClick={() => {
-                            setSingleLeadTarget(lead);
-                            setCampaignSubject("");
-                            setCampaignBody("");
-                            setButtonText("");
-                            setButtonLink("");
-                            setIsCampaignModalOpen(true);
-                          }}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white rounded-lg transition-all text-sm font-medium border border-emerald-100 cursor-pointer"
-                        >
-                          <Mail size={14} />
-                          Γράψε Email
-                        </button>
-                      ) : (
-                        <span className="text-xs text-gray-400">Δεν απαιτείται</span>
-                      )}
+                      </div>
                     </td>
                   </tr>
                 );
