@@ -67,7 +67,7 @@ const EshopOfferPageContent = () => {
               <span>6999 524 389</span>
             </a>
             <button 
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleCtaClick}
               className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
             >
               Πάρε Προσφορά

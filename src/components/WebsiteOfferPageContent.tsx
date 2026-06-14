@@ -64,7 +64,7 @@ const WebsiteOfferPageContent = () => {
               <span>6999 524 389</span>
             </a>
             <button 
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleCtaClick}
               className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
             >
               Πάρε Προσφορά
@@ -320,7 +320,7 @@ const WebsiteOfferPageContent = () => {
                 Είμαστε τόσο σίγουροι για την τεχνολογία μας. Δεσμευόμαστε να πετύχουμε κορυφαία σκορ ταχύτητας στο Google PageSpeed Insights για το δικό σας έργο.
               </p>
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleCtaClick}
                 className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
               >
                 Ξεκινήστε Σήμερα
@@ -351,6 +351,35 @@ const WebsiteOfferPageContent = () => {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Sticky CTA Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-vivid-outline-variant/30 p-3 shadow-lg flex items-center justify-between gap-3 md:hidden">
+        <a 
+          href="tel:6999524389" 
+          className="flex-1 bg-vivid-surface border border-vivid-outline-variant/30 text-vivid-on-surface rounded-full py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-vivid-surface-container active:scale-95 transition-all"
+        >
+          <span className="material-symbols-outlined text-vivid-primary" style={{ fontVariationSettings: '"FILL" 1' }}>call</span>
+          Κάλεσέ μας
+        </a>
+        <button 
+          onClick={handleCtaClick}
+          className="flex-1 bg-vivid-primary-container text-vivid-on-primary rounded-full py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-vivid-primary active:scale-95 transition-all shadow-glow animate-cta-pulse"
+        >
+          <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>mail</span>
+          Θέλω Προσφορά
+        </button>
+      </div>
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-20 md:bottom-8 right-6 z-50 p-3 rounded-full bg-vivid-primary text-vivid-on-primary shadow-lg transition-all duration-300 flex items-center justify-center hover:bg-vivid-primary/90 active:scale-95 ${
+          showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+        }`}
+        aria-label="Scroll to top"
+      >
+        <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>arrow_upward</span>
+      </button>
 
       {/* Lead Capture Modal */}
       <WebsiteOfferModal 

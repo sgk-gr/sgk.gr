@@ -85,17 +85,37 @@ serve(async (req) => {
                 console.error("Database Insert Error:", dbError);
             }
         } else {
-            // If lead already exists but doesn't have a coupon code (e.g. from an old signup or manual import)
+            // Lead already exists, update all fields with the new submission details
             if (type === "eshop_offer" && !couponCode) {
                 couponCode = Math.floor(1000 + Math.random() * 9000).toString();
-                const { error: updateError } = await supabase
-                    .from("sgk_mails")
-                    .update({ coupon_code: couponCode })
-                    .eq("email", email);
+            }
+            
+            const updatePayload: any = {
+                type,
+                first_name: finalFirstName,
+                last_name: finalLastName,
+                marketing_consent: marketingConsent,
+                email_sequence_step: 1, // Reset nurture sequence
+                unsubscribed: false, // Re-subscribe them since they filled out the form again
+                coupon_code: couponCode,
+                created_at: new Date().toISOString(), // Update timestamp to show latest submission
+                last_email_sent_at: new Date().toISOString()
+            };
 
-                if (updateError) {
-                    console.error("Database Update Coupon Error:", updateError);
-                }
+            if (phone) updatePayload.phone = phone;
+            if (company) updatePayload.company = company;
+            if (howDidYouHear) updatePayload.how_did_you_hear = howDidYouHear;
+            if (finalProjectInfo) updatePayload.project_info = finalProjectInfo;
+            if (needsNDA) updatePayload.needs_nda = needsNDA;
+            if (offerPrice) updatePayload.offer_price = offerPrice;
+
+            const { error: dbError } = await supabase
+                .from("sgk_mails")
+                .update(updatePayload)
+                .eq("email", email);
+
+            if (dbError) {
+                console.error("Database Update Error:", dbError);
             }
         }
 
