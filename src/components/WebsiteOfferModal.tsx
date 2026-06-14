@@ -70,11 +70,11 @@ export const WebsiteOfferModal: React.FC<WebsiteOfferModalProps> = ({ isOpen, on
       if (typeof window !== 'undefined' && (window as any).gtag) {
         console.log("🔔 [Analytics] Triggering Google Ads Conversion (Website Offer Modal)...");
         (window as any).gtag('event', 'conversion', {
-          'send_to': 'AW-18065062632/nJVvCNXa-5UcEOj1i6ZD',
+          'send_to': 'AW-18166808794/sHuvCLrHgq4cENqBztZD',
           'value': 1.0,
           'currency': 'EUR'
         });
-        console.log("✅ [Analytics] Conversion sent to AW-18065062632");
+        console.log("✅ [Analytics] Conversion sent to AW-18166808794");
       }
 
       setIsSuccess(true);
