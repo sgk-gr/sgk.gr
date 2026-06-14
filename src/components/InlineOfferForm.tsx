@@ -11,6 +11,7 @@ interface InlineOfferFormProps {
   offerPrice: string;
   redirectUrl: string;
   slotsRemaining: number;
+  coverImage?: string;
 }
 
 export const InlineOfferForm: React.FC<InlineOfferFormProps> = ({
@@ -18,6 +19,7 @@ export const InlineOfferForm: React.FC<InlineOfferFormProps> = ({
   offerPrice,
   redirectUrl,
   slotsRemaining,
+  coverImage,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -126,6 +128,16 @@ export const InlineOfferForm: React.FC<InlineOfferFormProps> = ({
 
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-glow border border-vivid-outline-variant/30 overflow-hidden relative z-10 self-center">
+      {coverImage && (
+        <div className="relative h-48 w-full overflow-hidden border-b border-vivid-outline-variant/10">
+          <img 
+            src={coverImage} 
+            alt="Offer Cover Mockup" 
+            className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent pointer-events-none" />
+        </div>
+      )}
       {/* Header */}
       <div className="bg-gradient-to-br from-[#fdfaf8] to-[#fbebe3] p-6 text-center border-b border-[#fcebe2] flex flex-col items-center">
         <h3 className="text-xl font-bold text-vivid-on-surface">

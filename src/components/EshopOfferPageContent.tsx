@@ -117,17 +117,14 @@ const EshopOfferPageContent = () => {
             </div>
           </div>
           
-          <div id="offer-form" className="relative z-10 flex flex-col gap-6">
+          <div id="offer-form" className="relative z-10 flex flex-col">
             <InlineOfferForm 
               type="eshop_offer" 
               offerPrice="1500" 
               redirectUrl="/eshop-offer/thank-you" 
               slotsRemaining={3} 
+              coverImage="https://lh3.googleusercontent.com/aida-public/AB6AXuCqyfplGuIgO2qai0CnHiEUA-gGpr3t26Ws07L_PuQHbUhAighB1yvOqXTP_zyr1285V9M1P9KIRP3GZ3KVBcX_fq2MPqytk-R4-lst58ojz5nJcL7J81XKhF2zrRNDBpKnnYnmG4jbs3xg6u0qXKRh6poPEUmeU47_W2IwmjOorR2jbDHLdnKwYebxEuc6pEI2gX4Fm35pj6vfEHlzc4KoVf9i7A5eUKBpSNTGMTXTIA3GKqo02NySZJFR8cxz5x6Mf4QGiyptYvQB"
             />
-            <div className="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white hidden md:block">
-              <img alt="Modern Retail E-shop Homepage Design" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqyfplGuIgO2qai0CnHiEUA-gGpr3t26Ws07L_PuQHbUhAighB1yvOqXTP_zyr1285V9M1P9KIRP3GZ3KVBcX_fq2MPqytk-R4-lst58ojz5nJcL7J81XKhF2zrRNDBpKnnYnmG4jbs3xg6u0qXKRh6poPEUmeU47_W2IwmjOorR2jbDHLdnKwYebxEuc6pEI2gX4Fm35pj6vfEHlzc4KoVf9i7A5eUKBpSNTGMTXTIA3GKqo02NySZJFR8cxz5x6Mf4QGiyptYvQB" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
-            </div>
             <div className="absolute -right-8 -bottom-8 w-72 h-72 bg-vivid-primary-fixed opacity-30 rounded-full blur-3xl -z-10"></div>
           </div>
         </div>

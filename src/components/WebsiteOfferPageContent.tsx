@@ -113,17 +113,14 @@ const WebsiteOfferPageContent = () => {
             </div>
           </div>
           
-          <div id="offer-form" className="relative z-10 flex flex-col gap-6">
+          <div id="offer-form" className="relative z-10 flex flex-col">
             <InlineOfferForm 
               type="website_offer" 
               offerPrice="300" 
               redirectUrl="/website-offer/thank-you" 
               slotsRemaining={5} 
+              coverImage="/yolo.png"
             />
-            <div className="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white hidden md:block">
-              <img alt="Modern Website Homepage Design" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" src="/yolo.png" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
-            </div>
             <div className="absolute -right-8 -bottom-8 w-72 h-72 bg-vivid-primary-fixed opacity-30 rounded-full blur-3xl -z-10"></div>
           </div>
         </div>
