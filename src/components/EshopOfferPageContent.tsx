@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { EshopOfferModal } from './EshopOfferModal';
+import { InlineOfferForm } from './InlineOfferForm';
 
 const EshopOfferPageContent = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -25,8 +26,22 @@ const EshopOfferPageContent = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleCtaClick = () => {
+    if (window.innerWidth < 768) {
+      const element = document.getElementById('offer-form');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      const input = document.getElementById('inline-name');
+      if (input) {
+        input.focus();
+      }
+    }
+  };
+
   return (
-    <div className="bg-vivid-surface text-vivid-on-surface font-body-md antialiased overflow-x-hidden">
+    <div className="bg-vivid-surface text-vivid-on-surface font-body-md antialiased overflow-x-hidden pb-16 md:pb-0">
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes cta-pulse {
           0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.4); }
@@ -46,12 +61,18 @@ const EshopOfferPageContent = () => {
           <nav className="hidden md:flex gap-6 items-center">
             {/* No links defined in JSON, placeholder if needed */}
           </nav>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
-          >
-            Πάρε Προσφορά
-          </button>
+          <div className="flex items-center gap-4">
+            <a href="tel:6999524389" className="hidden sm:flex items-center gap-1.5 font-label-bold text-label-bold text-vivid-on-surface hover:text-vivid-primary transition-all">
+              <span className="material-symbols-outlined text-vivid-primary" style={{ fontVariationSettings: '"FILL" 1' }}>call</span>
+              <span>6999 524 389</span>
+            </a>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
+            >
+              Πάρε Προσφορά
+            </button>
+          </div>
         </div>
       </header>
 
@@ -75,7 +96,7 @@ const EshopOfferPageContent = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-4">
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleCtaClick}
                 className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-4 font-label-bold text-label-bold text-lg hover:bg-vivid-primary transition-all duration-300 shadow-glow active:scale-95 flex items-center gap-2 animate-cta-pulse"
               >
                 Πάρε Προσφορά
@@ -95,8 +116,15 @@ const EshopOfferPageContent = () => {
               <span className="font-caption text-caption">Κορυφαία Ποιότητα, Ταχύτητα & Βελτιστοποίηση SEO</span>
             </div>
           </div>
-          <div className="relative z-10 hidden md:flex flex-col gap-4">
-            <div className="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white">
+          
+          <div id="offer-form" className="relative z-10 flex flex-col gap-6">
+            <InlineOfferForm 
+              type="eshop_offer" 
+              offerPrice="1500" 
+              redirectUrl="/eshop-offer/thank-you" 
+              slotsRemaining={3} 
+            />
+            <div className="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white hidden md:block">
               <img alt="Modern Retail E-shop Homepage Design" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqyfplGuIgO2qai0CnHiEUA-gGpr3t26Ws07L_PuQHbUhAighB1yvOqXTP_zyr1285V9M1P9KIRP3GZ3KVBcX_fq2MPqytk-R4-lst58ojz5nJcL7J81XKhF2zrRNDBpKnnYnmG4jbs3xg6u0qXKRh6poPEUmeU47_W2IwmjOorR2jbDHLdnKwYebxEuc6pEI2gX4Fm35pj6vfEHlzc4KoVf9i7A5eUKBpSNTGMTXTIA3GKqo02NySZJFR8cxz5x6Mf4QGiyptYvQB" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
             </div>
@@ -321,7 +349,7 @@ const EshopOfferPageContent = () => {
                 Είμαστε τόσο σίγουροι για την τεχνολογία μας. Δεσμευόμαστε να πετύχουμε κορυφαία σκορ ταχύτητας στο Google PageSpeed Insights για το δικό σας έργο.
               </p>
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleCtaClick}
                 className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
               >
                 Ξεκινήστε Σήμερα
@@ -352,10 +380,29 @@ const EshopOfferPageContent = () => {
           </div>
         </div>
       </footer>
+      
+      {/* Mobile Sticky CTA Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-vivid-outline-variant/30 p-3 shadow-lg flex items-center justify-between gap-3 md:hidden">
+        <a 
+          href="tel:6999524389" 
+          className="flex-1 bg-vivid-surface border border-vivid-outline-variant/30 text-vivid-on-surface rounded-full py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-vivid-surface-container active:scale-95 transition-all"
+        >
+          <span className="material-symbols-outlined text-vivid-primary" style={{ fontVariationSettings: '"FILL" 1' }}>call</span>
+          Κάλεσέ μας
+        </a>
+        <button 
+          onClick={handleCtaClick}
+          className="flex-1 bg-vivid-primary-container text-vivid-on-primary rounded-full py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-vivid-primary active:scale-95 transition-all shadow-glow animate-cta-pulse"
+        >
+          <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>mail</span>
+          Θέλω Προσφορά
+        </button>
+      </div>
+
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-vivid-primary text-vivid-on-primary shadow-lg transition-all duration-300 flex items-center justify-center hover:bg-vivid-primary/90 active:scale-95 ${
+        className={`fixed bottom-20 md:bottom-8 right-6 z-50 p-3 rounded-full bg-vivid-primary text-vivid-on-primary shadow-lg transition-all duration-300 flex items-center justify-center hover:bg-vivid-primary/90 active:scale-95 ${
           showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
         }`}
         aria-label="Scroll to top"

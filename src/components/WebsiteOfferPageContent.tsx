@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { WebsiteOfferModal } from './WebsiteOfferModal';
+import { InlineOfferForm } from './InlineOfferForm';
 
 const WebsiteOfferPageContent = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -21,8 +22,26 @@ const WebsiteOfferPageContent = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCtaClick = () => {
+    if (window.innerWidth < 768) {
+      const element = document.getElementById('offer-form');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      const input = document.getElementById('inline-name');
+      if (input) {
+        input.focus();
+      }
+    }
+  };
+
   return (
-    <div className="bg-vivid-surface text-vivid-on-surface font-body-md antialiased overflow-x-hidden">
+    <div className="bg-vivid-surface text-vivid-on-surface font-body-md antialiased overflow-x-hidden pb-16 md:pb-0">
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes cta-pulse {
           0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.4); }
@@ -39,12 +58,18 @@ const WebsiteOfferPageContent = () => {
           <div className="flex items-center">
             <img src="/sgk-logo.png" alt="SGK Logo" className="h-14 md:h-20 w-auto object-contain brightness-0" />
           </div>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
-          >
-            Πάρε Προσφορά
-          </button>
+          <div className="flex items-center gap-4">
+            <a href="tel:6999524389" className="hidden sm:flex items-center gap-1.5 font-label-bold text-label-bold text-vivid-on-surface hover:text-vivid-primary transition-all">
+              <span className="material-symbols-outlined text-vivid-primary" style={{ fontVariationSettings: '"FILL" 1' }}>call</span>
+              <span>6999 524 389</span>
+            </a>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-6 py-3 font-label-bold text-label-bold hover:bg-vivid-primary transition-colors duration-200 shadow-glow active:scale-95 animate-cta-pulse"
+            >
+              Πάρε Προσφορά
+            </button>
+          </div>
         </div>
       </header>
 
@@ -67,7 +92,7 @@ const WebsiteOfferPageContent = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mt-4">
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleCtaClick}
                 className="bg-vivid-primary-container text-vivid-on-primary rounded-full px-8 py-4 font-label-bold text-label-bold text-lg hover:bg-vivid-primary transition-all duration-300 shadow-glow active:scale-95 flex items-center gap-2 animate-cta-pulse"
               >
                 Πάρε Προσφορά
@@ -87,8 +112,15 @@ const WebsiteOfferPageContent = () => {
               <span className="font-caption text-caption">Επαγγελματική Παρουσία, SEO & Αστραπιαία Ταχύτητα</span>
             </div>
           </div>
-          <div className="relative z-10 hidden md:flex flex-col gap-4">
-            <div className="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white">
+          
+          <div id="offer-form" className="relative z-10 flex flex-col gap-6">
+            <InlineOfferForm 
+              type="website_offer" 
+              offerPrice="300" 
+              redirectUrl="/website-offer/thank-you" 
+              slotsRemaining={5} 
+            />
+            <div className="relative overflow-hidden rounded-2xl shadow-glow border-4 border-white hidden md:block">
               <img alt="Modern Website Homepage Design" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" src="/yolo.png" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
             </div>
@@ -118,7 +150,7 @@ const WebsiteOfferPageContent = () => {
         <div className="max-w-container-max mx-auto flex flex-col gap-stack-lg">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="font-headline-md text-headline-md text-vivid-on-surface mb-4">Όλα όσα περιλαμβάνει το πακέτο σας</h2>
-            <p className="font-body-md text-body-md text-vivid-on-surface-variant">Ολοκληρωμένη πρόταση ψηφιακής παρουσίας, χωρίς κρυφά κόστη.</p>
+            <p className="font-body-md text-body-md text-vivid-on-surface-variant">Πλήρης λύση χωρίς κρυφά κόστη, σχεδιασμένη για να πουλάτε από την πρώτη μέρα.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Hosting */}
@@ -128,7 +160,7 @@ const WebsiteOfferPageContent = () => {
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>dns</span>
               </div>
               <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface relative z-10">Φιλοξενία (Hosting)</h3>
-              <p className="font-body-md text-body-md text-vivid-on-surface-variant relative z-10 max-w-md"><b>Δωρεάν για τον 1ο χρόνο.</b> Γρήγορος VPS Server για άμεση απόκριση. (100€/έτος μετά τον πρώτο χρόνο)</p>
+              <p className="font-body-md text-body-md text-vivid-on-surface-variant relative z-10 max-w-md"><b>Δωρεάν για τον 1ο χρόνο.</b> VPS Server για αστραπιαίες ταχύτητες. (180€/έτος μετά τον πρώτο χρόνο)</p>
             </div>
 
             {/* Domain Name */}
@@ -137,16 +169,16 @@ const WebsiteOfferPageContent = () => {
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>language</span>
               </div>
               <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface">Domain Name</h3>
-              <p className="font-body-md text-body-md text-vivid-on-surface-variant"><b>Δωρεάν για 2 χρόνια.</b> (.gr ή .com) (20€/έτος μετά τα δύο χρόνια)</p>
+              <p className="font-body-md text-body-md text-vivid-on-surface-variant"><b>Δωρεάν για 2 χρόνια.</b> (20€/έτος μετά τα δύο χρόνια)</p>
             </div>
 
-            {/* Security & GDPR */}
+            {/* Security & Payments */}
             <div className="bg-vivid-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-vivid-surface-container hover:shadow-glow transition-shadow duration-300">
               <div className="w-12 h-12 rounded-full bg-vivid-secondary-fixed flex items-center justify-center text-vivid-secondary-container">
-                  <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>shield</span>
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>payments</span>
               </div>
-              <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface">Ασφάλεια & GDPR</h3>
-              <p className="font-body-md text-body-md text-vivid-on-surface-variant"><b>Δωρεάν SSL πιστοποιητικό ασφαλείας.</b> Πλήρης συμμόρφωση με τις οδηγίες GDPR.</p>
+              <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface">Ασφάλεια & Πληρωμές</h3>
+              <p className="font-body-md text-body-md text-vivid-on-surface-variant"><b>Δωρεάν SSL για ασφαλείς συναλλαγές.</b> Σύνδεση με τράπεζες και IRIS.</p>
             </div>
 
             {/* Speed & SEO */}
@@ -155,12 +187,6 @@ const WebsiteOfferPageContent = () => {
               <div className="w-12 h-12 rounded-full bg-vivid-primary-fixed flex items-center justify-center text-vivid-primary-container relative z-10">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>rocket_launch</span>
               </div>
-              <h3 className="font-headline-sm text-headline-sm text-vivid-on-surface relative z-10">Αστραπιαία Ταχύτητα & SEO</h3>
-              <p className="font-body-md text-body-md text-vivid-on-surface-variant relative z-10 max-w-md">Σχεδιασμένο με Next.js / React για κορυφαίες επιδόσεις Google PageSpeed (95+) και βελτιστοποιημένη εμφάνιση στα αποτελέσματα αναζήτησης (SEO).</p>
-            </div>
-
-            {/* Responsive Design */}
-            <div className="bg-vivid-surface-container-lowest rounded-2xl p-8 shadow-soft flex flex-col gap-4 border border-vivid-surface-container hover:shadow-glow transition-shadow duration-300">
               <div className="w-12 h-12 rounded-full bg-vivid-primary-fixed flex items-center justify-center text-vivid-primary-container">
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>devices</span>
               </div>
