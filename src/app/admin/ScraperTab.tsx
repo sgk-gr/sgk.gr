@@ -3,7 +3,8 @@ import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { 
   Mail, Trash2, RefreshCcw, Loader2,
-  CheckCircle2, AlertTriangle, ArrowRight, UserCheck, Check, Send, X
+  CheckCircle2, AlertTriangle, ArrowRight, UserCheck, Check, Send, X,
+  Search, Sparkles
 } from "lucide-react";
 
 interface Prospect {
@@ -628,6 +629,12 @@ export function ScraperTab() {
   const [selectedIndustry, setSelectedIndustry] = useState<string>("generic");
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const [searchStatus, setSearchStatus] = useState("");
+  
+  // Search Form State
+  const [city, setCity] = useState("Ιωάννινα");
+  const [industry, setIndustry] = useState("οδοντιατρείο");
   
   // Filter Tab State
   const [filterTab, setFilterTab] = useState<"pending" | "emailed" | "all">("pending");
@@ -662,6 +669,55 @@ export function ScraperTab() {
   useEffect(() => {
     fetchProspects();
   }, []);
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!city || !industry) {
+      toast.error("Συμπληρώστε πόλη και κλάδο");
+      return;
+    }
+
+    setSearching(true);
+    setSearchStatus("Το ρομπότ συνδέεται με τη Google...");
+    
+    // Εικονικά μηνύματα φόρτωσης για καλύτερη εμπειρία
+    const statusMessages = [
+      "Σύνδεση με Google Places API...",
+      "Σάρωση επιχειρήσεων στην περιοχή...",
+      "Εντοπισμός email επικοινωνίας...",
+      "Αποθήκευση νέων leads στη βάση δεδομένων..."
+    ];
+
+    let msgIndex = 0;
+    const interval = setInterval(() => {
+      if (msgIndex < statusMessages.length) {
+        setSearchStatus(statusMessages[msgIndex]);
+        msgIndex++;
+      }
+    }, 1500);
+
+    try {
+      const res = await fetch("/api/scraper", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ city, industry })
+      });
+
+      clearInterval(interval);
+      if (!res.ok) throw new Error("Scraper failed");
+      const data = await res.json();
+      
+      toast.success(`Η αναζήτηση ολοκληρώθηκε! Βρέθηκαν ${data.prospects_extracted} leads, αποθηκεύτηκαν ${data.prospects_saved_to_db} νέα.`);
+      fetchProspects();
+    } catch (err) {
+      clearInterval(interval);
+      toast.error("Αποτυχία σκαναρίσματος. Δοκιμάστε ξανά.");
+      console.error(err);
+    } finally {
+      setSearching(false);
+      setSearchStatus("");
+    }
+  };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε αυτόν τον prospect;")) return;
@@ -831,6 +887,63 @@ export function ScraperTab() {
 
   return (
     <div className="space-y-6">
+      {/* Search Bar / Manual Scraper */}
+      <div className="p-6 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-orange-500 animate-pulse" />
+            <h2 className="text-lg font-bold text-white">Ρομπότ Αναζήτησης Επιχειρήσεων (B2B Scraper)</h2>
+          </div>
+          <span className="text-xs text-zinc-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/5">
+            Σύνδεση μέσω Google Places API
+          </span>
+        </div>
+        
+        <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-400">Κλάδος Επιχείρησης</label>
+            <input 
+              type="text" 
+              value={industry}
+              onChange={(e) => setIndustry(e.target.value)}
+              placeholder="π.χ. οδοντίατροι, ξενοδοχεία, κομμωτήρια"
+              className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-sm focus:outline-none focus:border-orange-500 transition-colors"
+              disabled={searching}
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-400">Πόλη / Περιοχή</label>
+            <input 
+              type="text" 
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="π.χ. Ιωάννινα, Καστοριά, Κοζάνη"
+              className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-sm focus:outline-none focus:border-orange-500 transition-colors"
+              disabled={searching}
+            />
+          </div>
+          <div className="flex items-end">
+            <button 
+              type="submit"
+              disabled={searching}
+              className="w-full h-10 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-800 text-black font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors text-sm cursor-pointer"
+            >
+              {searching ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-black" />
+                  <span>{searchStatus}</span>
+                </>
+              ) : (
+                <>
+                  <Search className="w-4 h-4 text-black" />
+                  <span>Έναρξη Αναζήτησης</span>
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+
       {/* Filter Tabs & List */}
       <div className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden">
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 bg-white/5">
