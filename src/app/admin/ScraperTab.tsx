@@ -1592,48 +1592,33 @@ export function ScraperTab() {
 
                 {/* Right Column: Live Email Preview */}
                 <div className="flex flex-col space-y-2 h-full min-h-0">
-                  <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Προεπισκόπηση Email (Live Preview)</label>
-                  <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-1 overflow-y-auto shadow-inner min-h-0">
-                    <div className="text-xs text-gray-400 mb-3 pb-3 border-b border-orange-100 flex flex-col gap-1">
-                      <div><strong>Από:</strong> SGK Digital &lt;noreply@sgk.gr&gt;</div>
-                      <div><strong>Θέμα:</strong> <span className="text-gray-700 font-medium">{emailSubject || "(Χωρίς Θέμα)"}</span></div>
-                    </div>
-                    
-                    <div style={{ fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif", maxWidth: "100%", margin: "0 auto", padding: "10px 0" }}>
-                      <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #f2e3db", boxShadow: "0 2px 10px rgba(0,0,0,0.01)" }}>
-                        <div 
-                          className="prose prose-sm prose-orange max-w-none text-gray-800 leading-relaxed font-sans"
-                          style={{ fontSize: "14px" }}
-                          dangerouslySetInnerHTML={{ 
-                            __html: (() => {
-                              if (!emailBody) return "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>";
-                              let html = emailBody;
-                              if (buttonText && buttonLink) {
-                                html += `
-                                  <div style="text-align: center; margin: 25px 0;">
-                                    <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-                                      ${buttonText}
-                                    </a>
-                                  </div>
-                                `;
-                              }
-                              return html;
-                            })()
-                          }} 
-                        />
-                      </div>
-                      
-                      {/* SGK Footer */}
-                      <div style={{ textAlign: "center", marginTop: "25px", paddingTop: "15px", borderTop: "1px solid #ebdcd5" }}>
-                        <p style={{ color: "#888888", fontSize: "11px", lineHeight: "1.5", margin: 0 }}>
-                          Αυτό το email στάλθηκε επειδή ζητήσατε προσφορά για Eshop από το <strong>sgk.gr</strong>.<br />
-                          <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style={{ color: "#FF6B00", textDecoration: "none", fontWeight: "bold" }}>sgk.gr</a><br /><br />
-                          <span style={{ color: "#999", textDecoration: "underline", fontSize: "10px", cursor: "pointer" }}>Κατάργηση εγγραφής (Unsubscribe)</span>
-                        </p>
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Προεπισκόπηση Email (Ακριβώς όπως θα φανεί στο Gmail)</label>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">● Live</span>
+                  </div>
+                  {/* Iframe preview — renders the FULL professional HTML */}
+                  <div className="flex-1 rounded-xl overflow-hidden border border-gray-200 shadow-inner min-h-0 bg-[#f0f2f5]">
+                    <iframe
+                      key={emailBody + emailSubject + buttonText + buttonLink}
+                      srcDoc={(() => {
+                        if (!emailBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
+                        return buildProfessionalEmailHtml({
+                          businessName: selectedProspect?.business_name || "Επιχείρηση",
+                          subject: emailSubject,
+                          bodyHtml: emailBody,
+                          buttonText: buttonText || undefined,
+                          buttonLink: buttonLink || undefined,
+                          unsubscribeToken: "preview-token",
+                          industry: selectedProspect?.industry,
+                        });
+                      })()}
+                      className="w-full h-full border-0"
+                      title="Email Preview"
+                      sandbox="allow-same-origin"
+                    />
                   </div>
                 </div>
+
               </div>
             </div>
 
