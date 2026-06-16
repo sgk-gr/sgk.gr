@@ -133,6 +133,146 @@ const detectIndustry = (industryText: string): string => {
   return "generic";
 };
 
+// ─── Professional HTML Email Wrapper (Namecheap-style) ───────────────────────
+function buildProfessionalEmailHtml(opts: {
+  businessName: string;
+  subject: string;
+  bodyHtml: string;
+  buttonText?: string;
+  buttonLink?: string;
+  unsubscribeToken: string;
+  industry?: string;
+}): string {
+  const { businessName, bodyHtml, buttonText, buttonLink, unsubscribeToken, industry } = opts;
+  const unsubLink = `https://sgk.gr/unsubscribe?token=${unsubscribeToken}`;
+  
+  // Pick hero badge & emoji based on industry
+  const industryBadges: Record<string, string> = {
+    οδοντιατρείο: "🦷 Ειδική Πρόταση για Οδοντιατρεία",
+    εστίαση: "🍽️ Ειδική Πρόταση για Εστίαση",
+    καφετέρια: "☕ Ειδική Πρόταση για Καφετέριες",
+    ξενοδοχείο: "🏨 Ειδική Πρόταση για Καταλύματα",
+    κομμωτήριο: "💇 Ειδική Πρόταση για Κομμωτήρια",
+    φαρμακείο: "💊 Ειδική Πρόταση για Φαρμακεία",
+    φυσιοθεραπεία: "🏃 Ειδική Πρόταση για Φυσιοθεραπεία",
+    λογιστής: "📊 Ειδική Πρόταση για Λογιστικά Γραφεία",
+    δικηγόρος: "⚖️ Ειδική Πρόταση για Δικηγόρους",
+  };
+  const badge = industry ? (industryBadges[industry] || "✨ Ειδική Πρόταση για Επιχειρήσεις") : "✨ Ειδική Πρόταση για Επιχειρήσεις";
+
+  const ctaButton = buttonText && buttonLink ? `
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:20px 0 8px;">
+    <tr>
+      <td align="center">
+        <a href="${buttonLink}" target="_blank" style="display:inline-block;background:#FF6B00;color:#ffffff;font-family:Arial,sans-serif;font-size:15px;font-weight:700;padding:14px 32px;border-radius:8px;text-decoration:none;mso-padding-alt:0;">
+          ${buttonText}
+        </a>
+      </td>
+    </tr>
+  </table>` : "";
+
+  return `<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SGK Digital</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;font-family:Arial,Helvetica,sans-serif;">
+
+<!-- Wrapper -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f0f2f5">
+  <tr>
+    <td align="center" style="padding:24px 16px;">
+
+      <!-- Email Card -->
+      <table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="max-width:600px;border-radius:2px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12);">
+
+        <!-- LOGO BAR -->
+        <tr>
+          <td bgcolor="#ffffff" style="padding:16px 28px;border-bottom:1px solid #f0f0f0;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <span style="font-family:Arial,sans-serif;font-size:20px;font-weight:900;color:#1a1a2e;">SGK <span style="color:#FF6B00;">Digital</span></span>
+                </td>
+                <td align="right">
+                  <a href="https://sgk.gr/web-development" style="color:#555;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">Υπηρεσίες</a>
+                  <a href="https://sgk.gr" style="color:#555;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">Portfolio</a>
+                  <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;font-size:12px;font-weight:700;margin-left:14px;">📞 6999 524389</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- HERO -->
+        <tr>
+          <td bgcolor="#1a1a2e" style="padding:40px 40px 55px;text-align:center;background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);">
+            <div style="display:inline-block;background:rgba(255,107,0,0.18);border:1px solid rgba(255,107,0,0.4);color:#FF8C3A;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:18px;">${badge}</div>
+            <br>
+            <span style="font-family:Arial,sans-serif;font-size:26px;font-weight:900;color:#ffffff;line-height:1.3;">Γεια σας από την <span style="color:#FF8C3A;">SGK Digital!</span></span>
+            <br>
+            <span style="font-size:14px;color:rgba(255,255,255,0.65);display:block;margin-top:10px;">Ψηφιακές λύσεις για επιχειρήσεις στην Καστοριά &amp; Ελλάδα</span>
+          </td>
+        </tr>
+
+        <!-- BODY -->
+        <tr>
+          <td bgcolor="#ffffff" style="padding:36px 40px 28px;">
+            ${bodyHtml}
+            ${ctaButton}
+          </td>
+        </tr>
+
+        <!-- WHATSAPP + PHONE CTA -->
+        <tr>
+          <td bgcolor="#fff8f4" style="padding:24px 40px;border-top:1px solid #ffe0cc;border-bottom:1px solid #ffe0cc;text-align:center;">
+            <p style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#1a1a2e;margin:0 0 14px 0;">Θέλετε να μάθετε περισσότερα;</p>
+            <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+              <tr>
+                <td style="padding-right:10px;">
+                  <a href="https://wa.me/306999524389" style="display:inline-block;background:#25D366;color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:700;padding:12px 22px;border-radius:8px;text-decoration:none;">💬 WhatsApp</a>
+                </td>
+                <td>
+                  <a href="tel:6999524389" style="display:inline-block;background:#ffffff;color:#FF6B00;font-family:Arial,sans-serif;font-size:14px;font-weight:700;padding:11px 22px;border-radius:8px;text-decoration:none;border:2px solid #FF6B00;">📞 6999 524 389</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td bgcolor="#f5f6f8" style="padding:24px 40px;text-align:center;">
+            <p style="font-family:Arial,sans-serif;font-size:12px;color:#888;margin:0 0 10px 0;">
+              <a href="https://sgk.gr" style="color:#555;text-decoration:none;margin:0 8px;">Σχετικά</a>
+              <a href="https://sgk.gr/portfolio" style="color:#555;text-decoration:none;margin:0 8px;">Portfolio</a>
+              <a href="https://sgk.gr" style="color:#555;text-decoration:none;margin:0 8px;">Πολιτική Απορρήτου</a>
+              <a href="${unsubLink}" style="color:#aaa;text-decoration:none;margin:0 8px;">Κατάργηση εγγραφής</a>
+            </p>
+            <p style="font-family:Arial,sans-serif;font-size:11px;color:#aaa;margin:0;line-height:1.7;">
+              <strong style="color:#999;">SGK Software Development</strong> | Καστοριά, Ελλάδα<br>
+              <a href="https://sgk.gr" style="color:#FF6B00;text-decoration:none;">sgk.gr</a> | <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;">6999 524 389</a><br>
+              © ${new Date().getFullYear()} SGK Digital. Όλα τα δικαιώματα διατηρούνται.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+      <!-- /Email Card -->
+
+    </td>
+  </tr>
+</table>
+<!-- /Wrapper -->
+
+</body>
+</html>`;
+}
+// ──────────────────────────────────────────────────────────────────────────────
+
 const EMAIL_TEMPLATES: Record<
   string,
   Record<
@@ -786,16 +926,16 @@ export function ScraperTab() {
       // Δημιουργούμε ένα unsubscribe token
       const unsubscribeToken = crypto.randomUUID();
       
-      // Κατασκευή του τελικού HTML σώματος με το κουμπί αν έχει οριστεί
-      let finalBody = emailBody;
-      if (buttonText && buttonLink) {
-        finalBody += `
-<div style="text-align: center; margin: 25px 0;">
-  <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-    ${buttonText}
-  </a>
-</div>`;
-      }
+      // Κατασκευή επαγγελματικού HTML email (Namecheap-style layout)
+      const finalBody = buildProfessionalEmailHtml({
+        businessName: selectedProspect.business_name,
+        subject: emailSubject,
+        bodyHtml: emailBody,
+        buttonText: buttonText || undefined,
+        buttonLink: buttonLink || undefined,
+        unsubscribeToken: unsubscribeToken,
+        industry: selectedProspect.industry,
+      });
 
       // Αποστολή μέσω edge function send-nurture-email
       const res = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
@@ -982,6 +1122,22 @@ export function ScraperTab() {
         }
         
         // 1. Send the email
+        // Build professional HTML wrapper for bulk emails too
+        const template = EMAIL_TEMPLATES["website"]?.[detectIndustry(prospect.industry)] || EMAIL_TEMPLATES["website"]?.["generic"];
+        const { subject: tSubject, body: tBody, buttonText: tBtn, buttonLink: tLink } = template
+          ? applyTemplateVariables(template.body, template.subject, prospect)
+          : { subject: emailSubject, body: emailBody, buttonText: buttonText, buttonLink: buttonLink };
+        
+        const bulkFinalBody = buildProfessionalEmailHtml({
+          businessName: prospect.business_name,
+          subject: tSubject,
+          bodyHtml: tBody,
+          buttonText: (template?.buttonText || tBtn) ?? undefined,
+          buttonLink: (template?.buttonLink || tLink) ?? undefined,
+          unsubscribeToken: bulkUnsubscribeToken,
+          industry: prospect.industry,
+        });
+
         const res = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
           method: "POST",
           headers: {
@@ -991,9 +1147,9 @@ export function ScraperTab() {
           body: JSON.stringify({
             email: prospect.email,
             customSubject: compiledSubject,
-            customHtml: finalBody,
+            customHtml: bulkFinalBody,
             step: 1,
-            unsubscribe_token: unsubscribeToken,
+            unsubscribe_token: bulkUnsubscribeToken,
             business_name: prospect.business_name
           })
         });
