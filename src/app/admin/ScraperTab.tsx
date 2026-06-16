@@ -1490,7 +1490,7 @@ export function ScraperTab() {
       {/* Email Composer Modal */}
       {isModalOpen && selectedProspect && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden border border-gray-100 flex flex-col h-[85vh] max-h-[750px]">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-7xl w-[95vw] overflow-hidden border border-gray-100 flex flex-col h-[85vh] max-h-[850px]">
             {/* Header */}
             <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
@@ -1656,7 +1656,7 @@ export function ScraperTab() {
       {/* Bulk Email Composer Modal */}
       {isBulkModalOpen && selectedIds.length > 0 && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden border border-gray-100 flex flex-col h-[85vh] max-h-[750px]">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-7xl w-[95vw] overflow-hidden border border-gray-100 flex flex-col h-[85vh] max-h-[850px]">
             {/* Header */}
             <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
