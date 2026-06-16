@@ -639,6 +639,15 @@ export function ScraperTab() {
   // Filter Tab State
   const [filterTab, setFilterTab] = useState<"pending" | "emailed" | "all">("pending");
   
+  // Bulk Action State
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [isBulkModalOpen, setIsBulkModalOpen] = useState(false);
+  const [bulkDelay, setBulkDelay] = useState<number>(7); // default 7 seconds
+  const [isBulkSending, setIsBulkSending] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState<{ current: number; total: number; name: string }>({ current: 0, total: 0, name: "" });
+  const [bulkErrors, setBulkErrors] = useState<string[]>([]);
+  const [abortRequested, setAbortRequested] = useState(false);
+  
   // Email Composer State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProspect, setSelectedProspect] = useState<Prospect | null>(null);
@@ -879,6 +888,208 @@ export function ScraperTab() {
     }
   };
 
+  const abortRef = React.useRef(false);
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.length === 0) return;
+    if (!confirm(`Είστε σίγουροι ότι θέλετε να διαγράψετε τους ${selectedIds.length} επιλεγμένους prospects;`)) return;
+    
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("sgk_prospects")
+        .delete()
+        .in("id", selectedIds);
+        
+      if (error) throw error;
+      toast.success("Οι επιλεγμένοι prospects διαγράφηκαν.");
+      setSelectedIds([]);
+      fetchProspects();
+    } catch (err) {
+      toast.error("Σφάλμα κατά τη μαζική διαγραφή");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openBulkEmailModal = () => {
+    if (selectedIds.length === 0) return;
+    const firstProspect = prospects.find(p => p.id === selectedIds[0]);
+    if (!firstProspect) return;
+
+    const industry = detectIndustry(firstProspect.industry);
+    setSelectedService("website");
+    setSelectedIndustry(industry);
+    
+    const template = EMAIL_TEMPLATES["website"]?.[industry] || EMAIL_TEMPLATES["website"]?.["generic"];
+    if (template) {
+      setEmailSubject(template.subject);
+      setEmailBody(template.body);
+      setButtonText(template.buttonText || "");
+      setButtonLink(template.buttonLink || "");
+    }
+    setBulkErrors([]);
+    setAbortRequested(false);
+    abortRef.current = false;
+    setIsBulkModalOpen(true);
+  };
+
+  const handleSendBulkEmails = async () => {
+    setIsBulkSending(true);
+    setAbortRequested(false);
+    abortRef.current = false;
+    setBulkErrors([]);
+    
+    const total = selectedIds.length;
+    let count = 0;
+    
+    for (let i = 0; i < selectedIds.length; i++) {
+      // Check for abort request
+      if (abortRef.current) {
+        toast.warning("Η μαζική αποστολή διακόπηκε από το χρήστη.");
+        break;
+      }
+      
+      const id = selectedIds[i];
+      const prospect = prospects.find(p => p.id === id);
+      if (!prospect) continue;
+      
+      setBulkProgress({ current: i + 1, total, name: prospect.business_name });
+      
+      try {
+        // Compile subject and body variables dynamically for this specific prospect
+        const { subject: compiledSubject, body: compiledBody } = applyTemplateVariables(
+          emailBody,
+          emailSubject,
+          prospect
+        );
+        
+        const unsubscribeToken = crypto.randomUUID();
+        
+        let finalBody = compiledBody;
+        if (buttonText && buttonLink) {
+          const compiledButtonLink = buttonLink
+            .replace(/\[BUSINESS_NAME\]/g, prospect.business_name || "")
+            .replace(/\[CITY\]/g, prospect.city || "");
+            
+          finalBody += `
+<div style="text-align: center; margin: 25px 0;">
+  <a href="${compiledButtonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+    ${buttonText}
+  </a>
+</div>`;
+        }
+        
+        // 1. Send the email
+        const res = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({
+            email: prospect.email,
+            customSubject: compiledSubject,
+            customHtml: finalBody,
+            step: 1,
+            unsubscribe_token: unsubscribeToken,
+            business_name: prospect.business_name
+          })
+        });
+        
+        if (!res.ok) {
+          throw new Error(`Edge Function error: ${res.statusText}`);
+        }
+        
+        // 2. Insert/Update in sgk_mails
+        const { data: existingLead, error: selectError } = await supabase
+          .from("sgk_mails")
+          .select("id")
+          .eq("email", prospect.email)
+          .maybeSingle();
+          
+        if (selectError) throw selectError;
+        
+        if (existingLead) {
+          const { error: updateError } = await supabase
+            .from("sgk_mails")
+            .update({
+              first_name: prospect.business_name,
+              phone: prospect.phone,
+              marketing_consent: true,
+              unsubscribed: false,
+              type: selectedService + "_offer",
+              company: selectedIndustry,
+              email_sequence_step: 1,
+              last_email_sent_at: new Date().toISOString()
+            })
+            .eq("id", existingLead.id);
+            
+          if (updateError) throw updateError;
+        } else {
+          const { error: insertError } = await supabase
+            .from("sgk_mails")
+            .insert([
+              {
+                email: prospect.email,
+                first_name: prospect.business_name,
+                last_name: "",
+                phone: prospect.phone,
+                marketing_consent: true,
+                unsubscribed: false,
+                unsubscribe_token: unsubscribeToken,
+                type: selectedService + "_offer",
+                company: selectedIndustry,
+                email_sequence_step: 1,
+                last_email_sent_at: new Date().toISOString()
+              }
+            ]);
+            
+          if (insertError) throw insertError;
+        }
+        
+        // 3. Update status in sgk_prospects
+        const { error: prospectError } = await supabase
+          .from("sgk_prospects")
+          .update({
+            status: "emailed",
+            sent_at: new Date().toISOString()
+          })
+          .eq("id", prospect.id);
+          
+        if (prospectError) throw prospectError;
+        
+        count++;
+      } catch (err: any) {
+        console.error(`Error sending email to ${prospect.business_name}:`, err);
+        setBulkErrors(prev => [...prev, `${prospect.business_name}: ${err.message || err}`]);
+      }
+      
+      // Delay before the next email (if there is a next one and abort is not requested)
+      if (i < selectedIds.length - 1 && !abortRef.current) {
+        const delayMs = bulkDelay * 1000;
+        const startTime = Date.now();
+        while (Date.now() - startTime < delayMs) {
+          if (abortRef.current) break;
+          await new Promise(r => setTimeout(r, 100));
+        }
+      }
+    }
+    
+    // Finished bulk sending
+    setIsBulkSending(false);
+    setIsBulkModalOpen(false);
+    setSelectedIds([]);
+    toast.success(`Η μαζική αποστολή ολοκληρώθηκε! Στάλθηκαν ${count} από τα ${total} emails.`);
+    fetchProspects();
+  };
+
+  const handleAbort = () => {
+    abortRef.current = true;
+    setAbortRequested(true);
+  };
+
   const filteredProspects = prospects.filter(p => {
     if (filterTab === "pending") return p.status === "pending";
     if (filterTab === "emailed") return p.status === "emailed";
@@ -946,6 +1157,32 @@ export function ScraperTab() {
 
       {/* Filter Tabs & List */}
       <div className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden">
+        {selectedIds.length > 0 && (
+          <div className="bg-orange-500/10 border-b border-white/10 px-6 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+              <span className="text-sm text-orange-400 font-semibold">
+                Επιλέχθηκαν {selectedIds.length} prospects
+              </span>
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={openBulkEmailModal}
+                className="bg-orange-500 hover:bg-orange-600 text-black px-4 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer shadow-md"
+              >
+                <Mail className="w-3.5 h-3.5 text-black" />
+                <span>Αποστολή Προσφοράς Μαζικά</span>
+              </button>
+              <button 
+                onClick={handleBulkDelete}
+                className="border border-red-500/20 hover:border-red-500 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Διαγραφή Επιλεγμένων</span>
+              </button>
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 bg-white/5">
           <div className="flex gap-2">
             <button 
@@ -1006,6 +1243,20 @@ export function ScraperTab() {
             <table className="w-full text-left border-collapse text-sm">
               <thead>
                 <tr className="border-b border-white/10 bg-white/5 text-zinc-400 font-semibold text-xs uppercase">
+                  <th className="py-3 px-6 w-10">
+                    <input 
+                      type="checkbox"
+                      checked={filteredProspects.length > 0 && selectedIds.length === filteredProspects.length}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedIds(filteredProspects.map(p => p.id));
+                        } else {
+                          setSelectedIds([]);
+                        }
+                      }}
+                      className="rounded border-zinc-700 bg-zinc-900 text-orange-500 focus:ring-orange-500 cursor-pointer w-4 h-4"
+                    />
+                  </th>
                   <th className="py-3 px-6">Όνομα Επιχείρησης</th>
                   <th className="py-3 px-6">Email</th>
                   <th className="py-3 px-6">Κλάδος</th>
@@ -1018,6 +1269,20 @@ export function ScraperTab() {
               <tbody>
                 {filteredProspects.map((prospect) => (
                   <tr key={prospect.id} className="border-b border-white/5 hover:bg-white/5 transition-all text-white">
+                    <td className="py-4 px-6">
+                      <input 
+                        type="checkbox"
+                        checked={selectedIds.includes(prospect.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedIds(prev => [...prev, prospect.id]);
+                          } else {
+                            setSelectedIds(prev => prev.filter(id => id !== prospect.id));
+                          }
+                        }}
+                        className="rounded border-zinc-700 bg-zinc-900 text-orange-500 focus:ring-orange-500 cursor-pointer w-4 h-4"
+                      />
+                    </td>
                     <td className="py-4 px-6 font-semibold">{prospect.business_name}</td>
                     <td className="py-4 px-6 font-mono text-zinc-300 text-xs">{prospect.email}</td>
                     <td className="py-4 px-6 text-zinc-400">{prospect.industry}</td>
@@ -1239,6 +1504,268 @@ export function ScraperTab() {
                   <>
                     <Send className="w-3.5 h-3.5 text-white" size={14} />
                     <span>Αποστολή Email Προσφοράς</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Email Composer Modal */}
+      {isBulkModalOpen && selectedIds.length > 0 && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full overflow-hidden border border-gray-100 flex flex-col h-[85vh] max-h-[750px]">
+            {/* Header */}
+            <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+              <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                <Sparkles className="text-orange-500 animate-pulse" size={20} />
+                <span>Μαζική Αποστολή Email σε {selectedIds.length} Επιχειρήσεις</span>
+              </h3>
+              <button 
+                onClick={() => !isBulkSending && setIsBulkModalOpen(false)}
+                disabled={isBulkSending}
+                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer disabled:opacity-30"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Progress overlay when sending */}
+            {isBulkSending && (
+              <div className="bg-orange-50 px-6 py-4 border-b border-orange-100 flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Loader2 className="w-5 h-5 text-orange-500 animate-spin" />
+                    <span className="text-sm font-bold text-orange-800">
+                      Αποστολή {bulkProgress.current} από {bulkProgress.total}:
+                    </span>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {bulkProgress.name}
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleAbort}
+                    disabled={abortRequested}
+                    className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer disabled:bg-red-800"
+                  >
+                    {abortRequested ? "Διακοπή σε εξέλιξη..." : "Διακοπή (Abort)"}
+                  </button>
+                </div>
+                
+                {/* Progress bar */}
+                <div className="w-full bg-orange-200 rounded-full h-2">
+                  <div 
+                    className="bg-orange-500 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${(bulkProgress.current / bulkProgress.total) * 100}%` }}
+                  />
+                </div>
+                
+                {bulkErrors.length > 0 && (
+                  <div className="text-xs text-red-600 font-medium max-h-20 overflow-y-auto mt-1">
+                    ⚠️ Σφάλματα: {bulkErrors.length} ({bulkErrors.slice(-3).join(", ")})
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Body */}
+            <div className="p-6 flex-1 overflow-hidden min-h-0">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
+                {/* Left Column: Form Editor */}
+                <div className="space-y-4 flex flex-col h-full min-h-0">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Υπηρεσία (Service)</label>
+                      <select 
+                        value={selectedService}
+                        onChange={(e) => handleBulkServiceOrIndustryChange(e.target.value, selectedIndustry)}
+                        disabled={isBulkSending}
+                        className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
+                      >
+                        <option value="website">Ιστοσελίδα (Website)</option>
+                        <option value="eshop">Ηλ. Κατάστημα (Eshop)</option>
+                        <option value="ai_agents">AI Agents & Chatbots</option>
+                        <option value="mobile_app">Εφαρμογή (Mobile App)</option>
+                        <option value="erp_crm">Διαχειριστικό (ERP/CRM)</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Κλάδος (Industry)</label>
+                      <select 
+                        value={selectedIndustry}
+                        onChange={(e) => handleBulkServiceOrIndustryChange(selectedService, e.target.value)}
+                        disabled={isBulkSending}
+                        className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
+                      >
+                        <option value="generic">Γενικό (Generic)</option>
+                        <option value="dentist">Οδοντιατρείο</option>
+                        <option value="food_service">Εστίαση / Καφέ</option>
+                        <option value="hotel">Ξενοδοχείο / Κατάλυμα</option>
+                        <option value="rent_a_car">Ενοικίαση Αυτοκινήτων</option>
+                        <option value="hair_salon">Κομμωτήριο / Κέντρο Αισθητικής</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Καθυστέρηση (Delay)</label>
+                      <select 
+                        value={bulkDelay}
+                        onChange={(e) => setBulkDelay(Number(e.target.value))}
+                        disabled={isBulkSending}
+                        className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white cursor-pointer"
+                      >
+                        <option value={5}>5 δευτερόλεπτα</option>
+                        <option value={7}>7 δευτερόλεπτα</option>
+                        <option value={10}>10 δευτερόλεπτα</option>
+                        <option value={15}>15 δευτερόλεπτα</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Θέμα Email (Subject)</label>
+                    <input 
+                      type="text" 
+                      value={emailSubject}
+                      onChange={(e) => setEmailSubject(e.target.value)}
+                      disabled={isBulkSending}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Κείμενο Κουμπιού (Προαιρετικό)</label>
+                      <input 
+                        type="text"
+                        value={buttonText}
+                        onChange={(e) => setButtonText(e.target.value)}
+                        disabled={isBulkSending}
+                        placeholder="π.χ. Δείτε την Προσφορά"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Σύνδεσμος Κουμπιού (Link)</label>
+                      <input 
+                        type="text"
+                        value={buttonLink}
+                        onChange={(e) => setButtonLink(e.target.value)}
+                        disabled={isBulkSending}
+                        placeholder="π.χ. https://www.sgk.gr/eshop-offer"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1 flex-1 flex flex-col min-h-0">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Περιεχόμενο Email (HTML με templates)</label>
+                    <textarea 
+                      value={emailBody}
+                      onChange={(e) => setEmailBody(e.target.value)}
+                      disabled={isBulkSending}
+                      placeholder="Γράψτε το μήνυμά σας εδώ... (Υποστηρίζει [BUSINESS_NAME], [CITY], [IN_CITY] placeholders)"
+                      className="w-full flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary font-sans text-sm resize-none overflow-y-auto min-h-0"
+                    />
+                  </div>
+                  <p className="text-[10px] text-gray-400 font-medium">
+                    💡 Επιτρεπόμενα tags: `[BUSINESS_NAME]`, `[CITY]`, `[IN_CITY]`. Θα προστεθεί αυτόματα η υπογραφή της SGK Digital και το GDPR Unsubscribe Link.
+                  </p>
+                </div>
+
+                {/* Right Column: Live Email Preview using first selected prospect */}
+                <div className="flex flex-col space-y-2 h-full min-h-0">
+                  <label className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                    Προεπισκόπηση (Παράδειγμα για: {prospects.find(p => p.id === selectedIds[0])?.business_name})
+                  </label>
+                  <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-1 overflow-y-auto shadow-inner min-h-0">
+                    <div className="text-xs text-gray-400 mb-3 pb-3 border-b border-orange-100 flex flex-col gap-1">
+                      <div><strong>Από:</strong> SGK Digital &lt;noreply@sgk.gr&gt;</div>
+                      <div>
+                        <strong>Θέμα:</strong>{" "}
+                        <span className="text-gray-700 font-medium">
+                          {(() => {
+                            const sampleP = prospects.find(p => p.id === selectedIds[0]);
+                            if (!sampleP) return emailSubject;
+                            return applyTemplateVariables(emailBody, emailSubject, sampleP).subject;
+                          })() || "(Χωρίς Θέμα)"}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div style={{ fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif", maxWidth: "100%", margin: "0 auto", padding: "10px 0" }}>
+                      <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #f2e3db", boxShadow: "0 2px 10px rgba(0,0,0,0.01)" }}>
+                        <div 
+                          className="prose prose-sm prose-orange max-w-none text-gray-800 leading-relaxed font-sans"
+                          style={{ fontSize: "14px" }}
+                          dangerouslySetInnerHTML={{ 
+                            __html: (() => {
+                              if (!emailBody) return "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>";
+                              
+                              const sampleP = prospects.find(p => p.id === selectedIds[0]);
+                              if (!sampleP) return emailBody;
+                              
+                              const { body: compiledBody } = applyTemplateVariables(emailBody, emailSubject, sampleP);
+                              let html = compiledBody;
+                              
+                              if (buttonText && buttonLink) {
+                                const compiledButtonLink = buttonLink
+                                  .replace(/\[BUSINESS_NAME\]/g, sampleP.business_name || "")
+                                  .replace(/\[CITY\]/g, sampleP.city || "");
+                                  
+                                html += `
+                                  <div style="text-align: center; margin: 25px 0;">
+                                    <a href="${compiledButtonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                                      ${buttonText}
+                                    </a>
+                                  </div>
+                                `;
+                              }
+                              return html;
+                            })()
+                          }} 
+                        />
+                      </div>
+                      
+                      {/* SGK Footer */}
+                      <div style={{ textAlign: "center", marginTop: "25px", paddingTop: "15px", borderTop: "1px solid #ebdcd5" }}>
+                        <p style={{ color: "#888888", fontSize: "11px", lineHeight: "1.5", margin: 0 }}>
+                          Αυτό το email στάλθηκε επειδή ζητήσατε προσφορά για Eshop από το <strong>sgk.gr</strong>.<br />
+                          <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style={{ color: "#FF6B00", textDecoration: "none", fontWeight: "bold" }}>sgk.gr</a><br /><br />
+                          <span style={{ color: "#999", textDecoration: "underline", fontSize: "10px" }}>Κατάργηση εγγραφής (Unsubscribe)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Buttons */}
+            <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
+              <button 
+                onClick={() => setIsBulkModalOpen(false)}
+                disabled={isBulkSending}
+                className="px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gray-700 transition-colors cursor-pointer disabled:opacity-30"
+              >
+                Ακύρωση
+              </button>
+              <button 
+                onClick={handleSendBulkEmails}
+                disabled={isBulkSending || !emailSubject || !emailBody}
+                className="px-5 py-2 text-sm font-bold text-white bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
+              >
+                {isBulkSending ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
+                    <span>Αποστολή ({bulkProgress.current}/{bulkProgress.total})...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5 text-white" size={14} />
+                    <span>Έναρξη Μαζικής Αποστολής</span>
                   </>
                 )}
               </button>
