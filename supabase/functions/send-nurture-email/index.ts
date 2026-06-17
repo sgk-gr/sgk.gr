@@ -141,10 +141,30 @@ serve(async (req) => {
 
     try {
         const payload = await req.json();
-        const { email, step, unsubscribe_token } = payload;
+        const { email, step, unsubscribe_token, customSubject, customHtml, business_name } = payload;
 
         if (!email || !step) {
             throw new Error("Missing email or step");
+        }
+
+        // Bypassing AI generation for Manual Step 1 (sent from ScraperTab)
+        if (step === 1 && customSubject && customHtml) {
+            const resendResult = await resend.emails.send({
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: email,
+                subject: customSubject,
+                html: customHtml,
+                reply_to: "info@sgk.gr"
+            });
+
+            if (resendResult.error) {
+                throw new Error(resendResult.error.message);
+            }
+
+            return new Response(JSON.stringify({ success: true, message: "Manual email sent" }), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+                status: 200,
+            });
         }
 
         const geminiKey = Deno.env.get("GEMINI_API_KEY");
