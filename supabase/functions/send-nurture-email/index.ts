@@ -229,8 +229,16 @@ JSON Παράδειγμα:
 }
 `;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const result = await model.generateContent(prompt);
+        let result;
+        try {
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            result = await model.generateContent(prompt);
+        } catch (err: any) {
+            console.error("1.5-flash failed, falling back to gemini-pro:", err.message);
+            const fallbackModel = genAI.getGenerativeModel({ model: "gemini-pro" });
+            result = await fallbackModel.generateContent(prompt);
+        }
+        
         const responseText = result.response.text();
         
         const jsonString = responseText.replace(/```json/g, "").replace(/```/g, "").trim();
