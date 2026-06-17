@@ -1,69 +1,119 @@
-// Google Places API → Website Scraping → Real Email extraction
-// Searches all business categories in Kastoria, finds websites, scrapes emails
+// Enhanced scraper: Google Places + Website + Facebook About section
+// Extracts emails from Facebook pages too!
 
 const GOOGLE_API_KEY = "AIzaSyCziVm_nQ5oDtySLhbzjs1m45fMJDvTINM";
 const SUPABASE_URL = "https://xrmvingehhiymchoggka.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybXZpbmdlaGhpeW1jaG9nZ2thIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNjkzMTEsImV4cCI6MjA5MDk0NTMxMX0.UDvGORYRXdo1IKTrduIJYJEfgNuli0LSpAC9njm7I9Q";
-
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybXZpbmdlaGhpeW1jaG9nZ2thIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNjkzMTEsImV4cCI6MjA5MDk0NTMxMX0.UDvGORYRXdo1IKTrduIJYJEfgNuli0LSpAC9njm7I9Q";
 const LAT = 40.5195, LNG = 21.2682;
 
 const CATEGORIES = [
-  { industry: "φαρμακείο",   queries: ["φαρμακείο Καστοριά"], type: "pharmacy" },
-  { industry: "ξενοδοχείο",  queries: ["ξενοδοχείο Καστοριά", "hotel Kastoria", "κατάλυμα Καστοριά"], type: "lodging" },
-  { industry: "εστίαση",     queries: ["εστιατόριο Καστοριά", "ταβέρνα Καστοριά", "γυράδικο Καστοριά", "pizzeria Καστοριά"], type: "restaurant" },
-  { industry: "καφετέρια",   queries: ["καφετέρια Καστοριά", "coffee Καστοριά"], type: "cafe" },
-  { industry: "οδοντιατρείο",queries: ["οδοντιατρείο Καστοριά", "οδοντίατρος Καστοριά"], type: "dentist" },
-  { industry: "κομμωτήριο",  queries: ["κομμωτήριο Καστοριά", "barber Καστοριά"], type: "beauty_salon" },
-  { industry: "φυσιοθεραπεία",queries: ["φυσιοθεραπεία Καστοριά"], type: "physiotherapist" },
-  { industry: "λογιστής",    queries: ["λογιστής Καστοριά", "λογιστικό γραφείο Καστοριά"], type: null },
-  { industry: "δικηγόρος",   queries: ["δικηγόρος Καστοριά", "δικηγορικό γραφείο Καστοριά"], type: "lawyer" },
+  { industry: "φαρμακείο",    queries: ["φαρμακείο Καστοριά"], type: "pharmacy" },
+  { industry: "ξενοδοχείο",   queries: ["ξενοδοχείο Καστοριά", "hotel Kastoria", "κατάλυμα Καστοριά"], type: "lodging" },
+  { industry: "εστίαση",      queries: ["εστιατόριο Καστοριά", "ταβέρνα Καστοριά", "γυράδικο Καστοριά", "pizzeria Καστοριά"], type: "restaurant" },
+  { industry: "καφετέρια",    queries: ["καφετέρια Καστοριά", "coffee Καστοριά"], type: "cafe" },
+  { industry: "οδοντιατρείο", queries: ["οδοντιατρείο Καστοριά", "οδοντίατρος Καστοριά"], type: "dentist" },
+  { industry: "κομμωτήριο",   queries: ["κομμωτήριο Καστοριά", "barber Καστοριά"], type: "beauty_salon" },
+  { industry: "φυσιοθεραπεία",queries: ["φυσιοθεραπεία Καστοριά"], type: null },
+  { industry: "λογιστής",     queries: ["λογιστής Καστοριά", "λογιστικό γραφείο Καστοριά"], type: null },
+  { industry: "δικηγόρος",    queries: ["δικηγόρος Καστοριά", "δικηγορικό γραφείο Καστοριά"], type: "lawyer" },
+];
+
+const FAKE_EMAIL_PATTERNS = [
+  "noemail", "@kastoria.pharmacy", "@noemail.gr", "example.com",
+  "sentry.io", "wixpress.com", "noreply", "no-reply",
+  "gpapadopoulos@company.gr", // known bad from xo.gr
 ];
 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+function isFakeEmail(email) {
+  const e = email.toLowerCase();
+  return FAKE_EMAIL_PATTERNS.some(p => e.includes(p));
+}
+
 function extractEmails(html) {
-  // Remove scripts/styles first
+  if (!html) return [];
+  // Decode obfuscations
+  html = html
+    .replace(/&#64;/g, "@").replace(/&#46;/g, ".")
+    .replace(/\[at\]/gi, "@").replace(/\(at\)/gi, "@")
+    .replace(/\[dot\]/gi, ".").replace(/\(dot\)/gi, ".")
+    .replace(/&amp;/g, "&").replace(/\\u0040/g, "@");
+  
+  // Remove scripts/styles
   html = html.replace(/<script[\s\S]*?<\/script>/gi, "")
              .replace(/<style[\s\S]*?<\/style>/gi, "");
-  // Decode HTML entities
-  html = html.replace(/&#64;/g, "@").replace(/&amp;/g, "&").replace(/\[at\]/gi, "@").replace(/\[dot\]/gi, ".");
+
   const regex = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,6}/g;
   const found = html.match(regex) || [];
-  const IGNORE = ["sentry.io","wixpress.com","example.com","placeholder","noreply","no-reply","support@","info@wix","test@"];
   return Array.from(new Set(
-    found.map(e => e.toLowerCase())
-         .filter(e => !IGNORE.some(ig => e.includes(ig)))
+    found.map(e => e.toLowerCase()).filter(e => !isFakeEmail(e))
   ));
 }
 
-async function fetchPage(url, timeout = 8000) {
+async function fetchPage(url, timeout = 9000) {
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeout);
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeout);
     const r = await fetch(url, {
-      signal: controller.signal,
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; EmailBot/1.0)" }
+      signal: ctrl.signal,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "el-GR,el;q=0.9,en;q=0.8",
+      }
     });
-    clearTimeout(timer);
+    clearTimeout(t);
     if (!r.ok) return "";
     return await r.text();
   } catch { return ""; }
 }
 
-async function scrapeEmailsFromWebsite(website) {
+const puppeteer = require('puppeteer');
+
+let browserInstance = null;
+async function getBrowser() {
+  if (!browserInstance) {
+    browserInstance = await puppeteer.launch({ headless: "new" });
+  }
+  return browserInstance;
+}
+
+// Scrape Facebook page for email using Puppeteer
+async function scrapeFromFacebook(fbUrl) {
+  if (!fbUrl || !fbUrl.includes("facebook.com")) return [];
+  
+  // Clean URL and append /about
+  let aboutUrl = fbUrl.split('?')[0].replace(/\/$/, "") + '/about';
+  
+  const browser = await getBrowser();
+  const page = await browser.newPage();
+  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36');
+  
+  try {
+    await page.goto(aboutUrl, { waitUntil: 'networkidle2', timeout: 15000 });
+    const text = await page.evaluate(() => document.body.innerText);
+    const emails = extractEmails(text);
+    await page.close();
+    return emails;
+  } catch (err) {
+    await page.close();
+    return [];
+  }
+}
+
+// Scrape regular website for email
+async function scrapeFromWebsite(website) {
   if (!website) return [];
   const emails = new Set();
   
-  // Try main page
   const main = await fetchPage(website);
   extractEmails(main).forEach(e => emails.add(e));
   if (emails.size > 0) return Array.from(emails);
   
-  await delay(300);
-  
-  // Try /contact, /epikoinonia, /contact-us
+  await delay(400);
   const base = website.replace(/\/$/, "");
-  for (const path of ["/contact", "/epikoinonia", "/contact-us", "/επικοινωνια"]) {
+  for (const path of ["/contact", "/epikoinonia", "/contact-us", "/επικοινωνια", "/about"]) {
     const page = await fetchPage(base + path);
     if (page) extractEmails(page).forEach(e => emails.add(e));
     if (emails.size > 0) break;
@@ -71,6 +121,14 @@ async function scrapeEmailsFromWebsite(website) {
   }
   
   return Array.from(emails);
+}
+
+async function scrapeEmailFromUrl(url) {
+  if (!url) return [];
+  if (url.includes("facebook.com")) return await scrapeFromFacebook(url);
+  if (url.includes("instagram.com") || url.includes("tiktok.com")) return []; // can't scrape
+  if (url.includes("vrisko.gr") || url.includes("xo.gr") || url.includes("goldenpages")) return []; // directories
+  return await scrapeFromWebsite(url);
 }
 
 async function placesTextSearch(query, pageToken = null) {
@@ -97,7 +155,6 @@ async function getDetails(placeId) {
 
 async function collectPlaces(cat) {
   const all = new Map();
-  
   for (const q of cat.queries) {
     await delay(400);
     let data = await placesTextSearch(q);
@@ -108,7 +165,6 @@ async function collectPlaces(cat) {
       if (data.results) data.results.forEach(p => all.set(p.place_id, p));
     }
   }
-  
   if (cat.type) {
     await delay(400);
     let data = await placesNearby(cat.type, cat.queries[0]);
@@ -119,8 +175,15 @@ async function collectPlaces(cat) {
       if (data.results) data.results.forEach(p => all.set(p.place_id, p));
     }
   }
-  
   return all;
+}
+
+async function checkAlreadyExists(email) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/sgk_prospects?email=eq.${encodeURIComponent(email)}&select=id`, {
+    headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
+  });
+  const d = await r.json();
+  return Array.isArray(d) && d.length > 0;
 }
 
 async function upsert(prospect) {
@@ -128,77 +191,110 @@ async function upsert(prospect) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "apikey": SUPABASE_ANON_KEY,
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+      "apikey": SUPABASE_KEY,
+      "Authorization": `Bearer ${SUPABASE_KEY}`,
       "Prefer": "resolution=merge-duplicates,return=minimal",
       "on_conflict": "email"
     },
     body: JSON.stringify(prospect)
   });
-  return r.status; // 200=updated, 201=inserted, 409=duplicate
+  return r.status;
 }
 
 async function run() {
-  console.log("🚀 Google Places + Website Email Scraper για Καστοριά\n");
-  let totalInserted = 0;
+  console.log("🚀 Enhanced Email Scraper — Google Places + Website + Facebook\n");
+  console.log("📌 Τώρα ψάχνει και μέσα σε Facebook pages!\n");
+  let totalNew = 0, totalSkipped = 0;
 
   for (const cat of CATEGORIES) {
-    console.log(`\n${"═".repeat(55)}`);
+    console.log(`\n${"═".repeat(58)}`);
     console.log(`📍 ${cat.industry.toUpperCase()}`);
-    console.log(`${"═".repeat(55)}`);
+    console.log(`${"═".repeat(58)}`);
 
     const places = await collectPlaces(cat);
     console.log(`  Βρέθηκαν ${places.size} unique places`);
 
-    let catInserted = 0;
+    let catNew = 0;
     let idx = 0;
 
     for (const [placeId, place] of places) {
       idx++;
-      await delay(150);
+      await delay(200);
       
       const details = await getDetails(placeId);
       const website = details.website || null;
       const phone = details.formatted_phone_number || details.international_phone_number || null;
       
-      if (!website) continue; // No website = skip (no way to find email)
+      if (!website) {
+        // No website at all → skip
+        continue;
+      }
       
+      const isFacebook = website.includes("facebook.com");
+      const isInstagram = website.includes("instagram.com");
+      const isTiktok = website.includes("tiktok.com");
+      const isDirectory = website.includes("vrisko.gr") || website.includes("xo.gr") || website.includes("goldenpages") || website.includes("setmore.com");
+      
+      if (isInstagram || isTiktok) continue; // Can't scrape
+
       console.log(`\n  [${idx}/${places.size}] ${place.name}`);
-      console.log(`    🌐 ${website}`);
+      if (isFacebook) {
+        console.log(`    📘 Facebook: ${website}`);
+      } else {
+        console.log(`    🌐 ${website}`);
+      }
       
-      await delay(300);
-      const emails = await scrapeEmailsFromWebsite(website);
+      await delay(400);
+      const emails = await scrapeEmailFromUrl(website);
       
       if (emails.length === 0) {
         console.log(`    ✗ Δεν βρέθηκε email`);
         continue;
       }
       
-      // Use first valid email
       const email = emails[0];
-      console.log(`    ✅ Email: ${email} | ☎️ ${phone || "-"}`);
       
-      const status = await upsert({
+      // Check if already in DB
+      const exists = await checkAlreadyExists(email);
+      if (exists) {
+        console.log(`    ↩️  Υπάρχει ήδη: ${email}`);
+        totalSkipped++;
+        continue;
+      }
+      
+      console.log(`    ✅ ${email} | ☎️ ${phone || "-"}`);
+      
+      await upsert({
         business_name: place.name,
-        email: email,
-        phone: phone,
+        email,
+        phone,
         city: "Καστοριά",
         industry: cat.industry,
         status: "pending"
       });
+      catNew++;
+      totalNew++;
       
-      if (status === 201 || status === 200) {
-        catInserted++;
-        totalInserted++;
-      }
+      await delay(100);
     }
     
-    console.log(`\n  → Αποθηκεύτηκαν ${catInserted} για ${cat.industry}`);
+    console.log(`\n  → Νέα: ${catNew}`);
   }
 
-  console.log(`\n${"═".repeat(55)}`);
-  console.log(`🎉 ΤΕΛΟΣ! Συνολικά: ${totalInserted} νέα prospects με πραγματικό email`);
-  console.log(`${"═".repeat(55)}`);
+  console.log(`\n${"═".repeat(58)}`);
+  console.log(`🎉 ΤΕΛΟΣ!`);
+  console.log(`   ✅ Νέα prospects: ${totalNew}`);
+  console.log(`   ↩️  Υπήρχαν ήδη: ${totalSkipped}`);
+  console.log(`${"═".repeat(58)}`);
+
+  if (browserInstance) {
+    await browserInstance.close();
+  }
 }
 
-run().catch(console.error);
+run().catch(async (e) => {
+  console.error(e);
+  if (browserInstance) {
+    await browserInstance.close();
+  }
+});

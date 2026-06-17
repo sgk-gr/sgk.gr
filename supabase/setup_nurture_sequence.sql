@@ -16,8 +16,8 @@ SELECT cron.schedule(
   '0 10 * * *',
   $$
   SELECT net.http_post(
-    url := 'https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email',
-    headers := '{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybXZpbmdlaGhpeW1jaG9nZ2thIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNjkzMTEsImV4cCI6MjA5MDk0NTMxMX0.UDvGORYRXdo1IKTrduIJYJEfgNuli0LSpAC9njm7I9Q", "Content-Type": "application/json"}'::jsonb,
+    url := 'https://www.sgk.gr/api/admin/emails/dynamic-followup',
+    headers := '{"Content-Type": "application/json"}'::jsonb,
     body := jsonb_build_object(
       'email', email,
       'step', email_sequence_step + 1,

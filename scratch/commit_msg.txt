@@ -1,0 +1,7 @@
+feat: build smart AI dynamic email sequences
+
+- Added `@google/generative-ai` to generate highly personalized sales follow-ups
+- Extracted `buildProfessionalEmailHtml` to `src/lib/emailTemplates.ts`
+- Created `/api/admin/emails/dynamic-followup` endpoint for AI generation
+- Updated `EmailsTab.tsx` to hit the new endpoint for manual sends
+- Updated `setup_nurture_sequence.sql` cron URL to the new Next.js API
