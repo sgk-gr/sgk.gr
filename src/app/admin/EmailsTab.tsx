@@ -111,13 +111,14 @@ export function EmailsTab() {
       });
 
       if (!response.ok) {
-        throw new Error("Αποτυχία αποστολής");
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || "Αποτυχία αποστολής");
       }
       
       toast.success(`Το email στάλθηκε επιτυχώς στο ${lead.email}`);
       await fetchLeads(); // Refresh data
-    } catch (error) {
-      toast.error("Σφάλμα κατά την αποστολή email");
+    } catch (error: any) {
+      toast.error(error.message || "Σφάλμα κατά την αποστολή email");
       console.error(error);
     } finally {
       setSending(null);

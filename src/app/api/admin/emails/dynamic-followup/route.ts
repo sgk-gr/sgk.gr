@@ -124,7 +124,7 @@ JSON Παράδειγμα:
 
     // 5. Αποστολή μέσω Resend
     const resendResult = await resend.emails.send({
-      from: "SGK Digital <hello@sgk.gr>", // Adjust sender if needed
+      from: "SGK Digital <noreply@sgk.gr>",
       to: email,
       subject: aiEmail.subject,
       html: finalHtml,
