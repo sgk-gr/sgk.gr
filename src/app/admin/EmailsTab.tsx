@@ -98,10 +98,11 @@ export function EmailsTab() {
     if (!lead.email) return;
     setSending(lead.id);
     try {
-      const response = await fetch("/api/admin/emails/dynamic-followup", {
+      const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer \${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
         },
         body: JSON.stringify({
           email: lead.email,
@@ -210,10 +211,11 @@ export function EmailsTab() {
       } : null);
 
       try {
-        const response = await fetch("/api/admin/emails/dynamic-followup", {
+        const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer \${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({
             email: lead.email,
