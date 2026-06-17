@@ -102,9 +102,9 @@ export function buildProfessionalEmailHtml(opts: {
             </p>
             <p style="font-family:Arial,sans-serif;font-size:11px;color:#aaa;margin:0;line-height:1.7;">
               <strong style="color:#999;">SGK Software Development</strong><br>
-              ΑΦΜ: 167520448 | ΔΟΥ: Καστοριάς<br>
-              Έδρα: Καστοριά, ΤΚ 52100 | Ελλάδα<br>
-              <a href="https://sgk.gr" style="color:#FF6B00;text-decoration:none;">sgk.gr</a> | <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;">6999 524 389</a><br>
+              ΑΦΜ: 167520448<br>
+              Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br>
+              <a href="mailto:info@sgk.gr" style="color:#FF6B00;text-decoration:none;">info@sgk.gr</a> | <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;">6999 524 389</a><br>
               © ${new Date().getFullYear()} SGK Digital. Όλα τα δικαιώματα διατηρούνται.
             </p>
           </td>
