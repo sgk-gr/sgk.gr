@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient";
-import toast from "react-hot-toast";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { 
   Mail, Trash2, RefreshCcw, Loader2,

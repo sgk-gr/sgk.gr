@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { supabase } from "@/lib/supabase";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     }
 
     // 1. Φόρτωση δεδομένων πελάτη από τη βάση
-    const { data: lead, error: dbError } = await supabaseAdmin
+    const { data: lead, error: dbError } = await supabase
       .from("sgk_mails")
       .select("*")
       .eq("email", email)
@@ -137,7 +137,7 @@ JSON Παράδειγμα:
     }
 
     // 6. Ενημέρωση της βάσης δεδομένων (sgk_mails)
-    await supabaseAdmin
+    await supabase
       .from("sgk_mails")
       .update({
         email_sequence_step: step,
