@@ -231,11 +231,11 @@ JSON Παράδειγμα:
 
         let result;
         try {
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
             result = await model.generateContent(prompt);
         } catch (err: any) {
-            console.error("1.5-flash failed, falling back to gemini-pro:", err.message);
-            const fallbackModel = genAI.getGenerativeModel({ model: "gemini-pro" });
+            console.error("flash-latest failed, falling back to gemini-pro-latest:", err.message);
+            const fallbackModel = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
             result = await fallbackModel.generateContent(prompt);
         }
         
