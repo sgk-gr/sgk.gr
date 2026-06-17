@@ -4,11 +4,11 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { supabase } from "@/lib/supabase";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-
 export async function POST(req: Request) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY || "re_fallback");
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "fallback");
+
     const { email, step, unsubscribe_token } = await req.json();
 
     if (!email || !step) {
