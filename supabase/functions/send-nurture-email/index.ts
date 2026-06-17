@@ -231,12 +231,17 @@ JSON Παράδειγμα:
 
         let result;
         try {
-            const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
             result = await model.generateContent(prompt);
         } catch (err: any) {
-            console.error("flash-latest failed, falling back to gemini-pro-latest:", err.message);
-            const fallbackModel = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
-            result = await fallbackModel.generateContent(prompt);
+            console.error("gemini-2.5-flash failed:", err.message);
+            try {
+                const fallbackModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                result = await fallbackModel.generateContent(prompt);
+            } catch (err2: any) {
+                console.error("gemini-2.0-flash failed:", err2.message);
+                throw new Error(err2.message);
+            }
         }
         
         const responseText = result.response.text();
