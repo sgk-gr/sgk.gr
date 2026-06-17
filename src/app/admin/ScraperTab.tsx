@@ -200,7 +200,7 @@ function buildProfessionalEmailHtml(opts: {
                 <td align="right">
                   <a href="https://sgk.gr/web-development" style="color:#555;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">Υπηρεσίες</a>
                   <a href="https://sgk.gr" style="color:#555;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">Portfolio</a>
-                  <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;font-size:12px;font-weight:700;margin-left:14px;">📞 6999 524389</a>
+                  <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">📞 6999 524389</a>
                 </td>
               </tr>
             </table>
@@ -210,8 +210,6 @@ function buildProfessionalEmailHtml(opts: {
         <!-- HERO -->
         <tr>
           <td bgcolor="#1a1a2e" style="padding:40px 40px 55px;text-align:center;background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);">
-            <div style="display:inline-block;background:rgba(255,107,0,0.18);border:1px solid rgba(255,107,0,0.4);color:#FF8C3A;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:18px;">${badge}</div>
-            <br>
             <span style="font-family:Arial,sans-serif;font-size:26px;font-weight:900;color:#ffffff;line-height:1.3;">Γεια σας από την <span style="color:#FF8C3A;">SGK Digital!</span></span>
             <br>
             <span style="font-size:14px;color:rgba(255,255,255,0.65);display:block;margin-top:10px;">Ψηφιακές λύσεις για επιχειρήσεις στην Καστοριά &amp; Ελλάδα</span>
@@ -229,7 +227,7 @@ function buildProfessionalEmailHtml(opts: {
         <!-- WHATSAPP + PHONE CTA -->
         <tr>
           <td bgcolor="#fff8f4" style="padding:24px 40px;border-top:1px solid #ffe0cc;border-bottom:1px solid #ffe0cc;text-align:center;">
-            <p style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#1a1a2e;margin:0 0 14px 0;">Θέλετε να μάθετε περισσότερα;</p>
+            <p style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#1a1a2e;margin:0 0 14px 0;">Θέλετε να μάθετε περισσότερα ή να κάνουμε μια φιλική κουβέντα;</p>
             <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
               <tr>
                 <td style="padding-right:10px;">
@@ -249,7 +247,7 @@ function buildProfessionalEmailHtml(opts: {
             <p style="font-family:Arial,sans-serif;font-size:12px;color:#888;margin:0 0 10px 0;">
               <a href="https://sgk.gr" style="color:#555;text-decoration:none;margin:0 8px;">Σχετικά</a>
               <a href="https://sgk.gr/portfolio" style="color:#555;text-decoration:none;margin:0 8px;">Portfolio</a>
-              <a href="https://sgk.gr" style="color:#555;text-decoration:none;margin:0 8px;">Πολιτική Απορρήτου</a>
+              <a href="https://sgk.gr/privacy-policy" style="color:#555;text-decoration:none;margin:0 8px;">Πολιτική Απορρήτου</a>
               <a href="${unsubLink}" style="color:#aaa;text-decoration:none;margin:0 8px;">Κατάργηση εγγραφής</a>
             </p>
             <p style="font-family:Arial,sans-serif;font-size:11px;color:#aaa;margin:0;line-height:1.7;">
@@ -290,15 +288,15 @@ const EMAIL_TEMPLATES: Record<
       subject: "Πρόταση Συνεργασίας: Ψηφιακή Παρουσία για την [BUSINESS_NAME] [IN_CITY]",
       body: `<h2>Αποκτήστε τη δική σας επαγγελματική ιστοσελίδα! 🚀</h2>
 <p>Γεια σας,</p>
-<p>Επισκεφθήκαμε την online παρουσία της επιχείρησης <strong>[BUSINESS_NAME]</strong> [IN_CITY] και παρατηρήσαμε ότι δεν διαθέτετε δικό σας επίσημο website για την προβολή των υπηρεσιών σας.</p>
-<p>Στην <strong>SGK Software Development</strong> εξειδικευόμαστε στην κατασκευή ταχύτατων ιστοσελίδων νέας γενιάς (με Next.js / React) που βοηθούν τις επιχειρήσεις να αποκτήσουν σύγχρονη παρουσία στο διαδίκτυο και να προσελκύσουν νέους πελάτες.</p>
-<p><strong>Τι σας προσφέρουμε:</strong></p>
+<p>Είδαμε την online παρουσία της επιχείρησής σας <strong>[BUSINESS_NAME]</strong> [IN_CITY] και παρατηρήσαμε ότι λείπει ένα δικό σας επαγγελματικό website.</p>
+<p>Στη σημερινή εποχή, οι πελάτες ψάχνουν τα πάντα στο ίντερνετ (από το κινητό τους). Αν δεν σας βρίσκουν εύκολα με μια σωστή εικόνα, χάνετε πωλήσεις. Στην <strong>SGK Digital</strong> βοηθάμε επιχειρήσεις σαν τη δική σας να αποκτήσουν μια δυνατή παρουσία στο διαδίκτυο που φέρνει πραγματικό αποτέλεσμα.</p>
+<p><strong>Τι κερδίζετε μαζί μας:</strong></p>
 <ul>
-  <li><strong>Επαγγελματική Σχεδίαση:</strong> Mobile-first, προσαρμοσμένη απόλυτα στο δικό σας brand.</li>
-  <li><strong>Ασύλληπτη Ταχύτητα:</strong> Με Core Web Vitals 95+ για κορυφαία κατάταξη στη Google (SEO).</li>
-  <li><strong>Σύνδεση με Social Media & Google Maps:</strong> Για εύκολο εντοπισμό από νέους πελάτες.</li>
+  <li><strong>Επαγγελματική Εικόνα:</strong> Δείξτε αμέσως ότι είστε κορυφαίοι στον χώρο σας, εμπνέοντας εμπιστοσύνη στους νέους πελάτες.</li>
+  <li><strong>Περισσότερες Κλήσεις & Πωλήσεις:</strong> Σχεδιάζουμε τη σελίδα σας με έναν σκοπό: να φέρνει κόσμο στο μαγαζί ή το γραφείο σας.</li>
+  <li><strong>Εύκολος Εντοπισμός:</strong> Σύνδεση με Social Media και Google Maps για να σας βρίσκουν όλοι πανεύκολα με ένα κλικ.</li>
 </ul>
-<p>Αν ενδιαφέρεστε να συζητήσουμε πώς μπορούμε να αναβαθμίσουμε την παρουσία σας στο διαδίκτυο, απαντήστε σε αυτό το email ή καλέστε μας απευθείας στο <strong>6999524389</strong>.</p>`,
+<p>Αν θέλετε να δούμε πώς μπορούμε να βοηθήσουμε, απαντήστε σε αυτό το email ή καλέστε μας απευθείας στο <strong>6999524389</strong>. Η αρχική μας συζήτηση είναι εντελώς δωρεάν!</p>`,
       buttonText: "Δείτε τις Υπηρεσίες μας",
       buttonLink: "https://www.sgk.gr/web-development"
     },
@@ -1539,6 +1537,12 @@ export function ScraperTab() {
                         <option value="hotel">Ξενοδοχείο / Κατάλυμα</option>
                         <option value="rent_a_car">Ενοικίαση Αυτοκινήτων</option>
                         <option value="hair_salon">Κομμωτήριο / Κέντρο Αισθητικής</option>
+                        <option value="pharmacy">Φαρμακείο</option>
+                        <option value="airbnb">Airbnb / Βίλες</option>
+                        <option value="fastfood">Take away / Γυράδικο</option>
+                        <option value="retail">Κατάστημα Λιανικής</option>
+                        <option value="accountant">Λογιστικό Γραφείο</option>
+                        <option value="lawyer">Δικηγορικό Γραφείο</option>
                       </select>
                     </div>
                   </div>
@@ -1746,6 +1750,12 @@ export function ScraperTab() {
                         <option value="hotel">Ξενοδοχείο / Κατάλυμα</option>
                         <option value="rent_a_car">Ενοικίαση Αυτοκινήτων</option>
                         <option value="hair_salon">Κομμωτήριο / Κέντρο Αισθητικής</option>
+                        <option value="pharmacy">Φαρμακείο</option>
+                        <option value="airbnb">Airbnb / Βίλες</option>
+                        <option value="fastfood">Take away / Γυράδικο</option>
+                        <option value="retail">Κατάστημα Λιανικής</option>
+                        <option value="accountant">Λογιστικό Γραφείο</option>
+                        <option value="lawyer">Δικηγορικό Γραφείο</option>
                       </select>
                     </div>
 
