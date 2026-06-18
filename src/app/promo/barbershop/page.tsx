@@ -220,7 +220,7 @@ export default function BarbershopLanding() {
                   <div className="mt-0.5">
                     <input type="checkbox" checked={formData.acceptTerms} onChange={(e) => setFormData({...formData, acceptTerms: e.target.checked})} className="accent-[#4ade80] w-3.5 h-3.5" />
                   </div>
-                  <span>Αποδέχομαι τους <a href="/terms" target="_top" rel="noopener noreferrer" className="underline hover:text-white">όρους χρήσης</a>.</span>
+                  <span>Αποδέχομαι τους <a href="/terms" className="underline hover:text-white">όρους χρήσης</a>.</span>
                 </label>
                 <label className="flex items-start gap-2 text-xs text-white/80 cursor-pointer mt-2 group">
                   <div className="mt-0.5">
@@ -378,8 +378,8 @@ export default function BarbershopLanding() {
             <p className="text-xs text-white/50 flex items-center gap-2"><Phone size={14}/> 6999 524 389</p>
             <p className="text-xs text-white/50 flex items-center gap-2"><span className="material-symbols-outlined text-[14px]">mail</span> info@sgk.gr</p>
             <div className="mt-4 flex gap-4">
-              <a href="/privacy" target="_top" rel="noopener noreferrer" className="text-xs text-[#facc15] hover:text-yellow-300 transition-colors">Πολιτική Απορρήτου</a>
-              <a href="/terms" target="_top" rel="noopener noreferrer" className="text-xs text-[#4ade80] hover:text-green-300 transition-colors">Όροι Χρήσης</a>
+              <a href="/privacy" className="text-xs text-[#facc15] hover:text-yellow-300 transition-colors">Πολιτική Απορρήτου</a>
+              <a href="/terms" className="text-xs text-[#4ade80] hover:text-green-300 transition-colors">Όροι Χρήσης</a>
             </div>
           </div>
         </div>
