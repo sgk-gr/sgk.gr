@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { AlertTriangle, ShieldCheck, Scale, Clock, CheckCircle2, ArrowRight } from "lucide-react";
 import { sendContactEmail } from "@/lib/resend";
