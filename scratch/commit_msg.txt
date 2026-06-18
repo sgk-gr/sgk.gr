@@ -1,5 +1,1 @@
-refactor: Revert email automation to Supabase Edge Functions
-
-- Removed Next.js API route for emails
-- Rewrote `send-nurture-email` Supabase Edge Function to use Gemini AI and Resend in Deno environment
-- Updated `EmailsTab.tsx` and cron SQL to point back to the Edge Function URL
+feat(blog): add post about EU withdrawal button directive 2026

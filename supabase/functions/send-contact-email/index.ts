@@ -36,7 +36,8 @@ serve(async (req) => {
             needsNDA,
             offerPrice,
             marketingConsent,
-            website
+            website,
+            contactPreference
         } = payload;
 
         // Map simplified fields if present
@@ -253,6 +254,121 @@ serve(async (req) => {
                         <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style="color: #FF6B00; text-decoration: none;">sgk.gr</a><br><br>
                         <a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" style="color: #999; text-decoration: underline; font-size: 12px;">Κατάργηση εγγραφής (Unsubscribe)</a>
                     </p>
+                </div>
+            </div>
+                `
+            });
+        } else if (type === "promo_barbershop") {
+            // Promo Barbershop Admin Email
+            await resend.emails.send({
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: ["info@sgk.gr"],
+                subject: `✂️ Νέο Lead Κομμωτηρίου από: ${email}`,
+                html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                <h2 style="color: #333; border-bottom: 2px solid #3b5bdb; padding-bottom: 10px;">
+                    Νέο Αίτημα από την Landing Page Κομμωτηρίων
+                </h2>
+                
+                <div style="margin: 20px 0; display: grid; grid-template-cols: 1fr 1fr; gap: 10px;">
+                    <p><strong>Όνομα:</strong> ${finalFirstName} ${finalLastName}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
+                    <p><strong>Προτίμηση Επικοινωνίας:</strong> ${contactPreference === 'email' ? 'Με email 📧' : (contactPreference === 'phone' ? 'Στο τηλέφωνο 📞' : 'Δεν δηλώθηκε')}</p>
+                    <p><strong>Κομμωτήριο:</strong> ${company || 'Δεν δηλώθηκε'}</p>
+                    <p><strong>Marketing Consent:</strong> ${marketingConsent ? '✅ Ναι' : '❌ Όχι'}</p>
+                    <p><strong>Έκπτωση (Κουπόνι):</strong> 150€ 🎁</p>
+                </div>
+            </div>
+                `
+            });
+
+            // Promo Barbershop User Email
+            emailResult = await resend.emails.send({
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: [email],
+                subject: "Το ψηφιακό σου κομμωτήριο ετοιμάζεται! ✂️",
+                html: `
+            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+                <!-- Top Link -->
+                <div style="text-align: right; padding: 10px 20px;">
+                    <a href="https://sgk.gr/promo/barbershop" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">Δες την online έκδοση</a>
+                </div>
+
+                <!-- Logo -->
+                <div style="text-align: center; padding: 20px 0;">
+                    <h1 style="margin: 0; font-size: 42px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
+                </div>
+
+                <!-- Color Strip -->
+                <div style="display: flex; height: 12px; width: 100%;">
+                    <div style="width: 15%; background-color: #3b5bdb;"></div>
+                    <div style="width: 5%; background-color: #4ade80;"></div>
+                    <div style="width: 80%; background-color: #ffffff;"></div>
+                </div>
+
+                <!-- Hero Area (Dark) -->
+                <div style="background-color: #111111; color: #ffffff; padding: 50px 20px; text-align: center; position: relative;">
+                    <div style="background-color: #4ade80; color: #111; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-bottom: 15px;">Πρόλαβε το!</div>
+                    <h1 style="font-size: 80px; font-weight: 900; margin: 0; line-height: 1; letter-spacing: -3px; color: #ffffff;">150€</h1>
+                    <h3 style="font-size: 26px; margin: 10px 0 0 0; font-weight: 800; color: #ffffff;">WELCOME <span style="color:#4ade80;">REWARD</span></h3>
+                </div>
+                <div style="display: flex; height: 12px; width: 100%;">
+                    <div style="width: 15%; background-color: #4ade80;"></div>
+                    <div style="width: 85%; background-color: #3b5bdb;"></div>
+                </div>
+
+                <!-- Content Area -->
+                <div style="padding: 40px 30px; color: #333333;">
+                    <p style="font-size: 18px; font-weight: 600; margin-top: 0;">150€ για την ψηφιακή αναβάθμισή σου σε περιμένουν!</p>
+                    <p style="font-size: 16px; margin-bottom: 40px;">Ένα welcome reward που θα μιλήσει στο ταμείο σου!</p>
+
+                    <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Είσαι 3 βήματα μακριά:</p>
+                    
+                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;">1. <span style="color:#3b5bdb; font-weight: 600;">Λάβαμε</span> ήδη τα στοιχεία σου.</p>
+                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;">${contactPreference === 'email' ? '2. Θα επικοινωνήσουμε άμεσα μαζί σου μέσω email. <span style="color: #aaa; font-style: italic;">(Μην ανησυχείς, δεν στέλνουμε spam! 🤫)</span>' : '2. Θα σε καλέσουμε σύντομα! <span style="color: #aaa; font-style: italic;">(Δεν θα σε ζαλίσουμε στα τηλέφωνα, είμαστε διακριτικοί! 🤫)</span>'}</p>
+                    <p style="font-size: 16px; margin-bottom: 40px; color: #444;">3. Κερδίζεις τα 150€ αυτόματα στην κατασκευή του site σου.</p>
+
+                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 30px;">Η ομάδα της SGK Digital 💙</p>
+                </div>
+
+                <!-- Blue Footer -->
+                <div style="position: relative;">
+                    <!-- Top strips -->
+                    <div style="display: flex; height: 12px; width: 100%;">
+                        <div style="width: 75%; background-color: #d1d5db;"></div>
+                        <div style="width: 25%; background-color: #facc15;"></div>
+                    </div>
+                    
+                    <div style="background-color: #3b5bdb; color: #ffffff; padding: 40px 20px; text-align: center;">
+                        <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
+                        
+                        <div style="margin: 20px 0;">
+                            <a href="https://www.facebook.com/profile.php?id=61552383862787" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
+                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+                        </div>
+                        
+                        <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5;">
+                            <strong>SGK Software Development</strong><br/>
+                            ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
+                            Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
+                            📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
+                        </div>
+
+                        <p style="font-size: 11px; margin: 20px 0 0 0; color: #ffffff;">
+                            <a href="https://sgk.gr/terms" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
+                            <a href="https://sgk.gr/privacy" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
+                        </p>
+                        <p style="font-size: 11px; margin: 5px 0 0 0; color: #ffffff;">
+                            Copyright 2026. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Unsubscribe -->
+                <div style="background-color: #f4f4f5; padding: 20px; text-align: left; font-size: 11px; color: #666666;">
+                    If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
+                    <a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" style="color: #3b5bdb; text-decoration: underline;">(unsubscribe)</a>.
                 </div>
             </div>
                 `

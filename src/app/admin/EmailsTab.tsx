@@ -98,22 +98,16 @@ export function EmailsTab() {
     if (!lead.email) return;
     setSending(lead.id);
     try {
-      const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer \${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify({
+      const { error: invokeError } = await supabase.functions.invoke("send-nurture-email", {
+        body: {
           email: lead.email,
           step: (lead.email_sequence_step || 1) + 1,
           unsubscribe_token: lead.unsubscribe_token
-        })
+        }
       });
 
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error || "Αποτυχία αποστολής");
+      if (invokeError) {
+        throw new Error(invokeError.message || "Αποτυχία αποστολής");
       }
       
       toast.success(`Το email στάλθηκε επιτυχώς στο ${lead.email}`);
@@ -489,7 +483,11 @@ export function EmailsTab() {
                       {new Date(lead.created_at).toLocaleDateString("el-GR")}
                     </td>
                     <td className="p-4 text-center">
-                      {lead.coupon_code ? (
+                      {lead.type === 'promo_barbershop' ? (
+                        <span className="inline-block px-2.5 py-1 bg-green-50 text-green-700 rounded-md border border-green-100 font-semibold text-xs shadow-sm">
+                          150€
+                        </span>
+                      ) : lead.coupon_code ? (
                         <span className="inline-block px-2.5 py-1 bg-orange-50 text-orange-700 rounded-md border border-orange-100 font-semibold font-mono text-xs shadow-sm animate-fade-in">
                           SGK-{lead.coupon_code}
                         </span>

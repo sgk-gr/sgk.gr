@@ -152,10 +152,11 @@ export default function FloatingChatBot() {
     setInput('');
   };
 
-  const isExcluded = 
+  const isHidden = 
     pathname?.startsWith("/eshop-demo") || 
     pathname?.startsWith("/eshop-offer") || 
-    pathname?.startsWith("/website-offer");
+    pathname?.startsWith("/website-offer") ||
+    pathname?.startsWith("/promo");
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -165,12 +166,12 @@ export default function FloatingChatBot() {
     scrollToBottom();
   }, [messages]);
 
-  if (isExcluded) return null;
+  if (isHidden) return null;
 
   return (
     <AnimatePresence>
       {(isVisible || isOpen) && (
-        <div className="fixed bottom-8 right-8 sm:bottom-10 sm:right-12 z-[90] flex flex-col items-end no-print">
+        <div className="fixed bottom-10 right-10 sm:bottom-12 sm:right-16 z-[90] flex flex-col items-end no-print">
           <AnimatePresence>
             {isOpen && (
               <motion.div
