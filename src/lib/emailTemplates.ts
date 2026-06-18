@@ -62,20 +62,20 @@ export function buildProfessionalEmailHtml(opts: {
             <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
             
             <div style="margin: 20px 0;">
-                <a href="https://www.facebook.com/profile.php?id=61552383862787" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
-                <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+                <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
+                <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
             </div>
             
             <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5;">
                 <strong>SGK Software Development</strong><br/>
                 ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
                 Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
-                📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
+                📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" target="_blank" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
             </div>
 
             <p style="font-size: 11px; margin: 20px 0 0 0; color: #ffffff;">
-                <a href="https://sgk.gr/terms" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
-                <a href="https://sgk.gr/privacy" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
+                <a href="https://sgk.gr/terms" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
+                <a href="https://sgk.gr/privacy" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
             </p>
             <p style="font-size: 11px; margin: 5px 0 0 0; color: #ffffff;">
                 Copyright ${new Date().getFullYear()}. All rights reserved.
@@ -86,7 +86,7 @@ export function buildProfessionalEmailHtml(opts: {
     <!-- Unsubscribe -->
     <div style="background-color: #f4f4f5; padding: 20px; text-align: left; font-size: 11px; color: #666666;">
         If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
-        <br/><a href="${unsubLink}" style="color: #3b5bdb; text-decoration: underline;">${unsubLink}</a>
+        <br/><a href="${unsubLink}" target="_blank" style="color: #3b5bdb; text-decoration: underline;">${unsubLink}</a>
     </div>
 </div>
 </body>

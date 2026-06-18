@@ -342,8 +342,8 @@ serve(async (req) => {
                         <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
                         
                         <div style="margin: 20px 0;">
-                            <a href="https://www.facebook.com/profile.php?id=61552383862787" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
-                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+                            <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
+                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
                         </div>
                         
                         <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5;">
