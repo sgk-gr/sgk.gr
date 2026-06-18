@@ -1,68 +1,130 @@
-# SGK Software Development
+# SGK Software Development (llms.txt)
 
-> SGK Software Development is a Greek software company based in Athens (Metamorfosi, Attica) with 18+ years of experience, specializing in eCommerce development, custom web applications, and AI agentic systems.
+> SGK Software Development is an established Greek software engineering company based in Athens (Metamorfosi, Attica) with 18+ years of experience. We specialize in building ultra-high-performance eCommerce stores (Next.js & WooCommerce), custom web applications, SaaS, and agentic AI systems for business automation.
 
-## Company
+---
 
+## 🏢 Company Profile
+
+- **Legal Entity:** SGK Software Development S.A.
 - **Website:** https://sgk.gr
 - **Email:** info@sgk.gr
 - **Phone:** +30 6999524389
-- **Address:** Ermou 1 & Lykovriseos 1, 14452 Metamorfosi, Attica, Greece
-- **Founded:** 18+ years ago
-- **Legal entity:** SGK Software Development S.A.
+- **Address:** Ermou 1 & Lykovriseos 14, 14452 Metamorfosi, Attica, Greece
+- **VAT / ΑΦΜ:** 131398972 (ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ)
+- **Founded:** 18+ years of active market presence.
 
-## Services
+---
 
-- **eShop Development:** Custom WooCommerce & headless React/Next.js e-commerce stores. Sub-1s load times, 100/100 PageSpeed scores, SEO-ready, enterprise security.
-- **Web Development:** Custom web apps with React frontend and Node.js/Python backend. CRM systems, booking platforms, admin dashboards, SaaS platforms.
-- **AI Agents:** Custom AI agentic systems for business automation — customer support agents, eShop operations agents, invoicing & finance agents, data analysis agents, workflow automation agents.
-- **Website Development:** Modern, responsive WordPress or custom React websites optimized for performance and lead generation.
+## 🛠️ Services & Expertise
 
-## Tech Stack
+### 1. eShop Development (Custom & WooCommerce)
+- Headless eCommerce setups using Next.js/React frontends with WooCommerce backends.
+- Sub-1s page load times and 100/100 Google PageSpeed scores.
+- Fully SEO-optimized, highly secure, custom checkout designs, and IRIS/Bank payment integrations.
+- **eShop EU Compliance 2026:** Fully compliant with the latest EU directives, including the mandatory eShop Withdrawal Button (https://sgk.gr/eshop-compliance).
 
-- **Frontend:** React, Next.js, TypeScript, Tailwind CSS
-- **CMS/eCommerce:** WordPress, WooCommerce
-- **Backend:** Node.js, Python
-- **Database:** PostgreSQL, MongoDB
-- **AI:** OpenAI, LangChain
-- **Cloud:** AWS, Google Cloud
-- **DevOps:** Docker, Git
-- **Payments:** Stripe
+### 2. Custom Web Development & SaaS
+- Full-stack web applications with React frontend and Node.js/Python backends.
+- Custom CRM systems, reservation & booking engines, business operations dashboards, and SaaS platforms.
 
-## Notable Projects
+### 3. Agentic AI & Automations
+- Custom AI agentic systems built using OpenAI, LangChain, and Supabase.
+- Integration of autonomous agents for customer support, automated data analysis, invoice processing, and workflow automation.
 
-- **KM-FIBER** (https://sgk.gr/case-study/km-fiber): Telecom operations platform for a Cosmote partner. Fiber optic management, crew scheduling with live tracking, real-time fault reporting, AI photo recognition, live connection closing. Stack: React, Supabase, PostgreSQL, Google Maps API.
-- **Sigmalabs AI** (https://sgk.gr/case-study/sigmalabs-ai): First-of-its-kind agentic AI for e-commerce — controls and executes tasks in WooCommerce and Shopify stores autonomously. Stack: Agentic AI, React, OpenAI, Stripe.
-- **Rekrua** (https://sgk.gr/case-study/rekrua): AI HR platform with candidate rating system for intelligent screening and hiring. Stack: React, Supabase, GPT-5.2 Mini, PostgreSQL.
-- **Vaia Charms** (https://sgk.gr/case-study/vaia-charms): Headless e-commerce for exclusive jewelry boutique. Custom React frontend with WooCommerce backend.
-- **Harmony Apartments** (https://sgk.gr/case-study/harmony-apartments): Custom booking system with channel manager syncing Booking.com, Airbnb, VRBO, TripAdvisor automatically.
-- **yolo8** (https://sgk.gr/case-study/yolo8): Smart car rental booking system with AI customer support, Stripe payments, VPS hosting.
-- **Skinnera IKE** (https://sgk.gr/case-study/skinnera): Partner management platform with rewards system, real-time notifications, and mobile app for ESPA/DYPA application tracking. Stack: Flutter, Firebase.
-- **Glavinas Energy Solutions** (https://sgk.gr/case-study/energy-solutions): Landing page with SEO and Google Business Profile for energy solutions company — 40+ leads/month.
-- **EvolisAI** (https://sgk.gr/case-study/evolis-ai): Web app for creating AI agents for customer support in tourism and real estate.
+### 4. Special Marketing Landing Pages & Promos
+- **Barbershop & Hair Salon Promo (https://sgk.gr/promo/barbershop):** A specialized offer package helping barbers and hair salons build modern sites with integrated online appointment booking systems. New clients receive a €150 discount.
 
-## Pricing
+---
 
-- eShop starting from €2,300 (payment in 2 installments available)
-- Free project estimation: https://sgk.gr/estimate
+## 💻 Tech Stack
 
-## Industries Served
+- **Frontend:** React (React 19), Next.js (Next.js 15), TypeScript, Tailwind CSS, Framer Motion.
+- **CMS / Backend eCommerce:** WordPress, WooCommerce.
+- **Backend Languages/Environments:** Node.js, Python, Supabase Edge Functions (Deno).
+- **Databases:** PostgreSQL, Supabase, MongoDB.
+- **AI Integrations:** OpenAI (GPT-4o, GPT-5 models), LangChain, AI Agentic Workflows.
+- **DevOps & Infrastructure:** Docker, Git, Vercel, VPS Servers, Cloudflare.
+- **Transactional Emails:** Resend API.
+- **Payments:** Stripe, Alpha Bank, Piraeus, Eurobank, IRIS payments.
 
-Tourism agencies, Airbnb management, Hotels, eCommerce, Logistics, Real Estate, Food & Beverage, Healthcare, Telecom
+---
 
-## Partnerships & Recognition
+## 📂 Notable Projects (Case Studies)
 
-- Microsoft Partner
-- AWS Partner
-- Google Cloud Partner
-- INTED recognition
+### 1. KM-FIBER (https://sgk.gr/case-study/km-fiber)
+- **Purpose:** Telecom workforce and operations platform for a major Cosmote partner.
+- **Features:** Fiber optic network management, technician scheduling with live map tracking, real-time fault reporting, AI-powered photo recognition of completed installations, and instant live connection closing.
+- **Stack:** React, Supabase, PostgreSQL, Google Maps API.
 
-## Links
+### 2. Sigmalabs AI (https://sgk.gr/case-study/sigmalabs-ai)
+- **Purpose:** Next-generation autonomous AI agent for eCommerce.
+- **Features:** Autonomously executes store management tasks, updates inventory, handles customer issues, and processes orders inside WooCommerce and Shopify stores.
+- **Stack:** Agentic AI, React, OpenAI, Stripe.
 
-- Homepage: https://sgk.gr
-- eShop Development: https://sgk.gr/kataskevi-eshop
-- Web Development: https://sgk.gr/web-development
-- AI Agents: https://sgk.gr/ai-agents
-- Website Development: https://sgk.gr/kataskevi-istoselidon
-- Blog: https://sgk.gr/blog
-- Free Estimate: https://sgk.gr/estimate
+### 3. Rekrua (https://sgk.gr/case-study/rekrua)
+- **Purpose:** AI-powered HR and candidate screening platform.
+- **Features:** Automates candidate evaluations, resumes parsing, matches candidates to job posts, and rates applicants intelligently.
+- **Stack:** React, Supabase, GPT-5.2 Mini, PostgreSQL.
+
+### 4. Vaia Charms (https://sgk.gr/case-study/vaia-charms)
+- **Purpose:** Headless eCommerce site for an exclusive jewelry boutique.
+- **Features:** High-end, smooth animations, headless React frontend communicating with WooCommerce API for extreme speeds.
+
+### 5. Harmony Apartments (https://sgk.gr/case-study/harmony-apartments)
+- **Purpose:** Reservation system for Airbnb/Booking management.
+- **Features:** Custom channel manager that automatically syncs calendars and bookings across Airbnb, Booking.com, VRBO, and TripAdvisor.
+
+### 6. yolo8 (https://sgk.gr/case-study/yolo8)
+- **Purpose:** Intelligent car rental booking system.
+- **Features:** Automated calendar reservations, AI support widget, Stripe gateway, and high-performance VPS hosting.
+
+### 7. Skinnera IKE (https://sgk.gr/case-study/skinnera)
+- **Purpose:** Partner management and rewards platform for ESPA/DYPA applications.
+- **Features:** Mobile app and web dashboard with real-time push notifications, applicant progress tracking, and reward points.
+- **Stack:** Flutter, Firebase.
+
+### 8. Glavinas Energy Solutions (https://sgk.gr/case-study/energy-solutions)
+- **Purpose:** Lead generation landing page for energy services.
+- **Features:** Hyper-localized SEO, Google Business Profile integration, yielding 40+ high-quality inbound leads per month.
+
+---
+
+## 🤖 AI Coding & Development Guidelines (For AI Agents)
+
+When writing code for the SGK Software Development codebase, AI coding assistants must adhere to the following architectural guidelines:
+
+### 1. Next.js Routing and Metadata
+- **Do not export metadata from client components:** Next.js App Router does not allow exporting static `metadata` from files marked with `"use client"`.
+- **Use Page Layouts:** Always define page-specific metadata (title, description, keywords, OpenGraph tags) inside a separate, server-rendered `layout.tsx` file in the same route directory.
+
+### 2. Restricted Browser Sandbox Handling
+- **Avoid Sandbox Hijacking:** In restricted webviews or in-app browsers (e.g., Facebook, Instagram, or TikTok ad previews), the container page runs in a sandboxed `iframe`.
+- **Target Link Rules:**
+  - **Do NOT use `target="_top"`** on links in sandboxed webviews unless you explicitly intend to pass the sandbox restrictions onto the main tab window (which blocks all Javascript hydration on the main site).
+  - **Do NOT use `target="_blank"`** in sandboxed webviews if it causes the new tab to load with blocked script permissions (producing blank screens).
+  - **Preferred Link Pattern:** Use simple relative links (e.g. `<a href="/terms">`) without target attributes inside landing pages. This allows the page to navigate safely inside the active frame where script execution is already allowed.
+- **Email Outreach Links:** In HTML email templates (e.g., `src/lib/emailTemplates.ts`), always use `target="_blank"` on links to ensure they open in a new tab when clicked from restrictive webmail interfaces (e.g., Outlook Web, Gmail App).
+
+### 3. Design Aesthetics & Visual Identity
+- **Premium Styling:** The user experience should feel highly premium, modern, and polished.
+- **Typography:** Standardize on modern typography using **Inter** and **Space Grotesk** Google Fonts.
+- **Color Palettes:** Avoid default, unstyled base colors. Use sophisticated HSL-based color tokens, dark-mode variations, glassmorphism layers, and subtle gradients.
+- **Micro-Animations:** Add smooth transitions, hover states, and keyframe animations using Tailwind CSS or Framer Motion to make pages feel alive.
+- **Working Demos:** Avoid using image placeholders. Use real image assets or generative media tools to render high-fidelity previews.
+
+---
+
+## 🔗 Key Links
+
+- **Main Website:** https://sgk.gr
+- **eShop Development Services:** https://sgk.gr/kataskevi-eshop
+- **WooCommerce eShop Services:** https://sgk.gr/kataskevi-eshop-woocommerce
+- **Custom Web Development:** https://sgk.gr/web-development
+- **AI Agents & Automation:** https://sgk.gr/ai-agents
+- **Website Development:** https://sgk.gr/kataskevi-istoselidon
+- **Barbershop Promo Landing Page:** https://sgk.gr/promo/barbershop
+- **eShop EU Compliance:** https://sgk.gr/eshop-compliance
+- **Dynamic Sitemap:** https://sgk.gr/sitemap
+- **Blog / Tech Insights:** https://sgk.gr/blog
+- **Free Project Estimation Form:** https://sgk.gr/estimate
