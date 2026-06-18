@@ -35,7 +35,8 @@ serve(async (req) => {
             message, // Fallback for message
             needsNDA,
             offerPrice,
-            marketingConsent
+            marketingConsent,
+            website
         } = payload;
 
         // Map simplified fields if present
@@ -78,7 +79,8 @@ serve(async (req) => {
                     marketing_consent: marketingConsent,
                     email_sequence_step: 1,
                     unsubscribe_token: unsubscribeToken,
-                    coupon_code: type === "eshop_offer" ? couponCode : null
+                    coupon_code: type === "eshop_offer" ? couponCode : null,
+                    website: website || null
                 }]);
 
             if (dbError) {
@@ -98,6 +100,7 @@ serve(async (req) => {
                 email_sequence_step: 1, // Reset nurture sequence
                 unsubscribed: false, // Re-subscribe them since they filled out the form again
                 coupon_code: couponCode,
+                website: website || existingLead.website,
                 created_at: new Date().toISOString(), // Update timestamp to show latest submission
                 last_email_sent_at: new Date().toISOString()
             };
@@ -277,7 +280,8 @@ serve(async (req) => {
                     <p><strong>Όνομα:</strong> ${finalFirstName} ${finalLastName}</p>
                     <p><strong>Email:</strong> ${email}</p>
                     <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
-                    <p><strong>Εταιρεία:</strong> ${company || 'Δεν δηλώθηκε'}</p>
+                    <p><strong>Εταιρεία/Eshop:</strong> ${company || website || 'Δεν δηλώθηκε'}</p>
+                    <p><strong>Website/URL:</strong> ${website || 'Δεν δηλώθηκε'}</p>
                     <p><strong>Πηγή:</strong> ${howDidYouHear || 'Δεν δηλώθηκε'}</p>
                     <p><strong>Χρειάζεται NDA:</strong> ${needsNDA === 'Yes' ? '✅ Ναι' : '❌ Όχι'}</p>
                 </div>
