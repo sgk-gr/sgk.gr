@@ -48,6 +48,7 @@ const links = [
         items: [
             { name: "Eshop Demo", path: "/eshop-demo" },
             { name: "Προσφορά Eshop", path: "/eshop-offer" },
+            { name: "Προσφορά Barbershop & Κομμωτήρια", path: "/promo/barbershop" },
         ]
     },
     {
