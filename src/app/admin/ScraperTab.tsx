@@ -243,7 +243,7 @@ const EMAIL_TEMPLATES: Record<
 </ul>
 <p>Αν θέλετε να συζητήσουμε πώς μπορούμε να βοηθήσουμε το κομμωτήριό σας να αναπτυχθεί, απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong>.</p>`,
       buttonText: "Δείτε την Πρότασή μας",
-      buttonLink: "https://www.sgk.gr/web-development"
+      buttonLink: "https://www.sgk.gr/promo/barbershop"
     }
   },
   eshop: {

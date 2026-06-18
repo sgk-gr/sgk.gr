@@ -80,8 +80,7 @@ serve(async (req) => {
                     marketing_consent: marketingConsent,
                     email_sequence_step: 1,
                     unsubscribe_token: unsubscribeToken,
-                    coupon_code: type === "eshop_offer" ? couponCode : null,
-                    website: website || null
+                    coupon_code: type === "eshop_offer" ? couponCode : null
                 }]);
 
             if (dbError) {
@@ -101,7 +100,6 @@ serve(async (req) => {
                 email_sequence_step: 1, // Reset nurture sequence
                 unsubscribed: false, // Re-subscribe them since they filled out the form again
                 coupon_code: couponCode,
-                website: website || existingLead.website,
                 created_at: new Date().toISOString(), // Update timestamp to show latest submission
                 last_email_sent_at: new Date().toISOString()
             };

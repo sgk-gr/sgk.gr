@@ -7,19 +7,15 @@ export function buildProfessionalEmailHtml(opts: {
   unsubscribeToken: string;
   industry?: string;
 }): string {
-  const { businessName, bodyHtml, buttonText, buttonLink, unsubscribeToken, industry } = opts;
+  const { bodyHtml, buttonText, buttonLink, unsubscribeToken } = opts;
   const unsubLink = `https://sgk.gr/unsubscribe?token=${unsubscribeToken}`;
   
   const ctaButton = buttonText && buttonLink ? `
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:20px 0 8px;">
-    <tr>
-      <td align="center">
-        <a href="${buttonLink}" target="_blank" style="display:inline-block;background:#FF6B00;color:#ffffff;font-family:Arial,sans-serif;font-size:15px;font-weight:700;padding:14px 32px;border-radius:8px;text-decoration:none;mso-padding-alt:0;">
-          ${buttonText}
-        </a>
-      </td>
-    </tr>
-  </table>` : "";
+  <div style="text-align: center; margin: 30px 0 10px;">
+      <a href="${buttonLink}" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:14px 32px;border-radius:20px;text-decoration:none;">
+        ${buttonText}
+      </a>
+  </div>` : "";
 
   return `<!DOCTYPE html>
 <html lang="el">
@@ -27,97 +23,72 @@ export function buildProfessionalEmailHtml(opts: {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SGK Digital</title>
+  <title>sgk.</title>
 </head>
-<body style="margin:0;padding:0;background-color:#f0f2f5;font-family:Arial,Helvetica,sans-serif;">
+<body style="margin:0;padding:0;background-color:#f0f2f5;">
+<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <!-- Top Link -->
+    <div style="text-align: right; padding: 10px 20px;">
+        <a href="https://sgk.gr" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">sgk.gr</a>
+    </div>
 
-<!-- Wrapper -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f0f2f5">
-  <tr>
-    <td align="center" style="padding:24px 16px;">
+    <!-- Logo -->
+    <div style="text-align: center; padding: 20px 0;">
+        <h1 style="margin: 0; font-size: 42px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
+    </div>
 
-      <!-- Email Card -->
-      <table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="max-width:600px;border-radius:2px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12);">
+    <!-- Color Strip -->
+    <div style="display: flex; height: 12px; width: 100%;">
+        <div style="width: 15%; background-color: #3b5bdb;"></div>
+        <div style="width: 5%; background-color: #4ade80;"></div>
+        <div style="width: 80%; background-color: #ffffff;"></div>
+    </div>
 
-        <!-- LOGO BAR -->
-        <tr>
-          <td bgcolor="#ffffff" style="padding:16px 28px;border-bottom:1px solid #f0f0f0;">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0">
-              <tr>
-                <td>
-                  <span style="font-family:Arial,sans-serif;font-size:20px;font-weight:900;color:#1a1a2e;">SGK <span style="color:#FF6B00;">Digital</span></span>
-                </td>
-                <td align="right">
-                  <a href="https://sgk.gr/web-development" style="color:#555;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">Υπηρεσίες</a>
-                  <a href="https://sgk.gr" style="color:#555;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">Portfolio</a>
-                  <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;font-size:12px;font-weight:600;margin-left:14px;">📞 6999 524389</a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
+    <!-- Content Area -->
+    <div style="padding: 40px 30px; color: #333333; font-size: 16px; line-height: 1.6;">
+        ${bodyHtml}
+        ${ctaButton}
+    </div>
 
-        <!-- HERO -->
-        <tr>
-          <td bgcolor="#1a1a2e" style="padding:40px 40px 55px;text-align:center;background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);">
-            <span style="font-family:Arial,sans-serif;font-size:26px;font-weight:900;color:#ffffff;line-height:1.3;">Γεια σας από την <span style="color:#FF8C3A;">SGK Digital!</span></span>
-            <br>
-            <span style="font-size:14px;color:rgba(255,255,255,0.65);display:block;margin-top:10px;">Ψηφιακές λύσεις για επιχειρήσεις στην Καστοριά &amp; Ελλάδα</span>
-          </td>
-        </tr>
+    <!-- Blue Footer -->
+    <div style="position: relative;">
+        <!-- Top strips -->
+        <div style="display: flex; height: 12px; width: 100%;">
+            <div style="width: 75%; background-color: #d1d5db;"></div>
+            <div style="width: 25%; background-color: #facc15;"></div>
+        </div>
+        
+        <div style="background-color: #3b5bdb; color: #ffffff; padding: 40px 20px; text-align: center;">
+            <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
+            
+            <div style="margin: 20px 0;">
+                <a href="https://www.facebook.com/profile.php?id=61552383862787" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
+                <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+            </div>
+            
+            <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5;">
+                <strong>SGK Software Development</strong><br/>
+                ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
+                Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
+                📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
+            </div>
 
-        <!-- BODY -->
-        <tr>
-          <td bgcolor="#ffffff" style="padding:36px 40px 28px;">
-            ${bodyHtml}
-            ${ctaButton}
-          </td>
-        </tr>
-
-        <!-- WHATSAPP + PHONE CTA -->
-        <tr>
-          <td bgcolor="#fff8f4" style="padding:24px 40px;border-top:1px solid #ffe0cc;border-bottom:1px solid #ffe0cc;text-align:center;">
-            <p style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#1a1a2e;margin:0 0 14px 0;">Θέλετε να μάθετε περισσότερα ή να κάνουμε μια φιλική κουβέντα;</p>
-            <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
-              <tr>
-                <td style="padding-right:10px;">
-                  <a href="https://wa.me/306999524389" style="display:inline-block;background:#25D366;color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:700;padding:12px 22px;border-radius:8px;text-decoration:none;">💬 WhatsApp</a>
-                </td>
-                <td>
-                  <a href="tel:6999524389" style="display:inline-block;background:#ffffff;color:#FF6B00;font-family:Arial,sans-serif;font-size:14px;font-weight:700;padding:11px 22px;border-radius:8px;text-decoration:none;border:2px solid #FF6B00;">📞 6999 524 389</a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- FOOTER -->
-        <tr>
-          <td bgcolor="#f5f6f8" style="padding:24px 40px;text-align:center;">
-            <p style="font-family:Arial,sans-serif;font-size:12px;color:#888;margin:0 0 10px 0;">
-              <a href="https://sgk.gr" style="color:#555;text-decoration:none;margin:0 8px;">Σχετικά</a>
-              <a href="https://sgk.gr/portfolio" style="color:#555;text-decoration:none;margin:0 8px;">Portfolio</a>
-              <a href="https://sgk.gr/privacy-policy" style="color:#555;text-decoration:none;margin:0 8px;">Πολιτική Απορρήτου</a>
-              <a href="${unsubLink}" style="color:#aaa;text-decoration:none;margin:0 8px;">Κατάργηση εγγραφής</a>
+            <p style="font-size: 11px; margin: 20px 0 0 0; color: #ffffff;">
+                <a href="https://sgk.gr/terms" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
+                <a href="https://sgk.gr/privacy" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
             </p>
-            <p style="font-family:Arial,sans-serif;font-size:11px;color:#aaa;margin:0;line-height:1.7;">
-              <strong style="color:#999;">SGK Software Development</strong><br>
-              ΑΦΜ: 131398972<br>
-              Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br>
-              <a href="mailto:info@sgk.gr" style="color:#FF6B00;text-decoration:none;">info@sgk.gr</a> | <a href="tel:6999524389" style="color:#FF6B00;text-decoration:none;">6999 524 389</a><br>
-              © ${new Date().getFullYear()} SGK Digital. Όλα τα δικαιώματα διατηρούνται.
+            <p style="font-size: 11px; margin: 5px 0 0 0; color: #ffffff;">
+                Copyright ${new Date().getFullYear()}. All rights reserved.
             </p>
-          </td>
-        </tr>
+        </div>
+    </div>
 
-      </table>
-      <!-- /Email Card -->
-
-    </td>
-  </tr>
-</table>
-<!-- /Wrapper -->
-
+    <!-- Unsubscribe -->
+    <div style="background-color: #f4f4f5; padding: 20px; text-align: left; font-size: 11px; color: #666666;">
+        If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
+        <br/><a href="${unsubLink}" style="color: #3b5bdb; text-decoration: underline;">${unsubLink}</a>
+    </div>
+</div>
 </body>
 </html>`;
 }
