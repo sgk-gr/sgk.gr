@@ -118,6 +118,9 @@ const detectIndustry = (industryText: string): string => {
   if (text.includes("οδοντ") || text.includes("dent") || text.includes("tooth") || text.includes("smile") || text.includes("στοματ") || text.includes("odont")) {
     return "dentist";
   }
+  if (text.includes("κομμωτ") || text.includes("hair") || text.includes("salon") || text.includes("barber") || text.includes("νυχια") || text.includes("nail") || text.includes("αισθητικ") || text.includes("beauty") || text.includes("κουρει")) {
+    return "hair_salon";
+  }
   if (text.includes("εστια") || text.includes("καφε") || text.includes("restau") || text.includes("cafe") || text.includes("ψητο") || text.includes("ταβερ") || text.includes("pizza") || text.includes("burger") || text.includes("φαγητ") || text.includes("bar") || text.includes("delivery") || text.includes("μπαρ")) {
     return "food_service";
   }
@@ -126,9 +129,6 @@ const detectIndustry = (industryText: string): string => {
   }
   if (text.includes("rent") || text.includes("ενοικια") || text.includes("aut") || text.includes("car") || text.includes("οχημα") || text.includes("moto")) {
     return "rent_a_car";
-  }
-  if (text.includes("κομμωτ") || text.includes("hair") || text.includes("salon") || text.includes("barber") || text.includes("νυχια") || text.includes("nail") || text.includes("αισθητικ") || text.includes("beauty") || text.includes("κουρει")) {
-    return "hair_salon";
   }
   
   return "generic";
