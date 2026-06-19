@@ -205,12 +205,11 @@ interface CartItem {
 
 function BarbershopDemoContent() {
   const searchParams = useSearchParams();
-  const queryName = searchParams.get("name") || "";
   const queryCity = searchParams.get("city") || "";
   const queryPhoneInput = searchParams.get("phone") || "";
   
   const inCityPhrase = getInCityPhrase(queryCity) || "στη Θεσσαλονίκη";
-  const businessDisplayName = queryName || "Local Barber";
+  const businessDisplayName = "Local Barber";
   const queryPhone = queryPhoneInput || "6999 524 389";
 
   // Booking States
@@ -245,7 +244,6 @@ function BarbershopDemoContent() {
     const now = new Date();
     setCurrentHours(now.getHours());
     setCurrentMinutes(now.getMinutes());
-    if (queryName) setClientName(queryName);
     if (queryPhoneInput) setClientPhone(queryPhoneInput);
     if (queryCity) setShippingCity(queryCity);
 
@@ -254,7 +252,7 @@ function BarbershopDemoContent() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [queryName, queryPhoneInput, queryCity]);
+  }, [queryPhoneInput, queryCity]);
 
   const startBooking = (service?: typeof defaultServices[0]) => {
     if (service) {
@@ -272,7 +270,7 @@ function BarbershopDemoContent() {
     setSelectedBarber(null);
     setSelectedDate(null);
     setSelectedTime(null);
-    setClientName(queryName || "Γιάννης Παπαδόπουλος");
+    setClientName("Γιάννης Παπαδόπουλος");
     setClientPhone(queryPhoneInput || "6999 524 389");
     setClientEmail("demo@example.com");
   };
