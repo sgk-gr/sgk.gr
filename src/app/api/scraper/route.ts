@@ -520,6 +520,23 @@ export async function POST(req: NextRequest) {
       const prospectsList = Array.from(prospectsMap.values());
       let savedCount = 0;
       for (const prospect of prospectsList) {
+        // Check if already emailed in prospects or exists in sgk_mails
+        const { data: existingProspect } = await supabase
+          .from("sgk_prospects")
+          .select("status")
+          .eq("email", prospect.email)
+          .maybeSingle();
+
+        const { data: existingMail } = await supabase
+          .from("sgk_mails")
+          .select("id")
+          .eq("email", prospect.email)
+          .maybeSingle();
+
+        if ((existingProspect && existingProspect.status === "emailed") || existingMail) {
+          prospect.status = "emailed";
+        }
+
         const { data, error } = await supabase
           .from("sgk_prospects")
           .upsert([prospect], { onConflict: "email" })
@@ -691,6 +708,23 @@ export async function POST(req: NextRequest) {
 
     // Αποθήκευση στη βάση δεδομένων (παρακάμπτοντας τα διπλότυπα)
     for (const prospect of prospectsToSave) {
+      // Check if already emailed in prospects or exists in sgk_mails
+      const { data: existingProspect } = await supabase
+        .from("sgk_prospects")
+        .select("status")
+        .eq("email", prospect.email)
+        .maybeSingle();
+
+      const { data: existingMail } = await supabase
+        .from("sgk_mails")
+        .select("id")
+        .eq("email", prospect.email)
+        .maybeSingle();
+
+      if ((existingProspect && existingProspect.status === "emailed") || existingMail) {
+        prospect.status = "emailed";
+      }
+
       const { data, error } = await supabase
         .from("sgk_prospects")
         .upsert(

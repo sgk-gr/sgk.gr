@@ -205,29 +205,40 @@ export function EmailsTab() {
       } : null);
 
       try {
+        const unsubscribeToken = lead.unsubscribe_token || crypto.randomUUID();
+        const bodyHtml = campaignBody
+          .replace(/\n/g, '<br />')
+          .replace(/\{\{COUPON_BANNER\}\}/g, `
+            <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0; font-family: sans-serif;">
+                <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
+                <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-9999</span>
+                <p style="color: #888; font-size: 12px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
+                <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν 60 ημέρες για εξαργύρωση</p>
+            </div>
+          `);
+
+        const finalBody = buildProfessionalEmailHtml({
+          businessName: lead.first_name || lead.company || "Επιχείρηση",
+          subject: campaignSubject,
+          bodyHtml: bodyHtml,
+          buttonText: buttonText || undefined,
+          buttonLink: buttonLink || undefined,
+          unsubscribeToken: unsubscribeToken,
+          industry: lead.company,
+        });
+
         const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer \${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({
             email: lead.email,
-            unsubscribe_token: lead.unsubscribe_token,
+            unsubscribe_token: unsubscribeToken,
             customSubject: campaignSubject,
-            customHtml: (() => {
-              let html = campaignBody.replace(/\n/g, '<br />');
-              if (buttonText && buttonLink) {
-                html += `
-                  <div style="text-align: center; margin: 25px 0;">
-                    <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-                      ${buttonText}
-                    </a>
-                  </div>
-                `;
-              }
-              return html;
-            })()
+            customHtml: finalBody,
+            step: 1,
           })
         });
 
@@ -422,7 +433,7 @@ export function EmailsTab() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100">
-                <th className="p-4 w-12 text-center">
+                <th className="py-3 px-3 w-12 text-center">
                   <input 
                     type="checkbox" 
                     checked={leads.length > 0 && leads.filter(l => !l.unsubscribed).every(l => selectedLeads.includes(l.id))}
@@ -436,12 +447,12 @@ export function EmailsTab() {
                     className="rounded border-gray-300 text-vivid-primary focus:ring-vivid-primary h-4 w-4 cursor-pointer"
                   />
                 </th>
-                <th className="p-4 font-semibold text-gray-600">Email / Όνομα</th>
-                <th className="p-4 font-semibold text-gray-600">Ημ/νία Εγγραφής</th>
-                <th className="p-4 font-semibold text-gray-600 text-center">Κουπόνι</th>
-                <th className="p-4 font-semibold text-gray-600 text-center">Status Ακολουθίας</th>
-                <th className="p-4 font-semibold text-gray-600 text-center">Πελάτης;</th>
-                <th className="p-4 font-semibold text-gray-600 text-center">Ενέργειες</th>
+                <th className="py-3 px-3 font-semibold text-gray-600">Email / Όνομα</th>
+                <th className="py-3 px-3 font-semibold text-gray-600">Ημ/νία Εγγραφής</th>
+                <th className="py-3 px-3 font-semibold text-gray-600 text-center">Κουπόνι</th>
+                <th className="py-3 px-3 font-semibold text-gray-600 text-center">Status Ακολουθίας</th>
+                <th className="py-3 px-3 font-semibold text-gray-600 text-center">Πελάτης;</th>
+                <th className="py-3 px-3 font-semibold text-gray-600 text-center">Ενέργειες</th>
               </tr>
             </thead>
             <tbody>
@@ -451,7 +462,7 @@ export function EmailsTab() {
                 
                 return (
                   <tr key={lead.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td className="p-4 text-center">
+                    <td className="py-4 px-3 text-center">
                       {!lead.unsubscribed ? (
                         <input 
                           type="checkbox" 
@@ -473,16 +484,18 @@ export function EmailsTab() {
                         />
                       )}
                     </td>
-                    <td className="p-4">
-                      <div className="font-medium text-gray-900">{lead.email}</div>
-                      <div className="text-sm text-gray-500">{lead.first_name} {lead.last_name}</div>
-                      {!lead.marketing_consent && <span className="text-xs text-red-500 font-medium">No Consent</span>}
-                      {lead.unsubscribed && <span className="text-xs text-red-500 font-medium ml-2">Unsubscribed</span>}
+                    <td className="py-4 px-3 max-w-[220px]">
+                      <div className="font-medium text-gray-900 truncate" title={lead.email}>{lead.email}</div>
+                      <div className="text-xs text-gray-500 truncate" title={`${lead.first_name || ""} ${lead.last_name || ""}`}>
+                        {lead.first_name || lead.last_name ? `${lead.first_name || ""} ${lead.last_name || ""}` : "-"}
+                      </div>
+                      {!lead.marketing_consent && <span className="text-[10px] text-red-500 font-bold bg-red-50 px-1.5 py-0.5 rounded">No Consent</span>}
+                      {lead.unsubscribed && <span className="text-[10px] text-red-500 font-bold bg-red-50 px-1.5 py-0.5 rounded ml-2">Unsubscribed</span>}
                     </td>
-                    <td className="p-4 text-sm text-gray-600">
+                    <td className="py-4 px-3 text-sm text-gray-600">
                       {new Date(lead.created_at).toLocaleDateString("el-GR")}
                     </td>
-                    <td className="p-4 text-center">
+                    <td className="py-4 px-3 text-center">
                       {lead.type === 'promo_barbershop' ? (
                         <span className="inline-block px-2.5 py-1 bg-green-50 text-green-700 rounded-md border border-green-100 font-semibold text-xs shadow-sm">
                           150€
@@ -495,7 +508,7 @@ export function EmailsTab() {
                         <span className="text-gray-400 font-normal">-</span>
                       )}
                     </td>
-                    <td className="p-4">
+                    <td className="py-4 px-3">
                       <div className="flex items-center justify-center gap-1">
                         {[1, 2, 3, 4].map(s => (
                           <div 
@@ -507,15 +520,15 @@ export function EmailsTab() {
                             }`}
                             title={s <= step ? `Email #${s} Στάλθηκε` : `Email #${s} Εκκρεμεί`}
                           >
-                            {s <= step ? <Check size={12} /> : s}
+                            {s}
                           </div>
                         ))}
                       </div>
                     </td>
-                    <td className="p-4 text-center">
+                    <td className="py-4 px-3 text-center">
                       <button 
                         onClick={() => markAsConverted(lead.id, lead.converted)}
-                        className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
+                        className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
                           lead.converted 
                             ? "bg-green-100 text-green-700 border border-green-200" 
                             : "bg-gray-100 text-gray-500 hover:bg-gray-200"
@@ -524,7 +537,7 @@ export function EmailsTab() {
                         {lead.converted ? "Ναι" : "Όχι"}
                       </button>
                     </td>
-                    <td className="p-4 text-center">
+                    <td className="py-4 px-3 text-center">
                       <div className="flex items-center justify-center gap-2">
                         {canSendNext ? (
                           <button
@@ -691,55 +704,44 @@ export function EmailsTab() {
 
                   {/* Right Column: Live Email Preview */}
                   <div className="flex flex-col space-y-2 h-full min-h-0">
-                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Προεπισκόπηση Email (Live Preview)</label>
-                    <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-1 overflow-y-auto shadow-inner min-h-0">
-                      <div className="text-xs text-gray-400 mb-3 pb-3 border-b border-orange-100 flex flex-col gap-1">
-                        <div><strong>Από:</strong> SGK Digital &lt;noreply@sgk.gr&gt;</div>
-                        <div><strong>Θέμα:</strong> <span className="text-gray-700 font-medium">{campaignSubject || "(Χωρίς Θέμα)"}</span></div>
-                      </div>
-                      
-                      <div style={{ fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif", maxWidth: "100%", margin: "0 auto", padding: "10px 0" }}>
-                        <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #f2e3db", boxShadow: "0 2px 10px rgba(0,0,0,0.01)" }}>
-                          <div 
-                            className="prose prose-sm prose-orange max-w-none text-gray-800 leading-relaxed font-sans"
-                            style={{ fontSize: "14px" }}
-                            dangerouslySetInnerHTML={{ 
-                              __html: (() => {
-                                if (!campaignBody) return "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>";
-                                let html = campaignBody.replace(/\n/g, '<br />')
-                                  .replace(/\{\{COUPON_BANNER\}\}/g, `
-                                    <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0; font-family: sans-serif;">
-                                        <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
-                                        <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-9999</span>
-                                        <p style="color: #888; font-size: 12px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
-                                        <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν 60 ημέρες για εξαργύρωση</p>
-                                    </div>
-                                  `);
-                                
-                                if (buttonText && buttonLink) {
-                                  html += `
-                                    <div style="text-align: center; margin: 25px 0;">
-                                      <a href="${buttonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-                                        ${buttonText}
-                                      </a>
-                                    </div>
-                                  `;
-                                }
-                                return html;
-                              })()
-                            }} 
-                          />
-                        </div>
-                        
-                        {/* SGK Footer */}
-                        <div style={{ textAlign: "center", marginTop: "25px", paddingTop: "15px", borderTop: "1px solid #ebdcd5" }}>
-                          <p style={{ color: "#888888", fontSize: "11px", lineHeight: "1.5", margin: 0 }}>
-                            Αυτό το email στάλθηκε επειδή ζητήσατε προσφορά για Eshop από το <strong>sgk.gr</strong>.<br />
-                            <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style={{ color: "#FF6B00", textDecoration: "none", fontWeight: "bold" }}>sgk.gr</a><br /><br />
-                            <span style={{ color: "#999", textDecoration: "underline", fontSize: "10px", cursor: "pointer" }}>Κατάργηση εγγραφής (Unsubscribe)</span>
-                          </p>
-                        </div>
-                      </div>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Προεπισκόπηση Email (Live Preview)</label>
+                      <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">● Live</span>
+                    </div>
+                    <div className="flex-1 rounded-xl overflow-hidden border border-gray-200 shadow-inner min-h-0 bg-[#f0f2f5]">
+                      <iframe
+                        key={campaignBody + campaignSubject + buttonText + buttonLink}
+                        srcDoc={(() => {
+                          if (!campaignBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
+                          
+                          const sampleLead = singleLeadTarget || leads.find(l => selectedLeads.includes(l.id));
+                          const businessName = sampleLead ? (sampleLead.first_name || sampleLead.company || "Επιχείρηση") : "Επιχείρηση";
+                          
+                          const bodyHtml = campaignBody
+                            .replace(/\n/g, '<br />')
+                            .replace(/\{\{COUPON_BANNER\}\}/g, `
+                              <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0; font-family: sans-serif;">
+                                  <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΠΡΟΣΩΠΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
+                                  <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 3px;">SGK-9999</span>
+                                  <p style="color: #888; font-size: 12px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
+                                  <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Απομένουν 60 ημέρες για εξαργύρωση</p>
+                              </div>
+                            `);
+
+                          return buildProfessionalEmailHtml({
+                            businessName: businessName,
+                            subject: campaignSubject,
+                            bodyHtml: bodyHtml,
+                            buttonText: buttonText || undefined,
+                            buttonLink: buttonLink || undefined,
+                            unsubscribeToken: "preview-token",
+                            industry: sampleLead?.company,
+                          });
+                        })()}
+                        className="w-full h-full border-0"
+                        title="Email Preview"
+                        sandbox="allow-same-origin"
+                      />
                     </div>
                   </div>
                 </div>

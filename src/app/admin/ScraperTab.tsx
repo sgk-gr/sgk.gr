@@ -1275,7 +1275,7 @@ export function ScraperTab() {
             <table className="w-full text-left border-collapse text-sm">
               <thead>
                 <tr className="border-b border-white/10 bg-white/5 text-zinc-400 font-semibold text-xs uppercase">
-                  <th className="py-3 px-6 w-10">
+                  <th className="py-3 pl-4 pr-2 w-10">
                     <input 
                       type="checkbox"
                       checked={filteredProspects.length > 0 && selectedIds.length === filteredProspects.length}
@@ -1289,19 +1289,19 @@ export function ScraperTab() {
                       className="rounded border-zinc-700 bg-zinc-900 text-orange-500 focus:ring-orange-500 cursor-pointer w-4 h-4"
                     />
                   </th>
-                  <th className="py-3 px-6">Όνομα Επιχείρησης</th>
-                  <th className="py-3 px-6">Email</th>
-                  <th className="py-3 px-6">Κλάδος</th>
-                  <th className="py-3 px-6">Πόλη</th>
-                  <th className="py-3 px-6">Ημ. Εύρεσης</th>
-                  <th className="py-3 px-6">Κατάσταση</th>
-                  <th className="py-3 px-6 text-right">Ενέργειες</th>
+                  <th className="py-3 px-3">Όνομα Επιχείρησης</th>
+                  <th className="py-3 px-3">Email</th>
+                  <th className="py-3 px-3">Κλάδος</th>
+                  <th className="py-3 px-3">Πόλη</th>
+                  <th className="py-3 px-3">Ημ. Εύρεσης</th>
+                  <th className="py-3 px-3">Κατάσταση</th>
+                  <th className="py-3 pr-4 pl-2 text-right">Ενέργειες</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredProspects.map((prospect) => (
                   <tr key={prospect.id} className="border-b border-white/5 hover:bg-white/5 transition-all text-white">
-                    <td className="py-4 px-6">
+                    <td className="py-4 pl-4 pr-2">
                       <input 
                         type="checkbox"
                         checked={selectedIds.includes(prospect.id)}
@@ -1315,14 +1315,14 @@ export function ScraperTab() {
                         className="rounded border-zinc-700 bg-zinc-900 text-orange-500 focus:ring-orange-500 cursor-pointer w-4 h-4"
                       />
                     </td>
-                    <td className="py-4 px-6 font-semibold">{prospect.business_name}</td>
-                    <td className="py-4 px-6 font-mono text-zinc-300 text-xs">{prospect.email}</td>
-                    <td className="py-4 px-6 text-zinc-400">{prospect.industry}</td>
-                    <td className="py-4 px-6 text-zinc-400">{prospect.city}</td>
-                    <td className="py-4 px-6 text-zinc-400 text-xs">
+                    <td className="py-4 px-3 font-semibold max-w-[200px] truncate" title={prospect.business_name}>{prospect.business_name}</td>
+                    <td className="py-4 px-3 font-mono text-zinc-300 text-xs max-w-[220px] truncate" title={prospect.email}>{prospect.email}</td>
+                    <td className="py-4 px-3 text-zinc-400 max-w-[120px] truncate" title={prospect.industry}>{prospect.industry}</td>
+                    <td className="py-4 px-3 text-zinc-400 max-w-[120px] truncate" title={prospect.city}>{prospect.city}</td>
+                    <td className="py-4 px-3 text-zinc-400 text-xs">
                       {new Date(prospect.created_at).toLocaleDateString("el-GR")}
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-3">
                       {prospect.status === "emailed" ? (
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">
                           <Check className="w-3 h-3 text-green-400" />
@@ -1335,7 +1335,7 @@ export function ScraperTab() {
                         </span>
                       )}
                     </td>
-                    <td className="py-4 px-6 text-right">
+                    <td className="py-4 pr-4 pl-2 text-right">
                       <div className="flex justify-end gap-2">
                         {prospect.status === "pending" && (
                           <button 
@@ -1706,67 +1706,47 @@ export function ScraperTab() {
 
                 {/* Right Column: Live Email Preview using first selected prospect */}
                 <div className="flex flex-col space-y-2 h-full min-h-0">
-                  <label className="text-xs font-bold uppercase tracking-wider text-gray-500">
-                    Προεπισκόπηση (Παράδειγμα για: {prospects.find(p => p.id === selectedIds[0])?.business_name})
-                  </label>
-                  <div className="bg-[#fcf8f5] border border-[#fbebe3] rounded-2xl p-4 font-sans text-sm text-gray-800 flex-1 overflow-y-auto shadow-inner min-h-0">
-                    <div className="text-xs text-gray-400 mb-3 pb-3 border-b border-orange-100 flex flex-col gap-1">
-                      <div><strong>Από:</strong> SGK Digital &lt;noreply@sgk.gr&gt;</div>
-                      <div>
-                        <strong>Θέμα:</strong>{" "}
-                        <span className="text-gray-700 font-medium">
-                          {(() => {
-                            const sampleP = prospects.find(p => p.id === selectedIds[0]);
-                            if (!sampleP) return emailSubject;
-                            return applyTemplateVariables(emailBody, emailSubject, sampleP).subject;
-                          })() || "(Χωρίς Θέμα)"}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div style={{ fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif", maxWidth: "100%", margin: "0 auto", padding: "10px 0" }}>
-                      <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #f2e3db", boxShadow: "0 2px 10px rgba(0,0,0,0.01)" }}>
-                        <div 
-                          className="prose prose-sm prose-orange max-w-none text-gray-800 leading-relaxed font-sans"
-                          style={{ fontSize: "14px" }}
-                          dangerouslySetInnerHTML={{ 
-                            __html: (() => {
-                              if (!emailBody) return "<i style='color: #999;'>Το περιεχόμενο του email σας θα εμφανιστεί εδώ...</i>";
-                              
-                              const sampleP = prospects.find(p => p.id === selectedIds[0]);
-                              if (!sampleP) return emailBody;
-                              
-                              const { body: compiledBody } = applyTemplateVariables(emailBody, emailSubject, sampleP);
-                              let html = compiledBody;
-                              
-                              if (buttonText && buttonLink) {
-                                const compiledButtonLink = buttonLink
-                                  .replace(/\[BUSINESS_NAME\]/g, sampleP.business_name || "")
-                                  .replace(/\[CITY\]/g, sampleP.city || "");
-                                  
-                                html += `
-                                  <div style="text-align: center; margin: 25px 0;">
-                                    <a href="${compiledButtonLink}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #FF6B00; color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
-                                      ${buttonText}
-                                    </a>
-                                  </div>
-                                `;
-                              }
-                              return html;
-                            })()
-                          }} 
-                        />
-                      </div>
-                      
-                      {/* SGK Footer */}
-                      <div style={{ textAlign: "center", marginTop: "25px", paddingTop: "15px", borderTop: "1px solid #ebdcd5" }}>
-                        <p style={{ color: "#888888", fontSize: "11px", lineHeight: "1.5", margin: 0 }}>
-                          Αυτό το email στάλθηκε επειδή ζητήσατε προσφορά για Eshop από το <strong>sgk.gr</strong>.<br />
-                          <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style={{ color: "#FF6B00", textDecoration: "none", fontWeight: "bold" }}>sgk.gr</a><br /><br />
-                          <span style={{ color: "#999", textDecoration: "underline", fontSize: "10px" }}>Κατάργηση εγγραφής (Unsubscribe)</span>
-                        </p>
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                      Προεπισκόπηση (Παράδειγμα για: {prospects.find(p => p.id === selectedIds[0])?.business_name})
+                    </label>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">● Live</span>
+                  </div>
+                  <div className="flex-1 rounded-xl overflow-hidden border border-gray-200 shadow-inner min-h-0 bg-[#f0f2f5]">
+                    <iframe
+                      key={emailBody + emailSubject + buttonText + buttonLink}
+                      srcDoc={(() => {
+                        if (!emailBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
+                        
+                        const sampleP = prospects.find(p => p.id === selectedIds[0]);
+                        const businessName = sampleP?.business_name || "Επιχείρηση";
+                        
+                        const { subject: compiledSubject, body: compiledBody } = applyTemplateVariables(
+                          emailBody,
+                          emailSubject,
+                          sampleP || { business_name: "Επιχείρηση", email: "", city: "", industry: "" }
+                        );
+                        
+                        const compiledButtonLink = buttonLink && sampleP
+                          ? buttonLink
+                              .replace(/\[BUSINESS_NAME\]/g, sampleP.business_name || "")
+                              .replace(/\[CITY\]/g, sampleP.city || "")
+                          : buttonLink;
+
+                        return buildProfessionalEmailHtml({
+                          businessName: businessName,
+                          subject: compiledSubject,
+                          bodyHtml: compiledBody,
+                          buttonText: buttonText || undefined,
+                          buttonLink: compiledButtonLink || undefined,
+                          unsubscribeToken: "preview-token",
+                          industry: sampleP?.industry,
+                        });
+                      })()}
+                      className="w-full h-full border-0"
+                      title="Email Preview"
+                      sandbox="allow-same-origin"
+                    />
                   </div>
                 </div>
               </div>
