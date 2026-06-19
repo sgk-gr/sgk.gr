@@ -938,6 +938,18 @@ export function ScraperTab() {
     setIsBulkModalOpen(true);
   };
 
+  const handleBulkServiceOrIndustryChange = (service: string, industry: string) => {
+    setSelectedService(service);
+    setSelectedIndustry(industry);
+    const template = EMAIL_TEMPLATES[service]?.[industry] || EMAIL_TEMPLATES[service]?.["generic"];
+    if (template) {
+      setEmailSubject(template.subject);
+      setEmailBody(template.body);
+      setButtonText(template.buttonText || "");
+      setButtonLink(template.buttonLink || "");
+    }
+  };
+
   const handleSendBulkEmails = async () => {
     setIsBulkSending(true);
     setAbortRequested(false);
@@ -986,18 +998,19 @@ export function ScraperTab() {
         
         // 1. Send the email
         // Build professional HTML wrapper for bulk emails too
-        const template = EMAIL_TEMPLATES["website"]?.[detectIndustry(prospect.industry)] || EMAIL_TEMPLATES["website"]?.["generic"];
-        const { subject: tSubject, body: tBody, buttonText: tBtn, buttonLink: tLink } = template
-          ? applyTemplateVariables(template.body, template.subject, prospect)
-          : { subject: emailSubject, body: emailBody, buttonText: buttonText, buttonLink: buttonLink };
-        
+        const compiledButtonLink = buttonLink
+          ? buttonLink
+              .replace(/\[BUSINESS_NAME\]/g, prospect.business_name || "")
+              .replace(/\[CITY\]/g, prospect.city || "")
+          : undefined;
+
         const bulkFinalBody = buildProfessionalEmailHtml({
           businessName: prospect.business_name,
-          subject: tSubject,
-          bodyHtml: tBody,
-          buttonText: (template?.buttonText || tBtn) ?? undefined,
-          buttonLink: (template?.buttonLink || tLink) ?? undefined,
-          unsubscribeToken: bulkUnsubscribeToken,
+          subject: compiledSubject,
+          bodyHtml: compiledBody,
+          buttonText: buttonText || undefined,
+          buttonLink: compiledButtonLink || undefined,
+          unsubscribeToken: unsubscribeToken,
           industry: prospect.industry,
         });
 
@@ -1012,7 +1025,7 @@ export function ScraperTab() {
             customSubject: compiledSubject,
             customHtml: bulkFinalBody,
             step: 1,
-            unsubscribe_token: bulkUnsubscribeToken,
+            unsubscribe_token: unsubscribeToken,
             business_name: prospect.business_name
           })
         });

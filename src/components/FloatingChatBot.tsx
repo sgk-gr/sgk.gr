@@ -153,6 +153,7 @@ export default function FloatingChatBot() {
   };
 
   const isHidden = 
+    pathname?.startsWith("/admin") ||
     pathname?.startsWith("/eshop-demo") || 
     pathname?.startsWith("/eshop-offer") || 
     pathname?.startsWith("/eshop-compliance") || 
