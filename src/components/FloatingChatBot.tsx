@@ -155,6 +155,7 @@ export default function FloatingChatBot() {
   const isHidden = 
     pathname?.startsWith("/eshop-demo") || 
     pathname?.startsWith("/eshop-offer") || 
+    pathname?.startsWith("/eshop-compliance") || 
     pathname?.startsWith("/website-offer") ||
     pathname?.startsWith("/promo");
 

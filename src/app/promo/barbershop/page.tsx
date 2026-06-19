@@ -245,7 +245,7 @@ export default function BarbershopLanding() {
       </section>
 
       {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2 z-40 border-t border-white/20">
+      <div className="fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2 z-50 border-t border-white/20">
         Νέος πελάτης; Κάντε εγγραφή για <strong>150€ έκπτωση</strong> στην κατασκευή του digital barber shop σας!
       </div>
 
