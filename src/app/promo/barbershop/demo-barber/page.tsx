@@ -372,7 +372,7 @@ function BarbershopDemoContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#111111] w-full min-h-screen sm:min-h-0 sm:max-w-xl text-white relative p-6 sm:p-8 md:p-12 sm:border-4 sm:border-black sm:shadow-[8px_8px_0px_0px_#e0a916] flex flex-col justify-start"
+              className="bg-[#111111] w-full min-h-screen sm:min-h-0 sm:max-w-xl text-white relative p-6 pb-24 sm:p-8 md:p-12 sm:border-4 sm:border-black sm:shadow-[8px_8px_0px_0px_#e0a916] flex flex-col justify-start"
             >
               <button 
                 onClick={() => { setBookingOpen(false); resetBooking(); }} 
@@ -688,12 +688,12 @@ function BarbershopDemoContent() {
       {/* Checkout Mockup Modal */}
       <AnimatePresence>
         {checkoutOpen && (
-          <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-md sm:px-4 sm:py-6 md:py-12 flex justify-center items-start sm:items-center">
+          <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/90 backdrop-blur-md sm:px-4 sm:py-6 md:py-12 flex justify-center items-start sm:items-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#111111] w-full min-h-screen sm:min-h-0 sm:max-w-xl text-white relative p-6 sm:p-8 md:p-12 sm:border-4 sm:border-black sm:shadow-[8px_8px_0px_0px_#e0a916] flex flex-col justify-start"
+              className="bg-[#111111] w-full min-h-screen sm:min-h-0 sm:max-w-xl text-white relative p-6 pb-24 sm:p-8 md:p-12 sm:border-4 sm:border-black sm:shadow-[8px_8px_0px_0px_#e0a916] flex flex-col justify-start"
             >
               <button 
                 onClick={() => setCheckoutOpen(false)}
