@@ -5,7 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Check, Link as LinkIcon, Download, CheckCircle2, Navigation2, ChevronRight, Phone, Smartphone, Monitor, X, Sparkles } from "lucide-react";
+import { Check, Link as LinkIcon, Download, CheckCircle2, Navigation2, ChevronRight, Phone, Smartphone, Monitor, X } from "lucide-react";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
 import confetti from "canvas-confetti";
@@ -175,13 +175,6 @@ function BarbershopLandingContent() {
 
   return (
     <div className="min-h-screen bg-white font-body selection:bg-[#4ade80] selection:text-black">
-      {/* 0. Floating Top Notification Bar */}
-      {queryName && (
-        <div className="bg-gradient-to-r from-[#3b5bdb] to-[#5c7cfa] text-white text-center py-3 px-4 text-xs md:text-sm font-semibold flex items-center justify-center gap-2 relative z-[60] shadow-md">
-          <Sparkles className="w-4 h-4 text-[#4ade80] animate-pulse shrink-0" />
-          <span>Προσωπική Προσφορά & Live Demo για την επιχείρηση <strong>{queryName}</strong>!</span>
-        </div>
-      )}
 
       {/* Success Modal */}
       {showModal && (
