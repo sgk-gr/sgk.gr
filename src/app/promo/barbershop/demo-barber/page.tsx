@@ -880,6 +880,13 @@ function BarbershopDemoContent() {
                   Κουρείς
                 </a>
                 <a 
+                  href="#portfolio" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="hover:text-[#e0a916] transition-colors py-2 border-b border-white/5"
+                >
+                  Portfolio
+                </a>
+                <a 
                   href="#contacts" 
                   onClick={() => setMobileMenuOpen(false)} 
                   className="hover:text-[#e0a916] transition-colors py-2 border-b border-white/5"
@@ -949,6 +956,7 @@ function BarbershopDemoContent() {
         {/* Right Desktop Nav */}
         <nav className="flex-1 hidden md:flex justify-start gap-8 text-[10px] font-bold tracking-[0.25em] text-gray-400">
           <a href="#barbers" className="hover:text-[#e0a916] transition-colors relative py-1">Κουρείς</a>
+          <a href="#portfolio" className="hover:text-[#e0a916] transition-colors relative py-1">Portfolio</a>
           <a href="#contacts" className="hover:text-[#e0a916] transition-colors relative py-1">Επικοινωνία</a>
           
           {/* Cart link in header */}
@@ -1245,6 +1253,47 @@ function BarbershopDemoContent() {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <section id="portfolio" className="py-28 px-6 md:px-12 bg-neutral-950 text-white relative overflow-hidden border-t border-neutral-800">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-24 h-[2.5px] bg-[#e0a916]" />
+            <span className="text-xs font-bold tracking-widest text-[#e0a916] uppercase">Portfolio</span>
+          </div>
+
+          <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 font-serif-body">Τα Κουρέματά Μας</h2>
+          <p className="text-sm md:text-base text-neutral-400 max-w-xl mb-16 leading-relaxed font-normal font-serif-body">
+            Δείτε μερικά από τα καλύτερα κουρέματα των πελατών μας. Από κλασικά σχέδια μέχρι μοντέρνα fades για άνδρες, εφήβους και παιδιά.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {[
+              { id: 1, title: "Modern Skin Fade", category: "Άνδρες" },
+              { id: 2, title: "Taper Fade with Side Part", category: "Παιδιά" },
+              { id: 3, title: "Textured Crop with Temple Fade", category: "Έφηβοι" },
+              { id: 4, title: "Classic Pompadour Side-Part", category: "Άνδρες" },
+              { id: 5, title: "Textured Crop Fade", category: "Αγόρια" },
+              { id: 6, title: "Fresh Spiky Style", category: "Παιδιά" },
+            ].map((item) => (
+              <div key={item.id} className="group relative overflow-hidden bg-neutral-900 border border-neutral-800 aspect-square shadow-2xl">
+                <div className="relative w-full h-full overflow-hidden">
+                  <Image 
+                    src={`/promo/portfolio_${item.id}.png`} 
+                    alt={item.title} 
+                    fill 
+                    className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out scale-100 group-hover:scale-110" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+                    <span className="text-xs font-bold text-[#e0a916] uppercase tracking-wider mb-1">{item.category}</span>
+                    <h4 className="text-lg font-bold text-white">{item.title}</h4>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 7. Contacts Section */}
       <section id="contacts" className="py-28 px-6 md:px-12 bg-white text-black border-t border-neutral-100">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch gap-12">
@@ -1307,6 +1356,7 @@ function BarbershopDemoContent() {
           <a href="#services" className="text-[#e0a916] hover:text-white transition-colors">Υπηρεσίες</a>
           <a href="#shop" className="text-white hover:text-[#e0a916] transition-colors">Προϊόντα</a>
           <a href="#barbers" className="text-[#e0a916] hover:text-white transition-colors">Κουρείς</a>
+          <a href="#portfolio" className="text-[#e0a916] hover:text-white transition-colors">Portfolio</a>
           <a href="#contacts" className="text-[#e0a916] hover:text-white transition-colors">Επικοινωνία</a>
         </div>
 
