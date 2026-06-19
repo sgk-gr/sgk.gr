@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  X, Calendar, User, Phone, Check, Facebook, Twitter, Youtube, Linkedin, ChevronRight, ShoppingCart, Trash2, Plus, Minus
+  X, Calendar, User, Phone, Check, Facebook, Twitter, Youtube, Linkedin, ChevronRight, ShoppingCart, Trash2, Plus, Minus, Menu
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -189,8 +189,8 @@ const SawtoothLogo = () => (
     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 120" preserveAspectRatio="none">
       <path d="M5,5 L95,5 L95,102 L87,112 L79,102 L71,112 L63,102 L55,112 L47,102 L39,112 L31,102 L23,112 L15,102 L5,112 Z" fill="#e0a916" stroke="black" strokeWidth="4" />
     </svg>
-    <span className="text-[9px] tracking-[0.25em] font-black uppercase leading-none mb-1 relative z-20">LOCAL</span>
-    <span className="font-chunky text-lg uppercase leading-none tracking-tighter mb-2 relative z-20">BARBER</span>
+    <span className="text-[9px] tracking-[0.25em] font-black leading-none mb-1 relative z-20">Local</span>
+    <span className="font-chunky text-lg leading-none tracking-tighter mb-2 relative z-20">Barber</span>
     <SVGMustache className="w-12 h-6 fill-black relative z-20" />
   </div>
 );
@@ -226,6 +226,7 @@ function BarbershopDemoContent() {
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState<1 | 2>(1);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Form inputs
   const [clientName, setClientName] = useState("Γιάννης Παπαδόπουλος");
@@ -508,7 +509,7 @@ function BarbershopDemoContent() {
                   
                   <div className="space-y-4 font-sans-body">
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 mb-1.5 uppercase">Όνοματεπώνυμο</label>
+                      <label className="block text-xs font-bold text-gray-400 mb-1.5">Όνοματεπώνυμο</label>
                       <input 
                         type="text" 
                         value={clientName} 
@@ -519,7 +520,7 @@ function BarbershopDemoContent() {
                     </div>
                     
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 mb-1.5 uppercase">Κινητό Τηλέφωνο</label>
+                      <label className="block text-xs font-bold text-gray-400 mb-1.5">Κινητό Τηλέφωνο</label>
                       <input 
                         type="tel" 
                         value={clientPhone} 
@@ -530,7 +531,7 @@ function BarbershopDemoContent() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 mb-1.5 uppercase">Email</label>
+                      <label className="block text-xs font-bold text-gray-400 mb-1.5">Email</label>
                       <input 
                         type="email" 
                         value={clientEmail} 
@@ -603,7 +604,7 @@ function BarbershopDemoContent() {
                 <X size={24} />
               </button>
 
-              <h4 className="text-xl md:text-2xl font-black text-[#e0a916] mb-6 uppercase tracking-wider font-sans-body pt-2 flex items-center gap-2">
+              <h4 className="text-xl md:text-2xl font-black text-[#e0a916] mb-6 tracking-wider font-sans-body pt-2 flex items-center gap-2">
                 <ShoppingCart size={24} /> Το Καλάθι σου
               </h4>
               
@@ -614,7 +615,7 @@ function BarbershopDemoContent() {
                   <p className="text-gray-400 text-sm font-sans-body">Το καλάθι σου είναι άδειο.</p>
                   <button 
                     onClick={() => setCartOpen(false)}
-                    className="border-2 border-dashed border-[#e0a916] text-[#e0a916] hover:bg-[#e0a916] hover:text-black transition-colors px-6 py-2.5 text-xs font-bold uppercase tracking-wider"
+                    className="border-2 border-dashed border-[#e0a916] text-[#e0a916] hover:bg-[#e0a916] hover:text-black transition-colors px-6 py-2.5 text-xs font-bold tracking-wider"
                   >
                     Συνέχεια Αγορών
                   </button>
@@ -673,7 +674,7 @@ function BarbershopDemoContent() {
                     
                     <button 
                       onClick={() => startCheckout()}
-                      className="w-full py-4 bg-[#e0a916] text-black font-black text-xs md:text-sm tracking-[0.2em] uppercase border-2 border-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
+                      className="w-full py-4 bg-[#e0a916] text-black font-black text-xs md:text-sm tracking-[0.2em] border-2 border-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
                     >
                       Ολοκλήρωση Αγοράς
                     </button>
@@ -706,7 +707,7 @@ function BarbershopDemoContent() {
                 <div className="flex justify-center mb-2">
                   <ShoppingCart size={32} className="text-[#e0a916]" />
                 </div>
-                <h4 className="text-2xl md:text-3xl font-black text-[#e0a916] font-sans-body uppercase tracking-wider">Ολοκλήρωση Παραγγελίας</h4>
+                <h4 className="text-2xl md:text-3xl font-black text-[#e0a916] font-sans-body tracking-wider">Ολοκλήρωση Παραγγελίας</h4>
                 <div className="w-20 h-[2.5px] bg-[#e0a916] mx-auto my-3" />
               </div>
 
@@ -716,7 +717,7 @@ function BarbershopDemoContent() {
                     <p className="text-xs sm:text-sm font-bold text-gray-400 mb-2 font-sans-body">1. Στοιχεία Αποστολής & Παράδοσης:</p>
                     
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Όνοματεπώνυμο</label>
+                      <label className="block text-[10px] font-bold text-gray-400 mb-1">Όνοματεπώνυμο</label>
                       <input 
                         type="text" 
                         value={clientName} 
@@ -727,7 +728,7 @@ function BarbershopDemoContent() {
                     
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Κινητό Τηλέφωνο</label>
+                        <label className="block text-[10px] font-bold text-gray-400 mb-1">Κινητό Τηλέφωνο</label>
                         <input 
                           type="tel" 
                           value={clientPhone} 
@@ -736,7 +737,7 @@ function BarbershopDemoContent() {
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Email</label>
+                        <label className="block text-[10px] font-bold text-gray-400 mb-1">Email</label>
                         <input 
                           type="email" 
                           value={clientEmail} 
@@ -748,7 +749,7 @@ function BarbershopDemoContent() {
 
                     <div className="grid grid-cols-[1.5fr_1fr] gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Διεύθυνση Αποστολής (Οδός, Αρ.)</label>
+                        <label className="block text-[10px] font-bold text-gray-400 mb-1">Διεύθυνση Αποστολής (Οδός, Αρ.)</label>
                         <input 
                           type="text" 
                           value={shippingAddress} 
@@ -760,7 +761,7 @@ function BarbershopDemoContent() {
                       </div>
 
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Πόλη</label>
+                        <label className="block text-[10px] font-bold text-gray-400 mb-1">Πόλη</label>
                         <input 
                           type="text" 
                           value={shippingCity} 
@@ -774,7 +775,7 @@ function BarbershopDemoContent() {
                   <div className="space-y-4 pt-4 mt-auto">
                     {/* Order Summary in Checkout */}
                     <div className="bg-neutral-950 p-4 border-2 border-black font-sans-body text-xs space-y-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      <p className="font-extrabold text-[#e0a916] mb-1">ΣΥΝΟΨΗ ΠΑΡΑΓΓΕΛΙΑΣ</p>
+                      <p className="font-extrabold text-[#e0a916] mb-1">Σύνοψη Παραγγελίας</p>
                       {cart.map(item => (
                         <div key={item.id} className="flex justify-between text-gray-300">
                           <span>{item.name} x {item.quantity}</span>
@@ -790,7 +791,7 @@ function BarbershopDemoContent() {
                     <button 
                       disabled={!clientName.trim() || !clientPhone.trim() || !clientEmail.trim() || !shippingAddress.trim() || !shippingCity.trim()}
                       onClick={() => completeCheckout()}
-                      className="w-full py-4 rounded-none text-xs md:text-sm font-black border-2 border-black transition-all bg-[#e0a916] text-black hover:bg-[#c99513] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] disabled:opacity-50 uppercase tracking-widest font-sans-body"
+                      className="w-full py-4 rounded-none text-xs md:text-sm font-black border-2 border-black transition-all bg-[#e0a916] text-black hover:bg-[#c99513] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] disabled:opacity-50 tracking-widest font-sans-body"
                     >
                       Υποβολή Παραγγελίας (Αντικαταβολή)
                     </button>
@@ -798,7 +799,7 @@ function BarbershopDemoContent() {
                 </div>
               ) : (
                 <div className="text-center py-6 flex-1 flex flex-col justify-center space-y-6">
-                  <h5 className="font-sans-body font-black text-xl md:text-2xl text-[#e0a916] tracking-wide uppercase">Η παραγγελία σου καταχωρήθηκε! 🎉</h5>
+                  <h5 className="font-sans-body font-black text-xl md:text-2xl text-[#e0a916] tracking-wide">Η παραγγελία σου καταχωρήθηκε! 🎉</h5>
                   
                   <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-sans-body max-w-sm mx-auto">
                     Συγχαρητήρια! Η παραγγελία σου λήφθηκε επιτυχώς και θα αποσταλεί με δωρεάν αντικαταβολή στη διεύθυνση **{shippingAddress}, {shippingCity}**.
@@ -824,6 +825,93 @@ function BarbershopDemoContent() {
         )}
       </AnimatePresence>
 
+      {/* Mobile Navigation Menu Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex justify-start md:hidden">
+            <div className="absolute inset-0" onClick={() => setMobileMenuOpen(false)} />
+            
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+              className="relative w-full max-w-xs bg-[#111111] border-r-4 border-black h-full flex flex-col p-6 shadow-2xl z-10 text-white"
+            >
+              <button 
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-[#e0a916]"
+                aria-label="Κλείσιμο"
+              >
+                <X size={24} />
+              </button>
+
+              <div className="mb-8 pt-4 flex flex-col items-center">
+                <SawtoothLogo />
+              </div>
+
+              <div className="w-16 h-[2px] bg-[#e0a916] mb-8 mx-auto" />
+
+              <nav className="flex-1 flex flex-col gap-6 text-sm font-bold tracking-widest text-center">
+                <a 
+                  href="#about" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="hover:text-[#e0a916] transition-colors py-2 border-b border-white/5"
+                >
+                  Σχετικά
+                </a>
+                <a 
+                  href="#services" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="hover:text-[#e0a916] transition-colors py-2 border-b border-white/5"
+                >
+                  Υπηρεσίες
+                </a>
+                <a 
+                  href="#shop" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="hover:text-[#e0a916] transition-colors py-2 border-b border-white/5"
+                >
+                  Προϊόντα
+                </a>
+                <a 
+                  href="#barbers" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="hover:text-[#e0a916] transition-colors py-2 border-b border-white/5"
+                >
+                  Κουρείς
+                </a>
+                <a 
+                  href="#contacts" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="hover:text-[#e0a916] transition-colors py-2 border-b border-white/5"
+                >
+                  Επικοινωνία
+                </a>
+
+                {/* Additional actions in mobile menu */}
+                <button
+                  onClick={() => { setMobileMenuOpen(false); setCartOpen(true); }}
+                  className="text-white hover:text-[#e0a916] flex items-center justify-center gap-2 py-2 font-bold transition-colors border-b border-white/5"
+                >
+                  <ShoppingCart size={18} />
+                  Καλάθι ({getCartCount()})
+                </button>
+              </nav>
+
+              <div className="mt-auto pt-6">
+                <button
+                  onClick={() => { setMobileMenuOpen(false); startBooking(); }}
+                  className="w-full py-3 bg-[#e0a916] text-black font-black text-xs tracking-widest border-2 border-black transition-all shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+                >
+                  Κλείσε Ραντεβού
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Floating Cart Badge Button */}
       {getCartCount() > 0 && (
         <button
@@ -839,44 +927,62 @@ function BarbershopDemoContent() {
 
       {/* 1. Header/Navbar */}
       <header className="fixed top-0 left-0 w-full z-40 bg-black/90 backdrop-blur-sm h-16 flex items-center justify-between px-6 md:px-12">
-        <nav className="flex-1 hidden md:flex justify-end gap-8 text-[10px] font-bold tracking-[0.25em] text-gray-400 uppercase">
-          <a href="#about" className="hover:text-[#e0a916] transition-colors relative py-1">ΣΧΕΤΙΚΑ</a>
-          <a href="#services" className="hover:text-[#e0a916] transition-colors relative py-1">ΥΠΗΡΕΣΙΕΣ</a>
-          <a href="#shop" className="hover:text-[#e0a916] transition-colors relative py-1">ΠΡΟΪΟΝΤΑ</a>
+        {/* Mobile menu trigger */}
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="md:hidden text-white hover:text-[#e0a916] transition-colors p-1 z-50"
+          aria-label="Μενού"
+        >
+          <Menu size={24} />
+        </button>
+
+        {/* Left Desktop Nav */}
+        <nav className="flex-1 hidden md:flex justify-end gap-8 text-[10px] font-bold tracking-[0.25em] text-gray-400">
+          <a href="#about" className="hover:text-[#e0a916] transition-colors relative py-1">Σχετικά</a>
+          <a href="#services" className="hover:text-[#e0a916] transition-colors relative py-1">Υπηρεσίες</a>
+          <a href="#shop" className="hover:text-[#e0a916] transition-colors relative py-1">Προϊόντα</a>
         </nav>
 
         {/* Center Sawtooth Logo */}
-        <div className="mx-4 md:mx-8 shrink-0 z-50 translate-y-3">
+        <div className="mx-4 md:mx-8 shrink-0 z-50 translate-y-3 md:relative absolute left-1/2 -translate-x-1/2">
           <SawtoothLogo />
         </div>
 
-        <nav className="flex-1 hidden md:flex justify-start gap-8 text-[10px] font-bold tracking-[0.25em] text-gray-400 uppercase">
-          <a href="#barbers" className="hover:text-[#e0a916] transition-colors relative py-1">ΚΟΥΡΕΙΣ</a>
-          <a href="#contacts" className="hover:text-[#e0a916] transition-colors relative py-1">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+        {/* Right Desktop Nav */}
+        <nav className="flex-1 hidden md:flex justify-start gap-8 text-[10px] font-bold tracking-[0.25em] text-gray-400">
+          <a href="#barbers" className="hover:text-[#e0a916] transition-colors relative py-1">Κουρείς</a>
+          <a href="#contacts" className="hover:text-[#e0a916] transition-colors relative py-1">Επικοινωνία</a>
           
           {/* Cart link in header */}
           <button 
             onClick={() => setCartOpen(true)}
             className="hover:text-[#e0a916] transition-colors relative py-1 flex items-center gap-1 font-bold text-[10px] tracking-[0.25em]"
           >
-            ΚΑΛΑΘΙ ({getCartCount()})
+            Καλάθι ({getCartCount()})
           </button>
         </nav>
 
-        {/* Mobile menu trigger */}
-        <button 
-          onClick={() => startBooking()}
-          className={`md:hidden bg-[#e0a916] text-black font-extrabold text-[10px] tracking-wider px-4 py-2 uppercase border border-black shadow absolute right-6 top-1/2 -translate-y-1/2 transition-all duration-300 ${scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
-        >
-          ΡΑΝΤΕΒΟΥ
-        </button>
+        {/* Mobile Actions */}
+        <div className="flex md:hidden items-center gap-4 z-50">
+          <button 
+            onClick={() => setCartOpen(true)}
+            className="text-white hover:text-[#e0a916] relative p-1 transition-colors"
+          >
+            <ShoppingCart size={20} />
+            {getCartCount() > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white font-extrabold text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center border border-black">
+                {getCartCount()}
+              </span>
+            )}
+          </button>
+        </div>
 
         {/* Desktop Book Button */}
         <button 
           onClick={() => startBooking()}
-          className={`hidden md:block bg-[#e0a916] hover:bg-[#c99513] text-black font-extrabold text-[10px] tracking-[0.15em] px-4 py-2.5 uppercase border-2 border-black transition-all duration-300 shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] absolute right-6 md:right-12 top-1/2 -translate-y-1/2 transition-all duration-300 ${scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+          className={`hidden md:block bg-[#e0a916] hover:bg-[#c99513] text-black font-extrabold text-[10px] tracking-[0.15em] px-4 py-2.5 border-2 border-black transition-all duration-300 shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] absolute right-6 md:right-12 top-1/2 -translate-y-1/2 transition-all duration-300 ${scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
         >
-          ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ
+          Κλείσε Ραντεβού
         </button>
       </header>
 
@@ -893,11 +999,11 @@ function BarbershopDemoContent() {
         </div>
         
         <div className="max-w-3xl mx-auto space-y-6 relative z-10 pt-12">
-          <div className="text-[11px] text-[#e0a916] font-bold uppercase tracking-[0.45em] leading-none mb-2">
-            THE BEST
+          <div className="text-[11px] text-[#e0a916] font-bold tracking-[0.45em] leading-none mb-2">
+            The Best
           </div>
           
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-chunky text-white leading-tight uppercase tracking-tight max-w-3xl mx-auto">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-chunky text-white leading-tight tracking-tight max-w-3xl mx-auto">
             Masters <br/>of the Blade
           </h1>
 
@@ -910,9 +1016,9 @@ function BarbershopDemoContent() {
           <div className="pt-2">
             <button 
               onClick={() => startBooking()}
-              className={`bg-[#e0a916] hover:bg-[#c99513] text-black font-extrabold text-xs tracking-[0.2em] px-8 py-4 uppercase border-2 border-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] ${scrolled ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
+              className={`bg-[#e0a916] hover:bg-[#c99513] text-black font-extrabold text-xs tracking-[0.2em] px-8 py-4 border-2 border-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] ${scrolled ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
             >
-              ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ
+              Κλείσε Ραντεβού
             </button>
           </div>
           
@@ -934,11 +1040,11 @@ function BarbershopDemoContent() {
 
           <div className="w-full md:w-1/2 space-y-6">
             <div className="flex items-center gap-4">
-              <span className="text-xs font-bold tracking-widest text-gray-500 uppercase">ΣΧΕΤΙΚΑ</span>
+              <span className="text-xs font-bold tracking-widest text-gray-500">Σχετικά</span>
               <div className="flex-1 h-[2.5px] bg-[#e0a916]" />
             </div>
 
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase leading-tight tracking-tight text-neutral-900 font-serif-body">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-neutral-900 font-serif-body">
               Σε Βοηθάμε <br/>να Δείχνεις Υπέροχος
             </h2>
 
@@ -952,9 +1058,9 @@ function BarbershopDemoContent() {
             <div className="pt-4">
               <button 
                 onClick={() => startBooking()}
-                className="bg-black hover:bg-[#e0a916] hover:text-black hover:border-black text-white font-extrabold text-xs tracking-[0.2em] px-8 py-4 uppercase border-2 border-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(224,169,22,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
+                className="bg-black hover:bg-[#e0a916] hover:text-black hover:border-black text-white font-extrabold text-xs tracking-[0.2em] px-8 py-4 border-2 border-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(224,169,22,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
               >
-                ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ
+                Κλείσε Ραντεβού
               </button>
             </div>
           </div>
@@ -975,11 +1081,11 @@ function BarbershopDemoContent() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="w-16 h-[2.5px] bg-[#e0a916]" />
-            <span className="text-xs font-bold tracking-widest text-[#e0a916] uppercase">ΥΠΗΡΕΣΙΕΣ</span>
+            <span className="text-xs font-bold tracking-widest text-[#e0a916]">Υπηρεσίες</span>
             <div className="w-16 h-[2.5px] bg-[#e0a916]" />
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-extrabold uppercase mb-4 text-white font-serif-body">Οι Υπηρεσίες Μας</h2>
+          <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 text-white font-serif-body">Οι Υπηρεσίες Μας</h2>
           <p className="text-sm md:text-base text-gray-300 max-w-lg mx-auto mb-20 leading-relaxed font-normal font-serif-body">
             Το {businessDisplayName} προσφέρει παγκοσμίου επιπέδου ανδρικά κουρέματα, περιποίηση γενειάδας και παραδοσιακό ξύρισμα. Δες μερικές από τις υπηρεσίες για τις οποίες φημιζόμαστε:
           </p>
@@ -990,7 +1096,7 @@ function BarbershopDemoContent() {
               className="bg-black/60 border border-white/5 p-8 flex flex-col items-center text-center space-y-4 hover:border-[#e0a916]/40 hover:bg-black/80 transition-all cursor-pointer group"
             >
               <SVGScissorsComb />
-              <h3 className="font-extrabold text-sm uppercase tracking-wider text-[#e0a916]">{defaultServices[0].name}</h3>
+              <h3 className="font-extrabold text-sm tracking-wider text-[#e0a916]">{defaultServices[0].name}</h3>
               <p className="text-xs text-gray-400 font-light leading-relaxed font-serif-body">{defaultServices[0].desc}</p>
             </div>
 
@@ -999,7 +1105,7 @@ function BarbershopDemoContent() {
               className="bg-black/60 border border-white/5 p-8 flex flex-col items-center text-center space-y-4 hover:border-[#e0a916]/40 hover:bg-black/80 transition-all cursor-pointer group"
             >
               <SVGRazorOpen />
-              <h3 className="font-extrabold text-sm uppercase tracking-wider text-[#e0a916]">{defaultServices[1].name}</h3>
+              <h3 className="font-extrabold text-sm tracking-wider text-[#e0a916]">{defaultServices[1].name}</h3>
               <p className="text-xs text-gray-400 font-light leading-relaxed font-serif-body">{defaultServices[1].desc}</p>
             </div>
 
@@ -1008,7 +1114,7 @@ function BarbershopDemoContent() {
               className="bg-black/60 border border-white/5 p-8 flex flex-col items-center text-center space-y-4 hover:border-[#e0a916]/40 hover:bg-black/80 transition-all cursor-pointer group"
             >
               <SVGMustacheYellow />
-              <h3 className="font-extrabold text-sm uppercase tracking-wider text-[#e0a916]">{defaultServices[2].name}</h3>
+              <h3 className="font-extrabold text-sm tracking-wider text-[#e0a916]">{defaultServices[2].name}</h3>
               <p className="text-xs text-gray-400 font-light leading-relaxed font-serif-body">{defaultServices[2].desc}</p>
             </div>
 
@@ -1017,7 +1123,7 @@ function BarbershopDemoContent() {
               className="bg-black/60 border border-white/5 p-8 flex flex-col items-center text-center space-y-4 hover:border-[#e0a916]/40 hover:bg-black/80 transition-all cursor-pointer group"
             >
               <SVGBeard />
-              <h3 className="font-extrabold text-sm uppercase tracking-wider text-[#e0a916]">{defaultServices[3].name}</h3>
+              <h3 className="font-extrabold text-sm tracking-wider text-[#e0a916]">{defaultServices[3].name}</h3>
               <p className="text-xs text-gray-400 font-light leading-relaxed font-serif-body">{defaultServices[3].desc}</p>
             </div>
           </div>
@@ -1025,9 +1131,9 @@ function BarbershopDemoContent() {
           <div className="mt-16">
             <button 
               onClick={() => startBooking()}
-              className="bg-[#e0a916] hover:bg-[#c99513] text-black font-extrabold text-xs tracking-[0.2em] px-8 py-4 uppercase border-2 border-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
+              className="bg-[#e0a916] hover:bg-[#c99513] text-black font-extrabold text-xs tracking-[0.2em] px-8 py-4 border-2 border-black transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
             >
-              ΚΛΕΙΣΤΕ ΡΑΝΤΕΒΟΥ ONLINE
+              Κλείσε Ραντεβού Online
             </button>
           </div>
         </div>
@@ -1037,11 +1143,11 @@ function BarbershopDemoContent() {
       <section id="shop" className="py-28 px-6 md:px-12 bg-[#111111] text-white relative">
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex items-center gap-4 mb-4">
-            <span className="text-xs font-bold tracking-widest text-[#e0a916] uppercase">ΠΡΟΪΟΝΤΑ ΠΕΡΙΠΟΙΗΣΗΣ</span>
+            <span className="text-xs font-bold tracking-widest text-[#e0a916]">Προϊόντα Περιποίησης</span>
             <div className="flex-1 h-[2px] bg-neutral-800" />
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-extrabold uppercase mb-4 text-white font-serif-body">Premium E-Shop</h2>
+          <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 text-white font-serif-body">Premium E-Shop</h2>
           <p className="text-sm md:text-base text-gray-400 max-w-xl mb-16 leading-relaxed font-serif-body">
             Διάλεξε από την αποκλειστική γκάμα προϊόντων του {businessDisplayName} για τη φροντίδα της γενειάδας, του μουστακιού και των μαλλιών σου στο σπίτι.
           </p>
@@ -1068,13 +1174,13 @@ function BarbershopDemoContent() {
                 {/* Details */}
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <h3 className="font-extrabold text-base text-white tracking-wide uppercase font-sans-body">{product.name}</h3>
+                    <h3 className="font-extrabold text-base text-white tracking-wide font-sans-body">{product.name}</h3>
                     <p className="text-xs text-gray-400 font-light leading-relaxed font-sans-body">{product.desc}</p>
                   </div>
 
                   <button 
                     onClick={() => addToCart(product)}
-                    className="w-full py-3 bg-black hover:bg-[#e0a916] hover:text-black text-white font-bold text-xs tracking-wider uppercase border border-black transition-colors"
+                    className="w-full py-3 bg-black hover:bg-[#e0a916] hover:text-black text-white font-bold text-xs tracking-wider border border-black transition-colors"
                   >
                     Προσθήκη στο Καλάθι
                   </button>
@@ -1099,10 +1205,10 @@ function BarbershopDemoContent() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-24 h-[2.5px] bg-[#e0a916]" />
-            <span className="text-xs font-bold tracking-widest text-gray-500 uppercase">ΚΟΥΡΕΙΣ</span>
+            <span className="text-xs font-bold tracking-widest text-gray-500">Κουρείς</span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-extrabold uppercase mb-4 font-serif-body">Οι Κουρείς Μας</h2>
+          <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 font-serif-body">Οι Κουρείς Μας</h2>
           <p className="text-sm md:text-base text-neutral-700 max-w-xl mb-16 leading-relaxed font-normal font-serif-body">
             Απασχολούμε μόνο εξειδικευμένους κουρείς που δεν είναι απλώς επαγγελματίες, αλλά απολαμβάνουν επίσης να διατηρούν την αυθεντική ατμόσφαιρα ενός κλασικού κουρείου.
           </p>
@@ -1112,9 +1218,9 @@ function BarbershopDemoContent() {
               <div className="relative aspect-square overflow-hidden shadow-inner bg-neutral-100">
                 <Image src="/promo/barber_giannis.png" alt="Γιάννης Βασιλείου" fill className="object-cover grayscale contrast-115" />
               </div>
-              <h4 className="font-bold text-sm uppercase tracking-widest pt-2">ΓΙΑΝΝΗΣ ΒΑΣΙΛΕΙΟΥ</h4>
+              <h4 className="font-bold text-sm tracking-widest pt-2">Γιάννης Βασιλείου</h4>
               <p className="text-xs text-neutral-500 font-light leading-relaxed px-2 font-serif-body">
-                Ο Γιάννης είναι ο ιδρυτής και Senior Barber του κουρείου μας, με ξυρισμένο στυλ, πυκνή γενειάδα και πάθος για την κλασική περιποίηση.
+                Ο Γιάννης είναι ο ιδρυτής and Senior Barber του κουρείου μας, με ξυρισμένο στυλ, πυκνή γενειάδα και πάθος για την κλασική περιποίηση.
               </p>
             </div>
 
@@ -1122,7 +1228,7 @@ function BarbershopDemoContent() {
               <div className="relative aspect-square overflow-hidden shadow-inner bg-neutral-100">
                 <Image src="/promo/barber_vasilis.png" alt="Βασίλης Ανδρέου" fill className="object-cover grayscale contrast-115" />
               </div>
-              <h4 className="font-bold text-sm uppercase tracking-widest pt-2">ΒΑΣΙΛΗΣ ΑΝΔΡΕΟΥ</h4>
+              <h4 className="font-bold text-sm tracking-widest pt-2">Βασίλης Ανδρέου</h4>
               <p className="text-xs text-neutral-500 font-light leading-relaxed px-2 font-serif-body">
                 Ο Βασίλης είναι ένας μοντέρνος barber με εντυπωσιακά τατουάζ και σχολαστική προσέγγιση στο σύγχρονο styling.
               </p>
@@ -1132,7 +1238,7 @@ function BarbershopDemoContent() {
               <div className="relative aspect-square overflow-hidden shadow-inner bg-neutral-100">
                 <Image src="/promo/barber_andreas.png" alt="Ανδρέας Φιλίππου" fill className="object-cover grayscale contrast-115" />
               </div>
-              <h4 className="font-bold text-sm uppercase tracking-widest pt-2">ΑΝΔΡΕΑΣ ΦΙΛΙΠΠΟΥ</h4>
+              <h4 className="font-bold text-sm tracking-widest pt-2">Ανδρέας Φιλίππου</h4>
               <p className="text-xs text-neutral-500 font-light leading-relaxed px-2 font-serif-body">
                 Ο Ανδρέας συνδυάζει το εναλλακτικό στυλ με τατουάζ και την εξειδίκευση στις premium θεραπείες γενειάδας.
               </p>
@@ -1156,11 +1262,11 @@ function BarbershopDemoContent() {
           <div className="w-full md:w-1/2 flex flex-col justify-center space-y-8 pl-0 md:pl-8">
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <span className="text-xs font-bold tracking-widest text-gray-500 uppercase">ΕΠΙΚΟΙΝΩΝΙΑ</span>
+                <span className="text-xs font-bold tracking-widest text-gray-500">Επικοινωνία</span>
                 <div className="flex-1 h-[2.5px] bg-[#e0a916]" />
               </div>
 
-              <h2 className="text-3xl font-extrabold uppercase text-neutral-900 font-serif-body">Διεύθυνση</h2>
+              <h2 className="text-3xl font-extrabold text-neutral-900 font-serif-body">Διεύθυνση</h2>
               <p className="text-sm md:text-base text-neutral-600 leading-relaxed font-light font-serif-body">
                 123 Street W., <br/>
                 Θεσσαλονίκη, Ελλάδα <br/>
@@ -1170,7 +1276,7 @@ function BarbershopDemoContent() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-3xl font-extrabold uppercase text-neutral-900 font-serif-body">Ωράριο Λειτουργίας</h2>
+              <h2 className="text-3xl font-extrabold text-neutral-900 font-serif-body">Ωράριο Λειτουργίας</h2>
               <div className="text-sm md:text-base text-neutral-600 space-y-2 font-light font-serif-body">
                 <p className="flex justify-between max-w-xs border-b border-neutral-100 pb-1">
                   <span>Δευτέρα – Παρασκευή:</span> 
@@ -1192,18 +1298,18 @@ function BarbershopDemoContent() {
           <SawtoothLogo />
         </div>
 
-        <h3 className="font-chunky text-2xl text-[#e0a916] uppercase tracking-wider mb-4">{businessDisplayName}</h3>
+        <h3 className="font-chunky text-2xl text-[#e0a916] tracking-wider mb-4">{businessDisplayName}</h3>
         
         <p className="text-sm md:text-base text-gray-400 max-w-xl mx-auto leading-relaxed font-normal font-serif-body mb-8">
           Το {businessDisplayName} είναι το Νο.1 μέρος για ανδρικό κούρεμα. Εδώ μπορείς να απολαύσεις μια premium εμπειρία περιποίησης σε προσιτή τιμή.
         </p>
 
-        <div className="flex gap-8 text-[11px] font-bold tracking-widest uppercase mb-8">
-          <a href="#about" className="text-[#e0a916] hover:text-white transition-colors">ΣΧΕΤΙΚΑ</a>
-          <a href="#services" className="text-[#e0a916] hover:text-white transition-colors">ΥΠΗΡΕΣΙΕΣ</a>
-          <a href="#shop" className="text-white hover:text-[#e0a916] transition-colors">ΠΡΟΪΟΝΤΑ</a>
-          <a href="#barbers" className="text-[#e0a916] hover:text-white transition-colors">ΚΟΥΡΕΙΣ</a>
-          <a href="#contacts" className="text-[#e0a916] hover:text-white transition-colors">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+        <div className="flex gap-8 text-[11px] font-bold tracking-widest mb-8">
+          <a href="#about" className="text-[#e0a916] hover:text-white transition-colors">Σχετικά</a>
+          <a href="#services" className="text-[#e0a916] hover:text-white transition-colors">Υπηρεσίες</a>
+          <a href="#shop" className="text-white hover:text-[#e0a916] transition-colors">Προϊόντα</a>
+          <a href="#barbers" className="text-[#e0a916] hover:text-white transition-colors">Κουρείς</a>
+          <a href="#contacts" className="text-[#e0a916] hover:text-white transition-colors">Επικοινωνία</a>
         </div>
 
         <div className="flex gap-6 mb-8 text-white">

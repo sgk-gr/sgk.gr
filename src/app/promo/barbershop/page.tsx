@@ -208,7 +208,7 @@ function BarbershopLandingContent() {
 
             {/* Live Demo CTA Button */}
             <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-6 text-center shadow-sm">
-              <p className="text-xs md:text-sm font-extrabold text-gray-800 mb-3 uppercase tracking-wider">
+              <p className="text-xs md:text-sm font-extrabold text-gray-800 mb-3 tracking-wider">
                 Θέλεις να δεις ένα παράδειγμα;
               </p>
               <a 
@@ -301,7 +301,7 @@ function BarbershopLandingContent() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
             
             <h2 className="text-3xl font-heading font-medium mb-2 relative z-10">Σε ενδιαφέρει;</h2>
-            <p className="text-[13px] text-white/80 mb-8 font-light relative z-10">Θα επικοινωνήσουμε μαζί σου αν θέλεις για ΔΩΡΕΑΝ συμβουλευτική χωρίς δεσμεύσεις</p>
+            <p className="text-[13px] text-white/80 mb-8 font-light relative z-10">Θα επικοινωνήσουμε μαζί σου αν θέλεις για δωρεάν συμβουλευτική χωρίς δεσμεύσεις</p>
             
             <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
               <div className="relative">
@@ -536,7 +536,7 @@ function BarbershopLandingContent() {
             </p>
             <div className="mt-4 flex gap-4">
               <a href="/privacy" className="text-xs text-[#facc15] hover:text-yellow-300 transition-colors">Πολιτική Απορρήτου</a>
-              <a href="/terms" className="text-xs text-[#4ade80] hover:text-green-300 transition-colors">Όροι Χรียσης</a>
+              <a href="/terms" className="text-xs text-[#4ade80] hover:text-green-300 transition-colors">Όροι Χρήσης</a>
             </div>
           </div>
         </div>
