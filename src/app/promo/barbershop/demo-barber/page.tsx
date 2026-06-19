@@ -702,92 +702,85 @@ function BarbershopDemoContent() {
                 <X size={26} />
               </button>
 
-              <div className="text-center mb-6 md:mb-8">
-                <div className="flex justify-center mb-2">
-                  <ShoppingCart size={36} className="text-[#e0a916]" />
+              <div className="text-center mb-3 sm:mb-6">
+                <div className="flex justify-center mb-1">
+                  <ShoppingCart size={24} className="text-[#e0a916] sm:w-9 sm:h-9" />
                 </div>
-                <h4 className="text-2xl md:text-3xl font-black text-[#e0a916] font-sans-body uppercase tracking-wider">Ολοκλήρωση Παραγγελίας</h4>
-                <div className="w-20 h-[2.5px] bg-[#e0a916] mx-auto my-3" />
+                <h4 className="text-lg sm:text-2xl font-black text-[#e0a916] font-sans-body uppercase tracking-wider">Ολοκλήρωση Παραγγελίας</h4>
+                <div className="w-16 h-[2px] bg-[#e0a916] mx-auto my-2" />
               </div>
 
               {checkoutStep === 1 ? (
-                <div className="space-y-4 text-left">
-                  <p className="text-sm font-bold text-gray-400 mb-2 font-sans-body">1. Στοιχεία Αποστολής & Παράδοσης:</p>
+                <div className="space-y-3 text-left">
+                  <p className="text-xs sm:text-sm font-bold text-gray-400 mb-1 font-sans-body">1. Στοιχεία Αποστολής & Παράδοσης:</p>
                   
-                  <div className="space-y-4 font-sans-body text-xs sm:text-sm">
+                  <div className="space-y-2.5 font-sans-body text-xs">
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Όνοματεπώνυμο</label>
+                      <label className="block text-[9px] font-bold text-gray-400 mb-0.5 uppercase">Όνοματεπώνυμο</label>
                       <input 
                         type="text" 
                         value={clientName} 
                         onChange={(e) => setClientName(e.target.value)}
-                        className="w-full bg-neutral-900 border-2 border-black p-3 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        className="w-full bg-neutral-900 border-2 border-black p-2 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                       />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Κινητό Τηλέφωνο</label>
+                        <label className="block text-[9px] font-bold text-gray-400 mb-0.5 uppercase">Κινητό Τηλέφωνο</label>
                         <input 
                           type="tel" 
                           value={clientPhone} 
                           onChange={(e) => setClientPhone(e.target.value)}
-                          className="w-full bg-neutral-900 border-2 border-black p-3 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                          className="w-full bg-neutral-900 border-2 border-black p-2 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Email</label>
+                        <label className="block text-[9px] font-bold text-gray-400 mb-0.5 uppercase">Email</label>
                         <input 
                           type="email" 
                           value={clientEmail} 
                           onChange={(e) => setClientEmail(e.target.value)}
-                          className="w-full bg-neutral-900 border-2 border-black p-3 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                          className="w-full bg-neutral-900 border-2 border-black p-2 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         />
                       </div>
                     </div>
 
-                    <div>
-                      <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Διεύθυνση Αποστολής (Οδός, Αριθμός)</label>
-                      <input 
-                        type="text" 
-                        value={shippingAddress} 
-                        required
-                        onChange={(e) => setShippingAddress(e.target.value)}
-                        placeholder="π.χ. Τσιμισκή 45"
-                        className="w-full bg-neutral-900 border-2 border-black p-3 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                      />
-                    </div>
+                    <div className="grid grid-cols-[1.5fr_1fr] gap-3">
+                      <div>
+                        <label className="block text-[9px] font-bold text-gray-400 mb-0.5 uppercase">Διεύθυνση Αποστολής (Οδός, Αρ.)</label>
+                        <input 
+                          type="text" 
+                          value={shippingAddress} 
+                          required
+                          onChange={(e) => setShippingAddress(e.target.value)}
+                          placeholder="π.χ. Τσιμισκή 45"
+                          className="w-full bg-neutral-900 border-2 border-black p-2 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        />
+                      </div>
 
-                    <div>
-                      <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Πόλη</label>
-                      <input 
-                        type="text" 
-                        value={shippingCity} 
-                        onChange={(e) => setShippingCity(e.target.value)}
-                        className="w-full bg-neutral-900 border-2 border-black p-3 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                      />
+                      <div>
+                        <label className="block text-[9px] font-bold text-gray-400 mb-0.5 uppercase">Πόλη</label>
+                        <input 
+                          type="text" 
+                          value={shippingCity} 
+                          onChange={(e) => setShippingCity(e.target.value)}
+                          className="w-full bg-neutral-900 border-2 border-black p-2 text-white focus:border-[#e0a916] focus:outline-none transition-colors rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Order Summary in Checkout */}
-                  <div className="bg-neutral-950 p-4 border-2 border-black font-sans-body text-xs space-y-2 mt-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    <p className="font-extrabold text-[#e0a916] mb-1">ΣΥΝΟΨΗ ΠΑΡΑΓΓΕΛΙΑΣ</p>
-                    {cart.map(item => (
-                      <div key={item.id} className="flex justify-between text-gray-300">
-                        <span>{item.name} x {item.quantity}</span>
-                        <span>{item.price * item.quantity}€</span>
-                      </div>
-                    ))}
-                    <div className="border-t border-white/10 pt-2 flex justify-between font-black text-sm text-white">
-                      <span>Σύνολο:</span>
-                      <span className="text-[#e0a916]">{getCartTotal()}€</span>
-                    </div>
+                  {/* Compact Order Summary in Checkout */}
+                  <div className="border-t border-b border-white/10 py-2 flex justify-between items-center text-xs font-sans-body mt-2">
+                    <span className="text-gray-400">Σύνοψη ({getCartCount()} {getCartCount() === 1 ? "προϊόν" : "προϊόντα"}):</span>
+                    <span className="font-black text-sm text-[#e0a916]">{getCartTotal()}€</span>
                   </div>
 
                   <button 
                     disabled={!clientName.trim() || !clientPhone.trim() || !clientEmail.trim() || !shippingAddress.trim() || !shippingCity.trim()}
                     onClick={() => completeCheckout()}
-                    className="w-full py-4 rounded-none text-xs md:text-sm font-black border-2 border-black transition-all bg-[#e0a916] text-black hover:bg-[#c99513] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] disabled:opacity-50 mt-6 uppercase tracking-widest font-sans-body"
+                    className="w-full py-3 rounded-none text-xs md:text-sm font-black border-2 border-black transition-all bg-[#e0a916] text-black hover:bg-[#c99513] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] disabled:opacity-50 mt-3 uppercase tracking-widest font-sans-body"
                   >
                     Υποβολή Παραγγελίας (Αντικαταβολή)
                   </button>
