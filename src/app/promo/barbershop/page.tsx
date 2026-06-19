@@ -1,15 +1,95 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Check, Link as LinkIcon, Download, CheckCircle2, Navigation2, ChevronRight, Phone, Smartphone, Monitor, X } from "lucide-react";
+import { Check, Link as LinkIcon, Download, CheckCircle2, Navigation2, ChevronRight, Phone, Smartphone, Monitor, X, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
 import confetti from "canvas-confetti";
 
-export default function BarbershopLanding() {
+function getInCityPhrase(city: string): string {
+  if (!city) return "";
+  const trimmed = city.trim();
+  
+  // Plural Neuter
+  const pluralNeuterCities = [
+    "Χανιά", "Γρεβενά", "Τρίκαλα", "Ιωάννινα", "Γιαννιτσά", 
+    "Καλάβρυτα", "Μέγαρα", "Φάρσαλα", "Λεχαινά", "Κύθηρα", 
+    "Ψαρά", "Κουφονήσια", "Λιμενάρια", "Μάλια", "Καμένα Βούρλα",
+    "Λουτρά", "Λιμάνια", "Μέθανα"
+  ];
+  
+  if (pluralNeuterCities.some(c => c.toLowerCase() === trimmed.toLowerCase())) {
+    return `στα ${trimmed}`;
+  }
+
+  // Feminine ending in -ος
+  const feminineOsCities = [
+    "Ρόδος", "Μύκονος", "Νάξος", "Πάρος", "Μήλος", "Σίφνος", 
+    "Σέριφος", "Κύθνος", "Κίμωλος", "Αμοργός", "Αλόννησος", 
+    "Σκόπελος", "Σκιάθος", "Ζάκυνθος", "Κάρπαθος", "Λέρος", 
+    "Πάτμος", "Σύρος", "Τήνος", "Άνδρος", "Κόρινθος", "Πύλος"
+  ];
+  
+  const isFeminineOs = feminineOsCities.some(c => c.toLowerCase() === trimmed.toLowerCase());
+  
+  if (isFeminineOs) {
+    const accusative = trimmed.endsWith("ς") ? trimmed.slice(0, -1) : trimmed;
+    const firstChar = accusative.charAt(0).toUpperCase();
+    const firstTwo = accusative.slice(0, 2).toLowerCase();
+    
+    const vowels = ["Α", "Ε", "Η", "Ι", "Ο", "Υ", "Ω", "Ά", "Έ", "Ή", "Ί", "Ό", "Ύ", "Ώ"];
+    const stopConsonants = ["Κ", "Π", "Τ", "Ξ", "Ψ"];
+    const stopClusters = ["μπ", "ντ", "γκ", "τσ", "τζ"];
+    
+    const needsN = vowels.includes(firstChar) || 
+                   stopConsonants.includes(firstChar) || 
+                   stopClusters.some(cluster => firstTwo.startsWith(cluster));
+                   
+    return needsN ? `στην ${accusative}` : `στη ${accusative}`;
+  }
+
+  // Masculine/Feminine ending in -ος, -ης, -ας
+  if (trimmed.endsWith("ς") || trimmed.endsWith("Σ")) {
+    const accusative = trimmed.slice(0, -1);
+    if (trimmed.toLowerCase() === "άργος") {
+      return `στο ${trimmed}`;
+    }
+    return `στο ${accusative}`;
+  }
+
+  // Neuter ending in -ο, -ό, -ι, -ί, -υ, -ύ
+  const lastChar = trimmed.slice(-1).toLowerCase();
+  if (["ο", "ό", "ι", "ί", "υ", "ύ"].includes(lastChar)) {
+    return `στο ${trimmed}`;
+  }
+
+  // Feminine singular ending in -α, -ά, -η, -ή or anything else
+  const firstChar = trimmed.charAt(0).toUpperCase();
+  const firstTwo = trimmed.slice(0, 2).toLowerCase();
+  
+  const vowels = ["Α", "Ε", "Η", "Ι", "Ο", "Υ", "Ω", "Ά", "Έ", "Ή", "Ί", "Ό", "Ύ", "Ώ"];
+  const stopConsonants = ["Κ", "Π", "Τ", "Ξ", "Ψ"];
+  const stopClusters = ["μπ", "ντ", "γκ", "τσ", "τζ"];
+  
+  const needsN = vowels.includes(firstChar) || 
+                 stopConsonants.includes(firstChar) || 
+                 stopClusters.some(cluster => firstTwo.startsWith(cluster));
+                 
+  return needsN ? `στην ${trimmed}` : `στη ${trimmed}`;
+}
+
+function BarbershopLandingContent() {
+  const searchParams = useSearchParams();
+  const queryName = searchParams.get("name") || "";
+  const queryCity = searchParams.get("city") || "";
+  const queryPhone = searchParams.get("phone") || "";
+  
+  const inCityPhrase = getInCityPhrase(queryCity || "Θεσσαλονίκη");
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -19,6 +99,18 @@ export default function BarbershopLanding() {
     acceptTerms: true,
     acceptPromo: true
   });
+
+  const [submittedSalon, setSubmittedSalon] = useState("");
+  const [submittedPhone, setSubmittedPhone] = useState("");
+
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      salon: queryName || prev.salon,
+      phone: queryPhone || prev.phone
+    }));
+  }, [queryName, queryPhone]);
+
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [submittedPreference, setSubmittedPreference] = useState("phone");
@@ -34,7 +126,7 @@ export default function BarbershopLanding() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.email) {
+    if (!formData.name || !formData.phone || !formData.email || !formData.salon) {
       toast.error("Συμπληρώστε τα υποχρεωτικά πεδία.");
       return;
     }
@@ -46,7 +138,7 @@ export default function BarbershopLanding() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        company: "Barbershop Promo",
+        company: formData.salon || "Barbershop Promo",
         contactPreference: formData.contactPreference,
         marketingConsent: formData.acceptPromo,
       });
@@ -57,9 +149,22 @@ export default function BarbershopLanding() {
         origin: { y: 0.6 },
         colors: ['#4ade80', '#3b5bdb', '#facc15', '#ffffff']
       });
+
+      setSubmittedSalon(formData.salon);
+      setSubmittedPhone(formData.phone);
       setSubmittedPreference(formData.contactPreference);
       setShowModal(true);
-      setFormData({ name: "", phone: "", email: "", salon: "", contactPreference: "phone", acceptTerms: true, acceptPromo: true });
+      
+      // Reset form fields but keep salon prefilled if it came from query params
+      setFormData({ 
+        name: "", 
+        phone: queryPhone || "", 
+        email: "", 
+        salon: queryName || "", 
+        contactPreference: "phone", 
+        acceptTerms: true, 
+        acceptPromo: true 
+      });
     } catch (err: any) {
       console.error(err);
       toast.error("Κάτι πήγε στραβά, προσπαθήστε ξανά.");
@@ -70,6 +175,14 @@ export default function BarbershopLanding() {
 
   return (
     <div className="min-h-screen bg-white font-body selection:bg-[#4ade80] selection:text-black">
+      {/* 0. Floating Top Notification Bar */}
+      {queryName && (
+        <div className="bg-gradient-to-r from-[#3b5bdb] to-[#5c7cfa] text-white text-center py-3 px-4 text-xs md:text-sm font-semibold flex items-center justify-center gap-2 relative z-[60] shadow-md">
+          <Sparkles className="w-4 h-4 text-[#4ade80] animate-pulse shrink-0" />
+          <span>Προσωπική Προσφορά & Live Demo για την επιχείρηση <strong>{queryName}</strong>!</span>
+        </div>
+      )}
+
       {/* Success Modal */}
       {showModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
@@ -81,18 +194,35 @@ export default function BarbershopLanding() {
               <Check className="w-8 h-8 text-[#22c55e]" />
             </div>
             <h3 className="text-2xl font-heading font-bold text-[#3b5bdb] text-center mb-2">Συγχαρητήρια! 🎉</h3>
-            <p className="text-gray-600 text-center mb-6">
-              Το αίτημά σου καταχωρήθηκε επιτυχώς! Μόλις έκανες το πρώτο βήμα για τη ψηφιακή αναβάθμιση της επιχείρησής σου.
+            <p className="text-gray-600 text-center mb-4">
+              Το αίτημά σου καταχωρήθηκε επιτυχώς! Μόλις κέρδισες <strong className="font-bold text-[#3b5bdb]">150€ έκπτωση</strong> για την κατασκευή της ιστοσελίδας σου.
             </p>
-            <p className="text-sm text-gray-500 text-center mb-8">
+            
+            <p className="text-xs text-gray-500 text-center mb-6">
               {submittedPreference === 'email' ? (
                 <>Θα επικοινωνήσουμε σύντομα μαζί σου μέσω email. <br/><span className="italic text-gray-400">(Είμαστε διακριτικοί! 🤫)</span></>
               ) : (
                 <>Θα σε καλέσουμε σύντομα! <br/><span className="italic text-gray-400">(Δεν θα σε ζαλίσουμε στα τηλέφωνα, είμαστε διακριτικοί! 🤫)</span></>
               )}
             </p>
-            <button onClick={() => setShowModal(false)} className="w-full bg-[#3b5bdb] text-white font-bold py-3 rounded-xl hover:bg-[#2e4aae] transition-colors">
-              Τέλεια!
+
+            {/* Live Demo CTA Button */}
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-6 text-center shadow-sm">
+              <p className="text-xs md:text-sm font-extrabold text-gray-800 mb-3 uppercase tracking-wider">
+                Θέλεις να δεις ένα παράδειγμα;
+              </p>
+              <a 
+                href={`/promo/barbershop/demo?name=${encodeURIComponent(submittedSalon || "Modern Barber")}&phone=${encodeURIComponent(submittedPhone)}&city=${encodeURIComponent(queryCity || "Θεσσαλονίκη")}`}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-full bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-300 gap-1.5 text-xs shadow-sm"
+              >
+                Δες ένα ζωντανό δείγμα σε λειτουργία ↗
+              </a>
+            </div>
+
+            <button onClick={() => setShowModal(false)} className="w-full bg-[#3b5bdb]/10 hover:bg-[#3b5bdb]/20 text-[#3b5bdb] font-bold py-2.5 rounded-xl transition-colors text-sm">
+              Κλείσιμο
             </button>
           </div>
         </div>
@@ -103,7 +233,14 @@ export default function BarbershopLanding() {
         <div className="flex items-center gap-8">
           <a href="https://sgk.gr" className="flex items-center gap-2">
             <span className="font-heading font-bold text-2xl tracking-tighter text-black">
-              sgk<span className="text-[#3b5bdb]">.</span>
+              {queryName ? (
+                <span className="text-[#3b5bdb] flex items-center gap-1.5 text-lg md:text-xl">
+                  <Sparkles className="w-4.5 h-4.5 text-[#4ade80] fill-[#4ade80]" />
+                  {queryName}
+                </span>
+              ) : (
+                <>sgk<span className="text-[#3b5bdb]">.</span></>
+              )}
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
@@ -120,11 +257,11 @@ export default function BarbershopLanding() {
         </button>
       </header>
 
-      {/* 2. Hero Section (Blue Box Layout) */}
-      <section className="relative w-full h-[90vh] md:h-screen min-h-[700px] flex items-center pt-16">
+      {/* 2. Hero Section */}
+      <section className="relative w-full pt-28 pb-20 md:pt-16 md:pb-0 md:h-screen md:min-h-[700px] flex items-center">
         {/* Background Image */}
         <div className="absolute inset-0 w-full h-full">
-          <div className="absolute inset-0 bg-black/30 z-10" />
+          <div className="absolute inset-0 bg-black/40 z-10" />
           <Image
             src="/promo/barbershop_hero.png"
             alt="Barber Shop Interior"
@@ -144,21 +281,41 @@ export default function BarbershopLanding() {
             </h1>
             <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl backdrop-blur-md inline-block">
               <div className="flex items-center gap-2 text-sm text-gray-200">
-                <CheckCircle2 className="w-5 h-5 text-[#4ade80]" />
-                <span>Αποκλειστικά για Hair Salons / Barbershops. Κερδίστε 150€ έκπτωση στην κατασκευή.</span>
+                <span>Αποκλειστικά για Hair Salons / Barbershops. Κέρδισε 150€ έκπτωση στην κατασκευή.</span>
               </div>
             </div>
           </div>
 
-          {/* Right Form Box (Snappi Blue) */}
-          <div className="w-full max-w-[480px] bg-[#3b5bdb] text-white p-8 md:p-10 shadow-2xl relative overflow-hidden">
+          {/* Right Form Box */}
+          <div className="w-full max-w-[480px] relative mt-8 md:mt-0">
+            {/* Yellow Card Behind */}
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-[90%] bg-[#facc15] text-black font-semibold text-xs md:text-sm py-2 px-4 rounded-t-2xl shadow-lg flex items-center justify-center z-0 border border-black/5">
+              <span className="text-center leading-tight">
+                Με την υποβολή θα δεις δείγμα της δουλειάς μας!
+              </span>
+            </div>
+
+            {/* Blue Card itself */}
+            <div className="w-full bg-[#3b5bdb] text-white p-8 md:p-10 relative overflow-hidden rounded-3xl shadow-2xl z-10">
             {/* Soft decorative glow */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
             
-            <h2 className="text-3xl font-heading font-medium mb-2">Σε ενδιαφέρει;</h2>
-            <p className="text-[13px] text-white/80 mb-8 font-light">Θα επικοινωνήσουμε μαζί σου αν θέλεις για ΔΩΡΕΑΝ συμβουλευτική χωρίς δεσμεύσεις</p>
+            <h2 className="text-3xl font-heading font-medium mb-2 relative z-10">Σε ενδιαφέρει;</h2>
+            <p className="text-[13px] text-white/80 mb-8 font-light relative z-10">Θα επικοινωνήσουμε μαζί σου αν θέλεις για ΔΩΡΕΑΝ συμβουλευτική χωρίς δεσμεύσεις</p>
             
-            <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+            <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+              <div className="relative">
+                <input 
+                  type="text" 
+                  required 
+                  value={formData.salon}
+                  onChange={(e) => setFormData({...formData, salon: e.target.value})}
+                  className="w-full bg-transparent border-b border-white/30 px-0 py-2 text-white placeholder-transparent focus:outline-none focus:border-white peer" 
+                  placeholder="Όνομα Κομμωτηρίου / Barber" 
+                />
+                <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">Όνομα Κομμωτηρίου / Barber</label>
+              </div>
+
               <div className="grid grid-cols-2 gap-6">
                 <div className="relative">
                   <input 
@@ -184,28 +341,26 @@ export default function BarbershopLanding() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-6">
-                <div className="relative">
-                  <input 
-                    type="email" 
-                    required 
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full bg-transparent border-b border-white/30 px-0 py-2 text-white placeholder-transparent focus:outline-none focus:border-white peer" 
-                    placeholder="Email" 
-                  />
-                  <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">Email</label>
-                </div>
+              <div className="relative">
+                <input 
+                  type="email" 
+                  required 
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full bg-transparent border-b border-white/30 px-0 py-2 text-white placeholder-transparent focus:outline-none focus:border-white peer" 
+                  placeholder="Email" 
+                />
+                <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">Email</label>
               </div>
 
-              <div className="pt-2">
-                <p className="text-white/90 text-[13px] mb-3">Πώς θέλεις να τα πούμε;</p>
+              <div className="pt-1">
+                <p className="text-white/90 text-xs mb-2">Πώς θέλεις να τα πούμε;</p>
                 <div className="flex gap-4">
-                  <label className={`flex-1 cursor-pointer border rounded-xl py-2.5 px-3 text-center text-sm transition-all ${formData.contactPreference === 'email' ? 'bg-[#4ade80] border-[#4ade80] text-black font-semibold' : 'border-white/30 text-white hover:bg-white/10'}`}>
+                  <label className={`flex-1 cursor-pointer border rounded-xl py-2 px-3 text-center text-xs transition-all ${formData.contactPreference === 'email' ? 'bg-[#4ade80] border-[#4ade80] text-black font-semibold' : 'border-white/30 text-white hover:bg-white/10'}`}>
                     <input type="radio" name="contactPreference" value="email" checked={formData.contactPreference === 'email'} onChange={(e) => setFormData({...formData, contactPreference: 'email'})} className="hidden" />
                     Με email
                   </label>
-                  <label className={`flex-1 cursor-pointer border rounded-xl py-2.5 px-3 text-center text-sm transition-all ${formData.contactPreference === 'phone' ? 'bg-[#4ade80] border-[#4ade80] text-black font-semibold' : 'border-white/30 text-white hover:bg-white/10'}`}>
+                  <label className={`flex-1 cursor-pointer border rounded-xl py-2 px-3 text-center text-xs transition-all ${formData.contactPreference === 'phone' ? 'bg-[#4ade80] border-[#4ade80] text-black font-semibold' : 'border-white/30 text-white hover:bg-white/10'}`}>
                     <input type="radio" name="contactPreference" value="phone" checked={formData.contactPreference === 'phone'} onChange={(e) => setFormData({...formData, contactPreference: 'phone'})} className="hidden" />
                     Στο τηλέφωνο
                   </label>
@@ -213,20 +368,19 @@ export default function BarbershopLanding() {
               </div>
 
               <div className="pt-2">
-                <p className="text-[10px] text-white/60 mb-4 italic">
+                <p className="text-[10px] text-white/60 mb-1 italic">
                   *Βάλτε το email στο οποίο επιθυμείτε να λάβετε τον κωδικό έκπτωσης.
                 </p>
-                <label className="flex items-start gap-2 text-xs text-white/80 cursor-pointer group">
-                  <div className="mt-0.5">
-                    <input type="checkbox" checked={formData.acceptTerms} onChange={(e) => setFormData({...formData, acceptTerms: e.target.checked})} className="accent-[#4ade80] w-3.5 h-3.5" />
-                  </div>
+              </div>
+
+              <div className="pt-1">
+                <label className="flex items-start gap-2 text-[11px] text-white/80 cursor-pointer group">
+                  <input type="checkbox" checked={formData.acceptTerms} onChange={(e) => setFormData({...formData, acceptTerms: e.target.checked})} className="accent-[#4ade80] w-3.5 h-3.5 mt-0.5" />
                   <span>Αποδέχομαι τους <a href="/terms" className="underline hover:text-white">όρους χρήσης</a>.</span>
                 </label>
-                <label className="flex items-start gap-2 text-xs text-white/80 cursor-pointer mt-2 group">
-                  <div className="mt-0.5">
-                    <input type="checkbox" checked={formData.acceptPromo} onChange={(e) => setFormData({...formData, acceptPromo: e.target.checked})} className="accent-[#4ade80] w-3.5 h-3.5" />
-                  </div>
-                  <span>Επιθυμώ να λαμβάνω ενημερώσεις της SGK Digital μέσω email.</span>
+                <label className="flex items-start gap-2 text-[11px] text-white/80 cursor-pointer mt-1 group">
+                  <input type="checkbox" checked={formData.acceptPromo} onChange={(e) => setFormData({...formData, acceptPromo: e.target.checked})} className="accent-[#4ade80] w-3.5 h-3.5 mt-0.5" />
+                  <span>Επιθυμώ να λαμβάνω ενημερώσεις της SGK Digital.</span>
                 </label>
               </div>
 
@@ -236,17 +390,18 @@ export default function BarbershopLanding() {
                   type="submit" 
                   className="bg-white text-[#3b5bdb] hover:bg-gray-100 font-medium px-8 py-3 rounded-full transition-all disabled:opacity-70 flex items-center gap-2"
                 >
-                  {loading ? "Αποστολή..." : "Διεκδίκησε τα 150€ Σου!"}
+                  {loading ? "Αποστολή..." : "Διεκδίκησε τα 150€ σου!"}
                 </button>
               </div>
             </form>
           </div>
         </div>
+        </div>
       </section>
 
       {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2 z-50 border-t border-white/20">
-        Νέος πελάτης; Κάντε εγγραφή για <strong>150€ έκπτωση</strong> στην κατασκευή του digital barber shop σας!
+      <div className="fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20">
+        Νέος πελάτης; <strong>Διεκδίκησε 150€</strong> και απόκτησε το δικό σου Website!
       </div>
 
       {/* 3. Split Info Section ("Πώς λειτουργεί") */}
@@ -254,7 +409,7 @@ export default function BarbershopLanding() {
         <div className="max-w-7xl w-full mx-auto px-6 md:px-12 relative z-10 flex flex-col md:flex-row items-center">
           
           {/* Blue Box Copy */}
-          <div className="w-full md:w-5/12 bg-[#3b5bdb] text-white p-10 md:p-16 h-full flex flex-col justify-center">
+          <div className="w-full md:w-5/12 bg-[#3b5bdb] text-white p-10 md:p-16 h-full flex flex-col justify-center rounded-2xl md:rounded-r-none md:rounded-l-2xl">
             <h3 className="text-4xl font-heading font-medium mb-8">Πώς λειτουργεί:</h3>
             <ul className="space-y-6 text-sm md:text-base text-white/90 leading-relaxed list-disc pl-5">
               <li>
@@ -264,7 +419,7 @@ export default function BarbershopLanding() {
                 Επικοινωνούμε μαζί σου (όπως ακριβώς μας ζήτησες) για να καταγράψουμε τις ανάγκες του κομμωτηρίου σου (ημερολόγια κρατήσεων, eshop για προϊόντα κτλ).
               </li>
               <li>
-                Σχεδιάζουμε ένα υπερσύγχρονο app/website προσαρμοσμένο στα χρώματά σας.
+                Σχεδιάζουμε ένα υπερσύγχρονο app/website προσαρμοσμένο στα χρώματά σου.
               </li>
               <li>
                 Εμείς σου δίνουμε <strong>150€ (σε εκπτωτικό κουπόνι)</strong> για την πρώτη κατασκευή, αρκεί να είσαι νέος πελάτης της SGK Digital.
@@ -281,7 +436,7 @@ export default function BarbershopLanding() {
                 src="/promo/barbershop_app_mockup.png" 
                 alt="Barbershop App Mockup"
                 fill
-                className="object-contain md:object-cover object-left shadow-2xl hover:scale-105 transition-transform duration-700"
+                className="object-contain md:object-cover object-left shadow-2xl hover:scale-105 transition-transform duration-700 rounded-r-2xl"
              />
           </div>
         </div>
@@ -358,11 +513,11 @@ export default function BarbershopLanding() {
       </section>
 
       {/* Footer / Transparency Section */}
-      <footer className="w-full bg-[#111111] border-t border-white/10 py-12 px-6 md:px-16 relative z-10 text-center md:text-left">
+      <footer className="w-full bg-[#111111] border-t border-white/10 py-12 px-6 md:px-16 relative z-10 text-center md:text-left pb-24 md:pb-12">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="flex flex-col items-center md:items-start gap-4">
             <h1 className="text-3xl font-heading font-bold text-white tracking-tighter">sgk<span className="text-[#3b5bdb]">.</span></h1>
-            <p className="text-sm text-white/50 max-w-xs">Σύγχρονα ψηφιακά καταστήματα και εφαρμογές που μεταμορφώνουν την επιχείρησή σας.</p>
+            <p className="text-sm text-white/50 max-w-xs">Σύγχρονα ψηφιακά καταστήματα και εφαρμογές που μεταμορφώνουν την επιχείρησή σου.</p>
           </div>
           
           <div className="flex flex-col items-center md:items-start gap-2">
@@ -376,17 +531,31 @@ export default function BarbershopLanding() {
           <div className="flex flex-col items-center md:items-start gap-2">
             <h3 className="text-white font-medium mb-2">Επικοινωνία</h3>
             <p className="text-xs text-white/50 flex items-center gap-2"><Phone size={14}/> 6999 524 389</p>
-            <p className="text-xs text-white/50 flex items-center gap-2"><span className="material-symbols-outlined text-[14px]">mail</span> info@sgk.gr</p>
+            <p className="text-xs text-white/50 flex items-center gap-2">
+              <span className="inline-block translate-y-[2px] mr-1">✉</span> info@sgk.gr
+            </p>
             <div className="mt-4 flex gap-4">
               <a href="/privacy" className="text-xs text-[#facc15] hover:text-yellow-300 transition-colors">Πολιτική Απορρήτου</a>
-              <a href="/terms" className="text-xs text-[#4ade80] hover:text-green-300 transition-colors">Όροι Χρήσης</a>
+              <a href="/terms" className="text-xs text-[#4ade80] hover:text-green-300 transition-colors">Όροι Χรียσης</a>
             </div>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-white/10 text-center pb-24 md:pb-0">
+        <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-white/10 text-center">
           <p className="text-[11px] text-white/40">© {new Date().getFullYear()} SGK Digital. Όλα τα δικαιώματα διατηρούνται.</p>
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function BarbershopLanding() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b5bdb]"></div>
+      </div>
+    }>
+      <BarbershopLandingContent />
+    </Suspense>
   );
 }

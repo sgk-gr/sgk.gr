@@ -243,7 +243,7 @@ const EMAIL_TEMPLATES: Record<
 </ul>
 <p>Αν θέλετε να συζητήσουμε πώς μπορούμε να βοηθήσουμε το κομμωτήριό σας να αναπτυχθεί, απαντήστε σε αυτό το email ή καλέστε μας στο <strong>6999524389</strong>.</p>`,
       buttonText: "Δείτε την Πρότασή μας",
-      buttonLink: "https://www.sgk.gr/promo/barbershop"
+      buttonLink: "https://www.sgk.gr/promo/barbershop?name=[BUSINESS_NAME]&city=[CITY]"
     }
   },
   eshop: {
@@ -761,7 +761,11 @@ export function ScraperTab() {
       setEmailSubject(subject);
       setEmailBody(body);
       setButtonText(template.buttonText || "");
-      setButtonLink(template.buttonLink || "");
+      setButtonLink(
+        (template.buttonLink || "")
+          .replace(/\[BUSINESS_NAME\]/g, prospect.business_name || "")
+          .replace(/\[CITY\]/g, prospect.city || "")
+      );
     }
     setIsModalOpen(true);
   };
@@ -777,7 +781,11 @@ export function ScraperTab() {
       setEmailSubject(subject);
       setEmailBody(body);
       setButtonText(template.buttonText || "");
-      setButtonLink(template.buttonLink || "");
+      setButtonLink(
+        (template.buttonLink || "")
+          .replace(/\[BUSINESS_NAME\]/g, selectedProspect.business_name || "")
+          .replace(/\[CITY\]/g, selectedProspect.city || "")
+      );
     }
   };
 
@@ -788,6 +796,11 @@ export function ScraperTab() {
       // 1. Αποστολή του email μέσω της Supabase edge function
       // Δημιουργούμε ένα unsubscribe token
       const unsubscribeToken = crypto.randomUUID();
+      const compiledButtonLink = buttonLink
+        ? buttonLink
+            .replace(/\[BUSINESS_NAME\]/g, selectedProspect.business_name || "")
+            .replace(/\[CITY\]/g, selectedProspect.city || "")
+        : undefined;
       
       // Κατασκευή επαγγελματικού HTML email (Namecheap-style layout)
       const finalBody = buildProfessionalEmailHtml({
@@ -795,7 +808,7 @@ export function ScraperTab() {
         subject: emailSubject,
         bodyHtml: emailBody,
         buttonText: buttonText || undefined,
-        buttonLink: buttonLink || undefined,
+        buttonLink: compiledButtonLink || undefined,
         unsubscribeToken: unsubscribeToken,
         industry: selectedProspect.industry,
       });

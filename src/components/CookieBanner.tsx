@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 const CookieBanner = () => {
     const [isVisible, setIsVisible] = useState(false);
     const pathname = usePathname();
-    const isEshopDemo = pathname?.includes("/eshop-demo");
+    const isEshopDemo = pathname?.includes("/eshop-demo") || pathname?.includes("/promo");
 
     useEffect(() => {
         const consent = localStorage.getItem("cookie-consent");
