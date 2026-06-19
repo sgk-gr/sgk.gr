@@ -659,6 +659,7 @@ export function ScraperTab() {
   const [buttonText, setButtonText] = useState("");
   const [buttonLink, setButtonLink] = useState("");
   const [sendingEmail, setSendingEmail] = useState(false);
+  const [recipientEmail, setRecipientEmail] = useState("");
 
   const fetchProspects = async () => {
     setLoading(true);
@@ -751,6 +752,7 @@ export function ScraperTab() {
   // Άνοιγμα modal σύνταξης email
   const openEmailModal = (prospect: Prospect) => {
     setSelectedProspect(prospect);
+    setRecipientEmail(prospect.email || "");
     const industry = detectIndustry(prospect.industry);
     setSelectedService("website");
     setSelectedIndustry(industry);
@@ -821,7 +823,7 @@ export function ScraperTab() {
           "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
         },
         body: JSON.stringify({
-          email: selectedProspect.email,
+          email: recipientEmail,
           customSubject: emailSubject,
           customHtml: finalBody,
           step: 1, // Θέτουμε step = 1, ώστε η επόμενη αυτόματη ακολουθία να ξεκινήσει από το step 2
@@ -839,7 +841,7 @@ export function ScraperTab() {
       const { data: existingLead, error: selectError } = await supabase
         .from("sgk_mails")
         .select("id")
-        .eq("email", selectedProspect.email)
+        .eq("email", recipientEmail)
         .maybeSingle();
 
       if (selectError) throw selectError;
@@ -867,7 +869,7 @@ export function ScraperTab() {
           .from("sgk_mails")
           .insert([
             {
-              email: selectedProspect.email,
+              email: recipientEmail,
               first_name: selectedProspect.business_name,
               last_name: "",
               phone: selectedProspect.phone,
@@ -888,6 +890,7 @@ export function ScraperTab() {
       await supabase
         .from("sgk_prospects")
         .update({
+          email: recipientEmail,
           status: "emailed",
           sent_at: new Date().toISOString()
         })
@@ -1384,7 +1387,7 @@ export function ScraperTab() {
             <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
               <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
                 <Mail className="text-vivid-primary" size={20} />
-                <span>Αποστολή Email στο {selectedProspect.email}</span>
+                <span>Αποστολή Email στο {recipientEmail}</span>
               </h3>
               <button 
                 onClick={() => setIsModalOpen(false)}
@@ -1399,6 +1402,17 @@ export function ScraperTab() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
                 {/* Left Column: Form Editor */}
                 <div className="space-y-4 flex flex-col h-full min-h-0">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Παραλήπτης Email (Recipient)</label>
+                    <input 
+                      type="email" 
+                      value={recipientEmail}
+                      onChange={(e) => setRecipientEmail(e.target.value)}
+                      placeholder="π.χ. info@business.gr"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:border-vivid-primary text-gray-900 focus:ring-1 focus:ring-vivid-primary text-sm"
+                    />
+                  </div>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
                       <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Υπηρεσία (Service)</label>
@@ -1528,7 +1542,7 @@ export function ScraperTab() {
               </button>
               <button 
                 onClick={handleSendEmail}
-                disabled={sendingEmail || !emailSubject || !emailBody}
+                disabled={sendingEmail || !emailSubject || !emailBody || !recipientEmail || !recipientEmail.includes("@")}
                 className="px-5 py-2 text-sm font-bold text-white bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
               >
                 {sendingEmail ? (
@@ -1737,7 +1751,14 @@ export function ScraperTab() {
                         const { subject: compiledSubject, body: compiledBody } = applyTemplateVariables(
                           emailBody,
                           emailSubject,
-                          sampleP || { business_name: "Επιχείρηση", email: "", city: "", industry: "" }
+                          sampleP || { 
+                            id: "preview-prospect",
+                            business_name: "Επιχείρηση", 
+                            email: "", 
+                            city: "", 
+                            industry: "",
+                            status: "pending"
+                          } as Prospect
                         );
                         
                         const compiledButtonLink = buttonLink && sampleP
