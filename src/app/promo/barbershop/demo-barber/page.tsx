@@ -944,7 +944,7 @@ function BarbershopDemoContent() {
         </nav>
 
         {/* Center Sawtooth Logo */}
-        <div className="mx-4 md:mx-8 shrink-0 z-50 translate-y-3 md:relative absolute left-1/2 -translate-x-1/2">
+        <div className="mx-4 md:mx-8 shrink-0 z-50 translate-y-3 absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0">
           <SawtoothLogo />
         </div>
 
