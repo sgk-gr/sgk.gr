@@ -212,7 +212,7 @@ function BarbershopLandingContent() {
                 Θέλεις να δεις ένα παράδειγμα;
               </p>
               <a 
-                href={`/promo/barbershop/demo?name=${encodeURIComponent(submittedSalon || "Modern Barber")}&phone=${encodeURIComponent(submittedPhone)}&city=${encodeURIComponent(queryCity || "Θεσσαλονίκη")}`}
+                href={`/promo/barbershop/demo-barber?name=${encodeURIComponent(submittedSalon || "Modern Barber")}&phone=${encodeURIComponent(submittedPhone)}&city=${encodeURIComponent(queryCity || "Θεσσαλονίκη")}`}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-full bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-300 gap-1.5 text-xs shadow-sm"
