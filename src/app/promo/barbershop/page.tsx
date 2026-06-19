@@ -233,14 +233,7 @@ function BarbershopLandingContent() {
         <div className="flex items-center gap-8">
           <a href="https://sgk.gr" className="flex items-center gap-2">
             <span className="font-heading font-bold text-2xl tracking-tighter text-black">
-              {queryName ? (
-                <span className="text-[#3b5bdb] flex items-center gap-1.5 text-lg md:text-xl">
-                  <Sparkles className="w-4.5 h-4.5 text-[#4ade80] fill-[#4ade80]" />
-                  {queryName}
-                </span>
-              ) : (
-                <>sgk<span className="text-[#3b5bdb]">.</span></>
-              )}
+              sgk<span className="text-[#3b5bdb]">.</span>
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
