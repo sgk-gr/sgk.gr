@@ -631,6 +631,7 @@ export function ScraperTab() {
   const [selectedService, setSelectedService] = useState<string>("website");
   const [selectedIndustry, setSelectedIndustry] = useState<string>("generic");
   const [prospects, setProspects] = useState<Prospect[]>([]);
+  const [sentEmails, setSentEmails] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
   const [searching, setSearching] = useState(false);
   const [searchStatus, setSearchStatus] = useState("");
@@ -664,13 +665,21 @@ export function ScraperTab() {
   const fetchProspects = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data: prospectsData, error: prospectsError } = await supabase
         .from("sgk_prospects")
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      setProspects(data || []);
+      if (prospectsError) throw prospectsError;
+      setProspects(prospectsData || []);
+
+      const { data: sentMailsData, error: sentMailsError } = await supabase
+        .from("sgk_mails")
+        .select("email");
+
+      if (sentMailsError) throw sentMailsError;
+      const sentSet = new Set((sentMailsData || []).map(m => m.email.toLowerCase()));
+      setSentEmails(sentSet);
     } catch (err) {
       toast.error("Σφάλμα φόρτωσης prospects");
       console.error(err);
@@ -1315,64 +1324,86 @@ export function ScraperTab() {
                 </tr>
               </thead>
               <tbody>
-                {filteredProspects.map((prospect) => (
-                  <tr key={prospect.id} className="border-b border-white/5 hover:bg-white/5 transition-all text-white">
-                    <td className="py-4 pl-4 pr-2">
-                      <input 
-                        type="checkbox"
-                        checked={selectedIds.includes(prospect.id)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedIds(prev => [...prev, prospect.id]);
-                          } else {
-                            setSelectedIds(prev => prev.filter(id => id !== prospect.id));
-                          }
-                        }}
-                        className="rounded border-zinc-700 bg-zinc-900 text-orange-500 focus:ring-orange-500 cursor-pointer w-4 h-4"
-                      />
-                    </td>
-                    <td className="py-4 px-3 font-semibold max-w-[200px] truncate" title={prospect.business_name}>{prospect.business_name}</td>
-                    <td className="py-4 px-3 font-mono text-zinc-300 text-xs max-w-[220px] truncate" title={prospect.email}>{prospect.email}</td>
-                    <td className="py-4 px-3 text-zinc-400 max-w-[120px] truncate" title={prospect.industry}>{prospect.industry}</td>
-                    <td className="py-4 px-3 text-zinc-400 max-w-[120px] truncate" title={prospect.city}>{prospect.city}</td>
-                    <td className="py-4 px-3 text-zinc-400 text-xs">
-                      {new Date(prospect.created_at).toLocaleDateString("el-GR")}
-                    </td>
-                    <td className="py-4 px-3">
-                      {prospect.status === "emailed" ? (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">
-                          <Check className="w-3 h-3 text-green-400" />
-                          Στάλθηκε
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full">
-                          <RefreshCcw className="w-2.5 h-2.5 text-orange-400 animate-spin" />
-                          Εκκρεμεί
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-4 pr-4 pl-2 text-right">
-                      <div className="flex justify-end gap-2">
-                        {prospect.status === "pending" && (
-                          <button 
-                            onClick={() => openEmailModal(prospect)}
-                            className="bg-orange-500 hover:bg-orange-600 text-black px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold transition-colors"
-                          >
-                            <Mail className="w-3.5 h-3.5 text-black" />
-                            <span>Προσφορά</span>
-                          </button>
+                {filteredProspects.map((prospect) => {
+                  const hasBeenSent = sentEmails.has(prospect.email.toLowerCase());
+                  return (
+                    <tr key={prospect.id} className="border-b border-white/5 hover:bg-white/5 transition-all text-white">
+                      <td className="py-4 pl-4 pr-2">
+                        <input 
+                          type="checkbox"
+                          checked={selectedIds.includes(prospect.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedIds(prev => [...prev, prospect.id]);
+                            } else {
+                              setSelectedIds(prev => prev.filter(id => id !== prospect.id));
+                            }
+                          }}
+                          className="rounded border-zinc-700 bg-zinc-900 text-orange-500 focus:ring-orange-500 cursor-pointer w-4 h-4"
+                        />
+                      </td>
+                      <td 
+                        className={`py-4 px-3 font-semibold max-w-[200px] truncate ${
+                          hasBeenSent && prospect.status === "pending" ? "text-red-400" : "text-white"
+                        }`} 
+                        title={prospect.business_name}
+                      >
+                        {prospect.business_name}
+                      </td>
+                      <td 
+                        className={`py-4 px-3 font-mono text-xs max-w-[220px] truncate ${
+                          hasBeenSent && prospect.status === "pending" ? "text-red-400/80" : "text-zinc-300"
+                        }`} 
+                        title={prospect.email}
+                      >
+                        {prospect.email}
+                      </td>
+                      <td className="py-4 px-3 text-zinc-400 max-w-[120px] truncate" title={prospect.industry}>{prospect.industry}</td>
+                      <td className="py-4 px-3 text-zinc-400 max-w-[120px] truncate" title={prospect.city}>{prospect.city}</td>
+                      <td className="py-4 px-3 text-zinc-400 text-xs">
+                        {new Date(prospect.created_at).toLocaleDateString("el-GR")}
+                      </td>
+                      <td className="py-4 px-3">
+                        {prospect.status === "emailed" ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">
+                            <Check className="w-3 h-3 text-green-400" />
+                            Στάλθηκε
+                          </span>
+                        ) : hasBeenSent ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded-full animate-pulse">
+                            <AlertTriangle className="w-3 h-3 text-red-400" />
+                            Ήδη Στάλθηκε
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-0.5 rounded-full">
+                            <RefreshCcw className="w-2.5 h-2.5 text-orange-400 animate-spin" />
+                            Εκκρεμεί
+                          </span>
                         )}
-                        <button 
-                          onClick={() => handleDelete(prospect.id)}
-                          className="p-1.5 text-zinc-400 hover:text-red-400 border border-white/10 hover:border-red-500/20 rounded-lg hover:bg-white/5 transition-all"
-                          title="Διαγραφή"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="py-4 pr-4 pl-2 text-right">
+                        <div className="flex justify-end gap-2">
+                          {prospect.status === "pending" && (
+                            <button 
+                              onClick={() => openEmailModal(prospect)}
+                              className="bg-orange-500 hover:bg-orange-600 text-black px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold transition-colors"
+                            >
+                              <Mail className="w-3.5 h-3.5 text-black" />
+                              <span>Προσφορά</span>
+                            </button>
+                          )}
+                          <button 
+                            onClick={() => handleDelete(prospect.id)}
+                            className="p-1.5 text-zinc-400 hover:text-red-400 border border-white/10 hover:border-red-500/20 rounded-lg hover:bg-white/5 transition-all"
+                            title="Διαγραφή"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}
