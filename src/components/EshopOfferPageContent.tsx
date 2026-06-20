@@ -204,7 +204,7 @@ function EshopOfferContent() {
         <div className="absolute inset-0 w-full h-full">
           <div className="absolute inset-0 bg-black/50 z-10" />
           <Image
-            src="/ads-image-eshop.png"
+            src="/promo/eshop_hero_boxes.png"
             alt="E-shop Development Setup"
             fill
             className="object-cover object-center"
@@ -375,7 +375,7 @@ function EshopOfferContent() {
           {/* Mockup Image */}
           <div className="w-full md:w-7/12 relative aspect-[4/3] md:aspect-auto md:h-[600px] -mt-10 md:mt-0 md:-ml-10 z-0">
              <Image 
-                src="/promo/app_mockup.png" 
+                src="/promo/eshop_app_mockup.png" 
                 alt="Eshop Dashboard Mockup"
                 fill
                 className="object-contain md:object-cover object-left shadow-2xl hover:scale-105 transition-transform duration-700 rounded-r-2xl"
@@ -411,7 +411,7 @@ function EshopOfferContent() {
             <div className="group cursor-pointer">
               <div className="bg-[#ff9a9e] aspect-square rounded-sm overflow-hidden relative flex items-center justify-center mb-6 p-8">
                 <div className="relative w-full h-full max-w-[200px] max-h-[200px] transform group-hover:scale-105 transition-transform duration-500">
-                  <Image src="/promo/icon_calendar.png" alt="Speed and Hosting" fill className="object-contain drop-shadow-xl" />
+                  <Image src="/promo/eshop_speed_icon.png" alt="Speed and Hosting" fill className="object-contain drop-shadow-xl" />
                 </div>
                 <div className="absolute bottom-6 right-6 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <ChevronRight className="w-6 h-6 text-black ml-0.5" />
@@ -439,7 +439,7 @@ function EshopOfferContent() {
             <div className="group cursor-pointer">
               <div className="bg-[#3b5bdb] aspect-square rounded-sm overflow-hidden relative flex items-center justify-center mb-6 p-8">
                 <div className="relative w-full h-full max-w-[200px] max-h-[200px] transform group-hover:scale-105 transition-transform duration-500">
-                  <Image src="/promo/icon_megaphone.png" alt="Payments and Courier" fill className="object-contain drop-shadow-xl" />
+                  <Image src="/promo/eshop_payment_icon.png" alt="Payments and Courier" fill className="object-contain drop-shadow-xl" />
                 </div>
                 <div className="absolute bottom-6 right-6 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <ChevronRight className="w-6 h-6 text-black ml-0.5" />
