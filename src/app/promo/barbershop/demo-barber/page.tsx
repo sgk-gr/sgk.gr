@@ -996,7 +996,7 @@ function BarbershopDemoContent() {
       <section id="hero" className="relative min-h-screen flex items-center justify-center px-6 text-center pt-28">
         <div className="absolute inset-0 z-0 bg-black">
           <Image
-            src="/promo/barbershop_hero_crowd.png"
+            src="/promo/barbershop_hero_young.png"
             alt="Barber cutting hair"
             fill
             className="object-cover object-center grayscale contrast-115 brightness-[0.45] opacity-75"
@@ -1201,7 +1201,7 @@ function BarbershopDemoContent() {
       <section id="barbers" className="py-28 px-6 md:px-12 bg-white text-black relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#e0a916] pointer-events-none hidden md:block overflow-hidden">
           <Image 
-            src="/promo/barbershop_hero_crowd.png" 
+            src="/promo/barbershop_hero_young.png" 
             alt="Barbershop background split" 
             fill 
             className="object-cover grayscale contrast-125 opacity-[0.18] mix-blend-multiply"
