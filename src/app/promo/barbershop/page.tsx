@@ -115,6 +115,7 @@ function BarbershopLandingContent() {
   const [showModal, setShowModal] = useState(false);
   const [submittedPreference, setSubmittedPreference] = useState("phone");
   const [scrolled, setScrolled] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -498,7 +499,109 @@ function BarbershopLandingContent() {
         </div>
       </section>
 
-      {/* Footer / Transparency Section */}
+    {/* FAQ Section */}
+    <section className="py-24 px-6 bg-gray-50 flex items-center justify-center">
+      <div className="max-w-4xl w-full mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-heading font-medium text-black mb-2">Συχνές Ερωτήσεις (FAQ)</h2>
+          <p className="text-gray-500">Λύνουμε κάθε σου απορία για το site και το σύστημα ραντεβού</p>
+        </div>
+        
+        <div className="flex flex-col gap-4">
+          {/* FAQ 1 */}
+          <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
+            <button 
+              onClick={() => setOpenFaq(openFaq === 0 ? null : 0)}
+              className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
+            >
+              <span>Πώς λειτουργεί το σύστημα ραντεβού; Υπάρχει μηνιαία συνδρομή;</span>
+              <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 0 ? "rotate(180deg)" : "rotate(0)" }}>
+                ▼
+              </span>
+            </button>
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 0 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
+              <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
+                Όχι! Το σύστημα online κρατήσεων ανήκει 100% σε εσάς. Δεν υπάρχουν προμήθειες ανά ραντεβού ή μηνιαίες συνδρομές χρήσης πλατφόρμας, σε αντίθεση με άλλες έτοιμες υπηρεσίες.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ 2 */}
+          <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
+            <button 
+              onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}
+              className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
+            >
+              <span>Μπορώ να διαχειρίζομαι τα ραντεβού εύκολα από το κινητό μου;</span>
+              <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 1 ? "rotate(180deg)" : "rotate(0)" }}>
+                ▼
+              </span>
+            </button>
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 1 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
+              <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
+                Ναι, απόλυτα! Σας παραδίδουμε ένα εξαιρετικά απλό και φιλικό περιβάλλον διαχείρισης (admin panel) βελτιστοποιημένο για κινητά τηλέφωνα, ώστε να βλέπετε, να προσθέτετε ή να ακυρώνετε ραντεβού μέσα σε δευτερόλεπτα.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ 3 */}
+          <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
+            <button 
+              onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}
+              className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
+            >
+              <span>Το σύστημα στέλνει αυτόματα ειδοποιήσεις στους πελάτες;</span>
+              <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 2 ? "rotate(180deg)" : "rotate(0)" }}>
+                ▼
+              </span>
+            </button>
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 2 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
+              <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
+                Ναι. Κάχει φορά που ένας πελάτης κλείνει ραντεβού, λαμβάνει αυτόματα email επιβεβαίωσης και υπενθύμισης. Επίσης, υπάρχει δυνατότητα σύνδεσης με SMS gateway για αποστολή SMS υπενθύμισης, μειώνοντας τα no-shows στο μηδέν.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ 4 */}
+          <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
+            <button 
+              onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}
+              className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
+            >
+              <span>Τι γίνεται με το domain name και τη φιλοξενία (hosting);</span>
+              <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 3 ? "rotate(180deg)" : "rotate(0)" }}>
+                ▼
+              </span>
+            </button>
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 3 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
+              <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
+                Στο πακέτο σας περιλαμβάνεται δωρεάν φιλοξενία σε VPS server για τον 1ο χρόνο και δωρεάν το domain σας (.gr) για 2 χρόνια. Μετά, το κόστος είναι μόνο 180€/έτος για το hosting και 20€/έτος για το domain name.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ 5 */}
+          <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
+            <button 
+              onClick={() => setOpenFaq(openFaq === 4 ? null : 4)}
+              className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
+            >
+              <span>Πόσο χρόνο χρειάζεται για να παραδοθεί το site μου;</span>
+              <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 4 ? "rotate(180deg)" : "rotate(0)" }}>
+                ▼
+              </span>
+            </button>
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 4 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
+              <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
+                Χρειαζόμαστε περίπου 10 με 15 εργάσιμες ημέρες από τη στιγμή που θα μας στείλετε το υλικό σας (φωτογραφίες, τιμοκατάλογο, ωράριο, στοιχεία επικοινωνίας κ.λπ.) για να το παραδώσουμε πλήρως λειτουργικό.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Footer / Transparency Section */}
       <footer className="w-full bg-[#111111] border-t border-white/10 py-12 px-6 md:px-16 relative z-10 text-center md:text-left pb-24 md:pb-12">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="flex flex-col items-center md:items-start gap-4">
