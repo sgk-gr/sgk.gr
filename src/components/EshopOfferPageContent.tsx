@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Check, CheckCircle2, ChevronRight, Phone, X, Mail, ShieldCheck, ArrowUpward } from "lucide-react";
+import { Check, ChevronRight, Phone, X, ArrowUp } from "lucide-react";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
 import confetti from "canvas-confetti";
@@ -618,7 +618,7 @@ function EshopOfferContent() {
         }`}
         aria-label="Scroll to top"
       >
-        <ArrowUpward size={20} />
+        <ArrowUp size={20} />
       </button>
 
     </div>
