@@ -44,7 +44,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#0b0b0b] text-white pt-20 pb-10 border-t border-white/5 font-sans">
+    <footer className="bg-[#101010] text-white pt-20 pb-10 border-t border-white/5 font-sans">
       <div className="container mx-auto px-6">
         {/* ... existing sections ... */}
         <div className="mb-16">

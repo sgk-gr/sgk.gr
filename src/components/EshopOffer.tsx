@@ -2,16 +2,12 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import deskImage from "../assets/desk.png";
-import mobImage from "../assets/mob.png";
+import { CheckCircle2 } from "lucide-react";
 
 const EshopOffer = () => {
     return (
-        <section id="eshop-offer" className="py-16 sm:py-24 relative overflow-hidden bg-secondary/20">
-            {/* Glow Effects */}
-            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-
-            <div className="container mx-auto px-6 relative z-10">
+        <section id="eshop-offer" className="py-24 relative overflow-hidden bg-white">
+            <div className="container mx-auto px-6 relative z-10 max-w-7xl">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
 
                     <motion.div
@@ -21,83 +17,78 @@ const EshopOffer = () => {
                         transition={{ duration: 0.6 }}
                     >
 
-
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight">
-                            Eshop <span className="text-gradient">Νέας Γενιάς</span> <br />
-                            από μόλις 1.500€
+                        <p className="font-heading font-bold text-xs tracking-[0.2em] uppercase mb-4 text-[#3b5bdb]">
+                            E-commerce Solutions
+                        </p>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-6 leading-[1.1] text-black">
+                            Eshop <span className="text-[#facc15]">Νέας Γενιάς</span> <br />
+                            από 1.500€
                         </h2>
 
-                        <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
+                        <p className="text-lg text-gray-600 mb-8 leading-relaxed max-w-xl">
                             Αποκτήστε ένα υπερσύγχρονο, ταχύτατο και πλήρως custom ηλεκτρονικό κατάστημα. Σχεδιασμένο να πουλάει από το πρώτο δευτερόλεπτο, με έμφαση στην εμπειρία του χρήστη.
                         </p>
 
                         <div className="space-y-4 mb-10">
-                            <div className="flex items-center gap-3">
-                                <span className="text-base sm:text-lg font-medium text-foreground">Πληρωμή σε <span className="text-primary font-bold">2 δόσεις</span> για μεγαλύτερη ευελιξία</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="text-base sm:text-lg font-medium text-foreground">Mobile First / Fully Responsive Design</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="text-base sm:text-lg font-medium text-foreground">SEO Optimized & Hyper-Fast Loading</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">Κορυφαία Ποιότητα & Αξιοπιστία</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="text-base sm:text-lg font-medium text-foreground text-emerald-500 font-bold">Βελτιστοποίηση SEO</span>
-                            </div>
+                            {[
+                                "Πληρωμή σε 2 δόσεις για μεγαλύτερη ευελιξία",
+                                "Mobile First / Fully Responsive Design",
+                                "SEO Optimized & Hyper-Fast Loading",
+                                "Κορυφαία Ποιότητα & Αξιοπιστία",
+                                "Βελτιστοποίηση SEO"
+                            ].map((feature, idx) => (
+                                <div key={idx} className="flex items-center gap-3">
+                                    <CheckCircle2 size={20} className="text-[#4ade80] shrink-0" />
+                                    <span className="text-base font-medium text-gray-800">{feature}</span>
+                                </div>
+                            ))}
 
                             {/* Google PageSpeed Scores */}
-                            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 ml-1">
+                            <div className="flex flex-wrap items-center gap-4 mt-6 ml-1 p-4 bg-gray-50 rounded-2xl border border-gray-100">
                                 {[
-                                    { label: "Απόδοση", score: 98, color: "#0cce6b" },
-                                    { label: "Προσβασιμότητα", score: 93, color: "#0cce6b" },
-                                    { label: "Βέλτιστες πρακτικές", score: 96, color: "#0cce6b" },
-                                    { label: "SEO", score: 100, color: "#0cce6b" },
+                                    { label: "Απόδοση", score: 98, color: "#4ade80" },
+                                    { label: "Προσβασιμότητα", score: 93, color: "#4ade80" },
+                                    { label: "Best Practices", score: 96, color: "#4ade80" },
+                                    { label: "SEO", score: 100, color: "#4ade80" },
                                 ].map((item) => (
                                     <div key={item.label} className="flex items-center gap-2">
-                                        <div className="relative w-11 h-11">
-                                            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                                                <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" strokeWidth="2" className="text-border" />
-                                                <circle cx="18" cy="18" r="15.5" fill="none" stroke={item.color} strokeWidth="2.5" strokeDasharray={`${item.score * 0.975} 100`} strokeLinecap="round" />
-                                            </svg>
-                                            <span className="absolute inset-0 flex items-center justify-center text-[11px] font-bold" style={{ color: item.color }}>{item.score}</span>
+                                        <div className="relative w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm border border-gray-100">
+                                            <span className="text-[11px] font-bold" style={{ color: item.color }}>{item.score}</span>
                                         </div>
-                                        <span className="text-xs text-muted-foreground font-medium">{item.label}</span>
+                                        <span className="text-xs text-gray-500 font-bold">{item.label}</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                        <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
+
+                        <div className="flex flex-col sm:flex-row gap-4 items-center mb-10">
                             <Link
                                 href="/estimate"
-                                className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 bg-primary text-primary-foreground font-heading font-bold rounded-lg hover:scale-105 transition-all glow-border"
-                                aria-label="Ζητήστε Προσφορά για Eshop"
+                                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-[#facc15] text-black font-bold rounded-xl hover:bg-yellow-500 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
                             >
                                 Θέλω προσφορά Eshop
                             </Link>
                             <Link
                                 href="/eshop-demo"
-                                className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 border border-border text-foreground font-heading font-semibold rounded-lg hover:bg-secondary transition-all"
+                                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-100 text-black font-bold rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all"
                             >
-                                Δείτε Demo από τα eshop
+                                Δείτε Demo
                             </Link>
                         </div>
 
                         {/* Recent Work Banner */}
-                        <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 flex flex-col sm:flex-row items-center gap-4 backdrop-blur-sm">
-                            <div className="w-full sm:w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border border-border shadow-md">
+                        <div className="p-5 rounded-3xl border border-gray-100 bg-gray-50 flex flex-col sm:flex-row items-center gap-5">
+                            <div className="w-full sm:w-28 h-28 flex-shrink-0 rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
                                 <img src="/V.png" alt="Vaia Charms Eshop" className="w-full h-full object-cover" loading="lazy" />
                             </div>
                             <div className="flex-1 text-sm text-left">
-                                <span className="font-bold text-primary block mb-1">Δες eshop που φτιάξαμε για την Βάια!</span>
-                                <span className="text-muted-foreground text-xs leading-relaxed block mb-2">To <strong className="text-foreground">Vaia Charms</strong>, κατασκευασμένο με έμφαση στην ταχύτητα, το SEO και τα χρώματα που ονειρεύτηκε η πελάτισσά μας.</span>
+                                <span className="font-bold text-[#3b5bdb] block mb-2 text-base">Δες το eshop της Βάιας!</span>
+                                <span className="text-gray-500 text-sm leading-relaxed block mb-3">Κατασκευασμένο με έμφαση στην ταχύτητα, το SEO και τα χρώματα που ονειρεύτηκε η πελάτισσά μας.</span>
                                 <a 
                                     href="https://www.vaiacharms.gr/" 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="inline-flex items-center justify-center px-4 py-2 bg-background border border-border rounded-lg text-xs font-bold hover:bg-primary/10 transition-colors"
+                                    className="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:bg-gray-50 text-black shadow-sm transition-all"
                                 >
                                     Δείτε το Project
                                 </a>
@@ -110,15 +101,14 @@ const EshopOffer = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="relative"
+                        className="relative hidden lg:block"
                     >
                         {/* Main Mockup (Desktop) - Stable E-commerce Interface */}
-                        <div className="relative rounded-2xl border border-white/10 bg-card p-2 shadow-2xl overflow-hidden group">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="relative rounded-[2rem] border-8 border-gray-100 bg-white shadow-2xl overflow-hidden group">
                             <img
                                 src="/desk.png"
                                 alt="Modern E-commerce Interface"
-                                className="w-full h-auto rounded-xl shadow-lg"
+                                className="w-full h-auto rounded-xl"
                                 width="1200"
                                 height="800"
                                 loading="lazy"
@@ -129,7 +119,7 @@ const EshopOffer = () => {
                         <motion.div
                             animate={{ y: [0, -15, 0] }}
                             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute -bottom-10 -right-6 md:-right-12 w-32 md:w-48 rounded-[2rem] border-8 border-[#1a1a1a] bg-card shadow-2xl overflow-hidden"
+                            className="absolute -bottom-10 -left-12 w-48 rounded-[2.5rem] border-[10px] border-[#111111] bg-black shadow-2xl overflow-hidden z-20"
                         >
                             <img
                                 src="/mob.png"
@@ -140,9 +130,6 @@ const EshopOffer = () => {
                                 loading="lazy"
                             />
                         </motion.div>
-
-                        {/* Background Decor */}
-                        <div className="absolute -z-10 -top-10 -right-10 w-full h-full bg-primary/5 rounded-full blur-3xl" />
                     </motion.div>
 
                 </div>

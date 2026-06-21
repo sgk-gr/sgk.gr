@@ -5,14 +5,14 @@ import Link from "next/link";
 import { CheckCircle, ArrowRight, Globe, ShieldCheck, BarChart3, Plug } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Κατασκευή Eshop WooCommerce | WordPress Eshop Ελλάδα | SGK",
+    title: "Κατασκευή eshop WooCommerce | WordPress eshop Ελλάδα | SGK",
     description: "Εξειδικευμένη κατασκευή eshop WooCommerce στην Ελλάδα. Custom themes, Greek payment gateways, ERP integrations, SEO. 18 χρόνια εμπειρία. Ζητήστε προσφορά.",
     keywords: "κατασκευή eshop woocommerce, woocommerce ελλάδα, wordpress eshop, κατασκευή woocommerce eshop, woocommerce κατασκευή",
     alternates: {
         canonical: "https://sgk.gr/kataskevi-eshop-woocommerce",
     },
     openGraph: {
-        title: "Κατασκευή Eshop WooCommerce | SGK Software Development",
+        title: "Κατασκευή eshop WooCommerce | SGK Software Development",
         description: "Custom WooCommerce eshop ανάπτυξη στην Ελλάδα. Greek payment gateways, ERP integrations, SEO-optimized.",
         url: "https://sgk.gr/kataskevi-eshop-woocommerce",
         type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Κατασκευή Eshop WooCommerce | SGK",
+        title: "Κατασκευή eshop WooCommerce | SGK",
         description: "Custom WooCommerce eshop ανάπτυξη. Greek payment gateways, ERP integrations.",
         images: ["https://sgk.gr/social-preview.png"],
     },
@@ -93,18 +93,18 @@ const breadcrumbSchema = {
 };
 
 const wooFeatures = [
-    { icon: <Globe className="w-6 h-6" />, title: "Custom WordPress Themes", desc: "Μοναδικό design χωρίς έτοιμα templates — κάθε pixel σχεδιασμένο για conversion" },
-    { icon: <Plug className="w-6 h-6" />, title: "Greek Payment Gateways", desc: "Alpha Bank, Piraeus, Eurobank, Stripe — πλήρης κάλυψη ελληνικής αγοράς" },
-    { icon: <ShieldCheck className="w-6 h-6" />, title: "ERP & myDATA Integration", desc: "SoftOne, Epsilon Net, Atlantis — αυτόματος συγχρονισμός αποθεμάτων και τιμολογίων" },
-    { icon: <BarChart3 className="w-6 h-6" />, title: "SEO & Performance", desc: "Yoast/RankMath setup, Core Web Vitals optimization, schema markup για προϊόντα" },
+    { icon: <Globe className="w-6 h-6" />, title: "Custom WordPress themes", desc: "Μοναδικό design χωρίς έτοιμα templates — κάθε pixel σχεδιασμένο για conversion" },
+    { icon: <Plug className="w-6 h-6" />, title: "Greek payment gateways", desc: "Alpha Bank, Piraeus, Eurobank, Stripe — πλήρης κάλυψη ελληνικής αγοράς" },
+    { icon: <ShieldCheck className="w-6 h-6" />, title: "ERP & myDATA integration", desc: "SoftOne, Epsilon Net, Atlantis — αυτόματος συγχρονισμός αποθεμάτων και τιμολογίων" },
+    { icon: <BarChart3 className="w-6 h-6" />, title: "SEO & performance", desc: "Yoast/RankMath setup, Core Web Vitals optimization, schema markup για προϊόντα" },
 ];
 
 const comparisonData = [
-    { feature: "Κόστος Setup", woo: "€1.000-€3.500", custom: "€2.300+" },
-    { feature: "Μηνιαίο Κόστος", woo: "€0 (hosting μόνο)", custom: "€0 (hosting μόνο)" },
-    { feature: "Ταχύτητα / Απόδοση", woo: "★★★★☆", custom: "★★★★★ (Core Web Vitals 95+)" },
-    { feature: "Ευελιξία / Design", woo: "★★★★☆", custom: "★★★★★ (Απεριόριστες επιλογές)" },
-    { feature: "Ελληνική Αγορά", woo: "★★★★★", custom: "★★★★★" },
+    { feature: "Κόστος setup", woo: "€1.000-€3.500", custom: "€2.300+" },
+    { feature: "Μηνιαίο κόστος", woo: "€0 (hosting μόνο)", custom: "€0 (hosting μόνο)" },
+    { feature: "Ταχύτητα / απόδοση", woo: "★★★★☆", custom: "★★★★★ (Core Web Vitals 95+)" },
+    { feature: "Ευελιξία / design", woo: "★★★★☆", custom: "★★★★★ (Απεριόριστες επιλογές)" },
+    { feature: "Ελληνική αγορά", woo: "★★★★★", custom: "★★★★★" },
     { feature: "Scalability", woo: "★★★★☆", custom: "★★★★★" },
 ];
 
@@ -114,19 +114,19 @@ export default function WooCommercePage() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-            <div className="min-h-screen bg-background text-foreground">
+            <div className="min-h-screen bg-white flex flex-col font-sans text-black">
                 <Navbar />
 
-                <main className="pt-28">
+                <main className="flex-grow pt-24 bg-[#f4f2ea] pb-24">
                     {/* Breadcrumbs */}
                     <div className="container mx-auto px-6 pt-4 pb-2">
-                        <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
+                        <nav aria-label="Breadcrumb" className="text-sm text-gray-500">
                             <ol className="flex items-center gap-2">
-                                <li><Link href="/" className="hover:text-primary transition-colors">Αρχική</Link></li>
-                                <li className="text-muted-foreground/40">/</li>
-                                <li><Link href="/kataskevi-eshop" className="hover:text-primary transition-colors">Κατασκευή Eshop</Link></li>
-                                <li className="text-muted-foreground/40">/</li>
-                                <li className="text-foreground font-medium">WooCommerce</li>
+                                <li><Link href="/" className="hover:text-black transition-colors">Αρχική</Link></li>
+                                <li className="text-gray-400">/</li>
+                                <li><Link href="/kataskevi-eshop" className="hover:text-black transition-colors">Κατασκευή eshop</Link></li>
+                                <li className="text-gray-400">/</li>
+                                <li className="text-black font-medium">WooCommerce</li>
                             </ol>
                         </nav>
                     </div>
@@ -134,39 +134,39 @@ export default function WooCommercePage() {
                     {/* Hero */}
                     <section className="container mx-auto px-6 py-16 md:py-24">
                         <div className="max-w-4xl">
-                            <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4">
-                                WooCommerce Experts
+                            <p className="text-[#3b5bdb] font-semibold text-xs tracking-wider uppercase mb-4">
+                                WooCommerce experts
                             </p>
-                            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
-                                Κατασκευή Eshop<br />
-                                <span className="text-gradient">WooCommerce</span>
+                            <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-tight text-black mb-6">
+                                Κατασκευή eshop<br />
+                                <span className="font-normal text-[#3b5bdb]">WooCommerce</span>
                             </h1>
-                            <p className="text-xl text-muted-foreground leading-relaxed mb-8 max-w-3xl">
-                                Εξειδικευμένη κατασκευή <strong className="text-foreground">WooCommerce eshop</strong> για την ελληνική αγορά. Custom themes, ελληνικά payment gateways, courier integrations, myDATA και ERP. Χωρίς μηνιαία subscription, ο κώδικας σας ανήκει.
+                            <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-3xl font-light">
+                                Εξειδικευμένη κατασκευή <strong className="font-medium text-black">WooCommerce eshop</strong> για την ελληνική αγορά. Custom themes, ελληνικά payment gateways, courier integrations, myDATA και ERP. Χωρίς μηνιαία subscription, ο κώδικας σας ανήκει.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Link href="/estimate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-sm hover:scale-105 transition-all text-lg">
-                                    Δωρεάν Εκτίμηση <ArrowRight className="w-5 h-5" />
+                                <Link href="/estimate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-medium rounded-lg transition-all duration-300 text-lg shadow-sm">
+                                    Δωρεάν εκτίμηση <ArrowRight className="w-5 h-5" />
                                 </Link>
-                                <Link href="/kataskevi-eshop" className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/20 font-bold rounded-sm hover:border-white/50 transition-all text-lg">
-                                    Όλα τα Πακέτα Eshop
+                                <Link href="/kataskevi-eshop" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-all duration-300 text-lg shadow-sm">
+                                    Όλα τα πακέτα eshop
                                 </Link>
                             </div>
                         </div>
                     </section>
 
                     {/* WooCommerce Features */}
-                    <section className="bg-white/[0.02] border-y border-white/5 py-20">
+                    <section className="bg-white/40 border-y border-gray-250 py-20">
                         <div className="container mx-auto px-6">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">WooCommerce για την Ελληνική Αγορά</h2>
-                            <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">Χτίζουμε WooCommerce eshops ειδικά διαμορφωμένα για τις ανάγκες της ελληνικής αγοράς</p>
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">WooCommerce για την ελληνική αγορά</h2>
+                            <p className="text-gray-500 text-center mb-16 max-w-2xl mx-auto font-light">Χτίζουμε WooCommerce eshop ειδικά διαμορφωμένα για τις ανάγκες της ελληνικής αγοράς</p>
                             <div className="grid md:grid-cols-2 gap-8">
                                 {wooFeatures.map((f) => (
-                                    <div key={f.title} className="p-8 rounded-2xl border border-white/10 bg-background flex gap-6">
-                                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">{f.icon}</div>
+                                    <div key={f.title} className="p-8 rounded-xl border border-gray-250 bg-white shadow-sm flex gap-6">
+                                        <div className="w-12 h-12 text-[#3b5bdb] flex-shrink-0 flex items-center justify-center">{f.icon}</div>
                                         <div>
-                                            <h3 className="text-xl font-bold mb-3">{f.title}</h3>
-                                            <p className="text-muted-foreground">{f.desc}</p>
+                                            <h3 className="text-lg font-bold text-black mb-3">{f.title}</h3>
+                                            <p className="text-gray-600 text-sm leading-relaxed">{f.desc}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -176,78 +176,80 @@ export default function WooCommercePage() {
 
                     {/* Rich Content */}
                     <section className="container mx-auto px-6 py-20">
-                        <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-8">Γιατί το WooCommerce είναι η Καλύτερη Επιλογή για Ελληνικές Επιχειρήσεις</h2>
-                            <div className="prose prose-invert prose-lg max-w-none prose-p:text-muted-foreground prose-headings:text-white prose-strong:text-white">
+                        <div className="max-w-4xl mx-auto bg-white border border-gray-250 p-8 md:p-12 rounded-xl shadow-sm">
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-8">Γιατί το WooCommerce είναι η καλύτερη επιλογή για ελληνικές επιχειρήσεις</h2>
+                            <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-headings:text-black prose-headings:font-light prose-strong:text-black prose-strong:font-medium">
                                 <p>
                                     Το <strong>WooCommerce</strong> είναι η κορυφαία πλατφόρμα eshop παγκοσμίως, με πάνω από 5 εκατομμύρια καταστήματα. Στην Ελλάδα ειδικά, είναι η ιδανική επιλογή λόγω της μεγάλης ευελιξίας που προσφέρει για τις τοπικές ανάγκες — από ελληνικά payment gateways μέχρι ενσωμάτωση με ΑΑΔΕ.
                                 </p>
 
-                                <h3>Headless React Frontend — Η Τεχνολογία των Κολοσσών</h3>
+                                <h3 className="text-2xl mt-8 mb-4">Headless React frontend — η τεχνολογία των κολοσσών</h3>
                                 <p>
                                     Αντί να χρησιμοποιούμε έτοιμα, βαριά και αργά themes (όπως Flatsome, Avada, Astra) που επιλέγουν οι περισσότερες εταιρείες, εμείς πάμε την κατασκευή eshop στο επόμενο επίπεδο. <strong>Χτίζουμε το frontend του eshop σας αποκλειστικά με React</strong> (Headless architecture). Πρόκειται για την ίδια ακριβώς τεχνολογία αιχμής που χρησιμοποιούν παγκόσμιοι κολοσσοί όπως το <strong>Skroutz, το Airbnb και το Shopify</strong>. Το αποτέλεσμα; Ασύγκριτη ταχύτητα φόρτωσης (Core Web Vitals 95+), άμεση απόκριση στις ενέργειες του χρήστη (app-like feel), κορυφαίο SEO και μετατροπές που εκτοξεύονται.
                                 </p>
 
-                                <h3>Ελληνικά Payment Gateways</h3>
+                                <h3 className="text-2xl mt-8 mb-4">Ελληνικά payment gateways</h3>
                                 <p>
                                     Ενσωματώνουμε όλα τα ελληνικά και διεθνή payment gateways:
                                 </p>
-                                <ul>
+                                <ul className="list-disc pl-6 space-y-1 my-4">
                                     <li><strong>Alpha Bank, Piraeus Bank, Eurobank, NBG</strong> — Πλήρης κάλυψη ελληνικών τραπεζών</li>
                                     <li><strong>Stripe & PayPal</strong> — Για διεθνείς πωλήσεις</li>
                                     <li><strong>Αντικαταβολή</strong> — Ακόμα η πιο δημοφιλής επιλογή στην ελληνική αγορά</li>
                                 </ul>
 
-                                <h3>WooCommerce & Skroutz — Πλήρης Ενσωμάτωση</h3>
+                                <h3 className="text-2xl mt-8 mb-4">WooCommerce & Skroutz — πλήρης ενσωμάτωση</h3>
                                 <p>
                                     Ενσωματώνουμε το eshop σας με το <strong>Skroutz</strong> για αυτόματο feed προϊόντων, Skroutz Smart Cart και διαχείριση παραγγελιών. Επίσης υποστηρίζουμε ενσωμάτωση με Google Shopping, Facebook Shops και Amazon Marketplace.
                                 </p>
 
-                                <h3>WooCommerce & ERP Integration</h3>
+                                <h3 className="text-2xl mt-8 mb-4">WooCommerce & ERP integration</h3>
                                 <p>
-                                    Συνδέουμε το WooCommerce eshop σας με το ERP σύστημα που χρησιμοποιείτε: <strong>SoftOne, Epsilon Net, Entersoft, Atlantis ERP</strong>. Αυτόματος συγχρονισμός αποθεμάτων, τιμών, παραγγελιών και τιμολογίων — εξοικονομεί ώρες εργασίας καθημερινά.
+                                    Συνδέουμε το WooCommerce eshop σας με το ERP σύστημα που χρησιμοποιείτε: <strong>SoftOne, Epsilon Net, Entersoft, Atlantis ERP</strong>. Ο αυτόματος συγχρονισμός αποθεμάτων, τιμών, παραγγελιών και τιμολογίων εξοικονομεί ώρες εργασίας καθημερινά.
                                 </p>
                             </div>
                         </div>
                     </section>
 
                     {/* Comparison Table */}
-                    <section className="bg-white/[0.02] border-y border-white/5 py-20">
+                    <section className="bg-white/40 border-y border-gray-250 py-20">
                         <div className="container mx-auto px-6 max-w-4xl">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">WooCommerce vs Headless React</h2>
-                            <p className="text-muted-foreground text-center mb-12">Σύγκριση κλασικού WooCommerce με Headless αρχιτεκτονική</p>
-                            <div className="overflow-x-auto">
-                                <table className="w-full border-collapse">
-                                    <thead>
-                                        <tr className="border-b border-white/10">
-                                            <th className="text-left py-4 px-4 text-muted-foreground font-medium">Χαρακτηριστικό</th>
-                                            <th className="text-center py-4 px-4 text-primary font-bold">Κλασικό WooCommerce</th>
-                                            <th className="text-center py-4 px-4 text-foreground font-bold">Headless React + Woo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {comparisonData.map((row, idx) => (
-                                            <tr key={idx} className="border-b border-white/5 hover:bg-white/[0.02]">
-                                                <td className="py-4 px-4 text-muted-foreground">{row.feature}</td>
-                                                <td className="py-4 px-4 text-center text-primary font-medium">{row.woo}</td>
-                                                <td className="py-4 px-4 text-center text-muted-foreground font-medium">{row.custom}</td>
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">WooCommerce vs Headless React</h2>
+                            <p className="text-gray-500 text-center mb-12 font-light">Σύγκριση κλασικού WooCommerce με Headless αρχιτεκτονική</p>
+                            <div className="bg-white border border-gray-250 rounded-xl shadow-sm overflow-hidden">
+                                <div className="overflow-x-auto">
+                                    <table className="w-full border-collapse">
+                                        <thead>
+                                            <tr className="border-b border-gray-200 bg-gray-50">
+                                                <th className="text-left py-4 px-6 text-gray-500 font-medium text-sm">Χαρακτηριστικό</th>
+                                                <th className="text-center py-4 px-6 text-[#3b5bdb] font-bold text-sm">Κλασικό WooCommerce</th>
+                                                <th className="text-center py-4 px-6 text-black font-bold text-sm">Headless React + Woo</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {comparisonData.map((row, idx) => (
+                                                <tr key={idx} className="border-b border-gray-150 hover:bg-gray-50/50">
+                                                    <td className="py-4 px-6 text-gray-700 text-sm">{row.feature}</td>
+                                                    <td className="py-4 px-6 text-center text-[#3b5bdb] font-medium text-sm">{row.woo}</td>
+                                                    <td className="py-4 px-6 text-center text-gray-900 font-medium text-sm">{row.custom}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </section>
 
                     {/* FAQ */}
                     <section className="container mx-auto px-6 py-20 max-w-4xl">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Συχνές Ερωτήσεις — WooCommerce</h2>
-                        <p className="text-muted-foreground text-center mb-16">Όλα όσα θέλετε να ξέρετε για τη κατασκευή WooCommerce eshop</p>
+                        <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">Συχνές ερωτήσεις — WooCommerce</h2>
+                        <p className="text-gray-500 text-center mb-16 font-light">Όλα όσα θέλετε να γνωρίζετε για τη κατασκευή WooCommerce eshop</p>
                         <div className="space-y-6">
                             {faqSchema.mainEntity.map((faq, idx) => (
-                                <div key={idx} className="p-8 rounded-2xl border border-white/10 bg-white/[0.02]">
-                                    <h3 className="text-xl font-bold mb-4">{faq.name}</h3>
-                                    <p className="text-muted-foreground leading-relaxed">{faq.acceptedAnswer.text}</p>
+                                <div key={idx} className="p-8 rounded-xl border border-gray-250 bg-white shadow-sm">
+                                    <h3 className="text-lg font-bold text-black mb-4">{faq.name}</h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">{faq.acceptedAnswer.text}</p>
                                 </div>
                             ))}
                         </div>
@@ -255,32 +257,32 @@ export default function WooCommercePage() {
 
                     {/* Internal Links */}
                     <section className="container mx-auto px-6 pb-16">
-                        <h2 className="text-2xl font-bold mb-8">Σχετικές Σελίδες</h2>
+                        <h2 className="text-xl font-light text-gray-800 mb-8">Σχετικές σελίδες</h2>
                         <div className="grid md:grid-cols-3 gap-4">
-                            <Link href="/kataskevi-eshop" className="p-6 rounded-xl border border-white/10 hover:border-primary/30 transition-colors group">
-                                <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">Κατασκευή Eshop →</h3>
-                                <p className="text-sm text-muted-foreground">Όλα τα πακέτα eshop</p>
+                            <Link href="/kataskevi-eshop" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Κατασκευή eshop →</h3>
+                                <p className="text-xs text-gray-500">Όλα τα πακέτα eshop</p>
                             </Link>
-                            <Link href="/web-development" className="p-6 rounded-xl border border-white/10 hover:border-primary/30 transition-colors group">
-                                <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">Web Development →</h3>
-                                <p className="text-sm text-muted-foreground">Custom React Eshops & Apps</p>
+                            <Link href="/web-development" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Web development →</h3>
+                                <p className="text-xs text-gray-500">Custom React eshops & apps</p>
                             </Link>
-                            <Link href="/blog/poso-kostizei-kataskevi-eshop-2025" className="p-6 rounded-xl border border-white/10 hover:border-primary/30 transition-colors group">
-                                <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">Κόστος Κατασκευής Eshop →</h3>
-                                <p className="text-sm text-muted-foreground">Τιμές και πακέτα 2025</p>
+                            <Link href="/blog/poso-kostizei-kataskevi-eshop-2025" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Κόστος κατασκευής eshop →</h3>
+                                <p className="text-xs text-gray-500">Τιμές και πακέτα 2025</p>
                             </Link>
                         </div>
                     </section>
 
                     {/* CTA */}
-                    <section className="container mx-auto px-6 pb-24">
-                        <div className="rounded-3xl bg-primary/5 border border-primary/20 p-12 md:p-20 text-center">
-                            <h2 className="text-3xl md:text-5xl font-bold mb-6">Ξεκινήστε το WooCommerce Eshop σας</h2>
-                            <p className="text-muted-foreground text-xl mb-10 max-w-2xl mx-auto">
+                    <section className="container mx-auto px-6">
+                        <div className="rounded-2xl bg-[#3b5bdb] p-12 md:p-20 text-center text-white shadow-lg">
+                            <h2 className="text-3xl md:text-5xl font-light mb-6 tracking-tight">Ξεκινήστε το WooCommerce eshop σας</h2>
+                            <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto font-light">
                                 Δωρεάν εκτίμηση σε 24 ώρες. Αναλύουμε τις ανάγκες σας και σας προτείνουμε την ιδανική WooCommerce λύση.
                             </p>
-                            <Link href="/estimate" className="inline-flex items-center gap-3 px-10 py-5 bg-primary text-primary-foreground font-bold text-xl rounded-sm hover:scale-105 transition-all">
-                                Ζητήστε Δωρεάν Εκτίμηση <ArrowRight className="w-6 h-6" />
+                            <Link href="/estimate" className="inline-flex items-center gap-3 px-10 py-5 bg-[#4ade80] hover:bg-[#22c55e] text-black font-bold text-lg rounded-lg transition-all duration-300 shadow-md">
+                                Ζητήστε δωρεάν εκτίμηση <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>
                     </section>

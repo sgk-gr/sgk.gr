@@ -421,15 +421,15 @@ export const DirectoryModal: React.FC<DirectoryModalProps> = ({
                       SigmaLabs & Partners
                     </span>
                     
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-800/30 border border-neutral-800/50 text-xs rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800/80 transition-all">
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-800/30 border border-neutral-800/50 text-xs rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800/80 transition-all cursor-default">
                       <span>{language === 'el' ? 'Φιλτράρισμα' : 'Filter by'}</span>
                       <ChevronDown className="w-3 h-3" />
-                    </button>
+                    </div>
 
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-800/30 border border-neutral-800/50 text-xs rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800/80 transition-all">
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-800/30 border border-neutral-800/50 text-xs rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800/80 transition-all cursor-default">
                       <span>{language === 'el' ? 'Ταξινόμηση' : 'Sort by'}</span>
                       <ChevronDown className="w-3 h-3" />
-                    </button>
+                    </div>
                   </div>
                 </div>
 

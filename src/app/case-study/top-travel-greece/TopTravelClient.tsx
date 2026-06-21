@@ -191,7 +191,7 @@ export default function TopTravelClient() {
             <nav className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-lg border-b border-border transition-all">
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between">
                     <Link
-                        href="/#portfolio"
+                        href="/portfolio"
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
                     >
                         <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
@@ -465,9 +465,12 @@ export default function TopTravelClient() {
                                             <span>{car.type}</span> • <span>{car.seats} Θέσεις</span> • <span>{car.ac ? "A/C" : ""}</span>
                                         </p>
                                     </div>
-                                    <button className="px-3 py-1.5 bg-secondary hover:bg-secondary/80 border border-border text-[10px] font-semibold rounded-md transition-colors">
+                                    <a 
+                                        href="#contact-info" 
+                                        className="px-3 py-1.5 bg-[#4ade80] text-black hover:bg-[#22c55e] border border-border text-[10px] font-bold rounded-md transition-colors text-center inline-block"
+                                    >
                                         Request
-                                    </button>
+                                    </a>
                                 </div>
                             ))}
                         </div>

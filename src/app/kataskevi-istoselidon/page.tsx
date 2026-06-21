@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Star, Palette, Zap, Search, Shield } from "lucide-react";
+import { ArrowRight, CheckCircle, Star, Palette, Zap, Search } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Κατασκευή Ιστοσελίδων | Επαγγελματικές Ιστοσελίδες Ελλάδα | SGK",
+    title: "Κατασκευή ιστοσελίδων | Επαγγελματικές ιστοσελίδες Ελλάδα | SGK",
     description: "Επαγγελματική κατασκευή ιστοσελίδων στην Ελλάδα. Custom design, SEO-optimized, mobile-first. Εταιρικά websites, landing pages, WordPress. Ζητήστε προσφορά.",
     keywords: "κατασκευή ιστοσελίδων, κατασκευή ιστοσελίδας ελλάδα, κατασκευή website, επαγγελματική ιστοσελίδα, εταιρικό website, wordpress κατασκευή",
     alternates: {
         canonical: "https://sgk.gr/kataskevi-istoselidon",
     },
     openGraph: {
-        title: "Κατασκευή Ιστοσελίδων | SGK Software Development",
+        title: "Κατασκευή ιστοσελίδων | SGK Software Development",
         description: "Επαγγελματική κατασκευή ιστοσελίδων. Custom design, SEO, mobile-first. 18 χρόνια εμπειρία.",
         url: "https://sgk.gr/kataskevi-istoselidon",
         type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Κατασκευή Ιστοσελίδων | SGK",
+        title: "Κατασκευή ιστοσελίδων | SGK",
         description: "Επαγγελματική κατασκευή ιστοσελίδων. Custom design, SEO, mobile-first.",
         images: ["https://sgk.gr/social-preview.png"],
     },
@@ -84,10 +84,10 @@ const breadcrumbSchema = {
 };
 
 const websiteTypes = [
-    { icon: <Star className="w-6 h-6" />, title: "Εταιρικά Websites", price: "από €1.200", features: ["Custom design", "5-15 σελίδες", "SEO setup", "Contact forms", "Google Analytics"] },
-    { icon: <Zap className="w-6 h-6" />, title: "Landing Pages", price: "από €400", features: ["Conversion-focused", "A/B testing ready", "Fast loading", "Lead capture", "CTA optimization"] },
-    { icon: <Search className="w-6 h-6" />, title: "WordPress Websites", price: "από €1.000", features: ["Custom theme", "Blog/CMS", "SEO plugins setup", "Easy management", "Plugin integrations"] },
-    { icon: <Palette className="w-6 h-6" />, title: "Portfolio Websites", price: "από €600", features: ["Stunning gallery", "Project showcase", "Contact integration", "Mobile-first", "Social links"] },
+    { icon: <Star className="w-6 h-6" />, title: "Εταιρικά websites", price: "από €1.200", features: ["Custom design", "5-15 σελίδες", "SEO setup", "Contact forms", "Google Analytics"] },
+    { icon: <Zap className="w-6 h-6" />, title: "Landing pages", price: "από €400", features: ["Conversion-focused", "A/B testing ready", "Fast loading", "Lead capture", "CTA optimization"] },
+    { icon: <Search className="w-6 h-6" />, title: "WordPress websites", price: "από €1.000", features: ["Custom theme", "Blog/CMS", "SEO plugins setup", "Easy management", "Plugin integrations"] },
+    { icon: <Palette className="w-6 h-6" />, title: "Portfolio websites", price: "από €600", features: ["Stunning gallery", "Project showcase", "Contact integration", "Mobile-first", "Social links"] },
 ];
 
 export default function KataskevIstoselidonPage() {
@@ -96,17 +96,17 @@ export default function KataskevIstoselidonPage() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-            <div className="min-h-screen bg-background text-foreground">
+            <div className="min-h-screen bg-white flex flex-col font-sans text-black">
                 <Navbar />
 
-                <main className="pt-28">
+                <main className="flex-grow pt-24 bg-[#f4f2ea] pb-24">
                     {/* Breadcrumbs */}
                     <div className="container mx-auto px-6 pt-4 pb-2">
-                        <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
+                        <nav aria-label="Breadcrumb" className="text-sm text-gray-500">
                             <ol className="flex items-center gap-2">
-                                <li><Link href="/" className="hover:text-primary transition-colors">Αρχική</Link></li>
-                                <li className="text-muted-foreground/40">/</li>
-                                <li className="text-foreground font-medium">Κατασκευή Ιστοσελίδων</li>
+                                <li><Link href="/" className="hover:text-black transition-colors">Αρχική</Link></li>
+                                <li className="text-gray-400">/</li>
+                                <li className="text-black font-medium">Κατασκευή ιστοσελίδων</li>
                             </ol>
                         </nav>
                     </div>
@@ -114,47 +114,47 @@ export default function KataskevIstoselidonPage() {
                     {/* Hero */}
                     <section className="container mx-auto px-6 py-16 md:py-24">
                         <div className="max-w-4xl">
-                            <p className="text-primary font-heading text-xs tracking-[0.2em] uppercase mb-4">
-                                Web Design & Development
+                            <p className="text-[#3b5bdb] font-semibold text-xs tracking-wider uppercase mb-4">
+                                Web design & development
                             </p>
-                            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+                            <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-tight text-black mb-6">
                                 Κατασκευή<br />
-                                <span className="text-gradient">Ιστοσελίδων</span>
+                                <span className="font-normal text-[#3b5bdb]">ιστοσελίδων</span>
                             </h1>
-                            <p className="text-xl text-muted-foreground leading-relaxed mb-8 max-w-3xl">
-                                Επαγγελματική <strong className="text-foreground">κατασκευή ιστοσελίδων</strong> που εντυπωσιάζουν, πείθουν και μετατρέπουν. Custom design, SEO-ready, mobile-first websites για κάθε ελληνική επιχείρηση. Χωρίς έτοιμα templates.
+                            <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-3xl font-light">
+                                Επαγγελματική <strong className="font-medium text-black">κατασκευή ιστοσελίδων</strong> που εντυπωσιάζουν, πείθουν και μετατρέπουν. Custom design, SEO-ready, mobile-first websites για κάθε ελληνική επιχείρηση. Χωρίς έτοιμα templates.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Link href="/estimate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-sm hover:scale-105 transition-all text-lg">
-                                    Δωρεάν Εκτίμηση <ArrowRight className="w-5 h-5" />
+                                <Link href="/estimate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-medium rounded-lg transition-all duration-300 text-lg shadow-sm">
+                                    Δωρεάν εκτίμηση <ArrowRight className="w-5 h-5" />
                                 </Link>
-                                <Link href="/web-development" className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/20 font-bold rounded-sm hover:border-white/50 transition-all text-lg">
-                                    Web Development
+                                <Link href="/web-development" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-all duration-300 text-lg shadow-sm">
+                                    Web development
                                 </Link>
                             </div>
                         </div>
                     </section>
 
                     {/* Website Types */}
-                    <section className="bg-white/[0.02] border-y border-white/5 py-20">
+                    <section className="bg-white/40 border-y border-gray-250 py-20">
                         <div className="container mx-auto px-6">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Τύποι Ιστοσελίδων</h2>
-                            <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">Κατασκευάζουμε κάθε είδος ιστοσελίδας με το ίδιο επίπεδο αριστείας</p>
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">Τύποι ιστοσελίδων</h2>
+                            <p className="text-gray-500 text-center mb-16 max-w-2xl mx-auto font-light">Κατασκευάζουμε κάθε είδος ιστοσελίδας με το ίδιο επίπεδο αριστείας</p>
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {websiteTypes.map((type) => (
-                                    <div key={type.title} className="p-6 rounded-2xl border border-white/10 bg-background flex flex-col">
-                                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4">{type.icon}</div>
-                                        <h3 className="text-lg font-bold mb-1">{type.title}</h3>
-                                        <p className="text-primary font-bold mb-4">{type.price}</p>
+                                    <div key={type.title} className="p-6 rounded-xl border border-gray-250 bg-white flex flex-col shadow-sm">
+                                        <div className="w-10 h-10 text-[#3b5bdb] mb-4 flex items-center justify-center">{type.icon}</div>
+                                        <h3 className="text-lg font-bold text-black mb-1">{type.title}</h3>
+                                        <p className="text-[#3b5bdb] font-bold text-sm mb-4">{type.price}</p>
                                         <ul className="space-y-2 flex-1">
                                             {type.features.map((f) => (
-                                                <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                                    <CheckCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />{f}
+                                                <li key={f} className="flex items-center gap-2 text-xs text-gray-600">
+                                                    <CheckCircle className="w-3.5 h-3.5 text-[#3b5bdb] flex-shrink-0" />{f}
                                                 </li>
                                             ))}
                                         </ul>
-                                        <Link href="/estimate" className="mt-6 w-full text-center py-2.5 px-4 border border-white/20 hover:border-primary/40 font-medium text-sm rounded-sm transition-all">
-                                            Ζητήστε Προσφορά
+                                        <Link href="/estimate" className="mt-6 w-full text-center py-2.5 px-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium text-xs rounded-lg transition-all shadow-sm">
+                                            Ζητήστε προσφορά
                                         </Link>
                                     </div>
                                 ))}
@@ -164,29 +164,29 @@ export default function KataskevIstoselidonPage() {
 
                     {/* Rich Content */}
                     <section className="container mx-auto px-6 py-20">
-                        <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-8">Τι Κάνει μια Ιστοσελίδα Επιτυχημένη;</h2>
-                            <div className="prose prose-invert prose-lg max-w-none prose-p:text-muted-foreground prose-headings:text-white prose-strong:text-white">
+                        <div className="max-w-4xl mx-auto bg-white border border-gray-250 p-8 md:p-12 rounded-xl shadow-sm">
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-8">Τι κάνει μια ιστοσελίδα επιτυχημένη;</h2>
+                            <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-headings:text-black prose-headings:font-light prose-strong:text-black prose-strong:font-medium">
                                 <p>
                                     Στην SGK Software Development, πιστεύουμε ότι μια <strong>επαγγελματική ιστοσελίδα</strong> δεν είναι απλώς μια "online παρουσία" — είναι ο πιο σημαντικός πωλητής σας. Λειτουργεί 24/7, αντιπροσωπεύει την εταιρεία σας στους υποψήφιους πελάτες και μπορεί να μετατρέψει έναν άγνωστο επισκέπτη σε πελάτη.
                                 </p>
 
-                                <h3>Design που Εντυπωσιάζει</h3>
+                                <h3 className="text-2xl mt-8 mb-4">Design που εντυπωσιάζει</h3>
                                 <p>
                                     Δεν χρησιμοποιούμε έτοιμα templates. Κάθε ιστοσελίδα σχεδιάζεται από μηδέν, με <strong>custom UI/UX design</strong> που αντικατοπτρίζει την ταυτότητα της επιχείρησής σας. Χρησιμοποιούμε σύγχρονες αρχές design: λευκό space, readable typography, strategic CTAs και visual hierarchy.
                                 </p>
 
-                                <h3>SEO από την Πρώτη Ημέρα</h3>
+                                <h3 className="text-2xl mt-8 mb-4">SEO από την πρώτη ημέρα</h3>
                                 <p>
                                     Κάθε ιστοσελίδα που κατασκευάζουμε είναι <strong>πλήρως SEO optimized</strong>: σωστή H1/H2/H3 ιεραρχία, meta tags, schema markup (Organization, LocalBusiness, WebSite), XML sitemap, canonical URLs, και Core Web Vitals 95+. Η Google αγαπά τα sites μας.
                                 </p>
 
-                                <h3>Mobile-First Design</h3>
+                                <h3 className="text-2xl mt-8 mb-4">Mobile-first design</h3>
                                 <p>
-                                    Πάνω από το <strong>65% των επισκέψεων</strong> στα περισσότερα ελληνικά business websites γίνεται από κινητά. Σχεδιάζουμε πρώτα για mobile και μετά προσαρμόζουμε για desktop — ακριβώς το αντίθετο από τις παλιές methods.
+                                    Πάνω από το <strong>65% των επισκέψεων</strong> στα μεμονωμένα business websites γίνεται από κινητά. Σχεδιάζουμε πρώτα για mobile και μετά προσαρμόζουμε για desktop — ακριβώς το αντίθετο από τις παλιές μεθόδους.
                                 </p>
 
-                                <h3>Απίστευτη Ταχύτητα</h3>
+                                <h3 className="text-2xl mt-8 mb-4">Απίστευτη ταχύτητα</h3>
                                 <p>
                                     Η Google επιβραβεύει τα γρήγορα sites. Τα websites που κατασκευάζουμε επιτυγχάνουν <strong>95+ Google PageSpeed score</strong> με βελτιστοποιημένες εικόνες, lazy loading, και minimal JavaScript. Αποτέλεσμα: καλύτερο SEO και χαμηλότερο bounce rate.
                                 </p>
@@ -195,9 +195,9 @@ export default function KataskevIstoselidonPage() {
                     </section>
 
                     {/* Features list */}
-                    <section className="bg-white/[0.02] border-y border-white/5 py-20">
+                    <section className="bg-white/40 border-y border-gray-250 py-20">
                         <div className="container mx-auto px-6 max-w-4xl">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">Τι Περιλαμβάνεται σε Κάθε Ιστοσελίδα</h2>
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-16 text-center">Τι περιλαμβάνεται σε κάθε ιστοσελίδα</h2>
                             <div className="grid md:grid-cols-2 gap-4">
                                 {[
                                     "Custom design — χωρίς έτοιμα templates",
@@ -213,9 +213,9 @@ export default function KataskevIstoselidonPage() {
                                     "1 μήνας δωρεάν support",
                                     "Παράδοση source code",
                                 ].map((feature) => (
-                                    <div key={feature} className="flex items-center gap-3 p-4 rounded-xl border border-white/5">
-                                        <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                                        <span className="text-muted-foreground">{feature}</span>
+                                    <div key={feature} className="flex items-center gap-3 p-4 rounded-xl border border-gray-250 bg-white shadow-sm">
+                                        <CheckCircle className="w-5 h-5 text-[#3b5bdb] flex-shrink-0" />
+                                        <span className="text-gray-700 text-sm">{feature}</span>
                                     </div>
                                 ))}
                             </div>
@@ -224,13 +224,13 @@ export default function KataskevIstoselidonPage() {
 
                     {/* FAQ */}
                     <section className="container mx-auto px-6 py-20 max-w-4xl">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Συχνές Ερωτήσεις</h2>
-                        <p className="text-muted-foreground text-center mb-16">Απαντάμε σε όλες τις ερωτήσεις σας για την κατασκευή ιστοσελίδας</p>
+                        <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">Συχνές ερωτήσεις</h2>
+                        <p className="text-gray-500 text-center mb-16 font-light">Απαντάμε σε όλες τις ερωτήσεις σας για την κατασκευή ιστοσελίδας</p>
                         <div className="space-y-6">
                             {faqSchema.mainEntity.map((faq, idx) => (
-                                <div key={idx} className="p-8 rounded-2xl border border-white/10 bg-white/[0.02]">
-                                    <h3 className="text-xl font-bold mb-4">{faq.name}</h3>
-                                    <p className="text-muted-foreground leading-relaxed">{faq.acceptedAnswer.text}</p>
+                                <div key={idx} className="p-8 rounded-xl border border-gray-250 bg-white shadow-sm">
+                                    <h3 className="text-lg font-bold text-black mb-4">{faq.name}</h3>
+                                    <p className="text-gray-600 text-sm leading-relaxed">{faq.acceptedAnswer.text}</p>
                                 </div>
                             ))}
                         </div>
@@ -238,36 +238,36 @@ export default function KataskevIstoselidonPage() {
 
                     {/* Internal Links */}
                     <section className="container mx-auto px-6 pb-16">
-                        <h2 className="text-2xl font-bold mb-8">Σχετικές Υπηρεσίες</h2>
+                        <h2 className="text-xl font-light text-gray-800 mb-8">Σχετικές υπηρεσίες</h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <Link href="/kataskevi-eshop" className="p-6 rounded-xl border border-white/10 hover:border-primary/30 transition-colors group">
-                                <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">Κατασκευή Eshop →</h3>
-                                <p className="text-sm text-muted-foreground">Ηλεκτρονικό εμπόριο</p>
+                            <Link href="/kataskevi-eshop" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Κατασκευή eshop →</h3>
+                                <p className="text-xs text-gray-500">Ηλεκτρονικό εμπόριο</p>
                             </Link>
-                            <Link href="/web-development" className="p-6 rounded-xl border border-white/10 hover:border-primary/30 transition-colors group">
-                                <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">Web Development →</h3>
-                                <p className="text-sm text-muted-foreground">Custom web εφαρμογές</p>
+                            <Link href="/web-development" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Web development →</h3>
+                                <p className="text-xs text-gray-500">Custom web εφαρμογές</p>
                             </Link>
-                            <Link href="/ai-agents" className="p-6 rounded-xl border border-white/10 hover:border-primary/30 transition-colors group">
-                                <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">AI Agents →</h3>
-                                <p className="text-sm text-muted-foreground">AI αυτοματισμοί</p>
+                            <Link href="/ai-agents" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">AI agents →</h3>
+                                <p className="text-xs text-gray-500">AI αυτοματισμοί</p>
                             </Link>
-                            <Link href="/kataskevi-eshop-woocommerce" className="p-6 rounded-xl border border-white/10 hover:border-primary/30 transition-colors group">
-                                <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">WooCommerce →</h3>
-                                <p className="text-sm text-muted-foreground">WordPress eshop</p>
+                            <Link href="/kataskevi-eshop-woocommerce" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">WooCommerce →</h3>
+                                <p className="text-xs text-gray-500">WordPress eshop</p>
                             </Link>
                         </div>
                     </section>
 
                     {/* CTA */}
-                    <section className="container mx-auto px-6 pb-24">
-                        <div className="rounded-3xl bg-primary/5 border border-primary/20 p-12 md:p-20 text-center">
-                            <h2 className="text-3xl md:text-5xl font-bold mb-6">Ξεκινήστε την Ιστοσελίδα σας</h2>
-                            <p className="text-muted-foreground text-xl mb-10 max-w-2xl mx-auto">
+                    <section className="container mx-auto px-6">
+                        <div className="rounded-2xl bg-[#3b5bdb] p-12 md:p-20 text-center text-white shadow-lg">
+                            <h2 className="text-3xl md:text-5xl font-light mb-6 tracking-tight">Ξεκινήστε την ιστοσελίδα σας</h2>
+                            <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto font-light">
                                 Δωρεάν εκτίμηση σε 24 ώρες. Περιγράψτε μας τις ανάγκες σας και θα σας προτείνουμε την κατάλληλη λύση.
                             </p>
-                            <Link href="/estimate" className="inline-flex items-center gap-3 px-10 py-5 bg-primary text-primary-foreground font-bold text-xl rounded-sm hover:scale-105 transition-all">
-                                Ζητήστε Δωρεάν Εκτίμηση <ArrowRight className="w-6 h-6" />
+                            <Link href="/estimate" className="inline-flex items-center gap-3 px-10 py-5 bg-[#4ade80] hover:bg-[#22c55e] text-black font-bold text-lg rounded-lg transition-all duration-300 shadow-md">
+                                Ζητήστε δωρεάν εκτίμηση <ArrowRight className="w-6 h-6" />
                             </Link>
                         </div>
                     </section>

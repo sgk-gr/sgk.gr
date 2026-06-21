@@ -152,7 +152,7 @@ export default function LTGClient() {
             <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border transition-all">
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between">
                     <Link
-                        href="/#portfolio"
+                        href="/portfolio"
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
                     >
                         <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
@@ -849,7 +849,7 @@ export default function LTGClient() {
 
                             <div className="pt-6 mt-6 border-t border-border/60">
                                 <Link
-                                    href="/#contact"
+                                    href="/estimate"
                                     className="w-full inline-flex items-center justify-center gap-2 py-3 bg-primary text-primary-foreground font-heading font-bold text-xs rounded-md hover:opacity-90 transition-opacity glow-border"
                                 >
                                     Ζητήστε Προσφορά για το App σας
@@ -914,7 +914,7 @@ export default function LTGClient() {
                             Είτε πρόκειται για tracking, delivery, booking, ή custom λύσεις logistics, η ομάδα της **SGK Digital** έχει την τεχνογνωσία να το υλοποιήσει.
                         </p>
                         <Link
-                            href="/#contact"
+                            href="/estimate"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-95 transition-opacity glow-border"
                         >
                             Συζητήστε το Project σας μαζί μας

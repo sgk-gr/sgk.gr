@@ -1,110 +1,98 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ShoppingCart, Layout, Bot, Code2, ArrowRight } from "lucide-react";
 
 const services = [
   {
     title: "Κατασκευή Eshop",
-    description: "Ολοκληρωμένα ηλεκτρονικά καταστήματα με WordPress/WooCommerce ή custom React solutions. Γρήγορα, ασφαλή, βελτιστοποιημένα για πωλήσεις.",
+    description: "Ολοκληρωμένα ηλεκτρονικά καταστήματα με WooCommerce ή custom React solutions. Γρήγορα, ασφαλή, βελτιστοποιημένα για πωλήσεις.",
     href: "/kataskevi-eshop",
+    icon: <ShoppingCart size={28} className="text-white" />,
+    color: "bg-[#3b5bdb]"
   },
   {
     title: "Web Development",
     description: "Custom web apps με React frontend και robust backend. Από dashboards μέχρι full SaaS platforms.",
     href: "/web-development",
+    icon: <Layout size={28} className="text-black" />,
+    color: "bg-[#4ade80]"
   },
   {
     title: "AI Agents",
     description: "Αυτοματισμοί με AI agents που αναλαμβάνουν tasks, αποφάσεις και workflows — η επιχείρησή σας στον αυτόματο πιλότο.",
     href: "/ai-agents",
+    icon: <Bot size={28} className="text-black" />,
+    color: "bg-[#facc15]"
   },
   {
     title: "Κατασκευή Ιστοσελίδων",
-    description: "Μοντέρνες, responsive ιστοσελίδες που κάνουν εντύπωση. WordPress ή custom development, πάντα με στόχο το αποτέλεσμα.",
+    description: "Μοντέρνες, responsive ιστοσελίδες που κάνουν εντύπωση. Custom development, πάντα με στόχο το αποτέλεσμα.",
     href: "/kataskevi-istoselidon",
+    icon: <Code2 size={28} className="text-white" />,
+    color: "bg-[#111111]"
   },
 ];
 
-const ServiceCard = ({ service, index }: { service: any; index: number }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
-
-  return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative p-8 rounded-lg bg-card border border-border hover:border-primary/30 transition-all duration-500 overflow-hidden"
-    >
-      {/* Spotlight Effect */}
-      <div
-        className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition duration-300"
-        style={{
-          background: `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, hsl(var(--primary) / 0.1), transparent 80%)`,
-        }}
-      />
-
-      <h3 className="text-2xl font-heading font-semibold mb-4 relative z-10 group-hover:text-primary transition-colors">
-        {service.title}
-      </h3>
-      <p className="text-muted-foreground leading-relaxed relative z-10 group-hover:text-foreground transition-colors mb-6">
-        {service.description}
-      </p>
-      {service.href && (
-        <Link
-          href={service.href}
-          className="inline-flex items-center gap-2 text-sm font-bold text-primary/70 group-hover:text-primary transition-colors relative z-10"
-          aria-label={`Μάθετε περισσότερα για ${service.title}`}
-        >
-          Μάθετε Περισσότερα <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
-      )}
-
-      {/* Decorative Corner */}
-      <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-32px] right-[-32px] w-16 h-16 bg-primary/20 rotate-45 group-hover:bg-primary/40 transition-colors" />
-      </div>
-    </motion.div>
-  );
-};
-
 const Services = () => {
   return (
-    <section id="services" className="py-16 sm:py-28 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute left-[-10%] top-[20%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="services" className="py-24 bg-gray-50 relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-16 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
-          <p className="text-primary font-heading text-sm tracking-[0.3em] uppercase mb-3 px-1 border-l-2 border-primary">
-            Τι κάνουμε
+          <div>
+            <p className="text-[#3b5bdb] font-heading font-bold text-xs tracking-[0.2em] uppercase mb-4">
+              Τι κάνουμε
+            </p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-black">
+              Υπηρεσίες
+            </h2>
+          </div>
+          <p className="text-gray-500 max-w-md text-sm md:text-base">
+            Εστιάζουμε σε τεχνολογίες αιχμής που προσφέρουν μετρήσιμα αποτελέσματα και οδηγούν την επιχείρησή σας στην ψηφιακή εποχή.
           </p>
-          <h2 className="text-4xl md:text-5xl font-heading font-bold">
-            Υπηρεσίες
-          </h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
           {services.map((service, i) => (
-            <ServiceCard key={service.title} service={service} index={i} />
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="group relative p-8 md:p-10 rounded-3xl bg-white border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
+            >
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${service.color} group-hover:scale-110 transition-transform duration-300 shadow-md`}>
+                {service.icon}
+              </div>
+
+              <h3 className="text-2xl font-heading font-bold mb-4 text-black group-hover:text-[#3b5bdb] transition-colors">
+                {service.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed mb-8 flex-1">
+                {service.description}
+              </p>
+              
+              {service.href && (
+                <Link
+                  href={service.href}
+                  className="inline-flex items-center gap-2 text-sm font-bold text-black group-hover:text-[#3b5bdb] transition-colors"
+                  aria-label={`Μάθετε περισσότερα για ${service.title}`}
+                >
+                  Μάθετε Περισσότερα 
+                  <span className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[#3b5bdb] group-hover:text-white transition-colors">
+                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </Link>
+              )}
+            </motion.div>
           ))}
         </div>
       </div>

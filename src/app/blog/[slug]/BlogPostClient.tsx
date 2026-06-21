@@ -38,7 +38,7 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
             "name": "SGK Software Development",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://sgk.gr/assets/sgk-logo.png"
+                "url": "https://sgk.gr/sgk-logo.png"
             }
         }
     };

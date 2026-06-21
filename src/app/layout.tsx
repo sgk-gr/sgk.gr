@@ -9,6 +9,7 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import CookieBanner from "@/components/CookieBanner";
 import FloatingChatBot from "@/components/FloatingChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
+import Link from "next/link";
 import { Inter as InterFont, Space_Grotesk as SpaceFont } from 'next/font/google';
 
 const inter = InterFont({
@@ -73,7 +74,7 @@ const localBusinessSchema = {
         "postalCode": "14452",
         "addressCountry": "GR"
     },
-    "geo": { "@type": "GeoCoordinates", "latitude": 37.9838, "longitude": 23.7275 },
+    "geo": { "@type": "GeoCoordinates", "latitude": 38.0632, "longitude": 23.7609 },
     "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -168,10 +169,11 @@ export default function RootLayout({
                     <Toaster />
                     <Sonner />
                     <ScrollToTop />
-                    <CookieBanner />
-                    <FloatingChatBot />
                     <SpeedInsights />
                     {children}
+                    <div className="fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20 shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
+                        Νέος πελάτης; <Link href="/estimate" className="hover:text-[#facc15] transition-colors"><strong>Διεκδίκησε 150€</strong></Link> και απόκτησε έκπτωση!
+                    </div>
                 </TooltipProvider>
             </body>
         </html>

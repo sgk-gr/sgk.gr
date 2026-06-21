@@ -1361,10 +1361,10 @@ function BarbershopDemoContent() {
         </div>
 
         <div className="flex gap-6 mb-8 text-white">
-          <a href="#" className="hover:text-[#e0a916] transition-colors"><Facebook size={18} /></a>
-          <a href="#" className="hover:text-[#e0a916] transition-colors"><Twitter size={18} /></a>
-          <a href="#" className="hover:text-[#e0a916] transition-colors"><Youtube size={18} /></a>
-          <a href="#" className="hover:text-[#e0a916] transition-colors"><Linkedin size={18} /></a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#e0a916] transition-colors"><Facebook size={18} /></a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#e0a916] transition-colors"><Twitter size={18} /></a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#e0a916] transition-colors"><Youtube size={18} /></a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#e0a916] transition-colors"><Linkedin size={18} /></a>
         </div>
 
         <p className="text-[10px] text-gray-600 mt-2">© {new Date().getFullYear()} {businessDisplayName}. Όλα τα δικαιώματα διατηρούνται. Σχεδιάστηκε από την SGK.</p>

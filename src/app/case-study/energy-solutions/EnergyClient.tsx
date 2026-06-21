@@ -22,7 +22,7 @@ export default function EnergyClient() {
             <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
                 <div className="container mx-auto px-6 h-16 flex items-center justify-between">
                     <Link
-                        href="/#portfolio"
+                        href="/portfolio"
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" />
@@ -145,7 +145,7 @@ export default function EnergyClient() {
                             Η Glavinas Energy Solutions πλέον πρωταγωνιστεί στην αγορά της, με σταθερή ροή νέων ενδιαφερόμενων πελατών κάθε μήνα.
                         </p>
                         <Link
-                            href="/#contact"
+                            href="/estimate"
                             className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-heading font-semibold rounded-md hover:opacity-90 transition-opacity glow-border"
                         >
                             Θέλω να ανέβω στη Google
