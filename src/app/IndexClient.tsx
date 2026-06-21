@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import WelcomeDiscount from "@/components/WelcomeDiscount";
 import ServicesSnappiStyle from "@/components/ServicesSnappiStyle";
 import SecuritySnappiStyle from "@/components/SecuritySnappiStyle";
+import AboutSnappiStyle from "@/components/AboutSnappiStyle";
 import BlogSnappiStyle from "@/components/BlogSnappiStyle";
 import SectionDivider from "@/components/SectionDivider";
 
@@ -33,7 +34,10 @@ export default function IndexClient() {
             <SectionDivider leftColor="bg-pink-500" rightColor="bg-[#4ade80]" />
             <SecuritySnappiStyle />
             
-            <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-[#facc15]" />
+            <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-white" />
+            <AboutSnappiStyle />
+            
+            <SectionDivider leftColor="bg-white" rightColor="bg-[#facc15]" />
             <div id="insights">
                 <BlogSnappiStyle />
             </div>
