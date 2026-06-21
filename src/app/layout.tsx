@@ -169,6 +169,7 @@ export default function RootLayout({
                     <Toaster />
                     <Sonner />
                     <ScrollToTop />
+                    <CookieBanner />
                     <SpeedInsights />
                     {children}
                     <div className="fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20 shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
