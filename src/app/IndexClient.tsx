@@ -31,13 +31,13 @@ export default function IndexClient() {
             <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-pink-500" />
             <ServicesSnappiStyle />
             
-            <SectionDivider leftColor="bg-pink-500" rightColor="bg-[#4ade80]" />
-            <SecuritySnappiStyle />
-            
-            <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-white" />
+            <SectionDivider leftColor="bg-pink-500" rightColor="bg-white" />
             <AboutSnappiStyle />
             
-            <SectionDivider leftColor="bg-white" rightColor="bg-[#facc15]" />
+            <SectionDivider leftColor="bg-white" rightColor="bg-[#4ade80]" />
+            <SecuritySnappiStyle />
+            
+            <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-[#facc15]" />
             <div id="insights">
                 <BlogSnappiStyle />
             </div>
