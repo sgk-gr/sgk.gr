@@ -182,11 +182,42 @@ const Navbar = () => {
               >
                 Εκτίμηση Έργου
               </Link>
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsChatModalOpen(true);
+                }}
+                className="py-3 text-base font-bold bg-[#b482ff] text-white rounded-xl text-center shadow-sm flex items-center justify-center gap-2"
+              >
+                <img
+                  src="/tzitzi.png"
+                  alt="Jey-Jey"
+                  className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
+                />
+                Έχεις απορίες; Jey-Jey εδώ
+              </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
       <JeyJeyChatModal isOpen={isChatModalOpen} onClose={() => setIsChatModalOpen(false)} />
+
+      {/* Mobile Floating Jey-Jey Chat Button */}
+      <button
+        onClick={() => setIsChatModalOpen(true)}
+        className="lg:hidden fixed bottom-14 right-4 z-40 w-12 h-12 bg-[#b482ff] active:bg-[#a068f7] rounded-full border-2 border-black shadow-lg flex items-center justify-center transition-all hover:scale-105 no-print animate-bounce"
+        style={{ animationDuration: '3s' }}
+        aria-label="Μίλα με τον Jey-Jey"
+      >
+        <img
+          src="/tzitzi.png"
+          alt="Jey-Jey"
+          className="w-10 h-10 rounded-full object-cover border border-white/60 shrink-0"
+        />
+        <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-[#4ade80] border border-black rounded-full flex items-center justify-center text-[8px] font-black text-black">
+          ●
+        </span>
+      </button>
       
       {/* App Download Info Modal */}
       <AnimatePresence>

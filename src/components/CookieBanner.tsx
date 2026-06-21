@@ -62,15 +62,7 @@ const CookieBanner = () => {
 
     return (
         <>
-            {/* Small floating settings trigger */}
-            <button
-                onClick={() => setIsVisible(true)}
-                className="fixed bottom-14 left-4 w-9 h-9 bg-white border border-black/10 rounded-full flex items-center justify-center shadow-md z-[90] hover:scale-105 transition-transform no-print"
-                aria-label="Ρυθμίσεις Cookies"
-            >
-                <Cookie className="w-4 h-4 text-black" aria-hidden="true" />
-                <span className="sr-only">Ρυθμίσεις Cookies</span>
-            </button>
+
 
             <AnimatePresence>
                 {isVisible && (
