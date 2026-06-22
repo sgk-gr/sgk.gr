@@ -14,7 +14,7 @@ const slides = [
         Pay As <br /> You Grow <br /> Μοντέλο.
       </>
     ),
-    description: "Ξεκίνα το νέο σου E-shop ή Web App με μηδενικό ρίσκο. Πληρώνεις σταδιακά με την πρόοδο του έργου: 50% προκαταβολή, 25% στο Design, 25% πριν το Live. Απόλυτη διαφάνεια.",
+    description: "Απόκτησε E-shop με setup fee 600€ και 5% προμήθεια επί των πωλήσεων για 12 μήνες. Αν δεν πουλάς, δεν πληρώνεις τίποτα. 100% δικό σου μετά τον χρόνο!",
     image: "/hero_slide_4.png",
     linkText: "Μάθε για τις πληρωμές",
     linkUrl: "/pay-as-you-grow"
@@ -254,6 +254,11 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
           trailingChar = lastChar;
         }
         anchorText = rawUrl;
+      }
+
+      // If the anchor text is a URL, display it as "εδώ"
+      if (anchorText.startsWith("http://") || anchorText.startsWith("https://") || anchorText.startsWith("www.")) {
+        anchorText = "εδώ";
       }
       
       let href = rawUrl;
