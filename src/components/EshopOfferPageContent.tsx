@@ -14,7 +14,7 @@ function EshopOfferContent() {
   const queryName = searchParams.get("name") || "";
   const queryPhone = searchParams.get("phone") || "";
   const queryCity = searchParams.get("city") || "";
-  const queryPlan = searchParams.get("plan") || "standard";
+  const queryPlan = searchParams.get("plan") || "pay-as-you-grow";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,7 +22,7 @@ function EshopOfferContent() {
     email: "",
     company: "",
     contactPreference: "phone",
-    plan: "standard",
+    plan: "pay-as-you-grow",
     acceptTerms: true,
     acceptPromo: true
   });
@@ -30,7 +30,7 @@ function EshopOfferContent() {
   const [submittedCompany, setSubmittedCompany] = useState("");
   const [submittedPhone, setSubmittedPhone] = useState("");
   const [submittedPreference, setSubmittedPreference] = useState("phone");
-  const [submittedPlan, setSubmittedPlan] = useState("standard");
+  const [submittedPlan, setSubmittedPlan] = useState("pay-as-you-grow");
   const [showModal, setShowModal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ function EshopOfferContent() {
       ...prev,
       company: queryName || prev.company,
       phone: queryPhone || prev.phone,
-      plan: queryPlan === "pay-as-you-grow" ? "pay-as-you-grow" : "standard"
+      plan: queryPlan === "standard" ? "standard" : "pay-as-you-grow"
     }));
   }, [queryName, queryPhone, queryPlan]);
 
@@ -122,7 +122,7 @@ function EshopOfferContent() {
         email: "",
         company: queryName || "",
         contactPreference: "phone",
-        plan: queryPlan === "pay-as-you-grow" ? "pay-as-you-grow" : "standard",
+        plan: queryPlan === "standard" ? "standard" : "pay-as-you-grow",
         acceptTerms: true,
         acceptPromo: true
       });
@@ -361,7 +361,7 @@ function EshopOfferContent() {
                     type="submit" 
                     className="bg-white text-[#3b5bdb] hover:bg-gray-100 font-medium px-8 py-3 rounded-full transition-all disabled:opacity-70 flex items-center gap-2"
                   >
-                    {loading ? "Αποστολή..." : "Διεκδίκησε την έκπτωση!"}
+                    {loading ? "Αποστολή..." : (formData.plan === "pay-as-you-grow" ? "Ξεκίνα τώρα!" : "Διεκδίκησε την έκπτωση!")}
                   </button>
                 </div>
               </form>
