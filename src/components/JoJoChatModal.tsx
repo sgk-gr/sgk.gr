@@ -217,6 +217,67 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const renderMessageContent = (content: string, role: string) => {
+    if (!content) return null;
+    
+    // Regular expression to match URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = content.split(urlRegex);
+    
+    return parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        let href = part;
+        // Strip trailing punctuation like dot or comma from link if present
+        let cleanPart = part;
+        const lastChar = part[part.length - 1];
+        if (['.', ',', '!', '?'].includes(lastChar)) {
+          cleanPart = part.slice(0, -1);
+          href = cleanPart;
+        }
+
+        const isSgkLink = cleanPart.startsWith("https://sgk.gr") || cleanPart.startsWith("http://sgk.gr");
+        const linkClass = role === "user"
+          ? "text-white underline font-semibold break-all hover:opacity-90"
+          : "text-[#8b5cf6] underline hover:text-[#7c3aed] font-semibold break-all";
+        
+        if (isSgkLink) {
+          try {
+            const urlObj = new URL(cleanPart);
+            href = urlObj.pathname + urlObj.search + urlObj.hash;
+          } catch (e) {}
+          
+          return (
+            <span key={index}>
+              <Link
+                href={href}
+                onClick={onClose}
+                className={linkClass}
+              >
+                {cleanPart}
+              </Link>
+              {part !== cleanPart ? lastChar : ""}
+            </span>
+          );
+        } else {
+          return (
+            <span key={index}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass}
+              >
+                {cleanPart}
+              </a>
+              {part !== cleanPart ? lastChar : ""}
+            </span>
+          );
+        }
+      }
+      return part;
+    });
+  };
+
   // Lock body scroll when open
   useEffect(() => {
     if (isOpen) {
@@ -261,7 +322,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
             )}
           </motion.div>
         </AnimatePresence>
-
+ 
         <div className="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
           <Image src={slides[currentSlide].image} alt="Background" fill className="object-cover" />
         </div>
@@ -278,7 +339,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
           ))}
         </div>
       </div>
-
+ 
       {/* RIGHT SIDE: Chat Interface (SGK Colors) */}
       <div className="w-full lg:w-1/2 h-full flex flex-col bg-[#fafafa] relative">
         {/* Header */}
@@ -303,7 +364,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
             <X size={20} />
           </button>
         </div>
-
+ 
         {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {messages.map((m) => (
@@ -318,7 +379,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
                   ? "bg-[#b482ff] text-white rounded-2xl rounded-tr-sm" 
                   : "bg-white text-gray-800 rounded-2xl rounded-tl-sm border border-gray-100"
               }`}>
-                {m.content}
+                {renderMessageContent(m.content, m.role)}
               </div>
               {m.role === "user" && (
                 <div className="w-10 h-10 rounded-full bg-[#111] text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
