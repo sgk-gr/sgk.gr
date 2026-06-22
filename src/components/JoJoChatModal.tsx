@@ -256,9 +256,9 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
         anchorText = rawUrl;
       }
 
-      // If the anchor text is a URL, display it as "εδώ"
+      // If the anchor text is a URL, display it as "πατήστε εδώ"
       if (anchorText.startsWith("http://") || anchorText.startsWith("https://") || anchorText.startsWith("www.")) {
-        anchorText = "εδώ";
+        anchorText = "πατήστε εδώ";
       }
       
       let href = rawUrl;
@@ -272,13 +272,13 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
         
         elements.push(
           <span key={match.index}>
-            <Link
+            <a
               href={href}
               onClick={onClose}
               className={linkClass}
             >
               {anchorText}
-            </Link>
+            </a>
             {trailingChar}
           </span>
         );
