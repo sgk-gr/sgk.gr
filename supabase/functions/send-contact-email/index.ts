@@ -134,6 +134,7 @@ serve(async (req) => {
             });
         } else if (type === "eshop_offer") {
             // Eshop Offer Admin Email
+            const isPayAsYouGrow = offerPrice === "Pay as you grow (5% commission)";
             await resend.emails.send({
                 from: "SGK Digital <noreply@sgk.gr>",
                 to: ["info@sgk.gr"],
@@ -143,13 +144,13 @@ serve(async (req) => {
                 html: `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
                 <h2 style="color: #333; border-bottom: 2px solid #FF6B00; padding-bottom: 10px;">
-                    ${isNewLead ? 'Νέο Αίτημα Προσφοράς Eshop 1500€' : 'Επαναλαμβανόμενο Αίτημα Προσφοράς Eshop 1500€'}
+                    ${isNewLead ? 'Νέο Αίτημα Προσφοράς Eshop' : 'Επαναλαμβανόμενο Αίτημα Προσφοράς Eshop'}
                 </h2>
                 
                 <div style="margin: 20px 0; display: grid; grid-template-cols: 1fr 1fr; gap: 10px;">
                     <p><strong>Email:</strong> ${email}</p>
                     <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
-                    <p><strong>Τιμή Προσφοράς:</strong> 1500€</p>
+                    <p><strong>Τιμή Προσφοράς:</strong> ${isPayAsYouGrow ? 'Pay As You Grow (600€ + 5%)' : '1500€'}</p>
                     <p><strong>Marketing Consent:</strong> ${marketingConsent ? '✅ Ναι' : '❌ Όχι'}</p>
                 </div>
             </div>
@@ -157,11 +158,44 @@ serve(async (req) => {
             });
 
             // Eshop Offer User Confirmation Email
-            emailResult = await resend.emails.send({
-                from: "SGK Digital <noreply@sgk.gr>",
-                to: [email],
-                subject: "Σας έχουμε ένα δώρο! 🎁 Προσφορά για την κατασκευή του Eshop σας",
-                html: `
+            let userEmailHtml = "";
+            let userEmailSubject = "";
+
+            if (isPayAsYouGrow) {
+                userEmailSubject = "Συγχαρητήρια! 🎉 Το ταξίδι σας με το Pay As You Grow ξεκινάει";
+                userEmailHtml = `
+            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #1a1a1a; margin: 0; font-size: 24px; font-weight: 800;">Ευχαριστούμε! 🎉</h1>
+                </div>
+                
+                <div style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                    <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 0;">
+                        Λάβαμε με επιτυχία το αίτημά σας για το <strong>Pay As You Grow</strong> μοντέλο!
+                    </p>
+                    
+                    <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                        Κάνατε το πρώτο βήμα για να αποκτήσετε ένα υπερσύγχρονο E-shop, εντελώς δωρεάν από ρίσκο.
+                    </p>
+                    
+                    <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+                        <p style="color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">ΤΟ ΜΟΝΤΕΛΟ ΣΑΣ</p>
+                        <p style="font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 1px; margin: 0;">Setup Fee: 600€</p>
+                        <p style="color: #c25100; font-size: 20px; margin: 8px 0 0 0; font-weight: bold;">+ 5% προμήθεια επί των πωλήσεων</p>
+                        <p style="color: #888; font-size: 13px; margin: 12px 0 0 0;">Αν δεν πουλάτε, δεν πληρώνετε απολύτως τίποτα!</p>
+                        <p style="color: #888; font-size: 13px; margin: 4px 0 0 0; font-weight: bold;">Σε 12 μήνες το Eshop είναι 100% δικό σας.</p>
+                    </div>
+                    
+                    <div style="background-color: #fff0e6; padding: 15px 20px; border-left: 4px solid #FF6B00; border-radius: 4px; margin: 25px 0;">
+                        <p style="color: #c25100; margin: 0; font-size: 15px; font-weight: 600;">
+                            🚀 Ένας εξειδικευμένος σύμβουλος θα επικοινωνήσει άμεσα μαζί σας!
+                        </p>
+                    </div>
+                </div>
+            </div>`;
+            } else {
+                userEmailSubject = "Σας έχουμε ένα δώρο! 🎁 Προσφορά για την κατασκευή του Eshop σας";
+                userEmailHtml = `
             <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
                 <div style="text-align: center; margin-bottom: 30px;">
                     <h1 style="color: #1a1a1a; margin: 0; font-size: 24px; font-weight: 800;">Ευχαριστούμε! 🎉</h1>
@@ -255,6 +289,13 @@ serve(async (req) => {
                 </div>
             </div>
                 `
+            }
+
+            emailResult = await resend.emails.send({
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: [email],
+                subject: userEmailSubject,
+                html: userEmailHtml
             });
         } else if (type === "promo_barbershop") {
             // Promo Barbershop Admin Email
