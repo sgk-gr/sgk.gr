@@ -220,62 +220,88 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
   const renderMessageContent = (content: string, role: string) => {
     if (!content) return null;
     
-    // Regular expression to match URLs
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts = content.split(urlRegex);
+    // Match both markdown link [text](url) and raw URLs
+    const combinedRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s]+)/g;
+    const elements: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let match;
     
-    return parts.map((part, index) => {
-      if (part.match(urlRegex)) {
-        let href = part;
-        // Strip trailing punctuation like dot or comma from link if present
-        let cleanPart = part;
-        const lastChar = part[part.length - 1];
-        if (['.', ',', '!', '?'].includes(lastChar)) {
-          cleanPart = part.slice(0, -1);
-          href = cleanPart;
-        }
-
-        const isSgkLink = cleanPart.startsWith("https://sgk.gr") || cleanPart.startsWith("http://sgk.gr");
-        const linkClass = role === "user"
-          ? "text-white underline font-semibold break-all hover:opacity-90"
-          : "text-[#8b5cf6] underline hover:text-[#7c3aed] font-semibold break-all";
-        
-        if (isSgkLink) {
-          try {
-            const urlObj = new URL(cleanPart);
-            href = urlObj.pathname + urlObj.search + urlObj.hash;
-          } catch (e) {}
-          
-          return (
-            <span key={index}>
-              <Link
-                href={href}
-                onClick={onClose}
-                className={linkClass}
-              >
-                {cleanPart}
-              </Link>
-              {part !== cleanPart ? lastChar : ""}
-            </span>
-          );
-        } else {
-          return (
-            <span key={index}>
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={linkClass}
-              >
-                {cleanPart}
-              </a>
-              {part !== cleanPart ? lastChar : ""}
-            </span>
-          );
-        }
+    const linkClass = role === "user"
+      ? "text-white underline font-semibold break-all hover:opacity-90"
+      : "text-[#8b5cf6] underline hover:text-[#7c3aed] font-semibold break-all";
+      
+    combinedRegex.lastIndex = 0;
+    while ((match = combinedRegex.exec(content)) !== null) {
+      // Add text before the match
+      if (match.index > lastIndex) {
+        elements.push(content.substring(lastIndex, match.index));
       }
-      return part;
-    });
+      
+      let anchorText = "";
+      let rawUrl = "";
+      let trailingChar = "";
+      
+      if (match[1] && match[2]) {
+        // Markdown link [text](url)
+        anchorText = match[1];
+        rawUrl = match[2];
+      } else if (match[3]) {
+        // Raw URL
+        rawUrl = match[3];
+        const lastChar = rawUrl[rawUrl.length - 1];
+        if (['.', ',', '!', '?', ')'].includes(lastChar)) {
+          rawUrl = rawUrl.slice(0, -1);
+          trailingChar = lastChar;
+        }
+        anchorText = rawUrl;
+      }
+      
+      let href = rawUrl;
+      const isSgkLink = rawUrl.startsWith("https://sgk.gr") || rawUrl.startsWith("http://sgk.gr");
+      
+      if (isSgkLink) {
+        try {
+          const urlObj = new URL(rawUrl);
+          href = urlObj.pathname + urlObj.search + urlObj.hash;
+        } catch (e) {}
+        
+        elements.push(
+          <span key={match.index}>
+            <Link
+              href={href}
+              onClick={onClose}
+              className={linkClass}
+            >
+              {anchorText}
+            </Link>
+            {trailingChar}
+          </span>
+        );
+      } else {
+        elements.push(
+          <span key={match.index}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+            >
+              {anchorText}
+            </a>
+            {trailingChar}
+          </span>
+        );
+      }
+      
+      lastIndex = combinedRegex.lastIndex;
+    }
+    
+    // Add remaining text
+    if (lastIndex < content.length) {
+      elements.push(content.substring(lastIndex));
+    }
+    
+    return elements;
   };
 
   // Lock body scroll when open
