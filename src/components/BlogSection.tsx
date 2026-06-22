@@ -17,7 +17,7 @@ const LINE_COLORS = [
   { bg: "bg-amber-400", textHover: "group-hover:text-amber-400" },
 ];
 
-export default function BlogSnappiStyle() {
+export default function BlogSection() {
   const sectionRef = useRef(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export default function ServicesSnappiStyle() {
+export default function ServicesSection() {
   return (
     <section className="w-full bg-[#f4f2ea] py-20 overflow-hidden">
       
@@ -23,13 +23,7 @@ export default function ServicesSnappiStyle() {
         <div className="flex flex-col-reverse md:flex-row relative items-center">
           
           {/* Left Box */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-mr-[10%] mt-[-40px] md:mt-0 shadow-2xl"
-          >
+          <div className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-mr-[10%] mt-[-40px] md:mt-0 shadow-2xl">
             <h3 className="text-white text-3xl md:text-4xl font-light mb-8">
               Όλα στον απόλυτο έλεγχό σου:
             </h3>
@@ -69,23 +63,17 @@ export default function ServicesSnappiStyle() {
                 Μάθε περισσότερα
               </Link>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Image */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="w-full md:w-[60%] relative h-[400px] md:h-[650px] z-0"
-          >
+          <div className="w-full md:w-[60%] relative h-[400px] md:h-[650px] z-0">
             <Image 
               src="/cool.jpg" 
               alt="Happy Client with their Digital Project" 
               fill
               className="object-cover shadow-xl"
             />
-          </motion.div>
+          </div>
         </div>
       </div>
 
@@ -103,29 +91,17 @@ export default function ServicesSnappiStyle() {
         <div className="flex flex-col md:flex-row relative items-center">
           
           {/* Left Image */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="w-full md:w-[60%] relative h-[400px] md:h-[550px] z-0"
-          >
+          <div className="w-full md:w-[60%] relative h-[400px] md:h-[550px] z-0">
             <Image 
               src="/et.jpg" 
               alt="AI for Business" 
               fill
               className="object-cover shadow-xl"
             />
-          </motion.div>
+          </div>
 
           {/* Right Box */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-ml-[10%] mt-[-40px] md:mt-0 shadow-2xl"
-          >
+          <div className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-ml-[10%] mt-[-40px] md:mt-0 shadow-2xl">
             <h3 className="text-white text-3xl md:text-4xl font-light mb-8">
               Ετοιμάσου για:
             </h3>
@@ -157,7 +133,7 @@ export default function ServicesSnappiStyle() {
                 Μάθε περισσότερα
               </Link>
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

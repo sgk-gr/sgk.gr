@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot, X, Send, User, ChevronRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { sendContactEmail } from "@/lib/resend";
 
 const slides = [
@@ -13,8 +14,10 @@ const slides = [
         Pay As <br /> You Grow <br /> Μοντέλο.
       </>
     ),
-    description: "Ξεκίνα το νέο σου E-shop ή Web App με μηδενικό ρίσκο. Πληρώνεις σταδιακά με την πρόοδο του έργου.",
-    image: "/hero_slide_4.png"
+    description: "Ξεκίνα το νέο σου E-shop ή Web App με μηδενικό ρίσκο. Πληρώνεις σταδιακά με την πρόοδο του έργου: 50% προκαταβολή, 25% στο Design, 25% πριν το Live. Απόλυτη διαφάνεια.",
+    image: "/hero_slide_4.png",
+    linkText: "Μάθε για τις πληρωμές",
+    linkUrl: "/pay-as-you-grow"
   },
   {
     title: (
@@ -71,17 +74,17 @@ const playNotificationSound = () => {
   }
 };
 
-interface JeyJeyChatModalProps {
+interface JoJoChatModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function JeyJeyChatModal({ isOpen, onClose }: JeyJeyChatModalProps) {
+export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [greeting, setGreeting] = useState("Γεια! Είμαι ο Jey-Jey 👋");
+  const [greeting, setGreeting] = useState("Γεια! Είμαι ο Jo-Jo 👋");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-slide logic for the left side
@@ -96,9 +99,9 @@ export default function JeyJeyChatModal({ isOpen, onClose }: JeyJeyChatModalProp
   // Greeting logic
   useEffect(() => {
     const hour = new Date().getHours();
-    let text = "Γεια! Είμαι ο Jey-Jey 👋";
-    if (hour >= 5 && hour < 12) text = "Καλημέρα! 👋 Είμαι ο Jey-Jey!";
-    else if (hour >= 12 && hour < 20) text = "Καλησπέρα! 👋 Είμαι ο Jey-Jey!";
+    let text = "Γεια! Είμαι ο Jo-Jo 👋";
+    if (hour >= 5 && hour < 12) text = "Καλημέρα! 👋 Είμαι ο Jo-Jo!";
+    else if (hour >= 12 && hour < 20) text = "Καλησπέρα! 👋 Είμαι ο Jo-Jo!";
     
     setGreeting(text);
     
@@ -245,6 +248,17 @@ export default function JeyJeyChatModal({ isOpen, onClose }: JeyJeyChatModalProp
             <p className="text-xl text-gray-300 max-w-md">
               {slides[currentSlide].description}
             </p>
+            {slides[currentSlide].linkText && slides[currentSlide].linkUrl && (
+              <div className="mt-8">
+                <Link 
+                  href={slides[currentSlide].linkUrl}
+                  onClick={onClose}
+                  className="inline-flex items-center justify-center px-6 py-3 bg-[#b482ff] hover:bg-[#a068f7] text-white font-bold rounded-lg transition-all duration-300 text-sm shadow-md"
+                >
+                  {slides[currentSlide].linkText}
+                </Link>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
 
@@ -265,17 +279,17 @@ export default function JeyJeyChatModal({ isOpen, onClose }: JeyJeyChatModalProp
         </div>
       </div>
 
-      {/* RIGHT SIDE: Chat Interface (Snappi Colors) */}
+      {/* RIGHT SIDE: Chat Interface (SGK Colors) */}
       <div className="w-full lg:w-1/2 h-full flex flex-col bg-[#fafafa] relative">
         {/* Header */}
         <div className="bg-white px-6 py-5 flex items-center justify-between border-b border-gray-200 shadow-sm z-10">
           <div className="flex items-center gap-4">
             <div className="relative w-14 h-14 rounded-full border-2 border-[#b482ff] p-0.5 shadow-sm">
-              <img src="/tzitzi.png" alt="Jey-Jey" className="w-full h-full object-cover rounded-full" />
+              <img src="/tzitzi.png" alt="Jo-Jo" className="w-full h-full object-cover rounded-full" />
               <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#4ade80] rounded-full border-2 border-white z-10" />
             </div>
             <div>
-              <h3 className="font-heading font-bold text-xl text-black">Jey-Jey</h3>
+              <h3 className="font-heading font-bold text-xl text-black">Jo-Jo</h3>
               <p className="text-sm text-gray-500 flex items-center gap-1.5 font-medium">
                 <span className="w-2 h-2 bg-[#4ade80] rounded-full animate-pulse" />
                 Σε σύνδεση
@@ -296,7 +310,7 @@ export default function JeyJeyChatModal({ isOpen, onClose }: JeyJeyChatModalProp
             <div key={m.id} className={`flex gap-3 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
               {m.role === "assistant" && (
                 <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden shrink-0 shadow-sm mt-1">
-                  <img src="/tzitzi.png" alt="Jey-Jey" className="w-full h-full object-cover" />
+                  <img src="/tzitzi.png" alt="Jo-Jo" className="w-full h-full object-cover" />
                 </div>
               )}
               <div className={`px-5 py-4 max-w-[85%] text-[15px] leading-relaxed shadow-sm ${
@@ -317,7 +331,7 @@ export default function JeyJeyChatModal({ isOpen, onClose }: JeyJeyChatModalProp
           {isLoading && (
             <div className="flex justify-start gap-3">
               <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden shrink-0 shadow-sm">
-                <img src="/tzitzi.png" alt="Jey-Jey" className="w-full h-full object-cover grayscale-[20%]" />
+                <img src="/tzitzi.png" alt="Jo-Jo" className="w-full h-full object-cover grayscale-[20%]" />
               </div>
               <div className="px-5 py-4 rounded-2xl bg-white border border-gray-100 rounded-tl-sm flex items-center gap-2">
                 <div className="flex gap-1.5">

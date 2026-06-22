@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function SecuritySnappiStyle() {
+export default function SecuritySection() {
   return (
     <section className="w-full bg-[#3b5bdb] py-16 md:py-24 relative overflow-hidden">
       {/* Top Right Button */}
@@ -21,13 +21,7 @@ export default function SecuritySnappiStyle() {
         <div className="flex flex-col md:flex-row relative items-center gap-10 md:gap-16 lg:gap-24">
           
           {/* Left Side: 3D Image/Icon */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="w-full md:w-[40%] flex justify-center items-center relative h-[300px] md:h-[500px]"
-          >
+          <div className="w-full md:w-[40%] flex justify-center items-center relative h-[300px] md:h-[500px]">
             <div className="relative w-full max-w-[300px] aspect-square flex justify-center items-center">
                 {/* 3D Glassmorphic Lock Built with CSS */}
                 <motion.div 
@@ -52,16 +46,10 @@ export default function SecuritySnappiStyle() {
                   </div>
                 </motion.div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Side: Text Content */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full md:w-[60%] flex flex-col justify-center max-w-2xl"
-          >
+          <div className="w-full md:w-[60%] flex flex-col justify-center max-w-2xl">
             <h2 className="text-white text-3xl md:text-5xl font-light mb-6 tracking-wide leading-tight">
               Θέλουμε να νιώθεις <br className="hidden md:block" /> ασφάλεια
             </h2>
@@ -73,26 +61,15 @@ export default function SecuritySnappiStyle() {
             <ul className="space-y-3 mb-8">
               <li className="flex items-center text-white text-sm md:text-[15px]">
                 <span className="w-2.5 h-2.5 bg-[#4ade80] mr-4 shrink-0"></span>
-                κρυπτογράφηση δεδομένων end-to-end (SSL encryption)
+                ασφαλείς συναλλαγές με ψηφιακά πιστοποιητικά SSL
               </li>
               <li className="flex items-center text-white text-sm md:text-[15px]">
                 <span className="w-2.5 h-2.5 bg-[#4ade80] mr-4 shrink-0"></span>
-                συνεχής παρακολούθηση όλων των συστημάτων 24/7
+                καθημερινά Backups (Daily Backups)
               </li>
               <li className="flex items-center text-white text-sm md:text-[15px]">
                 <span className="w-2.5 h-2.5 bg-[#4ade80] mr-4 shrink-0"></span>
-                αυτόματα καθημερινά backups (ανά πάσα στιγμή)
-              </li>
-            </ul>
-
-            <h3 className="text-white font-bold text-base md:text-lg mb-5">
-              Η επιχείρησή σου είναι προστατευμένη:
-            </h3>
-
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-start text-white text-sm md:text-[15px]">
-                <span className="w-2.5 h-2.5 bg-[#4ade80] mr-4 shrink-0 mt-1.5"></span>
-                <span>φιλοξενία σε ταχύτατους, πανίσχυρους Cloud Servers (Premium Hosting)</span>
+                φιλοξενία σε ταχύτατους, πανίσχυρους Cloud Servers (Premium Hosting)
               </li>
               <li className="flex items-center text-white text-sm md:text-[15px]">
                 <span className="w-2.5 h-2.5 bg-[#4ade80] mr-4 shrink-0"></span>
@@ -107,7 +84,7 @@ export default function SecuritySnappiStyle() {
             <p className="text-white/80 text-sm leading-relaxed">
               Αλλά δεν μένουμε στα απαραίτητα. Είμαστε σε διαρκή αναζήτηση νέων <span className="text-white font-medium">τεχνολογιών και συστημάτων</span> για να διαθέτουμε πάντα το ασφαλέστερο σύστημα προστασίας. Και μέσα από τη δική μας τεχνογνωσία, θέλουμε να σε εκπαιδεύσουμε ώστε να προστατεύεσαι κι εσύ από τους κινδύνους. Παράλληλα, υπογράφουμε ψηφιακά συμφωνητικά μέσω gov.gr πριν από οποιαδήποτε προκαταβολή, ώστε να είσαι απόλυτα εξασφαλισμένος, αλλιώς σου επιστρέφουμε κάθε ευρώ πίσω.
             </p>
-          </motion.div>
+          </div>
 
         </div>
       </div>

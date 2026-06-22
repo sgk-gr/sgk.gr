@@ -190,16 +190,16 @@ export default function PortfolioClient() {
         <div className="w-full bg-[#f4f2ea]">
           {featuredProjects.map((project, index) => (
             <section key={index} className={`w-full py-20 ${project.reversed ? 'bg-white' : 'bg-[#f4f2ea]'}`}>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className={`flex flex-col ${project.reversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-12 md:gap-20`}>
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col items-start gap-8">
                   
                   {/* Text Content */}
                   <motion.div 
-                    initial={{ opacity: 0, x: project.reversed ? 50 : -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.7 }}
-                    className="w-full md:w-[45%] flex flex-col justify-center space-y-6 z-10"
+                    className="w-full flex flex-col justify-center space-y-6 z-10"
                   >
                     <div className={`${project.textColor} font-bold text-sm tracking-widest uppercase mb-3`}>
                       {project.badge}
@@ -229,22 +229,6 @@ export default function PortfolioClient() {
                         Case Study <span aria-hidden="true">&rarr;</span>
                       </Link>
                     </div>
-                  </motion.div>
-
-                  {/* Image Content */}
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="w-full md:w-[55%] relative h-[450px] md:h-[600px] z-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-100"
-                  >
-                    <Image 
-                      src={project.image} 
-                      alt={project.title} 
-                      fill
-                      className="object-cover"
-                    />
                   </motion.div>
 
                 </div>
@@ -282,25 +266,16 @@ export default function PortfolioClient() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.5, delay: index * 0.05 }}
-                    className="bg-[#f4f2ea] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+                    className="bg-[#f4f2ea] rounded-2xl border border-gray-200 hover:border-gray-400 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                   >
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <Image 
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className="text-[#3b5bdb] text-xs font-bold uppercase tracking-wider mb-1">{project.category}</div>
-                      <h3 className="text-2xl font-bold text-black mb-3 group-hover:text-[#3b5bdb] transition-colors">{project.title}</h3>
-                      <p className="text-black/70 text-sm font-light leading-relaxed mb-6 flex-grow">
+                    <div className="p-8 flex flex-col flex-grow">
+                      <div className="text-[#3b5bdb] text-xs font-bold uppercase tracking-wider mb-2">{project.category}</div>
+                      <h3 className="text-2xl font-bold text-black mb-4 group-hover:text-[#3b5bdb] transition-colors">{project.title}</h3>
+                      <p className="text-black/70 text-base font-light leading-relaxed mb-6 flex-grow">
                         {project.description}
                       </p>
                       
-                      <div className="mt-auto pt-4 text-[11px] text-gray-500 font-medium uppercase tracking-wider">
+                      <div className="mt-auto pt-6 border-t border-gray-250 text-[11px] text-gray-500 font-semibold uppercase tracking-wider">
                         {project.tags.join(" • ")}
                       </div>
                     </div>

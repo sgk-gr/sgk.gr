@@ -29,3 +29,11 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# Scratch & Helper Scripts
+scratch/
+*.py
+*.txt
+*.mjs
+public/*_screenshot*.png
+

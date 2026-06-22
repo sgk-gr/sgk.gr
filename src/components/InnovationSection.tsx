@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-export default function InnovationSnappiStyle() {
+export default function InnovationSection() {
   return (
     <section className="w-full bg-[#111111] py-20 md:py-32 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">

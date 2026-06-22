@@ -4,10 +4,10 @@ import dynamic from 'next/dynamic';
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import WelcomeDiscount from "@/components/WelcomeDiscount";
-import ServicesSnappiStyle from "@/components/ServicesSnappiStyle";
-import SecuritySnappiStyle from "@/components/SecuritySnappiStyle";
-import AboutSnappiStyle from "@/components/AboutSnappiStyle";
-import BlogSnappiStyle from "@/components/BlogSnappiStyle";
+import ServicesSection from "@/components/ServicesSection";
+import SecuritySection from "@/components/SecuritySection";
+import AboutSection from "@/components/AboutSection";
+import BlogSection from "@/components/BlogSection";
 import SectionDivider from "@/components/SectionDivider";
 
 const WordPressShowcase = dynamic(() => import("@/components/WordPressShowcase"), { ssr: true });
@@ -29,17 +29,17 @@ export default function IndexClient() {
             <WelcomeDiscount />
             
             <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-pink-500" />
-            <ServicesSnappiStyle />
+            <ServicesSection />
             
             <SectionDivider leftColor="bg-pink-500" rightColor="bg-white" />
-            <AboutSnappiStyle />
+            <AboutSection />
             
             <SectionDivider leftColor="bg-white" rightColor="bg-[#4ade80]" />
-            <SecuritySnappiStyle />
+            <SecuritySection />
             
             <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-[#facc15]" />
             <div id="insights">
-                <BlogSnappiStyle />
+                <BlogSection />
             </div>
             
             <SectionDivider leftColor="bg-[#facc15]" rightColor="bg-[#101010]" />

@@ -15,7 +15,7 @@ const slides = [
     ),
     description: "Ξεκίνα το νέο σου E-shop ή Web App με μηδενικό ρίσκο. Πληρώνεις σταδιακά με την πρόοδο του έργου: 50% προκαταβολή, 25% στο Design, 25% πριν το Live. Απόλυτη διαφάνεια.",
     buttonText: "Μάθε για τις πληρωμές",
-    buttonLink: "/estimate",
+    buttonLink: "/pay-as-you-grow",
     image: "/hero_slide_4.png"
   },
   {
@@ -198,12 +198,12 @@ const Hero = () => {
 
         {/* Trusted By Section (Static at bottom) */}
         <div className="absolute bottom-8 left-8 lg:left-[110px] xl:left-[142px]">
-          <p className="text-[10px] text-white/60 lg:text-gray-400 uppercase tracking-widest font-bold mb-3">Μας εμπιστεύονται:</p>
+          <p className="text-[10px] text-white/60 lg:text-gray-400 tracking-widest font-bold mb-3">Μας εμπιστεύονται:</p>
           <div className="flex flex-wrap items-center gap-5 opacity-80 lg:opacity-50 grayscale">
-            <span className="text-xs font-bold text-white lg:text-black tracking-widest font-heading">SKINNERA</span>
-            <span className="text-xs font-bold text-white lg:text-black tracking-tighter font-heading">KM-FIBER</span>
-            <span className="text-xs font-bold text-white lg:text-black uppercase font-heading">REKRUA</span>
-            <span className="text-xs font-bold text-white lg:text-black font-heading">H20</span>
+            <span className="text-xs font-bold text-white lg:text-black tracking-widest font-heading">Skinnera</span>
+            <span className="text-xs font-bold text-white lg:text-black tracking-tighter font-heading">KM-Fiber</span>
+            <span className="text-xs font-bold text-white lg:text-black font-heading">Rekrua</span>
+            <span className="text-xs font-bold text-white lg:text-black font-heading">H2O</span>
           </div>
         </div>
       </div>

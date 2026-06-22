@@ -5,20 +5,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export default function AboutSnappiStyle() {
+export default function AboutSection() {
   return (
     <section className="w-full bg-white py-12 md:py-16 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex flex-col md:flex-row relative items-center">
           
           {/* Left Side: Large Image */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="w-full md:w-[60%] relative h-[350px] md:h-[600px] z-0"
-          >
+          <div className="w-full md:w-[60%] relative h-[350px] md:h-[600px] z-0">
             {/* We use an existing image as placeholder. User can change later. */}
             <Image 
               src="/sgk-team.png" 
@@ -27,16 +21,10 @@ export default function AboutSnappiStyle() {
               className="object-cover shadow-2xl"
               priority
             />
-          </motion.div>
+          </div>
 
           {/* Right Side: Content Box overlapping the image */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full md:w-[45%] bg-[#4ade80] p-6 md:p-10 relative z-10 md:-ml-[10%] mt-[-40px] md:mt-0 shadow-2xl border border-[#4ade80] flex flex-col justify-center"
-          >
+          <div className="w-full md:w-[45%] bg-[#4ade80] p-6 md:p-10 relative z-10 md:-ml-[10%] mt-[-40px] md:mt-0 shadow-2xl border border-[#4ade80] flex flex-col justify-center">
             <h2 className="text-black text-3xl md:text-4xl font-light mb-5 tracking-wide">
               Ποιοι είμαστε
             </h2>
@@ -76,7 +64,7 @@ export default function AboutSnappiStyle() {
                 Μάθε περισσότερα
               </Link>
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
-import JeyJeyChatModal from "./JeyJeyChatModal";
+import JoJoChatModal from "./JoJoChatModal";
 
 const navItems = [
   { label: "Υπηρεσίες", href: "/services", color: "bg-[#4ade80]" },
@@ -60,14 +60,14 @@ const Navbar = () => {
                 sgk<span className="text-[#3b5bdb]">.</span>
               </span>
             </Link>
-            <div className="flex flex-col items-start cursor-pointer mt-0.5 ml-1.5" title="Πληρωμή με βάση την πρόοδο του έργου (Pay as you grow)">
+            <Link href="/pay-as-you-grow" className="flex flex-col items-start cursor-pointer mt-0.5 ml-1.5 hover:opacity-85 transition-opacity" title="Πληρωμή με βάση την πρόοδο του έργου (Pay as you grow)">
               <div className="bg-[#80ff9f] text-black text-[12px] font-bold px-1.5 py-[2px] leading-none tracking-tight">
                 Pay as
               </div>
               <div className="bg-[#3b5bdb] text-white text-[12px] font-bold px-1.5 py-[2px] leading-none tracking-tight">
                 you grow
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -123,10 +123,10 @@ const Navbar = () => {
           >
             <img
               src="/tzitzi.png"
-              alt="Jey-Jey"
+              alt="Jo-Jo"
               className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
             />
-            Έχεις απορίες; Jey-Jey εδώ
+            Έχεις απορίες; Jo-Jo εδώ
           </button>
         </div>
 
@@ -191,27 +191,27 @@ const Navbar = () => {
               >
                 <img
                   src="/tzitzi.png"
-                  alt="Jey-Jey"
+                  alt="Jo-Jo"
                   className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
                 />
-                Έχεις απορίες; Jey-Jey εδώ
+                Έχεις απορίες; Jo-Jo εδώ
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      <JeyJeyChatModal isOpen={isChatModalOpen} onClose={() => setIsChatModalOpen(false)} />
+      <JoJoChatModal isOpen={isChatModalOpen} onClose={() => setIsChatModalOpen(false)} />
 
-      {/* Mobile Floating Jey-Jey Chat Button */}
+      {/* Mobile Floating Jo-Jo Chat Button */}
       <button
         onClick={() => setIsChatModalOpen(true)}
         className="lg:hidden fixed bottom-14 right-4 z-40 w-12 h-12 bg-[#b482ff] active:bg-[#a068f7] rounded-full border-2 border-black shadow-lg flex items-center justify-center transition-all hover:scale-105 no-print animate-bounce"
         style={{ animationDuration: '3s' }}
-        aria-label="Μίλα με τον Jey-Jey"
+        aria-label="Μίλα με τον Jo-Jo"
       >
         <img
           src="/tzitzi.png"
-          alt="Jey-Jey"
+          alt="Jo-Jo"
           className="w-10 h-10 rounded-full object-cover border border-white/60 shrink-0"
         />
         <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-[#4ade80] border border-black rounded-full flex items-center justify-center text-[8px] font-black text-black">

@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Check, ChevronRight, Phone, X, ArrowUp } from "lucide-react";
+import { Check, Phone, X, ArrowUp } from "lucide-react";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
 import confetti from "canvas-confetti";
@@ -14,6 +14,7 @@ function EshopOfferContent() {
   const queryName = searchParams.get("name") || "";
   const queryPhone = searchParams.get("phone") || "";
   const queryCity = searchParams.get("city") || "";
+  const queryPlan = searchParams.get("plan") || "standard";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -21,6 +22,7 @@ function EshopOfferContent() {
     email: "",
     company: "",
     contactPreference: "phone",
+    plan: "standard",
     acceptTerms: true,
     acceptPromo: true
   });
@@ -28,19 +30,21 @@ function EshopOfferContent() {
   const [submittedCompany, setSubmittedCompany] = useState("");
   const [submittedPhone, setSubmittedPhone] = useState("");
   const [submittedPreference, setSubmittedPreference] = useState("phone");
+  const [submittedPlan, setSubmittedPlan] = useState("standard");
   const [showModal, setShowModal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     setFormData(prev => ({
       ...prev,
       company: queryName || prev.company,
-      phone: queryPhone || prev.phone
+      phone: queryPhone || prev.phone,
+      plan: queryPlan === "pay-as-you-grow" ? "pay-as-you-grow" : "standard"
     }));
-  }, [queryName, queryPhone]);
+  }, [queryName, queryPhone, queryPlan]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,7 +83,7 @@ function EshopOfferContent() {
     try {
       await sendContactEmail({
         type: "eshop_offer",
-        offerPrice: "1500",
+        offerPrice: formData.plan === "pay-as-you-grow" ? "Pay as you grow (5% commission)" : "1500",
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -108,6 +112,7 @@ function EshopOfferContent() {
       setSubmittedCompany(formData.company);
       setSubmittedPhone(formData.phone);
       setSubmittedPreference(formData.contactPreference);
+      setSubmittedPlan(formData.plan);
       setShowModal(true);
 
       // Reset form fields
@@ -117,6 +122,7 @@ function EshopOfferContent() {
         email: "",
         company: queryName || "",
         contactPreference: "phone",
+        plan: queryPlan === "pay-as-you-grow" ? "pay-as-you-grow" : "standard",
         acceptTerms: true,
         acceptPromo: true
       });
@@ -130,6 +136,7 @@ function EshopOfferContent() {
 
   return (
     <div className="min-h-screen bg-white font-body selection:bg-[#4ade80] selection:text-black">
+      <style dangerouslySetInnerHTML={{__html: `.global-promo-bar { display: none !important; }`}} />
       
       {/* Success Modal */}
       {showModal && (
@@ -143,7 +150,11 @@ function EshopOfferContent() {
             </div>
             <h3 className="text-2xl font-heading font-bold text-[#3b5bdb] text-center mb-2">Συγχαρητήρια! 🎉</h3>
             <p className="text-gray-600 text-center mb-4">
-              Το αίτημά σου καταχωρήθηκε επιτυχώς! Μόλις κέρδισες <strong className="font-bold text-[#3b5bdb]">150€ έκπτωση</strong> για την κατασκευή του E-shop σου.
+              {submittedPlan === "pay-as-you-grow" ? (
+                <>Το αίτημά σου για το πρόγραμμα <strong className="font-bold text-[#3b5bdb]">Pay as you grow</strong> καταχωρήθηκε επιτυχώς! Θα επικοινωνήσουμε μαζί σου άμεσα για τις λεπτομέρειες.</>
+              ) : (
+                <>Το αίτημά σου καταχωρήθηκε επιτυχώς! Μόλις κέρδισες <strong className="font-bold text-[#3b5bdb]">150€ έκπτωση</strong> για την κατασκευή του E-shop σου.</>
+              )}
             </p>
             
             <p className="text-xs text-gray-500 text-center mb-6">
@@ -185,8 +196,6 @@ function EshopOfferContent() {
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
-            <a href="#how-it-works" className="hover:text-black transition-colors">Πώς λειτουργεί</a>
-            <a href="#features" className="hover:text-black transition-colors">Υπηρεσίες Eshop</a>
             <a href="https://sgk.gr" className="hover:text-black transition-colors">Η Εταιρεία</a>
           </nav>
         </div>
@@ -218,11 +227,19 @@ function EshopOfferContent() {
           {/* Left Text */}
           <div className="flex-1 text-white drop-shadow-lg hidden md:block">
             <h1 className="text-4xl lg:text-6xl font-heading font-medium tracking-tight leading-tight mb-4">
-              Με ένα κλικ <br/> αποκτάς <br/> <span className="text-[#4ade80] font-bold">E-shop!</span>
+              {formData.plan === "pay-as-you-grow" ? (
+                <>Με ένα κλικ <br/> Pay as you <br/> <span className="text-[#4ade80] font-bold">grow E-shop!</span></>
+              ) : (
+                <>Με ένα κλικ <br/> αποκτάς <br/> <span className="text-[#4ade80] font-bold">E-shop!</span></>
+              )}
             </h1>
             <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl backdrop-blur-md inline-block">
               <div className="flex items-center gap-2 text-sm text-gray-200">
-                <span>Αποκλειστικά για επαγγελματίες & εμπόρους. Κέρδισε 150€ έκπτωση στην κατασκευή.</span>
+                <span>
+                  {formData.plan === "pay-as-you-grow"
+                    ? "Ξεκίνα το Eshop σου με ελάχιστο Setup Fee και 5% προμήθεια. Χωρίς δεσμεύσεις!"
+                    : "Αποκλειστικά για επαγγελματίες & εμπόρους. Κέρδισε 150€ έκπτωση στην κατασκευή."}
+                </span>
               </div>
             </div>
           </div>
@@ -232,7 +249,11 @@ function EshopOfferContent() {
             {/* Yellow Card Behind */}
             <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-[90%] bg-[#facc15] text-black font-semibold text-xs md:text-sm py-2 px-4 rounded-t-2xl shadow-lg flex items-center justify-center z-0 border border-black/5">
               <span className="text-center leading-tight">
-                Με την υποβολή θα λάβεις κωδικό έκπτωσης στο email σου!
+                {formData.plan === "pay-as-you-grow" ? (
+                  <strong>Αίτηση για το πρόγραμμα Pay as you grow!</strong>
+                ) : (
+                  "Με την υποβολή θα λάβεις κωδικό έκπτωσης στο email σου!"
+                )}
               </span>
             </div>
 
@@ -241,8 +262,14 @@ function EshopOfferContent() {
               {/* Soft decorative glow */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
               
-              <h2 className="text-3xl font-heading font-medium mb-2 relative z-10">Σε ενδιαφέρει;</h2>
-              <p className="text-[13px] text-white/80 mb-8 font-light relative z-10">Θα επικοινωνήσουμε μαζί σου για δωρεάν συμβουλευτική χωρίς δεσμεύσεις.</p>
+              <h2 className="text-3xl font-heading font-medium mb-2 relative z-10">
+                {formData.plan === "pay-as-you-grow" ? "Pay as you grow" : "Σε ενδιαφέρει;"}
+              </h2>
+              <p className="text-[13px] text-white/80 mb-6 font-light relative z-10">
+                {formData.plan === "pay-as-you-grow" 
+                  ? "Ξεκινήστε το δικό σας Eshop πληρώνοντας μόνο ένα μικρό setup fee. Χωρίς δεσμεύσεις!" 
+                  : "Θα επικοινωνήσουμε μαζί σου για δωρεάν συμβουλευτική χωρίς δεσμεύσεις."}
+              </p>
               
               <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
                 <div className="relative">
@@ -311,7 +338,9 @@ function EshopOfferContent() {
 
                 <div className="pt-2">
                   <p className="text-[10px] text-white/60 mb-1 italic">
-                    *Βάλτε το email στο οποίο επιθυμείτε να λάβετε τον κωδικό έκπτωσης.
+                    {formData.plan === "pay-as-you-grow" 
+                      ? "*Θα επικοινωνήσουμε άμεσα για να οριστικοποιήσουμε το Setup Fee."
+                      : "*Βάλτε το email στο οποίο επιθυμείτε να λάβετε τον κωδικό έκπτωσης."}
                   </p>
                 </div>
 
@@ -336,226 +365,6 @@ function EshopOfferContent() {
                   </button>
                 </div>
               </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20">
-        Νέος πελάτης; <strong>Διεκδίκησε 150€ έκπτωση</strong> και απόκτησε το δικό σου E-shop!
-      </div>
-
-      {/* Split Info Section ("Πώς λειτουργεί") */}
-      <section id="how-it-works" className="bg-[#facc15] py-24 flex items-center justify-center relative overflow-hidden">
-        <div className="max-w-7xl w-full mx-auto px-6 md:px-12 relative z-10 flex flex-col md:flex-row items-center">
-          
-          {/* Blue Box Copy */}
-          <div className="w-full md:w-5/12 bg-[#3b5bdb] text-white p-10 md:p-16 h-full flex flex-col justify-center rounded-2xl md:rounded-r-none md:rounded-l-2xl">
-            <h3 className="text-4xl font-heading font-medium mb-8">Πώς λειτουργεί:</h3>
-            <ul className="space-y-6 text-sm md:text-base text-white/90 leading-relaxed list-disc pl-5">
-              <li>
-                Συμπληρώνεις τη φόρμα με όνομα, κινητό, email και επιλέγεις πώς προτιμάς να επικοινωνήσουμε μαζί σου.
-              </li>
-              <li>
-                Επικοινωνούμε μαζί σου για να καταγράψουμε τις ανάγκες σου (προϊόντα, διασυνδέσεις Skroutz/ERP, courier, IRIS κτλ).
-              </li>
-              <li>
-                Σχεδιάζουμε ένα υπερσύγχρονο Next.js & WooCommerce e-shop, προσαρμοσμένο στα χρώματα και το brand σου.
-              </li>
-              <li>
-                Εμείς σου δίνουμε <strong>150€ (σε εκπτωτικό κουπόνι)</strong> για την πρώτη κατασκευή, αρκεί να είσαι νέος πελάτης της SGK Digital.
-              </li>
-            </ul>
-            <div className="mt-8 pt-6 border-t border-white/20 text-sm">
-              Απλά. Ψηφιακά. Με ένα snap.
-            </div>
-          </div>
-
-          {/* Mockup Image */}
-          <div className="w-full md:w-7/12 relative aspect-[4/3] md:aspect-auto md:h-[600px] -mt-10 md:mt-0 md:-ml-10 z-0">
-             <Image 
-                src="/promo/eshop_app_mockup.png" 
-                alt="Eshop Dashboard Mockup"
-                fill
-                className="object-contain md:object-cover object-left shadow-2xl hover:scale-105 transition-transform duration-700 rounded-r-2xl"
-             />
-          </div>
-        </div>
-      </section>
-
-      {/* White Big Text Section ("Μια νέα εμπειρία") */}
-      <section className="bg-white py-24 px-6 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-heading font-medium text-black leading-tight tracking-tight mb-8">
-            Μια νέα, εύκολη και άνετη ψηφιακή εμπειρία για τους πελάτες σου – από την SGK Digital.
-          </h2>
-          <p className="text-gray-500 text-lg">
-            Αυτοματοποίησε τις παραγγελίες σου, πούλησε τα προϊόντα σου online 24/7, και κράτα τους πελάτες σου ενημερωμένους για κάθε στάδιο της παραγγελίας τους.
-          </p>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="bg-[#111111] py-24 pb-32 text-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-heading font-medium mb-4">Όλα για το E-shop σου</h2>
-            <p className="text-gray-400">Δες πώς η SGK Digital κάνει τις online πωλήσεις σου παιχνιδάκι.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            {/* Card 1 */}
-            <div className="group cursor-pointer">
-              <div className="bg-[#ff9a9e] aspect-square rounded-sm overflow-hidden relative flex items-center justify-center mb-6 p-8">
-                <div className="relative w-full h-full max-w-[200px] max-h-[200px] transform group-hover:scale-105 transition-transform duration-500">
-                  <Image src="/promo/eshop_speed_icon.png" alt="Speed and Hosting" fill className="object-contain drop-shadow-xl" />
-                </div>
-                <div className="absolute bottom-6 right-6 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-                  <ChevronRight className="w-6 h-6 text-black ml-0.5" />
-                </div>
-              </div>
-              <h4 className="text-xl font-bold mb-2">Αστραπιαία Ταχύτητα & Hosting</h4>
-              <p className="text-sm text-gray-400">VPS Server για load times κάτω από 1 δευτερόλεπτο και εγγυημένο σκορ 95+ στο Google PageSpeed Insights.</p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="group cursor-pointer">
-              <div className="bg-[#4ade80] aspect-square rounded-sm overflow-hidden relative flex items-center justify-center mb-6 p-8">
-                <div className="relative w-full h-full max-w-[200px] max-h-[200px] transform group-hover:scale-105 transition-transform duration-500">
-                  <Image src="/promo/icon_shop.png" alt="Skroutz and ERP" fill className="object-contain drop-shadow-xl" />
-                </div>
-                <div className="absolute bottom-6 right-6 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-                  <ChevronRight className="w-6 h-6 text-black ml-0.5" />
-                </div>
-              </div>
-              <h4 className="text-xl font-bold mb-2">Διασύνδεση Skroutz & ERP</h4>
-              <p className="text-sm text-gray-400">Πλήρης συγχρονισμός προϊόντων, αποθεμάτων και παραγγελιών με το ERP σας (Soft1, Entersoft κτλ) και το Skroutz Marketplace.</p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="group cursor-pointer">
-              <div className="bg-[#3b5bdb] aspect-square rounded-sm overflow-hidden relative flex items-center justify-center mb-6 p-8">
-                <div className="relative w-full h-full max-w-[200px] max-h-[200px] transform group-hover:scale-105 transition-transform duration-500">
-                  <Image src="/promo/eshop_payment_icon.png" alt="Payments and Courier" fill className="object-contain drop-shadow-xl" />
-                </div>
-                <div className="absolute bottom-6 right-6 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-                  <ChevronRight className="w-6 h-6 text-black ml-0.5" />
-                </div>
-              </div>
-              <h4 className="text-xl font-bold mb-2">Courier & Ασφαλείς Πληρωμές</h4>
-              <p className="text-sm text-gray-400">Διασύνδεση με όλες τις courier για αυτόματη έκδοση voucher, SSL πιστοποιητικά, κάρτες και άμεσες πληρωμές με IRIS.</p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-24 px-6 bg-gray-50 flex items-center justify-center">
-        <div className="max-w-4xl w-full mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-medium text-black mb-2">Συχνές Ερωτήσεις (FAQ)</h2>
-            <p className="text-gray-500">Όλα όσα θέλετε να γνωρίζετε για την υπηρεσία κατασκευής E-shop</p>
-          </div>
-          
-          <div className="flex flex-col gap-4">
-            {/* FAQ 1 */}
-            <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
-              <button 
-                onClick={() => setOpenFaq(openFaq === 0 ? null : 0)}
-                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
-              >
-                <span>Πόσο χρόνο χρειάζεται για να είναι έτοιμο το E-shop;</span>
-                <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 0 ? "rotate(180deg)" : "rotate(0)" }}>
-                  ▼
-                </span>
-              </button>
-              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 0 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
-                <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
-                  Συνήθως ολοκληρώνεται σε 14-21 εργάσιμες ημέρες, ανάλογα με την ετοιμότητα του υλικού σας (προϊόντα, τιμές, κείμενα κ.λπ.).
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ 2 */}
-            <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
-              <button 
-                onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}
-                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
-              >
-                <span>Υπάρχουν κρυφά κόστη ή μηνιαίες συνδρομές;</span>
-                <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 1 ? "rotate(180deg)" : "rotate(0)" }}>
-                  ▼
-                </span>
-              </button>
-              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 1 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
-                <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
-                  Απολύτως καμία. Το E-shop είναι 100% δικό σας. Μετά τον πρώτο χρόνο, πληρώνετε μόνο το VPS hosting σας (180€/έτος) και το domain σας (20€/έτος).
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ 3 */}
-            <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
-              <button 
-                onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}
-                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
-              >
-                <span>Μπορώ να διαχειρίζομαι το E-shop μόνος μου;</span>
-                <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 2 ? "rotate(180deg)" : "rotate(0)" }}>
-                  ▼
-                </span>
-              </button>
-              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 2 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
-                <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
-                  Ναι! Σας παρέχουμε πλήρη εκπαίδευση για να προσθέτετε προϊόντα, να αλλάζετε τιμές και να διαχειρίζεστε τις παραγγελίες σας εύκολα χωρίς να χρειάζεστε προγραμματιστή.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ 4 */}
-            <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden transition-all duration-300 shadow-sm">
-              <button 
-                onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}
-                className="w-full px-6 py-5 flex justify-between items-center text-left font-bold text-base md:text-lg text-[#111111] hover:text-[#3b5bdb] transition-colors focus:outline-none"
-              >
-                <span>Η ταχύτητα φόρτωσης είναι όντως εγγυημένη;</span>
-                <span className="transition-transform duration-300 text-gray-400" style={{ transform: openFaq === 3 ? "rotate(180deg)" : "rotate(0)" }}>
-                  ▼
-                </span>
-              </button>
-              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === 3 ? "max-h-40 border-t border-gray-100" : "max-h-0"}`}>
-                <p className="px-6 py-4 text-sm text-gray-600 leading-relaxed bg-gray-50/50">
-                  Ναι. Χρησιμοποιούμε VPS server και Next.js / React τεχνολογία, διασφαλίζοντας ότι το e-shop σας θα φορτώνει σε λιγότερο από 1 δευτερόλεπτο και θα πετυχαίνει 95+ score στο Google PageSpeed Insights.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Guarantee Section */}
-      <section className="py-20 px-6 bg-white flex items-center justify-center">
-        <div className="max-w-4xl w-full mx-auto bg-gray-50 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-sm border border-gray-100">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#3b5bdb]/5 to-transparent"></div>
-          <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center text-center md:text-left">
-            <div className="w-24 h-24 shrink-0 rounded-full bg-white flex items-center justify-center text-[#3b5bdb] shadow-sm">
-              <span className="text-4xl">🛡️</span>
-            </div>
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-black mb-2">Η Δέσμευσή μας</h2>
-              <p className="text-gray-600 mb-6">
-                Είμαστε τόσο σίγουροι για την τεχνολογία μας. Αν το e-shop σας δεν πετύχει κορυφαία σκορ ταχύτητας στο Google PageSpeed, σας επιστρέφουμε τα χρήματά σας!
-              </p>
-              <button 
-                onClick={handleCtaClick}
-                className="bg-[#3b5bdb] hover:bg-[#2b4bba] text-white rounded-full px-8 py-3 font-semibold text-sm transition-all"
-              >
-                Ξεκινήστε Σήμερα
-              </button>
             </div>
           </div>
         </div>
