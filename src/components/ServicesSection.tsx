@@ -23,7 +23,7 @@ export default function ServicesSection() {
         <div className="flex flex-col-reverse md:flex-row relative items-center">
           
           {/* Left Box */}
-          <div className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-mr-[10%] mt-[-40px] md:mt-0 shadow-2xl">
+          <div className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-mr-[10%] mt-0 shadow-2xl">
             <h3 className="text-white text-3xl md:text-4xl font-light mb-8">
               Όλα στον απόλυτο έλεγχό σου:
             </h3>
@@ -101,7 +101,7 @@ export default function ServicesSection() {
           </div>
 
           {/* Right Box */}
-          <div className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-ml-[10%] mt-[-40px] md:mt-0 shadow-2xl">
+          <div className="w-full md:w-[45%] bg-[#111111] p-8 md:p-12 relative z-10 md:-ml-[10%] mt-0 shadow-2xl">
             <h3 className="text-white text-3xl md:text-4xl font-light mb-8">
               Ετοιμάσου για:
             </h3>

@@ -24,7 +24,7 @@ export default function AboutSection() {
           </div>
 
           {/* Right Side: Content Box overlapping the image */}
-          <div className="w-full md:w-[45%] bg-[#4ade80] p-6 md:p-10 relative z-10 md:-ml-[10%] mt-[-40px] md:mt-0 shadow-2xl border border-[#4ade80] flex flex-col justify-center">
+          <div className="w-full md:w-[45%] bg-[#4ade80] p-6 md:p-10 relative z-10 md:-ml-[10%] mt-0 shadow-2xl border border-[#4ade80] flex flex-col justify-center">
             <h2 className="text-black text-3xl md:text-4xl font-light mb-5 tracking-wide">
               Ποιοι είμαστε
             </h2>

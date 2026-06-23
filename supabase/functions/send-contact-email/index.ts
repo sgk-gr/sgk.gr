@@ -164,33 +164,88 @@ serve(async (req) => {
             if (isPayAsYouGrow) {
                 userEmailSubject = "Συγχαρητήρια! 🎉 Το ταξίδι σας με το Pay As You Grow ξεκινάει";
                 userEmailHtml = `
-            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h1 style="color: #1a1a1a; margin: 0; font-size: 24px; font-weight: 800;">Ευχαριστούμε! 🎉</h1>
+            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+                <!-- Top Link -->
+                <div style="text-align: right; padding: 10px 20px;">
+                    <a href="https://sgk.gr/pay-as-you-grow" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">Δες την online έκδοση</a>
                 </div>
-                
-                <div style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-                    <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 0;">
-                        Λάβαμε με επιτυχία το αίτημά σας για το <strong>Pay As You Grow</strong> μοντέλο!
-                    </p>
+
+                <!-- Logo -->
+                <div style="text-align: center; padding: 20px 0;">
+                    <h1 style="margin: 0; font-size: 42px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
+                </div>
+
+                <!-- Color Strip -->
+                <div style="display: flex; height: 12px; width: 100%;">
+                    <div style="width: 15%; background-color: #3b5bdb;"></div>
+                    <div style="width: 5%; background-color: #4ade80;"></div>
+                    <div style="width: 80%; background-color: #ffffff;"></div>
+                </div>
+
+                <!-- Hero Area (Dark) -->
+                <div style="background-color: #111111; color: #ffffff; padding: 50px 20px; text-align: center; position: relative;">
+                    <h1 style="font-size: 60px; font-weight: 900; margin: 0; line-height: 1; letter-spacing: -2px; color: #ffffff;">Pay as you grow</h1>
+                    <h3 style="font-size: 22px; margin: 10px 0 0 0; font-weight: 800; color: #ffffff;">Το ταξίδι σου <span style="color:#4ade80;">ξεκινάει</span></h3>
+                </div>
+                <div style="display: flex; height: 12px; width: 100%;">
+                    <div style="width: 15%; background-color: #4ade80;"></div>
+                    <div style="width: 85%; background-color: #3b5bdb;"></div>
+                </div>
+
+                <!-- Content Area -->
+                <div style="padding: 40px 30px; color: #333333;">
+                    <p style="font-size: 18px; font-weight: 600; margin-top: 0;">Λάβαμε με επιτυχία το αίτημά σου!</p>
+                    <p style="font-size: 16px; margin-bottom: 40px;">Κάνατε το πρώτο βήμα για να αποκτήσετε ένα υπερσύγχρονο E-shop, εντελώς δωρεάν από ρίσκο.</p>
+
+                    <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Το μοντέλο σου με μια ματιά:</p>
                     
-                    <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6;">
-                        Κάνατε το πρώτο βήμα για να αποκτήσετε ένα υπερσύγχρονο E-shop, εντελώς δωρεάν από ρίσκο.
-                    </p>
-                    
-                    <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-                        <p style="color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">ΤΟ ΜΟΝΤΕΛΟ ΣΑΣ</p>
-                        <p style="font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 1px; margin: 0;">Setup Fee: 600€</p>
-                        <p style="color: #c25100; font-size: 20px; margin: 8px 0 0 0; font-weight: bold;">+ 5% προμήθεια επί των πωλήσεων</p>
-                        <p style="color: #888; font-size: 13px; margin: 12px 0 0 0;">Αν δεν πουλάτε, δεν πληρώνετε απολύτως τίποτα!</p>
-                        <p style="color: #888; font-size: 13px; margin: 4px 0 0 0; font-weight: bold;">Σε 12 μήνες το Eshop είναι 100% δικό σας.</p>
+                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 20px;">600€</span> Setup Fee (Εφάπαξ)</p>
+                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 20px;">5%</span> προμήθεια επί των πωλήσεων</p>
+                    <p style="font-size: 16px; margin-bottom: 30px; color: #444;">Αν δεν πουλάς, <strong style="color: #000;">δεν πληρώνεις απολύτως τίποτα!</strong> Και σε 12 μήνες, το Eshop είναι 100% δικό σου.</p>
+
+                    <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Τι ακολουθεί;</p>
+                    <p style="font-size: 16px; margin-bottom: 40px; color: #444;">Ένας εξειδικευμένος σύμβουλος θα επικοινωνήσει άμεσα μαζί σου για να ξεκινήσουμε!</p>
+
+                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 30px;">Η ομάδα της SGK Digital 💙</p>
+                </div>
+
+                <!-- Blue Footer -->
+                <div style="position: relative;">
+                    <!-- Top strips -->
+                    <div style="display: flex; height: 12px; width: 100%;">
+                        <div style="width: 75%; background-color: #d1d5db;"></div>
+                        <div style="width: 25%; background-color: #facc15;"></div>
                     </div>
                     
-                    <div style="background-color: #fff0e6; padding: 15px 20px; border-left: 4px solid #FF6B00; border-radius: 4px; margin: 25px 0;">
-                        <p style="color: #c25100; margin: 0; font-size: 15px; font-weight: 600;">
-                            🚀 Ένας εξειδικευμένος σύμβουλος θα επικοινωνήσει άμεσα μαζί σας!
+                    <div style="background-color: #3b5bdb; color: #ffffff; padding: 40px 20px; text-align: center;">
+                        <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
+                        
+                        <div style="margin: 20px 0;">
+                            <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
+                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+                        </div>
+                        
+                        <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5;">
+                            <strong>SGK Software Development</strong><br/>
+                            ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
+                            Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
+                            📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
+                        </div>
+
+                        <p style="font-size: 11px; margin: 20px 0 0 0; color: #ffffff;">
+                            <a href="https://sgk.gr/terms" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
+                            <a href="https://sgk.gr/privacy" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
+                        </p>
+                        <p style="font-size: 11px; margin: 5px 0 0 0; color: #ffffff;">
+                            Copyright 2026. All rights reserved.
                         </p>
                     </div>
+                </div>
+
+                <!-- Unsubscribe -->
+                <div style="background-color: #f4f4f5; padding: 20px; text-align: left; font-size: 11px; color: #666666;">
+                    If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
+                    <a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" style="color: #3b5bdb; text-decoration: underline;">(unsubscribe)</a>.
                 </div>
             </div>`;
             } else {

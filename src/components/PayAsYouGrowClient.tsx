@@ -213,8 +213,8 @@ export default function PayAsYouGrowClient() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-300 text-center">
                                 <div className="p-4 bg-white rounded-lg border border-gray-200">
                                     <span className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Αρχικό Κόστος</span>
-                                    <span className="text-lg font-extrabold text-black">Setup Fee</span>
-                                    <span className="block text-[10px] text-gray-400 mt-1">Ανάλογα με το project</span>
+                                    <span className="text-lg font-extrabold text-black">600 €</span>
+                                    <span className="block text-[10px] text-gray-400 mt-1">Εφάπαξ πληρωμή</span>
                                 </div>
                                 <div className="p-4 bg-white rounded-lg border border-gray-200">
                                     <span className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Προμήθεια</span>
@@ -242,7 +242,7 @@ export default function PayAsYouGrowClient() {
                             {[
                                 {
                                     q: "Πόσο είναι το Setup Fee; Υπάρχουν κρυφές χρεώσεις;",
-                                    a: "Το setup fee εξαρτάται από το μέγεθος και τις ανάγκες του project σας. Θα συζητήσουμε μαζί και θα σας δώσουμε γραπτή προσφορά πριν υπογράψετε οτιδήποτε. Δεν υπάρχουν κρυφές χρεώσεις, ούτε τώρα, ούτε ποτέ. Αν δεν σας αρέσει η τιμή, δεν πληρώνετε τίποτα."
+                                    a: "Το Setup Fee είναι ακριβώς 600€. Αυτό το ποσό καλύπτει τα πραγματικά κόστη υποδομής για να ξεκινήσετε (server, domain, ssl κλπ). Δεν υπάρχουν κρυφές χρεώσεις, ούτε τώρα, ούτε ποτέ."
                                 },
                                 {
                                     q: "Υπογράφεται κάποιο συμβόλαιο ή ιδιωτικό συμφωνητικό;",
