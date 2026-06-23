@@ -731,22 +731,22 @@ export default function AdminVatDashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#030712] text-slate-300 font-sans antialiased flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#10b981]/25">
-        <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-[#10b981]/5 to-transparent pointer-events-none z-0" />
-        <div className="absolute top-1/4 right-10 w-[300px] h-[300px] bg-[#10b981]/3 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="min-h-screen bg-[#f4f2ea] text-gray-800 font-sans antialiased flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#3b5bdb]/25">
+        <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-[#3b5bdb]/5 to-transparent pointer-events-none z-0" />
+        <div className="absolute top-1/4 right-10 w-[300px] h-[300px] bg-[#3b5bdb]/3 rounded-full blur-[120px] pointer-events-none z-0" />
         
         <motion.div 
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           className="relative z-10 w-full max-w-sm"
         >
-          <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-8 rounded-3xl shadow-2xl text-center">
-            <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center p-2.5 shadow-md mb-6">
+          <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-8 rounded-3xl shadow-2xl text-center">
+            <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center p-2.5 shadow-md mb-6">
               <img src="/sgk-logo.png" alt="SGK Logo" className="w-full h-full object-contain" />
             </div>
             
-            <h1 className="text-xl font-black text-white tracking-tight flex items-center justify-center gap-2 mb-2">
-              SGK <span className="text-[#10b981]">ADMIN</span>
+            <h1 className="text-xl font-black text-gray-900 tracking-tight flex items-center justify-center gap-2 mb-2">
+              SGK <span className="text-[#3b5bdb]">ADMIN</span>
             </h1>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mb-8">
               Απαιτείται Εξουσιοδότηση Πρόσβασης
@@ -764,7 +764,7 @@ export default function AdminVatDashboard() {
                     setPinInput(e.target.value);
                     setPinError(false);
                   }}
-                  className={`w-full bg-slate-950 border ${pinError ? 'border-rose-500/50' : 'border-slate-850'} rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none transition-colors text-center tracking-widest`}
+                  className={`w-full bg-white border ${pinError ? 'border-rose-500/50' : 'border-gray-200'} rounded-xl px-4 py-3 text-gray-900 font-mono text-sm focus:border-[#3b5bdb]/50 outline-none transition-colors text-center tracking-widest`}
                   placeholder="••••••••"
                   autoFocus
                 />
@@ -772,7 +772,7 @@ export default function AdminVatDashboard() {
 
               <button
                 type="submit"
-                className="w-full py-3 mt-2 rounded-xl font-black text-xs italic tracking-wider transition-all bg-[#10b981] hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/10"
+                className="w-full py-3 mt-2 rounded-xl font-black text-xs italic tracking-wider transition-all bg-[#3b5bdb] hover:bg-[#2b4bba] text-slate-950 shadow-lg shadow-blue-500/10"
               >
                 ΕΙΣΟΔΟΣ
               </button>
@@ -784,23 +784,23 @@ export default function AdminVatDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-300 font-sans antialiased pb-20 selection:bg-[#10b981]/25">
+    <div className="min-h-screen bg-[#f4f2ea] text-gray-800 font-sans antialiased pb-20 selection:bg-[#3b5bdb]/25">
       
       {/* BACKGROUND GLOW EFFECTS */}
-      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-[#10b981]/5 to-transparent pointer-events-none z-0" />
-      <div className="absolute top-1/4 right-10 w-[300px] h-[300px] bg-[#10b981]/3 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-[#3b5bdb]/5 to-transparent pointer-events-none z-0" />
+      <div className="absolute top-1/4 right-10 w-[300px] h-[300px] bg-[#3b5bdb]/3 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="absolute top-2/3 left-10 w-[350px] h-[350px] bg-[#f43f5e]/3 rounded-full blur-[140px] pointer-events-none z-0" />
 
       {/* HEADER SECTION */}
-      <header className="relative z-10 border-b border-slate-800/80 bg-[#070b16]/70 backdrop-blur-md sticky top-0 shadow-lg no-print">
+      <header className="relative z-10 border-b border-gray-200/80 bg-gray-50/70 backdrop-blur-md sticky top-0 shadow-lg no-print">
         <div className="max-w-7xl mx-auto px-6 h-[85px] flex items-center justify-between">
           <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center p-1.5 shadow-md">
+            <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center p-1.5 shadow-md">
               <img src="/sgk-logo.png" alt="SGK Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h1 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
-                SGK SYSTEM PORTAL <span className="text-[10px] bg-emerald-500/10 border border-emerald-500/20 text-[#10b981] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider">TAX & VAT</span>
+              <h1 className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
+                SGK SYSTEM PORTAL <span className="text-[10px] bg-blue-500/10 border border-blue-500/20 text-[#3b5bdb] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider">TAX & VAT</span>
               </h1>
               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">Διαχείριση ΦΠΑ & Παρακράτησης 20%</p>
             </div>
@@ -808,32 +808,32 @@ export default function AdminVatDashboard() {
 
           <div className="flex items-center gap-4">
             {/* Year Selector */}
-            <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 shadow-sm">
+            <div className="flex items-center bg-gray-100/90 border border-gray-200 rounded-xl px-3 py-1.5 shadow-sm">
               <Calendar className="w-4 h-4 text-slate-500 mr-2" />
               <select 
                 value={filterYear}
                 onChange={(e) => setFilterYear(e.target.value)}
-                className="bg-transparent text-sm font-bold text-white outline-none cursor-pointer"
+                className="bg-transparent text-sm font-bold text-gray-900 outline-none cursor-pointer"
               >
-                <option value="2026" className="bg-[#0b0f19]">Έτος 2026</option>
-                <option value="2025" className="bg-[#0b0f19]">Έτος 2025</option>
-                <option value="2027" className="bg-[#0b0f19]">Έτος 2027</option>
+                <option value="2026" className="bg-white">Έτος 2026</option>
+                <option value="2025" className="bg-white">Έτος 2025</option>
+                <option value="2027" className="bg-white">Έτος 2027</option>
               </select>
             </div>
 
             {/* Export JSON */}
             <button 
               onClick={handleExportJSON}
-              className="p-2.5 bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white rounded-xl transition-all flex items-center gap-2 text-xs font-bold shadow-sm"
+              className="p-2.5 bg-gray-100 border border-gray-200 hover:border-slate-700 hover:text-gray-900 rounded-xl transition-all flex items-center gap-2 text-xs font-bold shadow-sm"
               title="Εξαγωγή Ledger σε αρχείο JSON"
             >
-              <Download className="w-4 h-4 text-slate-400" />
+              <Download className="w-4 h-4 text-gray-600" />
               <span className="hidden md:inline">Εξαγωγή</span>
             </button>
 
             {/* Import JSON */}
-            <label className="p-2.5 bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer shadow-sm">
-              <Upload className="w-4 h-4 text-slate-400" />
+            <label className="p-2.5 bg-gray-100 border border-gray-200 hover:border-slate-700 hover:text-gray-900 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer shadow-sm">
+              <Upload className="w-4 h-4 text-gray-600" />
               <span className="hidden md:inline">Εισαγωγή</span>
               <input 
                 type="file" 
@@ -848,13 +848,13 @@ export default function AdminVatDashboard() {
 
       {/* PORTAL NAVIGATION TABS */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 mt-8">
-        <div className="flex bg-[#0b0f19]/70 border border-slate-850 p-1.5 rounded-2xl gap-2 w-full md:w-fit backdrop-blur-md">
+        <div className="flex bg-white/70 border border-gray-200 p-1.5 rounded-2xl gap-2 w-full md:w-fit backdrop-blur-md">
           <button
             onClick={() => setActivePortalTab("ledger")}
             className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
               activePortalTab === "ledger"
-                ? "bg-[#10b981] text-[#030712] shadow-lg shadow-emerald-500/10"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
+                : "text-gray-600 hover:text-slate-200"
             }`}
           >
             <FileSpreadsheet className="w-4 h-4" />
@@ -864,8 +864,8 @@ export default function AdminVatDashboard() {
             onClick={() => setActivePortalTab("aade")}
             className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
               activePortalTab === "aade"
-                ? "bg-[#10b981] text-[#030712] shadow-lg shadow-emerald-500/10"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
+                : "text-gray-600 hover:text-slate-200"
             }`}
           >
             <Calculator className="w-4 h-4" />
@@ -875,8 +875,8 @@ export default function AdminVatDashboard() {
             onClick={() => setActivePortalTab("tax")}
             className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
               activePortalTab === "tax"
-                ? "bg-[#10b981] text-[#030712] shadow-lg shadow-emerald-500/10"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
+                : "text-gray-600 hover:text-slate-200"
             }`}
           >
             <Briefcase className="w-4 h-4" />
@@ -886,8 +886,8 @@ export default function AdminVatDashboard() {
             onClick={() => setActivePortalTab("emails")}
             className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
               activePortalTab === "emails"
-                ? "bg-[#10b981] text-[#030712] shadow-lg shadow-emerald-500/10"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
+                : "text-gray-600 hover:text-slate-200"
             }`}
           >
             <Mail className="w-4 h-4" />
@@ -897,8 +897,8 @@ export default function AdminVatDashboard() {
             onClick={() => setActivePortalTab("scraper")}
             className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
               activePortalTab === "scraper"
-                ? "bg-[#10b981] text-[#030712] shadow-lg shadow-emerald-500/10"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
+                : "text-gray-600 hover:text-slate-200"
             }`}
           >
             <Sparkles className="w-4 h-4" />
@@ -928,22 +928,22 @@ export default function AdminVatDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   
                   {/* Total Income */}
-                  <div className="bg-slate-950/60 backdrop-blur-xl border border-slate-800 p-6 rounded-2xl relative overflow-hidden group">
+                  <div className="bg-white/60 backdrop-blur-xl border border-gray-200 p-6 rounded-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
                       <TrendingUp className="w-12 h-12 text-emerald-500" />
                     </div>
                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Συνολικά Έσοδα ({filterYear})</p>
-                    <h3 className="text-3xl font-black text-emerald-400 mt-2 italic">
+                    <h3 className="text-3xl font-black text-[#2b4bba] mt-2 italic">
                       {yearlySummary.incomeGross.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
                     </h3>
-                    <div className="flex justify-between items-center mt-4 text-xs font-semibold text-slate-400 border-t border-slate-900 pt-3">
+                    <div className="flex justify-between items-center mt-4 text-xs font-semibold text-gray-600 border-t border-gray-200 pt-3">
                       <span>Καθαρά: {yearlySummary.incomeNet.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       <span className="text-emerald-500/80">ΦΠΑ (+): {yearlySummary.incomeVat.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                     </div>
                   </div>
 
                   {/* Total Expenses */}
-                  <div className="bg-slate-950/60 backdrop-blur-xl border border-slate-800 p-6 rounded-2xl relative overflow-hidden group">
+                  <div className="bg-white/60 backdrop-blur-xl border border-gray-200 p-6 rounded-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
                       <TrendingDown className="w-12 h-12 text-rose-500" />
                     </div>
@@ -951,35 +951,35 @@ export default function AdminVatDashboard() {
                     <h3 className="text-3xl font-black text-rose-400 mt-2 italic">
                       {yearlySummary.expenseGross.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
                     </h3>
-                    <div className="flex justify-between items-center mt-4 text-xs font-semibold text-slate-400 border-t border-slate-900 pt-3">
+                    <div className="flex justify-between items-center mt-4 text-xs font-semibold text-gray-600 border-t border-gray-200 pt-3">
                       <span>Καθαρά: {yearlySummary.expenseNet.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       <span className="text-rose-500/80">ΦΠΑ (-): {yearlySummary.expenseVat.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                     </div>
                   </div>
 
                   {/* VAT Balance */}
-                  <div className="bg-slate-950/60 backdrop-blur-xl border border-slate-800 p-6 rounded-2xl relative overflow-hidden group border-b-4 border-b-emerald-500/30">
+                  <div className="bg-white/60 backdrop-blur-xl border border-gray-200 p-6 rounded-2xl relative overflow-hidden group border-b-4 border-b-emerald-500/30">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                       <Coins className="w-12 h-12 text-amber-500" />
                     </div>
                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Υπόλοιπο ΦΠΑ {filterYear}</p>
                     <h3 className={`text-3xl font-black mt-2 italic ${
-                      yearlySummary.netVatPayable >= 0 ? "text-amber-400" : "text-emerald-400"
+                      yearlySummary.netVatPayable >= 0 ? "text-amber-400" : "text-[#2b4bba]"
                     }`}>
                       {Math.abs(yearlySummary.netVatPayable).toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
                     </h3>
-                    <div className="flex justify-between items-center mt-4 text-xs font-bold border-t border-slate-900/60 pt-3">
-                      <span className="text-slate-400">Κατάσταση Έτους:</span>
+                    <div className="flex justify-between items-center mt-4 text-xs font-bold border-t border-gray-200/60 pt-3">
+                      <span className="text-gray-600">Κατάσταση Έτους:</span>
                       {yearlySummary.netVatPayable >= 0 ? (
                         <span className="text-amber-500 flex items-center gap-1 font-black">Προς Πληρωμή <AlertTriangle className="w-3.5 h-3.5" /></span>
                       ) : (
-                        <span className="text-emerald-400 flex items-center gap-1 font-black">Πιστωτικό Υπόλοιπο <CheckCircle2 className="w-3.5 h-3.5" /></span>
+                        <span className="text-[#2b4bba] flex items-center gap-1 font-black">Πιστωτικό Υπόλοιπο <CheckCircle2 className="w-3.5 h-3.5" /></span>
                       )}
                     </div>
 
                     {/* Dynamic VAT deadline countdown */}
                     {yearlySummary.netVatPayable >= 0 && nextDeadline && (
-                      <div className="mt-4 pt-3 border-t border-slate-900/60 text-[10px] font-bold text-slate-400 flex flex-col gap-1.5 animate-in slide-in-from-bottom-2 duration-300">
+                      <div className="mt-4 pt-3 border-t border-gray-200/60 text-[10px] font-bold text-gray-600 flex flex-col gap-1.5 animate-in slide-in-from-bottom-2 duration-300">
                         <div className="flex justify-between items-center">
                           <span>Επόμενη Πληρωμή ΦΠΑ:</span>
                           <span className="text-amber-400 font-extrabold uppercase tracking-wider">{nextDeadline.name}</span>
@@ -988,14 +988,14 @@ export default function AdminVatDashboard() {
                           <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5 text-amber-500" /> Προθεσμία:</span>
                           <span className="font-mono text-[10px]">{nextDeadline.formattedDate}</span>
                         </div>
-                        <div className="flex justify-between items-center bg-[#10b981]/5 border border-[#10b981]/10 p-2 rounded-xl text-[#10b981]">
-                          <span className="flex items-center gap-1"><Sparkles className="w-3.5 h-3.5 text-[#10b981]" /> Υπολείπονται:</span>
+                        <div className="flex justify-between items-center bg-[#3b5bdb]/5 border border-[#3b5bdb]/10 p-2 rounded-xl text-[#3b5bdb]">
+                          <span className="flex items-center gap-1"><Sparkles className="w-3.5 h-3.5 text-[#3b5bdb]" /> Υπολείπονται:</span>
                           <span className="font-extrabold text-[10px]">{nextDeadline.daysLeft} ημέρες</span>
                         </div>
                       </div>
                     )}
                     {yearlySummary.netVatPayable < 0 && (
-                      <div className="mt-4 pt-3 border-t border-slate-900/60 text-[10px] font-bold text-emerald-400 flex items-center gap-1.5 animate-in slide-in-from-bottom-2 duration-300">
+                      <div className="mt-4 pt-3 border-t border-gray-200/60 text-[10px] font-bold text-[#2b4bba] flex items-center gap-1.5 animate-in slide-in-from-bottom-2 duration-300">
                         <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                         <span>Δεν εκκρεμεί πληρωμή ΦΠΑ για το έτος.</span>
                       </div>
@@ -1007,7 +1007,7 @@ export default function AdminVatDashboard() {
                 {/* QUARTERLY DETAILS CARD DECK */}
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-sm font-black text-white tracking-wide uppercase italic flex items-center gap-2">
+                    <h2 className="text-sm font-black text-gray-900 tracking-wide uppercase italic flex items-center gap-2">
                       <LayoutDashboard className="w-4 h-4 text-emerald-500" />
                       Αναλυση Ανα Τριμηνο
                     </h2>
@@ -1023,14 +1023,14 @@ export default function AdminVatDashboard() {
                       return (
                         <div 
                           key={q}
-                          className="bg-[#0b0f19]/80 backdrop-blur-md border border-slate-800/80 p-6 rounded-2xl hover:border-slate-750 transition-all flex flex-col justify-between"
+                          className="bg-white/80 backdrop-blur-md border border-gray-200/80 p-6 rounded-2xl hover:border-gray-300 transition-all flex flex-col justify-between"
                         >
                           <div>
                             <div className="flex items-center justify-between border-b border-slate-855 pb-3 mb-4">
-                              <span className="text-sm font-black text-white italic">{getQuarterName(q)}</span>
+                              <span className="text-sm font-black text-gray-900 italic">{getQuarterName(q)}</span>
                               <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                                isCredit ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : 
-                                netPayable === 0 ? "bg-slate-800 text-slate-400 animate-pulse" :
+                                isCredit ? "bg-blue-500/10 text-[#2b4bba] border border-blue-500/20" : 
+                                netPayable === 0 ? "bg-gray-100 text-gray-600 animate-pulse" :
                                 "bg-amber-500/10 text-amber-400 border border-amber-500/20"
                               }`}>
                                 {isCredit ? "Πιστωτικό" : netPayable === 0 ? "Μηδενικό" : "Προς Πληρωμή"}
@@ -1040,7 +1040,7 @@ export default function AdminVatDashboard() {
                             <div className="space-y-2">
                               {/* Income row */}
                               <div className="flex justify-between items-center text-xs">
-                                <span className="text-slate-400 flex items-center gap-1 font-semibold"><TrendingUp className="w-3.5 h-3.5 text-emerald-500" /> Έσοδα με ΦΠΑ</span>
+                                <span className="text-gray-600 flex items-center gap-1 font-semibold"><TrendingUp className="w-3.5 h-3.5 text-emerald-500" /> Έσοδα με ΦΠΑ</span>
                                 <span className="font-bold text-slate-200">{stat.incomeGross.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                               </div>
                               <div className="flex justify-between items-center text-[10px] pl-4 text-slate-500">
@@ -1050,7 +1050,7 @@ export default function AdminVatDashboard() {
 
                               {/* Expense row */}
                               <div className="flex justify-between items-center text-xs mt-3">
-                                <span className="text-slate-400 flex items-center gap-1 font-semibold"><TrendingDown className="w-3.5 h-3.5 text-rose-500" /> Έξοδα με ΦΠΑ</span>
+                                <span className="text-gray-600 flex items-center gap-1 font-semibold"><TrendingDown className="w-3.5 h-3.5 text-rose-500" /> Έξοδα με ΦΠΑ</span>
                                 <span className="font-bold text-slate-200">{stat.expenseGross.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                               </div>
                               <div className="flex justify-between items-center text-[10px] pl-4 text-slate-500">
@@ -1060,10 +1060,10 @@ export default function AdminVatDashboard() {
                             </div>
                           </div>
 
-                          <div className="mt-6 pt-4 border-t border-slate-900 flex items-center justify-between">
+                          <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between">
                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">ΦΠΑ Τριμηνου</span>
                             <span className={`text-lg font-black italic ${
-                              isCredit ? "text-emerald-400" : netPayable === 0 ? "text-slate-400" : "text-amber-400"
+                              isCredit ? "text-[#2b4bba]" : netPayable === 0 ? "text-gray-600" : "text-amber-400"
                             }`}>
                               {isCredit ? "-" : ""}{Math.abs(netPayable).toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
                             </span>
@@ -1080,22 +1080,22 @@ export default function AdminVatDashboard() {
               <div className="lg:col-span-4 space-y-8">
                 
                 {/* QUICK TRANSACTION ENTRY FORM */}
-                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl">
-                  <h3 className="text-sm font-black text-white italic tracking-wide uppercase mb-4 flex items-center gap-2">
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-6 rounded-2xl shadow-xl">
+                  <h3 className="text-sm font-black text-gray-900 italic tracking-wide uppercase mb-4 flex items-center gap-2">
                     <Plus className="w-4 h-4 text-emerald-500" />
                     Καταχωρηση Τιμολογιου
                   </h3>
 
                   <form onSubmit={handleAddTransaction} className="space-y-4">
                     {/* Type Switch */}
-                    <div className="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800/50">
+                    <div className="grid grid-cols-2 gap-2 bg-white p-1.5 rounded-xl border border-gray-200/50">
                       <button
                         type="button"
                         onClick={() => setTxType("income")}
                         className={`py-2 rounded-lg font-bold text-xs italic tracking-tight transition-all flex items-center justify-center gap-1.5 ${
                           txType === "income" 
-                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
-                            : "text-slate-500 hover:text-slate-300"
+                            ? "bg-blue-500/10 text-[#2b4bba] border border-blue-500/20" 
+                            : "text-slate-500 hover:text-gray-800"
                         }`}
                       >
                         <TrendingUp className="w-3.5 h-3.5" />
@@ -1107,7 +1107,7 @@ export default function AdminVatDashboard() {
                         className={`py-2 rounded-lg font-bold text-xs italic tracking-tight transition-all flex items-center justify-center gap-1.5 ${
                           txType === "expense" 
                             ? "bg-rose-500/10 text-rose-400 border border-rose-500/20" 
-                            : "text-slate-500 hover:text-slate-300"
+                            : "text-slate-500 hover:text-gray-800"
                         }`}
                       >
                         <TrendingDown className="w-3.5 h-3.5" />
@@ -1116,14 +1116,14 @@ export default function AdminVatDashboard() {
                     </div>
 
                     {/* Zero VAT Toggle */}
-                    <label className="flex items-center gap-2 cursor-pointer bg-slate-950 p-3 rounded-xl border border-slate-800/50 hover:bg-slate-900 transition-colors group">
+                    <label className="flex items-center gap-2 cursor-pointer bg-white p-3 rounded-xl border border-gray-200/50 hover:bg-gray-100 transition-colors group">
                       <input 
                         type="checkbox" 
                         checked={isZeroVat}
                         onChange={(e) => setIsZeroVat(e.target.checked)}
-                        className="w-4 h-4 rounded border-slate-700 bg-slate-800 text-[#10b981] focus:ring-[#10b981] focus:ring-offset-slate-950 cursor-pointer accent-[#10b981]"
+                        className="w-4 h-4 rounded border-slate-700 bg-gray-100 text-[#3b5bdb] focus:ring-[#3b5bdb] focus:ring-offset-slate-950 cursor-pointer accent-[#3b5bdb]"
                       />
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-slate-300 transition-colors">Τιμολογιο Χωρις ΦΠΑ (π.χ. Ενδοκοινοτικη 0%)</span>
+                      <span className="text-[10px] font-bold text-gray-600 uppercase tracking-wider group-hover:text-gray-800 transition-colors">Τιμολογιο Χωρις ΦΠΑ (π.χ. Ενδοκοινοτικη 0%)</span>
                     </label>
 
                     {/* Amount field (Gross) */}
@@ -1137,25 +1137,25 @@ export default function AdminVatDashboard() {
                           placeholder="π.χ. 1240"
                           value={grossAmount}
                           onChange={(e) => setGrossAmount(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none pr-10 transition-colors"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-mono text-sm focus:border-[#3b5bdb]/50 outline-none pr-10 transition-colors"
                           required
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 font-mono">€</span>
                       </div>
                       {grossAmount && parseFloat(grossAmount) > 0 && (
-                        <div className="bg-slate-950 p-3 rounded-lg border border-slate-900 text-[10px] font-bold space-y-1 mt-2 text-slate-500 animate-in fade-in">
+                        <div className="bg-white p-3 rounded-lg border border-gray-200 text-[10px] font-bold space-y-1 mt-2 text-slate-500 animate-in fade-in">
                           <div className="flex justify-between">
                             <span>Καθαρή Αξία:</span>
-                            <span className="text-slate-300 font-mono">{isZeroVat ? parseFloat(grossAmount).toFixed(2) : (parseFloat(grossAmount) / 1.24).toFixed(2)}€</span>
+                            <span className="text-gray-800 font-mono">{isZeroVat ? parseFloat(grossAmount).toFixed(2) : (parseFloat(grossAmount) / 1.24).toFixed(2)}€</span>
                           </div>
                           <div className="flex justify-between">
                             <span>ΦΠΑ {isZeroVat ? '0%' : '24%'}:</span>
                             <span className="text-emerald-500/80 font-mono">{isZeroVat ? '0.00' : (parseFloat(grossAmount) - (parseFloat(grossAmount) / 1.24)).toFixed(2)}€</span>
                           </div>
                           {txType === "expense" && (
-                            <div className="flex justify-between border-t border-slate-800/80 pt-1.5 mt-1.5">
-                              <span className="text-emerald-400">Μείωση Φόρου Εισοδήματος (22%):</span>
-                              <span className="text-emerald-400 font-mono">
+                            <div className="flex justify-between border-t border-gray-200/80 pt-1.5 mt-1.5">
+                              <span className="text-[#2b4bba]">Μείωση Φόρου Εισοδήματος (22%):</span>
+                              <span className="text-[#2b4bba] font-mono">
                                 {(isZeroVat ? parseFloat(grossAmount) * 0.22 : (parseFloat(grossAmount) / 1.24) * 0.22).toFixed(2)}€
                               </span>
                             </div>
@@ -1171,7 +1171,7 @@ export default function AdminVatDashboard() {
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none transition-colors"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-mono text-sm focus:border-[#3b5bdb]/50 outline-none transition-colors"
                         required
                       />
                     </div>
@@ -1182,10 +1182,10 @@ export default function AdminVatDashboard() {
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-3 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none cursor-pointer transition-colors"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-3 py-3 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none cursor-pointer transition-colors"
                       >
                         {CATEGORIES[txType].map((cat) => (
-                          <option key={cat} value={cat} className="bg-[#0b0f19]">
+                          <option key={cat} value={cat} className="bg-white">
                             {cat}
                           </option>
                         ))}
@@ -1200,7 +1200,7 @@ export default function AdminVatDashboard() {
                         placeholder="π.χ. Υπηρεσίες Μαΐου - SGK"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none transition-colors"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none transition-colors"
                         required
                       />
                     </div>
@@ -1210,8 +1210,8 @@ export default function AdminVatDashboard() {
                       type="submit"
                       className={`w-full py-3 rounded-xl font-black text-xs italic tracking-wider transition-all flex items-center justify-center gap-2 ${
                         txType === "income" 
-                          ? "bg-[#10b981] hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/10" 
-                          : "bg-rose-500 hover:bg-rose-400 text-white shadow-lg shadow-rose-500/10"
+                          ? "bg-[#3b5bdb] hover:bg-[#2b4bba] text-slate-950 shadow-lg shadow-blue-500/10" 
+                          : "bg-rose-500 hover:bg-rose-400 text-gray-900 shadow-lg shadow-rose-500/10"
                       }`}
                     >
                       <Plus className="w-4 h-4" />
@@ -1221,19 +1221,19 @@ export default function AdminVatDashboard() {
                 </div>
 
                 {/* SIDE LIVE QUICK CONVERTER WIDGET */}
-                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl animate-fade-in">
-                  <h3 className="text-sm font-black text-white italic tracking-wide uppercase mb-3 flex items-center gap-2">
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-6 rounded-2xl shadow-xl animate-fade-in">
+                  <h3 className="text-sm font-black text-gray-900 italic tracking-wide uppercase mb-3 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-amber-400" />
                     Γρηγορο Κομπιουτερακι ΦΠΑ
                   </h3>
                   <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-4">Μετατροπή με ΦΠΑ 24% σε κλάσματα δευτερολέπτου</p>
 
                   <div className="space-y-3">
-                    <div className="grid grid-cols-2 gap-2 bg-slate-950 p-1 rounded-lg border border-slate-900 text-[10px] font-bold">
+                    <div className="grid grid-cols-2 gap-2 bg-white p-1 rounded-lg border border-gray-200 text-[10px] font-bold">
                       <button
                         onClick={() => setCalcMode("gross")}
                         className={`py-1.5 rounded transition-all ${
-                          calcMode === "gross" ? "bg-slate-850 text-white border border-slate-700/50" : "text-slate-500 hover:text-slate-300"
+                          calcMode === "gross" ? "bg-slate-850 text-gray-900 border border-slate-700/50" : "text-slate-500 hover:text-gray-800"
                         }`}
                       >
                         Από Με ΦΠΑ (Gross)
@@ -1241,7 +1241,7 @@ export default function AdminVatDashboard() {
                       <button
                         onClick={() => setCalcMode("net")}
                         className={`py-1.5 rounded transition-all ${
-                          calcMode === "net" ? "bg-slate-850 text-white border border-slate-700/50" : "text-slate-500 hover:text-slate-300"
+                          calcMode === "net" ? "bg-slate-850 text-gray-900 border border-slate-700/50" : "text-slate-500 hover:text-gray-800"
                         }`}
                       >
                         Από Προ ΦΠΑ (Net)
@@ -1254,7 +1254,7 @@ export default function AdminVatDashboard() {
                         placeholder="Εισαγωγή Ποσού..."
                         value={calcInput}
                         onChange={(e) => setCalcInput(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-900 rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:border-[#10b981]/50 outline-none pr-8 transition-colors"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 font-mono text-xs focus:border-[#3b5bdb]/50 outline-none pr-8 transition-colors"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-600 font-mono">€</span>
                     </div>
@@ -1265,17 +1265,17 @@ export default function AdminVatDashboard() {
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0 }}
-                          className="bg-slate-950/80 p-3 rounded-xl border border-slate-900 text-[11px] font-bold space-y-2 mt-2"
+                          className="bg-white/80 p-3 rounded-xl border border-gray-200 text-[11px] font-bold space-y-2 mt-2"
                         >
                           <div className="flex justify-between">
                             <span className="text-slate-500 font-semibold">Ποσό προ ΦΠΑ (Καθαρό):</span>
-                            <span className="text-white font-mono">{quickCalcResults.net.toFixed(2)}€</span>
+                            <span className="text-gray-900 font-mono">{quickCalcResults.net.toFixed(2)}€</span>
                           </div>
-                          <div className="flex justify-between border-t border-slate-900 pt-2">
+                          <div className="flex justify-between border-t border-gray-200 pt-2">
                             <span className="text-slate-500 font-semibold">Καθαρός ΦΠΑ 24%:</span>
-                            <span className="text-[#10b981] font-mono">+{quickCalcResults.vat.toFixed(2)}€</span>
+                            <span className="text-[#3b5bdb] font-mono">+{quickCalcResults.vat.toFixed(2)}€</span>
                           </div>
-                          <div className="flex justify-between border-t border-slate-900 pt-2">
+                          <div className="flex justify-between border-t border-gray-200 pt-2">
                             <span className="text-slate-500 font-semibold">Συνολικό Ποσό με ΦΠΑ:</span>
                             <span className="text-amber-400 font-mono">{quickCalcResults.gross.toFixed(2)}€</span>
                           </div>
@@ -1291,12 +1291,12 @@ export default function AdminVatDashboard() {
 
             {/* LOWER SECTION: LEDGER AND TRANSACTIONS HISTORY */}
             <section className="max-w-7xl mx-auto px-6 mt-12">
-              <div className="bg-[#0b0f19]/70 backdrop-blur-xl border border-slate-800/80 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="bg-white/70 backdrop-blur-xl border border-gray-200/80 rounded-2xl overflow-hidden shadow-2xl">
                 
                 {/* LEDGER HEADER & FILTER CONTROLS */}
-                <div className="p-6 md:p-8 border-b border-slate-850 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-[#070b16]/60">
+                <div className="p-6 md:p-8 border-b border-gray-200 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-gray-50/60">
                   <div>
-                    <h2 className="text-md font-black text-white tracking-wide uppercase italic flex items-center gap-2">
+                    <h2 className="text-md font-black text-gray-900 tracking-wide uppercase italic flex items-center gap-2">
                       <FileSpreadsheet className="w-4 h-4 text-emerald-500" />
                       Ιστορικο Τιμολογιων
                     </h2>
@@ -1313,7 +1313,7 @@ export default function AdminVatDashboard() {
                         placeholder="Αναζήτηση..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl pl-9 pr-4 py-2 text-xs font-semibold text-white focus:border-[#10b981]/50 outline-none transition-colors"
+                        className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-xs font-semibold text-gray-900 focus:border-[#3b5bdb]/50 outline-none transition-colors"
                       />
                     </div>
 
@@ -1321,7 +1321,7 @@ export default function AdminVatDashboard() {
                     <select
                       value={filterType}
                       onChange={(e) => setFilterType(e.target.value as any)}
-                      className="bg-slate-950 border border-slate-850 rounded-xl px-3 py-2 text-xs font-semibold text-slate-300 outline-none cursor-pointer"
+                      className="bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-800 outline-none cursor-pointer"
                     >
                       <option value="all">Όλοι οι Τύποι</option>
                       <option value="income">Μόνο Έσοδα</option>
@@ -1332,7 +1332,7 @@ export default function AdminVatDashboard() {
                     <select
                       value={filterQuarter}
                       onChange={(e) => setFilterQuarter(e.target.value as any)}
-                      className="bg-slate-950 border border-slate-850 rounded-xl px-3 py-2 text-xs font-semibold text-slate-300 outline-none cursor-pointer"
+                      className="bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-800 outline-none cursor-pointer"
                     >
                       <option value="all">Όλα τα Τρίμηνα</option>
                       <option value="Q1">Α' Τρίμηνο</option>
@@ -1345,7 +1345,7 @@ export default function AdminVatDashboard() {
                     {transactions.length > 0 && (
                       <button
                         onClick={handleClearAll}
-                        className="p-2 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500 hover:text-white rounded-xl text-rose-400 transition-all text-xs font-bold flex items-center gap-1.5 shadow-sm"
+                        className="p-2 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500 hover:text-gray-900 rounded-xl text-rose-400 transition-all text-xs font-bold flex items-center gap-1.5 shadow-sm"
                         title="Διαγραφή όλων των τιμολογίων"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -1359,7 +1359,7 @@ export default function AdminVatDashboard() {
                 <div className="overflow-x-auto max-h-[500px] custom-scrollbar">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-slate-950/80 border-b border-slate-850 text-[10px] font-black text-slate-500 uppercase tracking-widest italic">
+                      <tr className="bg-white/80 border-b border-gray-200 text-[10px] font-black text-slate-500 uppercase tracking-widest italic">
                         <th className="px-6 py-4">Ημερομηνια</th>
                         <th className="px-6 py-4">Τριμηνο</th>
                         <th className="px-6 py-4">Τυπος</th>
@@ -1377,28 +1377,28 @@ export default function AdminVatDashboard() {
                         return (
                           <tr 
                             key={t.id}
-                            className="hover:bg-slate-900/40 transition-colors font-bold text-xs text-slate-300 italic"
+                            className="hover:bg-gray-100/40 transition-colors font-bold text-xs text-gray-800 italic"
                           >
-                            <td className="px-6 py-4 font-mono text-[11px] text-slate-400">
+                            <td className="px-6 py-4 font-mono text-[11px] text-gray-600">
                               {new Date(t.date).toLocaleDateString('el-GR', { day: '2-digit', month: '2-digit', year: 'numeric' })}
                             </td>
-                            <td className="px-6 py-4 text-slate-400">{q}</td>
+                            <td className="px-6 py-4 text-gray-600">{q}</td>
                             <td className="px-6 py-4">
                               <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${
                                 t.type === "income" 
-                                  ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
+                                  ? "bg-blue-500/10 text-[#2b4bba] border border-blue-500/20" 
                                   : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
                               }`}>
                                 {t.type === "income" ? "Έσοδο" : "Έξοδο"}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-white not-italic">{t.description}</td>
-                            <td className="px-6 py-4 text-slate-400">{t.category}</td>
-                            <td className="px-6 py-4 text-right font-mono text-[11px] text-slate-400">{t.netAmount.toLocaleString("el-GR", { minimumFractionDigits: 2 })}€</td>
-                            <td className={`px-6 py-4 text-right font-mono text-[11px] ${t.type === "income" ? "text-emerald-400/80" : "text-rose-400/80"}`}>
+                            <td className="px-6 py-4 text-gray-900 not-italic">{t.description}</td>
+                            <td className="px-6 py-4 text-gray-600">{t.category}</td>
+                            <td className="px-6 py-4 text-right font-mono text-[11px] text-gray-600">{t.netAmount.toLocaleString("el-GR", { minimumFractionDigits: 2 })}€</td>
+                            <td className={`px-6 py-4 text-right font-mono text-[11px] ${t.type === "income" ? "text-[#2b4bba]/80" : "text-rose-400/80"}`}>
                               {t.type === "income" ? "+" : "-"}{t.vatAmount.toLocaleString("el-GR", { minimumFractionDigits: 2 })}€
                             </td>
-                            <td className="px-6 py-4 text-right font-mono text-white">{t.grossAmount.toLocaleString("el-GR", { minimumFractionDigits: 2 })}€</td>
+                            <td className="px-6 py-4 text-right font-mono text-gray-900">{t.grossAmount.toLocaleString("el-GR", { minimumFractionDigits: 2 })}€</td>
                             <td className="px-6 py-4 text-center">
                               <button
                                 onClick={() => handleDeleteTransaction(t.id)}
@@ -1444,14 +1444,14 @@ export default function AdminVatDashboard() {
               <div className="lg:col-span-5 space-y-6 no-print">
                 
                 {/* FINANCIAL FORM WIDGET */}
-                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl">
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-6 rounded-2xl shadow-xl">
                   <div className="flex items-center gap-2 mb-3">
-                    <Calculator className="w-5 h-5 text-[#10b981]" />
-                    <h3 className="text-md font-black text-white italic tracking-wide uppercase">
+                    <Calculator className="w-5 h-5 text-[#3b5bdb]" />
+                    <h3 className="text-md font-black text-gray-900 italic tracking-wide uppercase">
                       Υπολογιστής & Στοιχεία
                     </h3>
                   </div>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-6">
+                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-6">
                     Ορίστε το επιθυμητό πληρωτέο ή την καθαρή αξία και συμπληρώστε τα στοιχεία του πελάτη.
                   </p>
 
@@ -1459,13 +1459,13 @@ export default function AdminVatDashboard() {
                     {/* Mode selector */}
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Τυπος Εισαγωγης Ποσου</label>
-                      <div className="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-850">
+                      <div className="grid grid-cols-2 gap-2 bg-white p-1.5 rounded-xl border border-gray-200">
                         <button
                           onClick={() => setAadeInputMode("payable")}
                           className={`py-2 rounded-lg font-bold text-xs italic tracking-tight transition-all ${
                             aadeInputMode === "payable" 
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
-                              : "text-slate-500 hover:text-slate-300"
+                              ? "bg-blue-500/10 text-[#2b4bba] border border-blue-500/20" 
+                              : "text-slate-500 hover:text-gray-800"
                           }`}
                         >
                           Επιθυμητό Πληρωτέο (Bank)
@@ -1474,8 +1474,8 @@ export default function AdminVatDashboard() {
                           onClick={() => setAadeInputMode("net")}
                           className={`py-2 rounded-lg font-bold text-xs italic tracking-tight transition-all ${
                             aadeInputMode === "net" 
-                              ? "bg-[#10b981]/10 text-emerald-400 border border-[#10b981]/20" 
-                              : "text-slate-500 hover:text-slate-300"
+                              ? "bg-[#3b5bdb]/10 text-[#2b4bba] border border-[#3b5bdb]/20" 
+                              : "text-slate-500 hover:text-gray-800"
                           }`}
                         >
                           Καθαρή Αξία (Net)
@@ -1497,7 +1497,7 @@ export default function AdminVatDashboard() {
                           min="0"
                           value={aadeInputVal}
                           onChange={(e) => setAadeInputVal(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none transition-colors"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-mono text-sm focus:border-[#3b5bdb]/50 outline-none transition-colors"
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 font-mono">€</span>
                       </div>
@@ -1505,14 +1505,14 @@ export default function AdminVatDashboard() {
 
 
                     {/* Document details */}
-                    <div className="grid grid-cols-2 gap-4 border-t border-slate-900 pt-3">
+                    <div className="grid grid-cols-2 gap-4 border-t border-gray-200 pt-3">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Αριθμος Τιμολογιου (Α.Α.)</label>
                         <input
                           type="text"
                           value={aadeDocNo}
                           onChange={(e) => setAadeDocNo(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:border-[#10b981]/50 outline-none"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 font-mono text-xs focus:border-[#3b5bdb]/50 outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -1521,20 +1521,20 @@ export default function AdminVatDashboard() {
                           type="date"
                           value={aadeDate}
                           onChange={(e) => setAadeDate(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:border-[#10b981]/50 outline-none"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 font-mono text-xs focus:border-[#3b5bdb]/50 outline-none"
                         />
                       </div>
                     </div>
 
                     {/* Client Info form */}
-                    <div className="space-y-3 border-t border-slate-900 pt-3">
+                    <div className="space-y-3 border-t border-gray-200 pt-3">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Επωνυμια Πελατη</label>
                         <input
                           type="text"
                           value={aadeClientName}
                           onChange={(e) => setAadeClientName(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-2.5 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -1543,7 +1543,7 @@ export default function AdminVatDashboard() {
                           type="text"
                           value={aadeClientAfm}
                           onChange={(e) => setAadeClientAfm(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:border-[#10b981]/50 outline-none"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 font-mono text-xs focus:border-[#3b5bdb]/50 outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -1552,16 +1552,16 @@ export default function AdminVatDashboard() {
                           type="text"
                           value={aadeClientAddress}
                           onChange={(e) => setAadeClientAddress(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-2.5 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                         />
                       </div>
                     </div>
 
                     {/* Auto Addition to Ledger Button */}
-                    <div className="pt-3 border-t border-slate-900">
+                    <div className="pt-3 border-t border-gray-200">
                       <button
                         onClick={handleAddAadeInvoiceToLedger}
-                        className="w-full py-3 bg-[#10b981] hover:bg-emerald-400 text-slate-950 rounded-xl font-black text-xs italic tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/10"
+                        className="w-full py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-slate-950 rounded-xl font-black text-xs italic tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/10"
                       >
                         <Plus className="w-4.5 h-4.5" />
                         ΚΑΤΑΧΩΡΗΣΗ ΣΤΟ LEDGER ΕΣΟΔΩΝ
@@ -1572,25 +1572,25 @@ export default function AdminVatDashboard() {
                 </div>
 
                 {/* TECHNICAL SCOPE / SERVICES EDITOR FOR PAGE 2 */}
-                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl">
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-6 rounded-2xl shadow-xl">
                   <div className="flex items-center gap-2 mb-3">
-                    <Briefcase className="w-5 h-5 text-[#10b981]" />
-                    <h3 className="text-md font-black text-white italic tracking-wide uppercase">
+                    <Briefcase className="w-5 h-5 text-[#3b5bdb]" />
+                    <h3 className="text-md font-black text-gray-900 italic tracking-wide uppercase">
                       Ανάλυση Υπηρεσιών Προσφοράς
                     </h3>
                   </div>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-6">
+                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-wider mb-6">
                     Προσθέστε ή τροποποιήστε τις αναλυτικές υπηρεσίες που θα εμφανίζονται στη Σελίδα 2 της προσφοράς σας.
                   </p>
 
                   {/* Presets Quick Selection */}
-                  <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-900 mb-4 text-left">
-                    <span className="text-[9px] font-black text-[#10b981] uppercase tracking-wider block mb-2.5">Γρήγορα Πρότυπα Υπηρεσιών (Presets)</span>
+                  <div className="bg-white/60 p-4 rounded-xl border border-gray-200 mb-4 text-left">
+                    <span className="text-[9px] font-black text-[#3b5bdb] uppercase tracking-wider block mb-2.5">Γρήγορα Πρότυπα Υπηρεσιών (Presets)</span>
                     <div className="flex flex-wrap gap-1.5">
                       <button
                         type="button"
                         onClick={() => handleLoadPreset("eshop")}
-                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded text-[9px] font-black text-[#10b981] transition-all flex items-center gap-1 cursor-pointer"
+                        className="px-2 py-1 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded text-[9px] font-black text-[#3b5bdb] transition-all flex items-center gap-1 cursor-pointer"
                       >
                         🛍️ Eshop
                       </button>
@@ -1626,8 +1626,8 @@ export default function AdminVatDashboard() {
                   </div>
 
                   {/* Add New Item Form */}
-                  <form onSubmit={handleAddOfferItem} className="space-y-3.5 bg-slate-950/60 p-4 rounded-xl border border-slate-900 mb-6">
-                    <span className="text-[9px] font-black text-[#10b981] uppercase tracking-wider block">Προσθηκη Νεας Υπηρεσιας</span>
+                  <form onSubmit={handleAddOfferItem} className="space-y-3.5 bg-white/60 p-4 rounded-xl border border-gray-200 mb-6">
+                    <span className="text-[9px] font-black text-[#3b5bdb] uppercase tracking-wider block">Προσθηκη Νεας Υπηρεσιας</span>
                     
                     <div className="space-y-1">
                       <label className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Τιτλος Υπηρεσιας</label>
@@ -1636,7 +1636,7 @@ export default function AdminVatDashboard() {
                         placeholder="π.χ. Ανάπτυξη AI Agent"
                         value={newItemTitle}
                         onChange={(e) => setNewItemTitle(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none"
+                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                       />
                     </div>
                     
@@ -1647,7 +1647,7 @@ export default function AdminVatDashboard() {
                         placeholder="Περιγράψτε τι περιλαμβάνει η υπηρεσία..."
                         value={newItemDesc}
                         onChange={(e) => setNewItemDesc(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-slate-300 text-[11px] font-medium focus:border-[#10b981]/50 outline-none resize-none custom-scrollbar"
+                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-800 text-[11px] font-medium focus:border-[#3b5bdb]/50 outline-none resize-none custom-scrollbar"
                       />
                     </div>
 
@@ -1658,13 +1658,13 @@ export default function AdminVatDashboard() {
                         placeholder="π.χ. 15 εργάσιμες"
                         value={newItemDuration}
                         onChange={(e) => setNewItemDuration(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-lg px-3 py-2 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none"
+                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981] text-[#10b981] hover:text-slate-950 border border-emerald-500/20 rounded-lg font-black text-[10px] italic tracking-wider transition-all cursor-pointer"
+                      className="w-full py-2 bg-blue-500/10 hover:bg-[#3b5bdb] text-[#3b5bdb] hover:text-slate-950 border border-blue-500/20 rounded-lg font-black text-[10px] italic tracking-wider transition-all cursor-pointer"
                     >
                       + ΠΡΟΣΘΗΚΗ ΥΠΗΡΕΣΙΑΣ ΣΤΗΝ ΠΡΟΣΦΟΡΑ
                     </button>
@@ -1675,9 +1675,9 @@ export default function AdminVatDashboard() {
                     <span className="text-[9px] font-black text-slate-500 uppercase tracking-wider block">Τρεχουσες Υπηρεσιες ({offerItems.length})</span>
                     <div className="space-y-2 max-h-[220px] overflow-y-auto custom-scrollbar pr-1">
                       {offerItems.map((item) => (
-                        <div key={item.id} className="bg-slate-950/40 border border-slate-900 rounded-lg p-2.5 flex justify-between items-start gap-3">
+                        <div key={item.id} className="bg-white/40 border border-gray-200 rounded-lg p-2.5 flex justify-between items-start gap-3">
                           <div className="flex-1 min-w-0">
-                            <span className="block text-xs font-black text-white truncate">{item.title}</span>
+                            <span className="block text-xs font-black text-gray-900 truncate">{item.title}</span>
                             <div className="flex items-center gap-2 mt-1">
                               {item.duration && (
                                 <span className="text-[9px] text-slate-500 font-mono">⏱️ {item.duration}</span>
@@ -1706,7 +1706,7 @@ export default function AdminVatDashboard() {
                 <div className="flex justify-end no-print">
                   <button 
                     onClick={() => window.print()}
-                    className="px-6 py-3 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase italic tracking-wider rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/10 hover:scale-[1.02]"
+                    className="px-6 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-slate-950 font-black text-xs uppercase italic tracking-wider rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-500/10 hover:scale-[1.02]"
                   >
                     <Printer className="w-4 h-4" />
                     <span>Εκτυπωση & Αποθηκευση ως PDF (2 Σελιδες)</span>
@@ -1766,7 +1766,7 @@ export default function AdminVatDashboard() {
                   </div>
 
                   {/* Document Type Title banner */}
-                  <div className="bg-[#0f2d59] text-white text-center py-2.5 text-xs font-black uppercase tracking-widest rounded-lg mt-3 shadow-sm">
+                  <div className="bg-[#0f2d59] text-gray-900 text-center py-2.5 text-xs font-black uppercase tracking-widest rounded-lg mt-3 shadow-sm">
                     Τιμολογιο Παροχης Υπηρεσιων
                   </div>
 
@@ -1839,7 +1839,7 @@ export default function AdminVatDashboard() {
                   <div className="border border-slate-200 rounded-xl overflow-hidden mt-3 shadow-sm">
                     <table className="w-full text-left border-collapse text-[10px]">
                       <thead>
-                        <tr className="bg-[#0f2d59] text-white font-black uppercase text-[8px] tracking-wider border-b border-slate-200">
+                        <tr className="bg-[#0f2d59] text-gray-900 font-black uppercase text-[8px] tracking-wider border-b border-slate-200">
                           <th className="px-3 py-2 text-center">Α/Α</th>
                           <th className="px-3 py-2 text-center">Κωδ.</th>
                           <th className="px-4 py-2">Περιγραφή</th>
@@ -1867,7 +1867,7 @@ export default function AdminVatDashboard() {
                         </tr>
                         <tr className="bg-slate-100/70 border-t border-slate-200">
                           <td colSpan={4} className="px-4 py-2 font-black text-right uppercase text-[8px] tracking-wider text-slate-500">Σύνολα</td>
-                          <td className="px-3 py-2 text-right font-mono text-slate-400">0,00</td>
+                          <td className="px-3 py-2 text-right font-mono text-gray-600">0,00</td>
                           <td className="px-3 py-2 text-right font-mono">{aadeMath.net.toLocaleString("el-GR", { minimumFractionDigits: 2 })}</td>
                           <td className="px-3 py-2"></td>
                           <td className="px-3 py-2 text-right font-mono text-slate-600">{aadeMath.vat.toLocaleString("el-GR", { minimumFractionDigits: 2 })}</td>
@@ -1879,7 +1879,7 @@ export default function AdminVatDashboard() {
 
                   {/* Taxes & Withholding Totals Banner Box */}
                   <div className="border border-slate-200 rounded-xl overflow-hidden mt-6 text-[9px] font-bold text-slate-800 shadow-sm">
-                    <div className="grid grid-cols-8 bg-[#0f2d59] text-white text-[7px] tracking-widest uppercase font-black py-2.5 px-3 border-b border-slate-200 text-center">
+                    <div className="grid grid-cols-8 bg-[#0f2d59] text-gray-900 text-[7px] tracking-widest uppercase font-black py-2.5 px-3 border-b border-slate-200 text-center">
                       <span className="col-span-1">Συνολ. Αξία</span>
                       <span className="col-span-2">(-) Παρακρατούμενοι</span>
                       <span className="col-span-1">Παρακρ. (πλφ)</span>
@@ -1890,7 +1890,7 @@ export default function AdminVatDashboard() {
                     </div>
                     <div className="grid grid-cols-8 py-3 px-3 text-center font-mono text-slate-900 border-b border-slate-100">
                       <span className="col-span-1">{aadeMath.gross.toLocaleString("el-GR", { minimumFractionDigits: 2 })}</span>
-                      <span className={`col-span-2 font-black ${aadeMath.isWithheld ? "text-amber-600" : "text-slate-400"}`}>
+                      <span className={`col-span-2 font-black ${aadeMath.isWithheld ? "text-amber-600" : "text-gray-600"}`}>
                         {aadeMath.withholding.toLocaleString("el-GR", { minimumFractionDigits: 2 })}
                       </span>
                       <span className="col-span-1">0,00</span>
@@ -1924,7 +1924,7 @@ export default function AdminVatDashboard() {
 
                   {/* General Terms and Agreement Box inside Page 1 */}
                   <div className="mt-3 border-t border-slate-200 pt-3 text-[8px] text-slate-500 space-y-1 font-bold">
-                    <span className="block text-[7px] text-slate-400 uppercase tracking-wider font-black mb-1">Όροι Συνεργασίας & Συμφωνία</span>
+                    <span className="block text-[7px] text-gray-600 uppercase tracking-wider font-black mb-1">Όροι Συνεργασίας & Συμφωνία</span>
                     <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                       <p>• <span className="text-slate-700">1. Χρονοδιάγραμμα:</span> Ολοκλήρωση σύμφωνα με τις προδιαγραφές.</p>
                       <p>• <span className="text-slate-700">2. Υποστήριξη:</span> Παροχή δωρεάν τεχνικής υποστήριξης 12 μηνών.</p>
@@ -1966,9 +1966,9 @@ export default function AdminVatDashboard() {
               
               {/* LEFT COLUMN: INPUTS */}
               <div className="lg:col-span-4 space-y-8">
-                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl">
-                  <h3 className="text-sm font-black text-white italic tracking-wide uppercase mb-4 flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-[#10b981]" />
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-6 rounded-2xl shadow-xl">
+                  <h3 className="text-sm font-black text-gray-900 italic tracking-wide uppercase mb-4 flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-[#3b5bdb]" />
                     Στοιχεια Μισθωτου
                   </h3>
 
@@ -1980,7 +1980,7 @@ export default function AdminVatDashboard() {
                           type="number"
                           value={taxNetSalary}
                           onChange={(e) => setTaxNetSalary(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none pr-10"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-mono text-sm focus:border-[#3b5bdb]/50 outline-none pr-10"
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">€</span>
                       </div>
@@ -1992,7 +1992,7 @@ export default function AdminVatDashboard() {
                         type="number"
                         value={taxMonths}
                         onChange={(e) => setTaxMonths(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-mono text-sm focus:border-[#3b5bdb]/50 outline-none"
                       />
                     </div>
 
@@ -2001,7 +2001,7 @@ export default function AdminVatDashboard() {
                       <select
                         value={taxChildren}
                         onChange={(e) => setTaxChildren(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl px-3 py-3 text-white text-xs font-semibold focus:border-[#10b981]/50 outline-none"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-3 py-3 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                       >
                         <option value="0">Χωρίς Τέκνα</option>
                         <option value="1">1 Τέκνο</option>
@@ -2011,21 +2011,21 @@ export default function AdminVatDashboard() {
                       </select>
                     </div>
 
-                    <label className="flex items-center gap-2 cursor-pointer bg-slate-950 p-3 rounded-xl border border-slate-800/50 hover:bg-slate-900 transition-colors group">
+                    <label className="flex items-center gap-2 cursor-pointer bg-white p-3 rounded-xl border border-gray-200/50 hover:bg-gray-100 transition-colors group">
                       <input 
                         type="checkbox" 
                         checked={isNewBusiness}
                         onChange={(e) => setIsNewBusiness(e.target.checked)}
-                        className="w-4 h-4 rounded border-slate-700 bg-slate-800 text-[#10b981] focus:ring-[#10b981] focus:ring-offset-slate-950 cursor-pointer accent-[#10b981]"
+                        className="w-4 h-4 rounded border-slate-700 bg-gray-100 text-[#3b5bdb] focus:ring-[#3b5bdb] focus:ring-offset-slate-950 cursor-pointer accent-[#3b5bdb]"
                       />
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-slate-300 transition-colors">Νέα Επιχείρηση (&lt; 3 ετών)</span>
+                      <span className="text-[10px] font-bold text-gray-600 uppercase tracking-wider group-hover:text-gray-800 transition-colors">Νέα Επιχείρηση (&lt; 3 ετών)</span>
                     </label>
                     {isNewBusiness && (
                       <p className="text-[10px] text-slate-500 italic px-2">Μειωμένος συντελεστής 4.5% (για εισόδημα έως 10.000€) και προκαταβολή φόρου 27.5%.</p>
                     )}
 
                     {/* Withholding Input */}
-                    <div className="space-y-1.5 pt-4 border-t border-slate-800/80">
+                    <div className="space-y-1.5 pt-4 border-t border-gray-200/80">
                       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
                         Φόρος 20% που Παρακρατήθηκε
                       </label>
@@ -2038,7 +2038,7 @@ export default function AdminVatDashboard() {
                           placeholder={estimatedWithheld20.toFixed(2)}
                           value={taxWithheldB2B}
                           onChange={(e) => setTaxWithheldB2B(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-[#10b981]/50 outline-none pr-10"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 font-mono text-sm focus:border-[#3b5bdb]/50 outline-none pr-10"
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">€</span>
                       </div>
@@ -2049,9 +2049,9 @@ export default function AdminVatDashboard() {
 
               {/* RIGHT COLUMN: RESULTS */}
               <div className="lg:col-span-8 space-y-6">
-                <div className="bg-[#0b0f19]/80 backdrop-blur-xl border border-slate-800/80 p-6 rounded-2xl shadow-xl">
-                  <h3 className="text-sm font-black text-white italic tracking-wide uppercase mb-6 flex items-center gap-2 border-b border-slate-800 pb-4">
-                    <Calculator className="w-4 h-4 text-[#10b981]" />
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-6 rounded-2xl shadow-xl">
+                  <h3 className="text-sm font-black text-gray-900 italic tracking-wide uppercase mb-6 flex items-center gap-2 border-b border-gray-200 pb-4">
+                    <Calculator className="w-4 h-4 text-[#3b5bdb]" />
                     Αποτελεσματα Εκκαθαρισης Φορου
                   </h3>
 
@@ -2061,52 +2061,52 @@ export default function AdminVatDashboard() {
                     <div className="space-y-4">
                       <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mb-2">Φορολογητέο Εισόδημα</p>
                       
-                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                        <span className="text-slate-400">Μικτό Μισθωτών (Εκτίμηση):</span>
-                        <span className="font-mono text-slate-300">{taxMath.annualGrossSalary.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
+                        <span className="text-gray-600">Μικτό Μισθωτών (Εκτίμηση):</span>
+                        <span className="font-mono text-gray-800">{taxMath.annualGrossSalary.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
                       
-                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                        <span className="text-slate-400">Καθαρό Κέρδος Επιχείρησης:</span>
-                        <span className="font-mono text-slate-300">{taxMath.businessNetProfit.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
+                        <span className="text-gray-600">Καθαρό Κέρδος Επιχείρησης:</span>
+                        <span className="font-mono text-gray-800">{taxMath.businessNetProfit.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
                       
-                      <div className="flex justify-between items-center text-xs font-bold border-b border-slate-800 pb-2">
-                        <span className="text-emerald-400">Σύνολο Φορολογητέου Εισοδήματος:</span>
-                        <span className="font-mono text-emerald-400">{taxMath.totalTaxableIncome.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <div className="flex justify-between items-center text-xs font-bold border-b border-gray-200 pb-2">
+                        <span className="text-[#2b4bba]">Σύνολο Φορολογητέου Εισοδήματος:</span>
+                        <span className="font-mono text-[#2b4bba]">{taxMath.totalTaxableIncome.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
                       <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mt-6 mb-2">Υπολογισμός Φόρου</p>
 
-                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                        <span className="text-slate-400">Αρχικός Φόρος Κλίμακας:</span>
-                        <span className="font-mono text-slate-300">{taxMath.totalCalculatedTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
+                        <span className="text-gray-600">Αρχικός Φόρος Κλίμακας:</span>
+                        <span className="font-mono text-gray-800">{taxMath.totalCalculatedTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
-                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                        <span className="text-slate-400">Μείον Έκπτωση Φόρου (Αφορολόγητο):</span>
-                        <span className="font-mono text-emerald-400">-{taxMath.taxDiscount.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
+                        <span className="text-gray-600">Μείον Έκπτωση Φόρου (Αφορολόγητο):</span>
+                        <span className="font-mono text-[#2b4bba]">-{taxMath.taxDiscount.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
-                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                        <span className="text-slate-400">Μείον Φόρος που Παρακρατήθηκε (Μισθός):</span>
-                        <span className="font-mono text-emerald-400">-{taxMath.withheldTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
+                        <span className="text-gray-600">Μείον Φόρος που Παρακρατήθηκε (Μισθός):</span>
+                        <span className="font-mono text-[#2b4bba]">-{taxMath.withheldTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
-                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                        <span className="text-slate-400">Συν Προκαταβολή Επόμενου Έτους ({isNewBusiness ? '27.5%' : '55%'}):</span>
+                      <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
+                        <span className="text-gray-600">Συν Προκαταβολή Επόμενου Έτους ({isNewBusiness ? '27.5%' : '55%'}):</span>
                         <span className="font-mono text-rose-400">+{taxMath.advanceTax.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
-                      <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                        <span className="text-slate-400">Μείον Παρακρατούμενος Φόρος 20% (από τιμολόγια):</span>
-                        <span className="font-mono text-emerald-400">-{taxMath.userWithheldB2B.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
+                        <span className="text-gray-600">Μείον Παρακρατούμενος Φόρος 20% (από τιμολόγια):</span>
+                        <span className="font-mono text-[#2b4bba]">-{taxMath.userWithheldB2B.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
                     </div>
 
                     {/* Final Pay */}
-                    <div className={`p-6 rounded-2xl border flex flex-col justify-center items-center text-center relative overflow-hidden group transition-colors ${taxMath.isRefund ? 'bg-[#10b981]/10 border-[#10b981]/30' : 'bg-slate-950 border-slate-800'}`}>
+                    <div className={`p-6 rounded-2xl border flex flex-col justify-center items-center text-center relative overflow-hidden group transition-colors ${taxMath.isRefund ? 'bg-[#3b5bdb]/10 border-[#3b5bdb]/30' : 'bg-white border-gray-200'}`}>
                       <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
                         <Coins className={`w-24 h-24 ${taxMath.isRefund ? 'text-emerald-500' : 'text-rose-500'}`} />
                       </div>
@@ -2115,15 +2115,15 @@ export default function AdminVatDashboard() {
                         {taxMath.isRefund ? 'Εκτιμωμενο Ποσο Επιστροφης Φορου' : 'Εκτιμωμενο Ποσο Πληρωμης Εφοριας'}
                       </p>
                       
-                      <h3 className={`text-4xl font-black mt-4 mb-2 ${taxMath.isRefund ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      <h3 className={`text-4xl font-black mt-4 mb-2 ${taxMath.isRefund ? 'text-[#2b4bba]' : 'text-rose-400'}`}>
                         {taxMath.finalAmount.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€
                       </h3>
                       
-                      <p className="text-[10px] text-slate-400">
+                      <p className="text-[10px] text-gray-600">
                         Περιλαμβάνει τον φόρο εκκαθάρισης<br/>και την προκαταβολή φόρου επιχειρηματικής δραστηριότητας.
                       </p>
                       
-                      <div className="mt-6 pt-4 border-t border-slate-900 w-full text-left flex items-center gap-2 text-[10px] text-emerald-500 font-bold bg-emerald-500/5 p-3 rounded-xl border border-emerald-500/20">
+                      <div className="mt-6 pt-4 border-t border-gray-200 w-full text-left flex items-center gap-2 text-[10px] text-emerald-500 font-bold bg-blue-500/5 p-3 rounded-xl border border-blue-500/20">
                         <CheckCircle2 className="w-6 h-6 shrink-0" />
                         Ως μισθωτός υπερκαλύπτεις την 2η ασφαλιστική κατηγορία του ΕΦΚΑ (περίπου 240€/μήνα). Επομένως, απαλλάσσεσαι πλήρως από ΕΦΚΑ για την ατομική επιχείρηση.
                       </div>
@@ -2172,10 +2172,10 @@ export default function AdminVatDashboard() {
       </AnimatePresence>
 
       {/* FOOTER */}
-      <footer className="relative z-10 max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-800/80 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-black tracking-widest uppercase italic gap-4">
+      <footer className="relative z-10 max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-gray-200/80 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-black tracking-widest uppercase italic gap-4">
         <div className="flex gap-6 items-center">
           <span className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 bg-[#10b981] rounded-full animate-pulse" /> 
+            <div className="w-1.5 h-1.5 bg-[#3b5bdb] rounded-full animate-pulse" /> 
             SGK PORTAL SYSTEM: ONLINE
           </span>
           <span>PERSISTED IN LOCAL STORAGE</span>

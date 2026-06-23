@@ -1160,7 +1160,7 @@ export function ScraperTab() {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-orange-500 animate-pulse" />
-            <h2 className="text-lg font-bold text-white">Ρομπότ Αναζήτησης Επιχειρήσεων (B2B Scraper)</h2>
+            <h2 className="text-lg font-bold text-gray-900">Ρομπότ Αναζήτησης Επιχειρήσεων (B2B Scraper)</h2>
           </div>
           <span className="text-xs text-zinc-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/5">
             Σύνδεση μέσω Google Places API
@@ -1175,7 +1175,7 @@ export function ScraperTab() {
               value={industry}
               onChange={(e) => setIndustry(e.target.value)}
               placeholder="π.χ. οδοντίατροι, ξενοδοχεία, κομμωτήρια"
-              className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-sm focus:outline-none focus:border-orange-500 transition-colors"
+              className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-gray-900 text-sm focus:outline-none focus:border-orange-500 transition-colors"
               disabled={searching}
             />
           </div>
@@ -1186,7 +1186,7 @@ export function ScraperTab() {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="π.χ. Ιωάννινα, Καστοριά, Κοζάνη"
-              className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white text-sm focus:outline-none focus:border-orange-500 transition-colors"
+              className="w-full h-10 px-3 rounded-lg bg-zinc-900 border border-white/10 text-gray-900 text-sm focus:outline-none focus:border-orange-500 transition-colors"
               disabled={searching}
             />
           </div>
@@ -1247,7 +1247,7 @@ export function ScraperTab() {
               className={`px-4 py-2 rounded-lg text-xs font-semibold border transition-all ${
                 filterTab === "pending" 
                   ? "bg-orange-500/10 text-orange-400 border-orange-500/20" 
-                  : "text-zinc-400 border-transparent hover:text-white"
+                  : "text-zinc-400 border-transparent hover:text-gray-900"
               }`}
             >
               Εκκρεμεί ({prospects.filter(p => p.status === "pending").length})
@@ -1257,7 +1257,7 @@ export function ScraperTab() {
               className={`px-4 py-2 rounded-lg text-xs font-semibold border transition-all ${
                 filterTab === "emailed" 
                   ? "bg-orange-500/10 text-orange-400 border-orange-500/20" 
-                  : "text-zinc-400 border-transparent hover:text-white"
+                  : "text-zinc-400 border-transparent hover:text-gray-900"
               }`}
             >
               Στάλθηκε Email ({prospects.filter(p => p.status === "emailed").length})
@@ -1267,7 +1267,7 @@ export function ScraperTab() {
               className={`px-4 py-2 rounded-lg text-xs font-semibold border transition-all ${
                 filterTab === "all" 
                   ? "bg-orange-500/10 text-orange-400 border-orange-500/20" 
-                  : "text-zinc-400 border-transparent hover:text-white"
+                  : "text-zinc-400 border-transparent hover:text-gray-900"
               }`}
             >
               Όλα ({prospects.length})
@@ -1276,7 +1276,7 @@ export function ScraperTab() {
           <button 
             onClick={fetchProspects}
             disabled={loading}
-            className="p-2 text-zinc-400 hover:text-white border border-white/10 rounded-lg hover:bg-white/5 transition-all"
+            className="p-2 text-zinc-400 hover:text-gray-900 border border-white/10 rounded-lg hover:bg-white/5 transition-all"
             title="Ανανέωση λίστας"
           >
             <RefreshCcw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
@@ -1327,7 +1327,7 @@ export function ScraperTab() {
                 {filteredProspects.map((prospect) => {
                   const hasBeenSent = sentEmails.has(prospect.email.toLowerCase());
                   return (
-                    <tr key={prospect.id} className="border-b border-white/5 hover:bg-white/5 transition-all text-white">
+                    <tr key={prospect.id} className="border-b border-white/5 hover:bg-white/5 transition-all text-gray-900">
                       <td className="py-4 pl-4 pr-2">
                         <input 
                           type="checkbox"
@@ -1344,7 +1344,7 @@ export function ScraperTab() {
                       </td>
                       <td 
                         className={`py-4 px-3 font-semibold max-w-[200px] truncate ${
-                          hasBeenSent && prospect.status === "pending" ? "text-red-400" : "text-white"
+                          hasBeenSent && prospect.status === "pending" ? "text-red-400" : "text-gray-900"
                         }`} 
                         title={prospect.business_name}
                       >
@@ -1574,16 +1574,16 @@ export function ScraperTab() {
               <button 
                 onClick={handleSendEmail}
                 disabled={sendingEmail || !emailSubject || !emailBody || !recipientEmail || !recipientEmail.includes("@")}
-                className="px-5 py-2 text-sm font-bold text-white bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
+                className="px-5 py-2 text-sm font-bold text-gray-900 bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
               >
                 {sendingEmail ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-gray-900" />
                     <span>Αποστολή...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-3.5 h-3.5 text-white" size={14} />
+                    <Send className="w-3.5 h-3.5 text-gray-900" size={14} />
                     <span>Αποστολή Email Προσφοράς</span>
                   </>
                 )}
@@ -1628,7 +1628,7 @@ export function ScraperTab() {
                   <button
                     onClick={handleAbort}
                     disabled={abortRequested}
-                    className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer disabled:bg-red-800"
+                    className="bg-red-500 hover:bg-red-600 text-gray-900 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer disabled:bg-red-800"
                   >
                     {abortRequested ? "Διακοπή σε εξέλιξη..." : "Διακοπή (Abort)"}
                   </button>
@@ -1829,16 +1829,16 @@ export function ScraperTab() {
               <button 
                 onClick={handleSendBulkEmails}
                 disabled={isBulkSending || !emailSubject || !emailBody}
-                className="px-5 py-2 text-sm font-bold text-white bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
+                className="px-5 py-2 text-sm font-bold text-gray-900 bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
               >
                 {isBulkSending ? (
                   <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-gray-900" />
                     <span>Αποστολή ({bulkProgress.current}/{bulkProgress.total})...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-3.5 h-3.5 text-white" size={14} />
+                    <Send className="w-3.5 h-3.5 text-gray-900" size={14} />
                     <span>Έναρξη Μαζικής Αποστολής</span>
                   </>
                 )}

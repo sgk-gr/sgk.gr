@@ -393,14 +393,14 @@ export function EmailsTab() {
                   setButtonLink("");
                   setIsCampaignModalOpen(true);
                 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-vivid-primary text-white rounded-lg hover:bg-vivid-primary/90 transition-all text-sm font-semibold shadow-glow animate-fade-in cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-vivid-primary text-gray-900 rounded-lg hover:bg-vivid-primary/90 transition-all text-sm font-semibold shadow-glow animate-fade-in cursor-pointer"
               >
                 <Users size={16} />
                 Μαζική Αποστολή ({selectedLeads.length})
               </button>
               <button
                 onClick={handleDeleteSelectedLeads}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all text-sm font-semibold cursor-pointer shadow-sm hover:shadow-md animate-fade-in"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-gray-900 rounded-lg hover:bg-red-700 transition-all text-sm font-semibold cursor-pointer shadow-sm hover:shadow-md animate-fade-in"
               >
                 <Trash2 size={16} />
                 Διαγραφή ({selectedLeads.length})
@@ -414,7 +414,7 @@ export function EmailsTab() {
               setImportStartSequence("campaign_only");
               setIsImportModalOpen(true);
             }}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all text-sm font-semibold cursor-pointer shadow-sm hover:shadow-md"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-gray-900 rounded-lg hover:bg-emerald-700 transition-all text-sm font-semibold cursor-pointer shadow-sm hover:shadow-md"
           >
             <Users size={16} />
             Εισαγωγή Leads
@@ -543,7 +543,7 @@ export function EmailsTab() {
                           <button
                             onClick={() => handleSendNextEmail(lead)}
                             disabled={sending === lead.id}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-vivid-primary/10 text-vivid-primary hover:bg-vivid-primary hover:text-white rounded-lg transition-all text-sm font-medium disabled:opacity-50 cursor-pointer"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-vivid-primary/10 text-vivid-primary hover:bg-vivid-primary hover:text-gray-900 rounded-lg transition-all text-sm font-medium disabled:opacity-50 cursor-pointer"
                           >
                             {sending === lead.id ? <RefreshCcw size={14} className="animate-spin" /> : <Send size={14} />}
                             Στείλε #{step + 1}
@@ -558,7 +558,7 @@ export function EmailsTab() {
                               setButtonLink("");
                               setIsCampaignModalOpen(true);
                             }}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white rounded-lg transition-all text-sm font-medium border border-emerald-100 cursor-pointer"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-gray-900 rounded-lg transition-all text-sm font-medium border border-emerald-100 cursor-pointer"
                           >
                             <Mail size={14} />
                             Γράψε Email
@@ -760,7 +760,7 @@ export function EmailsTab() {
                 <button
                   onClick={handleSendCampaign}
                   disabled={!campaignSubject || !campaignBody}
-                  className="px-5 py-2 text-sm font-bold text-white bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
+                  className="px-5 py-2 text-sm font-bold text-gray-900 bg-vivid-primary rounded-lg hover:bg-vivid-primary/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
                 >
                   <Send size={14} />
                   Αποστολή Email
@@ -873,7 +873,7 @@ export function EmailsTab() {
                 <button
                   onClick={handleImportLeads}
                   disabled={!importData.trim()}
-                  className="px-5 py-2 text-sm font-bold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 shadow-sm disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
+                  className="px-5 py-2 text-sm font-bold text-gray-900 bg-emerald-600 rounded-lg hover:bg-emerald-700 shadow-sm disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
                 >
                   <Users size={14} />
                   Εισαγωγή
