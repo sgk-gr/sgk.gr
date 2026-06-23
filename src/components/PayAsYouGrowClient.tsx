@@ -184,7 +184,7 @@ export default function PayAsYouGrowClient() {
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-light mb-4">Υπολόγισε το Κόστος σου</h2>
                             <p className="text-gray-500 font-light max-w-xl mx-auto">
-                                Κούνα τον slider και δες <strong className="text-black">ακριβώς</strong> τι πληρώνεις κάθε μήνα. Χωρίς εκπλήξεις, χωρίς κρυφά.
+                                Κούνα τον slider και δες <strong className="text-black">ακριβώς</strong> τι πληρώνεις κάθε μήνα. Χωρίς εκπλήξεις, χωρίς κρυφά έξοδα.
                             </p>
                         </div>
 
