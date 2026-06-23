@@ -33,6 +33,7 @@
 - Integration of autonomous agents for customer support, automated data analysis, invoice processing, and workflow automation.
 
 ### 4. Special Marketing Landing Pages & Promos
+- **Pay As You Grow (https://sgk.gr/pay-as-you-grow):** A revolutionary zero-risk eCommerce model. Clients pay a €600 setup fee and a 5% commission only when they make sales. After 12 months, the store is 100% theirs.
 - **Barbershop & Hair Salon Promo (https://sgk.gr/promo/barbershop):** A specialized offer package helping barbers and hair salons build modern sites with integrated online appointment booking systems. New clients receive a €150 discount.
 
 ---

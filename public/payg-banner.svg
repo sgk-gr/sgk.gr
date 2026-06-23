@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <style>
+    .title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 80px; fill: #111111; letter-spacing: -2px; }
+    .box-text-black { font-family: 'Arial', sans-serif; font-weight: 800; font-size: 32px; fill: #111111; }
+    .box-text-white { font-family: 'Arial', sans-serif; font-weight: 800; font-size: 32px; fill: #ffffff; }
+  </style>
+  <rect width="800" height="400" fill="#ffffff" />
+  
+  <!-- Title -->
+  <text x="60" y="120" class="title">Ξεκίνα χωρίς</text>
+  <text x="60" y="210" class="title">ρίσκο.</text>
+  
+  <!-- Green Box -->
+  <rect x="60" y="250" width="160" height="56" fill="#86efac" />
+  <text x="75" y="290" class="box-text-black">Pay as</text>
+
+  <!-- Blue Box -->
+  <rect x="60" y="306" width="230" height="56" fill="#3b5bdb" />
+  <text x="75" y="346" class="box-text-white">you grow</text>
+</svg>
