@@ -66,7 +66,7 @@ export default function PayAsYouGrowClient() {
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3 mt-6 w-full max-w-md">
                                 <a href="#calculator" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold rounded-lg transition-all duration-300 text-sm shadow-md whitespace-nowrap">
-                                    Δες Πόσο Κοστίζει <ArrowRight className="w-4 h-4" />
+                                    Δες το Πλάνο σου <ArrowRight className="w-4 h-4" />
                                 </a>
                                 <Link href="/eshop-offer?plan=pay-as-you-grow" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-lg transition-all duration-300 text-sm whitespace-nowrap">
                                     Κάνε Αίτηση Τώρα
@@ -182,7 +182,7 @@ export default function PayAsYouGrowClient() {
                 <section id="calculator" className="py-20 bg-white border-t border-gray-200 scroll-mt-20">
                     <div className="container mx-auto px-6 max-w-4xl">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-light mb-4">Υπολόγισε το Κόστος σου</h2>
+                            <h2 className="text-3xl md:text-4xl font-light mb-4">Διαμόρφωσε το Πλάνο σου</h2>
                             <p className="text-gray-500 font-light max-w-xl mx-auto">
                                 Κούνα τον slider και δες <strong className="text-black">ακριβώς</strong> τι πληρώνεις κάθε μήνα. Χωρίς εκπλήξεις, χωρίς κρυφά έξοδα.
                             </p>
