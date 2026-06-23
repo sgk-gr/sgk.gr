@@ -52,6 +52,15 @@ export const metadata: Metadata = {
         follow: true,
         googleBot: { index: true, follow: true, "max-image-preview": "large" },
     },
+    icons: {
+        icon: [
+            { url: '/favicon.ico' },
+            { url: '/icon.png', type: 'image/png' },
+        ],
+        apple: [
+            { url: '/apple-icon.png' },
+        ],
+    },
 };
 
 const localBusinessSchema = {
