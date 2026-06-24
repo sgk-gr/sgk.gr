@@ -86,18 +86,29 @@ export default function AdminVatDashboard() {
   // Year & Ledger State
   const [filterYear, setFilterYear] = useState<string>(() => String(new Date().getFullYear()));
   const [filterMonth, setFilterMonth] = useState<"all" | MonthType>("all");
-  const [paidMonths, setPaidMonths] = useState<Record<string, boolean>>({});
+  const [paidMonths, setPaidMonths] = useState<Record<string, number>>({});
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("vat_paid_status");
-      if (saved) setPaidMonths(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const migrated: Record<string, number> = {};
+        for (const [k, v] of Object.entries(parsed)) {
+           if (typeof v === 'boolean') {
+              migrated[k] = v ? 1 : 0;
+           } else {
+              migrated[k] = Number(v);
+           }
+        }
+        setPaidMonths(migrated);
+      }
     }
   }, []);
 
-  const toggleMonthPaid = (year: string, month: MonthType) => {
+  const updateMonthPaid = (year: string, month: MonthType, amount: number) => {
     const key = `${year}_${month}`;
-    const next = { ...paidMonths, [key]: !paidMonths[key] };
+    const next = { ...paidMonths, [key]: amount };
     setPaidMonths(next);
     localStorage.setItem("vat_paid_status", JSON.stringify(next));
   };
@@ -1043,12 +1054,17 @@ export default function AdminVatDashboard() {
                       const stat = monthlyStats[m];
                       const netPayable = stat.incomeVat - stat.expenseVat;
                       const isCredit = netPayable < 0;
-                      const isPaid = paidMonths[`${filterYear}_${m}`];
+                      const paidAmt = paidMonths[`${filterYear}_${m}`] || 0;
+                      const isFullyPaid = paidAmt >= netPayable && netPayable > 0;
+                      const isPartiallyPaid = paidAmt > 0 && paidAmt < netPayable;
+                      // Support legacy boolean logic temporarily by checking if paidAmt === 1 when netPayable > 1
+                      const isLegacyPaid = paidAmt === 1 && netPayable > 1;
+                      const isPaid = isFullyPaid || isLegacyPaid;
 
                       return (
                         <div 
                           key={m}
-                          className={`${isPaid ? "bg-emerald-50/50 border-emerald-200/80" : "bg-white/80 border-gray-200/80"} backdrop-blur-md border p-6 rounded-2xl hover:border-gray-300 transition-all flex flex-col justify-between relative overflow-hidden`}
+                          className={`${isPaid ? "bg-emerald-50/50 border-emerald-200/80" : isPartiallyPaid ? "bg-amber-50/50 border-amber-200/80" : "bg-white/80 border-gray-200/80"} backdrop-blur-md border p-6 rounded-2xl hover:border-gray-300 transition-all flex flex-col justify-between relative overflow-hidden`}
                         >
                           {isPaid && (
                             <div className="absolute top-0 right-0 p-3 opacity-10 pointer-events-none">
@@ -1063,23 +1079,26 @@ export default function AdminVatDashboard() {
                               </span>
                               <div className="flex items-center gap-2">
                                 {netPayable > 0 && (
-                                  <label className="flex items-center gap-1.5 cursor-pointer bg-white border border-gray-200 px-2 py-1 rounded shadow-sm hover:bg-gray-50 transition-colors">
+                                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 px-2 py-1 rounded shadow-sm hover:bg-gray-50 transition-colors">
+                                    <span className="text-[9px] font-black uppercase text-gray-600">ΠΛΗΡΩΜΗ:</span>
                                     <input 
-                                      type="checkbox" 
-                                      checked={isPaid || false}
-                                      onChange={() => toggleMonthPaid(filterYear, m)}
-                                      className="w-3.5 h-3.5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
+                                      type="number" 
+                                      value={paidAmt || ""}
+                                      placeholder="0"
+                                      onChange={(e) => updateMonthPaid(filterYear, m, parseFloat(e.target.value) || 0)}
+                                      className="w-16 bg-transparent border-b border-gray-300 focus:border-[#3b5bdb] text-[10px] font-bold text-gray-800 outline-none text-right"
                                     />
-                                    <span className="text-[9px] font-black uppercase text-gray-600">Εξοφληθηκε</span>
-                                  </label>
+                                    <span className="text-[10px] font-bold text-gray-500">€</span>
+                                  </div>
                                 )}
                                 <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
                                   isPaid ? "bg-emerald-100 text-emerald-700 border-emerald-200" :
+                                  isPartiallyPaid ? "bg-amber-100 text-amber-700 border-amber-200" :
                                   isCredit ? "bg-blue-500/10 text-[#2b4bba] border border-blue-500/20" : 
                                   netPayable === 0 ? "bg-gray-100 text-gray-600" :
-                                  "bg-amber-500/10 text-amber-500 border border-amber-500/20"
+                                  "bg-rose-50 text-rose-500 border border-rose-200"
                                 }`}>
-                                  {isPaid ? "ΠΛΗΡΩΜΕΝΟ" : isCredit ? "Πιστωτικό" : netPayable === 0 ? "Μηδενικό" : "Προς Πληρωμή"}
+                                  {isPaid ? "ΕΞΟΦΛΗΜΕΝΟ" : isPartiallyPaid ? "ΕΝΑΝΤΙ" : isCredit ? "Πιστωτικό" : netPayable === 0 ? "Μηδενικό" : "Προς Πληρωμή"}
                                 </span>
                               </div>
                             </div>
@@ -1088,7 +1107,7 @@ export default function AdminVatDashboard() {
                               {/* Income row */}
                               <div className="flex justify-between items-center text-xs">
                                 <span className="text-gray-600 flex items-center gap-1 font-semibold"><TrendingUp className="w-3.5 h-3.5 text-emerald-500" /> Έσοδα με ΦΠΑ</span>
-                                <span className="font-bold text-slate-200">{stat.incomeGross.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                                <span className="font-bold text-slate-800">{stat.incomeGross.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                               </div>
                               <div className="flex justify-between items-center text-[10px] pl-4 text-slate-500">
                                 <span>ΦΠΑ Εκροών (24%)</span>
@@ -1098,7 +1117,7 @@ export default function AdminVatDashboard() {
                               {/* Expense row */}
                               <div className="flex justify-between items-center text-xs mt-3">
                                 <span className="text-gray-600 flex items-center gap-1 font-semibold"><TrendingDown className="w-3.5 h-3.5 text-rose-500" /> Έξοδα με ΦΠΑ</span>
-                                <span className="font-bold text-slate-200">{stat.expenseGross.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                                <span className="font-bold text-slate-800">{stat.expenseGross.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                               </div>
                               <div className="flex justify-between items-center text-[10px] pl-4 text-slate-500">
                                 <span>ΦΠΑ Εισροών (24%)</span>
