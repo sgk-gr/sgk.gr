@@ -56,23 +56,23 @@ const CATEGORIES = {
 };
 
 // --- Timezone-Safe Quarter Helper ---
-const getQuarterFromDate = (dateStr: string): "Q1" | "Q2" | "Q3" | "Q4" => {
+const MONTHS = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"] as const;
+type MonthType = typeof MONTHS[number];
+
+const getMonthFromDate = (dateStr: string): MonthType => {
   const parts = dateStr.split("-");
-  if (parts.length < 2) return "Q1";
-  const month = parseInt(parts[1], 10);
-  if (month >= 1 && month <= 3) return "Q1";
-  if (month >= 4 && month <= 6) return "Q2";
-  if (month >= 7 && month <= 9) return "Q3";
-  return "Q4";
+  if (parts.length < 2) return "01";
+  const m = parts[1];
+  return MONTHS.includes(m as MonthType) ? (m as MonthType) : "01";
 };
 
-const getQuarterName = (q: "Q1" | "Q2" | "Q3" | "Q4") => {
-  switch (q) {
-    case "Q1": return "Α' Τρίμηνο (Ιαν - Μαρ)";
-    case "Q2": return "Β' Τρίμηνο (Απρ - Ιουν)";
-    case "Q3": return "Γ' Τρίμηνο (Ιουλ - Σεπ)";
-    case "Q4": return "Δ' Τρίμηνο (Οκτ - Δεκ)";
-  }
+const getMonthName = (m: MonthType) => {
+  const names: Record<MonthType, string> = {
+    "01": "Ιανουάριος", "02": "Φεβρουάριος", "03": "Μάρτιος", "04": "Απρίλιος",
+    "05": "Μάιος", "06": "Ιούνιος", "07": "Ιούλιος", "08": "Αύγουστος",
+    "09": "Σεπτέμβριος", "10": "Οκτώβριος", "11": "Νοέμβριος", "12": "Δεκέμβριος"
+  };
+  return names[m];
 };
 
 export default function AdminVatDashboard() {
@@ -85,7 +85,22 @@ export default function AdminVatDashboard() {
   
   // Year & Ledger State
   const [filterYear, setFilterYear] = useState<string>(() => String(new Date().getFullYear()));
-  const [filterQuarter, setFilterQuarter] = useState<"all" | "Q1" | "Q2" | "Q3" | "Q4">("all");
+  const [filterMonth, setFilterMonth] = useState<"all" | MonthType>("all");
+  const [paidMonths, setPaidMonths] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("vat_paid_status");
+      if (saved) setPaidMonths(JSON.parse(saved));
+    }
+  }, []);
+
+  const toggleMonthPaid = (year: string, month: MonthType) => {
+    const key = `${year}_${month}`;
+    const next = { ...paidMonths, [key]: !paidMonths[key] };
+    setPaidMonths(next);
+    localStorage.setItem("vat_paid_status", JSON.stringify(next));
+  };
   const [filterType, setFilterType] = useState<"all" | "income" | "expense">("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -492,27 +507,35 @@ export default function AdminVatDashboard() {
   };
 
   // --- Real-time Calculations per Quarter ---
-  const quarterlyStats = useMemo(() => {
-    const stats = {
-      Q1: { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
-      Q2: { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
-      Q3: { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
-      Q4: { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 }
+  const monthlyStats = useMemo(() => {
+    const stats: Record<MonthType, { incomeGross: number, incomeNet: number, incomeVat: number, expenseGross: number, expenseNet: number, expenseVat: number }> = {
+      "01": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "02": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "03": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "04": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "05": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "06": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "07": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "08": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "09": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "10": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "11": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 },
+      "12": { incomeGross: 0, incomeNet: 0, incomeVat: 0, expenseGross: 0, expenseNet: 0, expenseVat: 0 }
     };
 
     transactions.forEach(t => {
       const year = t.date.split("-")[0];
       if (year !== filterYear) return;
 
-      const q = getQuarterFromDate(t.date);
+      const m = getMonthFromDate(t.date);
       if (t.type === "income") {
-        stats[q].incomeGross += t.grossAmount;
-        stats[q].incomeNet += t.netAmount;
-        stats[q].incomeVat += t.vatAmount;
+        stats[m].incomeGross += t.grossAmount;
+        stats[m].incomeNet += t.netAmount;
+        stats[m].incomeVat += t.vatAmount;
       } else {
-        stats[q].expenseGross += t.grossAmount;
-        stats[q].expenseNet += t.netAmount;
-        stats[q].expenseVat += t.vatAmount;
+        stats[m].expenseGross += t.grossAmount;
+        stats[m].expenseNet += t.netAmount;
+        stats[m].expenseVat += t.vatAmount;
       }
     });
 
@@ -528,13 +551,13 @@ export default function AdminVatDashboard() {
     let expenseNet = 0;
     let expenseVat = 0;
 
-    Object.values(quarterlyStats).forEach(q => {
-      incomeGross += q.incomeGross;
-      incomeNet += q.incomeNet;
-      incomeVat += q.incomeVat;
-      expenseGross += q.expenseGross;
-      expenseNet += q.expenseNet;
-      expenseVat += q.expenseVat;
+    Object.values(monthlyStats).forEach(m => {
+      incomeGross += m.incomeGross;
+      incomeNet += m.incomeNet;
+      incomeVat += m.incomeVat;
+      expenseGross += m.expenseGross;
+      expenseNet += m.expenseNet;
+      expenseVat += m.expenseVat;
     });
 
     const netVatPayable = incomeVat - expenseVat;
@@ -544,29 +567,30 @@ export default function AdminVatDashboard() {
       expenseGross, expenseNet, expenseVat,
       netVatPayable
     };
-  }, [quarterlyStats]);
+  }, [monthlyStats]);
 
   // Upcoming VAT deadline countdown (Greek tax rules)
   const nextDeadline = useMemo(() => {
     const now = new Date();
-    const year = now.getFullYear();
-
-    const deadlines = [
-      { name: "Α' Τριμήνου (Q1)", date: new Date(year, 3, 30, 23, 59, 59) }, // 30 April
-      { name: "Β' Τριμήνου (Q2)", date: new Date(year, 6, 31, 23, 59, 59) }, // 31 July
-      { name: "Γ' Τριμήνου (Q3)", date: new Date(year, 9, 31, 23, 59, 59) }, // 31 October
-      { name: "Δ' Τριμήνου (Q4)", date: new Date(year + 1, 0, 31, 23, 59, 59) } // 31 January next year
-    ];
-
-    const upcoming = deadlines.find(d => d.date.getTime() > now.getTime());
-    if (!upcoming) return null;
-
-    const diffTime = upcoming.date.getTime() - now.getTime();
+    let year = now.getFullYear();
+    let month = now.getMonth() + 1; // getMonth() returns 0-11. We want next month's last day.
+    
+    // Deadline for current month is the last day of the *next* month
+    let targetMonth = month + 1;
+    if (targetMonth > 12) {
+      targetMonth = 1;
+      year += 1;
+    }
+    
+    const deadlineDate = new Date(year, targetMonth, 0, 23, 59, 59);
+    
+    const diffTime = deadlineDate.getTime() - now.getTime();
     const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const formattedDate = upcoming.date.toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" });
+    const formattedDate = deadlineDate.toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" });
+    const currentMonthStr = MONTHS[month - 1];
 
     return {
-      name: upcoming.name,
+      name: `Μηνός ${getMonthName(currentMonthStr)}`,
       daysLeft,
       formattedDate
     };
@@ -696,7 +720,7 @@ export default function AdminVatDashboard() {
       if (tYear !== filterYear) return false;
 
       if (filterQuarter !== "all") {
-        const q = getQuarterFromDate(t.date);
+        const m = getMonthFromDate(t.date);
         if (q !== filterQuarter) return false;
       }
 
@@ -1009,32 +1033,55 @@ export default function AdminVatDashboard() {
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-sm font-black text-gray-900 tracking-wide uppercase italic flex items-center gap-2">
                       <LayoutDashboard className="w-4 h-4 text-emerald-500" />
-                      Αναλυση Ανα Τριμηνο
+                      Μηνιαια Αναλυση ΦΠΑ & Συμψηφισμος
                     </h2>
                     <span className="text-[10px] font-semibold text-slate-500 uppercase italic">Αυτόματος Συμψηφισμός Εσόδων - Εξόδων</span>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {(["Q1", "Q2", "Q3", "Q4"] as const).map((q) => {
-                      const stat = quarterlyStats[q];
+                    {MONTHS.map((m) => {
+                      const stat = monthlyStats[m];
                       const netPayable = stat.incomeVat - stat.expenseVat;
                       const isCredit = netPayable < 0;
+                      const isPaid = paidMonths[`${filterYear}_${m}`];
 
                       return (
                         <div 
-                          key={q}
-                          className="bg-white/80 backdrop-blur-md border border-gray-200/80 p-6 rounded-2xl hover:border-gray-300 transition-all flex flex-col justify-between"
+                          key={m}
+                          className={`${isPaid ? "bg-emerald-50/50 border-emerald-200/80" : "bg-white/80 border-gray-200/80"} backdrop-blur-md border p-6 rounded-2xl hover:border-gray-300 transition-all flex flex-col justify-between relative overflow-hidden`}
                         >
-                          <div>
-                            <div className="flex items-center justify-between border-b border-slate-855 pb-3 mb-4">
-                              <span className="text-sm font-black text-gray-900 italic">{getQuarterName(q)}</span>
-                              <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                                isCredit ? "bg-blue-500/10 text-[#2b4bba] border border-blue-500/20" : 
-                                netPayable === 0 ? "bg-gray-100 text-gray-600 animate-pulse" :
-                                "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                              }`}>
-                                {isCredit ? "Πιστωτικό" : netPayable === 0 ? "Μηδενικό" : "Προς Πληρωμή"}
+                          {isPaid && (
+                            <div className="absolute top-0 right-0 p-3 opacity-10 pointer-events-none">
+                              <CheckCircle2 className="w-16 h-16 text-emerald-500" />
+                            </div>
+                          )}
+                          <div className="relative z-10">
+                            <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+                              <span className="text-sm font-black text-gray-900 italic flex items-center gap-2">
+                                {getMonthName(m)}
+                                {isPaid && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
                               </span>
+                              <div className="flex items-center gap-2">
+                                {netPayable > 0 && (
+                                  <label className="flex items-center gap-1.5 cursor-pointer bg-white border border-gray-200 px-2 py-1 rounded shadow-sm hover:bg-gray-50 transition-colors">
+                                    <input 
+                                      type="checkbox" 
+                                      checked={isPaid || false}
+                                      onChange={() => toggleMonthPaid(filterYear, m)}
+                                      className="w-3.5 h-3.5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
+                                    />
+                                    <span className="text-[9px] font-black uppercase text-gray-600">Εξοφληθηκε</span>
+                                  </label>
+                                )}
+                                <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
+                                  isPaid ? "bg-emerald-100 text-emerald-700 border-emerald-200" :
+                                  isCredit ? "bg-blue-500/10 text-[#2b4bba] border border-blue-500/20" : 
+                                  netPayable === 0 ? "bg-gray-100 text-gray-600" :
+                                  "bg-amber-500/10 text-amber-500 border border-amber-500/20"
+                                }`}>
+                                  {isPaid ? "ΠΛΗΡΩΜΕΝΟ" : isCredit ? "Πιστωτικό" : netPayable === 0 ? "Μηδενικό" : "Προς Πληρωμή"}
+                                </span>
+                              </div>
                             </div>
 
                             <div className="space-y-2">
@@ -1061,7 +1108,7 @@ export default function AdminVatDashboard() {
                           </div>
 
                           <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between">
-                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">ΦΠΑ Τριμηνου</span>
+                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Καθαρος ΦΠΑ Μηνα</span>
                             <span className={`text-lg font-black italic ${
                               isCredit ? "text-[#2b4bba]" : netPayable === 0 ? "text-gray-600" : "text-amber-400"
                             }`}>
@@ -1330,15 +1377,14 @@ export default function AdminVatDashboard() {
 
                     {/* Quarter Filter */}
                     <select
-                      value={filterQuarter}
-                      onChange={(e) => setFilterQuarter(e.target.value as any)}
+                      value={filterMonth}
+                      onChange={(e) => setFilterMonth(e.target.value as any)}
                       className="bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-800 outline-none cursor-pointer"
                     >
-                      <option value="all">Όλα τα Τρίμηνα</option>
-                      <option value="Q1">Α' Τρίμηνο</option>
-                      <option value="Q2">Β' Τρίμηνο</option>
-                      <option value="Q3">Γ' Τρίμηνο</option>
-                      <option value="Q4">Δ' Τρίμηνο</option>
+                      <option value="all">Όλοι οι Μήνες</option>
+                      {MONTHS.map(m => (
+                        <option key={m} value={m}>{getMonthName(m)}</option>
+                      ))}
                     </select>
 
                     {/* Reset/Clear All */}
@@ -1361,7 +1407,7 @@ export default function AdminVatDashboard() {
                     <thead>
                       <tr className="bg-white/80 border-b border-gray-200 text-[10px] font-black text-slate-500 uppercase tracking-widest italic">
                         <th className="px-6 py-4">Ημερομηνια</th>
-                        <th className="px-6 py-4">Τριμηνο</th>
+                        <th className="px-6 py-4">Μηνας</th>
                         <th className="px-6 py-4">Τυπος</th>
                         <th className="px-6 py-4">Περιγραφη / Πελατης</th>
                         <th className="px-6 py-4">Κατηγορια</th>
@@ -1382,7 +1428,7 @@ export default function AdminVatDashboard() {
                             <td className="px-6 py-4 font-mono text-[11px] text-gray-600">
                               {new Date(t.date).toLocaleDateString('el-GR', { day: '2-digit', month: '2-digit', year: 'numeric' })}
                             </td>
-                            <td className="px-6 py-4 text-gray-600">{q}</td>
+                            <td className="px-6 py-4 text-gray-600">{getMonthName(m)}</td>
                             <td className="px-6 py-4">
                               <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider ${
                                 t.type === "income" 
