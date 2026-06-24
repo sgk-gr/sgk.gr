@@ -1419,7 +1419,7 @@ export default function AdminVatDashboard() {
                     </thead>
                     <tbody className="divide-y divide-slate-850/50">
                       {filteredTransactions.map((t) => {
-                        const q = getQuarterFromDate(t.date);
+                        const m = getMonthFromDate(t.date);
                         return (
                           <tr 
                             key={t.id}
