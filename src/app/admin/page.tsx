@@ -719,9 +719,9 @@ export default function AdminVatDashboard() {
       const tYear = t.date.split("-")[0];
       if (tYear !== filterYear) return false;
 
-      if (filterQuarter !== "all") {
+      if (filterMonth !== "all") {
         const m = getMonthFromDate(t.date);
-        if (q !== filterQuarter) return false;
+        if (m !== filterMonth) return false;
       }
 
       if (filterType !== "all" && t.type !== filterType) return false;
@@ -736,7 +736,7 @@ export default function AdminVatDashboard() {
 
       return true;
     });
-  }, [transactions, filterYear, filterQuarter, filterType, searchQuery]);
+  }, [transactions, filterYear, filterMonth, filterType, searchQuery]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
