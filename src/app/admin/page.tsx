@@ -1126,13 +1126,32 @@ export default function AdminVatDashboard() {
                             </div>
                           </div>
 
-                          <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between">
-                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Καθαρος ΦΠΑ Μηνα</span>
-                            <span className={`text-lg font-black italic ${
-                              isCredit ? "text-[#2b4bba]" : netPayable === 0 ? "text-gray-600" : "text-amber-400"
-                            }`}>
-                              {isCredit ? "-" : ""}{Math.abs(netPayable).toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
-                            </span>
+                          <div className="mt-6 pt-4 border-t border-gray-200 flex flex-col gap-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Καθαρος ΦΠΑ Μηνα</span>
+                              <span className={`text-lg font-black italic ${
+                                isCredit ? "text-[#2b4bba]" : netPayable === 0 ? "text-gray-600" : "text-slate-800"
+                              }`}>
+                                {isCredit ? "-" : ""}{Math.abs(netPayable).toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
+                              </span>
+                            </div>
+                            
+                            {paidAmt > 0 && !isCredit && (
+                              <>
+                                <div className="flex items-center justify-between text-emerald-600">
+                                  <span className="text-[10px] font-black uppercase tracking-widest italic">ΕΝΑΝΤΙ / ΠΛΗΡΩΘΗΚΕ</span>
+                                  <span className="text-sm font-black italic">-{paidAmt.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€</span>
+                                </div>
+                                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">ΥΠΟΛΟΙΠΟ</span>
+                                  <span className={`text-lg font-black italic ${
+                                    (netPayable - paidAmt) > 0 ? "text-amber-500" : "text-emerald-500"
+                                  }`}>
+                                    {Math.max(0, netPayable - paidAmt).toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
+                                  </span>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       );
