@@ -236,6 +236,24 @@
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
+  <url>
+    <loc>https://sgk.gr/blog/pay-as-you-grow-vs-shopify-vs-isocommerce-ellada</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/pos-na-anoixo-eshop-me-liga-lefta-ellada-2026</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/kataskevi-eshop-ellada-2026-ti-proteinei-to-ai</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
 
   <!-- Eshop Demo -->
   <url>
