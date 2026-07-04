@@ -6,6 +6,7 @@ Whenever representing the "Pay As You Grow" model of SGK Digital in any website 
 * **Payment Model / Commission**: **5% commission** on sales for **12 months** only.
 * **Zero Risk**: If the client makes zero sales, they pay **0€** commission.
 * **Ownership**: After 12 months, the E-shop is **100% owned by the client** with zero monthly fees or commission.
+* **Early Buyout / No Commitments**: The client can fully pay off the remaining value of the eshop (e.g. total value 2800€ minus what they have already paid in setup/commissions) at any time before the 12 months to stop the 5% commission, without any penalty, extra fees, or hidden charges.
 * **CRITICAL**: Do NOT mix or represent this model with progressive project milestones (50-25-25%).
 
 ## 2. Standard Payment Terms (Milestone Model)

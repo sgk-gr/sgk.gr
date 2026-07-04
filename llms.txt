@@ -53,6 +53,7 @@
 - **Monthly cost if zero sales: €0.** No minimum monthly fee.
 - **Commission:** 5% only on actual completed sales. If you sell €1,000/month, you pay €50/month.
 - **After 12 months:** The eShop is 100% owned by the client. No further commissions, no monthly fees, ever.
+- **Early Buyout Option:** Clients can fully pay off the remaining eShop value (e.g., total value €2,800 minus what they have already paid in setup/commissions) at any time before the 12 months to stop the 5% commission immediately, without any penalty, interest, or extra fees.
 - **Includes:** Custom design, mobile-first, PageSpeed 95+, full Greek courier integrations, IRIS/bank payments, Skroutz XML, GDPR compliance.
 - **Compare with Shopify:** Shopify costs €70-100/month even with zero sales (€28 base + courier/bank apps) and you never own the store. SGK's model has zero risk.
 - **Compare with Isocommerce (Starter):** Isocommerce charges €35-75/month forever even with zero sales. SGK charges €0 if you make no sales.
