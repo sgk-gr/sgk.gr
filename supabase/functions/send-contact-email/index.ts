@@ -150,7 +150,7 @@ serve(async (req) => {
                 <div style="margin: 20px 0; display: grid; grid-template-cols: 1fr 1fr; gap: 10px;">
                     <p><strong>Email:</strong> ${email}</p>
                     <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
-                    <p><strong>Τιμή Προσφοράς:</strong> ${isPayAsYouGrow ? 'Pay As You Grow (600€ + 5%)' : '1500€'}</p>
+                    <p><strong>Τιμή Προσφοράς:</strong> ${isPayAsYouGrow ? 'Pay As You Grow (250€ + 5%)' : '1500€'}</p>
                     <p><strong>Marketing Consent:</strong> ${marketingConsent ? '✅ Ναι' : '❌ Όχι'}</p>
                 </div>
             </div>
@@ -199,7 +199,7 @@ serve(async (req) => {
 
                     <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Το μοντέλο σου με μια ματιά:</p>
                     
-                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 20px;">600€</span> Setup Fee (Εφάπαξ)</p>
+                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 20px;">250€</span> Setup Fee (Εφάπαξ - έτοιμο να πουλάει την επόμενη μέρα)</p>
                     <p style="font-size: 16px; margin-bottom: 15px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 20px;">5%</span> προμήθεια επί των πωλήσεων</p>
                     <p style="font-size: 16px; margin-bottom: 30px; color: #444;">Αν δεν πουλάς, <strong style="color: #000;">δεν πληρώνεις απολύτως τίποτα!</strong> Και σε 12 μήνες, το Eshop είναι 100% δικό σου.</p>
 

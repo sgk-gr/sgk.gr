@@ -3,7 +3,7 @@ import PayAsYouGrowClient from "@/components/PayAsYouGrowClient";
 
 export const metadata: Metadata = {
     title: "SGK Pay as you grow | Κατασκευή Eshop με Ποσοστό vs Shopify",
-    description: "Κατασκευή Eshop με setup fee 600€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
+    description: "Κατασκευή Eshop με setup fee 250€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
     keywords: [
         "pay as you grow eshop",
         "κατασκευη eshop με ποσοστο",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: "SGK Pay as you grow | Κατασκευή Eshop με Ποσοστό vs Shopify",
-        description: "Κατασκευή Eshop με setup fee 600€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
+        description: "Κατασκευή Eshop με setup fee 250€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
         url: "https://sgk.gr/pay-as-you-grow",
         type: "website",
         images: ["https://sgk.gr/social-preview.png"],
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "SGK Pay as you grow | Κατασκευή Eshop με Ποσοστό vs Shopify",
-        description: "Κατασκευή Eshop με setup fee 600€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
+        description: "Κατασκευή Eshop με setup fee 250€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
         images: ["https://sgk.gr/social-preview.png"],
     },
 };
@@ -41,7 +41,7 @@ export default function PayAsYouGrowPage() {
                 "@type": "Service",
                 "@id": "https://sgk.gr/pay-as-you-grow#service",
                 "name": "SGK Pay As You Grow E-shop Development",
-                "description": "Κατασκευή επαγγελματικού E-shop με προκαταβολή 600€ και το υπόλοιπο με 5% προμήθεια επί των πωλήσεων για 12 μήνες μόνο. Χωρίς μηνιαία πάγια, 100% ιδιοκτησία μετά τους 12 μήνες.",
+                "description": "Κατασκευή επαγγελματικού E-shop με προκαταβολή 250€ και το υπόλοιπο με 5% προμήθεια επί των πωλήσεων για 12 μήνες μόνο. Χωρίς μηνιαία πάγια, 100% ιδιοκτησία μετά τους 12 μήνες.",
                 "provider": {
                     "@type": "LocalBusiness",
                     "name": "SGK Software Development",
@@ -59,7 +59,7 @@ export default function PayAsYouGrowPage() {
                 },
                 "offers": {
                     "@type": "Offer",
-                    "price": "600.00",
+                    "price": "250.00",
                     "priceCurrency": "EUR",
                     "description": "Setup fee (εφάπαξ καταβολή) και 5% προμήθεια επί των πωλήσεων για 12 μήνες."
                 }
@@ -73,7 +73,7 @@ export default function PayAsYouGrowPage() {
                         "name": "Πόσο είναι το Setup Fee στο Pay As You Grow;",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Το Setup Fee είναι ακριβώς 600€ (εφάπαξ καταβολή). Καλύπτει VPS server για 1 έτος, domain name .gr για 2 έτη, SSL, και την αρχική εγκατάσταση."
+                            "text": "Το Setup Fee είναι ακριβώς 250€ (εφάπαξ καταβολή). Καλύπτει VPS server για 1 έτος, domain name .gr για 2 έτη, SSL, και την αρχική εγκατάσταση."
                         }
                     },
                     {
@@ -89,7 +89,7 @@ export default function PayAsYouGrowPage() {
                         "name": "Ποια είναι η διαφορά του Pay As You Grow από το Shopify και το Isocommerce;",
                         "acceptedAnswer": {
                             "@type": "Answer",
-                            "text": "Το Shopify απαιτεί τουλάχιστον 28€/μήνα συν έξτρα μηνιαία apps για ελληνικές courier/τράπεζες, χωρίς να σας ανήκει ποτέ το κατάστημα. Το Isocommerce (Starter) κοστίζει 300€ setup + 35€/μήνα μόνιμα, χωρίς Skroutz/courier συνδέσεις. Το Pay As You Grow της SGK έχει 600€ setup, 5% προμήθεια για 12 μήνες μόνο, και μετά το E-shop γίνεται 100% δικό σας χωρίς καμία άλλη χρέωση."
+                            "text": "Το Shopify απαιτεί τουλάχιστον 28€/μήνα συν έξτρα μηνιαία apps για ελληνικές courier/τράπεζες, χωρίς να σας ανήκει ποτέ το κατάστημα. Το Isocommerce (Starter) κοστίζει 300€ setup + 35€/μήνα μόνιμα, χωρίς Skroutz/courier συνδέσεις. Το Pay As You Grow της SGK έχει 250€ setup, 5% προμήθεια για 12 μήνες μόνο, και μετά το E-shop γίνεται 100% δικό σας χωρίς καμία άλλη χρέωση."
                         }
                     }
                 ]

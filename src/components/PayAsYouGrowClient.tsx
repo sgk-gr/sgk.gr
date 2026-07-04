@@ -54,7 +54,7 @@ export default function PayAsYouGrowClient() {
                                 </span>
                             </h1>
                             <p className="text-base text-black/60 font-light mt-1 max-w-xl leading-relaxed">
-                                Απόκτησε επαγγελματικό Eshop <strong className="text-black">με setup fee μόνο 600€</strong> και μας ξεπληρώνεις το υπόλοιπο από τις πωλήσεις σου, όσες και αν είναι. Δεν έχεις; Δεν πληρώνεις.
+                                Απόκτησε επαγγελματικό Eshop <strong className="text-black">με setup fee μόνο 250€</strong>, με το κατάστημα να είναι έτοιμο να πουλάει την επόμενη μέρα, και μας ξεπληρώνεις το υπόλοιπο από τις πωλήσεις σου, όσες και αν είναι. Δεν έχεις; Δεν πληρώνεις.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3 mt-6 w-full max-w-md">
                                 <a href="#calculator" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold rounded-lg transition-all duration-300 text-sm shadow-md whitespace-nowrap">
@@ -297,7 +297,7 @@ export default function PayAsYouGrowClient() {
                             {[
                                 {
                                     q: "Πόσο είναι το Setup Fee; Υπάρχουν κρυφές χρεώσεις;",
-                                    a: "Το Setup Fee είναι ακριβώς 600€. Αυτό το ποσό καλύπτει τα πραγματικά κόστη υποδομής για να ξεκινήσετε (server, domain, ssl κλπ). Δεν υπάρχουν κρυφές χρεώσεις, ούτε τώρα, ούτε ποτέ."
+                                    a: "Το Setup Fee είναι ακριβώς 250€. Αυτό το ποσό καλύπτει τα πραγματικά κόστη υποδομής για να ξεκινήσετε (server, domain, ssl κλπ). Δεν υπάρχουν κρυφές χρεώσεις, ούτε τώρα, ούτε ποτέ."
                                 },
                                 {
                                     q: "Υπογράφεται κάποιο συμβόλαιο ή ιδιωτικό συμφωνητικό;",
