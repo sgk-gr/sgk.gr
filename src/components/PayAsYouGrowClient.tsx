@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
@@ -29,17 +29,9 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function PayAsYouGrowClient() {
-    const [mounted, setMounted] = useState(false);
-
     // Calculator State
     const [monthlySales, setMonthlySales] = useState(500);
     const commissionRate = 0.05; // 5%
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) return null;
 
     const calculatedCommission = Math.round(monthlySales * commissionRate);
 
