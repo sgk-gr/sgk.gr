@@ -103,6 +103,10 @@ export default function PayAsYouGrowPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            {/* SEO: Server-rendered H1 for crawlers (Bing, Googlebot) that don't execute JS */}
+            <h1 style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
+                Κατασκευή Eshop Pay As You Grow — 600€ Setup Fee, 5% Προμήθεια, 0€ αν δεν πουλάς
+            </h1>
             <PayAsYouGrowClient />
         </>
     );
