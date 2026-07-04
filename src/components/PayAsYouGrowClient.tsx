@@ -195,7 +195,7 @@ export default function PayAsYouGrowClient() {
                                         <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Αρχικό Setup (Day 1)</td>
                                         <td className="p-4 md:p-5 text-sm text-gray-600">0 € (Στήσιμο από εσάς)</td>
                                         <td className="p-4 md:p-5 text-sm text-gray-600">300 € – 450 €</td>
-                                        <td className="p-4 md:p-5 text-sm font-bold text-black bg-[#3b5bdb]/5">600 € (Turnkey)</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-black bg-[#3b5bdb]/5">250 € (Turnkey)</td>
                                     </tr>
                                     <tr>
                                         <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Μηνιαίο Πάγιο</td>
@@ -268,7 +268,7 @@ export default function PayAsYouGrowClient() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-300 text-center">
                                 <div className="p-4 bg-white rounded-lg border border-gray-200">
                                     <span className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Αρχικό Κόστος</span>
-                                    <span className="text-lg font-extrabold text-black">600 €</span>
+                                    <span className="text-lg font-extrabold text-black">250 €</span>
                                     <span className="block text-[10px] text-gray-400 mt-1">Εφάπαξ πληρωμή</span>
                                 </div>
                                 <div className="p-4 bg-white rounded-lg border border-gray-200">
