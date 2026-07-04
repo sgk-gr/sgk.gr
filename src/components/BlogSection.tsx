@@ -72,7 +72,7 @@ export default function BlogSection() {
             ref={scrollContainerRef}
             className="flex overflow-x-auto snap-x snap-mandatory gap-x-8 pb-12 pt-4 px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
-            {BLOG_POSTS.slice(0, 8).map((post, index) => {
+            {[...BLOG_POSTS].reverse().slice(0, 8).map((post, index) => {
               const colorTheme = LINE_COLORS[index % LINE_COLORS.length];
               
               return (
