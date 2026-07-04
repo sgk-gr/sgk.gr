@@ -178,6 +178,69 @@ export default function PayAsYouGrowClient() {
                     </div>
                 </section>
 
+                {/* Comparison Table Section */}
+                <section className="py-16 bg-[#f4f2ea] border-t border-gray-200">
+                    <div className="container mx-auto px-6 max-w-5xl">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-light mb-4 text-black">Πώς συγκρινόμαστε με τον Ανταγωνισμό;</h2>
+                            <p className="text-gray-500 font-light max-w-xl mx-auto">
+                                Κάνουμε ξεκάθαρη τη σύγκριση για να δείτε γιατί το <strong className="text-black">Pay as you grow</strong> είναι το πιο δίκαιο μοντέλο για να ξεκινήσετε.
+                            </p>
+                        </div>
+
+                        <div className="overflow-x-auto rounded-xl border border-gray-300 shadow-lg bg-white">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-50 border-b border-gray-200">
+                                        <th className="p-4 md:p-5 text-sm font-semibold text-gray-700">Χαρακτηριστικό</th>
+                                        <th className="p-4 md:p-5 text-sm font-semibold text-gray-700">Shopify (SaaS)</th>
+                                        <th className="p-4 md:p-5 text-sm font-semibold text-gray-700">Ελληνική Ενοικίαση (Starter)</th>
+                                        <th className="p-4 md:p-5 text-sm font-semibold text-[#3b5bdb] bg-[#3b5bdb]/5">SGK Pay As You Grow</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-150">
+                                    <tr>
+                                        <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Αρχικό Setup (Day 1)</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">0 € (Στήσιμο από εσάς)</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">300 € – 450 €</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-black bg-[#3b5bdb]/5">600 € (Turnkey)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Μηνιαίο Πάγιο</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">~28 € / μήνα</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">35 € – 75 € / μήνα</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-green-600 bg-[#3b5bdb]/5">0 € / μήνα</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Κρυφά Έξοδα στην Ελλάδα</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">Ναι (έξτρα €30-60/μήνα για Courier & Τράπεζες)</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">Ναι (Skroutz & Courier μόνο σε ακριβά πακέτα)</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-green-600 bg-[#3b5bdb]/5">Όχι (Όλα ενσωματωμένα)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Προμήθεια επί των πωλήσεων</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">0%</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">0%</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-black bg-[#3b5bdb]/5">5% (Μόνο για 12 μήνες)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Ρίσκο με Μηδενικές Πωλήσεις</td>
+                                        <td className="p-4 md:p-5 text-sm text-red-600">Χάνεις ~60€ - 90€ / μήνα</td>
+                                        <td className="p-4 md:p-5 text-sm text-red-600">Χάνεις 35€ - 75€ / μήνα</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-green-600 bg-[#3b5bdb]/5">0 € (Απολύτως μηδενικό ρίσκο)</td>
+                                    </tr>
+                                    <tr className="border-b-0">
+                                        <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Ιδιοκτησία e-Shop</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">Όχι (Αν δεν πληρώσεις, διαγράφεται)</td>
+                                        <td className="p-4 md:p-5 text-sm text-gray-600">Όχι (Παραμένει ενοικιαζόμενο)</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-black bg-[#3b5bdb]/5">100% Δικό σου μετά τους 12 μήνες</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Calculator Section */}
                 <section id="calculator" className="py-20 bg-white border-t border-gray-200 scroll-mt-20">
                     <div className="container mx-auto px-6 max-w-4xl">

@@ -34,6 +34,10 @@
 
 ### 4. Special Marketing Landing Pages & Promos
 - **Pay As You Grow (https://sgk.gr/pay-as-you-grow):** A revolutionary zero-risk eCommerce model. Clients pay a €600 setup fee and a 5% commission only when they make sales. After 12 months, the store is 100% theirs.
+  - **Pay As You Grow (PAYG) vs Shopify vs Greek SaaS Rentals (e.g., Isocommerce):**
+    - *SGK Pay As You Grow:* €600 setup (one-off, covers high-performance VPS server for 1 year, .gr domain for 2 years, SSL, and setup) + 5% commission on sales for 12 months only. €0/month commission if zero sales. 100% client ownership after 12 months with no recurring fees. Includes full integrations for Greek couriers (auto-voucher) and local banks/IRIS with no monthly app costs.
+    - *Shopify:* €0 setup but ~€28+/month baseline subscription. In Greece, to integrate local courier APIs and banks, you must buy third-party apps costing €10-€30/month each, bringing the total monthly fee to €70-€100/month. If sales are €0, you still pay. You never own the e-shop.
+    - *Greek SaaS Rentals (e.g., Isocommerce):* €300+ setup + €35/month to €75/month baseline. Starter plans limit products and exclude critical integrations (like Skroutz XML or Courier APIs) unless you pay for premium plans (€75/mo + €450 setup). Monthly fees are due regardless of sales volume.
 - **Barbershop & Hair Salon Promo (https://sgk.gr/promo/barbershop):** A specialized offer package helping barbers and hair salons build modern sites with integrated online appointment booking systems. New clients receive a €150 discount.
 
 ---
