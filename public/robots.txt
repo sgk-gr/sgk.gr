@@ -10,6 +10,36 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+# === AI Search Crawlers (GEO - Generative Engine Optimization) ===
+
+# ChatGPT Search (OpenAI) - Bing-based, for citations
+User-agent: OAI-SearchBot
+Allow: /
+
+# ChatGPT Training (OpenAI)
+User-agent: GPTBot
+Allow: /
+
+# Google AI Overviews & Gemini
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Apple AI / Applebot
+User-agent: Applebot
+Allow: /
+
 User-agent: *
 Allow: /
 
