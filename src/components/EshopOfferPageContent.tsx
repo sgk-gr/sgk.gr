@@ -9,7 +9,11 @@ import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/resend";
 import confetti from "canvas-confetti";
 
+import { useTracking } from "@/hooks/useTracking";
+
 function EshopOfferContent() {
+  useTracking("Eshop Offer Form");
+
   const searchParams = useSearchParams();
   const queryName = searchParams.get("name") || "";
   const queryPhone = searchParams.get("phone") || "";

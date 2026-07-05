@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, ChevronDown } from "lucide-react";
 
+import { useTracking } from "@/hooks/useTracking";
+
 function FAQItem({ question, answer }: { question: string; answer: string }) {
     const [open, setOpen] = useState(false);
     return (
@@ -29,6 +31,8 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function PayAsYouGrowClient() {
+    useTracking("Pay As You Grow Landing");
+    
     // Calculator State
     const [monthlySales, setMonthlySales] = useState(500);
     const commissionRate = 0.05; // 5%
