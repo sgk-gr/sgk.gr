@@ -269,10 +269,17 @@ function EshopOfferContent() {
               <h2 className="text-3xl font-heading font-medium mb-2 relative z-10">
                 {formData.plan === "pay-as-you-grow" ? "Pay as you grow" : "Σε ενδιαφέρει;"}
               </h2>
-              <p className="text-[13px] text-white/80 mb-6 font-light relative z-10">
-                {formData.plan === "pay-as-you-grow" 
-                  ? "Ξεκινήστε το δικό σας Eshop πληρώνοντας μόνο ένα μικρό setup fee. Χωρίς δεσμεύσεις!" 
-                  : "Θα επικοινωνήσουμε μαζί σου για δωρεάν συμβουλευτική χωρίς δεσμεύσεις."}
+              <p className="text-[13px] text-white/95 mb-6 font-light relative z-10">
+                {formData.plan === "pay-as-you-grow" ? (
+                  <>
+                    Ξεκινήστε το δικό σας Eshop πληρώνοντας μόνο 250 ΕΥΡΩ. Χωρίς δεσμεύσεις! ΔΕΝ ΕΧΕΤΕ ΔΕΝ ΠΛΗΡΩΝΕΤΕ ΤΙΠΟΤΑ ΑΛΛΟ.
+                    <a href="/pay-as-you-grow" className="underline hover:text-white block mt-2 text-xs font-semibold text-[#facc15]">
+                      Διαβάστε αναλυτικά
+                    </a>
+                  </>
+                ) : (
+                  "Θα επικοινωνήσουμε μαζί σου για δωρεάν συμβουλευτική χωρίς δεσμεύσεις."
+                )}
               </p>
               
               <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
@@ -395,26 +402,12 @@ function EshopOfferContent() {
         </div>
       </footer>
 
-      {/* Mobile Sticky CTA Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-100 p-3 shadow-lg flex items-center justify-between gap-3 md:hidden">
-        <a 
-          href="tel:6999524389" 
-          className="flex-1 bg-white border border-gray-200 text-black rounded-full py-3 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-50 active:scale-95 transition-all"
-        >
-          📞 Κάλεσέ μας
-        </a>
-        <button 
-          onClick={handleCtaClick}
-          className="flex-1 bg-[#4ade80] text-black font-semibold rounded-full py-3 px-4 text-sm flex items-center justify-center gap-2 hover:bg-[#22c55e] active:scale-95 transition-all"
-        >
-          ✉️ Θέλω Προσφορά
-        </button>
-      </div>
+
 
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-20 md:bottom-8 right-6 z-50 p-3 rounded-full bg-[#3b5bdb] text-white shadow-lg transition-all duration-300 flex items-center justify-center hover:bg-[#2b4bba] active:scale-95 ${
+        className={`fixed bottom-8 right-6 z-50 p-3 rounded-full bg-[#3b5bdb] text-white shadow-lg transition-all duration-300 flex items-center justify-center hover:bg-[#2b4bba] active:scale-95 ${
           showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
         }`}
         aria-label="Scroll to top"
