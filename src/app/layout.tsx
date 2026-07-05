@@ -12,6 +12,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Link from "next/link";
 import { Inter as InterFont, Space_Grotesk as SpaceFont } from 'next/font/google';
 import GlobalPromoBar from "@/components/GlobalPromoBar";
+import ClarityTracker from "@/components/ClarityTracker";
 
 const inter = InterFont({
     subsets: ['latin'],
@@ -174,21 +175,7 @@ export default function RootLayout({
                         __html: `document.addEventListener('contextmenu', e => e.preventDefault());`
                     }}
                 />
-                {process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID && (
-                    <Script
-                        id="microsoft-clarity"
-                        strategy="afterInteractive"
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                                (function(c,l,a,r,i,t,y){
-                                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                                })(window,document,"clarity","script","${process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID}");
-                            `
-                        }}
-                    />
-                )}
+                <ClarityTracker />
                 <TooltipProvider>
                     <AnalyticsTracker />
                     <Toaster />
