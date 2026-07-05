@@ -24,6 +24,15 @@ interface TrackingSession {
   updated_at: string;
 }
 
+const cleanUrlPath = (url: string) => {
+  if (!url) return "";
+  const qIdx = url.indexOf("?");
+  if (qIdx !== -1) {
+    return url.substring(0, qIdx);
+  }
+  return url;
+};
+
 export function TrackingTab() {
   const [sessions, setSessions] = useState<TrackingSession[]>([]);
   const [loading, setLoading] = useState(true);
@@ -567,9 +576,9 @@ ${JSON.stringify(sessionSummary, null, 2)}
                   <span className="text-white/40">Visitor ID:</span>
                   <span className="font-mono text-[10px] select-all">{selectedSession.visitor_id.slice(0, 18)}...</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-white/40">Σελίδα:</span>
-                  <span className="text-blue-400 font-mono text-[10px]">{selectedSession.page_path}</span>
+                <div className="flex flex-col gap-1 border-b border-white/5 pb-2">
+                  <span className="text-white/40">Σελίδα (Τρέχουσα):</span>
+                  <span className="text-blue-400 font-mono text-[10px] break-all select-all leading-normal">{selectedSession.page_path}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-white/40">Referrer:</span>
@@ -635,14 +644,22 @@ ${JSON.stringify(sessionSummary, null, 2)}
               ) : (
                 <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
                   {selectedSession.clicks.map((click, i) => (
-                    <div key={i} className="bg-white/5 p-2 rounded-lg border border-white/5 text-[10px]">
+                    <div key={i} className="bg-white/5 p-2.5 rounded-lg border border-white/5 text-[10px] leading-relaxed">
                       <div className="flex justify-between text-[9px] text-white/40 mb-1">
-                        <span>{click.tag} {click.id ? `#${click.id}` : ""}</span>
+                        <span className="font-bold uppercase tracking-wider text-indigo-400">
+                          {click.tag === "NAVIGATE" ? "📍 ΠΛΟΗΓΗΣΗ" : `🖱️ ΚΛΙΚ (${click.tag})`}
+                        </span>
                         <span>{new Date(click.timestamp).toLocaleTimeString("el-GR")}</span>
                       </div>
-                      <div className="text-white/95 font-semibold">
-                        Κλικ στο: <span className="text-yellow-400">"{click.text}"</span>
-                      </div>
+                      {click.tag === "NAVIGATE" ? (
+                        <div className="text-white/90">
+                          Επίσκεψη στη σελίδα: <span className="text-blue-400 font-mono font-bold select-all break-all">{cleanUrlPath(click.text.replace("Visited page: ", ""))}</span>
+                        </div>
+                      ) : (
+                        <div className="text-white/95">
+                          Κλικ στο στοιχείο: <span className="text-yellow-400 font-semibold select-all break-all">"{click.text}"</span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
