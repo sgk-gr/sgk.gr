@@ -272,9 +272,9 @@ function EshopOfferContent() {
               <p className="text-[13px] text-white/95 mb-6 font-light relative z-10">
                 {formData.plan === "pay-as-you-grow" ? (
                   <>
-                    Ξεκινήστε το δικό σας Eshop πληρώνοντας μόνο 250€. Χωρίς δεσμεύσεις! Δεν έχετε, δεν πληρώνετε τίποτα άλλο.
+                    Ξεκίνα το δικό σου Eshop πληρώνοντας μόνο 250€. Χωρίς δεσμεύσεις! Δεν έχεις, δεν πληρώνεις τίποτα άλλο.
                     <a href="/pay-as-you-grow" className="underline hover:text-white block mt-2 text-xs font-semibold text-[#facc15]">
-                      Διαβάστε αναλυτικά
+                      Διάβασε αναλυτικά
                     </a>
                   </>
                 ) : (
