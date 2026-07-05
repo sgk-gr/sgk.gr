@@ -154,11 +154,14 @@ export function useTracking(pageName: string) {
       }, 250);
     };
 
-    // 5. Form input tracking (triggers when input field loses focus)
-    const handleInputBlur = async (e: FocusEvent) => {
+    // 5. Form input tracking (triggers when input field loses focus or value changes)
+    const handleInputEvent = async (e: Event) => {
       if (!trackingIdRef.current) return;
       const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
+      if (!target) return;
+
+      const tagName = target.tagName ? target.tagName.toUpperCase() : "";
+      if (tagName === "INPUT" || tagName === "TEXTAREA") {
         // Skip sensitive fields like passwords or credit cards
         if (target.type === "password") return;
 
@@ -198,14 +201,16 @@ export function useTracking(pageName: string) {
 
     document.addEventListener("click", handleGlobalClick);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    document.addEventListener("blur", handleInputBlur, true); // capture phase for blur events
+    document.addEventListener("blur", handleInputEvent, true); // capture phase
+    document.addEventListener("change", handleInputEvent, true); // capture phase
 
     // Clean up
     return () => {
       clearInterval(interval);
       document.removeEventListener("click", handleGlobalClick);
       window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("blur", handleInputBlur, true);
+      document.removeEventListener("blur", handleInputEvent, true);
+      document.removeEventListener("change", handleInputEvent, true);
       if (scrollTimeout) clearTimeout(scrollTimeout);
     };
   }, [pageName]);

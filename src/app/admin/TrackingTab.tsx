@@ -205,21 +205,25 @@ ${JSON.stringify(sessionSummary, null, 2)}
       }
 
       const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
+      const decoder = new TextDecoder("utf-8");
 
       if (reader) {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value);
-          
-          // SSE response parsing
-          const lines = chunk.split("\n");
-          for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const dataText = line.substring(6).trim();
-              if (dataText === "[DONE]") break;
-              setAiReport(prev => prev + dataText);
+        let text = "";
+        let done = false;
+        while (!done) {
+          const { value, done: readerDone } = await reader.read();
+          done = readerDone;
+          if (value) {
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split("\n");
+            for (const line of lines) {
+              if (line.startsWith("0:")) {
+                try {
+                  const content = JSON.parse(line.substring(2));
+                  text += content;
+                  setAiReport(text);
+                } catch (e) {}
+              }
             }
           }
         }
