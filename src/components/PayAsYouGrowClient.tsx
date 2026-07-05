@@ -33,7 +33,10 @@ export default function PayAsYouGrowClient() {
     const [monthlySales, setMonthlySales] = useState(500);
     const commissionRate = 0.05; // 5%
 
-    const calculatedCommission = Math.round(monthlySales * commissionRate);
+    const rawCommission = monthlySales * commissionRate;
+    const formattedCommission = rawCommission % 1 === 0
+        ? rawCommission.toLocaleString("el-GR")
+        : rawCommission.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
     return (
         <div className="min-h-screen bg-[#f4f2ea] flex flex-col font-sans text-black">
@@ -253,7 +256,7 @@ export default function PayAsYouGrowClient() {
                                     type="range"
                                     min="0"
                                     max="20000"
-                                    step="500"
+                                    step="10"
                                     value={monthlySales}
                                     onChange={(e) => setMonthlySales(Number(e.target.value))}
                                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#3b5bdb]"
@@ -278,7 +281,7 @@ export default function PayAsYouGrowClient() {
                                 </div>
                                 <div className="p-4 bg-[#3b5bdb]/10 rounded-lg border border-[#3b5bdb]/20">
                                     <span className="block text-xs font-bold uppercase tracking-wider text-[#3b5bdb] mb-1">Κόστος / Μήνα</span>
-                                    <span className="text-2xl font-extrabold text-[#3b5bdb]">{calculatedCommission} €</span>
+                                    <span className="text-2xl font-extrabold text-[#3b5bdb]">{formattedCommission} €</span>
                                     <span className="block text-[10px] text-[#3b5bdb]/70 mt-1">Για 12 μήνες</span>
                                 </div>
                             </div>
