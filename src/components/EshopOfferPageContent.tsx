@@ -63,7 +63,7 @@ function EshopOfferContent() {
     const element = document.getElementById("offer-form-box");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      const input = document.getElementById("hero-company-input");
+      const input = document.getElementById("hero-name-input");
       if (input) {
         input.focus();
       }
@@ -74,7 +74,7 @@ function EshopOfferContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.email || !formData.company) {
+    if (!formData.name || !formData.phone || !formData.email) {
       toast.error("Συμπληρώστε όλα τα υποχρεωτικά πεδία.");
       return;
     }
@@ -87,7 +87,7 @@ function EshopOfferContent() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        company: formData.company,
+        company: formData.company || "Δεν δηλώθηκε",
         contactPreference: formData.contactPreference,
         marketingConsent: formData.acceptPromo,
       });
@@ -228,7 +228,11 @@ function EshopOfferContent() {
           <div className="flex-1 text-white drop-shadow-lg hidden md:block">
             <h1 className="text-4xl lg:text-6xl font-heading font-medium tracking-tight leading-tight mb-4">
               {formData.plan === "pay-as-you-grow" ? (
-                <>Με ένα κλικ <br/> Pay as you <br/> <span className="text-[#4ade80] font-bold">grow E-shop!</span></>
+                <>
+                  Pay as you grow <br/> 
+                  Δίνεις όσα έχεις <br/> 
+                  <span className="text-[#4ade80] font-bold">Τα υπόλοιπα όποτε έχεις!</span>
+                </>
               ) : (
                 <>Με ένα κλικ <br/> αποκτάς <br/> <span className="text-[#4ade80] font-bold">E-shop!</span></>
               )}
@@ -272,22 +276,10 @@ function EshopOfferContent() {
               </p>
               
               <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    id="hero-company-input"
-                    required 
-                    value={formData.company}
-                    onChange={(e) => setFormData({...formData, company: e.target.value})}
-                    className="w-full bg-transparent border-b border-white/30 px-0 py-2 text-white placeholder-transparent focus:outline-none focus:border-white peer" 
-                    placeholder="Όνομα Επιχείρησης / Eshop" 
-                  />
-                  <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">Όνομα Επιχείρησης / Eshop</label>
-                </div>
-
                 <div className="grid grid-cols-2 gap-6">
                   <div className="relative">
                     <input 
+                      id="hero-name-input"
                       type="text" 
                       required 
                       value={formData.name}
@@ -347,7 +339,7 @@ function EshopOfferContent() {
                 <div className="pt-1">
                   <label className="flex items-start gap-2 text-[11px] text-white/80 cursor-pointer group">
                     <input type="checkbox" checked={formData.acceptTerms} onChange={(e) => setFormData({...formData, acceptTerms: e.target.checked})} className="accent-[#4ade80] w-3.5 h-3.5 mt-0.5" />
-                    <span>Αποδέχομαι τους <a href="/terms-of-use" className="underline hover:text-white">όρους χρήσης</a>.</span>
+                    <span>Αποδέχομαι τους <a href="/eshop-offer/terms-of-use" className="underline hover:text-white">όρους χρήσης</a>.</span>
                   </label>
                   <label className="flex items-start gap-2 text-[11px] text-white/80 cursor-pointer mt-1 group">
                     <input type="checkbox" checked={formData.acceptPromo} onChange={(e) => setFormData({...formData, acceptPromo: e.target.checked})} className="accent-[#4ade80] w-3.5 h-3.5 mt-0.5" />
