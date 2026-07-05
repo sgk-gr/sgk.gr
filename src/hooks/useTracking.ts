@@ -61,30 +61,58 @@ export function useTracking(pageName: string) {
     const referrer = document.referrer || "Direct";
     const userAgent = navigator.userAgent;
 
-    // 1. Initialize session row in database
+    // 1. Initialize or resume session row in database
     const initTracking = async () => {
       try {
-        const { data, error } = await supabase
+        const { data: existingSession, error: fetchError } = await supabase
           .from("tracking_sessions")
-          .insert({
-            visitor_id: visitorId,
-            session_id: sessionId,
-            page_path: pagePath,
-            referrer: referrer,
-            user_agent: userAgent,
-            duration_seconds: 0,
-            clicks: [],
-            max_scroll_percentage: 0,
-            form_inputs: []
-          })
-          .select("id")
-          .single();
+          .select("id, clicks, form_inputs, duration_seconds, max_scroll_percentage")
+          .eq("session_id", sessionId)
+          .maybeSingle();
 
-        if (error) {
-          console.warn("⚠️ [Tracking] Init failed:", error.message);
-        } else if (data) {
-          trackingIdRef.current = data.id;
-          // console.log("📊 [Tracking] Session initialized:", data.id);
+        const timestamp = new Date().toISOString();
+        const navEvent = { text: `Visited page: ${pagePath}`, id: "", tag: "NAVIGATE", timestamp };
+
+        if (existingSession) {
+          // Resume existing session row
+          trackingIdRef.current = existingSession.id;
+          durationRef.current = existingSession.duration_seconds;
+          clicksRef.current = [...(existingSession.clicks || []), navEvent];
+          formInputsRef.current = existingSession.form_inputs || [];
+          maxScrollRef.current = existingSession.max_scroll_percentage || 0;
+
+          await supabase
+            .from("tracking_sessions")
+            .update({
+              page_path: pagePath, // track current page path
+              clicks: clicksRef.current,
+              updated_at: timestamp
+            })
+            .eq("id", existingSession.id);
+        } else {
+          // Initialize a brand new session row
+          clicksRef.current = [navEvent];
+          const { data, error } = await supabase
+            .from("tracking_sessions")
+            .insert({
+              visitor_id: visitorId,
+              session_id: sessionId,
+              page_path: pagePath,
+              referrer: referrer,
+              user_agent: userAgent,
+              duration_seconds: 0,
+              clicks: clicksRef.current,
+              max_scroll_percentage: 0,
+              form_inputs: []
+            })
+            .select("id")
+            .single();
+
+          if (error) {
+            console.warn("⚠️ [Tracking] Init failed:", error.message);
+          } else if (data) {
+            trackingIdRef.current = data.id;
+          }
         }
       } catch (err) {
         console.error("📊 [Tracking] Init error:", err);
