@@ -49,6 +49,8 @@ export function useTracking(pageName: string) {
   const trackingIdRef = useRef<string | null>(null);
   const durationRef = useRef<number>(0);
   const clicksRef = useRef<Array<{ text: string; id: string; tag: string; timestamp: string }>>([]);
+  const maxScrollRef = useRef<number>(0);
+  const formInputsRef = useRef<Array<{ field: string; value: string; timestamp: string }>>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -71,7 +73,9 @@ export function useTracking(pageName: string) {
             referrer: referrer,
             user_agent: userAgent,
             duration_seconds: 0,
-            clicks: []
+            clicks: [],
+            max_scroll_percentage: 0,
+            form_inputs: []
           })
           .select("id")
           .single();
@@ -89,7 +93,7 @@ export function useTracking(pageName: string) {
 
     initTracking();
 
-    // 2. Heartbeat interval to update duration spent on page
+    // 2. Heartbeat interval to update duration & scroll spent on page
     const interval = setInterval(async () => {
       if (!trackingIdRef.current) return;
       durationRef.current += 5;
@@ -97,7 +101,10 @@ export function useTracking(pageName: string) {
       try {
         await supabase
           .from("tracking_sessions")
-          .update({ duration_seconds: durationRef.current })
+          .update({ 
+            duration_seconds: durationRef.current,
+            max_scroll_percentage: maxScrollRef.current
+          })
           .eq("id", trackingIdRef.current);
       } catch (err) {
         console.error("📊 [Tracking] Heartbeat failed:", err);
@@ -132,12 +139,74 @@ export function useTracking(pageName: string) {
       }
     };
 
+    // 4. Scroll position tracking (throttled)
+    let scrollTimeout: any = null;
+    const handleScroll = () => {
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(() => {
+        scrollTimeout = null;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight <= 0) return;
+        const scrollPercent = Math.round((window.scrollY / totalHeight) * 100);
+        if (scrollPercent > maxScrollRef.current) {
+          maxScrollRef.current = Math.min(100, scrollPercent);
+        }
+      }, 250);
+    };
+
+    // 5. Form input tracking (triggers when input field loses focus)
+    const handleInputBlur = async (e: FocusEvent) => {
+      if (!trackingIdRef.current) return;
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
+        // Skip sensitive fields like passwords or credit cards
+        if (target.type === "password") return;
+
+        const fieldName = target.name || target.id || target.placeholder || target.type || "Unnamed Field";
+        const val = target.value?.trim();
+
+        if (!val) return; // skip logging empty submissions
+
+        const displayValue = val.slice(0, 80);
+        const timestamp = new Date().toISOString();
+
+        // Prevent duplicate sequential logs for the same field with the same value
+        const existingIdx = formInputsRef.current.findIndex(item => item.field === fieldName);
+        if (existingIdx !== -1 && formInputsRef.current[existingIdx].value === displayValue) {
+          return;
+        }
+
+        const inputEvent = { field: fieldName, value: displayValue, timestamp };
+        if (existingIdx !== -1) {
+          const updated = [...formInputsRef.current];
+          updated[existingIdx] = inputEvent;
+          formInputsRef.current = updated;
+        } else {
+          formInputsRef.current = [...formInputsRef.current, inputEvent];
+        }
+
+        try {
+          await supabase
+            .from("tracking_sessions")
+            .update({ form_inputs: formInputsRef.current })
+            .eq("id", trackingIdRef.current);
+        } catch (err) {
+          console.error("📊 [Tracking] Form input update failed:", err);
+        }
+      }
+    };
+
     document.addEventListener("click", handleGlobalClick);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("blur", handleInputBlur, true); // capture phase for blur events
 
     // Clean up
     return () => {
       clearInterval(interval);
       document.removeEventListener("click", handleGlobalClick);
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("blur", handleInputBlur, true);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
     };
   }, [pageName]);
 }

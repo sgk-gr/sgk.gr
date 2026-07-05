@@ -16,6 +16,8 @@ interface TrackingSession {
   referrer: string;
   duration_seconds: number;
   clicks: Array<{ text: string; id: string; tag: string; timestamp: string }>;
+  max_scroll_percentage: number;
+  form_inputs: Array<{ field: string; value: string; timestamp: string }>;
   user_agent: string;
   created_at: string;
   updated_at: string;
@@ -26,6 +28,10 @@ export function TrackingTab() {
   const [loading, setLoading] = useState(true);
   const [selectedSession, setSelectedSession] = useState<TrackingSession | null>(null);
   
+  // Live Ticker State
+  const [liveActiveUsers, setLiveActiveUsers] = useState<number>(0);
+  const [livePoints, setLivePoints] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
   // Filters
   const [timeFilter, setTimeFilter] = useState<"24h" | "7d" | "all">("7d");
   const [pageFilter, setPageFilter] = useState<"all" | "payg" | "offer">("all");
@@ -61,6 +67,31 @@ export function TrackingTab() {
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  // Poll live active users (updates in last 60s)
+  useEffect(() => {
+    const updateLiveStats = async () => {
+      try {
+        const oneMinuteAgo = new Date(Date.now() - 60 * 1000).toISOString();
+        const { count, error } = await supabase
+          .from("tracking_sessions")
+          .select("id", { count: "exact", head: true })
+          .gt("updated_at", oneMinuteAgo);
+
+        if (!error) {
+          const activeCount = count || 0;
+          setLiveActiveUsers(activeCount);
+          setLivePoints(prev => [...prev.slice(1), activeCount]);
+        }
+      } catch (err) {
+        console.error("📊 [Tracking] Live poll error:", err);
+      }
+    };
+
+    updateLiveStats();
+    const liveInterval = setInterval(updateLiveStats, 4000);
+    return () => clearInterval(liveInterval);
   }, []);
 
   // Filtered Sessions
@@ -130,8 +161,9 @@ export function TrackingTab() {
       const sessionSummary = filteredSessions.slice(0, 15).map(s => ({
         path: s.page_path,
         duration: `${s.duration_seconds}s`,
-        clicks_count: s.clicks?.length || 0,
+        scroll_depth: `${s.max_scroll_percentage}%`,
         clicks: s.clicks?.map(c => c.text).join(" -> "),
+        form_inputs: s.form_inputs?.map(fi => fi.field).join(", "),
         referrer: s.referrer
       }));
 
@@ -143,15 +175,15 @@ export function TrackingTab() {
 - Μοναδικοί Επισκέπτες: ${uniqueVisitors}
 - Μέσος Χρόνος Παραμονής: ${avgDuration} δευτερόλεπτα
 - Προβολές /pay-as-you-grow: ${paygViews}
-- Προβολές /eshop-offer: ${offerviews}
+- Προβολές /eshop-offer: ${offerViews}
 - Σύνολο Clicks: ${totalClicks}
 
-ΔΕΔΟΜΕΝΑ ΣΥΝΕΔΡΙΩΝ:
+ΔΕΔΟΜΕΝΑ ΣΥΝΕΔΡΙΩΝ (περιλαμβάνει click sequence, βάθος scroll και πεδία που πληκτρολογήθηκαν):
 ${JSON.stringify(sessionSummary, null, 2)}
 
 Η αναφορά σου πρέπει να περιλαμβάνει:
-1. **Σύνοψη Συμπεριφοράς**: Πού δείχνουν να κολλάνε οι χρήστες; Τι τους τραβάει την προσοχή;
-2. **Σημαντικά Μοτίβα**: Π.χ. αν κάποιος βλέπει το Pay as you grow και μετά πάει στη φόρμα eshop-offer.
+1. **Σύνοψη Συμπεριφοράς**: Πού δείχνουν να κολλάνε οι χρήστες; Τι τους τραβάει την προσοχή; Πόσο scroll κάνουν και τι πληκτρολογούν στη φόρμα;
+2. **Σημαντικά Μοτίβα**: Π.χ. αν οι χρήστες πληκτρολογούν στη φόρμα αλλά δεν την υποβάλλουν (form abandonment).
 3. **3 Συγκεκριμένες Προτάσεις Βελτίωσης** για να αυξήσουμε τις μετατροπές (conversions) των σελίδων αυτών.
 
 Να είσαι σύντομος και περιεκτικός, χρησιμοποιώντας bullet points.`;
@@ -187,13 +219,7 @@ ${JSON.stringify(sessionSummary, null, 2)}
             if (line.startsWith("data: ")) {
               const dataText = line.substring(6).trim();
               if (dataText === "[DONE]") break;
-              try {
-                // If it is SSE text streaming
-                setAiReport(prev => prev + dataText);
-              } catch (e) {
-                // fallback if json
-                setAiReport(prev => prev + dataText);
-              }
+              setAiReport(prev => prev + dataText);
             }
           }
         }
@@ -227,6 +253,76 @@ ${JSON.stringify(sessionSummary, null, 2)}
           <RefreshCcw className="w-3.5 h-3.5" />
           Ανανέωση
         </button>
+      </div>
+
+      {/* Real-Time Glowing Stock Chart Card */}
+      <div className="bg-white/5 p-6 rounded-2xl border border-white/5 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">Live Επισκεψιμότητα (Τελευταίο 1 λεπτό)</span>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+              </span>
+              <span className="text-lg font-bold text-white">{liveActiveUsers} χρήστες online</span>
+            </div>
+          </div>
+          <div className="text-[9px] text-white/40 uppercase tracking-widest font-black flex items-center gap-1.5 bg-black/40 px-3 py-1 rounded-full border border-white/10">
+            <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+            Live Chart
+          </div>
+        </div>
+        
+        {/* SVG glowing graph */}
+        <div className="h-28 w-full bg-black/50 rounded-xl border border-white/5 p-2 relative overflow-hidden flex items-end">
+          <div className="absolute inset-0 grid grid-rows-3 grid-cols-5 pointer-events-none opacity-5">
+            {[...Array(3)].map((_, i) => <div key={i} className="border-b border-white w-full" />)}
+          </div>
+          
+          <svg className="w-full h-full overflow-visible" viewBox="0 0 300 80" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#4ade80" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#4ade80" stopOpacity="0" />
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="1.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {/* Draw fill */}
+            <path
+              d={`M 0,80 ${livePoints.map((p, idx) => {
+                const x = idx * (300 / (livePoints.length - 1));
+                const maxVal = Math.max(...livePoints, 5);
+                const y = 80 - (p / maxVal) * 65;
+                return `L ${x},${y}`;
+              }).join(" ")} L 300,80 Z`}
+              fill="url(#chartGrad)"
+              className="transition-all duration-500 ease-in-out"
+            />
+
+            {/* Draw glowing stroke */}
+            <path
+              d={livePoints.map((p, idx) => {
+                const x = idx * (300 / (livePoints.length - 1));
+                const maxVal = Math.max(...livePoints, 5);
+                const y = 80 - (p / maxVal) * 65;
+                return `${idx === 0 ? "M" : "L"} ${x},${y}`;
+              }).join(" ")}
+              fill="none"
+              stroke="#4ade80"
+              strokeWidth="2.5"
+              filter="url(#glow)"
+              className="transition-all duration-500 ease-in-out"
+            />
+          </svg>
+        </div>
       </div>
 
       {/* Filter Bar */}
@@ -355,15 +451,17 @@ ${JSON.stringify(sessionSummary, null, 2)}
               Δεν βρέθηκαν συνεδρίες με τα επιλεγμένα φίλτρα.
             </div>
           ) : (
-            <div className="bg-[#181818] rounded-2xl border border-white/5 overflow-hidden max-h-[500px] overflow-y-auto">
+            <div className="bg-[#181818] rounded-2xl border border-white/5 overflow-hidden max-h-[550px] overflow-y-auto">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-white/5 border-b border-white/10 text-white/50">
                     <th className="p-4">Ημ/νία & Ώρα</th>
                     <th className="p-4">Σελίδα</th>
-                    <th className="p-4">Πηγή (Referrer)</th>
+                    <th className="p-4">Referrer</th>
+                    <th className="p-4">Scroll</th>
                     <th className="p-4">Διάρκεια</th>
                     <th className="p-4 text-center">Clicks</th>
+                    <th className="p-4 text-center">Inputs</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -377,17 +475,23 @@ ${JSON.stringify(sessionSummary, null, 2)}
                         {getDeviceIcon(session.user_agent)}
                         {formatDate(session.created_at)}
                       </td>
-                      <td className="p-4 font-mono text-[10px] text-blue-400 max-w-[120px] truncate">
+                      <td className="p-4 font-mono text-[10px] text-blue-400 max-w-[100px] truncate">
                         {session.page_path}
                       </td>
-                      <td className="p-4 text-white/60 max-w-[120px] truncate">
+                      <td className="p-4 text-white/60 max-w-[90px] truncate">
                         {session.referrer || "-"}
+                      </td>
+                      <td className="p-4 font-bold text-indigo-400">
+                        {session.max_scroll_percentage || 0}%
                       </td>
                       <td className="p-4 font-bold text-green-400">
                         {session.duration_seconds}s
                       </td>
                       <td className="p-4 text-center font-bold text-yellow-400">
                         {session.clicks?.length || 0}
+                      </td>
+                      <td className="p-4 text-center font-bold text-[#4ade80]">
+                        {session.form_inputs?.length || 0}
                       </td>
                     </tr>
                   ))}
@@ -433,6 +537,19 @@ ${JSON.stringify(sessionSummary, null, 2)}
                   <span className="text-green-400 font-bold">{selectedSession.duration_seconds} δευτερόλεπτα</span>
                 </div>
                 <div className="flex justify-between">
+                  <span className="text-white/40">Βάθος Scroll:</span>
+                  <span className="text-indigo-400 font-bold">{selectedSession.max_scroll_percentage || 0}%</span>
+                </div>
+                
+                {/* Scroll progress bar */}
+                <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden mt-1 mb-3">
+                  <div 
+                    className="bg-indigo-400 h-full rounded-full transition-all duration-500" 
+                    style={{ width: `${selectedSession.max_scroll_percentage || 0}%` }}
+                  />
+                </div>
+
+                <div className="flex justify-between">
                   <span className="text-white/40">User Agent:</span>
                   <span className="text-white/60 text-[9px] max-w-[180px] truncate" title={selectedSession.user_agent}>
                     {selectedSession.user_agent}
@@ -440,6 +557,31 @@ ${JSON.stringify(sessionSummary, null, 2)}
                 </div>
               </div>
 
+              {/* Form Input Logs */}
+              <h4 className="text-xs font-bold text-[#4ade80] mb-2 flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5" />
+                Form Inputs (Πληκτρολόγηση)
+              </h4>
+
+              {(!selectedSession.form_inputs || selectedSession.form_inputs.length === 0) ? (
+                <p className="text-xs text-white/30 italic mb-4">Δεν καταγράφηκαν πληκτρολογήσεις σε αυτή τη συνεδρία.</p>
+              ) : (
+                <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1 mb-4">
+                  {selectedSession.form_inputs.map((input, i) => (
+                    <div key={i} className="bg-white/5 p-2 rounded-lg border border-white/5 text-[10px]">
+                      <div className="flex justify-between text-[9px] text-white/40 mb-1">
+                        <span className="font-semibold text-white/60">Πεδίο: {input.field}</span>
+                        <span>{new Date(input.timestamp).toLocaleTimeString("el-GR")}</span>
+                      </div>
+                      <div className="text-white/95 font-mono bg-black/40 p-1.5 rounded border border-white/5 select-all">
+                        {input.value}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Click Timeline */}
               <h4 className="text-xs font-bold text-yellow-400 mb-2 flex items-center gap-1.5">
                 <MousePointer className="w-3.5 h-3.5" />
                 Click Timeline
@@ -448,7 +590,7 @@ ${JSON.stringify(sessionSummary, null, 2)}
               {(!selectedSession.clicks || selectedSession.clicks.length === 0) ? (
                 <p className="text-xs text-white/30 italic">Δεν καταγράφηκαν clicks σε αυτή τη συνεδρία.</p>
               ) : (
-                <div className="space-y-2 max-h-[180px] overflow-y-auto pr-1">
+                <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
                   {selectedSession.clicks.map((click, i) => (
                     <div key={i} className="bg-white/5 p-2 rounded-lg border border-white/5 text-[10px]">
                       <div className="flex justify-between text-[9px] text-white/40 mb-1">
