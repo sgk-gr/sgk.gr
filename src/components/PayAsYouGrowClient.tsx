@@ -61,15 +61,15 @@ export default function PayAsYouGrowClient() {
                                 </span>
                             </h1>
                             <p className="text-base text-black/60 font-light mt-1 max-w-xl leading-relaxed">
-                                Απόκτησε επαγγελματικό Eshop <strong className="text-black">με setup fee μόνο 250€</strong>, με το κατάστημα να είναι έτοιμο να πουλάει την επόμενη μέρα, και μας ξεπληρώνεις το υπόλοιπο από τις πωλήσεις σου, όσες και αν είναι. Δεν έχεις; Δεν πληρώνεις.
+                                Απόκτησε επαγγελματικό Eshop <strong className="text-black">με setup fee μόνο 250€</strong>, έτοιμο να πουλάει την επόμενη μέρα. Δεν έχεις πωλήσεις; Δεν πληρώνεις τίποτα άλλο! Και σε 12 μήνες το Eshop είναι 100% δικό σου.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3 mt-6 w-full max-w-md">
-                                <a href="#calculator" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold rounded-lg transition-all duration-300 text-sm shadow-md whitespace-nowrap">
-                                    Δες το Πλάνο σου <ArrowRight className="w-4 h-4" />
-                                </a>
-                                <Link href="/eshop-offer?plan=pay-as-you-grow" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-lg transition-all duration-300 text-sm whitespace-nowrap">
+                                <Link href="/eshop-offer?plan=pay-as-you-grow" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold rounded-lg transition-all duration-300 text-sm shadow-md whitespace-nowrap">
                                     Κάνε Αίτηση Τώρα
                                 </Link>
+                                <a href="#how-it-works" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-lg transition-all duration-300 text-sm whitespace-nowrap">
+                                    Διάβασε περισσότερα ↓
+                                </a>
                             </div>
                         </div>
 
@@ -83,7 +83,7 @@ export default function PayAsYouGrowClient() {
                         </div>
 
                         {/* Right: Offer highlight */}
-                        <div className="flex flex-col items-center justify-center bg-[#f0f4ff] px-8 md:px-10 py-8 md:py-8 md:w-[260px] border-t md:border-t-0 md:border-l border-gray-100 z-10">
+                        <div className="flex flex-col items-center justify-center bg-[#f0f4ff] px-8 md:px-10 py-8 md:py-8 md:w-[260px] border-t md:border-t-0 md:border-l border-gray-100 z-10 relative">
                             <p className="text-sm text-black/50 font-light mb-2 text-center">Εξοφλείς με μόλις</p>
                             <div className="text-center">
                                 <span className="text-5xl font-black text-[#3b5bdb] leading-none">5%</span>
@@ -99,12 +99,17 @@ export default function PayAsYouGrowClient() {
                                 <ShieldCheck className="w-4 h-4 text-[#4ade80]" />
                                 <span className="text-xs text-black/50">Εγγυημένα ασφαλές</span>
                             </div>
+
+                            {/* Bouncing scroll indicator */}
+                            <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center text-black/30 animate-bounce pointer-events-none">
+                                <ChevronDown className="w-5 h-5 text-[#3b5bdb]" />
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 {/* Info Blocks */}
-                <section className="container mx-auto px-6 max-w-[1400px] mb-24 mt-8">
+                <section id="how-it-works" className="container mx-auto px-6 max-w-[1400px] mb-24 mt-8 scroll-mt-24">
                     <div className="flex flex-col md:flex-row gap-8 items-stretch">
                         {/* Block 1: How it works */}
                         <div className="w-full md:w-1/2 bg-[#4ade80] text-black p-8 md:p-12 shadow-2xl flex flex-col justify-between">
