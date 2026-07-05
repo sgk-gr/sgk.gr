@@ -11,6 +11,7 @@ import FloatingChatBot from "@/components/FloatingChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
 import Link from "next/link";
 import { Inter as InterFont, Space_Grotesk as SpaceFont } from 'next/font/google';
+import GlobalPromoBar from "@/components/GlobalPromoBar";
 
 const inter = InterFont({
     subsets: ['latin'],
@@ -181,9 +182,7 @@ export default function RootLayout({
                     <CookieBanner />
                     <SpeedInsights />
                     {children}
-                    <div className="global-promo-bar fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20 shadow-[0_-4px_10px_rgba(0,0,0,0.15)] whitespace-nowrap overflow-hidden text-ellipsis px-2">
-                        Νέος πελάτης; <Link href="/pay-as-you-grow" className="underline underline-offset-2 hover:text-[#facc15] transition-colors font-bold">Ξεκίνα το Eshop σου χωρίς ρίσκο</Link>
-                    </div>
+                    <GlobalPromoBar />
                 </TooltipProvider>
             </body>
         </html>
