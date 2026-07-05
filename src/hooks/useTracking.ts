@@ -3,16 +3,31 @@
 import { useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 
-// Helper to generate UUID
+// Helper to validate UUID format
+function isValidUUID(uuid: string | null): boolean {
+  if (!uuid) return false;
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(uuid);
+}
+
+// Helper to generate UUID with secure fallback
 function generateUUID(): string {
-  return crypto.randomUUID();
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  // Fallback RFC4122 v4 UUID generator
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 // Helper to get or create persistent visitor ID
 function getOrCreateVisitorId(): string {
   if (typeof window === "undefined") return "";
   let visitorId = localStorage.getItem("sgk_visitor_id");
-  if (!visitorId) {
+  if (!isValidUUID(visitorId)) {
     visitorId = generateUUID();
     localStorage.setItem("sgk_visitor_id", visitorId);
   }
@@ -23,7 +38,7 @@ function getOrCreateVisitorId(): string {
 function getOrCreateSessionId(): string {
   if (typeof window === "undefined") return "";
   let sessionId = sessionStorage.getItem("sgk_session_id");
-  if (!sessionId) {
+  if (!isValidUUID(sessionId)) {
     sessionId = generateUUID();
     sessionStorage.setItem("sgk_session_id", sessionId);
   }
