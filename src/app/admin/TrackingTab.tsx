@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { 
   Activity, Eye, Clock, MousePointer, User, ExternalLink, 
-  Brain, BarChart2, Calendar, RefreshCcw, ArrowRight, Smartphone, Monitor
+  Brain, BarChart2, Calendar, RefreshCcw, ArrowRight, Smartphone, Monitor,
+  Trash2
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
@@ -236,6 +237,34 @@ ${JSON.stringify(sessionSummary, null, 2)}
     }
   };
 
+  // Delete a tracking session
+  const deleteSession = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // prevent selecting the row
+    if (!confirm("Θέλεις σίγουρα να διαγράψεις αυτή τη συνεδρία;")) return;
+
+    try {
+      const { error } = await supabase
+        .from("tracking_sessions")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        toast.error("Αποτυχία διαγραφής συνεδρίας.");
+        console.error(error);
+      } else {
+        toast.success("Η συνεδρία διαγράφηκε!");
+        setSessions(prev => prev.filter(s => s.id !== id));
+        if (selectedSession?.id === id) {
+          setSelectedSession(null);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Σφάλμα συστήματος κατά τη διαγραφή.");
+    }
+  };
+
+
   return (
     <div className="bg-[#111111] text-white p-6 rounded-3xl border border-white/10 shadow-2xl relative z-10 max-w-7xl mx-auto mt-6">
       
@@ -466,6 +495,7 @@ ${JSON.stringify(sessionSummary, null, 2)}
                     <th className="p-4">Διάρκεια</th>
                     <th className="p-4 text-center">Clicks</th>
                     <th className="p-4 text-center">Inputs</th>
+                    <th className="p-4 text-center">Διαγραφή</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -496,6 +526,15 @@ ${JSON.stringify(sessionSummary, null, 2)}
                       </td>
                       <td className="p-4 text-center font-bold text-[#4ade80]">
                         {session.form_inputs?.length || 0}
+                      </td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={(e) => deleteSession(session.id, e)}
+                          className="p-1.5 hover:bg-red-500/10 text-red-500/60 hover:text-red-500 rounded-lg transition-all"
+                          title="Διαγραφή"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
                       </td>
                     </tr>
                   ))}
