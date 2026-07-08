@@ -19,7 +19,7 @@ const values = [
   {
     icon: <Award className="w-5 h-5 text-[#3b5bdb]" />,
     title: "Ακαδημαϊκή έρευνα",
-    desc: "Ενεργό μέλος του ResearchGate και εισηγητής στο διεθνές συνέδριο INTED 2025 στη Βαλένθια.",
+    desc: "Ενεργό μέλος του ResearchGate και εισηγητής στα διεθνή συνέδρια INTED και EDULEARN.",
   },
   {
     icon: <Globe className="w-5 h-5 text-[#3b5bdb]" />,
@@ -108,8 +108,7 @@ export default function AboutClient() {
                     >
                       ResearchGate
                     </a>
-                    {" "}και το 2025 παρουσίασε ως εισηγητής στο διεθνές συνέδριο
-                    INTED στη Βαλένθια, με θέμα τα mobile application innovations στην εκπαίδευση.
+                    {" "}και το 2025 συμμετείχε ως εισηγητής στα διεθνή συνέδρια INTED και EDULEARN, με θέμα τα mobile application innovations στην εκπαίδευση.
                   </p>
 
                   <div className="mt-8 flex flex-wrap gap-3">

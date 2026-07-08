@@ -91,6 +91,7 @@ const Footer = () => {
             <p className="text-[11px] uppercase tracking-[0.2em] text-white mb-8">Αναγνώριση:</p>
             <div className="flex flex-wrap items-center gap-10 grayscale hover:grayscale-0 transition-all duration-500">
               <span className="text-xl font-bold tracking-widest">INTED</span>
+              <span className="text-xl font-bold tracking-widest">EDULEARN</span>
             </div>
           </div>
         </div>
