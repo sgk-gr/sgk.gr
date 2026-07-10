@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "SGK Software Development | Eshop, Web Apps, AI Agents Ελλάδα",
         description: "18 χρόνια εμπειρίας. Κατασκευή Eshop, custom web εφαρμογές, AI agents. Αθήνα, Ελλάδα.",
-        images: [{ url: "https://sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Software Development" }],
+        images: [{ url: "https://sgk.gr/hero_slide_4.png", width: 1200, height: 630, alt: "SGK Software Development" }],
         url: "https://sgk.gr",
         type: "website",
         siteName: "SGK Software Development",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "SGK Software Development | Κατασκευή Eshop, AI Agents Ελλάδα",
         description: "18 χρόνια εμπειρίας. Κατασκευή Eshop, Web Apps, AI Agents. Αθήνα, Ελλάδα.",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://sgk.gr/hero_slide_4.png"],
     },
     robots: {
         index: true,
