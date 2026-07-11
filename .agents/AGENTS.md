@@ -13,3 +13,7 @@ Whenever representing the "Pay As You Grow" model of SGK Digital in any website 
 * This is for custom projects (standard pricing).
 * **Payment Terms**: 50% deposit (προκαταβολή), 25% on Design approval, 25% before launch (live).
 * **CRITICAL**: Keep this distinct from the "Pay As You Grow" model.
+
+## 3. Standard Email Template for Client Notifications
+Whenever the user asks to write, generate, or format an HTML email template for clients, you must strictly use the branding layout defined in [emailTemplates.ts](file:///d:/sgk-digital/src/lib/emailTemplates.ts) (incorporating the top logo, the color strip, the content card, the primary button styles, the blue footer with SGK details, and the unsubscribe section).
+
