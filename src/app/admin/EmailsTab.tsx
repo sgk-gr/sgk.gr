@@ -227,7 +227,9 @@ export function EmailsTab() {
 
       try {
         const unsubscribeToken = lead.unsubscribe_token || crypto.randomUUID();
-        const bodyHtml = campaignBody.replace(/\n/g, '<br />');
+        const bodyHtml = campaignBody.includes("<p>") || campaignBody.includes("</div>") || campaignBody.includes("<br")
+          ? campaignBody
+          : campaignBody.replace(/\n/g, '<br />');
 
         const finalBody = buildProfessionalEmailHtml({
           businessName: lead.first_name || lead.company || "Συνεργάτη",
@@ -510,7 +512,9 @@ export function EmailsTab() {
                     const sampleLead = singleLeadTarget || leads.find(l => selectedLeads.includes(l.id));
                     const businessName = sampleLead ? (sampleLead.first_name || "Συνεργάτη") : "Συνεργάτη";
                     
-                    const bodyHtml = campaignBody.replace(/\n/g, '<br />');
+                    const bodyHtml = campaignBody.includes("<p>") || campaignBody.includes("</div>") || campaignBody.includes("<br")
+                      ? campaignBody
+                      : campaignBody.replace(/\n/g, '<br />');
 
                     return buildProfessionalEmailHtml({
                       businessName: businessName,

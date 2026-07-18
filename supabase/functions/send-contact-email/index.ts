@@ -152,7 +152,6 @@ serve(async (req) => {
                     <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
                     <p><strong>Τιμή Προσφοράς:</strong> ${isPayAsYouGrow ? 'Pay As You Grow (250€ + 5%)' : '1500€'}</p>
                     <p><strong>Marketing Consent:</strong> ${marketingConsent ? '✅ Ναι' : '❌ Όχι'}</p>
-                </div>
             </div>
                 `
             });
@@ -166,13 +165,13 @@ serve(async (req) => {
                 userEmailHtml = `
             <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
                 <!-- Top Link -->
-                <div style="text-align: right; padding: 10px 20px;">
+                <div style="text-align: right; padding: 8px 20px;">
                     <a href="https://sgk.gr/pay-as-you-grow" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">Δες την online έκδοση</a>
                 </div>
 
                 <!-- Logo -->
-                <div style="text-align: center; padding: 20px 0;">
-                    <h1 style="margin: 0; font-size: 42px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
+                <div style="text-align: center; padding: 12px 0;">
+                    <h1 style="margin: 0; font-size: 36px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
                 </div>
 
                 <!-- Color Strip -->
@@ -183,9 +182,9 @@ serve(async (req) => {
                 </div>
 
                 <!-- Hero Area (Dark) -->
-                <div style="background-color: #111111; color: #ffffff; padding: 50px 20px; text-align: center; position: relative;">
-                    <h1 style="font-size: 60px; font-weight: 900; margin: 0; line-height: 1; letter-spacing: -2px; color: #ffffff;">Pay as you grow</h1>
-                    <h3 style="font-size: 22px; margin: 10px 0 0 0; font-weight: 800; color: #ffffff;">Το ταξίδι σου <span style="color:#4ade80;">ξεκινάει</span></h3>
+                <div style="background-color: #111111; color: #ffffff; padding: 30px 20px; text-align: center; position: relative;">
+                    <h1 style="font-size: 44px; font-weight: 900; margin: 0; line-height: 1; letter-spacing: -2px; color: #ffffff;">Pay as you grow</h1>
+                    <h3 style="font-size: 20px; margin: 8px 0 0 0; font-weight: 800; color: #ffffff;">Το ταξίδι σου <span style="color:#4ade80;">ξεκινάει</span></h3>
                 </div>
                 <div style="display: flex; height: 12px; width: 100%;">
                     <div style="width: 15%; background-color: #4ade80;"></div>
@@ -193,20 +192,20 @@ serve(async (req) => {
                 </div>
 
                 <!-- Content Area -->
-                <div style="padding: 40px 30px; color: #333333;">
-                    <p style="font-size: 18px; font-weight: 600; margin-top: 0;">Λάβαμε με επιτυχία το αίτημά σου!</p>
-                    <p style="font-size: 16px; margin-bottom: 40px;">Κάνατε το πρώτο βήμα για να αποκτήσετε ένα υπερσύγχρονο E-shop, εντελώς δωρεάν από ρίσκο.</p>
+                <div style="padding: 24px 20px; color: #333333; font-size: 15px; line-height: 1.5;">
+                    <p style="font-size: 17px; font-weight: 600; margin-top: 0; margin-bottom: 12px;">Λάβαμε με επιτυχία το αίτημά σου!</p>
+                    <p style="margin-bottom: 20px;">Κάνατε το πρώτο βήμα για να αποκτήσετε ένα υπερσύγχρονο E-shop, εντελώς δωρεάν από ρίσκο.</p>
 
-                    <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Το μοντέλο σου με μια ματιά:</p>
+                    <p style="font-size: 17px; font-weight: 700; margin-bottom: 12px;">Το μοντέλο σου με μια ματιά:</p>
                     
-                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 20px;">250€</span> Setup Fee (Εφάπαξ - έτοιμο να πουλάει την επόμενη μέρα)</p>
-                    <p style="font-size: 16px; margin-bottom: 15px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 20px;">5%</span> προμήθεια επί των πωλήσεων</p>
-                    <p style="font-size: 16px; margin-bottom: 30px; color: #444;">Αν δεν πουλάς, <strong style="color: #000;">δεν πληρώνεις απολύτως τίποτα!</strong> Και σε 12 μήνες, το Eshop είναι 100% δικό σου.</p>
+                    <p style="margin-bottom: 10px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 18px;">250€</span> Setup Fee (Εφάπαξ - έτοιμο να πουλάει την επόμενη μέρα)</p>
+                    <p style="margin-bottom: 10px; color: #444;"><span style="color:#3b5bdb; font-weight: 800; font-size: 18px;">5%</span> προμήθεια επί των πωλήσεων</p>
+                    <p style="margin-bottom: 20px; color: #444;">Αν δεν πουλάς, <strong style="color: #000;">δεν πληρώνεις απολύτως τίποτα!</strong> Και σε 12 μήνες, το Eshop είναι 100% δικό σου.</p>
 
-                    <p style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Τι ακολουθεί;</p>
-                    <p style="font-size: 16px; margin-bottom: 40px; color: #444;">Ένας εξειδικευμένος σύμβουλος θα επικοινωνήσει άμεσα μαζί σου για να ξεκινήσουμε!</p>
+                    <p style="font-size: 17px; font-weight: 700; margin-bottom: 12px;">Τι ακολουθεί;</p>
+                    <p style="margin-bottom: 20px; color: #444;">Ένας εξειδικευμένος σύμβουλος θα επικοινωνήσει άμεσα μαζί σου για να ξεκινήσουμε!</p>
 
-                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 30px;">Η ομάδα της SGK Digital 💙</p>
+                    <p style="font-size: 16px; margin-bottom: 15px; font-weight: bold;">Η ομάδα της SGK Digital 💙</p>
                 </div>
 
                 <!-- Blue Footer -->
@@ -217,22 +216,22 @@ serve(async (req) => {
                         <div style="width: 25%; background-color: #facc15;"></div>
                     </div>
                     
-                    <div style="background-color: #3b5bdb; color: #ffffff; padding: 40px 20px; text-align: center;">
-                        <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
+                    <div style="background-color: #3b5bdb; color: #ffffff; padding: 30px 20px; text-align: center;">
+                        <h1 style="margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
                         
-                        <div style="margin: 20px 0;">
-                            <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
-                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+                        <div style="margin: 15px 0;">
+                            <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 4px 9px; font-size: 12px;">f</a>
+                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 4px 9px; font-size: 12px;">t</a>
                         </div>
                         
-                        <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5;">
+                        <div style="font-size: 11px; margin: 15px 0; color: #ffffff; line-height: 1.5;">
                             <strong>SGK Software Development</strong><br/>
                             ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
                             Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
                             📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
                         </div>
 
-                        <p style="font-size: 11px; margin: 20px 0 0 0; color: #ffffff;">
+                        <p style="font-size: 11px; margin: 15px 0 0 0; color: #ffffff;">
                             <a href="https://sgk.gr/terms" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
                             <a href="https://sgk.gr/privacy" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
                         </p>
@@ -243,7 +242,7 @@ serve(async (req) => {
                 </div>
 
                 <!-- Unsubscribe -->
-                <div style="background-color: #f4f4f5; padding: 20px; text-align: left; font-size: 11px; color: #666666;">
+                <div style="background-color: #f4f4f5; padding: 15px 20px; text-align: left; font-size: 11px; color: #666666;">
                     If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
                     <a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" style="color: #3b5bdb; text-decoration: underline;">(unsubscribe)</a>.
                 </div>
@@ -251,95 +250,95 @@ serve(async (req) => {
             } else {
                 userEmailSubject = "Σας έχουμε ένα δώρο! 🎁 Προσφορά για την κατασκευή του Eshop σας";
                 userEmailHtml = `
-            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 40px 20px; border-radius: 16px; border: 1px solid #fbebe3;">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h1 style="color: #1a1a1a; margin: 0; font-size: 24px; font-weight: 800;">Ευχαριστούμε! 🎉</h1>
+            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fdfaf8; padding: 20px 15px; border-radius: 16px; border: 1px solid #fbebe3;">
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <h1 style="color: #1a1a1a; margin: 0; font-size: 22px; font-weight: 800;">Ευχαριστούμε! 🎉</h1>
                 </div>
                 
-                <div style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-                    <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 0;">
+                <div style="background-color: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                    <p style="color: #4a4a4a; font-size: 15px; line-height: 1.5; margin-top: 0; margin-bottom: 12px;">
                         Λάβαμε με επιτυχία το αίτημά σας για την κατασκευή του Eshop σας!
                     </p>
                     
-                    <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                    <p style="color: #4a4a4a; font-size: 15px; line-height: 1.5; margin-bottom: 12px;">
                         Η αρχική τιμή της προσφοράς μας είναι 1.500€, αλλά <strong>με τον προσωπικό σας κωδικό προσφοράς (κουπόνι), η τελική τιμή διαμορφώνεται στα 1.200€!</strong>
                     </p>
                     
-                    <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-                        <p style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px 0; font-weight: bold;">Ο ΜΟΝΑΔΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
-                        <span style="font-family: monospace; font-size: 32px; font-weight: bold; color: #FF6B00; letter-spacing: 4px;">SGK-${couponCode}</span>
-                        <p style="color: #888; font-size: 13px; margin: 8px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
-                        <p style="color: #888; font-size: 11px; margin: 8px 0 0 0;">⏳ Ισχύει για 1 χρήση • Λήξη σε 60 ημέρες</p>
+                    <div style="background-color: #fff8f5; border: 2px dashed #FF6B00; border-radius: 12px; padding: 15px; text-align: center; margin: 15px 0;">
+                        <p style="color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 6px 0; font-weight: bold;">Ο ΜΟΝΑΔΙΚΟΣ ΣΑΣ ΚΩΔΙΚΟΣ ΠΡΟΣΦΟΡΑΣ (Έκπτωση 300€)</p>
+                        <span style="font-family: monospace; font-size: 28px; font-weight: bold; color: #FF6B00; letter-spacing: 4px;">SGK-${couponCode}</span>
+                        <p style="color: #888; font-size: 13px; margin: 6px 0 0 0; font-weight: bold; color: #c25100;">💰 Τελική Τιμή Eshop: 1.200€ (αντί για 1.500€)</p>
+                        <p style="color: #888; font-size: 10px; margin: 6px 0 0 0;">⏳ Ισχύει για 1 χρήση • Λήξη σε 60 ημέρες</p>
                     </div>
                     
-                    <div style="background-color: #fff0e6; padding: 15px 20px; border-left: 4px solid #FF6B00; border-radius: 4px; margin: 25px 0;">
-                        <p style="color: #c25100; margin: 0; font-size: 15px; font-weight: 600;">
+                    <div style="background-color: #fff0e6; padding: 12px 15px; border-left: 4px solid #FF6B00; border-radius: 4px; margin: 15px 0;">
+                        <p style="color: #c25100; margin: 0; font-size: 14px; font-weight: 600;">
                             🚀 Ετοιμαστείτε για αστραπιαίες ταχύτητες και κορυφαίες πωλήσεις!
                         </p>
                     </div>
 
-                    <div style="margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 25px;">
-                        <h2 style="color: #1a1a1a; font-size: 18px; font-weight: 700; margin-bottom: 5px;">Όλα όσα περιλαμβάνει το πακέτο σας</h2>
-                        <p style="color: #666; font-size: 14px; margin-top: 0; margin-bottom: 20px;">Πλήρης λύση χωρίς κρυφά κόστη, σχεδιασμένη για να πουλάτε από την πρώτη μέρα.</p>
+                    <div style="margin-top: 20px; border-top: 1px solid #f0f0f0; padding-top: 15px;">
+                        <h2 style="color: #1a1a1a; font-size: 16px; font-weight: 700; margin-bottom: 4px;">Όλα όσα περιλαμβάνει το πακέτο σας</h2>
+                        <p style="color: #666; font-size: 13px; margin-top: 0; margin-bottom: 12px;">Πλήρης λύση χωρίς κρυφά κόστη, σχεδιασμένη για να πουλάτε από την πρώτη μέρα.</p>
                         
-                        <ul style="list-style: none; padding: 0; margin: 0; color: #4a4a4a; font-size: 14px; line-height: 1.5;">
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <ul style="list-style: none; padding: 0; margin: 0; color: #4a4a4a; font-size: 13px; line-height: 1.5;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🌐</span>
                                 <strong>Φιλοξενία (Hosting):</strong> Δωρεάν για τον 1ο χρόνο. VPS Server για αστραπιαίες ταχύτητες. (180€/έτος μετά)
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">📝</span>
                                 <strong>Domain Name:</strong> Δωρεάν για 2 χρόνια. (20€/έτος μετά)
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🔒</span>
                                 <strong>Ασφάλεια & Πληρωμές:</strong> Δωρεάν SSL. Σύνδεση με τράπεζες και IRIS.
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🚀</span>
                                 <strong>Ταχύτητα & SEO:</strong> Βελτιστοποίηση για μέγιστη ταχύτητα και εμφάνιση στην 1η σελίδα της Google.
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🛒</span>
                                 <strong>Google Shopping & Ads:</strong> Έτοιμη διασύνδεση για διαφημίσεις προϊόντων στην Google.
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">📦</span>
                                 <strong>Απεριόριστα Προϊόντα:</strong> Δημιουργήστε απεριόριστες κατηγορίες και προϊόντα χωρίς περιορισμό.
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🚚</span>
                                 <strong>Τρόποι Πληρωμής & Courier:</strong> Διασύνδεση με όλες τις δημοφιλείς εταιρείες.
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🎓</span>
                                 <strong>Εκμάθηση Πλατφόρμας:</strong> Σας εκπαιδεύουμε στην αποτελεσματική διαχείριση παραγγελιών.
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🔄</span>
                                 <strong>Σύνδεση με ERP Συστήματα:</strong> Πλήρης διασύνδεση με το ERP σύστημά σας (Soft1, Entersoft κ.α.).
                             </li>
-                            <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                            <li style="margin-bottom: 6px; padding-left: 20px; position: relative;">
                                 <span style="position: absolute; left: 0; top: 0;">🛡️</span>
                                 <strong>Εγγύηση Επιστροφής Χρημάτων:</strong> Αν δεν πετύχει κορυφαία σκορ ταχύτητας, σας επιστρέφουμε τα χρήματά σας.
                             </li>
                         </ul>
                     </div>
                     
-                    <div style="margin-top: 30px; border: 1px solid #ffccb3; background-color: #fff9f5; border-radius: 12px; padding: 20px; text-align: left;">
-                        <h3 style="color: #c25100; font-size: 18px; margin-top: 0; margin-bottom: 10px;">Δες το eshop που φτιάξαμε για την Βάια!</h3>
-                        <p style="color: #4a4a4a; font-size: 14px; line-height: 1.5; margin-bottom: 15px;">
+                    <div style="margin-top: 20px; border: 1px solid #ffccb3; background-color: #fff9f5; border-radius: 12px; padding: 15px; text-align: left;">
+                        <h3 style="color: #c25100; font-size: 16px; margin-top: 0; margin-bottom: 8px;">Δες το eshop που φτιάξαμε για την Βάια!</h3>
+                        <p style="color: #4a4a4a; font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
                             To <strong>Vaia Charms</strong>, κατασκευασμένο με 100% έμφαση στην ταχύτητα, το SEO και τα χρώματα που ονειρεύτηκε η πελάτισσά μας.
                         </p>
-                        <a href="https://www.vaiacharms.gr/" style="display: inline-block; background-color: #c25100; color: #ffffff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px;">Δείτε το Project &rarr;</a>
+                        <a href="https://www.vaiacharms.gr/" style="display: inline-block; background-color: #c25100; color: #ffffff; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 13px;">Δείτε το Project &rarr;</a>
                     </div>
                 </div>
                 
-                <div style="text-align: center; margin-top: 30px;">
-                    <p style="color: #888888; font-size: 13px; line-height: 1.5;">
+                <div style="text-align: center; margin-top: 20px;">
+                    <p style="color: #888888; font-size: 12px; line-height: 1.5;">
                         Αυτό το email στάλθηκε αυτόματα. Παρακαλούμε μην απαντήσετε σε αυτό το μήνυμα.<br>
                         <strong>SGK Software Development</strong> | <a href="https://sgk.gr" style="color: #FF6B00; text-decoration: none;">sgk.gr</a><br><br>
-                        <a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" style="color: #999; text-decoration: underline; font-size: 12px;">Κατάργηση εγγραφής (Unsubscribe)</a>
+                        <a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" style="color: #999; text-decoration: underline; font-size: 11px;">Κατάργηση εγγραφής (Unsubscribe)</a>
                     </p>
                 </div>
             </div>
@@ -382,13 +381,13 @@ serve(async (req) => {
             const userEmailHtml = `
             <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden;">
                 <!-- Top Link -->
-                <div style="text-align: right; padding: 10px 20px;">
+                <div style="text-align: right; padding: 8px 20px;">
                     <a href="https://sgk.gr" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">sgk.gr</a>
                 </div>
 
                 <!-- Logo -->
-                <div style="text-align: center; padding: 20px 0;">
-                    <h1 style="margin: 0; font-size: 42px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
+                <div style="text-align: center; padding: 12px 0;">
+                    <h1 style="margin: 0; font-size: 36px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
                 </div>
 
                 <!-- Color Strip -->
@@ -400,38 +399,38 @@ serve(async (req) => {
                 </div>
 
                 <!-- Content Area -->
-                <div style="padding: 40px 30px; color: #333333; font-size: 16px; line-height: 1.6;">
-                    <h2 style="margin: 0 0 16px 0; font-size: 20px; font-weight: bold; color: #111111;">Ευχαριστούμε για την επικοινωνία!</h2>
+                <div style="padding: 24px 20px; color: #333333; font-size: 15px; line-height: 1.5;">
+                    <h2 style="margin: 0 0 12px 0; font-size: 18px; font-weight: bold; color: #111111;">Ευχαριστούμε για την επικοινωνία!</h2>
                     
-                    <p style="margin: 0 0 16px 0; color: #444444;">
+                    <p style="margin: 0 0 10px 0; color: #444444;">
                         Λάβαμε με επιτυχία το αίτημά σας για την άμεση κατασκευή της ιστοσελίδας της Ι.Κ.Ε. σας.
                     </p>
 
-                    <p style="margin: 0 0 16px 0; color: #444444;">
+                    <p style="margin: 0 0 10px 0; color: #444444;">
                         <strong>🎉 Ένα δώρο για εσάς:</strong><br>
                         Επιλέγοντας την <strong>SGK Digital</strong> για την κατασκευή της ιστοσελίδας σας, κερδίζετε <strong>δωρεάν Hosting (φιλοξενία) για 1 ολόκληρο χρόνο</strong>!
                     </p>
 
-                    <p style="margin: 0 0 16px 0; color: #444444;">
+                    <p style="margin: 0 0 10px 0; color: #444444;">
                         <strong>🎁 Επιπλέον Προσφορά 50%:</strong><br>
                         Εάν στο μέλλον επιθυμείτε να δημιουργήσετε ένα πλήρες, επαγγελματικό <strong>Website ή E-shop</strong> για την εταιρεία σας, σας προσφέρουμε <strong>50% έκπτωση</strong> στην κατασκευή του!
                     </p>
 
-                    <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; border-radius: 8px; padding: 20px; margin: 25px 0;">
-                        <h3 style="margin: 0 0 8px 0; font-size: 15px; color: #3b5bdb; font-weight: bold;">⚡ Δείγμα της Δουλειάς μας</h3>
-                        <p style="margin: 0 0 12px 0; font-size: 14px; color: #475569;">
+                    <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                        <h3 style="margin: 0 0 8px 0; font-size: 14px; color: #3b5bdb; font-weight: bold;">⚡ Δείγμα της Δουλειάς μας</h3>
+                        <p style="margin: 0 0 8px 0; font-size: 13px; color: #475569;">
                             Δείτε πώς θα φαίνεται η δική σας ιστοσελίδα Ι.Κ.Ε. από τον τελευταίο μας πελάτη:
                         </p>
-                        <a href="https://www.hightravel.gr/ike" target="_blank" style="display:inline-block;background:#3b5bdb;color:#fff;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:14px;font-weight:700;padding:10px 20px;border-radius:10px;text-decoration:none;">
+                        <a href="https://www.hightravel.gr/ike" target="_blank" style="display:inline-block;background:#3b5bdb;color:#fff;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border-radius:10px;text-decoration:none;">
                             Δείτε το site της High Travel ↗
                         </a>
                     </div>
 
-                    <p style="margin: 0 0 30px 0; color: #444444;">
+                    <p style="margin: 0 0 15px 0; color: #444444;">
                         Ένας εκπρόσωπός μας θα επικοινωνήσει άμεσα μαζί σας για να ξεκινήσουμε.
                     </p>
 
-                    <p style="font-size: 16px; margin-bottom: 30px; font-weight: bold;">Η ομάδα της SGK Digital 💙</p>
+                    <p style="font-size: 15px; margin-bottom: 15px; font-weight: bold;">Η ομάδα της SGK Digital 💙</p>
                 </div>
 
                 <!-- Blue Footer -->
@@ -443,22 +442,22 @@ serve(async (req) => {
                         <div style="clear: both;"></div>
                     </div>
                     
-                    <div style="background-color: #3b5bdb; color: #ffffff; padding: 40px 20px; text-align: center;">
-                        <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
+                    <div style="background-color: #3b5bdb; color: #ffffff; padding: 30px 20px; text-align: center;">
+                        <h1 style="margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
                         
-                        <div style="margin: 20px 0;">
-                            <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
-                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+                        <div style="margin: 15px 0;">
+                            <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 4px 9px; font-size: 12px;">f</a>
+                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 4px 9px; font-size: 12px;">t</a>
                         </div>
                         
-                        <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5; text-align: center;">
+                        <div style="font-size: 11px; margin: 15px 0; color: #ffffff; line-height: 1.5; text-align: center;">
                             <strong>SGK Software Development</strong><br/>
                             ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
                             Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
                             📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" target="_blank" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
                         </div>
 
-                        <p style="font-size: 11px; margin: 20px 0 0 0; color: #ffffff; text-align: center;">
+                        <p style="font-size: 11px; margin: 15px 0 0 0; color: #ffffff; text-align: center;">
                             <a href="https://sgk.gr/terms" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
                             <a href="https://sgk.gr/privacy" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
                         </p>
@@ -469,7 +468,7 @@ serve(async (req) => {
                 </div>
 
                 <!-- Unsubscribe -->
-                <div style="background-color: #f4f4f5; padding: 20px; text-align: left; font-size: 11px; color: #666666;">
+                <div style="background-color: #f4f4f5; padding: 15px 20px; text-align: left; font-size: 11px; color: #666666;">
                     If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
                     <br/><a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" target="_blank" style="color: #3b5bdb; text-decoration: underline;">https://sgk.gr/unsubscribe</a>
                 </div>
