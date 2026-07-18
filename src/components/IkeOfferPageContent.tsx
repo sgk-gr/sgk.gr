@@ -147,7 +147,23 @@ function IkeOfferContent() {
                 <>Θα σας καλέσουμε άμεσα στο {submittedPhone} για τις λεπτομέρειες! <br/><span className="italic text-gray-400">(Είμαστε διακριτικοί! 🤫)</span></>
               )}
             </p>
-            <button onClick={() => setShowModal(false)} className="w-full bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-sm">
+
+            {/* Showcase Case Study CTA Button */}
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-6 text-center shadow-sm">
+              <p className="text-xs md:text-sm font-extrabold text-gray-800 mb-3 tracking-wider">
+                Θέλετε να δείτε ένα ζωντανό δείγμα ιστοσελίδας Ι.Κ.Ε.;
+              </p>
+              <a 
+                href="https://www.hightravel.gr/ike"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-full bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-300 gap-1.5 text-xs shadow-sm"
+              >
+                Δείτε το site της High Travel ↗
+              </a>
+            </div>
+
+            <button onClick={() => setShowModal(false)} className="w-full bg-[#3b5bdb]/10 hover:bg-[#3b5bdb]/20 text-[#3b5bdb] font-bold py-2.5 rounded-xl transition-colors text-sm">
               Κλείσιμο
             </button>
           </div>

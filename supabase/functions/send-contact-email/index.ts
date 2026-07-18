@@ -352,6 +352,136 @@ serve(async (req) => {
                 subject: userEmailSubject,
                 html: userEmailHtml
             });
+        } else if (type === "ike_offer") {
+            // IKE Offer Admin Email
+            await resend.emails.send({
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: ["info@sgk.gr"],
+                subject: isNewLead 
+                    ? `🌐 Νέο Αίτημα Ιστοσελίδας ΙΚΕ από: ${email}` 
+                    : `🔄 Διπλότυπο Αίτημα Ιστοσελίδας ΙΚΕ από: ${email}`,
+                html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                <h2 style="color: #333; border-bottom: 2px solid #3b5bdb; padding-bottom: 10px;">
+                    ${isNewLead ? 'Νέο Αίτημα Ιστοσελίδας ΙΚΕ' : 'Επαναλαμβανόμενο Αίτημα Ιστοσελίδας ΙΚΕ'}
+                </h2>
+                
+                <div style="margin: 20px 0;">
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Όνομα:</strong> ${finalFirstName} ${finalLastName}</p>
+                    <p><strong>Τηλέφωνο:</strong> ${phone || 'Δεν δηλώθηκε'}</p>
+                    <p><strong>Εταιρεία/ΑΦΜ:</strong> ${company || 'Δεν δηλώθηκε'}</p>
+                    <p><strong>Marketing Consent:</strong> ${marketingConsent ? '✅ Ναι' : '❌ Όχι'}</p>
+                </div>
+            </div>
+                `
+            });
+
+            // IKE Offer User Confirmation Email
+            const userEmailSubject = "Η υποχρεωτική ιστοσελίδα της Ι.Κ.Ε. σας ξεκινάει! 🌐";
+            const userEmailHtml = `
+            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden;">
+                <!-- Top Link -->
+                <div style="text-align: right; padding: 10px 20px;">
+                    <a href="https://sgk.gr" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">sgk.gr</a>
+                </div>
+
+                <!-- Logo -->
+                <div style="text-align: center; padding: 20px 0;">
+                    <h1 style="margin: 0; font-size: 42px; font-weight: 800; letter-spacing: -2px; color: #000;">sgk<span style="color:#3b5bdb;">.</span></h1>
+                </div>
+
+                <!-- Color Strip -->
+                <div style="display: flex; height: 12px; width: 100%;">
+                    <div style="width: 15%; background-color: #3b5bdb; float: left; height: 12px;"></div>
+                    <div style="width: 5%; background-color: #4ade80; float: left; height: 12px;"></div>
+                    <div style="width: 80%; background-color: #ffffff; float: left; height: 12px;"></div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <!-- Content Area -->
+                <div style="padding: 40px 30px; color: #333333; font-size: 16px; line-height: 1.6;">
+                    <h2 style="margin: 0 0 16px 0; font-size: 20px; font-weight: bold; color: #111111;">Ευχαριστούμε για την επικοινωνία!</h2>
+                    
+                    <p style="margin: 0 0 16px 0; color: #444444;">
+                        Λάβαμε με επιτυχία το αίτημά σας για την άμεση κατασκευή της ιστοσελίδας της Ι.Κ.Ε. σας.
+                    </p>
+
+                    <p style="margin: 0 0 16px 0; color: #444444;">
+                        <strong>🎉 Ένα δώρο για εσάς:</strong><br>
+                        Επιλέγοντας την <strong>SGK Digital</strong> για την κατασκευή της ιστοσελίδας σας, κερδίζετε <strong>δωρεάν Hosting (φιλοξενία) για 1 ολόκληρο χρόνο</strong>!
+                    </p>
+
+                    <p style="margin: 0 0 16px 0; color: #444444;">
+                        <strong>🎁 Επιπλέον Προσφορά 50%:</strong><br>
+                        Εάν στο μέλλον επιθυμείτε να δημιουργήσετε ένα πλήρες, επαγγελματικό <strong>Website ή E-shop</strong> για την εταιρεία σας, σας προσφέρουμε <strong>50% έκπτωση</strong> στην κατασκευή του!
+                    </p>
+
+                    <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; border-radius: 8px; padding: 20px; margin: 25px 0;">
+                        <h3 style="margin: 0 0 8px 0; font-size: 15px; color: #3b5bdb; font-weight: bold;">⚡ Δείγμα της Δουλειάς μας</h3>
+                        <p style="margin: 0 0 12px 0; font-size: 14px; color: #475569;">
+                            Δείτε πώς θα φαίνεται η δική σας ιστοσελίδα Ι.Κ.Ε. από τον τελευταίο μας πελάτη:
+                        </p>
+                        <a href="https://www.hightravel.gr/ike" target="_blank" style="display:inline-block;background:#3b5bdb;color:#fff;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:14px;font-weight:700;padding:10px 20px;border-radius:10px;text-decoration:none;">
+                            Δείτε το site της High Travel ↗
+                        </a>
+                    </div>
+
+                    <p style="margin: 0 0 30px 0; color: #444444;">
+                        Ένας εκπρόσωπός μας θα επικοινωνήσει άμεσα μαζί σας για να ξεκινήσουμε.
+                    </p>
+
+                    <p style="font-size: 16px; margin-bottom: 30px; font-weight: bold;">Η ομάδα της SGK Digital 💙</p>
+                </div>
+
+                <!-- Blue Footer -->
+                <div style="position: relative;">
+                    <!-- Top strips -->
+                    <div style="display: flex; height: 12px; width: 100%;">
+                        <div style="width: 75%; background-color: #d1d5db; float: left; height: 12px;"></div>
+                        <div style="width: 25%; background-color: #facc15; float: left; height: 12px;"></div>
+                        <div style="clear: both;"></div>
+                    </div>
+                    
+                    <div style="background-color: #3b5bdb; color: #ffffff; padding: 40px 20px; text-align: center;">
+                        <h1 style="margin: 0; font-size: 38px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
+                        
+                        <div style="margin: 20px 0;">
+                            <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">f</a>
+                            <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 5px 10px;">t</a>
+                        </div>
+                        
+                        <div style="font-size: 11px; margin: 20px 0; color: #ffffff; line-height: 1.5; text-align: center;">
+                            <strong>SGK Software Development</strong><br/>
+                            ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
+                            Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
+                            📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" target="_blank" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
+                        </div>
+
+                        <p style="font-size: 11px; margin: 20px 0 0 0; color: #ffffff; text-align: center;">
+                            <a href="https://sgk.gr/terms" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
+                            <a href="https://sgk.gr/privacy" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
+                        </p>
+                        <p style="font-size: 11px; margin: 5px 0 0 0; color: #ffffff; text-align: center;">
+                            Copyright 2026. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Unsubscribe -->
+                <div style="background-color: #f4f4f5; padding: 20px; text-align: left; font-size: 11px; color: #666666;">
+                    If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
+                    <br/><a href="https://sgk.gr/unsubscribe?token=${unsubscribeToken}" target="_blank" style="color: #3b5bdb; text-decoration: underline;">https://sgk.gr/unsubscribe</a>
+                </div>
+            </div>
+            `;
+
+            emailResult = await resend.emails.send({
+                from: "SGK Digital <noreply@sgk.gr>",
+                to: [email],
+                subject: userEmailSubject,
+                html: userEmailHtml
+            });
         } else if (type === "promo_barbershop") {
             // Promo Barbershop Admin Email
             await resend.emails.send({
