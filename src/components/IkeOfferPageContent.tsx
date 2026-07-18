@@ -15,21 +15,19 @@ function IkeOfferContent() {
   const searchParams = useSearchParams();
   const queryName = searchParams.get("name") || "";
   const queryPhone = searchParams.get("phone") || "";
-  const queryCompany = searchParams.get("company") || "";
   const queryVat = searchParams.get("vat") || "";
 
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    company: "",
     vat: "",
     contactPreference: "phone",
     acceptTerms: true,
     acceptPromo: true
   });
 
-  const [submittedCompany, setSubmittedCompany] = useState("");
+  const [submittedVat, setSubmittedVat] = useState("");
   const [submittedPhone, setSubmittedPhone] = useState("");
   const [submittedPreference, setSubmittedPreference] = useState("phone");
   const [showModal, setShowModal] = useState(false);
@@ -40,12 +38,11 @@ function IkeOfferContent() {
   useEffect(() => {
     setFormData(prev => ({
       ...prev,
-      company: queryCompany || prev.company,
       phone: queryPhone || prev.phone,
       vat: queryVat || prev.vat,
       name: queryName || prev.name
     }));
-  }, [queryName, queryPhone, queryCompany, queryVat]);
+  }, [queryName, queryPhone, queryVat]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,8 +72,8 @@ function IkeOfferContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.email || !formData.company || !formData.vat) {
-      toast.error("Συμπληρώστε όλα τα υποχρεωτικά πεδία (συμπεριλαμβανομένου Επωνυμίας & ΑΦΜ).");
+    if (!formData.name || !formData.phone || !formData.email || !formData.vat) {
+      toast.error("Συμπληρώστε όλα τα υποχρεωτικά πεδία (συμπεριλαμβανομένου του ΑΦΜ).");
       return;
     }
 
@@ -88,8 +85,8 @@ function IkeOfferContent() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        company: `${formData.company} (ΑΦΜ: ${formData.vat})`,
-        message: `Αίτημα κατασκευής ιστοσελίδας Ι.Κ.Ε.\nΕπωνυμία: ${formData.company}\nΑΦΜ: ${formData.vat}`,
+        company: `ΑΦΜ: ${formData.vat}`,
+        message: `Αίτημα κατασκευής ιστοσελίδας Ι.Κ.Ε.\nΑΦΜ Εταιρείας: ${formData.vat}`,
         contactPreference: formData.contactPreference,
         marketingConsent: formData.acceptPromo,
       });
@@ -102,7 +99,7 @@ function IkeOfferContent() {
         colors: ["#3b5bdb", "#4ade80", "#facc15", "#ffffff"]
       });
 
-      setSubmittedCompany(formData.company);
+      setSubmittedVat(formData.vat);
       setSubmittedPhone(formData.phone);
       setSubmittedPreference(formData.contactPreference);
       setShowModal(true);
@@ -112,7 +109,6 @@ function IkeOfferContent() {
         name: "",
         phone: "",
         email: "",
-        company: "",
         vat: "",
         contactPreference: "phone",
         acceptTerms: true,
@@ -142,7 +138,7 @@ function IkeOfferContent() {
             </div>
             <h3 className="text-2xl font-heading font-bold text-[#3b5bdb] text-center mb-2">Συγχαρητήρια! 🎉</h3>
             <p className="text-gray-600 text-center mb-4">
-              Το αίτημά σας για την κατασκευή ιστοσελίδας Ι.Κ.Ε. για την εταιρεία <strong className="font-bold text-[#3b5bdb]">{submittedCompany}</strong> καταχωρήθηκε επιτυχώς!
+              Το αίτημά σας για την κατασκευή ιστοσελίδας Ι.Κ.Ε. (ΑΦΜ: <strong className="font-bold text-[#3b5bdb]">{submittedVat}</strong>) καταχωρήθηκε επιτυχώς!
             </p>
             <p className="text-xs text-gray-500 text-center mb-6">
               {submittedPreference === "email" ? (
@@ -212,9 +208,9 @@ function IkeOfferContent() {
           {/* Right Form Box */}
           <div id="offer-form-box" className="w-full max-w-[480px] relative mt-8 md:mt-0">
             {/* Yellow Card Behind */}
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-[90%] bg-[#facc15] text-black font-semibold text-xs md:text-sm py-2 px-4 rounded-t-2xl shadow-lg flex items-center justify-center z-0 border border-black/5">
-              <span className="text-center leading-tight">
-                <strong>Άμεση Κατασκευή με 124€ (συμπεριλαμβάνεται ΦΠΑ 24%)</strong>
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[92%] bg-[#facc15] text-black font-extrabold text-[11px] sm:text-xs py-2.5 px-4 rounded-t-2xl shadow-lg flex items-center justify-center z-20 border border-black/5">
+              <span className="text-center leading-tight uppercase tracking-wider">
+                Κατασκευή σε 24h με 124€ (συμπερ. ΦΠΑ)
               </span>
             </div>
 
@@ -269,29 +265,16 @@ function IkeOfferContent() {
                   <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">Email</label>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="relative">
-                    <input 
-                      type="text" 
-                      required 
-                      value={formData.company}
-                      onChange={(e) => setFormData({...formData, company: e.target.value})}
-                      className="w-full bg-transparent border-b border-white/30 px-0 py-2 text-white placeholder-transparent focus:outline-none focus:border-white peer" 
-                      placeholder="Επωνυμία Ι.Κ.Ε." 
-                    />
-                    <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">Επωνυμία Ι.Κ.Ε.</label>
-                  </div>
-                  <div className="relative">
-                    <input 
-                      type="text" 
-                      required 
-                      value={formData.vat}
-                      onChange={(e) => setFormData({...formData, vat: e.target.value})}
-                      className="w-full bg-transparent border-b border-white/30 px-0 py-2 text-white placeholder-transparent focus:outline-none focus:border-white peer" 
-                      placeholder="ΑΦΜ Εταιρείας" 
-                    />
-                    <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">ΑΦΜ Εταιρείας</label>
-                  </div>
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    required 
+                    value={formData.vat}
+                    onChange={(e) => setFormData({...formData, vat: e.target.value})}
+                    className="w-full bg-transparent border-b border-white/30 px-0 py-2 text-white placeholder-transparent focus:outline-none focus:border-white peer" 
+                    placeholder="ΑΦΜ Εταιρείας" 
+                  />
+                  <label className="absolute left-0 -top-3.5 text-white/70 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white/70 peer-focus:text-xs pointer-events-none">ΑΦΜ Εταιρείας</label>
                 </div>
 
                 <div className="pt-1">
