@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus } from "lucide-react";
@@ -91,6 +92,9 @@ export function EmailsTab() {
   const [importData, setImportData] = useState("");
   const [importingProgress, setImportingProgress] = useState(false);
 
+  // Client-side mounted state for React Portal
+  const [isClient, setIsClient] = useState(false);
+
   const fetchLeads = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -109,6 +113,7 @@ export function EmailsTab() {
 
   useEffect(() => {
     fetchLeads();
+    setIsClient(true);
   }, []);
 
   const handleAddSingleLead = async (e: React.FormEvent) => {
@@ -322,14 +327,14 @@ export function EmailsTab() {
         if (!trimmed) return;
 
         let email = "";
-        let first_name = "";
-        let last_name = "";
+        let textName = "";
+        let textSurname = "";
 
         if (trimmed.includes(",")) {
           const parts = trimmed.split(",").map(p => p.trim());
           email = parts[0];
-          first_name = parts[1] || "";
-          last_name = parts[2] || "";
+          textName = parts[1] || "";
+          textSurname = parts[2] || "";
         } else {
           email = trimmed;
         }
@@ -343,8 +348,8 @@ export function EmailsTab() {
             existingSet.add(emailLower);
             newLeads.push({
               email,
-              first_name,
-              last_name,
+              first_name: textName,
+              last_name: textSurname,
               type: "imported",
               marketing_consent: true,
               email_sequence_step: 4,
@@ -396,6 +401,175 @@ export function EmailsTab() {
       </div>
     );
   }
+
+  // Define full-screen campaign modal component
+  const campaignModal = isCampaignModalOpen && (
+    <div className="fixed inset-0 bg-white z-[99999] flex flex-col h-screen w-screen overflow-hidden">
+      {/* Header */}
+      <div className="bg-slate-900 px-6 py-4 border-b border-slate-800 flex justify-between items-center text-white shrink-0">
+        <h3 className="font-black text-sm uppercase tracking-wider italic flex items-center gap-2">
+          <Mail className="text-[#3b5bdb]" size={18} />
+          {singleLeadTarget 
+            ? `Αποστολη Email στο ${singleLeadTarget.email}` 
+            : `Μαζικη Αποστολη (${singleLeadTarget ? 1 : (selectedLeads.length > 0 ? selectedLeads.length : leads.length)} παραληπτες)`}
+        </h3>
+        <button 
+          onClick={() => {
+            if (sendingProgress?.active) return;
+            setIsCampaignModalOpen(false);
+          }}
+          className="text-gray-400 hover:text-white transition-colors cursor-pointer bg-slate-800 p-2 rounded-xl"
+          disabled={sendingProgress?.active}
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 overflow-hidden min-h-0 bg-slate-950 p-6">
+        {sendingProgress ? (
+          <div className="h-full flex flex-col items-center justify-center text-center space-y-6 text-white max-w-md mx-auto">
+            {sendingProgress.current < sendingProgress.total ? (
+              <Loader2 className="animate-spin text-[#3b5bdb] w-16 h-16" />
+            ) : (
+              <CheckCircle2 className="text-emerald-500 w-16 h-16 animate-bounce" />
+            )}
+            <p className="font-black text-sm uppercase tracking-widest italic">{sendingProgress.statusText}</p>
+            <div className="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700">
+              <div 
+                className="bg-[#3b5bdb] h-full transition-all duration-300 shadow-glow"
+                style={{ width: `${(sendingProgress.current / sendingProgress.total) * 100}%` }}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
+            {/* Left Column: Form Editor */}
+            <div className="space-y-4 flex flex-col h-full min-h-0 overflow-y-auto pr-2 custom-scrollbar bg-slate-900/50 border border-slate-850 p-6 rounded-2xl">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Πρότυπο (Template)</label>
+                <select
+                  onChange={(e) => {
+                    const idx = parseInt(e.target.value);
+                    setCampaignSubject(templates[idx].subject);
+                    setCampaignBody(templates[idx].body);
+                    setButtonText(templates[idx].defaultButtonText || "");
+                    setButtonLink(templates[idx].defaultButtonLink || "");
+                  }}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none cursor-pointer"
+                >
+                  {templates.map((t, i) => (
+                    <option key={i} value={i} className="bg-slate-950 text-slate-100">{t.name}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Θέμα Email (Subject)</label>
+                <input 
+                  type="text"
+                  value={campaignSubject}
+                  onChange={(e) => setCampaignSubject(e.target.value)}
+                  placeholder="π.χ. Istoselida ike 100 ευρω"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Κείμενο Κουμπιού (Προαιρετικό)</label>
+                  <input 
+                    type="text"
+                    value={buttonText}
+                    onChange={(e) => setButtonText(e.target.value)}
+                    placeholder="π.χ. Δείτε την Προσφορά"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Σύνδεσμος Κουμπιού (Link)</label>
+                  <input 
+                    type="text"
+                    value={buttonLink}
+                    onChange={(e) => setButtonLink(e.target.value)}
+                    placeholder="π.χ. https://..."
+                    className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5 flex-1 flex flex-col min-h-0">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Περιεχόμενο Email (HTML ή απλό κείμενο)</label>
+                <textarea 
+                  value={campaignBody}
+                  onChange={(e) => setCampaignBody(e.target.value)}
+                  placeholder="Γράψτε το μήνυμά σας εδώ..."
+                  className="w-full flex-1 px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 font-mono text-xs resize-none overflow-y-auto min-h-[220px] focus:border-[#3b5bdb]/50 outline-none custom-scrollbar"
+                />
+              </div>
+              <p className="text-[10px] text-slate-500 font-bold uppercase italic leading-tight">
+                💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα το responsive layout της <strong>SGK Digital</strong> με τα snappi χρώματα και η υπογραφή μας.
+              </p>
+            </div>
+
+            {/* Right Column: Live Email Preview */}
+            <div className="flex flex-col space-y-2 h-full min-h-0">
+              <div className="flex items-center justify-between">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Προεπισκόπηση Email (Live Preview)</label>
+                <span className="text-[10px] bg-emerald-950 text-emerald-400 px-3 py-1 rounded-full font-black uppercase tracking-widest animate-pulse border border-emerald-900">● Live Preview</span>
+              </div>
+              <div className="flex-1 rounded-2xl overflow-hidden border border-slate-800 shadow-inner min-h-0 bg-[#f0f2f5]">
+                <iframe
+                  key={campaignBody + campaignSubject + buttonText + buttonLink}
+                  srcDoc={(() => {
+                    if (!campaignBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
+                    
+                    const sampleLead = singleLeadTarget || leads.find(l => selectedLeads.includes(l.id));
+                    const businessName = sampleLead ? (sampleLead.first_name || "Συνεργάτη") : "Συνεργάτη";
+                    
+                    const bodyHtml = campaignBody.replace(/\n/g, '<br />');
+
+                    return buildProfessionalEmailHtml({
+                      businessName: businessName,
+                      subject: campaignSubject,
+                      bodyHtml: bodyHtml,
+                      buttonText: buttonText || undefined,
+                      buttonLink: buttonLink || undefined,
+                      unsubscribeToken: "preview-token",
+                      industry: sampleLead?.company,
+                    });
+                  })()}
+                  className="w-full h-full border-0"
+                  title="Email Preview"
+                  sandbox="allow-same-origin"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      {!sendingProgress && (
+        <div className="bg-slate-900 px-6 py-5 border-t border-slate-800 flex justify-end gap-3 shrink-0">
+          <button
+            onClick={() => setIsCampaignModalOpen(false)}
+            className="px-6 py-2.5 text-xs font-black uppercase tracking-wider text-slate-400 hover:text-slate-200 transition-colors"
+          >
+            Ακύρωση
+          </button>
+          <button
+            onClick={handleSendCampaign}
+            disabled={!campaignSubject || !campaignBody}
+            className="px-6 py-2.5 text-xs font-black uppercase tracking-wider text-white bg-[#3b5bdb] rounded-xl hover:bg-[#3b5bdb]/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer shadow-lg shadow-blue-500/10"
+          >
+            <Send size={12} />
+            Αποστολη Email
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="space-y-8">
@@ -617,174 +791,8 @@ export function EmailsTab() {
         </div>
       </div>
 
-      {/* Campaign Email Modal - FULL SCREEN */}
-      {isCampaignModalOpen && (
-        <div className="fixed inset-0 bg-white z-50 flex flex-col h-screen w-screen overflow-hidden">
-          {/* Header */}
-          <div className="bg-slate-900 px-6 py-4 border-b border-slate-800 flex justify-between items-center text-white shrink-0">
-            <h3 className="font-black text-sm uppercase tracking-wider italic flex items-center gap-2">
-              <Mail className="text-[#3b5bdb]" size={18} />
-              {singleLeadTarget 
-                ? `Αποστολη Email στο ${singleLeadTarget.email}` 
-                : `Μαζικη Αποστολη (${singleLeadTarget ? 1 : (selectedLeads.length > 0 ? selectedLeads.length : leads.length)} παραληπτες)`}
-            </h3>
-            <button 
-              onClick={() => {
-                if (sendingProgress?.active) return;
-                setIsCampaignModalOpen(false);
-              }}
-              className="text-gray-400 hover:text-white transition-colors cursor-pointer bg-slate-800 p-2 rounded-xl"
-              disabled={sendingProgress?.active}
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          {/* Body */}
-          <div className="flex-1 overflow-hidden min-h-0 bg-slate-950 p-6">
-            {sendingProgress ? (
-              <div className="h-full flex flex-col items-center justify-center text-center space-y-6 text-white max-w-md mx-auto">
-                {sendingProgress.current < sendingProgress.total ? (
-                  <Loader2 className="animate-spin text-[#3b5bdb] w-16 h-16" />
-                ) : (
-                  <CheckCircle2 className="text-emerald-500 w-16 h-16 animate-bounce" />
-                )}
-                <p className="font-black text-sm uppercase tracking-widest italic">{sendingProgress.statusText}</p>
-                <div className="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700">
-                  <div 
-                    className="bg-[#3b5bdb] h-full transition-all duration-300 shadow-glow"
-                    style={{ width: `${(sendingProgress.current / sendingProgress.total) * 100}%` }}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
-                {/* Left Column: Form Editor */}
-                <div className="space-y-4 flex flex-col h-full min-h-0 overflow-y-auto pr-2 custom-scrollbar bg-slate-900/50 border border-slate-850 p-6 rounded-2xl">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Πρότυπο (Template)</label>
-                    <select
-                      onChange={(e) => {
-                        const idx = parseInt(e.target.value);
-                        setCampaignSubject(templates[idx].subject);
-                        setCampaignBody(templates[idx].body);
-                        setButtonText(templates[idx].defaultButtonText || "");
-                        setButtonLink(templates[idx].defaultButtonLink || "");
-                      }}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none cursor-pointer"
-                    >
-                      {templates.map((t, i) => (
-                        <option key={i} value={i} className="bg-slate-950 text-slate-100">{t.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Θέμα Email (Subject)</label>
-                    <input 
-                      type="text"
-                      value={campaignSubject}
-                      onChange={(e) => setCampaignSubject(e.target.value)}
-                      placeholder="π.χ. Istoselida ike 100 ευρω"
-                      className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Κείμενο Κουμπιού (Προαιρετικό)</label>
-                      <input 
-                        type="text"
-                        value={buttonText}
-                        onChange={(e) => setButtonText(e.target.value)}
-                        placeholder="π.χ. Δείτε την Προσφορά"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Σύνδεσμος Κουμπιού (Link)</label>
-                      <input 
-                        type="text"
-                        value={buttonLink}
-                        onChange={(e) => setButtonLink(e.target.value)}
-                        placeholder="π.χ. https://..."
-                        className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5 flex-1 flex flex-col min-h-0">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Περιεχόμενο Email (HTML ή απλό κείμενο)</label>
-                    <textarea 
-                      value={campaignBody}
-                      onChange={(e) => setCampaignBody(e.target.value)}
-                      placeholder="Γράψτε το μήνυμά σας εδώ..."
-                      className="w-full flex-1 px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 font-mono text-xs resize-none overflow-y-auto min-h-[220px] focus:border-[#3b5bdb]/50 outline-none custom-scrollbar"
-                    />
-                  </div>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase italic leading-tight">
-                    💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα το responsive layout της <strong>SGK Digital</strong> με τα snappi χρώματα και η υπογραφή μας.
-                  </p>
-                </div>
-
-                {/* Right Column: Live Email Preview */}
-                <div className="flex flex-col space-y-2 h-full min-h-0">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Προεπισκόπηση Email (Live Preview)</label>
-                    <span className="text-[10px] bg-emerald-950 text-emerald-400 px-3 py-1 rounded-full font-black uppercase tracking-widest animate-pulse border border-emerald-900">● Live Preview</span>
-                  </div>
-                  <div className="flex-1 rounded-2xl overflow-hidden border border-slate-800 shadow-inner min-h-0 bg-[#f0f2f5]">
-                    <iframe
-                      key={campaignBody + campaignSubject + buttonText + buttonLink}
-                      srcDoc={(() => {
-                        if (!campaignBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
-                        
-                        const sampleLead = singleLeadTarget || leads.find(l => selectedLeads.includes(l.id));
-                        const businessName = sampleLead ? (sampleLead.first_name || "Συνεργάτη") : "Συνεργάτη";
-                        
-                        const bodyHtml = campaignBody.replace(/\n/g, '<br />');
-
-                        return buildProfessionalEmailHtml({
-                          businessName: businessName,
-                          subject: campaignSubject,
-                          bodyHtml: bodyHtml,
-                          buttonText: buttonText || undefined,
-                          buttonLink: buttonLink || undefined,
-                          unsubscribeToken: "preview-token",
-                          industry: sampleLead?.company,
-                        });
-                      })()}
-                      className="w-full h-full border-0"
-                      title="Email Preview"
-                      sandbox="allow-same-origin"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Footer */}
-          {!sendingProgress && (
-            <div className="bg-slate-900 px-6 py-5 border-t border-slate-800 flex justify-end gap-3 shrink-0">
-              <button
-                onClick={() => setIsCampaignModalOpen(false)}
-                className="px-6 py-2.5 text-xs font-black uppercase tracking-wider text-slate-400 hover:text-slate-200 transition-colors"
-              >
-                Ακύρωση
-              </button>
-              <button
-                onClick={handleSendCampaign}
-                disabled={!campaignSubject || !campaignBody}
-                className="px-6 py-2.5 text-xs font-black uppercase tracking-wider text-white bg-[#3b5bdb] rounded-xl hover:bg-[#3b5bdb]/90 disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer shadow-lg shadow-blue-500/10"
-              >
-                <Send size={12} />
-                Αποστολη Email
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+      {/* Campaign Email Modal - Ported to body level to fix z-index issues */}
+      {isClient && typeof document !== "undefined" && createPortal(campaignModal, document.body)}
 
       {/* Import Leads Modal */}
       {isImportModalOpen && (
