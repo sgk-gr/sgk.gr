@@ -7,12 +7,12 @@ import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 const templates = [
   {
-    name: "🌐 Istoselida ike 100 ευρω",
-    subject: "Istoselida ike 100 ευρω",
-    body: `<h2>Κατασκευή Ιστοσελίδας IKE στα 100€! 🎉</h2>
+    name: "🌐 Istoselida ike 124 ευρω",
+    subject: "Istoselida ike 124 ευρω",
+    body: `<h2>Κατασκευή Ιστοσελίδας IKE στα 124€! 🎉</h2>
 <p>Γεια σας,</p>
-<p>Θέλουμε να σας προσφέρουμε την κατασκευή της ιστοσελίδας για την ΙΚΕ σας στην προνομιακή τιμή των <strong>100€</strong>.</p>
-<p>Η προσφορά περιλαμβάνει επαγγελματικό σχεδιασμό, mobile-friendly έκδοση και πλήρη παραμετροποίηση.</p>
+<p>Θέλουμε να σας προσφέρουμε την κατασκευή της ιστοσελίδας για την ΙΚΕ σας στην προνομιακή τιμή των <strong>124€ (συμπεριλαμβανομένου ΦΠΑ 24%)</strong>.</p>
+<p>Η προσφορά περιλαμβάνει επαγγελματικό σχεδιασμό, mobile-friendly έκδοση, πλήρη παραμετροποίηση και συμμόρφωση με το ΓΕΜΗ σε 1 ημέρα.</p>
 <p>Απαντήστε σε αυτό το email για να ξεκινήσουμε!</p>`,
     defaultButtonText: "Δείτε την Προσφορά",
     defaultButtonLink: "https://www.sgk.gr"
@@ -470,7 +470,7 @@ export function EmailsTab() {
                   type="text"
                   value={campaignSubject}
                   onChange={(e) => setCampaignSubject(e.target.value)}
-                  placeholder="π.χ. Istoselida ike 100 ευρω"
+                  placeholder="π.χ. Istoselida ike 124 ευρω"
                   className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
                 />
               </div>
