@@ -225,8 +225,8 @@ function IkeOfferContent() {
           <div id="offer-form-box" className="w-full max-w-[480px] relative mt-8 md:mt-0">
             {/* Yellow Card Behind */}
             <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[92%] bg-[#facc15] text-black font-extrabold text-[11px] sm:text-xs py-2.5 px-4 rounded-t-2xl shadow-lg flex items-center justify-center z-20 border border-black/5">
-              <span className="text-center leading-tight uppercase tracking-wider">
-                Κατασκευή σε 24h με 124€ (συμπερ. ΦΠΑ)
+              <span className="text-center leading-tight tracking-wider">
+                Κατασκευή σε 24h με 124€ (συμπερ. ΦΠΑ) - Σε 1 μέρα
               </span>
             </div>
 
