@@ -563,30 +563,16 @@ export function EmailsTab() {
   const renderSequenceStep = (step: number | null | undefined) => {
     if (step === null || step === undefined || step === 0) {
       return (
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-500">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-500">
           Δεν Ξεκίνησε
         </span>
       );
     }
-    if (step === 1) {
-      return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
-          Email 1 (Εσύ)
-        </span>
-      );
-    }
-    if (step >= 5) {
-      return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-700 border border-slate-300">
-          Email 5 (AI - Τέλος)
-        </span>
-      );
-    }
+    
     return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-purple-50 text-purple-700 border border-purple-200">
-        <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse"></span>
-        Email {step} (AI)
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        Email {step}
       </span>
     );
   };
