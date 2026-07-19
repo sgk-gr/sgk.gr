@@ -122,7 +122,7 @@ serve(async (req) => {
 
     try {
         const payload = await req.json();
-        const { email, step, unsubscribe_token, customSubject, customHtml, business_name } = payload;
+        const { email, step, unsubscribe_token, customSubject, customHtml, business_name, firstEmailSubject, firstEmailBody } = payload;
 
         if (!email || !step) {
             throw new Error("Missing email or step");
@@ -140,6 +140,28 @@ serve(async (req) => {
 
             if (resendResult.error) {
                 throw new Error(resendResult.error.message);
+            }
+
+            const supabase = createClient(
+                Deno.env.get("SUPABASE_URL") ?? "",
+                Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+            );
+
+            // Update database for lead to start nurture sequence
+            const { error: dbErr } = await supabase
+                .from("sgk_mails")
+                .update({
+                    email_sequence_step: 1,
+                    last_email_sent_at: new Date().toISOString(),
+                    first_email_subject: firstEmailSubject || customSubject,
+                    first_email_body: firstEmailBody || customHtml,
+                    converted: false,
+                    unsubscribed: false
+                })
+                .eq("email", email);
+
+            if (dbErr) {
+                console.error("Error updating lead for sequence starting:", dbErr.message);
             }
 
             return new Response(JSON.stringify({ success: true, message: "Manual email sent" }), {
@@ -215,12 +237,21 @@ serve(async (req) => {
             promptGoal = "Στόχος: Να χτυπήσεις στα 'pain points' του πελάτη (τι χάνει επειδή δεν έχει αυτή την υπηρεσία) και να προσφέρεις αξία. Πρότεινε μια σύντομη 5λεπτη κλήση γνωριμίας. Τόνος: Φιλικός, όχι επιθετικός.";
         } else if (step === 3) {
             promptGoal = "Στόχος: Να δημιουργήσεις αίσθηση επείγοντος (π.χ. τι κάνουν οι ανταγωνιστές, αλλαγές στον αλγόριθμο της Google). Κάνε το κείμενο πιο μικρό και πειστικό.";
-        } else if (step >= 4) {
-            promptGoal = "Στόχος: Breakup email. Είναι το τελευταίο email. Πρόσφερε μια ειδική έκπτωση (π.χ. 10% δώρο) αν δράσουν τώρα, και πες αντίο αν δεν ενδιαφέρονται.";
+        } else if (step === 4) {
+            promptGoal = "Στόχος: Να προσφέρεις μια δωρεάν μελέτη/ανάλυση ή να δείξεις κάποιο σχετικό δείγμα της δουλειάς μας για να κεντρίσεις το ενδιαφέρον. Κάνε το κείμενο φιλικό, άμεσο και βοηθητικό.";
+        } else if (step >= 5) {
+            promptGoal = "Στόχος: Breakup email. Είναι το τελευταίο email της ακολουθίας. Πρόσφερε μια ειδική έκπτωση (π.χ. 10% δώρο) αν δράσουν τώρα, και πες αντίο αν δεν ενδιαφέρονται.";
         }
 
+        const firstSubject = leadData.first_email_subject || "";
+        const firstBody = leadData.first_email_body || "";
+
         const prompt = `Είσαι ένας κορυφαίος Copywriter Πωλήσεων για την SGK Digital, μια εταιρεία κατασκευής ιστοσελίδων και λογισμικού στην Ελλάδα.
-Θέλω να γράψεις το Email Follow-up Νο. ${step} για έναν υποψήφιο πελάτη.
+Θέλω να γράψεις το Email Follow-up Νο. ${step - 1} (συνολικό email ακολουθίας Νο. ${step}) για έναν υποψήφιο πελάτη.
+
+ΤΟ ΠΡΩΤΟ EMAIL ΠΟΥ ΣΤΑΛΘΗΚΕ ΣΤΟΝ ΠΕΛΑΤΗ (Email 1):
+- Θέμα: ${firstSubject || "Δεν έχει καταγραφεί"}
+- Περιεχόμενο (HTML): ${firstBody || "Δεν έχει καταγραφεί"}
 
 ΣΤΟΙΧΕΙΑ ΠΕΛΑΤΗ:
 - Όνομα Υπευθύνου: ${contactName}
@@ -228,7 +259,10 @@ serve(async (req) => {
 - Κλάδος: ${mappedIndustry}
 - Υπηρεσία που προσφέρουμε: ${mappedService}
 
-${promptGoal}
+ΟΔΗΓΙΕΣ ΓΙΑ ΤΟ ΣΥΓΚΕΚΡΙΜΕΝΟ EMAIL (Email ${step}):
+- ${promptGoal}
+- Το email πρέπει να είναι ΣΥΝΕΧΕΙΑ και FOLLOW-UP του πρώτου email. Αναφέρσου έμμεσα ή άμεσα σε αυτό που του είχαμε προτείνει στο πρώτο email (π.χ. "Σχετικά με την προσφορά μας για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στα 124€" ή "Σχετικά με το eshop με το πρόγραμμα Pay As You Grow...").
+- Μην επαναλάβεις ολόκληρο το κείμενο του πρώτου email, απλά χτίσε πάνω σε αυτό!
 
 ΑΠΑΙΤΗΣΕΙΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
 - Επίστρεψε ΜΟΝΟ ΕΝΑ ΕΓΚΥΡΟ JSON ΑΝΤΙΚΕΙΜΕΝΟ με τα εξής πεδία: "subject" (το θέμα του email) και "bodyHtml" (το κείμενο του email).

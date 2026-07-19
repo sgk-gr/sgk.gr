@@ -252,6 +252,8 @@ export function EmailsTab() {
             unsubscribe_token: unsubscribeToken,
             customSubject: campaignSubject,
             customHtml: finalBody,
+            firstEmailSubject: campaignSubject,
+            firstEmailBody: campaignBody,
             step: 1,
           })
         });
@@ -560,58 +562,6 @@ export function EmailsTab() {
 
   return (
     <div className="space-y-8">
-      {/* Add New Email Form */}
-      <div className="bg-white/60 backdrop-blur-xl border border-gray-200/80 p-6 rounded-2xl shadow-xl">
-        <h3 className="text-sm font-black text-gray-900 italic tracking-wide uppercase mb-4 flex items-center gap-2">
-          <Plus className="w-4 h-4 text-[#3b5bdb]" />
-          Προσθηκη Νεου Email
-        </h3>
-        <form onSubmit={handleAddSingleLead} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Email *</label>
-            <input 
-              type="email"
-              required
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="π.χ. info@example.com"
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Όνομα (Προαιρετικό)</label>
-            <input 
-              type="text"
-              value={newFirstName}
-              onChange={(e) => setNewFirstName(e.target.value)}
-              placeholder="π.χ. Ιωάννης"
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Επώνυμο (Προαιρετικό)</label>
-            <input 
-              type="text"
-              value={newLastName}
-              onChange={(e) => setNewLastName(e.target.value)}
-              placeholder="π.χ. Παπαδόπουλος"
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={addingLead}
-            className="w-full bg-[#3b5bdb] text-white rounded-xl py-2.5 text-xs font-black uppercase tracking-wider hover:bg-[#3b5bdb]/90 transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-50 cursor-pointer"
-          >
-            {addingLead ? (
-              <Loader2 className="animate-spin w-4 h-4" />
-            ) : (
-              <Plus className="w-4 h-4" />
-            )}
-            Προσθηκη
-          </button>
-        </form>
-      </div>
 
       {/* Leads Header / Actions */}
       <div className="bg-white/40 backdrop-blur-xl border border-gray-200/50 p-6 rounded-2xl">
