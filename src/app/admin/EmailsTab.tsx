@@ -135,9 +135,9 @@ export function EmailsTab() {
           last_name: newLastName.trim() || null,
           marketing_consent: true,
           unsubscribe_token: crypto.randomUUID(),
-          email_sequence_step: 4, // skip sequence, campaigns only
+          email_sequence_step: 0, // start from 0 (not started)
           unsubscribed: false,
-          converted: true
+          converted: false
         });
 
       if (insertError) throw insertError;
@@ -339,10 +339,10 @@ export function EmailsTab() {
               last_name: textSurname,
               type: "imported",
               marketing_consent: true,
-              email_sequence_step: 4,
+              email_sequence_step: 0,
               unsubscribe_token: crypto.randomUUID(),
               unsubscribed: false,
-              converted: true
+              converted: false
             });
           }
         }
