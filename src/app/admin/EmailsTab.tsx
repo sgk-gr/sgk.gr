@@ -560,6 +560,37 @@ export function EmailsTab() {
     </div>
   );
 
+  const renderSequenceStep = (step: number | null | undefined) => {
+    if (step === null || step === undefined || step === 0) {
+      return (
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-500">
+          Δεν Ξεκίνησε
+        </span>
+      );
+    }
+    if (step === 1) {
+      return (
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+          Email 1 (Εσύ)
+        </span>
+      );
+    }
+    if (step >= 5) {
+      return (
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-700 border border-slate-300">
+          Email 5 (AI - Τέλος)
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-purple-50 text-purple-700 border border-purple-200">
+        <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse"></span>
+        Email {step} (AI)
+      </span>
+    );
+  };
+
   return (
     <div className="space-y-8">
 
@@ -642,6 +673,7 @@ export function EmailsTab() {
                   <th className="py-3 px-4">Email / Όνομα</th>
                   <th className="py-3 px-4">Ημ/νία Εγγραφής</th>
                   <th className="py-3 px-4 text-center">Κατάσταση</th>
+                  <th className="py-3 px-4 text-center">Ακολουθία Email</th>
                   <th className="py-3 px-4 text-center">Ενέργειες</th>
                 </tr>
               </thead>
@@ -687,6 +719,9 @@ export function EmailsTab() {
                       )}
                     </td>
                     <td className="py-3 px-4 text-center">
+                      {renderSequenceStep(lead.email_sequence_step)}
+                    </td>
+                    <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         {!lead.unsubscribed && (
                           <button
@@ -717,7 +752,7 @@ export function EmailsTab() {
                 ))}
                 {leads.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-slate-400 font-bold">
+                    <td colSpan={6} className="py-8 text-center text-slate-400 font-bold">
                       Δεν βρέθηκαν email στη λίστα
                     </td>
                   </tr>
