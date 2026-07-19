@@ -21,7 +21,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "19 Ιουλίου 2026",
     author: "sgk.gr",
     category: "Legal & Compliance",
-    image: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200",
     metaTitle: "Υποχρεωτική Ιστοσελίδα ΙΚΕ: Νομοθεσία & Συμμόρφωση ΓΕΜΗ | SGK Digital",
     metaDescription: "Οδηγός για την υποχρεωτική ιστοσελίδα Ι.Κ.Ε. βάσει του Νόμου 4072/2012. Προδιαγραφές ΓΕΜΗ, προθεσμίες και πώς η SGK Digital την κατασκευάζει σε 24h με 124€.",
     content: `
