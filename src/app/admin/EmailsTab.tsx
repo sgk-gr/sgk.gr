@@ -635,8 +635,44 @@ export function EmailsTab() {
     }
   };
 
+  const activeCount = leads.filter(l => !l.unsubscribed).length;
+  const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
+
   return (
     <div className="space-y-8">
+
+      {/* Quick Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white/60 backdrop-blur-xl border border-gray-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+          <div>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
+            <p className="text-2xl font-black text-slate-900 mt-1">{leads.length}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
+            <Mail size={20} />
+          </div>
+        </div>
+
+        <div className="bg-white/60 backdrop-blur-xl border border-emerald-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+          <div>
+            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Ενεργοι (Active)</p>
+            <p className="text-2xl font-black text-emerald-700 mt-1">{activeCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+            <CheckCircle2 size={20} />
+          </div>
+        </div>
+
+        <div className="bg-white/60 backdrop-blur-xl border border-rose-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+          <div>
+            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsubscribed)</p>
+            <p className="text-2xl font-black text-rose-600 mt-1">{unsubscribedCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+            <AlertCircle size={20} />
+          </div>
+        </div>
+      </div>
 
       {/* Leads Header / Actions */}
       <div className="bg-white/40 backdrop-blur-xl border border-gray-200/50 p-6 rounded-2xl">
