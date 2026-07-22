@@ -74,6 +74,7 @@ export function EmailsTab() {
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [importData, setImportData] = useState("");
   const [importingProgress, setImportingProgress] = useState(false);
+  const [autoProcessing, setAutoProcessing] = useState(false);
 
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
@@ -585,8 +586,6 @@ export function EmailsTab() {
       </div>
     );
   };
-
-  const [autoProcessing, setAutoProcessing] = useState(false);
 
   const handleAutoProcessDue = async () => {
     setAutoProcessing(true);
