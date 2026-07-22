@@ -1,10 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
-import { GoogleGenerativeAI } from "npm:@google/generative-ai@0.24.1";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-const genAI = new GoogleGenerativeAI(Deno.env.get("GEMINI_API_KEY") || "");
 
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -170,9 +168,9 @@ serve(async (req) => {
             });
         }
 
-        const geminiKey = Deno.env.get("GEMINI_API_KEY");
-        if (!geminiKey) {
-            throw new Error("GEMINI_API_KEY is missing in Supabase Edge Function secrets");
+        const openAiKey = Deno.env.get("OPENAI_API_KEY") || Deno.env.get("GEMINI_API_KEY");
+        if (!openAiKey) {
+            throw new Error("OPENAI_API_KEY is missing in Supabase Edge Function secrets");
         }
 
         const supabase = createClient(
@@ -275,32 +273,39 @@ JSON Παράδειγμα:
 {
   "subject": "Το θέμα εδώ",
   "bodyHtml": "<p>Κείμενο παράγραφος 1.</p><ul><li>Σημείο 1</li></ul><p>Κείμενο παράγραφος 2.</p>"
-}
-`;
+}`;
 
-        let result;
-        try {
-            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-            result = await model.generateContent(prompt);
-        } catch (err: any) {
-            console.error("gemini-2.5-flash failed:", err.message);
-            try {
-                const fallbackModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-                result = await fallbackModel.generateContent(prompt);
-            } catch (err2: any) {
-                console.error("gemini-2.0-flash failed:", err2.message);
-                throw new Error(err2.message);
-            }
+        const openAiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${openAiKey}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: [
+                    { role: "system", content: "You output only JSON." },
+                    { role: "user", content: prompt }
+                ],
+                response_format: { type: "json_object" },
+                temperature: 0.7
+            })
+        });
+
+        if (!openAiResponse.ok) {
+            const errText = await openAiResponse.text();
+            console.error("OpenAI API error:", errText);
+            throw new Error(`OpenAI API error: ${openAiResponse.status} ${errText}`);
         }
+
+        const openAiJson = await openAiResponse.json();
+        const responseText = openAiJson.choices?.[0]?.message?.content || "";
         
-        const responseText = result.response.text();
-        
-        const jsonString = responseText.replace(/```json/g, "").replace(/```/g, "").trim();
         let aiEmail;
         try {
-            aiEmail = JSON.parse(jsonString);
+            aiEmail = JSON.parse(responseText);
         } catch (e) {
-            console.error("AI JSON Error:", jsonString);
+            console.error("AI JSON Error:", responseText);
             throw new Error("Failed to parse AI response as JSON");
         }
 

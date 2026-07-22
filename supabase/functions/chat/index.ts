@@ -12,10 +12,10 @@ serve(async (req) => {
 
   try {
     const { messages } = await req.json();
-    const apiKey = Deno.env.get("GEMINI_API_KEY");
+    const apiKey = Deno.env.get("OPENAI_API_KEY") || Deno.env.get("GEMINI_API_KEY");
     
     if (!apiKey) {
-      throw new Error("GEMINI_API_KEY is not set in Supabase Secrets");
+      throw new Error("OPENAI_API_KEY is not set in Supabase Secrets");
     }
 
     const systemPrompt = `Είσαι ο "Jo-Jo", ο ακούραστος, πανέξυπνος και υπερ-εξυπηρετικός AI Assistant της SGK Software Development (γνωστή και ως SGK Digital), που δουλεύει 24/7 με χαμόγελο!
@@ -78,32 +78,32 @@ serve(async (req) => {
 - ΠΡΕΠΕΙ ΝΑ ΕΙΣΑΙ ΕΞΑΙΡΕΤΙΚΑ ΛΑΚΩΝΙΚΟΣ. Οι απαντήσεις σου πρέπει να είναι ΠΟΛΥ ΣΥΝΤΟΜΕΣ (1-2 μικρές προτάσεις το πολύ). ΠΟΤΕ μην γράφεις μεγάλες παραγράφους.
 - Αν ο χρήστης ζητήσει τηλέφωνο, στοιχεία επικοινωνίας ή θέλει να μιλήσει απευθείας, δώσε του το τηλέφωνο +30 6999524389 και το info@sgk.gr. Αν δεν ξέρεις κάτι, πες το με χιούμορ και δώσε τα ίδια στοιχεία επικοινωνίας.`;
 
-    // Convert to Gemini API format
-    const contents = messages.map((m: any) => ({
-      role: m.role === 'user' ? 'user' : 'model',
-      parts: [{ text: m.content || " " }]
-    }));
+    const openAiMessages = [
+      { role: "system", content: systemPrompt },
+      ...messages.map((m: any) => ({
+        role: m.role === 'user' ? 'user' : 'assistant',
+        content: m.content || " "
+      }))
+    ];
 
-    const payload = {
-      model: "models/gemini-2.5-flash",
-      contents,
-      systemInstruction: {
-        role: "user",
-        parts: [{ text: systemPrompt }]
-      }
-    };
-
-    // I will use REST API directly to avoid esm.sh version issues
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=${apiKey}&alt=sse`, {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: openAiMessages,
+        temperature: 0.7,
+        stream: true
+      })
     });
 
     if (!response.ok) {
       const err = await response.text();
-      console.error(`Gemini API Error details: ${response.status} ${err}`);
-      throw new Error(`Gemini API Error: ${response.status} ${err}`);
+      console.error(`OpenAI API Error details: ${response.status} ${err}`);
+      throw new Error(`OpenAI API Error: ${response.status} ${err}`);
     }
 
     const encoder = new TextEncoder();
@@ -126,12 +126,12 @@ serve(async (req) => {
             
             for (const line of lines) {
               if (line.startsWith('data: ')) {
-                const data = line.slice(6);
+                const data = line.slice(6).trim();
                 if (data === '[DONE]') continue;
                 
                 try {
                   const parsed = JSON.parse(data);
-                  const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+                  const text = parsed.choices?.[0]?.delta?.content;
                   if (text) {
                     // Send chunk in vercel AI SDK format: 0:"text"
                     controller.enqueue(encoder.encode(`0:${JSON.stringify(text)}\n`));
@@ -164,3 +164,4 @@ serve(async (req) => {
     });
   }
 });
+

@@ -211,7 +211,7 @@ ${JSON.stringify(sessionSummary, null, 2)}
       });
 
       if (!response.ok) {
-        throw new Error("Failed to contact Gemini API via Edge Function");
+        throw new Error("Failed to contact AI API via Edge Function");
       }
 
       const reader = response.body?.getReader();
@@ -675,7 +675,7 @@ ${JSON.stringify(sessionSummary, null, 2)}
             </div>
             
             <p className="text-xs text-white/70 mb-4 leading-relaxed">
-              Ανάλυση της συμπεριφοράς των επισκεπτών σου. Το AI μοντέλο Gemini θα επεξεργαστεί τις συνεδρίες και θα σου δώσει πρακτικές ιδέες.
+              Ανάλυση της συμπεριφοράς των επισκεπτών σου. Το AI μοντέλο (ChatGPT gpt-4o-mini) θα επεξεργαστεί τις συνεδρίες και θα σου δώσει πρακτικές ιδέες.
             </p>
 
             {aiReport ? (
