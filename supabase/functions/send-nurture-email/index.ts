@@ -2,12 +2,10 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers":
-        "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
 };
 
 // ─── Επαγγελματικό HTML Template ─────────────────────────────────────────────
@@ -115,7 +113,7 @@ function buildProfessionalEmailHtml(opts: {
 
 serve(async (req) => {
     if (req.method === "OPTIONS") {
-        return new Response(null, { headers: corsHeaders });
+        return new Response("ok", { headers: corsHeaders, status: 200 });
     }
 
     try {
@@ -126,6 +124,9 @@ serve(async (req) => {
         if (!openAiKey) {
             throw new Error("OPENAI_API_KEY is missing in Supabase Edge Function secrets");
         }
+
+        const resendKey = Deno.env.get("RESEND_API_KEY") || "";
+        const resend = new Resend(resendKey);
 
         const supabase = createClient(
             Deno.env.get("SUPABASE_URL") ?? "",
@@ -317,11 +318,6 @@ serve(async (req) => {
                 throw new Error(resendResult.error.message);
             }
 
-            const supabase = createClient(
-                Deno.env.get("SUPABASE_URL") ?? "",
-                Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-            );
-
             // Update database for lead to start nurture sequence
             const { error: dbErr } = await supabase
                 .from("sgk_mails")
@@ -344,16 +340,6 @@ serve(async (req) => {
                 status: 200,
             });
         }
-
-        const openAiKey = Deno.env.get("OPENAI_API_KEY") || Deno.env.get("GEMINI_API_KEY");
-        if (!openAiKey) {
-            throw new Error("OPENAI_API_KEY is missing in Supabase Edge Function secrets");
-        }
-
-        const supabase = createClient(
-            Deno.env.get("SUPABASE_URL") ?? "",
-            Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-        );
 
         // Fetch lead data
         const { data: leadData, error: leadError } = await supabase
