@@ -111,6 +111,18 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://sgk.gr/case-study/high-travel</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://sgk.gr/blog/case-study-high-travel-nextjs-react-admin</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://sgk.gr/blog/ypochreotiki-istoselida-ike-nomos-gemi</loc>
     <lastmod>2026-07-19</lastmod>
     <changefreq>monthly</changefreq>

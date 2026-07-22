@@ -93,8 +93,9 @@
 ### 7. Skinnera IKE (https://sgk.gr/case-study/skinnera)
 - **Purpose:** Partner rewards platform for ESPA/DYPA applications.
 
-### 8. Glavinas Energy Solutions (https://sgk.gr/case-study/energy-solutions)
-- **Purpose:** Lead generation landing page generating 40+ leads/month via local SEO.
+### 9. High Travel (https://sgk.gr/case-study/high-travel)
+- **Purpose:** Travel booking platform & custom agency management portal for High Travel IKE (https://www.hightravel.gr/).
+- **Features:** Next.js 15 sub-1s frontend, custom React admin dashboard for packages, prices, posters & offers management, interactive trip search filters, and full GEMI compliance.
 
 ---
 

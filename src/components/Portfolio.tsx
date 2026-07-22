@@ -47,6 +47,14 @@ const projects = [
     link: "/case-study/km-fiber",
   },
   {
+    title: "High Travel",
+    category: "Travel Platform & React Admin",
+    description: "Σύγχρονη ταξιδιωτική πλατφόρμα με Next.js 15 και custom React διαχειριστικό πάνελ για πακέτα, προσφορές, posters και κρατήσεις.",
+    tags: ["Next.js", "React Admin", "Travel & Tourism"],
+    link: "/case-study/high-travel",
+    websiteLink: "https://www.hightravel.gr/",
+  },
+  {
     title: "Sigmalabs AI",
     category: "Agentic AI",
     description: "Το πρώτο παγκοσμίως Agentic AI για e-commerce που ελέγχει και εκτελεί εργασίες σε WooCommerce και Shopify.",

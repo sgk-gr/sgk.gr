@@ -1071,6 +1071,37 @@ export const BLOG_POSTS: BlogPost[] = [
       </ul>
       <p>Μην ρισκάρετε πρόστιμα και καθυστερήσεις. <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Πατήστε εδώ για να ξεκινήσουμε την κατασκευή της ιστοσελίδας της ΙΚΕ σας σήμερα!</a></p>
     `
+  },
+  {
+    id: "high-travel-case-study",
+    slug: "case-study-high-travel-nextjs-react-admin",
+    title: "Case Study High Travel: Νέα Ταξιδιωτική Πλατφόρμα με Next.js 15 & Custom React Διαχειριστικό",
+    excerpt: "Πώς η SGK Digital σχεδίασε και υλοποίησε την νέα πλατφόρμα της High Travel ΙΚΕ. Υπερταχύτητα Next.js, φίλτρα προορισμών & custom React πάνελ για πακέτα, προσφορές και posters.",
+    date: "22 Ιουλίου 2026",
+    author: "sgk.gr",
+    category: "Case Study & Innovation",
+    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200",
+    metaTitle: "Case Study High Travel: Next.js & Custom React Admin | SGK Digital",
+    metaDescription: "Δείτε πώς η SGK Digital κατασκεύασε την ταξιδιωτική πλατφόρμα της High Travel ΙΚΕ με Next.js 15, custom React διαχειριστικό, φίλτρα πακέτων και 100% συμμόρφωση ΓΕΜΗ.",
+    content: `
+      <h2>Η Πρόκληση της High Travel ΙΚΕ</h2>
+      <p>Η <strong>High Travel ΙΚΕ</strong> (με έδρα το Αγρίνιο, ΓΕΜΗ: 194563312000, ΜΗ.Τ.Ε.: 0413E60000029500) αποτελεί ένα από τα πιο δυναμικά ταξιδιωτικά γραφεία στην Ελλάδα, προσφέροντας οργανωμένα ταξίδια με λεωφορείο, αεροπλάνο και πλοίο σε Ελλάδα και εξωτερικό.</p>
+      
+      <p>Η επιχείρηση χρειάζονταν μια σύγχρονη, αστραπιαία πλατφόρμα που θα επέτρεπε στους ταξιδιώτες να βρίσκουν εύκολα τον ονειρικό τους προορισμό, αλλά παράλληλα θα παρείχε στην ομάδα της High Travel ένα <strong>απόλυτα custom διαχειριστικό πάνελ σε React</strong> για να διαχειρίζονται αυτόνομα ταξιδιωτικά πακέτα, τιμές, προσφορές και διαφημιστικά posters.</p>
+
+      <h3>Τεχνική Αρχιτεκτονική & Λύση από την SGK Digital</h3>
+      <ul>
+        <li><strong>Next.js 15 Frontend:</strong> Υπερταχύτητα φόρτωσης (Core Web Vitals 99/100) με ασύγκριτο SEO για όλες τις κατηγορίες ταξιδιών.</li>
+        <li><strong>Custom React Διαχειριστικό (Admin Panel):</strong> Ειδικά σχεδιασμένο dashboard για την ομάδα του γραφείου. Επιτρέπει την προσθήκη νέων προορισμών, αλλαγές τιμών, διαχείριση posters και καταχώρηση αποκλειστικών προσφορών (π.χ. Valentine's Day -15%, Early Bird -5%).</li>
+        <li><strong>Έξυπνο Φίλτρο Αναζήτησης:</strong> Δυνατότητα επιλογής ατόμων (Ενήλικες, Παιδιά), εύρους τιμής (έως 5.000€) και κατηγοριών (Λεωφορείο, Αεροπλάνο, Πλοίο, Ελλάδα, Εξωτερικό, Προσκύνημα).</li>
+        <li><strong>Πλήρης Νομική Συμμόρφωση ΓΕΜΗ:</strong> Πλήρης κάλυψη του Άρθρου 50 Ν.4072/2012 με όλα τα υποχρεωτικά εταιρικά στοιχεία της ΙΚΕ.</li>
+      </ul>
+
+      <h3>Αποτελέσματα</h3>
+      <p>Η νέα πλατφόρμα <a href="https://www.hightravel.gr/" target="_blank" rel="noopener noreferrer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">hightravel.gr</a> προσφέρει μια μοναδική εμπειρία στους ταξιδιώτες, αυξάνοντας τις direct κρατήσεις και εκδηλώσεις ενδιαφέροντος, ενώ εξοικονομεί δεκάδες ώρες εβδομαδιαίως από τη διαχείριση των πακέτων.</p>
+
+      <p><a href="/case-study/high-travel" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Δείτε το αναλυτικό Case Study της High Travel εδώ</a> ή <a href="/estimate" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">επικοινωνήστε μαζί μας για να χτίσουμε τη δική σας ταξιδιωτική πλατφόρμα!</a></p>
+    `
   }
 ];
 

@@ -72,6 +72,14 @@ const featuredProjects = [
 // ----------------------------------------------------
 const gridProjects = [
   {
+    title: "High Travel",
+    category: "Travel Platform & React Admin",
+    description: "Σύγχρονη ταξιδιωτική πλατφόρμα με Next.js 15, φίλτρα προορισμών & custom React διαχειριστικό πάνελ για πακέτα, προσφορές, posters και κρατήσεις.",
+    tags: ["Next.js", "React Admin", "Travel", "Agrio"],
+    image: "/images/solutions/unsplash_marketing.jpg",
+    link: "/case-study/high-travel",
+  },
+  {
     title: "Lemon tree 1 Paros",
     category: "Booking System",
     description: "Κατασκευή custom ιστοσελίδας και συστήματος κρατήσεων (booking) για ενοικιαζόμενα studios & apartments στην Πάρο (Κυκλάδες).",
