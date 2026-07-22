@@ -12,11 +12,15 @@ serve(async (req) => {
 
   try {
     const { messages } = await req.json();
-    const apiKey = Deno.env.get("OPENAI_API_KEY") || Deno.env.get("GEMINI_API_KEY");
+    const openAiKey = Deno.env.get("OPENAI_API_KEY");
+    const geminiKey = Deno.env.get("GEMINI_API_KEY");
+    const apiKey = openAiKey || geminiKey;
     
     if (!apiKey) {
-      throw new Error("OPENAI_API_KEY is not set in Supabase Secrets");
+      throw new Error("Neither OPENAI_API_KEY nor GEMINI_API_KEY is set in Supabase Secrets");
     }
+
+    const isOpenAI = !!openAiKey && openAiKey.startsWith("sk-");
 
     const systemPrompt = `Είσαι ο "Jo-Jo", ο ακούραστος, πανέξυπνος και υπερ-εξυπηρετικός AI Assistant της SGK Software Development (γνωστή και ως SGK Digital), που δουλεύει 24/7 με χαμόγελο!
 
@@ -78,27 +82,47 @@ serve(async (req) => {
 - ΠΡΕΠΕΙ ΝΑ ΕΙΣΑΙ ΕΞΑΙΡΕΤΙΚΑ ΛΑΚΩΝΙΚΟΣ. Οι απαντήσεις σου πρέπει να είναι ΠΟΛΥ ΣΥΝΤΟΜΕΣ (1-2 μικρές προτάσεις το πολύ). ΠΟΤΕ μην γράφεις μεγάλες παραγράφους.
 - Αν ο χρήστης ζητήσει τηλέφωνο, στοιχεία επικοινωνίας ή θέλει να μιλήσει απευθείας, δώσε του το τηλέφωνο +30 6999524389 και το info@sgk.gr. Αν δεν ξέρεις κάτι, πες το με χιούμορ και δώσε τα ίδια στοιχεία επικοινωνίας.`;
 
-    const openAiMessages = [
-      { role: "system", content: systemPrompt },
-      ...messages.map((m: any) => ({
-        role: m.role === 'user' ? 'user' : 'assistant',
-        content: m.content || " "
-      }))
-    ];
+    let response: Response;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: openAiMessages,
-        temperature: 0.7,
-        stream: true
-      })
-    });
+    if (isOpenAI) {
+      const openAiMessages = [
+        { role: "system", content: systemPrompt },
+        ...messages.map((m: any) => ({
+          role: m.role === 'user' ? 'user' : 'assistant',
+          content: m.content || " "
+        }))
+      ];
+
+      response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${openAiKey}`
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: openAiMessages,
+          temperature: 0.7,
+          stream: true
+        })
+      });
+    } else {
+      // Fallback to Gemini if OpenAI key is not set yet
+      const contents = messages.map((m: any) => ({
+        role: m.role === 'user' ? 'user' : 'model',
+        parts: [{ text: m.content || " " }]
+      }));
+
+      response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=${geminiKey}&alt=sse`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "models/gemini-2.5-flash",
+          contents,
+          systemInstruction: { role: "user", parts: [{ text: systemPrompt }] }
+        })
+      });
+    }
 
     if (!response.ok) {
       const err = await response.text();
@@ -131,7 +155,9 @@ serve(async (req) => {
                 
                 try {
                   const parsed = JSON.parse(data);
-                  const text = parsed.choices?.[0]?.delta?.content;
+                  const text = isOpenAI
+                    ? parsed.choices?.[0]?.delta?.content
+                    : parsed.candidates?.[0]?.content?.parts?.[0]?.text;
                   if (text) {
                     // Send chunk in vercel AI SDK format: 0:"text"
                     controller.enqueue(encoder.encode(`0:${JSON.stringify(text)}\n`));
