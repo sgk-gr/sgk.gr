@@ -120,7 +120,184 @@ serve(async (req) => {
 
     try {
         const payload = await req.json();
-        const { email, step, unsubscribe_token, customSubject, customHtml, business_name, firstEmailSubject, firstEmailBody } = payload;
+        const { processAllDue, email, step, unsubscribe_token, customSubject, customHtml, business_name, firstEmailSubject, firstEmailBody } = payload;
+
+        const openAiKey = Deno.env.get("OPENAI_API_KEY") || Deno.env.get("GEMINI_API_KEY");
+        if (!openAiKey) {
+            throw new Error("OPENAI_API_KEY is missing in Supabase Edge Function secrets");
+        }
+
+        const supabase = createClient(
+            Deno.env.get("SUPABASE_URL") ?? "",
+            Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+        );
+
+        // BATCH AUTO-PROCESSING MODE
+        if (processAllDue) {
+            // Fetch leads due for next sequence email (at least 3 days since last_email_sent_at or step 1)
+            const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
+            
+            const { data: dueLeads, error: dueError } = await supabase
+                .from("sgk_mails")
+                .select("*")
+                .eq("marketing_consent", true)
+                .eq("unsubscribed", false)
+                .eq("converted", false)
+                .gte("email_sequence_step", 1)
+                .lt("email_sequence_step", 5)
+                .lte("last_email_sent_at", threeDaysAgo);
+
+            if (dueError) {
+                throw dueError;
+            }
+
+            const results = [];
+
+            for (const leadData of (dueLeads || [])) {
+                const nextStep = (leadData.email_sequence_step || 1) + 1;
+                const leadEmail = leadData.email;
+                const unsubToken = leadData.unsubscribe_token || crypto.randomUUID();
+
+                const isOutreach = leadData.type === "outreach";
+                let businessName = isOutreach 
+                    ? (leadData.first_name || "") 
+                    : (leadData.company || "");
+                    
+                if (!businessName || businessName === "Barbershop Promo" || businessName.toLowerCase() === "generic" || businessName === "Επιχείρηση") {
+                    businessName = "Δεν δόθηκε";
+                }
+
+                const contactName = isOutreach ? "Δεν δόθηκε" : (leadData.first_name || "Δεν δόθηκε");
+
+                const industry = isOutreach
+                    ? (leadData.company || "generic")
+                    : (leadData.type === "promo_barbershop" ? "hair_salon" : (leadData.type === "eshop_offer" ? "retail" : "generic"));
+
+                const serviceType = leadData.type || "website_offer";
+
+                const serviceMap: Record<string, string> = {
+                    website_offer: "Ιστοσελίδα",
+                    eshop_offer: "Ηλεκτρονικό Κατάστημα (Eshop)",
+                    ai_agents_offer: "Σύστημα AI (Τεχνητής Νοημοσύνης)",
+                    mobile_app_offer: "Εφαρμογή για Κινητά (Mobile App)",
+                    erp_crm_offer: "Σύστημα ERP/CRM",
+                };
+                const mappedService = serviceMap[serviceType] || "Ιστοσελίδα";
+
+                const industryMap: Record<string, string> = {
+                    generic: "Επιχείρηση",
+                    dentist: "Οδοντιατρείο",
+                    food_service: "Εστίαση",
+                    hotel: "Ξενοδοχείο/Κατάλυμα",
+                    rent_a_car: "Rent a Car",
+                    hair_salon: "Κομμωτήριο",
+                    pharmacy: "Φαρμακείο",
+                    accountant: "Λογιστικό Γραφείο",
+                    lawyer: "Δικηγορικό Γραφείο",
+                    retail: "Κατάστημα Λιανικής",
+                };
+                const mappedIndustry = industryMap[industry] || industry;
+
+                let promptGoal = "";
+                if (nextStep === 2) {
+                    promptGoal = "Στόχος: Να χτυπήσεις στα 'pain points' του πελάτη (τι χάνει επειδή δεν έχει αυτή την υπηρεσία) και να προσφέρεις αξία. Πρότεινε μια σύντομη 5λεπτη κλήση γνωριμίας. Τόνος: Φιλικός, όχι επιθετικός.";
+                } else if (nextStep === 3) {
+                    promptGoal = "Στόχος: Να δημιουργήσεις αίσθηση επείγοντος (π.χ. τι κάνουν οι ανταγωνιστές, αλλαγές στον αλγόριθμο της Google). Κάνε το κείμενο πιο μικρό και πειστικό.";
+                } else if (nextStep === 4) {
+                    promptGoal = "Στόχος: Να προσφέρεις μια δωρεάν μελέτη/ανάλυση ή να δείξεις κάποιο σχετικό δείγμα της δουλειάς μας. Κάνε το κείμενο φιλικό, άμεσο και βοηθητικό.";
+                } else if (nextStep >= 5) {
+                    promptGoal = "Στόχος: Breakup email. Είναι το τελευταίο email της ακολουθίας. Πρόσφερε μια ειδική έκπτωση (π.χ. 10% δώρο) αν δράσουν τώρα, και πες αντίο αν δεν ενδιαφέρονται.";
+                }
+
+                const firstSubject = leadData.first_email_subject || "";
+                const firstBody = leadData.first_email_body || "";
+
+                const prompt = `Είσαι ένας κορυφαίος Copywriter Πωλήσεων για την SGK Digital.
+Θέλω να γράψεις το Email Follow-up Νο. ${nextStep - 1} (συνολικό email ακολουθίας Νο. ${nextStep}) για έναν υποψήφιο πελάτη.
+
+ΤΟ ΠΡΩΤΟ EMAIL ΠΟΥ ΣΤΑΛΘΗΚΕ ΣΤΟΝ ΠΕΛΑΤΗ (Email 1):
+- Θέμα: ${firstSubject || "Δεν έχει καταγραφεί"}
+- Περιεχόμενο (HTML): ${firstBody || "Δεν έχει καταγραφεί"}
+
+ΣТОΙΧΕΙΑ ΠΕΛΑΤΗ:
+- Όνομα Υπευθύνου: ${contactName}
+- Επωνυμία Επιχείρησης: ${businessName}
+- Κλάδος: ${mappedIndustry}
+- Υπηρεσία που προσφέρουμε: ${mappedService}
+
+ΟΔΗΓΙΕΣ ΓΙΑ ΤΟ ΣΥΓΚΕΚΡΙΜΕΝΟ EMAIL (Email ${nextStep}):
+- ${promptGoal}
+- Το email πρέπει να είναι ΣΥΝΕΧΕΙΑ και FOLLOW-UP του πρώτου email.
+- ΜΗΝ επαναλάβεις ολόκληρο το κείμενο του πρώτου email, απλά χτίσε πάνω σε αυτό!
+
+ΑΠΑΙΤΗΣΕΙΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
+- Επίστρεψε ΜΟΝΟ ΕΝΑ ΕΓΚΥΡΟ JSON ΑΝΤΙΚΕΙΜΕΝΟ με τα εξής πεδία: "subject" και "bodyHtml".
+- Το "bodyHtml" πρέπει να περιέχει ΜΟΝΟ τα εσωτερικά HTML tags (π.χ. <p>, <ul>, <strong>).
+- ΜΗΝ βάλεις προσφώνηση "Αγαπητέ..." ή υπογραφή στο τέλος.`;
+
+                try {
+                    const openAiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${openAiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-4o-mini",
+                            messages: [
+                                { role: "system", content: "You output only JSON." },
+                                { role: "user", content: prompt }
+                            ],
+                            response_format: { type: "json_object" },
+                            temperature: 0.7
+                        })
+                    });
+
+                    if (!openAiResponse.ok) continue;
+
+                    const openAiJson = await openAiResponse.json();
+                    const responseText = openAiJson.choices?.[0]?.message?.content || "";
+                    const aiEmail = JSON.parse(responseText);
+
+                    if (!aiEmail.subject || !aiEmail.bodyHtml) continue;
+
+                    const finalHtml = buildProfessionalEmailHtml({
+                        businessName: businessName,
+                        subject: aiEmail.subject,
+                        bodyHtml: aiEmail.bodyHtml,
+                        unsubscribeToken: unsubToken,
+                        industry: industry
+                    });
+
+                    const resendResult = await resend.emails.send({
+                        from: "SGK Digital <noreply@sgk.gr>",
+                        to: leadEmail,
+                        subject: aiEmail.subject,
+                        html: finalHtml,
+                        reply_to: "info@sgk.gr"
+                    });
+
+                    if (!resendResult.error) {
+                        await supabase
+                            .from("sgk_mails")
+                            .update({
+                                email_sequence_step: nextStep,
+                                last_email_sent_at: new Date().toISOString()
+                            })
+                            .eq("id", leadData.id);
+
+                        results.push({ email: leadEmail, step: nextStep, success: true });
+                    }
+                } catch (e: any) {
+                    console.error(`Error auto-processing ${leadEmail}:`, e.message);
+                }
+            }
+
+            return new Response(JSON.stringify({ success: true, processedCount: results.length, details: results }), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+                status: 200,
+            });
+        }
 
         if (!email || !step) {
             throw new Error("Missing email or step");

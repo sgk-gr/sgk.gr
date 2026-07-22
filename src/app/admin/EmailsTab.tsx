@@ -586,6 +586,37 @@ export function EmailsTab() {
     );
   };
 
+  const [autoProcessing, setAutoProcessing] = useState(false);
+
+  const handleAutoProcessDue = async () => {
+    setAutoProcessing(true);
+    toast.info("Έναρξη αυτόματης επεξεργασίας εκκρεμών AI follow-up emails...");
+    try {
+      const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify({
+          processAllDue: true
+        })
+      });
+
+      const resJson = await response.json();
+      if (resJson.success) {
+        toast.success(`Η ακολουθία ολοκληρώθηκε! Στάλθηκαν ${resJson.processedCount || 0} επόμενα AI emails.`);
+        fetchLeads();
+      } else {
+        toast.error(`Σφάλμα: ${resJson.error || "Άγνωστο σφάλμα"}`);
+      }
+    } catch (err: any) {
+      toast.error(`Σφάλμα αυτόματης αποστολής: ${err.message}`);
+    } finally {
+      setAutoProcessing(false);
+    }
+  };
+
   return (
     <div className="space-y-8">
 
@@ -602,6 +633,14 @@ export function EmailsTab() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={handleAutoProcessDue}
+              disabled={autoProcessing}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#a855f7] to-[#3b5bdb] text-white rounded-xl hover:opacity-95 transition-all text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer disabled:opacity-50"
+            >
+              {autoProcessing ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />}
+              ⚡ AI Auto-Pilot (Εκτελεση Ακολουθιας)
+            </button>
             <button
               onClick={() => {
                 setSingleLeadTarget(null);
