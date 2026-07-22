@@ -135,6 +135,7 @@ serve(async (req) => {
 
         // BATCH AUTO-PROCESSING MODE
         if (processAllDue) {
+            const batchLimit = payload.batchLimit || 5;
             // Fetch leads due for next sequence email (at least 3 days since last_email_sent_at or step 1)
             const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
             
@@ -146,7 +147,8 @@ serve(async (req) => {
                 .eq("converted", false)
                 .gte("email_sequence_step", 1)
                 .lt("email_sequence_step", 5)
-                .lte("last_email_sent_at", threeDaysAgo);
+                .lte("last_email_sent_at", threeDaysAgo)
+                .limit(batchLimit);
 
             if (dueError) {
                 throw dueError;

@@ -590,25 +590,44 @@ export function EmailsTab() {
   const handleAutoProcessDue = async () => {
     setAutoProcessing(true);
     toast.info("Έναρξη αυτόματης επεξεργασίας εκκρεμών AI follow-up emails...");
-    try {
-      const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify({
-          processAllDue: true
-        })
-      });
+    let totalSent = 0;
+    let keepGoing = true;
 
-      const resJson = await response.json();
-      if (resJson.success) {
-        toast.success(`Η ακολουθία ολοκληρώθηκε! Στάλθηκαν ${resJson.processedCount || 0} επόμενα AI emails.`);
-        fetchLeads();
-      } else {
-        toast.error(`Σφάλμα: ${resJson.error || "Άγνωστο σφάλμα"}`);
+    try {
+      while (keepGoing) {
+        const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({
+            processAllDue: true,
+            batchLimit: 5
+          })
+        });
+
+        const resJson = await response.json();
+        if (resJson.success) {
+          const count = resJson.processedCount || 0;
+          totalSent += count;
+          if (count === 0) {
+            keepGoing = false;
+          } else {
+            toast.info(`Στάλθηκαν ${totalSent} AI emails μέχρι στιγμής... συνεχίζεται...`);
+          }
+        } else {
+          toast.error(`Σφάλμα: ${resJson.error || "Άγνωστο σφάλμα"}`);
+          keepGoing = false;
+        }
       }
+
+      if (totalSent > 0) {
+        toast.success(`Η ακολουθία ολοκληρώθηκε! Στάλθηκαν συνολικά ${totalSent} επόμενα AI emails.`);
+      } else {
+        toast.info("Δεν βρέθηκαν εκκρεμή emails που να έχουν συμπληρώσει 3 ημέρες.");
+      }
+      fetchLeads();
     } catch (err: any) {
       toast.error(`Σφάλμα αυτόματης αποστολής: ${err.message}`);
     } finally {
