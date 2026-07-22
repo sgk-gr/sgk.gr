@@ -8,6 +8,26 @@ const corsHeaders = {
     "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
 };
 
+function getOfferButton(firstSubject: string = "", firstBody: string = "", leadType: string = "") {
+    const text = (firstSubject + " " + firstBody + " " + leadType).toLowerCase();
+    if (text.includes("ικε") || text.includes("ike")) {
+        return {
+            buttonText: "Έναρξη Κατασκευής ΙΚΕ",
+            buttonLink: "https://sgk.gr/ike-offer"
+        };
+    }
+    if (text.includes("eshop") || text.includes("pay as you grow") || text.includes("payg") || text.includes("e-shop")) {
+        return {
+            buttonText: "Δείτε την Προσφορά Eshop",
+            buttonLink: "https://sgk.gr/pay-as-you-grow"
+        };
+    }
+    return {
+        buttonText: "Δείτε την Προσφορά",
+        buttonLink: "https://sgk.gr/estimate"
+    };
+}
+
 // ─── Επαγγελματικό HTML Template ─────────────────────────────────────────────
 function buildProfessionalEmailHtml(opts: {
   businessName?: string;
@@ -109,6 +129,7 @@ function buildProfessionalEmailHtml(opts: {
 </body>
 </html>`;
 }
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 serve(async (req) => {
@@ -136,7 +157,6 @@ serve(async (req) => {
         // BATCH AUTO-PROCESSING MODE
         if (processAllDue) {
             const batchLimit = payload.batchLimit || 5;
-            // Fetch leads due for next sequence email (at least 3 days since last_email_sent_at or step 1)
             const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
             
             const { data: dueLeads, error: dueError } = await supabase
@@ -203,17 +223,18 @@ serve(async (req) => {
 
                 let promptGoal = "";
                 if (nextStep === 2) {
-                    promptGoal = "Στόχος: Να χτυπήσεις στα 'pain points' του πελάτη (τι χάνει επειδή δεν έχει αυτή την υπηρεσία) και να προσφέρεις αξία. Πρότεινε μια σύντομη 5λεπτη κλήση γνωριμίας. Τόνος: Φιλικός, όχι επιθετικός.";
+                    promptGoal = "Στόχος: Να χτυπήσεις στα 'pain points' του πελάτη και να προσφέρεις αξία. ΑΠΑΓΟΡΕΥΕΤΑΙ αυστηρά η αναφορά σε τηλεφωνική κλήση, 5λεπτη συνομιλία ή ραντεβού. Παρότρυνε τον πελάτη να πατήσει το κουμπί της προσφοράς!";
                 } else if (nextStep === 3) {
-                    promptGoal = "Στόχος: Να δημιουργήσεις αίσθηση επείγοντος (π.χ. τι κάνουν οι ανταγωνιστές, αλλαγές στον αλγόριθμο της Google). Κάνε το κείμενο πιο μικρό και πειστικό.";
+                    promptGoal = "Στόχος: Να δημιουργήσεις αίσθηση επείγοντος. ΑΠΑΓΟΡΕΥΕΤΑΙ η αναφορά σε τηλεφωνήματα. Παρότρυνε τον να πατήσει το κουμπί της προσφοράς.";
                 } else if (nextStep === 4) {
-                    promptGoal = "Στόχος: Να προσφέρεις μια δωρεάν μελέτη/ανάλυση ή να δείξεις κάποιο σχετικό δείγμα της δουλειάς μας. Κάνε το κείμενο φιλικό, άμεσο και βοηθητικό.";
+                    promptGoal = "Στόχος: Να προσφέρεις μια δωρεάν μελέτη/ανάλυση ή δείγμα δουλειάς. ΑΠΑΓΟΡΕΥΕΤΑΙ η αναφορά σε τηλεφωνήματα. Παρότρυνε τον να πατήσει το κουμπί της προσφοράς.";
                 } else if (nextStep >= 5) {
-                    promptGoal = "Στόχος: Breakup email. Είναι το τελευταίο email της ακολουθίας. Πρόσφερε μια ειδική έκπτωση (π.χ. 10% δώρο) αν δράσουν τώρα, και πες αντίο αν δεν ενδιαφέρονται.";
+                    promptGoal = "Στόχος: Breakup email. Πρόσφερε μια ειδική έκπτωση 10%. ΑΠΑΓΟΡΕΥΕΤΑΙ η αναφορά σε τηλεφωνήματα. Παρότρυνε τον να πατήσει το κουμπί της προσφοράς.";
                 }
 
                 const firstSubject = leadData.first_email_subject || "";
                 const firstBody = leadData.first_email_body || "";
+                const defaultBtn = getOfferButton(firstSubject, firstBody, leadData.type);
 
                 const prompt = `Είσαι ένας κορυφαίος Copywriter Πωλήσεων για την SGK Digital.
 Θέλω να γράψεις το Email Follow-up Νο. ${nextStep - 1} (συνολικό email ακολουθίας Νο. ${nextStep}) για έναν υποψήφιο πελάτη.
@@ -230,11 +251,12 @@ serve(async (req) => {
 
 ΟΔΗΓΙΕΣ ΓΙΑ ΤΟ ΣΥΓΚΕΚΡΙΜΕΝΟ EMAIL (Email ${nextStep}):
 - ${promptGoal}
+- ΑΠΑΓΟΡΕΥΕΤΑΙ ΑΥΣΤΗΡΑ να αναφέρεις κλήσεις, τηλέφωνα, ραντεβού ή 5λεπτες συνομιλίες!
+- Το email πρέπει να παροτρύνει τον πελάτη να πατήσει το κουμπί ("${defaultBtn.buttonText}") για να δει την προσφορά online.
 - Το email πρέπει να είναι ΣΥΝΕΧΕΙΑ και FOLLOW-UP του πρώτου email.
-- ΜΗΝ επαναλάβεις ολόκληρο το κείμενο του πρώτου email, απλά χτίσε πάνω σε αυτό!
 
 ΑΠΑΙΤΗΣΕΙΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
-- Επίστρεψε ΜΟΝΟ ΕΝΑ ΕΓΚΥΡΟ JSON ΑΝΤΙΚΕΙΜΕΝΟ με τα εξής πεδία: "subject" και "bodyHtml".
+- Επίστρεψε ΜΟΝΟ ΕΝΑ ΕΓΚΥΡΟ JSON ΑΝΤΙΚΕΙΜΕΝΟ με τα εξής πεδία: "subject", "bodyHtml", "buttonText" και "buttonLink".
 - Το "bodyHtml" πρέπει να περιέχει ΜΟΝΟ τα εσωτερικά HTML tags (π.χ. <p>, <ul>, <strong>).
 - ΜΗΝ βάλεις προσφώνηση "Αγαπητέ..." ή υπογραφή στο τέλος.`;
 
@@ -268,12 +290,14 @@ serve(async (req) => {
                         businessName: businessName,
                         subject: aiEmail.subject,
                         bodyHtml: aiEmail.bodyHtml,
+                        buttonText: aiEmail.buttonText || defaultBtn.buttonText,
+                        buttonLink: aiEmail.buttonLink || defaultBtn.buttonLink,
                         unsubscribeToken: unsubToken,
                         industry: industry
                     });
 
                     const resendResult = await resend.emails.send({
-                        from: "SGK Digital <noreply@sgk.gr>",
+                        from: "SGK Digital <info@sgk.gr>",
                         to: leadEmail,
                         subject: aiEmail.subject,
                         html: finalHtml,
@@ -309,7 +333,7 @@ serve(async (req) => {
         // Bypassing AI generation for Manual Step 1 (sent from ScraperTab)
         if (step === 1 && customSubject && customHtml) {
             const resendResult = await resend.emails.send({
-                from: "SGK Digital <noreply@sgk.gr>",
+                from: "SGK Digital <info@sgk.gr>",
                 to: email,
                 subject: customSubject,
                 html: customHtml,
@@ -343,7 +367,7 @@ serve(async (req) => {
             });
         }
 
-        // Fetch lead data
+        // Fetch lead data for single email processing
         const { data: leadData, error: leadError } = await supabase
             .from("sgk_mails")
             .select("*")
@@ -360,7 +384,7 @@ serve(async (req) => {
             : (leadData.company || "");
             
         if (!businessName || businessName === "Barbershop Promo" || businessName.toLowerCase() === "generic" || businessName === "Επιχείρηση") {
-            businessName = "Δεν δόθηκε (μίλα γενικά, π.χ. γράψε 'για το κομμωτήριό σας' αντί για συγκεκριμένο όνομα)";
+            businessName = "Δεν δόθηκε";
         }
 
         const contactName = isOutreach ? "Δεν δόθηκε" : (leadData.first_name || "Δεν δόθηκε");
@@ -384,7 +408,7 @@ serve(async (req) => {
         const industryMap: Record<string, string> = {
             generic: "Επιχείρηση",
             dentist: "Οδοντιατρείο",
-            food_service: "Εστίαση (Ταβέρνα, Εστιατόριο, Καφετέρια)",
+            food_service: "Εστίαση",
             hotel: "Ξενοδοχείο/Κατάλυμα",
             rent_a_car: "Rent a Car",
             hair_salon: "Κομμωτήριο",
@@ -397,26 +421,27 @@ serve(async (req) => {
 
         let promptGoal = "";
         if (step === 2) {
-            promptGoal = "Στόχος: Να χτυπήσεις στα 'pain points' του πελάτη (τι χάνει επειδή δεν έχει αυτή την υπηρεσία) και να προσφέρεις αξία. Πρότεινε μια σύντομη 5λεπτη κλήση γνωριμίας. Τόνος: Φιλικός, όχι επιθετικός.";
+            promptGoal = "Στόχος: Να χτυπήσεις στα 'pain points' του πελάτη και να προσφέρεις αξία. ΑΠΑΓΟΡΕΥΕΤΑΙ αυστηρά η αναφορά σε τηλεφωνική κλήση, 5λεπτη συνομιλία ή ραντεβού. Παρότρυνε τον πελάτη να πατήσει το κουμπί της προσφοράς!";
         } else if (step === 3) {
-            promptGoal = "Στόχος: Να δημιουργήσεις αίσθηση επείγοντος (π.χ. τι κάνουν οι ανταγωνιστές, αλλαγές στον αλγόριθμο της Google). Κάνε το κείμενο πιο μικρό και πειστικό.";
+            promptGoal = "Στόχος: Να δημιουργήσεις αίσθηση επείγοντος. ΑΠΑΓΟΡΕΥΕΤΑΙ η αναφορά σε τηλεφωνήματα. Παρότρυνε τον να πατήσει το κουμπί της προσφοράς.";
         } else if (step === 4) {
-            promptGoal = "Στόχος: Να προσφέρεις μια δωρεάν μελέτη/ανάλυση ή να δείξεις κάποιο σχετικό δείγμα της δουλειάς μας για να κεντρίσεις το ενδιαφέρον. Κάνε το κείμενο φιλικό, άμεσο και βοηθητικό.";
+            promptGoal = "Στόχος: Να προσφέρεις μια δωρεάν μελέτη/ανάλυση ή δείγμα δουλειάς. ΑΠΑΓΟΡΕΥΕΤΑΙ η αναφορά σε τηλεφωνήματα. Παρότρυνε τον να πατήσει το κουμπί της προσφοράς.";
         } else if (step >= 5) {
-            promptGoal = "Στόχος: Breakup email. Είναι το τελευταίο email της ακολουθίας. Πρόσφερε μια ειδική έκπτωση (π.χ. 10% δώρο) αν δράσουν τώρα, και πες αντίο αν δεν ενδιαφέρονται.";
+            promptGoal = "Στόχος: Breakup email. Πρόσφερε μια ειδική έκπτωση 10%. ΑΠΑΓΟΡΕΥΕΤΑΙ η αναφορά σε τηλεφωνήματα. Παρότρυνε τον να πατήσει το κουμπί της προσφοράς.";
         }
 
         const firstSubject = leadData.first_email_subject || "";
         const firstBody = leadData.first_email_body || "";
+        const defaultBtn = getOfferButton(firstSubject, firstBody, leadData.type);
 
-        const prompt = `Είσαι ένας κορυφαίος Copywriter Πωλήσεων για την SGK Digital, μια εταιρεία κατασκευής ιστοσελίδων και λογισμικού στην Ελλάδα.
+        const prompt = `Είσαι ένας κορυφαίος Copywriter Πωλήσεων για την SGK Digital.
 Θέλω να γράψεις το Email Follow-up Νο. ${step - 1} (συνολικό email ακολουθίας Νο. ${step}) για έναν υποψήφιο πελάτη.
 
 ΤΟ ΠΡΩΤΟ EMAIL ΠΟΥ ΣΤΑΛΘΗΚΕ ΣΤΟΝ ΠΕΛΑΤΗ (Email 1):
 - Θέμα: ${firstSubject || "Δεν έχει καταγραφεί"}
 - Περιεχόμενο (HTML): ${firstBody || "Δεν έχει καταγραφεί"}
 
-ΣΤΟΙΧΕΙΑ ΠΕΛΑΤΗ:
+ΣТОΙΧΕΙΑ ΠΕΛΑΤΗ:
 - Όνομα Υπευθύνου: ${contactName}
 - Επωνυμία Επιχείρησης: ${businessName}
 - Κλάδος: ${mappedIndustry}
@@ -424,21 +449,14 @@ serve(async (req) => {
 
 ΟΔΗΓΙΕΣ ΓΙΑ ΤΟ ΣΥΓΚΕΚΡΙΜΕΝΟ EMAIL (Email ${step}):
 - ${promptGoal}
-- Το email πρέπει να είναι ΣΥΝΕΧΕΙΑ και FOLLOW-UP του πρώτου email. Αναφέρσου έμμεσα ή άμεσα σε αυτό που του είχαμε προτείνει στο πρώτο email (π.χ. "Σχετικά με την προσφορά μας για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στα 124€" ή "Σχετικά με το eshop με το πρόγραμμα Pay As You Grow...").
-- Μην επαναλάβεις ολόκληρο το κείμενο του πρώτου email, απλά χτίσε πάνω σε αυτό!
+- ΑΠΑΓΟΡΕΥΕΤΑΙ ΑΥΣΤΗΡΑ να αναφέρεις κλήσεις, τηλέφωνα, ραντεβού ή 5λεπτες συνομιλίες!
+- Το email πρέπει να παροτρύνει τον πελάτη να πατήσει το κουμπί ("${defaultBtn.buttonText}") για να δει την προσφορά online.
+- Το email πρέπει να είναι ΣΥΝΕΧΕΙΑ και FOLLOW-UP του πρώτου email.
 
 ΑΠΑΙΤΗΣΕΙΣ ΜΟΡΦΟΠΟΙΗΣΗΣ:
-- Επίστρεψε ΜΟΝΟ ΕΝΑ ΕΓΚΥΡΟ JSON ΑΝΤΙΚΕΙΜΕΝΟ με τα εξής πεδία: "subject" (το θέμα του email) και "bodyHtml" (το κείμενο του email).
-- Το "bodyHtml" πρέπει να περιέχει ΜΟΝΟ τα εσωτερικά HTML tags (π.χ. <p>, <ul>, <strong>). ΜΗΝ βάλεις <html>, <body>, <html> wrappers γιατί θα μπει σε δικό μας template.
-- Γράψε το κείμενο άμεσα, με ανθρώπινο τόνο, χωρίς περιττούς τεχνικούς όρους.
-- ΜΗΝ βάλεις την προσφώνηση "Αγαπητέ..." στην αρχή, διότι το email μας ξεκινάει ήδη με "Γεια σας από την SGK Digital!". Ξεκίνα κατευθείαν το κείμενο (π.χ. "Θα ήθελα να επανέλθω σχετικά με...").
-- ΜΗΝ βάλεις υπογραφή στο τέλος, μπαίνει αυτόματα στο template μας.
-
-JSON Παράδειγμα:
-{
-  "subject": "Το θέμα εδώ",
-  "bodyHtml": "<p>Κείμενο παράγραφος 1.</p><ul><li>Σημείο 1</li></ul><p>Κείμενο παράγραφος 2.</p>"
-}`;
+- Επίστρεψε ΜΟΝΟ ΕΝΑ ΕΓΚΥΡΟ JSON ΑΝΤΙΚΕΙΜΕΝΟ με τα εξής πεδία: "subject", "bodyHtml", "buttonText" και "buttonLink".
+- Το "bodyHtml" πρέπει να περιέχει ΜΟΝΟ τα εσωτερικά HTML tags (π.χ. <p>, <ul>, <strong>).
+- ΜΗΝ βάλεις προσφώνηση "Αγαπητέ..." ή υπογραφή στο τέλος.`;
 
         const openAiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
@@ -482,12 +500,14 @@ JSON Παράδειγμα:
             businessName: businessName,
             subject: aiEmail.subject,
             bodyHtml: aiEmail.bodyHtml,
+            buttonText: aiEmail.buttonText || defaultBtn.buttonText,
+            buttonLink: aiEmail.buttonLink || defaultBtn.buttonLink,
             unsubscribeToken: unsubToken,
             industry: industry
         });
 
         const resendResult = await resend.emails.send({
-            from: "SGK Digital <noreply@sgk.gr>",
+            from: "SGK Digital <info@sgk.gr>",
             to: email,
             subject: aiEmail.subject,
             html: finalHtml,
