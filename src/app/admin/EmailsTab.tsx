@@ -49,6 +49,69 @@ const templates = [
 <p>Απαντήστε σε αυτό το email για να ξεκινήσουμε άμεσα τη δημιουργία του δικού σας E-shop!</p>`,
     defaultButtonText: "Δείτε την Προσφορά",
     defaultButtonLink: "https://www.sgk.gr/pay-as-you-grow"
+  },
+  {
+    name: "🛍️ Προσφορά Κατασκευής E-shop (Next.js + WooCommerce)",
+    subject: "Προσφορά Κατασκευής E-shop — SGK Digital",
+    body: `<h2>Προσφορά Κατασκευής E-shop 🛍️</h2>
+<h3>Headless λύση — WordPress WooCommerce + Next.js</h3>
+<p>Σας ευχαριστούμε για το ενδιαφέρον σας. Παρακάτω θα βρείτε την αναλυτική πρόταση για την κατασκευή του νέου σας ηλεκτρονικού καταστήματος, σχεδιασμένη να σας δώσει ταχύτητα, ασφάλεια και μια εμπειρία χρήστη αντίστοιχη των μεγαλύτερων πλατφορμών του κλάδου.</p>
+<h4>Η Τεχνολογία: Headless WooCommerce + Next.js</h4>
+<p>Το e-shop θα κατασκευαστεί με αρχιτεκτονική <strong>headless</strong>: το WooCommerce θα λειτουργεί ως backend διαχείρισης (προϊόντα, παραγγελίες, απόθεμα, πληρωμές), ενώ το frontend θα είναι χτισμένο εξ ολοκλήρου σε Next.js.</p>
+<p><strong>Λόγοι επιλογής Next.js:</strong></p>
+<ul>
+  <li>Ταχύτητα φόρτωσης σελίδων, καλύτερη κατάταξη στη Google</li>
+  <li>Άψογη εμπειρία χρήστη χωρίς reload σελίδας</li>
+  <li>Αυξημένη ασφάλεια, μειωμένη επιφάνεια επίθεσης</li>
+  <li>Πλήρης ελευθερία σχεδιασμού, χωρίς περιορισμούς θέματος WordPress</li>
+  <li>Επεκτασιμότητα για μεγάλο όγκο επισκεψιμότητας (π.χ. Black Friday)</li>
+</ul>
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px; margin: 15px 0; font-size: 13px; color: #1e293b; line-height: 1.5; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+  <strong>Δεν είναι τυχαίο</strong> ότι έτσι πλέον χτίζονται οι πιο σύγχρονες πλατφόρμες παγκοσμίως — Airbnb, Skroutz, OFLIX και δεκάδες ακόμη μεγάλα ονόματα βασίζονται σε αντίστοιχη λογική frontend. Χτίζουμε το e-shop σας με την ίδια φιλοσοφία που χρησιμοποιούν οι μεγαλύτερες ψηφιακές εταιρείες του κόσμου.
+</div>
+<h4>Τι Περιλαμβάνει η Κατασκευή</h4>
+<ul>
+  <li>Απεριόριστα προϊόντα και απεριόριστες κατηγορίες</li>
+  <li>Πλήρες σύστημα online πληρωμών</li>
+  <li>Διασύνδεση με BOX NOW</li>
+  <li>Responsive design (κινητό, tablet, desktop)</li>
+  <li>Πίνακας διαχείρισης WooCommerce</li>
+  <li>Βασική τεχνική βελτιστοποίηση SEO</li>
+</ul>
+<p style="font-size: 11px; color: #666; font-style: italic;">Τυχόν επιπλέον διασυνδέσεις με άλλα συστήματα ή υπηρεσίες μπορούν να συζητηθούν και να προστεθούν ξεχωριστά, ανάλογα με τις ανάγκες σας.</p>
+<h4>Οικονομική Προσφορά</h4>
+<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
+  <thead>
+    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
+      <th style="padding: 8px;">Υπηρεσία / Προϊόν</th>
+      <th style="padding: 8px; text-align: right; width: 100px;">Κόστος</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Κατασκευή e-shop (Headless WooCommerce + Next.js)</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600;">900 €</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Hosting (ετήσιο κόστος)</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600;">250 €/έτος</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Domain</td>
+      <td style="padding: 8px; text-align: right; font-style: italic; color: #64748b;">ανάλογα την επιλογή*</td>
+    </tr>
+    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
+      <td style="padding: 10px 8px; color: #166534;">Σύνολο κατασκευής (με ΦΠΑ)</td>
+      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">936 €</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size: 10px; color: #666; font-style: italic; margin-bottom: 15px;">* Το κόστος του domain εξαρτάται από την κατάληξη και τη διαθεσιμότητα και θα καθοριστεί μετά την επιλογή του πελάτη.</p>
+<div style="border: 1.5px dashed #4ade80; background: #f0fdf4; border-radius: 8px; padding: 15px; text-align: center; margin: 15px 0;">
+  <p style="margin: 0; font-size: 14px; font-weight: bold; color: #111;">Είμαστε στη διάθεσή σας για οποιαδήποτε διευκρίνιση ή προσαρμογή της πρότασης στις ανάγκες σας.</p>
+</div>`,
+    defaultButtonText: "Απάντηση στην Προσφορά",
+    defaultButtonLink: "mailto:info@sgk.gr?subject=Αποδοχή%20Προσφοράς%20Κατασκευής%20E-shop"
   }
 ];
 
