@@ -245,6 +245,52 @@ export function EmailsTab() {
   const [importingProgress, setImportingProgress] = useState(false);
   const [autoProcessing, setAutoProcessing] = useState(false);
 
+  // PDF Upload states
+  const [uploadingPdf, setUploadingPdf] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState("");
+
+  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== "application/pdf") {
+      toast.error("Παρακαλώ επιλέξτε μόνο αρχεία PDF");
+      return;
+    }
+
+    setUploadingPdf(true);
+    try {
+      const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+      const { data, error } = await supabase.storage
+        .from("attachments")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      const publicUrl = `https://xrmvingehhiymchoggka.supabase.co/storage/v1/object/public/attachments/${data.path}`;
+      setPdfUrl(publicUrl);
+      setButtonText("Λήψη Τιμολογίου (PDF)");
+      setButtonLink(publicUrl);
+      toast.success("Το PDF ανέβηκε επιτυχώς!");
+    } catch (err: any) {
+      console.error("PDF upload error:", err);
+      toast.error(
+        <div className="text-xs">
+          <p className="font-bold text-red-600">Αποτυχία ανεβάσματος στο Supabase Storage.</p>
+          <p className="mt-1 text-slate-500 leading-normal">Βεβαιωθείτε ότι έχετε δημιουργήσει το public bucket "attachments" στο Supabase Dashboard. Μπορείτε εναλλακτικά να εισάγετε το link του PDF χειροκίνητα στο πεδίο "Σύνδεσμος Κουμπιού".</p>
+        </div>,
+        { duration: 6000 }
+      );
+    } finally {
+      setUploadingPdf(false);
+    }
+  };
+
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
 
@@ -653,6 +699,58 @@ export function EmailsTab() {
                     className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 text-xs font-bold focus:border-[#3b5bdb]/50 outline-none"
                   />
                 </div>
+              </div>
+
+              {/* PDF Invoice Upload UI */}
+              <div className="space-y-1.5 p-4 rounded-xl border border-slate-800 bg-slate-950/40">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Επισύναψη Τιμολογίου (PDF)</label>
+                <div className="flex items-center gap-3">
+                  <input 
+                    type="file" 
+                    accept="application/pdf"
+                    onChange={handlePdfUpload}
+                    className="hidden" 
+                    id="pdf-upload-input"
+                    disabled={uploadingPdf}
+                  />
+                  <label 
+                    htmlFor="pdf-upload-input"
+                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 border border-slate-850 text-slate-300 hover:text-white rounded-xl text-xs font-bold cursor-pointer hover:border-slate-800 transition-all select-none"
+                  >
+                    {uploadingPdf ? (
+                      <>
+                        <Loader2 size={14} className="animate-spin text-[#3b5bdb]" />
+                        Γίνεται ανέβασμα...
+                      </>
+                    ) : pdfUrl ? (
+                      <>
+                        <CheckCircle2 size={14} className="text-emerald-500" />
+                        Το PDF ανέβηκε επιτυχώς
+                      </>
+                    ) : (
+                      <>
+                        <Plus size={14} />
+                        Επιλέξτε αρχείο PDF
+                      </>
+                    )}
+                  </label>
+                  {pdfUrl && (
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        setPdfUrl("");
+                        setButtonText("");
+                        setButtonLink("");
+                      }}
+                      className="text-xs text-rose-500 hover:text-rose-400 font-bold transition-colors cursor-pointer"
+                    >
+                      Κατάργηση αρχείου
+                    </button>
+                  )}
+                </div>
+                <p className="text-[9px] text-slate-500 leading-normal">
+                  💡 Ανεβάζοντας το PDF, θα δημιουργηθεί αυτόματα ένα κουμπί <strong>«Λήψη Τιμολογίου (PDF)»</strong> στο email σας, το οποίο θα οδηγεί απευθείας στο αρχείο για κατέβασμα.
+                </p>
               </div>
 
               <div className="space-y-1.5 flex-1 flex flex-col min-h-0">
