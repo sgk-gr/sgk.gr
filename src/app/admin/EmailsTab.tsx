@@ -89,8 +89,13 @@ const templates = [
   </thead>
   <tbody>
     <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px;">Κατασκευή e-shop (Headless WooCommerce + Next.js)</td>
-      <td style="padding: 8px; text-align: right; font-weight: 600;">900 €</td>
+      <td style="padding: 8px; vertical-align: middle;">
+        <strong>Σχεδιασμός & ανάπτυξη Headless e-shop (Next.js + WooCommerce backend).</strong><br/>
+        <span style="font-size: 11px; color: #64748b; line-height: 1.4; display: block; margin-top: 4px;">
+          Περιλαμβάνει responsive σχεδίαση για κινητά/tablets, διασύνδεση με τράπεζες & Viva Wallet, αυτόματο υπολογισμό μεταφορικών (ACS, BoxNow), εισαγωγή προϊόντων, εκπαίδευση διαχειριστή, Google PageSpeed 95+ και βασικό SEO.
+        </span>
+      </td>
+      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">900 €</td>
     </tr>
     <tr style="border-bottom: 1px solid #e2e8f0;">
       <td style="padding: 8px;">Hosting (ετήσιο κόστος)</td>
@@ -650,6 +655,58 @@ export function EmailsTab() {
     );
   };
 
+  const renderNextSendTime = (lead: any) => {
+    if (lead.unsubscribed) {
+      return <span className="text-slate-400 font-semibold">—</span>;
+    }
+    if (lead.converted) {
+      return <span className="text-emerald-500 font-bold">Ολοκληρώθηκε 🎉</span>;
+    }
+    if (lead.email_sequence_step === 0) {
+      return <span className="text-slate-500 italic">Δεν έχει ξεκινήσει</span>;
+    }
+    if (lead.email_sequence_step >= 5) {
+      return <span className="text-slate-500 italic font-bold text-emerald-600">Ολοκληρώθηκε (5/5)</span>;
+    }
+
+    if (!lead.last_email_sent_at) {
+      return <span className="text-[#3b5bdb] font-bold animate-pulse">Άμεσα ⚡</span>;
+    }
+
+    const lastSent = new Date(lead.last_email_sent_at);
+    const nextSend = new Date(lastSent.getTime() + 3 * 24 * 60 * 60 * 1000);
+    const now = new Date();
+
+    if (nextSend <= now) {
+      return <span className="text-emerald-600 font-bold animate-pulse">Εκκρεμεί (Άμεσα) ⚡</span>;
+    }
+
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'short',
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    
+    const hoursLeft = Math.ceil((nextSend.getTime() - now.getTime()) / (1000 * 60 * 60));
+    let timeLabel = "";
+    if (hoursLeft >= 24) {
+      const days = Math.floor(hoursLeft / 24);
+      const hours = hoursLeft % 24;
+      timeLabel = `σε ${days}η ${hours}ω`;
+    } else {
+      timeLabel = `σε ${hoursLeft}ω`;
+    }
+
+    return (
+      <div className="flex flex-col items-center justify-center font-mono text-[11px] leading-tight">
+        <span className="text-slate-700 font-bold">{nextSend.toLocaleDateString("el-GR", options)}</span>
+        <span className="text-[9px] text-slate-400 mt-0.5">{timeLabel}</span>
+      </div>
+    );
+  };
+
   const handleAutoProcessDue = async () => {
     setAutoProcessing(true);
     toast.info("Έναρξη αυτόματης επεξεργασίας εκκρεμών AI follow-up emails...");
@@ -825,6 +882,7 @@ export function EmailsTab() {
                   <th className="py-3 px-4">Ημ/νία Εγγραφής</th>
                   <th className="py-3 px-4 text-center">Κατάσταση</th>
                   <th className="py-3 px-4 text-center">Ακολουθία Email</th>
+                  <th className="py-3 px-4 text-center font-bold text-slate-500">Επόμενη Αποστολή AI</th>
                   <th className="py-3 px-4 text-center">Ενέργειες</th>
                 </tr>
               </thead>
@@ -873,6 +931,9 @@ export function EmailsTab() {
                       {renderSequenceStep(lead.email_sequence_step)}
                     </td>
                     <td className="py-3 px-4 text-center">
+                      {renderNextSendTime(lead)}
+                    </td>
+                    <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         {!lead.unsubscribed && (
                           <button
@@ -903,7 +964,7 @@ export function EmailsTab() {
                 ))}
                 {leads.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-slate-400 font-bold">
+                    <td colSpan={7} className="py-8 text-center text-slate-400 font-bold">
                       Δεν βρέθηκαν email στη λίστα
                     </td>
                   </tr>
