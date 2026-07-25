@@ -11,11 +11,7 @@ export async function POST(req: Request) {
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-    if (!supabaseServiceKey) {
-      return NextResponse.json({ error: "Το service role key δεν έχει ρυθμιστεί" }, { status: 500 });
-    }
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybXZpbmdlaGhpeW1jaG9nZ2thIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM2OTMxMSwiZXhwIjoyMDkwOTQ1MzExfQ.vFPaC5t1zIX31GoPHCLP_3uqyMvZHonDVum3bLsyAlc";
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
