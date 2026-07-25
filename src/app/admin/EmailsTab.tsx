@@ -260,29 +260,30 @@ export function EmailsTab() {
 
     setUploadingPdf(true);
     try {
-      const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-      const { data, error } = await supabase.storage
-        .from("attachments")
-        .upload(fileName, file, {
-          cacheControl: "3600",
-          upsert: false
-        });
+      const formData = new FormData();
+      formData.append("file", file);
 
-      if (error) {
-        throw error;
+      const response = await fetch("/api/upload-pdf", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Upload failed");
       }
 
-      const publicUrl = `https://xrmvingehhiymchoggka.supabase.co/storage/v1/object/public/attachments/${data.path}`;
-      setPdfUrl(publicUrl);
+      setPdfUrl(result.publicUrl);
       setButtonText("Λήψη Τιμολογίου (PDF)");
-      setButtonLink(publicUrl);
+      setButtonLink(result.publicUrl);
       toast.success("Το PDF ανέβηκε επιτυχώς!");
     } catch (err: any) {
       console.error("PDF upload error:", err);
       toast.error(
         <div className="text-xs">
           <p className="font-bold text-red-600">Αποτυχία ανεβάσματος στο Supabase Storage.</p>
-          <p className="mt-1 text-slate-500 leading-normal">Βεβαιωθείτε ότι έχετε δημιουργήσει το public bucket "attachments" στο Supabase Dashboard. Μπορείτε εναλλακτικά να εισάγετε το link του PDF χειροκίνητα στο πεδίο "Σύνδεσμος Κουμπιού".</p>
+          <p className="mt-1 text-slate-500 leading-normal">{err.message || "Σφάλμα κατά την αποστολή του αρχείου."} Μπορείτε εναλλακτικά να εισάγετε το link του PDF χειροκίνητα στο πεδίο "Σύνδεσμος Κουμπιού".</p>
         </div>,
         { duration: 6000 }
       );
