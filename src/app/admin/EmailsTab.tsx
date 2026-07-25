@@ -115,13 +115,59 @@ const templates = [
 <div style="border: 1.5px dashed #4ade80; background: #f0fdf4; border-radius: 8px; padding: 15px; text-align: center; margin: 15px 0;">
   <p style="margin: 0; font-size: 14px; font-weight: bold; color: #111;">Είμαστε στη διάθεσή σας για οποιαδήποτε διευκρίνιση ή προσαρμογή της πρότασης στις ανάγκες σας.</p>
 </div>`,
+    defaultButtonText: "Απάντηση στην Προσφορά",
+    defaultButtonLink: "mailto:info@sgk.gr?subject=Αποδοχή%20Προσφοράς%20Κατασκευής%20E-shop"
   },
   {
-    name: "🧾 Τιμολόγιο Παροχής Υπηρεσιών (Snapi Design)",
-    subject: "Τιμολόγιο Παροχής Υπηρεσιών — SGK Digital",
-    body: `<h2>Τιμολόγιο Παροχής Υπηρεσιών 🧾</h2>
+    name: "🧾 Εξοφλημένο Τιμολόγιο Παροχής Υπηρεσιών (Snapi Design)",
+    subject: "Εξοφλημένο Τιμολόγιο Παροχής Υπηρεσιών — SGK Digital",
+    body: `<h2>Εξοφλημένο Τιμολόγιο 🧾</h2>
 <p>Αγαπητέ συνεργάτη,</p>
-<p>Σας αποστέλλουμε συνημμένα σε μορφή PDF το σχετικό τιμολόγιο παροχής υπηρεσιών που αφορά τις εργασίες μας. Παρακαλούμε για την εξόφλησή του εντός των συμφωνηθέντων όρων συνεργασίας μας.</p>
+<p>Σας αποστέλλουμε συνημμένα σε μορφή PDF το εξοφλημένο τιμολόγιο παροχής υπηρεσιών που αφορά τις εργασίες μας. <br/><strong>Το παραστατικό έχει εξοφληθεί πλήρως και δεν εκκρεμεί κάποιο υπόλοιπο.</strong></p>
+<h4>Στοιχεία Παραστατικού</h4>
+<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
+  <thead>
+    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
+      <th style="padding: 8px;">Περιγραφή Χρέωσης</th>
+      <th style="padding: 8px; text-align: right; width: 100px;">Ποσό</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px; vertical-align: middle;">
+        <strong>Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας</strong><br/>
+        <span style="font-size: 11px; color: #64748b; line-height: 1.4; display: block; margin-top: 4px;">
+          Τιμολόγιο Παροχής Υπηρεσιών # [ΑΡΙΘΜΟΣ_ΤΙΜΟΛΟΓΙΟΥ]
+        </span>
+      </td>
+      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">[ΚΑΘΑΡΟ_ΠΟΣΟ] €</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px; vertical-align: middle;">ΦΠΑ 24%</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">[ΠΟΣΟ_ΦΠΑ] €</td>
+    </tr>
+    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
+      <td style="padding: 10px 8px; color: #166534;">Συνολικό Ποσό (με ΦΠΑ)</td>
+      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">[ΤΕΛΙΚΟ_ΠΟΣΟ] €</td>
+    </tr>
+  </tbody>
+</table>
+<div style="background-color: #f0fdf4; border: 2px solid #4ade80; border-radius: 12px; padding: 18px; text-align: center; margin: 20px 0;">
+  <div style="display: inline-block; background-color: #22c55e; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+    ✓ ΕΞΟΦΛΗΘΗΚΕ / PAID
+  </div>
+  <p style="margin: 0 !important; font-size: 14px; font-weight: bold; color: #166534; line-height: 1.5;">Το παραστατικό έχει εξοφληθεί πλήρως. Σας ευχαριστούμε πολύ για τη συνεργασία και την εμπιστοσύνη σας!</p>
+</div>
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`,
+    defaultButtonText: "",
+    defaultButtonLink: ""
+  },
+  {
+    name: "✉️ Τιμολόγιο προς Εξόφληση",
+    subject: "Τιμολόγιο Παροχής Υπηρεσιών — SGK Digital",
+    body: `<h2>Τιμολόγιο προς Εξόφληση 🧾</h2>
+<p>Αγαπητέ συνεργάτη,</p>
+<p>Σας αποστέλλουμε συνημμένα το τιμολόγιο παροχής υπηρεσιών που αφορά τις εργασίες μας. Παρακαλούμε για την τακτοποίησή του εντός της συμφωνηθείσας προθεσμίας από τη λήψη του παραστατικού.</p>
 <h4>Στοιχεία Παραστατικού</h4>
 <table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
   <thead>
