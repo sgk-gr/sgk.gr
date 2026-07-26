@@ -291,7 +291,7 @@ serve(async (req) => {
                         subject: aiEmail.subject,
                         bodyHtml: aiEmail.bodyHtml,
                         buttonText: aiEmail.buttonText || defaultBtn.buttonText,
-                        buttonLink: aiEmail.buttonLink || defaultBtn.buttonLink,
+                        buttonLink: defaultBtn.buttonLink, // Force correct calculated brand link (no AI hallucinations)
                         unsubscribeToken: unsubToken,
                         industry: industry
                     });
@@ -501,7 +501,7 @@ serve(async (req) => {
             subject: aiEmail.subject,
             bodyHtml: aiEmail.bodyHtml,
             buttonText: aiEmail.buttonText || defaultBtn.buttonText,
-            buttonLink: aiEmail.buttonLink || defaultBtn.buttonLink,
+            buttonLink: defaultBtn.buttonLink, // Force correct calculated brand link (no AI hallucinations)
             unsubscribeToken: unsubToken,
             industry: industry
         });
