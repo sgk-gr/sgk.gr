@@ -35,7 +35,9 @@ export default function Elv8Questionnaire() {
   const [productPackaging, setProductPackaging] = useState({
     flavors: "1 Βασική Γεύση",
     packages: [] as string[],
-    starterPack: "Ναι"
+    starterPack: "Ναι",
+    erpIntegration: "",
+    bankPayment: ""
   });
   const [audienceVibe, setAudienceVibe] = useState({
     targetAudience: [] as string[],
@@ -477,6 +479,34 @@ export default function Elv8Questionnaire() {
                           </button>
                         ))}
                       </div>
+                    </div>
+
+                    {/* ERP Integration */}
+                    <div className="space-y-3">
+                      <label className="text-sm font-semibold text-gray-700">
+                        2.4 Θα χρειαστεί σύνδεση με ERP / σύστημα τιμολόγησης; (π.χ. Softone, Pylon)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Πληκτρολογήστε το σύστημα ERP σας (Softone, Pylon κ.λπ.) ή αφήστε κενό..."
+                        value={productPackaging.erpIntegration}
+                        onChange={(e) => setProductPackaging(prev => ({ ...prev, erpIntegration: e.target.value }))}
+                        className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all"
+                      />
+                    </div>
+
+                    {/* Bank / Payments */}
+                    <div className="space-y-3">
+                      <label className="text-sm font-semibold text-gray-700">
+                        2.5 Ποια Τράπεζα θα χρησιμοποιήσετε για την πύλη πληρωμών; (IRIS, Πειραιώς, Eurobank κ.λπ.)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Πληκτρολογήστε την Τράπεζα συνεργασίας σας..."
+                        value={productPackaging.bankPayment}
+                        onChange={(e) => setProductPackaging(prev => ({ ...prev, bankPayment: e.target.value }))}
+                        className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all"
+                      />
                     </div>
                   </div>
                 )}

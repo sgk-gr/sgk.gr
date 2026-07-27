@@ -55,6 +55,14 @@ export async function POST(req: Request) {
               <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Δοκιμαστικό Starter Pack:</td>
               <td style="padding: 10px; border: 1px solid #e2e8f0;">${productPackaging.starterPack}</td>
             </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Σύνδεση με ERP (Softone, Pylon):</td>
+              <td style="padding: 10px; border: 1px solid #e2e8f0;">${productPackaging.erpIntegration || "Όχι / Δεν δηλώθηκε"}</td>
+            </tr>
+            <tr style="background-color: #f1f5f9;">
+              <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Τράπεζα / Πύλη Πληρωμών:</td>
+              <td style="padding: 10px; border: 1px solid #e2e8f0;">${productPackaging.bankPayment || "Δεν δηλώθηκε"}</td>
+            </tr>
           </table>
         </div>
 
