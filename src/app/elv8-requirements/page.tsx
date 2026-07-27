@@ -213,12 +213,12 @@ export default function Elv8Questionnaire() {
               sgk<span className="text-[#3b5bdb]">.</span>
             </span>
             <div className="h-5 w-px bg-gray-200 hidden md:block"></div>
-            <span className="text-gray-400 font-medium text-xs tracking-wider uppercase hidden md:block">
+            <span className="text-gray-400 font-medium text-xs tracking-wider hidden md:block">
               Software Development
             </span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="text-[11px] bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full font-bold uppercase tracking-wider">
+            <span className="text-[11px] bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full font-bold tracking-wider">
               Φόρμα Απαιτήσεων E-Shop
             </span>
           </div>
@@ -232,7 +232,7 @@ export default function Elv8Questionnaire() {
         <div className="w-full mb-8 space-y-4">
           <div className="flex justify-between items-end">
             <div className="space-y-1">
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
+              <span className="text-[10px] font-bold text-gray-400 tracking-widest block">
                 Βήμα {currentStep} από 5
               </span>
               <h1 className="text-2xl font-bold tracking-tight text-gray-900 font-heading">
@@ -343,7 +343,7 @@ export default function Elv8Questionnaire() {
                           <div className="space-y-1">
                             <FileCheck className="text-[#4ade80] mx-auto" size={24} />
                             <span className="text-xs text-gray-700 font-bold block truncate max-w-xs">{brandIdentity.logoName}</span>
-                            <span className="text-[10px] text-[#4ade80] font-bold uppercase tracking-wider block">Επιτυχής Μεταφόρτωση</span>
+                            <span className="text-[10px] text-[#4ade80] font-bold tracking-wider block">Επιτυχής Μεταφόρτωση</span>
                           </div>
                         ) : (
                           <div className="space-y-2">
@@ -439,7 +439,7 @@ export default function Elv8Questionnaire() {
                                 : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                             }`}
                           >
-                            <span className="text-xs uppercase tracking-wider">{flavorOpt}</span>
+                            <span className="text-xs tracking-wider">{flavorOpt}</span>
                           </button>
                         ))}
                       </div>
@@ -464,7 +464,7 @@ export default function Elv8Questionnaire() {
                                   : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs uppercase tracking-wider">{packOpt}</span>
+                              <span className="text-xs tracking-wider">{packOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                                 isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
@@ -493,7 +493,7 @@ export default function Elv8Questionnaire() {
                                 : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                             }`}
                           >
-                            <span className="text-xs uppercase tracking-wider">{opt}</span>
+                            <span className="text-xs tracking-wider">{opt}</span>
                           </button>
                         ))}
                       </div>
@@ -537,7 +537,7 @@ export default function Elv8Questionnaire() {
                                   : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs uppercase tracking-wider">{audienceOpt}</span>
+                              <span className="text-xs tracking-wider">{audienceOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                                 isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
@@ -566,7 +566,7 @@ export default function Elv8Questionnaire() {
                                 : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                             }`}
                           >
-                            <span className="text-xs uppercase tracking-wider">{vibeOpt}</span>
+                            <span className="text-xs tracking-wider">{vibeOpt}</span>
                           </button>
                         ))}
                       </div>
@@ -591,7 +591,7 @@ export default function Elv8Questionnaire() {
                                   : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs uppercase tracking-wider">{uspOpt}</span>
+                              <span className="text-xs tracking-wider">{uspOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                                 isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
@@ -705,7 +705,7 @@ export default function Elv8Questionnaire() {
                                   : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs uppercase tracking-wider">{feedOpt}</span>
+                              <span className="text-xs tracking-wider">{feedOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                                 isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
@@ -734,7 +734,7 @@ export default function Elv8Questionnaire() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                        <label className="text-xs font-bold text-gray-500 tracking-wider">
                           Ονοματεπώνυμο <span className="text-rose-500">*</span>
                         </label>
                         <input
@@ -747,7 +747,7 @@ export default function Elv8Questionnaire() {
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                        <label className="text-xs font-bold text-gray-500 tracking-wider">
                           Email Επικοινωνίας <span className="text-rose-500">*</span>
                         </label>
                         <input
@@ -760,7 +760,7 @@ export default function Elv8Questionnaire() {
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                        <label className="text-xs font-bold text-gray-500 tracking-wider">
                           Τηλέφωνο
                         </label>
                         <input
@@ -772,7 +772,7 @@ export default function Elv8Questionnaire() {
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                        <label className="text-xs font-bold text-gray-500 tracking-wider">
                           Εταιρεία / Brand
                         </label>
                         <input
@@ -800,7 +800,7 @@ export default function Elv8Questionnaire() {
                     type="button"
                     onClick={prevStep}
                     disabled={currentStep === 1 || isSubmitting}
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-bold tracking-wider text-gray-500 hover:text-gray-900 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
                   >
                     <ChevronLeft size={14} />
                     Πίσω
@@ -810,7 +810,7 @@ export default function Elv8Questionnaire() {
                     <button
                       type="button"
                       onClick={nextStep}
-                      className="inline-flex items-center gap-1 px-5 py-2.5 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
+                      className="inline-flex items-center gap-1 px-5 py-2.5 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white rounded-lg text-xs font-bold tracking-wider shadow-sm transition-all"
                     >
                       Επόμενο
                       <ChevronRight size={14} />
@@ -820,7 +820,7 @@ export default function Elv8Questionnaire() {
                       type="button"
                       onClick={handleSubmit}
                       disabled={isSubmitting || !clientInfo.email || !clientInfo.name}
-                      className="inline-flex items-center gap-1.5 px-7 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-bold uppercase tracking-wider shadow-md transition-all"
+                      className="inline-flex items-center gap-1.5 px-7 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-bold tracking-wider shadow-md transition-all"
                     >
                       {isSubmitting ? (
                         <>
@@ -847,13 +847,13 @@ export default function Elv8Questionnaire() {
                   <Check size={28} strokeWidth={2.5} />
                 </div>
                 <div className="space-y-2 max-w-md">
-                  <h2 className="text-xl font-bold text-gray-900 tracking-tight font-heading uppercase">
+                  <h2 className="text-xl font-bold text-gray-900 tracking-tight font-heading">
                     Επιτυχής Υποβολή!
                   </h2>
                   <p className="text-gray-500 text-xs leading-relaxed">
                     Οι απαιτήσεις για το e-shop του <strong>elv8 Energy Drink</strong> καταχωρήθηκαν επιτυχώς.
                   </p>
-                  <p className="text-gray-400 text-[10px] leading-relaxed pt-2 uppercase tracking-wide font-semibold">
+                  <p className="text-gray-400 text-[10px] leading-relaxed pt-2 tracking-wide font-semibold">
                     Ένας εκπρόσωπος της SGK Software Development θα επικοινωνήσει μαζί σας σύντομα.
                   </p>
                 </div>
@@ -864,7 +864,7 @@ export default function Elv8Questionnaire() {
       </main>
 
       {/* Brand Footer */}
-      <footer className="border-t border-gray-100 bg-white py-6 px-6 text-center text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+      <footer className="border-t border-gray-100 bg-white py-6 px-6 text-center text-[10px] text-gray-400 font-bold tracking-widest">
         &copy; {new Date().getFullYear()} SGK Software Development. All rights reserved. | 
         <a href="https://sgk.gr/privacy" className="hover:text-[#3b5bdb] transition-colors ml-1">Privacy Policy</a>
       </footer>
