@@ -3,20 +3,21 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ChevronRight, 
-  ChevronLeft, 
   Upload, 
   Check, 
-  AlertCircle, 
   Palette, 
   Package, 
   Flame, 
   Trash2, 
   Loader2,
-  FileCheck
+  FileCheck,
+  ChevronRight,
+  ChevronLeft
 } from "lucide-react";
 import confetti from "canvas-confetti";
-import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import SectionDivider from "@/components/SectionDivider";
 
 export default function Elv8Questionnaire() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -153,47 +154,30 @@ export default function Elv8Questionnaire() {
 
   // UI Stepper Steps
   const steps = [
-    { id: 1, name: "Ταυτότητα", icon: Palette },
-    { id: 2, name: "Προϊόν", icon: Package },
-    { id: 3, name: "Αισθητική", icon: Flame }
+    { id: 1, name: "Ταυτότητα", icon: Palette, color: "bg-[#3b5bdb]" },
+    { id: 2, name: "Προϊόν", icon: Package, color: "bg-[#4ade80]" },
+    { id: 3, name: "Αισθητική", icon: Flame, color: "bg-[#facc15]" }
   ];
 
   const progressPercentage = (currentStep / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-900 flex flex-col font-sans selection:bg-[#3b5bdb]/10 selection:text-[#3b5bdb]">
-      {/* Brand Header */}
-      <header className="border-b border-gray-100 bg-white sticky top-0 z-50 px-6 py-5 md:px-12">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <span className="text-3xl font-bold tracking-tighter text-black font-heading">
-              sgk<span className="text-[#3b5bdb]">.</span>
-            </span>
-            <div className="h-5 w-px bg-gray-200 hidden md:block"></div>
-            <span className="text-gray-400 font-medium text-xs tracking-wider hidden md:block">
-              Software Development
-            </span>
-          </Link>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full font-bold tracking-wider">
-              Φόρμα Απαιτήσεων E-Shop
-            </span>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans selection:bg-[#3b5bdb]/10 selection:text-[#3b5bdb]">
+      {/* Real Brand Navbar */}
+      <Navbar />
 
       {/* Main Container */}
-      <main className="flex-1 flex flex-col items-center justify-center py-10 px-4 md:px-8 max-w-3xl w-full mx-auto">
+      <main className="flex-1 flex flex-col items-center justify-center pt-32 pb-24 px-4 md:px-8 max-w-3xl w-full mx-auto">
         
         {/* Step Indicator Header */}
         <div className="w-full mb-8 space-y-4">
           <div className="flex justify-between items-end">
             <div className="space-y-1">
-              <span className="text-[10px] font-bold text-gray-400 tracking-widest block">
+              <span className="text-[10px] font-bold text-gray-400 tracking-widest block uppercase">
                 Βήμα {currentStep} από 3
               </span>
-              <h1 className="text-2xl font-bold tracking-tight text-gray-900 font-heading">
-                elv8 Energy Drink
+              <h1 className="text-3xl font-heading font-bold tracking-tight text-gray-900">
+                elv8 <span className="text-[#3b5bdb]">Energy Drink</span>
               </h1>
             </div>
             <span className="text-xs font-bold text-[#3b5bdb] tracking-wide">
@@ -202,7 +186,7 @@ export default function Elv8Questionnaire() {
           </div>
 
           {/* Simple Progress Bar */}
-          <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
             <motion.div 
               className="h-full bg-[#3b5bdb]"
               initial={{ width: 0 }}
@@ -219,19 +203,19 @@ export default function Elv8Questionnaire() {
               const isCurrent = currentStep === step.id;
               return (
                 <div key={step.id} className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all ${
                     isCurrent
                       ? "bg-[#3b5bdb] border-[#3b5bdb] text-white shadow-sm"
                       : isActive 
                         ? "bg-[#3b5bdb]/5 border-[#3b5bdb]/40 text-[#3b5bdb]" 
                         : "border-gray-200 text-gray-400 bg-white"
                   }`}>
-                    <StepIcon size={13} />
+                    <StepIcon size={14} />
                   </div>
-                  <span className={`text-xs font-semibold ${isCurrent ? "text-gray-900 font-bold" : "text-gray-400"}`}>
+                  <span className={`text-xs font-bold ${isCurrent ? "text-gray-900" : "text-gray-400"}`}>
                     {step.name}
                   </span>
-                  {step.id < 3 && <div className="w-8 h-[1px] bg-gray-100 mx-1" />}
+                  {step.id < 3 && <div className="w-10 h-[1.5px] bg-gray-100 mx-2" />}
                 </div>
               );
             })}
@@ -239,7 +223,7 @@ export default function Elv8Questionnaire() {
         </div>
 
         {/* Clean Paper Container */}
-        <div className="w-full bg-white border border-gray-100 rounded-2xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)] relative">
+        <div className="w-full bg-white border border-gray-100 rounded-2xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.03)] relative">
           
           <AnimatePresence mode="wait">
             {!isSuccess ? (
@@ -255,9 +239,9 @@ export default function Elv8Questionnaire() {
                 {currentStep === 1 && (
                   <div className="space-y-6">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                      <h2 className="text-xl font-heading font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
                         <Palette className="text-[#3b5bdb]" size={20} />
-                        1. Χρώματα & Εταιρική Ταυτότητα (Brand Identity)
+                        1. Χρώματα & Εταιρική Ταυτότητα
                       </h2>
                       <p className="text-sm text-gray-500 leading-relaxed">
                         Βοηθήστε μας να αποτυπώσουμε σωστά την ταυτότητα του elv8 Energy Drink.
@@ -283,7 +267,7 @@ export default function Elv8Questionnaire() {
                       <label className="text-sm font-semibold text-gray-700">
                         1.2 Ανεβάστε το Λογότυπό σας (Logo)
                       </label>
-                      <div className="border-2 border-dashed border-gray-200 hover:border-gray-300 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-[#3b5bdb]/30 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
                         <input
                           type="file"
                           accept=".svg,.png,.ai,.pdf"
@@ -317,7 +301,7 @@ export default function Elv8Questionnaire() {
                       <label className="text-sm font-semibold text-gray-700">
                         1.3 Ανεβάστε 3D Renders, Φωτογραφίες ή Βίντεο του προϊόντος
                       </label>
-                      <div className="border-2 border-dashed border-gray-200 hover:border-gray-300 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-[#3b5bdb]/30 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
                         <input
                           type="file"
                           multiple
@@ -370,7 +354,7 @@ export default function Elv8Questionnaire() {
                 {currentStep === 2 && (
                   <div className="space-y-6">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                      <h2 className="text-xl font-heading font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
                         <Package className="text-[#3b5bdb]" size={20} />
                         2. Προϊόν & Συσκευασίες
                       </h2>
@@ -462,9 +446,9 @@ export default function Elv8Questionnaire() {
                 {currentStep === 3 && (
                   <div className="space-y-6">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                      <h2 className="text-xl font-heading font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
                         <Flame className="text-[#3b5bdb]" size={20} />
-                        3. Κοινό Στόχος & Αισθητική (Target Audience & Vibe)
+                        3. Κοινό Στόχος & Αισθητική
                       </h2>
                       <p className="text-sm text-gray-500 leading-relaxed">
                         Βοηθήστε μας να σχεδιάσουμε μια σελίδα που θα μιλάει στη γλώσσα του κοινού σας.
@@ -575,7 +559,7 @@ export default function Elv8Questionnaire() {
                     type="button"
                     onClick={prevStep}
                     disabled={currentStep === 1 || isSubmitting}
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-bold tracking-wider text-gray-500 hover:text-gray-900 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-bold tracking-wider text-gray-500 hover:text-gray-950 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
                   >
                     <ChevronLeft size={14} />
                     Πίσω
@@ -595,7 +579,7 @@ export default function Elv8Questionnaire() {
                       type="button"
                       onClick={handleSubmit}
                       disabled={isSubmitting}
-                      className="inline-flex items-center gap-1.5 px-7 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-bold tracking-wider shadow-md transition-all"
+                      className="inline-flex items-center gap-1.5 px-7 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-bold tracking-wider shadow-md transition-all animate-pulse"
                     >
                       {isSubmitting ? (
                         <>
@@ -618,17 +602,17 @@ export default function Elv8Questionnaire() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-10 space-y-5 flex flex-col items-center justify-center"
               >
-                <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 mb-2">
+                <div className="w-14 h-14 rounded-full bg-emerald-50 text-[#4ade80] flex items-center justify-center border border-emerald-100 mb-2">
                   <Check size={28} strokeWidth={2.5} />
                 </div>
                 <div className="space-y-2 max-w-md">
-                  <h2 className="text-xl font-bold text-gray-900 tracking-tight font-heading">
+                  <h2 className="text-2xl font-bold text-gray-900 tracking-tight font-heading">
                     Επιτυχής Υποβολή!
                   </h2>
-                  <p className="text-gray-500 text-xs leading-relaxed">
+                  <p className="text-gray-500 text-sm leading-relaxed">
                     Οι απαιτήσεις για το e-shop του <strong>elv8 Energy Drink</strong> καταχωρήθηκαν επιτυχώς.
                   </p>
-                  <p className="text-gray-400 text-[10px] leading-relaxed pt-2 tracking-wide font-semibold">
+                  <p className="text-gray-400 text-xs leading-relaxed pt-2 tracking-wide font-semibold">
                     Ένας εκπρόσωπος της SGK Software Development θα επικοινωνήσει μαζί σας σύντομα.
                   </p>
                 </div>
@@ -638,11 +622,11 @@ export default function Elv8Questionnaire() {
         </div>
       </main>
 
+      {/* Dynamic Section Divider before Footer */}
+      <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-[#101010]" />
+      
       {/* Brand Footer */}
-      <footer className="border-t border-gray-100 bg-white py-6 px-6 text-center text-[10px] text-gray-400 font-bold tracking-widest">
-        &copy; {new Date().getFullYear()} SGK Software Development. All rights reserved. | 
-        <a href="https://sgk.gr/privacy" className="hover:text-[#3b5bdb] transition-colors ml-1">Privacy Policy</a>
-      </footer>
+      <Footer />
     </div>
   );
 }
