@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
 import JoJoChatModal from "./JoJoChatModal";
 
 const navItems = [
@@ -21,6 +22,8 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const isElv8Page = pathname === "/elv8-requirements";
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
@@ -104,31 +107,33 @@ const Navbar = () => {
         </div>
 
         {/* Floating Action Buttons for Desktop */}
-        <div className="hidden lg:flex flex-col fixed top-28 right-0 z-50 items-end drop-shadow-md gap-2">
-          {/* Top Button: Estimate */}
-          <button
-            onClick={() => setIsAppModalOpen(true)}
-            className="flex items-center gap-1.5 bg-[#4ade80] hover:bg-[#22c55e] text-black font-bold text-[12px] tracking-wider px-4 py-2 rounded-l-md transition-all duration-300 border border-r-0 border-[#22c55e]/30 relative z-20 shadow-sm"
-          >
-            <div className="w-3.5 h-3.5 bg-black text-[#4ade80] flex items-center justify-center rounded-sm text-[9px] font-black">
-              +
-            </div>
-            Κατέβασε το app
-          </button>
-          
-          {/* Bottom Button: AI Chat */}
-          <button
-            onClick={() => setIsChatModalOpen(true)}
-            className="flex items-center gap-2 bg-[#b482ff] hover:bg-[#a068f7] text-white font-bold text-[12px] tracking-wider px-4 py-2 rounded-l-md transition-all duration-300 border border-r-0 border-white/20 relative z-10 shadow-sm"
-          >
-            <img
-              src="/tzitzi.png"
-              alt="Jo-Jo"
-              className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
-            />
-            Έχεις απορίες; Jo-Jo εδώ
-          </button>
-        </div>
+        {!isElv8Page && (
+          <div className="hidden lg:flex flex-col fixed top-28 right-0 z-50 items-end drop-shadow-md gap-2">
+            {/* Top Button: Estimate */}
+            <button
+              onClick={() => setIsAppModalOpen(true)}
+              className="flex items-center gap-1.5 bg-[#4ade80] hover:bg-[#22c55e] text-black font-bold text-[12px] tracking-wider px-4 py-2 rounded-l-md transition-all duration-300 border border-r-0 border-[#22c55e]/30 relative z-20 shadow-sm"
+            >
+              <div className="w-3.5 h-3.5 bg-black text-[#4ade80] flex items-center justify-center rounded-sm text-[9px] font-black">
+                +
+              </div>
+              Κατέβασε το app
+            </button>
+            
+            {/* Bottom Button: AI Chat */}
+            <button
+              onClick={() => setIsChatModalOpen(true)}
+              className="flex items-center gap-2 bg-[#b482ff] hover:bg-[#a068f7] text-white font-bold text-[12px] tracking-wider px-4 py-2 rounded-l-md transition-all duration-300 border border-r-0 border-white/20 relative z-10 shadow-sm"
+            >
+              <img
+                src="/tzitzi.png"
+                alt="Jo-Jo"
+                className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
+              />
+              Έχεις απορίες; Jo-Jo εδώ
+            </button>
+          </div>
+        )}
 
         {/* Mobile toggle */}
         <button
@@ -203,21 +208,23 @@ const Navbar = () => {
       <JoJoChatModal isOpen={isChatModalOpen} onClose={() => setIsChatModalOpen(false)} />
 
       {/* Mobile Floating Jo-Jo Chat Button */}
-      <button
-        onClick={() => setIsChatModalOpen(true)}
-        className="lg:hidden fixed bottom-14 right-4 z-40 w-12 h-12 bg-[#b482ff] active:bg-[#a068f7] rounded-full border-2 border-black shadow-lg flex items-center justify-center transition-all hover:scale-105 no-print animate-bounce"
-        style={{ animationDuration: '3s' }}
-        aria-label="Μίλα με τον Jo-Jo"
-      >
-        <img
-          src="/tzitzi.png"
-          alt="Jo-Jo"
-          className="w-10 h-10 rounded-full object-cover border border-white/60 shrink-0"
-        />
-        <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-[#4ade80] border border-black rounded-full flex items-center justify-center text-[8px] font-black text-black">
-          ●
-        </span>
-      </button>
+      {!isElv8Page && (
+        <button
+          onClick={() => setIsChatModalOpen(true)}
+          className="lg:hidden fixed bottom-14 right-4 z-40 w-12 h-12 bg-[#b482ff] active:bg-[#a068f7] rounded-full border-2 border-black shadow-lg flex items-center justify-center transition-all hover:scale-105 no-print animate-bounce"
+          style={{ animationDuration: '3s' }}
+          aria-label="Μίλα με τον Jo-Jo"
+        >
+          <img
+            src="/tzitzi.png"
+            alt="Jo-Jo"
+            className="w-10 h-10 rounded-full object-cover border border-white/60 shrink-0"
+          />
+          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-[#4ade80] border border-black rounded-full flex items-center justify-center text-[8px] font-black text-black">
+            ●
+          </span>
+        </button>
+      )}
       
       {/* App Download Info Modal */}
       <AnimatePresence>
