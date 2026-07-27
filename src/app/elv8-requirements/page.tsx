@@ -28,8 +28,7 @@ export default function Elv8Questionnaire() {
   // Form State
   const [clientInfo, setClientInfo] = useState({ name: "", email: "", phone: "", company: "" });
   const [brandIdentity, setBrandIdentity] = useState({
-    colors: "Μαύρο/Νέον Πράσινο",
-    customColors: "",
+    colors: "",
     logoUrl: "",
     logoName: "",
     mediaUrls: [] as string[],
@@ -313,49 +312,13 @@ export default function Elv8Questionnaire() {
                       <label className="text-sm font-semibold text-gray-700">
                         1.1 Ποια είναι τα κύρια χρώματα που θέλετε να κυριαρχούν στο e-shop;
                       </label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {[
-                          { id: "Μαύρο/Νέον Πράσινο", label: "Μαύρο / Νέον Πράσινο", colors: ["#0a0a0a", "#39ff14"] },
-                          { id: "Μαύρο/Χρυσό", label: "Μαύρο / Χρυσό", colors: ["#0a0a0a", "#e2a820"] },
-                          { id: "Μπλε/Λευκό", label: "Μπλε / Λευκό", colors: ["#1e40af", "#ffffff"] },
-                          { id: "Μαύρο/Κόκκινο", label: "Μαύρο / Κόκκινο", colors: ["#0a0a0a", "#dc2626"] },
-                          { id: "Άλλο", label: "Άλλο ( HEX κωδικοί )", colors: ["#64748b", "#cbd5e1"] }
-                        ].map((option) => (
-                          <button
-                            key={option.id}
-                            type="button"
-                            onClick={() => setBrandIdentity(prev => ({ ...prev, colors: option.id }))}
-                            className={`p-4 rounded-xl border text-left flex flex-col justify-between h-24 transition-all ${
-                              brandIdentity.colors === option.id 
-                                ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 shadow-sm" 
-                                : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
-                            }`}
-                          >
-                            <div className="flex gap-1.5">
-                              {option.colors.map((c, i) => (
-                                <div key={i} className="w-4 h-4 rounded-full border border-gray-100 shadow-sm" style={{ backgroundColor: c }} />
-                              ))}
-                            </div>
-                            <span className="text-xs font-bold uppercase tracking-wider">{option.label}</span>
-                          </button>
-                        ))}
-                      </div>
-
-                      {brandIdentity.colors === "Άλλο" && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="pt-1"
-                        >
-                          <input
-                            type="text"
-                            placeholder="Π.χ. Κύριο #00FF55, Δευτερεύον #111111"
-                            value={brandIdentity.customColors}
-                            onChange={(e) => setBrandIdentity(prev => ({ ...prev, customColors: e.target.value }))}
-                            className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all"
-                          />
-                        </motion.div>
-                      )}
+                      <textarea
+                        placeholder="Περιγράψτε τα χρώματα που επιθυμείτε (π.χ. Μαύρο και Νέον Πράσινο, ή συγκεκριμένους κωδικούς HEX)..."
+                        value={brandIdentity.colors}
+                        onChange={(e) => setBrandIdentity(prev => ({ ...prev, colors: e.target.value }))}
+                        rows={3}
+                        className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all resize-none"
+                      />
                     </div>
 
                     {/* Logo Upload */}
