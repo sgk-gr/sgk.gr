@@ -10,13 +10,15 @@ const corsHeaders = {
 
 function getOfferButton(firstSubject: string = "", firstBody: string = "", leadType: string = "") {
     const text = (firstSubject + " " + firstBody + " " + leadType).toLowerCase();
-    if (text.includes("ικε") || text.includes("ike")) {
+    const cleanText = text.replace(/\./g, ""); // Remove dots to match abbreviations like Ι.Κ.Ε. -> ικε
+    
+    if (cleanText.includes("ικε") || cleanText.includes("ike")) {
         return {
             buttonText: "Έναρξη Κατασκευής ΙΚΕ",
             buttonLink: "https://sgk.gr/ike-offer"
         };
     }
-    if (text.includes("eshop") || text.includes("pay as you grow") || text.includes("payg") || text.includes("e-shop")) {
+    if (cleanText.includes("eshop") || cleanText.includes("pay as you grow") || cleanText.includes("payg") || cleanText.includes("e-shop")) {
         return {
             buttonText: "Δείτε την Προσφορά Eshop",
             buttonLink: "https://sgk.gr/pay-as-you-grow"
