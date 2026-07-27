@@ -11,8 +11,6 @@ import {
   Palette, 
   Package, 
   Flame, 
-  Share2, 
-  User, 
   Trash2, 
   Loader2,
   FileCheck
@@ -26,7 +24,6 @@ export default function Elv8Questionnaire() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   // Form State
-  const [clientInfo, setClientInfo] = useState({ name: "", email: "", phone: "", company: "" });
   const [brandIdentity, setBrandIdentity] = useState({
     colors: "",
     logoUrl: "",
@@ -45,17 +42,10 @@ export default function Elv8Questionnaire() {
     usps: [] as string[],
     customUsps: ""
   });
-  const [socialProof, setSocialProof] = useState({
-    influencerDetails: "",
-    influencerPhotoUrls: [] as string[],
-    influencerPhotoNames: [] as string[],
-    socialFeeds: [] as string[]
-  });
 
   // Upload States
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingMedia, setUploadingMedia] = useState(false);
-  const [uploadingPhotos, setUploadingPhotos] = useState(false);
 
   // File Upload Helper
   const uploadFile = async (file: File): Promise<string> => {
@@ -113,31 +103,6 @@ export default function Elv8Questionnaire() {
     }
   };
 
-  const handleInfluencerPhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    setUploadingPhotos(true);
-    try {
-      const urls: string[] = [];
-      const names: string[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const url = await uploadFile(files[i]);
-        urls.push(url);
-        names.push(files[i].name);
-      }
-      setSocialProof(prev => ({
-        ...prev,
-        influencerPhotoUrls: [...prev.influencerPhotoUrls, ...urls],
-        influencerPhotoNames: [...prev.influencerPhotoNames, ...names]
-      }));
-    } catch (err) {
-      console.error(err);
-      alert("Αποτυχία ανεβάσματος φωτογραφιών. Δοκιμάστε ξανά.");
-    } finally {
-      setUploadingPhotos(false);
-    }
-  };
-
   const handleCheckboxToggle = (
     value: string, 
     selectedArray: string[], 
@@ -150,26 +115,20 @@ export default function Elv8Questionnaire() {
     }
   };
 
-  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, 5));
+  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, 3));
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!clientInfo.email || !clientInfo.name) {
-      alert("Παρακαλώ συμπληρώστε τα υποχρεωτικά πεδία (Όνομα & Email)");
-      return;
-    }
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/submit-elv8-requirements", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          clientInfo,
           brandIdentity,
           productPackaging,
-          audienceVibe,
-          socialProof
+          audienceVibe
         })
       });
 
@@ -196,12 +155,10 @@ export default function Elv8Questionnaire() {
   const steps = [
     { id: 1, name: "Ταυτότητα", icon: Palette },
     { id: 2, name: "Προϊόν", icon: Package },
-    { id: 3, name: "Αισθητική", icon: Flame },
-    { id: 4, name: "Social Proof", icon: Share2 },
-    { id: 5, name: "Υποβολή", icon: User }
+    { id: 3, name: "Αισθητική", icon: Flame }
   ];
 
-  const progressPercentage = (currentStep / 5) * 100;
+  const progressPercentage = (currentStep / 3) * 100;
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-900 flex flex-col font-sans selection:bg-[#3b5bdb]/10 selection:text-[#3b5bdb]">
@@ -233,7 +190,7 @@ export default function Elv8Questionnaire() {
           <div className="flex justify-between items-end">
             <div className="space-y-1">
               <span className="text-[10px] font-bold text-gray-400 tracking-widest block">
-                Βήμα {currentStep} από 5
+                Βήμα {currentStep} από 3
               </span>
               <h1 className="text-2xl font-bold tracking-tight text-gray-900 font-heading">
                 elv8 Energy Drink
@@ -274,7 +231,7 @@ export default function Elv8Questionnaire() {
                   <span className={`text-xs font-semibold ${isCurrent ? "text-gray-900 font-bold" : "text-gray-400"}`}>
                     {step.name}
                   </span>
-                  {step.id < 5 && <div className="w-8 h-[1px] bg-gray-100 mx-1" />}
+                  {step.id < 3 && <div className="w-8 h-[1px] bg-gray-100 mx-1" />}
                 </div>
               );
             })}
@@ -378,7 +335,7 @@ export default function Elv8Questionnaire() {
                           <div className="space-y-2">
                             <Upload className="text-gray-400 mx-auto" size={24} />
                             <span className="text-xs text-gray-500 font-medium block">Επιλέξτε ή σύρετε renders & φωτογραφίες</span>
-                            <span className="text-[10px] text-gray-400 block">Υποστηρίζονται: ZIP, PNG, JPG, MP4, MOV (Μπορείτε να επιλέξετε πολλαπλά)</span>
+                            <span className="text-[10px] text-gray-400 block">Υποστηρίζονται: ZIP, PNG, JPG, MP4, MOV (Πολλαπλά)</span>
                           </div>
                         )}
                       </div>
@@ -612,188 +569,6 @@ export default function Elv8Questionnaire() {
                   </div>
                 )}
 
-                {/* STEP 4 */}
-                {currentStep === 4 && (
-                  <div className="space-y-6">
-                    <div className="space-y-1">
-                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
-                        <Share2 className="text-[#3b5bdb]" size={20} />
-                        4. Social Proof & Influencers
-                      </h2>
-                      <p className="text-sm text-gray-500 leading-relaxed">
-                        Το elv8 βασίζεται πολύ στην κοινότητα και το marketing. Ας ορίσουμε τα κοινωνικά κανάλια προβολής.
-                      </p>
-                    </div>
-
-                    {/* Influencers field */}
-                    <div className="space-y-3">
-                      <label className="text-sm font-semibold text-gray-700 block">
-                        4.1 Έχετε συνεργασίες με Αθλητές / Influencers που θα εμφανιστούν στο site;
-                      </label>
-                      <textarea
-                        placeholder="Πληκτρολογήστε ονόματα, links από τα προφίλ τους, ή σχόλια..."
-                        value={socialProof.influencerDetails}
-                        onChange={(e) => setSocialProof(prev => ({ ...prev, influencerDetails: e.target.value }))}
-                        rows={3}
-                        className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors resize-none"
-                      />
-                      
-                      {/* Photo Upload */}
-                      <div className="border-2 border-dashed border-gray-200 hover:border-gray-300 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative mt-2">
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*"
-                          onChange={handleInfluencerPhotoUpload}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                          disabled={uploadingPhotos}
-                        />
-                        {uploadingPhotos ? (
-                          <div className="space-y-2">
-                            <Loader2 className="animate-spin text-[#3b5bdb] mx-auto" size={24} />
-                            <span className="text-xs text-gray-400 font-medium">Ανέβασμα φωτογραφιών...</span>
-                          </div>
-                        ) : (
-                          <div className="space-y-2">
-                            <Upload className="text-gray-400 mx-auto" size={24} />
-                            <span className="text-xs text-gray-500 font-medium block">Μεταφορτώστε φωτογραφίες των Influencers</span>
-                            <span className="text-[10px] text-gray-400 block">Υποστηρίζονται μορφές: JPG, PNG, WEBP (Πολλαπλά)</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {socialProof.influencerPhotoNames.length > 0 && (
-                        <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 divide-y divide-gray-200/50">
-                          {socialProof.influencerPhotoNames.map((name, index) => (
-                            <div key={index} className="flex justify-between items-center py-2 text-xs">
-                              <span className="truncate max-w-[250px] text-gray-600 font-medium">{name}</span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSocialProof(prev => ({
-                                    ...prev,
-                                    influencerPhotoUrls: prev.influencerPhotoUrls.filter((_, i) => i !== index),
-                                    influencerPhotoNames: prev.influencerPhotoNames.filter((_, i) => i !== index)
-                                  }));
-                                }}
-                                className="text-rose-600 hover:text-rose-500 transition-colors p-1"
-                              >
-                                <Trash2 size={13} />
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Social Feeds */}
-                    <div className="space-y-3">
-                      <label className="text-sm font-semibold text-gray-700">
-                        4.2 Θα ενσωματώσουμε Instagram/TikTok Feed ή Αξιολογήσεις; (Επιλέξτε όσα ισχύουν)
-                      </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {["Instagram Feed", "TikTok Feed", "Αξιολογήσεις Πελατών (Reviews)", "Όλα τα παραπάνω"].map((feedOpt) => {
-                          const isSelected = socialProof.socialFeeds.includes(feedOpt);
-                          return (
-                            <button
-                              key={feedOpt}
-                              type="button"
-                              onClick={() => handleCheckboxToggle(feedOpt, socialProof.socialFeeds, (arr) => setSocialProof(prev => ({ ...prev, socialFeeds: arr })))}
-                              className={`p-4 rounded-xl border text-left flex justify-between items-center transition-all ${
-                                isSelected 
-                                  ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold" 
-                                  : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
-                              }`}
-                            >
-                              <span className="text-xs tracking-wider">{feedOpt}</span>
-                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
-                              }`}>
-                                {isSelected && <Check size={10} strokeWidth={4} />}
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 5 */}
-                {currentStep === 5 && (
-                  <div className="space-y-6">
-                    <div className="space-y-1">
-                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
-                        <User className="text-[#3b5bdb]" size={20} />
-                        5. Στοιχεία Επικοινωνίας
-                      </h2>
-                      <p className="text-sm text-gray-500 leading-relaxed">
-                        Συμπληρώστε τα στοιχεία σας για να καταχωρήσουμε το αίτημα και να ξεκινήσουμε το σχεδιασμό.
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-gray-500 tracking-wider">
-                          Ονοματεπώνυμο <span className="text-rose-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="Π.χ. Γιάννης Παπαδόπουλος"
-                          value={clientInfo.name}
-                          onChange={(e) => setClientInfo(prev => ({ ...prev, name: e.target.value }))}
-                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-gray-500 tracking-wider">
-                          Email Επικοινωνίας <span className="text-rose-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          placeholder="name@company.com"
-                          value={clientInfo.email}
-                          onChange={(e) => setClientInfo(prev => ({ ...prev, email: e.target.value }))}
-                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-gray-500 tracking-wider">
-                          Τηλέφωνο
-                        </label>
-                        <input
-                          type="tel"
-                          placeholder="69XXXXXXXX"
-                          value={clientInfo.phone}
-                          onChange={(e) => setClientInfo(prev => ({ ...prev, phone: e.target.value }))}
-                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-gray-500 tracking-wider">
-                          Εταιρεία / Brand
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Π.χ. elv8 Energy"
-                          value={clientInfo.company}
-                          onChange={(e) => setClientInfo(prev => ({ ...prev, company: e.target.value }))}
-                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-4 flex gap-3 text-xs text-blue-900/80">
-                      <AlertCircle className="text-[#3b5bdb] shrink-0" size={16} />
-                      <p className="leading-relaxed">
-                        Πατώντας <strong>Υποβολή Απαιτήσεων</strong>, τα στοιχεία σας θα αποσταλούν αυτόματα στην ομάδα της <strong>SGK Software Development</strong> για την ανάλυση του project σας.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
                 {/* Navigation Buttons */}
                 <div className="flex justify-between items-center pt-5 border-t border-gray-100">
                   <button
@@ -806,7 +581,7 @@ export default function Elv8Questionnaire() {
                     Πίσω
                   </button>
 
-                  {currentStep < 5 ? (
+                  {currentStep < 3 ? (
                     <button
                       type="button"
                       onClick={nextStep}
@@ -819,7 +594,7 @@ export default function Elv8Questionnaire() {
                     <button
                       type="button"
                       onClick={handleSubmit}
-                      disabled={isSubmitting || !clientInfo.email || !clientInfo.name}
+                      disabled={isSubmitting}
                       className="inline-flex items-center gap-1.5 px-7 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-bold tracking-wider shadow-md transition-all"
                     >
                       {isSubmitting ? (
