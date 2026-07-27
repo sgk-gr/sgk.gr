@@ -43,7 +43,8 @@ export default function Elv8Questionnaire() {
     targetAudience: [] as string[],
     styleVibe: "Neon / Cyberpunk",
     usps: [] as string[],
-    customUsps: ""
+    customUsps: "",
+    brandVision: ""
   });
 
   // Upload States
@@ -617,6 +618,20 @@ export default function Elv8Questionnaire() {
                         value={audienceVibe.customUsps}
                         onChange={(e) => setAudienceVibe(prev => ({ ...prev, customUsps: e.target.value }))}
                         className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors mt-2"
+                      />
+                    </div>
+
+                    {/* Brand Vision / Strengths */}
+                    <div className="space-y-3">
+                      <label className="text-sm font-semibold text-gray-700">
+                        3.4 Ποια είναι τα δυνατά σημεία του προϊόντος και πώς θέλετε να παρουσιαστεί; (Γιατί ξεχωρίζει;)
+                      </label>
+                      <textarea
+                        placeholder="Περιγράψτε τι κάνει το elv8 μοναδικό και πώς οραματίζεστε την προβολή του..."
+                        value={audienceVibe.brandVision}
+                        onChange={(e) => setAudienceVibe(prev => ({ ...prev, brandVision: e.target.value }))}
+                        rows={4}
+                        className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all resize-none"
                       />
                     </div>
                   </div>

@@ -81,6 +81,10 @@ export async function POST(req: Request) {
               <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Κύρια Οφέλη (USPs):</td>
               <td style="padding: 10px; border: 1px solid #e2e8f0;">${audienceVibe.usps && audienceVibe.usps.length > 0 ? audienceVibe.usps.join(", ") : "Δεν δηλώθηκαν"} ${audienceVibe.customUsps ? `<br/><em>Άλλα: ${audienceVibe.customUsps}</em>` : ""}</td>
             </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #e2e8f0; font-weight: bold;">Όραμα & Δυνατά Σημεία:</td>
+              <td style="padding: 10px; border: 1px solid #e2e8f0;">${audienceVibe.brandVision || "Δεν συμπληρώθηκε"}</td>
+            </tr>
           </table>
         </div>
       </div>
