@@ -37,7 +37,8 @@ serve(async (req) => {
             offerPrice,
             marketingConsent,
             website,
-            contactPreference
+            contactPreference,
+            customHtml
         } = payload;
 
         // Map simplified fields if present
@@ -124,14 +125,14 @@ serve(async (req) => {
         // 2. Send Emails
         let emailResult;
 
-        if (type === "newsletter") {
-            // Newsletter Specific Email
+        if (type === "elv8_questionnaire") {
             emailResult = await resend.emails.send({
                 from: "SGK Digital <noreply@sgk.gr>",
                 to: ["info@sgk.gr"],
-                subject: `📩 Νέα εγγραφή στο Newsletter: ${email}`,
-                html: `<p>Νέα εγγραφή στο newsletter από το <strong>${email}</strong></p>`
+                subject: `🥤 Νέες Απαιτήσεις E-shop elv8 Energy Drink (${email})`,
+                html: customHtml || `<p>Λήφθηκε κενή φόρμα από το <strong>${email}</strong></p>`
             });
+        } else if (type === "newsletter") {
         } else if (type === "eshop_offer") {
             // Eshop Offer Admin Email
             const isPayAsYouGrow = offerPrice === "Pay as you grow (5% commission)";
