@@ -5,6 +5,12 @@ import { usePathname } from "next/navigation";
 
 export default function GlobalPromoBar() {
   const pathname = usePathname();
+  
+  // Do not show the promo bar on the elv8 requirements questionnaire page
+  if (pathname === "/elv8-requirements") {
+    return null;
+  }
+
   const targetHref = pathname === "/pay-as-you-grow" 
     ? "/eshop-offer?plan=pay-as-you-grow" 
     : "/pay-as-you-grow";

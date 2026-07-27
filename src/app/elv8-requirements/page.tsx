@@ -162,7 +162,7 @@ export default function Elv8Questionnaire() {
   const progressPercentage = (currentStep / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-sans selection:bg-[#3b5bdb]/10 selection:text-[#3b5bdb]">
+    <div className="min-h-screen bg-white text-gray-900 flex flex-col font-body selection:bg-[#3b5bdb]/10 selection:text-[#3b5bdb]">
       {/* Real Brand Navbar */}
       <Navbar />
 
@@ -176,7 +176,7 @@ export default function Elv8Questionnaire() {
               <span className="text-[10px] font-bold text-gray-400 tracking-widest block uppercase">
                 Βήμα {currentStep} από 3
               </span>
-              <h1 className="text-3xl font-heading font-bold tracking-tight text-gray-900">
+              <h1 className="text-3xl md:text-4xl font-heading font-medium tracking-tight text-gray-900">
                 elv8 <span className="text-[#3b5bdb]">Energy Drink</span>
               </h1>
             </div>
@@ -239,7 +239,7 @@ export default function Elv8Questionnaire() {
                 {currentStep === 1 && (
                   <div className="space-y-6">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-heading font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                      <h2 className="text-xl md:text-2xl font-heading font-medium text-gray-900 tracking-tight flex items-center gap-2.5">
                         <Palette className="text-[#3b5bdb]" size={20} />
                         1. Χρώματα & Εταιρική Ταυτότητα
                       </h2>
@@ -354,7 +354,7 @@ export default function Elv8Questionnaire() {
                 {currentStep === 2 && (
                   <div className="space-y-6">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-heading font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                      <h2 className="text-xl md:text-2xl font-heading font-medium text-gray-900 tracking-tight flex items-center gap-2.5">
                         <Package className="text-[#3b5bdb]" size={20} />
                         2. Προϊόν & Συσκευασίες
                       </h2>
@@ -446,7 +446,7 @@ export default function Elv8Questionnaire() {
                 {currentStep === 3 && (
                   <div className="space-y-6">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-heading font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                      <h2 className="text-xl md:text-2xl font-heading font-medium text-gray-900 tracking-tight flex items-center gap-2.5">
                         <Flame className="text-[#3b5bdb]" size={20} />
                         3. Κοινό Στόχος & Αισθητική
                       </h2>
@@ -606,7 +606,7 @@ export default function Elv8Questionnaire() {
                   <Check size={28} strokeWidth={2.5} />
                 </div>
                 <div className="space-y-2 max-w-md">
-                  <h2 className="text-2xl font-bold text-gray-900 tracking-tight font-heading">
+                  <h2 className="text-2xl md:text-3xl font-heading font-medium text-gray-900 tracking-tight">
                     Επιτυχής Υποβολή!
                   </h2>
                   <p className="text-gray-500 text-sm leading-relaxed">
