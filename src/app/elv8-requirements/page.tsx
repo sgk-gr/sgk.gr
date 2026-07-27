@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Upload, 
@@ -47,6 +47,37 @@ export default function Elv8Questionnaire() {
   // Upload States
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingMedia, setUploadingMedia] = useState(false);
+
+  // Load state from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("elv8_form_state");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.currentStep) setCurrentStep(parsed.currentStep);
+        if (parsed.brandIdentity) setBrandIdentity(parsed.brandIdentity);
+        if (parsed.productPackaging) setProductPackaging(parsed.productPackaging);
+        if (parsed.audienceVibe) setAudienceVibe(parsed.audienceVibe);
+      }
+    } catch (e) {
+      console.error("Error reading from localStorage", e);
+    }
+  }, []);
+
+  // Save state to localStorage on changes
+  useEffect(() => {
+    try {
+      const stateToSave = {
+        currentStep,
+        brandIdentity,
+        productPackaging,
+        audienceVibe
+      };
+      localStorage.setItem("elv8_form_state", JSON.stringify(stateToSave));
+    } catch (e) {
+      console.error("Error writing to localStorage", e);
+    }
+  }, [currentStep, brandIdentity, productPackaging, audienceVibe]);
 
   // File Upload Helper
   const uploadFile = async (file: File): Promise<string> => {
@@ -138,6 +169,14 @@ export default function Elv8Questionnaire() {
       }
 
       setIsSuccess(true);
+      
+      // Clear localStorage on success
+      try {
+        localStorage.removeItem("elv8_form_state");
+      } catch (e) {
+        console.error(e);
+      }
+
       confetti({
         particleCount: 120,
         spread: 70,
@@ -177,7 +216,7 @@ export default function Elv8Questionnaire() {
                 Βήμα {currentStep} από 3
               </span>
               <h1 className="text-3xl md:text-4xl font-heading font-medium tracking-tight text-gray-900">
-                elv8 <span className="text-[#3b5bdb]">Energy Drink</span>
+                elv8
               </h1>
             </div>
             <span className="text-xs font-bold text-[#3b5bdb] tracking-wide">
@@ -244,7 +283,7 @@ export default function Elv8Questionnaire() {
                         1. Χρώματα & Εταιρική Ταυτότητα
                       </h2>
                       <p className="text-sm text-gray-500 leading-relaxed">
-                        Βοηθήστε μας να αποτυπώσουμε σωστά την ταυτότητα του elv8 Energy Drink.
+                        Βοηθήστε μας να αποτυπώσουμε σωστά την ταυτότητα του elv8.
                       </p>
                     </div>
 
@@ -584,11 +623,11 @@ export default function Elv8Questionnaire() {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="animate-spin" size={14} />
-                          Υποβολή...
+                          Αποστολή...
                         </>
                       ) : (
                         <>
-                          Υποβολή Απαιτήσεων
+                          Αποστολή
                           <Check size={14} strokeWidth={2.5} />
                         </>
                       )}
@@ -610,7 +649,7 @@ export default function Elv8Questionnaire() {
                     Επιτυχής Υποβολή!
                   </h2>
                   <p className="text-gray-500 text-sm leading-relaxed">
-                    Οι απαιτήσεις για το e-shop του <strong>elv8 Energy Drink</strong> καταχωρήθηκαν επιτυχώς.
+                    Οι απαιτήσεις για το e-shop του <strong>elv8</strong> καταχωρήθηκαν επιτυχώς.
                   </p>
                   <p className="text-gray-400 text-xs leading-relaxed pt-2 tracking-wide font-semibold">
                     Ένας εκπρόσωπος της SGK Software Development θα επικοινωνήσει μαζί σας σύντομα.
