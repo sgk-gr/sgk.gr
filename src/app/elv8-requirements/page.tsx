@@ -18,6 +18,7 @@ import {
   FileCheck
 } from "lucide-react";
 import confetti from "canvas-confetti";
+import Link from "next/link";
 
 export default function Elv8Questionnaire() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -179,8 +180,8 @@ export default function Elv8Questionnaire() {
 
       setIsSuccess(true);
       confetti({
-        particleCount: 150,
-        spread: 80,
+        particleCount: 120,
+        spread: 70,
         origin: { y: 0.6 },
         colors: ["#3b5bdb", "#4ade80", "#111111"]
       });
@@ -192,7 +193,7 @@ export default function Elv8Questionnaire() {
     }
   };
 
-  // UI Config
+  // UI Stepper Steps
   const steps = [
     { id: 1, name: "Ταυτότητα", icon: Palette },
     { id: 2, name: "Προϊόν", icon: Package },
@@ -204,144 +205,154 @@ export default function Elv8Questionnaire() {
   const progressPercentage = (currentStep / 5) * 100;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-[#4ade80]/30 selection:text-[#4ade80]">
-      {/* Header */}
-      <header className="border-b border-slate-900 bg-slate-950/70 backdrop-blur-md sticky top-0 z-50 px-4 py-4 md:px-8">
+    <div className="min-h-screen bg-[#fafafa] text-gray-900 flex flex-col font-sans selection:bg-[#3b5bdb]/10 selection:text-[#3b5bdb]">
+      {/* Brand Header */}
+      <header className="border-b border-gray-100 bg-white sticky top-0 z-50 px-6 py-5 md:px-12">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl font-black tracking-tight text-white">
+          <Link href="/" className="flex items-center gap-3 group">
+            <span className="text-3xl font-bold tracking-tighter text-black font-heading">
               sgk<span className="text-[#3b5bdb]">.</span>
             </span>
-            <div className="h-4 w-px bg-slate-800 hidden md:block"></div>
-            <span className="text-slate-500 font-medium text-xs tracking-wider uppercase hidden md:block">
+            <div className="h-5 w-px bg-gray-200 hidden md:block"></div>
+            <span className="text-gray-400 font-medium text-xs tracking-wider uppercase hidden md:block">
               Software Development
             </span>
-          </div>
+          </Link>
           <div className="flex items-center gap-2">
-            <span className="text-xs bg-[#3b5bdb]/10 text-[#3b5bdb] border border-[#3b5bdb]/20 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-              elv8 Requirements
+            <span className="text-[11px] bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full font-bold uppercase tracking-wider">
+              Φόρμα Απαιτήσεων E-Shop
             </span>
           </div>
         </div>
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 max-w-4xl w-full mx-auto">
+      <main className="flex-1 flex flex-col items-center justify-center py-10 px-4 md:px-8 max-w-3xl w-full mx-auto">
         
-        {/* Progress Bar Container */}
+        {/* Step Indicator Header */}
         <div className="w-full mb-8 space-y-4">
-          <div className="flex justify-between items-center px-2">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-              Βήμα {currentStep} από 5
-            </span>
-            <span className="text-xs font-black text-[#4ade80] tracking-wider">
-              {Math.round(progressPercentage)}% ΟΛΟΚΛΗΡΩΘΗΚΕ
+          <div className="flex justify-between items-end">
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
+                Βήμα {currentStep} από 5
+              </span>
+              <h1 className="text-2xl font-bold tracking-tight text-gray-900 font-heading">
+                elv8 Energy Drink
+              </h1>
+            </div>
+            <span className="text-xs font-bold text-[#3b5bdb] tracking-wide">
+              {Math.round(progressPercentage)}% Ολοκληρώθηκε
             </span>
           </div>
-          <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800/50 p-[2px]">
+
+          {/* Simple Progress Bar */}
+          <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
             <motion.div 
-              className="h-full bg-gradient-to-r from-[#3b5bdb] to-[#4ade80] rounded-full"
+              className="h-full bg-[#3b5bdb]"
               initial={{ width: 0 }}
               animate={{ width: `${progressPercentage}%` }}
               transition={{ duration: 0.3 }}
             />
           </div>
 
-          {/* Stepper Steps (Desktop) */}
-          <div className="hidden md:flex justify-between items-center pt-2">
+          {/* Horizontal Stepper (Desktop) */}
+          <div className="hidden md:flex justify-between items-center pt-3">
             {steps.map((step) => {
               const StepIcon = step.icon;
               const isActive = currentStep >= step.id;
+              const isCurrent = currentStep === step.id;
               return (
                 <div key={step.id} className="flex items-center gap-2">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${
-                    isActive 
-                      ? "bg-[#3b5bdb]/10 border-[#3b5bdb] text-[#3b5bdb] shadow-[0_0_15px_rgba(59,91,219,0.2)]" 
-                      : "border-slate-800 text-slate-600 bg-slate-950"
+                    isCurrent
+                      ? "bg-[#3b5bdb] border-[#3b5bdb] text-white shadow-sm"
+                      : isActive 
+                        ? "bg-[#3b5bdb]/5 border-[#3b5bdb]/40 text-[#3b5bdb]" 
+                        : "border-gray-200 text-gray-400 bg-white"
                   }`}>
-                    <StepIcon size={14} />
+                    <StepIcon size={13} />
                   </div>
-                  <span className={`text-xs font-bold ${isActive ? "text-slate-200" : "text-slate-600"}`}>
+                  <span className={`text-xs font-semibold ${isCurrent ? "text-gray-900 font-bold" : "text-gray-400"}`}>
                     {step.name}
                   </span>
-                  {step.id < 5 && <div className="w-12 h-[1px] bg-slate-800 mx-2" />}
+                  {step.id < 5 && <div className="w-8 h-[1px] bg-gray-100 mx-1" />}
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* Form Container */}
-        <div className="w-full bg-slate-900/40 backdrop-blur-xl border border-slate-900 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+        {/* Clean Paper Container */}
+        <div className="w-full bg-white border border-gray-100 rounded-2xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)] relative">
           
           <AnimatePresence mode="wait">
             {!isSuccess ? (
               <motion.div
                 key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
                 className="space-y-8"
               >
                 {/* STEP 1 */}
                 {currentStep === 1 && (
                   <div className="space-y-6">
-                    <div className="space-y-2">
-                      <h2 className="text-xl md:text-2xl font-black text-white tracking-wide uppercase italic flex items-center gap-3">
-                        <Palette className="text-[#3b5bdb]" />
-                        1. Χρώματα & Εταιρική Ταυτότητα
+                    <div className="space-y-1">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                        <Palette className="text-[#3b5bdb]" size={20} />
+                        1. Χρώματα & Εταιρική Ταυτότητα (Brand Identity)
                       </h2>
-                      <p className="text-xs text-slate-400">
-                        Ορίστε το εικαστικό προφίλ και τα υλικά της ταυτότητας του elv8 Energy Drink.
+                      <p className="text-sm text-gray-500 leading-relaxed">
+                        Βοηθήστε μας να αποτυπώσουμε σωστά την ταυτότητα του elv8 Energy Drink.
                       </p>
                     </div>
 
                     {/* Colors Field */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         1.1 Ποια είναι τα κύρια χρώματα που θέλετε να κυριαρχούν στο e-shop;
                       </label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {[
-                          { id: "Μαύρο/Νέον Πράσινο", label: "Μαύρο / Νέον Πράσινο", colors: ["#000000", "#39FF14"] },
-                          { id: "Μαύρο/Χρυσό", label: "Μαύρο / Χρυσό", colors: ["#000000", "#FFD700"] },
-                          { id: "Μπλε/Λευκό", label: "Μπλε / Λευκό", colors: ["#0000FF", "#FFFFFF"] },
-                          { id: "Μαύρο/Κόκκινο", label: "Μαύρο / Κόκκινο", colors: ["#000000", "#FF0000"] },
-                          { id: "Άλλο", label: "Άλλο (Hex codes)", colors: ["#334155", "#475569"] }
+                          { id: "Μαύρο/Νέον Πράσινο", label: "Μαύρο / Νέον Πράσινο", colors: ["#0a0a0a", "#39ff14"] },
+                          { id: "Μαύρο/Χρυσό", label: "Μαύρο / Χρυσό", colors: ["#0a0a0a", "#e2a820"] },
+                          { id: "Μπλε/Λευκό", label: "Μπλε / Λευκό", colors: ["#1e40af", "#ffffff"] },
+                          { id: "Μαύρο/Κόκκινο", label: "Μαύρο / Κόκκινο", colors: ["#0a0a0a", "#dc2626"] },
+                          { id: "Άλλο", label: "Άλλο ( HEX κωδικοί )", colors: ["#64748b", "#cbd5e1"] }
                         ].map((option) => (
                           <button
                             key={option.id}
                             type="button"
                             onClick={() => setBrandIdentity(prev => ({ ...prev, colors: option.id }))}
-                            className={`p-4 rounded-2xl border text-left flex flex-col justify-between h-28 transition-all ${
+                            className={`p-4 rounded-xl border text-left flex flex-col justify-between h-24 transition-all ${
                               brandIdentity.colors === option.id 
-                                ? "bg-slate-900/90 border-[#3b5bdb] text-white shadow-lg" 
-                                : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 shadow-sm" 
+                                : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                             }`}
                           >
-                            <div className="flex gap-1">
+                            <div className="flex gap-1.5">
                               {option.colors.map((c, i) => (
-                                <div key={i} className="w-4 h-4 rounded-full border border-slate-800" style={{ backgroundColor: c }} />
+                                <div key={i} className="w-4 h-4 rounded-full border border-gray-100 shadow-sm" style={{ backgroundColor: c }} />
                               ))}
                             </div>
-                            <span className="text-xs font-extrabold uppercase tracking-wide">{option.label}</span>
+                            <span className="text-xs font-bold uppercase tracking-wider">{option.label}</span>
                           </button>
                         ))}
                       </div>
 
                       {brandIdentity.colors === "Άλλο" && (
                         <motion.div
-                          initial={{ opacity: 0, y: -10 }}
+                          initial={{ opacity: 0, y: -5 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="pt-2"
+                          className="pt-1"
                         >
                           <input
                             type="text"
-                            placeholder="Π.χ. Primary #1E293B, Secondary #4ADE80"
+                            placeholder="Π.χ. Κύριο #00FF55, Δευτερεύον #111111"
                             value={brandIdentity.customColors}
                             onChange={(e) => setBrandIdentity(prev => ({ ...prev, customColors: e.target.value }))}
-                            className="w-full bg-slate-950 border border-slate-900 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#3b5bdb] transition-colors"
+                            className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all"
                           />
                         </motion.div>
                       )}
@@ -349,10 +360,10 @@ export default function Elv8Questionnaire() {
 
                     {/* Logo Upload */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         1.2 Ανεβάστε το Λογότυπό σας (Logo)
                       </label>
-                      <div className="border border-dashed border-slate-800 hover:border-slate-700 bg-slate-950/20 rounded-2xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-gray-300 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
                         <input
                           type="file"
                           accept=".svg,.png,.ai,.pdf"
@@ -362,20 +373,20 @@ export default function Elv8Questionnaire() {
                         />
                         {uploadingLogo ? (
                           <div className="space-y-2">
-                            <Loader2 className="animate-spin text-[#4ade80] mx-auto" size={32} />
-                            <span className="text-xs text-slate-500 font-bold">Ανέβασμα λογοτύπου...</span>
+                            <Loader2 className="animate-spin text-[#3b5bdb] mx-auto" size={24} />
+                            <span className="text-xs text-gray-400 font-medium">Ανέβασμα αρχείου...</span>
                           </div>
                         ) : brandIdentity.logoUrl ? (
-                          <div className="space-y-2">
-                            <FileCheck className="text-[#4ade80] mx-auto" size={32} />
-                            <span className="text-xs text-slate-200 font-extrabold block truncate max-w-xs">{brandIdentity.logoName}</span>
-                            <span className="text-[10px] text-[#4ade80] font-black uppercase">✓ Επιτυχές Ανέβασμα</span>
+                          <div className="space-y-1">
+                            <FileCheck className="text-[#4ade80] mx-auto" size={24} />
+                            <span className="text-xs text-gray-700 font-bold block truncate max-w-xs">{brandIdentity.logoName}</span>
+                            <span className="text-[10px] text-[#4ade80] font-bold uppercase tracking-wider block">Επιτυχής Μεταφόρτωση</span>
                           </div>
                         ) : (
                           <div className="space-y-2">
-                            <Upload className="text-[#3b5bdb] mx-auto" size={32} />
-                            <span className="text-xs text-slate-400 font-bold block">Κάντε κλικ ή σύρετε το λογότυπο εδώ</span>
-                            <span className="text-[10px] text-slate-600 block">Αποδεκτά αρχεία: SVG, PNG (transparent), AI, PDF</span>
+                            <Upload className="text-gray-400 mx-auto" size={24} />
+                            <span className="text-xs text-gray-500 font-medium block">Κάντε κλικ ή σύρετε το αρχείο του λογοτύπου εδώ</span>
+                            <span className="text-[10px] text-gray-400 block">Υποστηρίζονται μορφές: SVG, PNG (διαφανές), AI, PDF</span>
                           </div>
                         )}
                       </div>
@@ -383,10 +394,10 @@ export default function Elv8Questionnaire() {
 
                     {/* Product Renders Multiple Upload */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         1.3 Ανεβάστε 3D Renders, Φωτογραφίες ή Βίντεο του προϊόντος
                       </label>
-                      <div className="border border-dashed border-slate-800 hover:border-slate-700 bg-slate-950/20 rounded-2xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-gray-300 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative">
                         <input
                           type="file"
                           multiple
@@ -397,23 +408,23 @@ export default function Elv8Questionnaire() {
                         />
                         {uploadingMedia ? (
                           <div className="space-y-2">
-                            <Loader2 className="animate-spin text-[#4ade80] mx-auto" size={32} />
-                            <span className="text-xs text-slate-500 font-bold">Ανέβασμα αρχείων...</span>
+                            <Loader2 className="animate-spin text-[#3b5bdb] mx-auto" size={24} />
+                            <span className="text-xs text-gray-400 font-medium">Ανέβασμα αρχείων...</span>
                           </div>
                         ) : (
                           <div className="space-y-2">
-                            <Upload className="text-[#3b5bdb] mx-auto" size={32} />
-                            <span className="text-xs text-slate-400 font-bold block">Κάντε κλικ ή σύρετε renders & υλικό εδώ</span>
-                            <span className="text-[10px] text-slate-600 block">Αποδεκτά αρχεία: ZIP, PNG, JPG, MP4, MOV (Πολλαπλά)</span>
+                            <Upload className="text-gray-400 mx-auto" size={24} />
+                            <span className="text-xs text-gray-500 font-medium block">Επιλέξτε ή σύρετε renders & φωτογραφίες</span>
+                            <span className="text-[10px] text-gray-400 block">Υποστηρίζονται: ZIP, PNG, JPG, MP4, MOV (Μπορείτε να επιλέξετε πολλαπλά)</span>
                           </div>
                         )}
                       </div>
 
                       {brandIdentity.mediaNames.length > 0 && (
-                        <div className="bg-slate-950/50 rounded-xl p-3 border border-slate-900 divide-y divide-slate-900/50">
+                        <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 divide-y divide-gray-200/50">
                           {brandIdentity.mediaNames.map((name, index) => (
                             <div key={index} className="flex justify-between items-center py-2 text-xs">
-                              <span className="truncate max-w-[200px] text-slate-400 font-medium">{name}</span>
+                              <span className="truncate max-w-[250px] text-gray-600 font-medium">{name}</span>
                               <button
                                 type="button"
                                 onClick={() => {
@@ -423,9 +434,9 @@ export default function Elv8Questionnaire() {
                                     mediaNames: prev.mediaNames.filter((_, i) => i !== index)
                                   }));
                                 }}
-                                className="text-rose-500 hover:text-rose-400 transition-colors p-1"
+                                className="text-rose-600 hover:text-rose-500 transition-colors p-1"
                               >
-                                <Trash2 size={14} />
+                                <Trash2 size={13} />
                               </button>
                             </div>
                           ))}
@@ -438,19 +449,19 @@ export default function Elv8Questionnaire() {
                 {/* STEP 2 */}
                 {currentStep === 2 && (
                   <div className="space-y-6">
-                    <div className="space-y-2">
-                      <h2 className="text-xl md:text-2xl font-black text-white tracking-wide uppercase italic flex items-center gap-3">
-                        <Package className="text-[#3b5bdb]" />
+                    <div className="space-y-1">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                        <Package className="text-[#3b5bdb]" size={20} />
                         2. Προϊόν & Συσκευασίες
                       </h2>
-                      <p className="text-xs text-slate-400">
-                        Δώστε πληροφορίες για τις γεύσεις και τις συσκευασίες διάθεσης του προϊόντος.
+                      <p className="text-sm text-gray-500 leading-relaxed">
+                        Σχεδιάζουμε το κατάλληλο σύστημα καλαθιού αγορών ανάλογα με τη διαμόρφωση των συσκευασιών σας.
                       </p>
                     </div>
 
                     {/* Flavors count */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         2.1 Πόσες γεύσεις θα υπάρχουν στο λανσάρισμα;
                       </label>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -461,11 +472,11 @@ export default function Elv8Questionnaire() {
                             onClick={() => setProductPackaging(prev => ({ ...prev, flavors: flavorOpt }))}
                             className={`p-4 rounded-xl border text-center transition-all ${
                               productPackaging.flavors === flavorOpt 
-                                ? "bg-slate-900/90 border-[#3b5bdb] text-white" 
-                                : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold shadow-sm" 
+                                : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                             }`}
                           >
-                            <span className="text-xs font-extrabold uppercase tracking-wider">{flavorOpt}</span>
+                            <span className="text-xs uppercase tracking-wider">{flavorOpt}</span>
                           </button>
                         ))}
                       </div>
@@ -473,10 +484,10 @@ export default function Elv8Questionnaire() {
 
                     {/* Packages (Checkboxes) */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         2.2 Σε τι συσκευασίες θα διατίθεται το ποτό; (Επιλέξτε όσα ισχύουν)
                       </label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                         {["Μεμονωμένο Κουτί", "4-Pack", "12-Pack", "24-Pack Tray", "Starter Kit / Sampler"].map((packOpt) => {
                           const isSelected = productPackaging.packages.includes(packOpt);
                           return (
@@ -486,13 +497,13 @@ export default function Elv8Questionnaire() {
                               onClick={() => handleCheckboxToggle(packOpt, productPackaging.packages, (arr) => setProductPackaging(prev => ({ ...prev, packages: arr })))}
                               className={`p-4 rounded-xl border text-left flex justify-between items-center transition-all ${
                                 isSelected 
-                                  ? "bg-slate-900/90 border-[#3b5bdb] text-white" 
-                                  : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                  ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold" 
+                                  : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs font-extrabold uppercase tracking-wider">{packOpt}</span>
+                              <span className="text-xs uppercase tracking-wider">{packOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-slate-800"
+                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
                                 {isSelected && <Check size={10} strokeWidth={4} />}
                               </div>
@@ -504,7 +515,7 @@ export default function Elv8Questionnaire() {
 
                     {/* Starter Pack */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         2.3 Θέλετε να διαθέσουμε Starter Pack (Δοκιμαστικό πακέτο) για νέους πελάτες;
                       </label>
                       <div className="grid grid-cols-3 gap-3">
@@ -515,11 +526,11 @@ export default function Elv8Questionnaire() {
                             onClick={() => setProductPackaging(prev => ({ ...prev, starterPack: opt }))}
                             className={`p-4 rounded-xl border text-center transition-all ${
                               productPackaging.starterPack === opt 
-                                ? "bg-slate-900/90 border-[#3b5bdb] text-white" 
-                                : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold" 
+                                : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                             }`}
                           >
-                            <span className="text-xs font-extrabold uppercase tracking-wider">{opt}</span>
+                            <span className="text-xs uppercase tracking-wider">{opt}</span>
                           </button>
                         ))}
                       </div>
@@ -530,26 +541,26 @@ export default function Elv8Questionnaire() {
                 {/* STEP 3 */}
                 {currentStep === 3 && (
                   <div className="space-y-6">
-                    <div className="space-y-2">
-                      <h2 className="text-xl md:text-2xl font-black text-white tracking-wide uppercase italic flex items-center gap-3">
-                        <Flame className="text-[#3b5bdb]" />
-                        3. Κοινό Στόχος & Αισθητική
+                    <div className="space-y-1">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                        <Flame className="text-[#3b5bdb]" size={20} />
+                        3. Κοινό Στόχος & Αισθητική (Target Audience & Vibe)
                       </h2>
-                      <p className="text-xs text-slate-400">
-                        Προσδιορίστε το ιδανικό κοινό του elv8 και το γενικότερο vibe του brand.
+                      <p className="text-sm text-gray-500 leading-relaxed">
+                        Βοηθήστε μας να σχεδιάσουμε μια σελίδα που θα μιλάει στη γλώσσα του κοινού σας.
                       </p>
                     </div>
 
                     {/* Target Audience */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         3.1 Σε ποιο κοινό στοχεύει κυρίως το elv8; (Επιλέξτε όσα ισχύουν)
                       </label>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-1 gap-2">
                         {[
-                          "Athletic / Gym & Fitness",
-                          "Gamers / Creators / Students",
-                          "Active Lifestyle & Professionals"
+                          "Athletic / Gym & Fitness (Αθλητές, Γυμναστήριο)",
+                          "Gamers / Content Creators / Students (Δημιουργοί Περιεχομένου, Φοιτητές)",
+                          "Active Lifestyle & Professionals (Ενεργός τρόπος ζωής, Επαγγελματίες)"
                         ].map((audienceOpt) => {
                           const isSelected = audienceVibe.targetAudience.includes(audienceOpt);
                           return (
@@ -559,13 +570,13 @@ export default function Elv8Questionnaire() {
                               onClick={() => handleCheckboxToggle(audienceOpt, audienceVibe.targetAudience, (arr) => setAudienceVibe(prev => ({ ...prev, targetAudience: arr })))}
                               className={`p-4 rounded-xl border text-left flex justify-between items-center transition-all ${
                                 isSelected 
-                                  ? "bg-slate-900/90 border-[#3b5bdb] text-white shadow-md" 
-                                  : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                  ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold" 
+                                  : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs font-extrabold uppercase tracking-wider">{audienceOpt.split(' / ')[0]}</span>
+                              <span className="text-xs uppercase tracking-wider">{audienceOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-slate-800"
+                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
                                 {isSelected && <Check size={10} strokeWidth={4} />}
                               </div>
@@ -577,22 +588,22 @@ export default function Elv8Questionnaire() {
 
                     {/* Style Vibe */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         3.2 Ποιο εικαστικό στυλ (Vibe) εκφράζει το brand;
                       </label>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      <div className="grid grid-cols-2 gap-3">
                         {["Neon / Cyberpunk", "Clean / Minimalist", "Dark / Aggressive", "Athletic Dynamic"].map((vibeOpt) => (
                           <button
                             key={vibeOpt}
                             type="button"
                             onClick={() => setAudienceVibe(prev => ({ ...prev, styleVibe: vibeOpt }))}
-                            className={`p-4 rounded-xl border text-center transition-all h-20 flex flex-col justify-center items-center ${
+                            className={`p-4 rounded-xl border text-center transition-all flex flex-col justify-center items-center h-16 ${
                               audienceVibe.styleVibe === vibeOpt 
-                                ? "bg-slate-900/90 border-[#3b5bdb] text-white" 
-                                : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold shadow-sm" 
+                                : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                             }`}
                           >
-                            <span className="text-[10px] font-extrabold uppercase tracking-widest">{vibeOpt}</span>
+                            <span className="text-xs uppercase tracking-wider">{vibeOpt}</span>
                           </button>
                         ))}
                       </div>
@@ -600,7 +611,7 @@ export default function Elv8Questionnaire() {
 
                     {/* USPs */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
+                      <label className="text-sm font-semibold text-gray-700">
                         3.3 Ποια είναι τα κύρια οφέλη (USPs) του elv8 που θέλετε να τονίσουμε;
                       </label>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -613,13 +624,13 @@ export default function Elv8Questionnaire() {
                               onClick={() => handleCheckboxToggle(uspOpt, audienceVibe.usps, (arr) => setAudienceVibe(prev => ({ ...prev, usps: arr })))}
                               className={`p-3 rounded-xl border text-left flex justify-between items-center transition-all ${
                                 isSelected 
-                                  ? "bg-slate-900/90 border-[#3b5bdb] text-white" 
-                                  : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                  ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold" 
+                                  : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs font-extrabold uppercase tracking-wider">{uspOpt}</span>
+                              <span className="text-xs uppercase tracking-wider">{uspOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-slate-800"
+                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
                                 {isSelected && <Check size={10} strokeWidth={4} />}
                               </div>
@@ -629,10 +640,10 @@ export default function Elv8Questionnaire() {
                       </div>
                       <input
                         type="text"
-                        placeholder="Άλλα οφέλη / USPs (διαχωρίστε με κόμμα)"
+                        placeholder="Άλλα οφέλη (π.χ. 100% Φυσικά Συστατικά - διαχωρίστε με κόμμα)"
                         value={audienceVibe.customUsps}
                         onChange={(e) => setAudienceVibe(prev => ({ ...prev, customUsps: e.target.value }))}
-                        className="w-full bg-slate-950 border border-slate-900 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#3b5bdb] transition-colors mt-2"
+                        className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors mt-2"
                       />
                     </div>
                   </div>
@@ -641,31 +652,31 @@ export default function Elv8Questionnaire() {
                 {/* STEP 4 */}
                 {currentStep === 4 && (
                   <div className="space-y-6">
-                    <div className="space-y-2">
-                      <h2 className="text-xl md:text-2xl font-black text-white tracking-wide uppercase italic flex items-center gap-3">
-                        <Share2 className="text-[#3b5bdb]" />
+                    <div className="space-y-1">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                        <Share2 className="text-[#3b5bdb]" size={20} />
                         4. Social Proof & Influencers
                       </h2>
-                      <p className="text-xs text-slate-400">
-                        Ρυθμίστε τη διασύνδεση με social media και το υλικό των συνεργατών/influencers.
+                      <p className="text-sm text-gray-500 leading-relaxed">
+                        Το elv8 βασίζεται πολύ στην κοινότητα και το marketing. Ας ορίσουμε τα κοινωνικά κανάλια προβολής.
                       </p>
                     </div>
 
                     {/* Influencers field */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300 block">
+                      <label className="text-sm font-semibold text-gray-700 block">
                         4.1 Έχετε συνεργασίες με Αθλητές / Influencers που θα εμφανιστούν στο site;
                       </label>
                       <textarea
-                        placeholder="Γράψτε ονόματα, social media links ή σύντομες περιγραφές των influencers..."
+                        placeholder="Πληκτρολογήστε ονόματα, links από τα προφίλ τους, ή σχόλια..."
                         value={socialProof.influencerDetails}
                         onChange={(e) => setSocialProof(prev => ({ ...prev, influencerDetails: e.target.value }))}
                         rows={3}
-                        className="w-full bg-slate-950 border border-slate-900 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-[#3b5bdb] transition-colors resize-none"
+                        className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors resize-none"
                       />
                       
                       {/* Photo Upload */}
-                      <div className="border border-dashed border-slate-800 hover:border-slate-700 bg-slate-950/20 rounded-2xl p-6 transition-colors flex flex-col items-center justify-center text-center relative mt-2">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-gray-300 bg-gray-50/50 rounded-xl p-6 transition-colors flex flex-col items-center justify-center text-center relative mt-2">
                         <input
                           type="file"
                           multiple
@@ -676,23 +687,23 @@ export default function Elv8Questionnaire() {
                         />
                         {uploadingPhotos ? (
                           <div className="space-y-2">
-                            <Loader2 className="animate-spin text-[#4ade80] mx-auto" size={32} />
-                            <span className="text-xs text-slate-500 font-bold">Ανέβασμα φωτογραφιών...</span>
+                            <Loader2 className="animate-spin text-[#3b5bdb] mx-auto" size={24} />
+                            <span className="text-xs text-gray-400 font-medium">Ανέβασμα φωτογραφιών...</span>
                           </div>
                         ) : (
                           <div className="space-y-2">
-                            <Upload className="text-[#3b5bdb] mx-auto" size={32} />
-                            <span className="text-xs text-slate-400 font-bold block">Ανεβάστε φωτογραφίες των Influencers εδώ</span>
-                            <span className="text-[10px] text-slate-600 block">Αποδεκτά αρχεία: JPG, PNG, WEBP (Πολλαπλά)</span>
+                            <Upload className="text-gray-400 mx-auto" size={24} />
+                            <span className="text-xs text-gray-500 font-medium block">Μεταφορτώστε φωτογραφίες των Influencers</span>
+                            <span className="text-[10px] text-gray-400 block">Υποστηρίζονται μορφές: JPG, PNG, WEBP (Πολλαπλά)</span>
                           </div>
                         )}
                       </div>
 
                       {socialProof.influencerPhotoNames.length > 0 && (
-                        <div className="bg-slate-950/50 rounded-xl p-3 border border-slate-900 divide-y divide-slate-900/50">
+                        <div className="bg-gray-50 rounded-xl p-3 border border-gray-100 divide-y divide-gray-200/50">
                           {socialProof.influencerPhotoNames.map((name, index) => (
                             <div key={index} className="flex justify-between items-center py-2 text-xs">
-                              <span className="truncate max-w-[200px] text-slate-400 font-medium">{name}</span>
+                              <span className="truncate max-w-[250px] text-gray-600 font-medium">{name}</span>
                               <button
                                 type="button"
                                 onClick={() => {
@@ -702,9 +713,9 @@ export default function Elv8Questionnaire() {
                                     influencerPhotoNames: prev.influencerPhotoNames.filter((_, i) => i !== index)
                                   }));
                                 }}
-                                className="text-rose-500 hover:text-rose-400 transition-colors p-1"
+                                className="text-rose-600 hover:text-rose-500 transition-colors p-1"
                               >
-                                <Trash2 size={14} />
+                                <Trash2 size={13} />
                               </button>
                             </div>
                           ))}
@@ -714,10 +725,10 @@ export default function Elv8Questionnaire() {
 
                     {/* Social Feeds */}
                     <div className="space-y-3">
-                      <label className="text-sm font-bold text-slate-300">
-                        4.2 Θα ενσωματώσουμε Instagram/TikTok Feed ή Αξιολογήσεις;
+                      <label className="text-sm font-semibold text-gray-700">
+                        4.2 Θα ενσωματώσουμε Instagram/TikTok Feed ή Αξιολογήσεις; (Επιλέξτε όσα ισχύουν)
                       </label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {["Instagram Feed", "TikTok Feed", "Αξιολογήσεις Πελατών (Reviews)", "Όλα τα παραπάνω"].map((feedOpt) => {
                           const isSelected = socialProof.socialFeeds.includes(feedOpt);
                           return (
@@ -727,13 +738,13 @@ export default function Elv8Questionnaire() {
                               onClick={() => handleCheckboxToggle(feedOpt, socialProof.socialFeeds, (arr) => setSocialProof(prev => ({ ...prev, socialFeeds: arr })))}
                               className={`p-4 rounded-xl border text-left flex justify-between items-center transition-all ${
                                 isSelected 
-                                  ? "bg-slate-900/90 border-[#3b5bdb] text-white" 
-                                  : "bg-slate-950/40 border-slate-900 text-slate-400 hover:border-slate-800"
+                                  ? "bg-[#3b5bdb]/5 border-[#3b5bdb] text-gray-900 font-bold" 
+                                  : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
                               }`}
                             >
-                              <span className="text-xs font-extrabold uppercase tracking-wider">{feedOpt}</span>
+                              <span className="text-xs uppercase tracking-wider">{feedOpt}</span>
                               <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-slate-800"
+                                isSelected ? "bg-[#3b5bdb] border-[#3b5bdb] text-white" : "border-gray-300 bg-white"
                               }`}>
                                 {isSelected && <Check size={10} strokeWidth={4} />}
                               </div>
@@ -745,23 +756,23 @@ export default function Elv8Questionnaire() {
                   </div>
                 )}
 
-                {/* STEP 5 (Final Contact details) */}
+                {/* STEP 5 */}
                 {currentStep === 5 && (
                   <div className="space-y-6">
-                    <div className="space-y-2">
-                      <h2 className="text-xl md:text-2xl font-black text-white tracking-wide uppercase italic flex items-center gap-3">
-                        <User className="text-[#3b5bdb]" />
+                    <div className="space-y-1">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+                        <User className="text-[#3b5bdb]" size={20} />
                         5. Στοιχεία Επικοινωνίας
                       </h2>
-                      <p className="text-xs text-slate-400">
-                        Συμπληρώστε τα στοιχεία σας για την αποστολή των απαιτήσεων στην SGK Digital.
+                      <p className="text-sm text-gray-500 leading-relaxed">
+                        Συμπληρώστε τα στοιχεία σας για να καταχωρήσουμε το αίτημα και να ξεκινήσουμε το σχεδιασμό.
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-xs font-extrabold uppercase text-slate-400 tracking-wider">
-                          Όνομα / Υπεύθυνος <span className="text-rose-500">*</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                          Ονοματεπώνυμο <span className="text-rose-500">*</span>
                         </label>
                         <input
                           type="text"
@@ -769,12 +780,12 @@ export default function Elv8Questionnaire() {
                           placeholder="Π.χ. Γιάννης Παπαδόπουλος"
                           value={clientInfo.name}
                           onChange={(e) => setClientInfo(prev => ({ ...prev, name: e.target.value }))}
-                          className="w-full bg-slate-950 border border-slate-900 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#3b5bdb] transition-colors"
+                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
                         />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-extrabold uppercase text-slate-400 tracking-wider">
-                          Email <span className="text-rose-500">*</span>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                          Email Επικοινωνίας <span className="text-rose-500">*</span>
                         </label>
                         <input
                           type="email"
@@ -782,65 +793,61 @@ export default function Elv8Questionnaire() {
                           placeholder="name@company.com"
                           value={clientInfo.email}
                           onChange={(e) => setClientInfo(prev => ({ ...prev, email: e.target.value }))}
-                          className="w-full bg-slate-950 border border-slate-900 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#3b5bdb] transition-colors"
+                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
                         />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-extrabold uppercase text-slate-400 tracking-wider">
-                          Τηλέφωνο Επικοινωνίας
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                          Τηλέφωνο
                         </label>
                         <input
                           type="tel"
                           placeholder="69XXXXXXXX"
                           value={clientInfo.phone}
                           onChange={(e) => setClientInfo(prev => ({ ...prev, phone: e.target.value }))}
-                          className="w-full bg-slate-950 border border-slate-900 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#3b5bdb] transition-colors"
+                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
                         />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-extrabold uppercase text-slate-400 tracking-wider">
-                          Επωνυμία Εταιρείας
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-gray-500 tracking-wider">
+                          Εταιρεία / Brand
                         </label>
                         <input
                           type="text"
-                          placeholder="Π.χ. elv8 Energy I.K.E."
+                          placeholder="Π.χ. elv8 Energy"
                           value={clientInfo.company}
                           onChange={(e) => setClientInfo(prev => ({ ...prev, company: e.target.value }))}
-                          className="w-full bg-slate-950 border border-slate-900 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#3b5bdb] transition-colors"
+                          className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-[#3b5bdb] transition-colors"
                         />
                       </div>
                     </div>
 
-                    <div className="bg-slate-950/30 border border-slate-900 rounded-2xl p-4 flex gap-3 text-xs text-slate-400">
+                    <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-4 flex gap-3 text-xs text-blue-900/80">
                       <AlertCircle className="text-[#3b5bdb] shrink-0" size={16} />
                       <p className="leading-relaxed">
-                        Πατώντας <strong>Υποβολή</strong>, τα στοιχεία και οι απαιτήσεις που συμπληρώσατε θα σταλούν αυτόματα στην ομάδα της <strong>SGK Software Development</strong> για την έναρξη του σχεδιασμού του E-shop σας.
+                        Πατώντας <strong>Υποβολή Απαιτήσεων</strong>, τα στοιχεία σας θα αποσταλούν αυτόματα στην ομάδα της <strong>SGK Software Development</strong> για την ανάλυση του project σας.
                       </p>
                     </div>
                   </div>
                 )}
 
                 {/* Navigation Buttons */}
-                <div className="flex justify-between items-center pt-4 border-t border-slate-900/50">
+                <div className="flex justify-between items-center pt-5 border-t border-gray-100">
                   <button
                     type="button"
                     onClick={prevStep}
                     disabled={currentStep === 1 || isSubmitting}
-                    className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all disabled:opacity-30 ${
-                      currentStep === 1 
-                        ? "bg-transparent text-slate-700" 
-                        : "bg-slate-950 hover:bg-slate-900 border border-slate-800 text-slate-300"
-                    }`}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
                   >
                     <ChevronLeft size={14} />
-                    Προηγούμενο
+                    Πίσω
                   </button>
 
                   {currentStep < 5 ? (
                     <button
                       type="button"
                       onClick={nextStep}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#3b5bdb] text-white hover:bg-[#3b5bdb]/90 rounded-xl text-xs font-extrabold uppercase tracking-wider shadow-lg transition-all"
+                      className="inline-flex items-center gap-1 px-5 py-2.5 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
                     >
                       Επόμενο
                       <ChevronRight size={14} />
@@ -850,17 +857,17 @@ export default function Elv8Questionnaire() {
                       type="button"
                       onClick={handleSubmit}
                       disabled={isSubmitting || !clientInfo.email || !clientInfo.name}
-                      className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#3b5bdb] to-[#4ade80] text-slate-950 hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl text-xs font-black uppercase tracking-wider shadow-lg transition-all"
+                      className="inline-flex items-center gap-1.5 px-7 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-bold uppercase tracking-wider shadow-md transition-all"
                     >
                       {isSubmitting ? (
                         <>
                           <Loader2 className="animate-spin" size={14} />
-                          Αποστολη...
+                          Υποβολή...
                         </>
                       ) : (
                         <>
-                          Υποβολη Απαιτησεων
-                          <Check size={14} strokeWidth={3} />
+                          Υποβολή Απαιτήσεων
+                          <Check size={14} strokeWidth={2.5} />
                         </>
                       )}
                     </button>
@@ -869,22 +876,22 @@ export default function Elv8Questionnaire() {
               </motion.div>
             ) : (
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-12 space-y-6 flex flex-col items-center justify-center"
+                className="text-center py-10 space-y-5 flex flex-col items-center justify-center"
               >
-                <div className="w-16 h-16 rounded-full bg-[#4ade80]/10 text-[#4ade80] flex items-center justify-center shadow-[0_0_20px_rgba(74,222,128,0.2)] border border-[#4ade80]/20 mb-2">
-                  <Check size={32} strokeWidth={3} />
+                <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 mb-2">
+                  <Check size={28} strokeWidth={2.5} />
                 </div>
                 <div className="space-y-2 max-w-md">
-                  <h2 className="text-2xl font-black text-white tracking-wide uppercase italic">
-                    Η υποβολή ολοκληρώθηκε!
+                  <h2 className="text-xl font-bold text-gray-900 tracking-tight font-heading uppercase">
+                    Επιτυχής Υποβολή!
                   </h2>
-                  <p className="text-slate-400 text-xs leading-relaxed">
-                    Ευχαριστούμε για το χρόνο σας. Οι απαιτήσεις για το e-shop του **elv8 Energy Drink** στάλθηκαν επιτυχώς στην **SGK Software Development**.
+                  <p className="text-gray-500 text-xs leading-relaxed">
+                    Οι απαιτήσεις για το e-shop του <strong>elv8 Energy Drink</strong> καταχωρήθηκαν επιτυχώς.
                   </p>
-                  <p className="text-slate-500 text-[11px] leading-relaxed pt-2">
-                    Ένας εξειδικευμένος συνεργάτης μας θα μελετήσει τα στοιχεία και θα επικοινωνήσει μαζί σας πολύ σύντομα για τα επόμενα βήματα.
+                  <p className="text-gray-400 text-[10px] leading-relaxed pt-2 uppercase tracking-wide font-semibold">
+                    Ένας εκπρόσωπος της SGK Software Development θα επικοινωνήσει μαζί σας σύντομα.
                   </p>
                 </div>
               </motion.div>
@@ -893,8 +900,8 @@ export default function Elv8Questionnaire() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/40 py-6 px-4 text-center text-[10px] text-slate-600 font-medium uppercase tracking-wider">
+      {/* Brand Footer */}
+      <footer className="border-t border-gray-100 bg-white py-6 px-6 text-center text-[10px] text-gray-400 font-bold uppercase tracking-widest">
         &copy; {new Date().getFullYear()} SGK Software Development. All rights reserved. | 
         <a href="https://sgk.gr/privacy" className="hover:text-[#3b5bdb] transition-colors ml-1">Privacy Policy</a>
       </footer>
