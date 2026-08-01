@@ -1,12 +1,10 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { NextResponse } from "next/server";
 
-const PERSONAL_MOBILE = "+306999524389";
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const zdEcho = searchParams.get("zd_echo");
 
-serve(async (req: Request) => {
-  const url = new URL(req.url);
-  
-  // 1. Zadarma Validation Echo Check
-  const zdEcho = url.searchParams.get("zd_echo");
+  // Zadarma Verification Echo
   if (zdEcho) {
     return new Response(zdEcho, {
       status: 200,
@@ -14,12 +12,7 @@ serve(async (req: Request) => {
     });
   }
 
-  // Handle POST/GET
-  if (req.method !== "POST" && req.method !== "GET") {
-    return new Response("Method not allowed", { status: 405 });
-  }
-
-  const isVoicemail = url.searchParams.get("action") === "voicemail";
+  const isVoicemail = searchParams.get("action") === "voicemail";
 
   if (isVoicemail) {
     const fallbackTwiml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -28,7 +21,7 @@ serve(async (req: Request) => {
         Δυστυχώς δεν είναι δυνατή η απάντηση της κλήσης αυτή τη στιγμή. Παρακαλώ αφήστε το μήνυμά σας μετά τον χαρακτηριστικό ήχο.
     </Say>
     <Record 
-        action="https://xrmvingehhiymchoggka.supabase.co/functions/v1/voicemail-callback" 
+        action="https://sgk.gr/api/pbx/voicemail-callback" 
         maxLength="120" 
         playBeep="true" 
         finishOnKey="*"
@@ -39,7 +32,7 @@ serve(async (req: Request) => {
 </Response>`;
 
     return new Response(fallbackTwiml, {
-      headers: { "Content-Type": "text/xml; charset=utf-8" },
+      headers: { "Content-Type": "text/xml; charset=utf-8" }
     });
   }
 
@@ -48,12 +41,16 @@ serve(async (req: Request) => {
     <Say language="el-GR" voice="Polly.Gwineth">
         Καλώς ήρθατε. Η κλήση σας προωθείται, παρακαλώ περιμένετε.
     </Say>
-    <Dial timeout="20" action="https://xrmvingehhiymchoggka.supabase.co/functions/v1/voice?action=voicemail">
-        <Number>${PERSONAL_MOBILE}</Number>
+    <Dial timeout="20" action="https://sgk.gr/api/pbx/voice?action=voicemail">
+        <Number>+306999524389</Number>
     </Dial>
 </Response>`;
 
   return new Response(twiml, {
-    headers: { "Content-Type": "text/xml; charset=utf-8" },
+    headers: { "Content-Type": "text/xml; charset=utf-8" }
   });
-});
+}
+
+export async function POST(req: Request) {
+  return GET(req);
+}
