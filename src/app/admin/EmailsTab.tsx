@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus, Search } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 const templates = [
@@ -294,6 +294,7 @@ export function EmailsTab() {
 
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -955,6 +956,16 @@ export function EmailsTab() {
     }
   };
 
+  const filteredLeads = leads.filter((lead) => {
+    if (!searchTerm.trim()) return true;
+    const query = searchTerm.toLowerCase().trim();
+    const emailMatch = (lead.email || "").toLowerCase().includes(query);
+    const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
+    const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
+    const fullNameMatch = `${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase().includes(query);
+    return emailMatch || firstNameMatch || lastNameMatch || fullNameMatch;
+  });
+
   const activeCount = leads.filter(l => !l.unsubscribed).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
 
@@ -1058,6 +1069,27 @@ export function EmailsTab() {
           </div>
         </div>
 
+        {/* Search Bar */}
+        <div className="mt-4 relative max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <input
+            type="text"
+            placeholder="Αναζήτηση email, ονόματος..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-9 pr-8 py-2 bg-white border border-gray-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all placeholder:text-slate-400 shadow-sm"
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+              title="Καθαρισμός αναζήτησης"
+            >
+              <X size={14} />
+            </button>
+          )}
+        </div>
+
         {/* Table View */}
         <div className="mt-6 rounded-xl border border-gray-200/80 overflow-hidden bg-white/80">
           <div className="overflow-x-auto">
@@ -1087,7 +1119,21 @@ export function EmailsTab() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-xs font-semibold text-slate-700">
-                {leads.map((lead) => (
+                {filteredLeads.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="py-8 text-center text-slate-400 font-normal">
+                      {searchTerm ? (
+                        <div>
+                          <p className="font-bold text-slate-600 text-sm">Δεν βρέθηκαν αποτελέσματα</p>
+                          <p className="text-xs mt-1 text-slate-400">Δεν βρέθηκε κανένα email που να περιέχει "{searchTerm}"</p>
+                        </div>
+                      ) : (
+                        "Δεν υπάρχουν εγγραφές στη λίστα"
+                      )}
+                    </td>
+                  </tr>
+                ) : (
+                  filteredLeads.map((lead) => (
                   <tr key={lead.id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="py-3 px-4 text-center">
                       {!lead.unsubscribed ? (
