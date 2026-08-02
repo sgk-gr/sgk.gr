@@ -295,6 +295,7 @@ export function EmailsTab() {
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -412,6 +413,62 @@ export function EmailsTab() {
       toast.success("Τα επιλεγμένα email διαγράφηκαν επιτυχώς!");
       setSelectedLeads([]);
       fetchLeads();
+    }
+  };
+
+  const handleRemoveDuplicates = async () => {
+    setCleaningDuplicates(true);
+    try {
+      const { data: allLeads, error } = await supabase
+        .from("sgk_mails")
+        .select("id, email, created_at")
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+
+      if (!allLeads || allLeads.length === 0) {
+        toast.info("Δεν υπάρχουν εγγραφές στη βάση!");
+        return;
+      }
+
+      const seenEmails = new Set<string>();
+      const idsToDelete: string[] = [];
+
+      allLeads.forEach((item) => {
+        const emailLower = (item.email || "").trim().toLowerCase();
+        if (emailLower) {
+          if (seenEmails.has(emailLower)) {
+            idsToDelete.push(item.id);
+          } else {
+            seenEmails.add(emailLower);
+          }
+        }
+      });
+
+      if (idsToDelete.length === 0) {
+        toast.info("Δεν βρέθηκαν διπλότυπα emails στη βάση! Η λίστα είναι 100% καθαρή.");
+        return;
+      }
+
+      if (!window.confirm(`Βρέθηκαν ${idsToDelete.length} διπλότυπα emails. Θέλετε να διαγραφούν αυτόματα;`)) {
+        return;
+      }
+
+      const { error: deleteError } = await supabase
+        .from("sgk_mails")
+        .delete()
+        .in("id", idsToDelete);
+
+      if (deleteError) throw deleteError;
+
+      toast.success(`Ολοκληρώθηκε! Διαγράφηκαν επιτυχώς ${idsToDelete.length} διπλότυπα emails.`);
+      setSelectedLeads([]);
+      await fetchLeads();
+    } catch (err: any) {
+      console.error(err);
+      toast.error(`Σφάλμα κατά την αφαίρεση διπλότυπων: ${err.message || "Άγνωστο σφάλμα"}`);
+    } finally {
+      setCleaningDuplicates(false);
     }
   };
 
@@ -1058,6 +1115,14 @@ export function EmailsTab() {
             >
               <Users size={12} />
               Εισαγωγη απο Λιστα
+            </button>
+            <button
+              onClick={handleRemoveDuplicates}
+              disabled={cleaningDuplicates}
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer disabled:opacity-50"
+            >
+              {cleaningDuplicates ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
+              🧹 Διαγραφη Διπλοτυπων
             </button>
             <button 
               onClick={fetchLeads}
