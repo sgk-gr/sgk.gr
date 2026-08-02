@@ -394,6 +394,26 @@ export function EmailsTab() {
     }
   };
 
+  const handleToggleConverted = async (id: string, currentStatus: boolean, email: string) => {
+    const newStatus = !currentStatus;
+    const { error } = await supabase
+      .from("sgk_mails")
+      .update({ converted: newStatus })
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Σφάλμα κατά την ενημέρωση της κατάστασης");
+      console.error(error);
+    } else {
+      if (newStatus) {
+        toast.success(`Το email ${email} σημειώθηκε ως 🎉 ΠΕΛΑΤΗΣ! Τα αυτόματα AI emails διακόπηκαν.`);
+      } else {
+        toast.info(`Το email ${email} επαναφέρθηκε σε ενεργό Lead.`);
+      }
+      fetchLeads();
+    }
+  };
+
   const handleDeleteSelectedLeads = async () => {
     if (selectedLeads.length === 0) return;
     
@@ -1234,8 +1254,10 @@ export function EmailsTab() {
                     <td className="py-3 px-4 text-center">
                       {lead.unsubscribed ? (
                         <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-red-100 text-red-700">Unsubscribed</span>
+                      ) : lead.converted ? (
+                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">🎉 Πελάτης</span>
                       ) : (
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-700">Active</span>
+                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-700">Active</span>
                       )}
                     </td>
                     <td className="py-3 px-4 text-center">
@@ -1246,6 +1268,18 @@ export function EmailsTab() {
                     </td>
                     <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-2">
+                        <button
+                          onClick={() => handleToggleConverted(lead.id, lead.converted || false, lead.email)}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer border ${
+                            lead.converted
+                              ? "bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-700 shadow-sm"
+                              : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300"
+                          }`}
+                          title={lead.converted ? "Σημειώθηκε ως Πελάτης (Πατήστε για επαναφορά σε Lead)" : "Σημειώστε ως Πελάτη για να διακοπούν τα αυτόματα AI emails"}
+                        >
+                          <CheckCircle2 size={12} />
+                          {lead.converted ? "Πελάτης 🎉" : "Έγινε Πελάτης"}
+                        </button>
                         {!lead.unsubscribed && (
                           <button
                             onClick={() => {
