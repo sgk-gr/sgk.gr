@@ -1207,14 +1207,7 @@ export function EmailsTab() {
                       </div>
                     </td>
                   </tr>
-                ))}
-                {leads.length === 0 && (
-                  <tr>
-                    <td colSpan={7} className="py-8 text-center text-slate-400 font-bold">
-                      Δεν βρέθηκαν email στη λίστα
-                    </td>
-                  </tr>
-                )}
+                )))}
               </tbody>
             </table>
           </div>
