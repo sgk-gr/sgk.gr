@@ -99,8 +99,11 @@ const Contact = () => {
                 <span className="text-xl font-bold">📞</span>
               </div>
               <div>
-                <p className="text-xs uppercase font-black text-slate-500 mb-1">Τηλέφωνο</p>
-                <p className="text-sm font-bold">6999524389</p>
+                <p className="text-xs uppercase font-black text-slate-500 mb-1">Τηλέφωνα Επικοινωνίας</p>
+                <p className="text-sm font-bold flex flex-col items-center gap-0.5">
+                  <a href="tel:2111140013" className="hover:text-primary transition-colors">📞 211 114 0013 <span className="text-[10px] text-slate-400 font-normal">(Σταθερό)</span></a>
+                  <a href="tel:6999524389" className="hover:text-primary transition-colors text-xs text-slate-400 font-medium">📱 6999 524 389</a>
+                </p>
               </div>
             </div>
           </div>

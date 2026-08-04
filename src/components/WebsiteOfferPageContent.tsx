@@ -59,9 +59,9 @@ const WebsiteOfferPageContent = () => {
             <img src="/sgk-logo.png" alt="SGK Logo" className="h-14 md:h-20 w-auto object-contain brightness-0" />
           </div>
           <div className="flex items-center gap-4">
-            <a href="tel:6999524389" className="hidden sm:flex items-center gap-1.5 font-label-bold text-label-bold text-vivid-on-surface hover:text-vivid-primary transition-all">
+            <a href="tel:2111140013" className="hidden sm:flex items-center gap-1.5 font-label-bold text-label-bold text-vivid-on-surface hover:text-vivid-primary transition-all">
               <span className="material-symbols-outlined text-vivid-primary" style={{ fontVariationSettings: '"FILL" 1' }}>call</span>
-              <span>6999 524 389</span>
+              <span>211 114 0013</span>
             </a>
             <button 
               onClick={handleCtaClick}

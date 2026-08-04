@@ -75,7 +75,7 @@ const localBusinessSchema = {
     "logo": "https://sgk.gr/sgk-logo.png",
     "image": "https://sgk.gr/social-preview.png",
     "description": "Κατασκευή Eshop, Web Development, AI Agents για επιχειρήσεις στην Ελλάδα. 18 χρόνια εμπειρίας.",
-    "telephone": "+306999524389",
+    "telephone": "+302111140013",
     "email": "info@sgk.gr",
     "address": {
         "@type": "PostalAddress",

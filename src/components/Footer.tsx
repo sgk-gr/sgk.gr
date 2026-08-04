@@ -108,10 +108,17 @@ const Footer = () => {
                   <Mail className="w-4 h-4 text-primary" />
                   <a href="mailto:info@sgk.gr">info@sgk.gr</a>
                 </p>
-                <p className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
-                  <Phone className="w-4 h-4 text-primary" />
-                  <a href="tel:6999524389">6999524389</a>
-                </p>
+                <div className="flex flex-col gap-1.5 pt-1">
+                  <p className="flex items-center gap-3 text-sm hover:text-primary transition-colors">
+                    <Phone className="w-4 h-4 text-primary" />
+                    <a href="tel:2111140013" className="font-bold">211 114 0013</a>
+                    <span className="text-[10px] text-slate-400 font-semibold">(Σταθερό)</span>
+                  </p>
+                  <p className="flex items-center gap-3 text-sm hover:text-primary transition-colors pl-7">
+                    <a href="tel:6999524389" className="text-slate-300">6999 524 389</a>
+                    <span className="text-[10px] text-slate-400 font-semibold">(Κινητό)</span>
+                  </p>
+                </div>
                 <div className="flex items-start gap-3 text-sm">
                   <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                   <div className="flex flex-col">

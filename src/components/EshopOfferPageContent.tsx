@@ -391,7 +391,7 @@ function EshopOfferContent() {
 
           <div className="flex flex-col items-center md:items-start gap-2">
             <h3 className="text-white font-medium mb-2">Επικοινωνία</h3>
-            <p className="text-xs text-white/50 flex items-center gap-2"><Phone size={14}/> 6999 524 389</p>
+            <p className="text-xs text-white/50 flex items-center gap-2"><Phone size={14}/> 211 114 0013 (Σταθερό) | 6999 524 389 (Κινητό)</p>
             <p className="text-xs text-white/50 flex items-center gap-2">
               <span className="inline-block translate-y-[2px] mr-1">✉</span> info@sgk.gr
             </p>

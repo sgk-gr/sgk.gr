@@ -76,7 +76,7 @@ export function buildProfessionalEmailHtml(opts: {
                 <strong>SGK Software Development</strong><br/>
                 ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
                 Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
-                📞 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" target="_blank" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
+                ☎️ 211 114 0013 | 📱 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" target="_blank" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
             </div>
 
             <p style="font-size: 11px; margin: 15px 0 0 0; color: #ffffff;">

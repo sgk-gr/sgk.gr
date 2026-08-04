@@ -394,7 +394,7 @@ export default function EshopCompliancePageContent() {
 
           <div className="flex flex-col items-center md:items-start gap-2">
             <h3 className="text-white font-medium mb-2">Επικοινωνία</h3>
-            <p className="text-xs text-white/50 flex items-center gap-2"><Phone size={14}/> 6999 524 389</p>
+            <p className="text-xs text-white/50 flex items-center gap-2"><Phone size={14}/> 211 114 0013 (Σταθερό) | 6999 524 389 (Κινητό)</p>
             <p className="text-xs text-white/50 flex items-center gap-2"><span className="material-symbols-outlined text-[14px]">mail</span> info@sgk.gr</p>
             <div className="mt-4 flex gap-4">
               <a href="/privacy" className="text-xs text-[#facc15] hover:text-yellow-300 transition-colors">Πολιτική Απορρήτου</a>
