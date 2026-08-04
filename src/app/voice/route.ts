@@ -19,7 +19,8 @@ export async function GET(request: NextRequest) {
     return new NextResponse(body, {
       status: response.status,
       headers: {
-        "Content-Type": response.headers.get("content-type") || "text/xml; charset=utf-8",
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "no-cache"
       }
     });
   } catch (error: any) {
@@ -50,7 +51,8 @@ export async function POST(request: NextRequest) {
     return new NextResponse(body, {
       status: response.status,
       headers: {
-        "Content-Type": response.headers.get("content-type") || "text/xml; charset=utf-8",
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "no-cache"
       }
     });
   } catch (error: any) {
