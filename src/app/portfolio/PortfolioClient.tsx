@@ -72,6 +72,14 @@ const featuredProjects = [
 // ----------------------------------------------------
 const gridProjects = [
   {
+    title: "Lyroudis Consulting Services",
+    category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
+    description: "Κατασκευή εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ / Ισολογισμών για τη LYROUDIS CONSULTING SERVICES Μ.Ι.Κ.Ε. (Ν. 4072/2012).",
+    tags: ["ΓΕΜΗ Compliance", "Ισολογισμοί PDF", "Next.js", "SSL"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "/case-study/lyroudis",
+  },
+  {
     title: "High Travel",
     category: "Travel Platform & React Admin",
     description: "Σύγχρονη ταξιδιωτική πλατφόρμα με Next.js 15, φίλτρα προορισμών & custom React διαχειριστικό πάνελ για πακέτα, προσφορές, posters και κρατήσεις.",
