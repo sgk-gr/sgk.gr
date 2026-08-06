@@ -1043,14 +1043,15 @@ export function EmailsTab() {
     return emailMatch || firstNameMatch || lastNameMatch || fullNameMatch;
   });
 
-  const activeCount = leads.filter(l => !l.unsubscribed).length;
+  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted).length;
+  const convertedCount = leads.filter(l => l.converted).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
 
   return (
     <div className="space-y-8">
 
       {/* Quick Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white/60 backdrop-blur-xl border border-gray-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
           <div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
@@ -1068,6 +1069,16 @@ export function EmailsTab() {
           </div>
           <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
             <CheckCircle2 size={20} />
+          </div>
+        </div>
+
+        <div className="bg-white/60 backdrop-blur-xl border border-purple-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+          <div>
+            <p className="text-[10px] font-black text-purple-600 uppercase tracking-widest">Πελατες (Converted)</p>
+            <p className="text-2xl font-black text-purple-700 mt-1">{convertedCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+            <Users size={20} />
           </div>
         </div>
 
