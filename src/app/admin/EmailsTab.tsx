@@ -570,7 +570,7 @@ export function EmailsTab() {
           industry: lead.company,
         });
 
-        const currentStep = lead.email_sequence_step && lead.email_sequence_step > 0 ? lead.email_sequence_step : 5;
+        const currentStep = Math.min(5, (lead.email_sequence_step || 0) + 1);
 
         const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
           method: "POST",
