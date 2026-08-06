@@ -570,6 +570,8 @@ export function EmailsTab() {
           industry: lead.company,
         });
 
+        const currentStep = lead.email_sequence_step && lead.email_sequence_step > 0 ? lead.email_sequence_step : 5;
+
         const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
           method: "POST",
           headers: {
@@ -583,13 +585,23 @@ export function EmailsTab() {
             customHtml: finalBody,
             firstEmailSubject: campaignSubject,
             firstEmailBody: campaignBody,
-            step: 1,
+            step: currentStep,
           })
         });
 
         if (!response.ok) {
           throw new Error("Failed");
         }
+
+        // Explicitly preserve current sequence step in DB
+        await supabase
+          .from("sgk_mails")
+          .update({
+            email_sequence_step: currentStep,
+            last_email_sent_at: new Date().toISOString()
+          })
+          .eq("id", lead.id);
+
         successCount++;
       } catch (error) {
         console.error("Error sending to:", lead.email, error);
