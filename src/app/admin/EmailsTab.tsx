@@ -1,4 +1,3 @@
-// Updated: Auto Lead Scraper Integration
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
@@ -7,39 +6,6 @@ import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 const templates = [
-  {
-    name: "📰 Newsletter - Νέα & Case Studies (5/5 Completed)",
-    subject: "Νέα & Ψηφιακές Λύσεις για την Επιχείρησή σας — SGK Digital",
-    body: `<h2>Τα Νέα & οι Ψηφιακές Εξελίξεις του Μήνα 🚀</h2>
-<p>Γεια σας,</p>
-<p>Ελπίζουμε να είστε καλά! Στην <strong>SGK Digital</strong> συνεχίζουμε να αναπτύσσουμε καινοτόμες ψηφιακές λύσεις που βοηθούν τις ελληνικές επιχειρήσεις να αναπτυχθούν online.</p>
-<h3>1. Νέο Μοντέλο "Pay As You Grow" για E-shop</h3>
-<p>Ξεκινήστε το δικό σας ηλεκτρονικό κατάστημα με <strong>μόνο 250€ αρχικό setup</strong> (server, .gr domain & SSL) και 5% προμήθεια επί των πωλήσεων για 12 μήνες. Αν δεν κάνετε πωλήσεις, πληρώνετε 0€!</p>
-<h3>2. AI Chatbots για Αυτόματη Εξυπηρέτηση Πελατών 24/7</h3>
-<p>Ενσωματώστε τεχνητή νοημοσύνη στην ιστοσελίδα σας για να απαντάει αυτόματα στους πελάτες σας 24 ώρες το 24ωρο, αυξάνοντας τις μετατροπές σας.</p>
-<h3>3. Δωρεάν Τεχνικός Έλεγχος & SEO Audit</h3>
-<p>Ενδιαφέρεστε να μάθετε πώς μπορεί να βελτιωθεί η ταχύτητα και η κατάταξη της ιστοσελίδας σας στη Google; Απαντήστε σε αυτό το email για δωρεάν αξιολόγηση.</p>`,
-    defaultButtonText: "Δείτε τις Υπηρεσίες μας",
-    defaultButtonLink: "https://sgk.gr"
-  },
-  {
-    name: "🔥 Newsletter - Ειδική Προσφορά Pay As You Grow",
-    subject: "Ειδική Προσφορά: Κατασκευή Eshop με 0€ Ρίσκο — SGK Digital",
-    body: `<h2>Αποκτήστε το δικό σας Eshop με 0€ ρίσκο! 🚀</h2>
-<h3>Μοντέλο Pay As You Grow (PAYG) από την SGK Digital</h3>
-<p>Γεια σας,</p>
-<p>Θέλετε να ξεκινήσετε το δικό σας ηλεκτρονικό κατάστημα (E-shop) αλλά σας προβληματίζει το αρχικό κόστος και το ρίσκο της επένδυσης;</p>
-<p>Στην <strong>SGK Digital</strong> σας προσφέρουμε την ιδανική λύση με το μοντέλο <strong>Pay As You Grow</strong>:</p>
-<ul>
-  <li><strong>Αρχικό Κόστος Setup:</strong> Μόνο <strong>250€</strong> (εφάπαξ, καλύπτει server για 1 έτος, .gr domain για 2 έτη, SSL & την πλήρη παραμετροποίηση).</li>
-  <li><strong>5% Προμήθεια στις Πωλήσεις:</strong> Πληρώνετε προμήθεια μόνο για <strong>12 μήνες</strong>.</li>
-  <li><strong>Μηδενικό Ρίσκο:</strong> Αν δεν κάνετε πωλήσεις, πληρώνετε <strong>0€</strong> προμήθεια!</li>
-  <li><strong>100% Δικό σας:</strong> Μετά τους 12 μήνες, το Eshop περνάει στην πλήρη ιδιοκτησία σας χωρίς μηνιαίες συνδρομές.</li>
-</ul>
-<p>Απαντήστε σε αυτό το email ή πατήστε το παρακάτω κουμπί για να ξεκινήσουμε άμεσα τη δημιουργία του δικού σας E-shop!</p>`,
-    defaultButtonText: "Δείτε την Προσφορά PAYG",
-    defaultButtonLink: "https://www.sgk.gr/pay-as-you-grow"
-  },
   {
     name: "🌐 Istoselida ike 124 ευρω",
     subject: "Εκκρεμότητα εταιρικής ιστοσελίδας για τη νέα σας Ι.Κ.Ε.",
@@ -329,7 +295,6 @@ export function EmailsTab() {
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<'all' | 'newsletter' | 'active' | 'unsubscribed' | 'converted'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
 
   const fetchLeads = async () => {
@@ -571,8 +536,6 @@ export function EmailsTab() {
           industry: lead.company,
         });
 
-        const currentStep = lead.email_sequence_step && lead.email_sequence_step > 0 ? lead.email_sequence_step : 1;
-
         const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
           method: "POST",
           headers: {
@@ -586,23 +549,13 @@ export function EmailsTab() {
             customHtml: finalBody,
             firstEmailSubject: campaignSubject,
             firstEmailBody: campaignBody,
-            step: currentStep,
+            step: 1,
           })
         });
 
         if (!response.ok) {
           throw new Error("Failed");
         }
-
-        // Explicitly preserve current sequence step in DB
-        await supabase
-          .from("sgk_mails")
-          .update({
-            email_sequence_step: currentStep,
-            last_email_sent_at: new Date().toISOString()
-          })
-          .eq("id", lead.id);
-
         successCount++;
       } catch (error) {
         console.error("Error sending to:", lead.email, error);
@@ -1081,71 +1034,24 @@ export function EmailsTab() {
   };
 
   const filteredLeads = leads.filter((lead) => {
-    // 1. Search term filter
-    if (searchTerm.trim()) {
-      const query = searchTerm.toLowerCase().trim();
-      const emailMatch = (lead.email || "").toLowerCase().includes(query);
-      const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
-      const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
-      const fullNameMatch = `${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase().includes(query);
-      const companyMatch = (lead.company || "").toLowerCase().includes(query);
-      if (!(emailMatch || firstNameMatch || lastNameMatch || fullNameMatch || companyMatch)) return false;
-    }
-
-    // 2. Status filter
-    if (statusFilter === 'newsletter') {
-      return !lead.unsubscribed && !lead.converted && (lead.email_sequence_step >= 5);
-    }
-    if (statusFilter === 'active') {
-      return !lead.unsubscribed && !lead.converted && (lead.email_sequence_step < 5);
-    }
-    if (statusFilter === 'unsubscribed') {
-      return lead.unsubscribed;
-    }
-    if (statusFilter === 'converted') {
-      return lead.converted;
-    }
-    return true;
+    if (!searchTerm.trim()) return true;
+    const query = searchTerm.toLowerCase().trim();
+    const emailMatch = (lead.email || "").toLowerCase().includes(query);
+    const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
+    const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
+    const fullNameMatch = `${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase().includes(query);
+    return emailMatch || firstNameMatch || lastNameMatch || fullNameMatch;
   });
 
-  const activeColdCount = leads.filter(l => !l.unsubscribed && !l.converted && l.email_sequence_step < 5).length;
-  const newsletterCount = leads.filter(l => !l.unsubscribed && !l.converted && l.email_sequence_step >= 5).length;
+  const activeCount = leads.filter(l => !l.unsubscribed).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
-  const convertedCount = leads.filter(l => l.converted).length;
-
-  const handleOpenNewsletterCampaign = () => {
-    const newsletterTargets = leads.filter(l => !l.unsubscribed && !l.converted && l.email_sequence_step >= 5);
-    if (newsletterTargets.length === 0) {
-      toast.info("Δεν υπάρχουν ακόμα παραλήπτες που να έχουν ολοκληρώσει την ακολουθία 5/5!");
-      return;
-    }
-    setSelectedLeads(newsletterTargets.map(l => l.id));
-    setSingleLeadTarget(null);
-    
-    setCampaignSubject("Νέα & Ψηφιακές Λύσεις για την Επιχείρησή σας — SGK Digital");
-    setCampaignBody(templates[0].body);
-    setButtonText(templates[0].defaultButtonText || "");
-    setButtonLink(templates[0].defaultButtonLink || "");
-    
-    setIsCampaignModalOpen(true);
-    toast.success(`Επιλέχθηκαν ${newsletterTargets.length} παραλήπτες Newsletter (5/5)!`);
-  };
-
-  const conversionRate = leads.length > 0 ? ((convertedCount / leads.length) * 100).toFixed(1) : "0.0";
 
   return (
     <div className="space-y-8">
 
-      {/* Quick Stats Grid & Filter Selector */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div 
-          onClick={() => setStatusFilter('all')}
-          className={`p-5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'all' 
-              ? 'bg-white border-[#3b5bdb] ring-2 ring-[#3b5bdb]/20' 
-              : 'bg-white/60 backdrop-blur-xl border-gray-200/60 hover:border-gray-300'
-          }`}
-        >
+      {/* Quick Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white/60 backdrop-blur-xl border border-gray-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
           <div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
             <p className="text-2xl font-black text-slate-900 mt-1">{leads.length}</p>
@@ -1155,71 +1061,19 @@ export function EmailsTab() {
           </div>
         </div>
 
-        <div 
-          onClick={() => setStatusFilter('active')}
-          className={`p-5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'active' 
-              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
-          }`}
-        >
+        <div className="bg-white/60 backdrop-blur-xl border border-emerald-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
           <div>
-            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Cold Sequence (1-4/5)</p>
-            <p className="text-2xl font-black text-emerald-700 mt-1">{activeColdCount}</p>
+            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Ενεργοι (Active)</p>
+            <p className="text-2xl font-black text-emerald-700 mt-1">{activeCount}</p>
           </div>
           <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
             <CheckCircle2 size={20} />
           </div>
         </div>
 
-        <div 
-          onClick={() => setStatusFilter('newsletter')}
-          className={`p-5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'newsletter' 
-              ? 'bg-white border-purple-500 ring-2 ring-purple-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-purple-200/60 hover:border-purple-300'
-          }`}
-        >
+        <div className="bg-white/60 backdrop-blur-xl border border-rose-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
           <div>
-            <p className="text-[10px] font-black text-purple-600 uppercase tracking-widest flex items-center gap-1">
-              <span>📰 Newsletter (5/5)</span>
-            </p>
-            <p className="text-2xl font-black text-purple-700 mt-1">{newsletterCount}</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
-            <Users size={20} />
-          </div>
-        </div>
-
-        <div 
-          onClick={() => setStatusFilter('converted')}
-          className={`p-5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'converted' 
-              ? 'bg-white border-cyan-500 ring-2 ring-cyan-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-cyan-200/60 hover:border-cyan-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-cyan-600 uppercase tracking-widest flex items-center gap-1">
-              <span>🎉 Πελατες ({conversionRate}%)</span>
-            </p>
-            <p className="text-2xl font-black text-cyan-700 mt-1">{convertedCount}</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">
-            <Check size={20} />
-          </div>
-        </div>
-
-        <div 
-          onClick={() => setStatusFilter('unsubscribed')}
-          className={`p-5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'unsubscribed' 
-              ? 'bg-white border-rose-500 ring-2 ring-rose-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-rose-200/60 hover:border-rose-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες</p>
+            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsubscribed)</p>
             <p className="text-2xl font-black text-rose-600 mt-1">{unsubscribedCount}</p>
           </div>
           <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
@@ -1234,12 +1088,7 @@ export function EmailsTab() {
           <div className="space-y-1">
             <h2 className="text-xl font-black text-gray-900 italic tracking-wide uppercase flex items-center gap-2">
               <Mail className="text-[#3b5bdb]" />
-              Λιστα Παραληπτων Email ({filteredLeads.length})
-              {statusFilter !== 'all' && (
-                <span className="text-xs normal-case bg-[#3b5bdb]/10 text-[#3b5bdb] px-2.5 py-0.5 rounded-full font-bold">
-                  Φίλτρο: {statusFilter === 'newsletter' ? 'Newsletter (5/5)' : statusFilter === 'active' ? 'Cold Active' : statusFilter === 'unsubscribed' ? 'Unsubscribed' : 'Πελάτες'}
-                </span>
-              )}
+              Λιστα Παραληπτων Email ({leads.length})
             </h2>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">
               Διαχειριστείτε τη λίστα email και στείλτε καμπάνιες με Live Preview
@@ -1247,19 +1096,12 @@ export function EmailsTab() {
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <button
-              onClick={handleOpenNewsletterCampaign}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-95 transition-all text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
-            >
-              <Users size={14} />
-              📰 Newsletter 5/5 Leads ({newsletterCount})
-            </button>
-            <button
               onClick={handleAutoProcessDue}
               disabled={autoProcessing}
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#a855f7] to-[#3b5bdb] text-white rounded-xl hover:opacity-95 transition-all text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer disabled:opacity-50"
             >
               {autoProcessing ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />}
-              ⚡ AI Auto-Pilot
+              ⚡ AI Auto-Pilot (Εκτελεση Ακολουθιας)
             </button>
             <button
               onClick={() => {
