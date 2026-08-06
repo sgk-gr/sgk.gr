@@ -1,3 +1,4 @@
+// Updated: Auto Lead Scraper Integration
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
@@ -570,7 +571,7 @@ export function EmailsTab() {
           industry: lead.company,
         });
 
-        const currentStep = Math.min(5, (lead.email_sequence_step || 0) + 1);
+        const currentStep = lead.email_sequence_step && lead.email_sequence_step > 0 ? lead.email_sequence_step : 5;
 
         const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
           method: "POST",
