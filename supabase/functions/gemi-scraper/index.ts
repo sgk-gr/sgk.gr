@@ -28,11 +28,10 @@ const MAX_REQUESTS_PER_RUN = 7;
 // Cutoff: μόνο ΙΚΕ από 1 Αυγούστου 2026 και μετά
 const CUTOFF_DATE = new Date("2026-08-01");
 
+// Μόνο κρατικές/εσωτερικές διευθύνσεις αγνοούμε
 const IGNORED_EMAIL_DOMAINS = [
   "gov.gr", "uhc.gr", "kee.gr", "businessportal.gr", "mindev.gov.gr",
-  "gsis.gr", "minfin.gr", "facebook.com", "gmail.com", "hotmail.com",
-  "yahoo.gr", "yahoo.com", "outlook.com", "live.com", "windowslive.com",
-  "hotmail.gr", "msn.com", "icloud.com",
+  "gsis.gr", "minfin.gr"
 ];
 
 const IGNORED_WEBSITE_DOMAINS = [
@@ -155,7 +154,7 @@ Deno.serve(async (_req) => {
         isActive: "true",
         resultsSize: PAGE_SIZE,
         resultsOffset: currentOffset,
-        resultsSortBy: "-incorporationDate",
+        resultsSortBy: "-arGemi",
       });
 
       requestCount++;
