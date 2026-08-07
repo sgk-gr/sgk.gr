@@ -1,10 +1,9 @@
 /**
  * ΓΕΜΗ Auto Scraper - Supabase Edge Function
  * ============================================
- * Τρέχει αυτόματα με cron schedule (πρωί & βράδυ)
- * Αντλεί μόνο ΙΚΕ (legalType=19) που ιδρύθηκαν από Αύγουστο 2026+
- * Ταξινόμηση: νεότερες πρώτα (-incorporationDate)
- * Σταματά μόλις δει εταιρεία παλαιότερη της cutoff ημερομηνίας
+ * Τρέχει κάθε 2 ώρες αυτόματα
+ * Αντλεί μόνο ΙΚΕ (legalType=19) από Αύγουστο 2026+
+ * Στέλνει Telegram notification μετά από κάθε εκτέλεση
  *
  * Rate limit API: 8 req/min -> delay 8.2s μεταξύ requests
  * Κάθε εκτέλεση: max 7 requests x 200 = ~1400 εταιρείες
@@ -17,13 +16,16 @@ const GEMI_API_BASE = "https://opendata-api.businessportal.gr/api/opendata/v1";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
+const TELEGRAM_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN") || "8603311936:AAG1e-zxKzU48elsr-t7dGyvQCSfvt0E32g";
+const TELEGRAM_CHAT_ID = Deno.env.get("TELEGRAM_CHAT_ID") || "8162958857";
+
 // ΙΚΕ = legalType ID 19
 const IKE_LEGAL_TYPE = 19;
 const PAGE_SIZE = 200;
 const DELAY_MS = 8200;
 const MAX_REQUESTS_PER_RUN = 7;
 
-// Cutoff: μόνο ΙΚΕ που ιδρύθηκαν από 1 Αυγούστου 2026 και μετά
+// Cutoff: μόνο ΙΚΕ από 1 Αυγούστου 2026 και μετά
 const CUTOFF_DATE = new Date("2026-08-01");
 
 const IGNORED_EMAIL_DOMAINS = [
@@ -60,8 +62,40 @@ function hasRealWebsite(url: string | null): boolean {
 
 function isNewerThanCutoff(incorporationDate: string | null): boolean {
   if (!incorporationDate) return false;
-  const d = new Date(incorporationDate);
-  return d >= CUTOFF_DATE;
+  return new Date(incorporationDate) >= CUTOFF_DATE;
+}
+
+// Στέλνει μήνυμα στο Telegram
+async function sendTelegram(message: string) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: "HTML",
+      }),
+    });
+  } catch (e) {
+    console.error("Telegram error:", e);
+  }
+}
+
+// Επιστρέφει ελληνική ώρα (UTC+3)
+function greekTime(date: Date): string {
+  return date.toLocaleString("el-GR", {
+    timeZone: "Europe/Athens",
+    day: "2-digit", month: "2-digit", year: "numeric",
+    hour: "2-digit", minute: "2-digit",
+  });
+}
+
+// Υπολογίζει πότε είναι η επόμενη εκτέλεση (κάθε 2 ώρες)
+function nextRunTime(): string {
+  const now = new Date();
+  const next = new Date(now.getTime() + 2 * 60 * 60 * 1000); // +2 ώρες
+  return greekTime(next);
 }
 
 async function apiGet(endpoint: string, params: Record<string, string | number | boolean>) {
@@ -84,18 +118,17 @@ async function apiGet(endpoint: string, params: Record<string, string | number |
 
 Deno.serve(async (_req) => {
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+  const startTime = new Date();
 
-  console.log("🚀 ΓΕΜΗ IKE Scraper (Αύγουστος 2026+) starting...");
-  console.log(`📅 Cutoff ημερομηνία: ${CUTOFF_DATE.toISOString().split("T")[0]}`);
+  console.log("🚀 ΓΕΜΗ IKE Scraper starting...");
 
   // Φόρτωσε existing emails
   const { data: existingData } = await supabase.from("sgk_mails").select("email");
   const existingEmails = new Set<string>(
     (existingData || []).map((r: any) => (r.email || "").toLowerCase().trim()).filter(Boolean)
   );
-  console.log(`📥 Υπάρχουν ήδη ${existingEmails.size} emails στη βάση`);
 
-  // State: διαβάζουμε το τελευταίο offset
+  // State
   const { data: stateData } = await supabase
     .from("scraper_state")
     .select("*")
@@ -103,7 +136,6 @@ Deno.serve(async (_req) => {
     .single();
 
   let currentOffset = stateData?.last_offset || 0;
-  console.log(`📍 Offset: ${currentOffset}`);
 
   let totalSaved = 0;
   let totalDuplicate = 0;
@@ -113,27 +145,23 @@ Deno.serve(async (_req) => {
   let totalTooOld = 0;
   let requestCount = 0;
   let reachedCutoff = false;
+  let totalIkeInGemi = 0;
 
   for (let i = 0; i < MAX_REQUESTS_PER_RUN; i++) {
-    console.log(`📄 Request ${i + 1}/${MAX_REQUESTS_PER_RUN} | offset=${currentOffset}`);
-
     try {
       const data = await apiGet("/companies", {
         legalTypes: IKE_LEGAL_TYPE,
         isActive: "true",
         resultsSize: PAGE_SIZE,
         resultsOffset: currentOffset,
-        // Νεότερες πρώτα -> σταματάμε μόλις δούμε παλαιότερη από cutoff
         resultsSortBy: "-incorporationDate",
       });
 
       requestCount++;
       const companies = data.searchResults || [];
-      const totalCount = data.searchMetadata?.totalCount;
-      console.log(`   Σύνολο ΙΚΕ: ${totalCount} | Αυτή η σελίδα: ${companies.length}`);
+      totalIkeInGemi = data.searchMetadata?.totalCount || totalIkeInGemi;
 
       if (companies.length === 0) {
-        console.log("✅ Τέλος αποτελεσμάτων. Reset offset -> 0");
         currentOffset = 0;
         break;
       }
@@ -141,18 +169,13 @@ Deno.serve(async (_req) => {
       const toInsert: any[] = [];
 
       for (const company of companies) {
-        const incorporationDate = company.incorporationDate || null;
-
-        // Αν η εταιρεία είναι παλαιότερη από cutoff -> σταματάμε εντελώς
-        if (!isNewerThanCutoff(incorporationDate)) {
-          console.log(`⏹️  Φτάσαμε σε εταιρεία του ${incorporationDate} (παλαιότερη από cutoff). Σταματώ.`);
+        if (!isNewerThanCutoff(company.incorporationDate)) {
           totalTooOld++;
           reachedCutoff = true;
           break;
         }
 
         const email = (company.email || "").toLowerCase().trim();
-
         if (!email) { totalNoEmail++; continue; }
         if (isPersonalEmail(email)) { totalPersonal++; continue; }
         if (hasRealWebsite(company.url)) { totalHasWebsite++; continue; }
@@ -173,21 +196,15 @@ Deno.serve(async (_req) => {
         });
       }
 
-      // Batch insert
       if (toInsert.length > 0) {
         const { error } = await supabase
           .from("sgk_mails")
           .upsert(toInsert, { onConflict: "email", ignoreDuplicates: true });
 
-        if (error) console.error("Insert error:", error.message);
-        else {
-          totalSaved += toInsert.length;
-          console.log(`   ✅ Αποθηκεύτηκαν: ${toInsert.length} νέες ΙΚΕ`);
-        }
+        if (!error) totalSaved += toInsert.length;
       }
 
       if (reachedCutoff) {
-        // Επόμενη φορά ξαναρχίζει από offset 0 (ψάχνει νέες εταιρείες)
         currentOffset = 0;
         break;
       }
@@ -195,50 +212,53 @@ Deno.serve(async (_req) => {
       currentOffset += companies.length;
 
       if (companies.length < PAGE_SIZE) {
-        console.log("✅ Τελευταία σελίδα. Reset offset -> 0");
         currentOffset = 0;
         break;
       }
 
-      if (i < MAX_REQUESTS_PER_RUN - 1) {
-        console.log(`   ⏳ Delay ${DELAY_MS / 1000}s...`);
-        await sleep(DELAY_MS);
-      }
+      if (i < MAX_REQUESTS_PER_RUN - 1) await sleep(DELAY_MS);
 
     } catch (err: any) {
-      console.error("❌ Error:", err.message);
+      console.error("Error:", err.message);
       await sleep(15000);
     }
   }
 
   // Αποθήκευσε state
+  const newTotalSaved = (stateData?.total_saved || 0) + totalSaved;
   await supabase.from("scraper_state").upsert(
     {
       scraper_name: "gemi_ike",
       last_offset: currentOffset,
       last_run_at: new Date().toISOString(),
-      total_saved: (stateData?.total_saved || 0) + totalSaved,
+      total_saved: newTotalSaved,
     },
     { onConflict: "scraper_name" }
   );
 
-  const summary = {
-    success: true,
-    cutoff_date: CUTOFF_DATE.toISOString().split("T")[0],
-    requests_made: requestCount,
-    reached_cutoff: reachedCutoff,
-    next_offset: currentOffset,
-    saved: totalSaved,
-    duplicates: totalDuplicate,
-    too_old: totalTooOld,
-    no_email: totalNoEmail,
-    has_website: totalHasWebsite,
-    personal_email: totalPersonal,
-  };
+  // Υπολογισμός διάρκειας
+  const duration = Math.round((Date.now() - startTime.getTime()) / 1000);
 
-  console.log("📊 ΑΠΟΤΕΛΕΣΜΑΤΑ:", JSON.stringify(summary, null, 2));
+  // 📩 Telegram notification
+  const telegramMsg =
+    `🏢 <b>ΓΕΜΗ IKE Scraper — Αναφορά</b>\n` +
+    `📅 ${greekTime(startTime)}\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `✅ <b>Νέα leads αποθηκεύτηκαν:</b> ${totalSaved}\n` +
+    `🔁 <b>Duplicates (παραλείφθηκαν):</b> ${totalDuplicate}\n` +
+    `📧 <b>Χωρίς email:</b> ${totalNoEmail}\n` +
+    `🌐 <b>Έχουν ήδη website:</b> ${totalHasWebsite}\n` +
+    `📮 <b>Personal emails:</b> ${totalPersonal}\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `📊 <b>Σύνολο leads στη βάση:</b> ${existingEmails.size}\n` +
+    `💾 <b>Σύνολο ΙΚΕ που σκανάρθηκαν (ever):</b> ${newTotalSaved}\n` +
+    `⏱️ <b>Διάρκεια:</b> ${duration}s\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `🕐 <b>Επόμενη εκτέλεση:</b> ${nextRunTime()}`;
 
-  return new Response(JSON.stringify(summary), {
+  await sendTelegram(telegramMsg);
+
+  return new Response(JSON.stringify({ success: true, saved: totalSaved }), {
     headers: { "Content-Type": "application/json" },
     status: 200,
   });
