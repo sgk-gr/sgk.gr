@@ -90,10 +90,18 @@ function greekTime(date: Date): string {
   });
 }
 
-// Υπολογίζει πότε είναι η επόμενη εκτέλεση (κάθε 2 ώρες)
+// Υπολογίζει πότε είναι η επόμενη εκτέλεση (Δευτέρα-Παρασκευή μόνο)
 function nextRunTime(): string {
   const now = new Date();
-  const next = new Date(now.getTime() + 2 * 60 * 60 * 1000); // +2 ώρες
+  let next = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+  const day = next.getUTCDay();
+  if (day === 6) {
+    // Σάββατο -> πήγαινε Δευτέρα
+    next = new Date(next.getTime() + 48 * 60 * 60 * 1000);
+  } else if (day === 0) {
+    // Κυριακή -> πήγαινε Δευτέρα
+    next = new Date(next.getTime() + 24 * 60 * 60 * 1000);
+  }
   return greekTime(next);
 }
 
