@@ -90,19 +90,46 @@ function greekTime(date: Date): string {
   });
 }
 
-// Υπολογίζει πότε είναι η επόμενη εκτέλεση (Δευτέρα-Παρασκευή μόνο)
+// Υπολογίζει την επόμενη εκτέλεση (Δευτέρα-Παρασκευή 08:30 - 18:00)
 function nextRunTime(): string {
   const now = new Date();
-  let next = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-  const day = next.getUTCDay();
-  if (day === 6) {
-    // Σάββατο -> πήγαινε Δευτέρα
-    next = new Date(next.getTime() + 48 * 60 * 60 * 1000);
-  } else if (day === 0) {
-    // Κυριακή -> πήγαινε Δευτέρα
-    next = new Date(next.getTime() + 24 * 60 * 60 * 1000);
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Athens",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  });
+  
+  let h = 0, m = 0;
+  for (const p of formatter.formatToParts(now)) {
+    if (p.type === "hour") h = parseInt(p.value, 10);
+    if (p.type === "minute") m = parseInt(p.value, 10);
   }
-  return greekTime(next);
+
+  // Ώρες εκτέλεσης σε λεπτά από τα μεσάνυχτα (08:30, 10:30, 12:30, 14:30, 16:30, 18:00)
+  const scheduleMinutes = [8 * 60 + 30, 10 * 60 + 30, 12 * 60 + 30, 14 * 60 + 30, 16 * 60 + 30, 18 * 60];
+  const currentMin = h * 60 + m;
+
+  let nextTargetMin = scheduleMinutes.find((min) => min > currentMin + 2);
+  let daysToAdd = 0;
+
+  if (!nextTargetMin) {
+    nextTargetMin = scheduleMinutes[0]; // 08:30 επόμενη μέρα
+    daysToAdd = 1;
+  }
+
+  const nextDate = new Date(now);
+  nextDate.setDate(nextDate.getDate() + daysToAdd);
+
+  const dayOfWeek = nextDate.getDay(); // 0 = Sun, 6 = Sat
+  if (dayOfWeek === 6) nextDate.setDate(nextDate.getDate() + 2); // Σάββατο -> Δευτέρα
+  else if (dayOfWeek === 0) nextDate.setDate(nextDate.getDate() + 1); // Κυριακή -> Δευτέρα
+
+  const targetH = Math.floor(nextTargetMin / 60);
+  const targetM = nextTargetMin % 60;
+  const dStr = nextDate.toLocaleDateString("el-GR", { timeZone: "Europe/Athens", day: "2-digit", month: "2-digit", year: "numeric" });
+
+  return `${dStr}, ${String(targetH).padStart(2, "0")}:${String(targetM).padStart(2, "0")}`;
 }
 
 async function apiGet(endpoint: string, params: Record<string, string | number | boolean>) {
