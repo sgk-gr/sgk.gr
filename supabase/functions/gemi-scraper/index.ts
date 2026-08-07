@@ -186,7 +186,6 @@ Deno.serve(async (_req) => {
         if (existingEmails.has(email)) { totalDuplicate++; pageDup++; continue; }
 
         existingEmails.add(email);
-        pageSaved++;
         toInsert.push({
           email,
           first_name: company.coNameEl || "Επιχείρηση",
@@ -204,24 +203,27 @@ Deno.serve(async (_req) => {
       if (toInsert.length > 0) {
         const { error } = await supabase
           .from("sgk_mails")
-          .upsert(toInsert, { onConflict: "email", ignoreDuplicates: true });
-        if (!error) totalSaved += toInsert.length;
+          .insert(toInsert);
+        if (!error) {
+          totalSaved += toInsert.length;
+          pageSaved = toInsert.length;
+        } else {
+          console.error("Insert error:", error.message);
+        }
       }
 
       // Log αυτής της σελίδας
       const pageTotal = companies.length;
       let pageInfo = `📄 Σελ.${requestCount} (${pageTotal} ΙΚΕ): `;
-      if (reachedCutoff) {
-        pageInfo += `⏹️ Σταμάτησε (παλαιότερη από 08/2026)`;
-      } else {
-        const parts = [];
-        if (pageSaved > 0) parts.push(`✅ ${pageSaved} νέα`);
-        if (pageDup > 0) parts.push(`🔁 ${pageDup} dup`);
-        if (pageNoEmail > 0) parts.push(`📧 ${pageNoEmail} χωρίς email`);
-        if (pagePersonal > 0) parts.push(`📮 ${pagePersonal} personal`);
-        if (pageWebsite > 0) parts.push(`🌐 ${pageWebsite} website`);
-        pageInfo += parts.join(" | ") || "Τίποτα νέο";
-      }
+      const parts = [];
+      if (pageSaved > 0) parts.push(`✅ ${pageSaved} νέα`);
+      if (pageDup > 0) parts.push(`🔁 ${pageDup} dup`);
+      if (pageNoEmail > 0) parts.push(`📧 ${pageNoEmail} χωρίς email`);
+      if (pagePersonal > 0) parts.push(`📮 ${pagePersonal} personal`);
+      if (pageWebsite > 0) parts.push(`🌐 ${pageWebsite} website`);
+      if (reachedCutoff) parts.push(`⏹️ Σταμάτησε (παλαιότερη από 08/2026)`);
+
+      pageInfo += parts.join(" | ") || "Τίποτα νέο";
       pageLog.push(pageInfo);
       console.log(pageInfo);
 
