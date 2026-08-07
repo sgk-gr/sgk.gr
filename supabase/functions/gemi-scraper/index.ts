@@ -146,6 +146,7 @@ Deno.serve(async (_req) => {
   let requestCount = 0;
   let reachedCutoff = false;
   let totalIkeInGemi = 0;
+  const pageLog: string[] = []; // log ανά σελίδα
 
   for (let i = 0; i < MAX_REQUESTS_PER_RUN; i++) {
     try {
@@ -163,25 +164,29 @@ Deno.serve(async (_req) => {
 
       if (companies.length === 0) {
         currentOffset = 0;
+        pageLog.push(`📄 Σελ.${requestCount}: Κενή σελίδα — τέλος αποτελεσμάτων`);
         break;
       }
 
       const toInsert: any[] = [];
+      let pageSaved = 0, pageDup = 0, pageNoEmail = 0, pageWebsite = 0, pagePersonal = 0, pageTooOld = 0;
 
       for (const company of companies) {
         if (!isNewerThanCutoff(company.incorporationDate)) {
+          pageTooOld++;
           totalTooOld++;
           reachedCutoff = true;
           break;
         }
 
         const email = (company.email || "").toLowerCase().trim();
-        if (!email) { totalNoEmail++; continue; }
-        if (isPersonalEmail(email)) { totalPersonal++; continue; }
-        if (hasRealWebsite(company.url)) { totalHasWebsite++; continue; }
-        if (existingEmails.has(email)) { totalDuplicate++; continue; }
+        if (!email) { totalNoEmail++; pageNoEmail++; continue; }
+        if (isPersonalEmail(email)) { totalPersonal++; pagePersonal++; continue; }
+        if (hasRealWebsite(company.url)) { totalHasWebsite++; pageWebsite++; continue; }
+        if (existingEmails.has(email)) { totalDuplicate++; pageDup++; continue; }
 
         existingEmails.add(email);
+        pageSaved++;
         toInsert.push({
           email,
           first_name: company.coNameEl || "Επιχείρηση",
@@ -200,9 +205,25 @@ Deno.serve(async (_req) => {
         const { error } = await supabase
           .from("sgk_mails")
           .upsert(toInsert, { onConflict: "email", ignoreDuplicates: true });
-
         if (!error) totalSaved += toInsert.length;
       }
+
+      // Log αυτής της σελίδας
+      const pageTotal = companies.length;
+      let pageInfo = `📄 Σελ.${requestCount} (${pageTotal} ΙΚΕ): `;
+      if (reachedCutoff) {
+        pageInfo += `⏹️ Σταμάτησε (παλαιότερη από 08/2026)`;
+      } else {
+        const parts = [];
+        if (pageSaved > 0) parts.push(`✅ ${pageSaved} νέα`);
+        if (pageDup > 0) parts.push(`🔁 ${pageDup} dup`);
+        if (pageNoEmail > 0) parts.push(`📧 ${pageNoEmail} χωρίς email`);
+        if (pagePersonal > 0) parts.push(`📮 ${pagePersonal} personal`);
+        if (pageWebsite > 0) parts.push(`🌐 ${pageWebsite} website`);
+        pageInfo += parts.join(" | ") || "Τίποτα νέο";
+      }
+      pageLog.push(pageInfo);
+      console.log(pageInfo);
 
       if (reachedCutoff) {
         currentOffset = 0;
@@ -240,21 +261,25 @@ Deno.serve(async (_req) => {
   const duration = Math.round((Date.now() - startTime.getTime()) / 1000);
 
   // 📩 Telegram notification
+  const pagesSection = pageLog.length > 0
+    ? `━━━━━━━━━━━━━━━━━━━━\n<b>📋 Αναλυση ανα σελιδα:</b>\n` + pageLog.join("\n") + "\n"
+    : "";
+
   const telegramMsg =
-    `🏢 <b>ΓΕΜΗ IKE Scraper — Αναφορά</b>\n` +
+    `🏢 <b>ΓΕΜΗ IKE Scraper — Αναφορα</b>\n` +
     `📅 ${greekTime(startTime)}\n` +
+    pagesSection +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `✅ <b>Νέα leads αποθηκεύτηκαν:</b> ${totalSaved}\n` +
-    `🔁 <b>Duplicates (παραλείφθηκαν):</b> ${totalDuplicate}\n` +
-    `📧 <b>Χωρίς email:</b> ${totalNoEmail}\n` +
-    `🌐 <b>Έχουν ήδη website:</b> ${totalHasWebsite}\n` +
+    `✅ <b>Νεα leads:</b> ${totalSaved}\n` +
+    `🔁 <b>Duplicates:</b> ${totalDuplicate}\n` +
+    `📧 <b>Χωρις email:</b> ${totalNoEmail}\n` +
+    `🌐 <b>Εχουν website:</b> ${totalHasWebsite}\n` +
     `📮 <b>Personal emails:</b> ${totalPersonal}\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `📊 <b>Σύνολο leads στη βάση:</b> ${existingEmails.size}\n` +
-    `💾 <b>Σύνολο ΙΚΕ που σκανάρθηκαν (ever):</b> ${newTotalSaved}\n` +
-    `⏱️ <b>Διάρκεια:</b> ${duration}s\n` +
+    `📊 <b>Συνολο leads στη βαση:</b> ${existingEmails.size}\n` +
+    `⏱️ <b>Διαρκεια:</b> ${duration}s\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `🕐 <b>Επόμενη εκτέλεση:</b> ${nextRunTime()}`;
+    `🕐 <b>Επομενη εκτελεση:</b> ${nextRunTime()}`;
 
   await sendTelegram(telegramMsg);
 
