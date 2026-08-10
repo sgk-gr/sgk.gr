@@ -340,6 +340,20 @@ serve(async (req) => {
 
         // Bypassing AI generation for Manual Step 1 (sent from ScraperTab)
         if (step === 1 && customSubject && customHtml) {
+            const { data: existingLead } = await supabase
+                .from("sgk_mails")
+                .select("unsubscribed, marketing_consent")
+                .eq("email", email)
+                .maybeSingle();
+
+            if (existingLead && (existingLead.unsubscribed || existingLead.marketing_consent === false)) {
+                console.log(`Manual email blocked for unsubscribed user: ${email}`);
+                return new Response(JSON.stringify({ success: false, message: "Blocked: Lead has unsubscribed" }), {
+                    headers: { ...corsHeaders, "Content-Type": "application/json" },
+                    status: 200,
+                });
+            }
+
             const resendResult = await resend.emails.send({
                 from: "SGK Digital <info@sgk.gr>",
                 to: email,
@@ -384,6 +398,14 @@ serve(async (req) => {
 
         if (leadError || !leadData) {
             throw new Error("Lead not found in sgk_mails");
+        }
+
+        if (leadData.unsubscribed || leadData.marketing_consent === false) {
+            console.log(`Email blocked for unsubscribed lead: ${email}`);
+            return new Response(JSON.stringify({ success: false, message: "Blocked: Lead has unsubscribed" }), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+                status: 200,
+            });
         }
 
         const isOutreach = leadData.type === "outreach";

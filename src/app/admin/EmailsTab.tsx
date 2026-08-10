@@ -515,12 +515,18 @@ export function EmailsTab() {
   };
 
   const handleSendCampaign = async () => {
-    const targets = singleLeadTarget 
+    const rawTargets = singleLeadTarget 
       ? [singleLeadTarget] 
       : leads.filter(l => selectedLeads.includes(l.id));
 
+    const targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false);
+
+    if (rawTargets.length > targets.length) {
+      toast.info(`Εξαιρέθηκαν ${rawTargets.length - targets.length} παραλήπτες που έχουν κάνει απεγγραφή.`);
+    }
+
     if (targets.length === 0 || !campaignSubject || !campaignBody) {
-      toast.error("Συμπληρώστε Θέμα και Περιεχόμενο");
+      toast.error("Δεν βρέθηκαν έγκυροι παραλήπτες (ή συμπληρώστε Θέμα και Περιεχόμενο)");
       return;
     }
 
