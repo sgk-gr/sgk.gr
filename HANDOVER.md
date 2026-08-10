@@ -32,6 +32,9 @@
 4. **Trained AI System Prompts**:
    - Updated `supabase/functions/send-nurture-email/index.ts` and `supabase/functions/chat/index.ts` with strict legal rules & offer feature breakdown.
 
+5. **New Monthly Upsell Email Template Added**:
+   - **`✨ Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)`** added to `src/app/admin/EmailsTab.tsx` templates dropdown for upselling existing 124€ IKE clients to a complete corporate presentation website (About Us, Services, Contact Forms, Interactive Maps, Mobile & SEO).
+
 ---
 
 ## 🛠️ Action Plan for Desktop Antigravity Agent
