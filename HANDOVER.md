@@ -33,7 +33,7 @@
    - Updated `supabase/functions/send-nurture-email/index.ts` and `supabase/functions/chat/index.ts` with strict legal rules & offer feature breakdown.
 
 5. **New Monthly Upsell Email Template Added**:
-   - **`✨ Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)`** added to `src/app/admin/EmailsTab.tsx` templates dropdown for upselling existing 124€ IKE clients to a complete corporate presentation website (About Us, Services, Contact Forms, Interactive Maps, Mobile & SEO).
+   - **`✨ Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)`** added to `src/app/admin/EmailsTab.tsx` templates dropdown for upselling existing 124€ IKE clients to a complete corporate presentation website (About Us, Services, Contact Forms, Interactive Maps, Mobile & SEO). Retains 100% of their GEMI PDF balance sheets & company data, covers 2026 hosting/domain, and maintains standard 124€/year renewal starting in 2027. Includes phone callout (211 114 0013 / 6999 524 389) & reply instructions (no external button link).
 
 ---
 
