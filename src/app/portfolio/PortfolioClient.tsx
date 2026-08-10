@@ -72,9 +72,17 @@ const featuredProjects = [
 // ----------------------------------------------------
 const gridProjects = [
   {
+    title: "MIMI AND NONI IKE",
+    category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
+    description: "Κατασκευή εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ για την MIMI AND NONI ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε. (Άρθρο 47 §2 Ν. 4072/2012).",
+    tags: ["ΓΕΜΗ Compliance", "Next.js", "SSL", "Corporate Website"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "https://www.miminoni.com/",
+  },
+  {
     title: "Lyroudis Consulting Services",
     category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
-    description: "Κατασκευή εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ / Ισολογισμών για τη LYROUDIS CONSULTING SERVICES Μ.Ι.Κ.Ε. (Ν. 4072/2012).",
+    description: "Κατασκευή εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ / Ισολογισμών για τη LYROUDIS CONSULTING SERVICES Μ.Ι.Κ.Ε. (Άρθρο 47 §2 Ν. 4072/2012).",
     tags: ["ΓΕΜΗ Compliance", "Ισολογισμοί PDF", "Next.js", "SSL"],
     image: "/images/solutions/unsplash_web.jpg",
     link: "/case-study/lyroudis",

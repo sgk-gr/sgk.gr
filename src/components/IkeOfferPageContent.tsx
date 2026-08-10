@@ -216,7 +216,7 @@ function IkeOfferContent() {
             </h1>
             <div className="flex items-center gap-4 bg-black/40 p-4 rounded-xl backdrop-blur-md inline-block max-w-md">
               <p className="text-sm text-gray-200 leading-relaxed">
-                Συμμορφωθείτε άμεσα με το <strong>Νόμο 4072/2012</strong>. Δημιουργούμε την εταιρική σας σελίδα ΓΕΜΗ αυθημερόν, εύκολα και οικονομικά.
+                Συμμορφωθείτε άμεσα με το <strong>Άρθρο 47 §2 του Ν.4072/2012 (ΚΥΑ 46982/2025)</strong>. Δημιουργούμε την εταιρική σας σελίδα ΓΕΜΗ αυθημερόν, εύκολα και οικονομικά.
               </p>
             </div>
           </div>

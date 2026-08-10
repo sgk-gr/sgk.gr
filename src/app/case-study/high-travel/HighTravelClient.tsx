@@ -62,7 +62,7 @@ const adminFeatures = [
     {
         icon: ShieldCheck,
         title: "Πλήρης Νομική Συμμόρφωση (ΓΕΜΗ / ΜΗΤΕ)",
-        description: "Ενσωμάτωση υποχρεωτικών στοιχείων ΓΕΜΗ & ΜΗΤΕ (Άρθρο 50 Ν.4072/2012) με πλήρη διαφάνεια για την High Travel ΙΚΕ."
+        description: "Ενσωμάτωση υποχρεωτικών στοιχείων ΓΕΜΗ & ΜΗΤΕ (Άρθρο 47 §2 Ν.4072/2012, ΚΥΑ 46982/2025) με πλήρη διαφάνεια για την High Travel ΙΚΕ."
     }
 ];
 
@@ -332,7 +332,7 @@ export default function HighTravelClient() {
                     <div className="p-8 rounded-3xl bg-white/5 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
                         <div>
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4ade80]/10 text-[#4ade80] text-xs font-mono mb-3">
-                                <CheckCircle size={14} /> Πλήρης Συμμόρφωση ΓΕΜΗ / Ν.4072/2012
+                                <CheckCircle size={14} /> Πλήρης Συμμόρφωση ΓΕΜΗ / Άρθρο 47 §2 Ν.4072/2012 (ΚΥΑ 46982/2025)
                             </div>
                             <h3 className="text-xl font-bold text-white mb-2">High Travel ΙΔΙΩΤΙΚΗ ΚΕΦΑΛΑΙΟΥΧΙΚΗ ΕΤΑΙΡΕΙΑ (Ι.Κ.Ε.)</h3>
                             <p className="text-xs text-gray-400 leading-relaxed">

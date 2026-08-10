@@ -55,6 +55,14 @@ const projects = [
     websiteLink: "https://www.hightravel.gr/",
   },
   {
+    title: "MIMI AND NONI IKE",
+    category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
+    description: "Κατασκευή εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ για την MIMI AND NONI ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε. (Άρθρο 47 §2 Ν. 4072/2012).",
+    tags: ["ΓΕΜΗ Compliance", "Next.js", "SSL", "Corporate Website"],
+    link: "https://www.miminoni.com/",
+    websiteLink: "https://www.miminoni.com/",
+  },
+  {
     title: "Sigmalabs AI",
     category: "Agentic AI",
     description: "Το πρώτο παγκοσμίως Agentic AI για e-commerce που ελέγχει και εκτελεί εργασίες σε WooCommerce και Shopify.",
