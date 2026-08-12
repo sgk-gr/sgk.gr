@@ -358,6 +358,10 @@ export function EmailsTab() {
     setIsClient(true);
   }, []);
 
+  useEffect(() => {
+    setSelectedLeads([]);
+  }, [statusFilter, searchTerm]);
+
   const handleAddSingleLead = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newEmail.trim()) {
@@ -535,7 +539,9 @@ export function EmailsTab() {
   const handleSendCampaign = async () => {
     const rawTargets = singleLeadTarget 
       ? [singleLeadTarget] 
-      : leads.filter(l => selectedLeads.includes(l.id));
+      : (selectedLeads.length > 0 
+          ? filteredLeads.filter(l => selectedLeads.includes(l.id)) 
+          : filteredLeads);
 
     const targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false);
 
@@ -1307,7 +1313,7 @@ export function EmailsTab() {
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#3b5bdb] text-white rounded-xl hover:bg-[#3b5bdb]/90 transition-all text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
             >
               <Send size={12} />
-              Μαζικη Αποστολη {selectedLeads.length > 0 ? `(${selectedLeads.length})` : "(Όλοι)"}
+              Μαζικη Αποστολη {selectedLeads.length > 0 ? `(${selectedLeads.length})` : `(${filteredLeads.length})`}
             </button>
             {selectedLeads.length > 0 && (
               <button
@@ -1399,10 +1405,10 @@ export function EmailsTab() {
                   <th className="py-3 px-4 w-12 text-center">
                     <input 
                       type="checkbox" 
-                      checked={leads.length > 0 && leads.filter(l => !l.unsubscribed).every(l => selectedLeads.includes(l.id))}
+                      checked={filteredLeads.length > 0 && filteredLeads.filter(l => !l.unsubscribed).every(l => selectedLeads.includes(l.id))}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          setSelectedLeads(leads.filter(l => !l.unsubscribed).map(l => l.id));
+                          setSelectedLeads(filteredLeads.filter(l => !l.unsubscribed).map(l => l.id));
                         } else {
                           setSelectedLeads([]);
                         }
