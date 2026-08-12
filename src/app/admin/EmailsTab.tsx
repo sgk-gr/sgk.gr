@@ -322,16 +322,33 @@ export function EmailsTab() {
 
   const fetchLeads = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("sgk_mails")
-      .select("*")
-      .order("created_at", { ascending: false });
+    let allLeads: any[] = [];
+    let page = 0;
+    const pageSize = 1000;
+    let hasError = false;
 
-    if (error) {
-      toast.error("Σφάλμα φόρτωσης λίστας email");
-      console.error(error);
-    } else {
-      setLeads(data || []);
+    while (true) {
+      const { data, error } = await supabase
+        .from("sgk_mails")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .range(page * pageSize, (page + 1) * pageSize - 1);
+
+      if (error) {
+        hasError = true;
+        toast.error("Σφάλμα φόρτωσης λίστας email");
+        console.error(error);
+        break;
+      }
+
+      if (!data || data.length === 0) break;
+      allLeads.push(...data);
+      if (data.length < pageSize) break;
+      page++;
+    }
+
+    if (!hasError) {
+      setLeads(allLeads);
     }
     setLoading(false);
   };
