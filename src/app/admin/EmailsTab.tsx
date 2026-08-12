@@ -317,6 +317,7 @@ export function EmailsTab() {
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
 
   const fetchLeads = async () => {
@@ -1062,61 +1063,130 @@ export function EmailsTab() {
   };
 
   const filteredLeads = leads.filter((lead) => {
-    if (!searchTerm.trim()) return true;
-    const query = searchTerm.toLowerCase().trim();
-    const emailMatch = (lead.email || "").toLowerCase().includes(query);
-    const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
-    const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
-    const fullNameMatch = `${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase().includes(query);
-    return emailMatch || firstNameMatch || lastNameMatch || fullNameMatch;
+    // 1. Search term filter
+    if (searchTerm.trim()) {
+      const query = searchTerm.toLowerCase().trim();
+      const emailMatch = (lead.email || "").toLowerCase().includes(query);
+      const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
+      const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
+      const fullNameMatch = `${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase().includes(query);
+      if (!(emailMatch || firstNameMatch || lastNameMatch || fullNameMatch)) return false;
+    }
+
+    // 2. Status filter
+    if (statusFilter === 'converted') {
+      return lead.converted;
+    }
+    if (statusFilter === 'completed') {
+      return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) >= 5);
+    }
+    if (statusFilter === 'active') {
+      return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) < 5);
+    }
+    if (statusFilter === 'unsubscribed') {
+      return lead.unsubscribed;
+    }
+
+    return true;
   });
 
-  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted).length;
+  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) < 5)).length;
+  const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
   const convertedCount = leads.filter(l => l.converted).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
 
   return (
     <div className="space-y-8">
 
-      {/* Quick Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white/60 backdrop-blur-xl border border-gray-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+      {/* Quick Stats Grid & Interactive Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        {/* Card 1: Όλοι */}
+        <div 
+          onClick={() => setStatusFilter('all')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'all' 
+              ? 'bg-white border-[#3b5bdb] ring-2 ring-[#3b5bdb]/20' 
+              : 'bg-white/60 backdrop-blur-xl border-gray-200/60 hover:border-gray-300'
+          }`}
+        >
           <div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">{leads.length}</p>
+            <p className="text-xl font-black text-slate-900 mt-1">{leads.length}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
-            <Mail size={20} />
+          <div className="w-9 h-9 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
+            <Mail size={18} />
           </div>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-xl border border-emerald-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+        {/* Card 2: Ενεργοί (1-4/5) */}
+        <div 
+          onClick={() => setStatusFilter('active')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'active' 
+              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
+          }`}
+        >
           <div>
-            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Ενεργοι (Active)</p>
-            <p className="text-2xl font-black text-emerald-700 mt-1">{activeCount}</p>
+            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Ενεργοι (1-4/5)</p>
+            <p className="text-xl font-black text-emerald-700 mt-1">{activeCount}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-            <CheckCircle2 size={20} />
+          <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+            <CheckCircle2 size={18} />
           </div>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-xl border border-purple-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+        {/* Card 3: Ολοκληρωμένοι (5/5) */}
+        <div 
+          onClick={() => setStatusFilter('completed')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'completed' 
+              ? 'bg-white border-amber-500 ring-2 ring-amber-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-amber-200/60 hover:border-amber-300'
+          }`}
+        >
+          <div>
+            <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Ολοκληρωμενοι (5/5)</p>
+            <p className="text-xl font-black text-amber-700 mt-1">{completedCount}</p>
+          </div>
+          <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+            <Check size={18} />
+          </div>
+        </div>
+
+        {/* Card 4: Πελάτες (Converted) */}
+        <div 
+          onClick={() => setStatusFilter('converted')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'converted' 
+              ? 'bg-white border-purple-500 ring-2 ring-purple-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-purple-200/60 hover:border-purple-300'
+          }`}
+        >
           <div>
             <p className="text-[10px] font-black text-purple-600 uppercase tracking-widest">Πελατες (Converted)</p>
-            <p className="text-2xl font-black text-purple-700 mt-1">{convertedCount}</p>
+            <p className="text-xl font-black text-purple-700 mt-1">{convertedCount}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
-            <Users size={20} />
+          <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+            <Users size={18} />
           </div>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-xl border border-rose-200/60 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+        {/* Card 5: Απεγγραφές (Unsubscribed) */}
+        <div 
+          onClick={() => setStatusFilter('unsubscribed')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'unsubscribed' 
+              ? 'bg-white border-rose-500 ring-2 ring-rose-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-rose-200/60 hover:border-rose-300'
+          }`}
+        >
           <div>
-            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsubscribed)</p>
-            <p className="text-2xl font-black text-rose-600 mt-1">{unsubscribedCount}</p>
+            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsub)</p>
+            <p className="text-xl font-black text-rose-600 mt-1">{unsubscribedCount}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
-            <AlertCircle size={20} />
+          <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+            <AlertCircle size={18} />
           </div>
         </div>
       </div>
@@ -1127,7 +1197,7 @@ export function EmailsTab() {
           <div className="space-y-1">
             <h2 className="text-xl font-black text-gray-900 italic tracking-wide uppercase flex items-center gap-2">
               <Mail className="text-[#3b5bdb]" />
-              Λιστα Παραληπτων Email ({leads.length})
+              Λιστα Παραληπτων Email ({filteredLeads.length})
             </h2>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">
               Διαχειριστείτε τη λίστα email και στείλτε καμπάνιες με Live Preview
@@ -1193,24 +1263,44 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="mt-4 relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-          <input
-            type="text"
-            placeholder="Αναζήτηση email, ονόματος..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-8 py-2 bg-white border border-gray-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all placeholder:text-slate-400 shadow-sm"
-          />
-          {searchTerm && (
-            <button
-              onClick={() => setSearchTerm("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
-              title="Καθαρισμός αναζήτησης"
-            >
-              <X size={14} />
-            </button>
+        {/* Search Bar & Status Filter Badges */}
+        <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="relative w-full sm:w-80">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <input
+              type="text"
+              placeholder="Αναζήτηση email, ονόματος..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-9 pr-8 py-2 bg-white border border-gray-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all placeholder:text-slate-400 shadow-sm"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+                title="Καθαρισμός αναζήτησης"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          {/* Active Filter Indicator */}
+          {statusFilter !== 'all' && (
+            <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
+              <span className="text-slate-500">Φίλτρο:</span>
+              {statusFilter === 'active' && <span className="text-emerald-600 font-black">Ενεργοί (1-4/5)</span>}
+              {statusFilter === 'completed' && <span className="text-amber-600 font-black">Ολοκληρωμένοι (5/5)</span>}
+              {statusFilter === 'converted' && <span className="text-purple-600 font-black">Πελάτες (Converted)</span>}
+              {statusFilter === 'unsubscribed' && <span className="text-rose-600 font-black">Απεγγραφές (Unsubscribed)</span>}
+              <button
+                onClick={() => setStatusFilter('all')}
+                className="ml-1 text-slate-400 hover:text-slate-700 bg-slate-100 p-1 rounded-md cursor-pointer"
+                title="Καθαρισμός φίλτρου"
+              >
+                <X size={12} />
+              </button>
+            </div>
           )}
         </div>
 
