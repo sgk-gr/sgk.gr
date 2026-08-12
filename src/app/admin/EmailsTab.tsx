@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus, Search } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus, Search, Building2 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 const templates = [
@@ -1086,6 +1086,9 @@ export function EmailsTab() {
     if (statusFilter === 'unsubscribed') {
       return lead.unsubscribed;
     }
+    if (statusFilter === 'legacy') {
+      return lead.type === 'legacy_ike' || (lead.created_at >= '2026-01-01' && lead.created_at <= '2026-07-31T23:59:59');
+    }
 
     return true;
   });
@@ -1094,12 +1097,13 @@ export function EmailsTab() {
   const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
   const convertedCount = leads.filter(l => l.converted).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
+  const legacyCount = leads.filter(l => l.type === 'legacy_ike' || (l.created_at >= '2026-01-01' && l.created_at <= '2026-07-31T23:59:59')).length;
 
   return (
     <div className="space-y-8">
 
       {/* Quick Stats Grid & Interactive Filter Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
         {/* Card 1: Όλοι */}
         <div 
           onClick={() => setStatusFilter('all')}
@@ -1154,7 +1158,25 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 4: Πελάτες (Converted) */}
+        {/* Card 4: Παλιές ΙΚΕ (Ιαν-Ιουλ 2026) */}
+        <div 
+          onClick={() => setStatusFilter('legacy')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'legacy' 
+              ? 'bg-white border-indigo-500 ring-2 ring-indigo-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-indigo-200/60 hover:border-indigo-300'
+          }`}
+        >
+          <div>
+            <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Παλιες ΙΚΕ (01-07/26)</p>
+            <p className="text-xl font-black text-indigo-700 mt-1">{legacyCount}</p>
+          </div>
+          <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+            <Building2 size={18} />
+          </div>
+        </div>
+
+        {/* Card 5: Πελάτες (Converted) */}
         <div 
           onClick={() => setStatusFilter('converted')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
@@ -1172,7 +1194,7 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 5: Απεγγραφές (Unsubscribed) */}
+        {/* Card 6: Απεγγραφές (Unsubscribed) */}
         <div 
           onClick={() => setStatusFilter('unsubscribed')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
