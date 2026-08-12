@@ -317,7 +317,7 @@ export function EmailsTab() {
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'completed' | 'converted' | 'unsubscribed' | 'legacy'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed' | 'legacy'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
 
   const fetchLeads = async () => {
@@ -1094,11 +1094,14 @@ export function EmailsTab() {
     if (statusFilter === 'converted') {
       return lead.converted;
     }
+    if (statusFilter === 'new') {
+      return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) === 0);
+    }
     if (statusFilter === 'completed') {
       return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) >= 5);
     }
     if (statusFilter === 'active') {
-      return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) < 5);
+      return !lead.unsubscribed && !lead.converted && (lead.email_sequence_step || 0) >= 1 && (lead.email_sequence_step || 0) < 5;
     }
     if (statusFilter === 'unsubscribed') {
       return lead.unsubscribed;
@@ -1110,7 +1113,8 @@ export function EmailsTab() {
     return true;
   });
 
-  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) < 5)).length;
+  const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0)).length;
+  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) >= 1 && (l.email_sequence_step || 0) < 5).length;
   const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
   const convertedCount = leads.filter(l => l.converted).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
@@ -1120,7 +1124,7 @@ export function EmailsTab() {
     <div className="space-y-8">
 
       {/* Quick Stats Grid & Interactive Filter Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3">
         {/* Card 1: Όλοι */}
         <div 
           onClick={() => setStatusFilter('all')}
@@ -1139,7 +1143,25 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 2: Ενεργοί (1-4/5) */}
+        {/* Card 2: Νέοι (0/5) */}
+        <div 
+          onClick={() => setStatusFilter('new')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'new' 
+              ? 'bg-white border-blue-500 ring-2 ring-blue-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-blue-200/60 hover:border-blue-300'
+          }`}
+        >
+          <div>
+            <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Νεοι (0/5)</p>
+            <p className="text-xl font-black text-blue-700 mt-1">{newCount}</p>
+          </div>
+          <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+            <Plus size={18} />
+          </div>
+        </div>
+
+        {/* Card 3: Ενεργοί (1-4/5) */}
         <div 
           onClick={() => setStatusFilter('active')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
@@ -1157,7 +1179,7 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 3: Ολοκληρωμένοι (5/5) */}
+        {/* Card 4: Ολοκληρωμένοι (5/5) */}
         <div 
           onClick={() => setStatusFilter('completed')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
@@ -1175,7 +1197,7 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 4: Παλιές ΙΚΕ (Ιαν-Ιουλ 2026) */}
+        {/* Card 5: Παλιές ΙΚΕ (Ιαν-Ιουλ 2026) */}
         <div 
           onClick={() => setStatusFilter('legacy')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
@@ -1193,7 +1215,7 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 5: Πελάτες (Converted) */}
+        {/* Card 6: Πελάτες (Converted) */}
         <div 
           onClick={() => setStatusFilter('converted')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
@@ -1211,7 +1233,7 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 6: Απεγγραφές (Unsubscribed) */}
+        {/* Card 7: Απεγγραφές (Unsubscribed) */}
         <div 
           onClick={() => setStatusFilter('unsubscribed')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
@@ -1328,8 +1350,10 @@ export function EmailsTab() {
           {statusFilter !== 'all' && (
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
+              {statusFilter === 'new' && <span className="text-blue-600 font-black">Νέοι (0/5)</span>}
               {statusFilter === 'active' && <span className="text-emerald-600 font-black">Ενεργοί (1-4/5)</span>}
               {statusFilter === 'completed' && <span className="text-amber-600 font-black">Ολοκληρωμένοι (5/5)</span>}
+              {statusFilter === 'legacy' && <span className="text-indigo-600 font-black">Παλιές ΙΚΕ (01-07/26)</span>}
               {statusFilter === 'converted' && <span className="text-purple-600 font-black">Πελάτες (Converted)</span>}
               {statusFilter === 'unsubscribed' && <span className="text-rose-600 font-black">Απεγγραφές (Unsubscribed)</span>}
               <button
