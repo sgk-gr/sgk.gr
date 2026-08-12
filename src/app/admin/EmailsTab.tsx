@@ -1173,23 +1173,6 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 3: Παλιές ΙΚΕ (01-07/26) */}
-        <div 
-          onClick={() => setStatusFilter('legacy')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'legacy' 
-              ? 'bg-white border-indigo-500 ring-2 ring-indigo-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-indigo-200/60 hover:border-indigo-300'
-          }`}
-        >
-          <div>
-            <p className="text-[9px] font-black text-indigo-600 uppercase tracking-widest">Παλιες ΙΚΕ (01-07/26)</p>
-            <p className="text-lg font-black text-indigo-700 mt-1">{legacyCount}</p>
-          </div>
-          <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
-            <Building2 size={16} />
-          </div>
-        </div>
 
         {/* Card 4: Νέοι (0/5) */}
         <div 
@@ -1381,7 +1364,6 @@ export function EmailsTab() {
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
               {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
-              {statusFilter === 'legacy' && <span className="text-indigo-600 font-black">🏢 Παλιές ΙΚΕ (01-07/26)</span>}
               {statusFilter === 'new' && <span className="text-blue-600 font-black">➕ Νέοι (0/5)</span>}
               {statusFilter === 'active' && <span className="text-teal-600 font-black">⚡ Ενεργοί (1-4/5)</span>}
               {statusFilter === 'completed' && <span className="text-amber-600 font-black">✅ Ολοκληρωμένοι (5/5)</span>}
