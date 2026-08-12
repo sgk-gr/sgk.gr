@@ -342,7 +342,7 @@ serve(async (req) => {
         if (step === 1 && customSubject && customHtml) {
             const { data: existingLead } = await supabase
                 .from("sgk_mails")
-                .select("unsubscribed, marketing_consent")
+                .select("unsubscribed, marketing_consent, email_sequence_step")
                 .eq("email", email)
                 .maybeSingle();
 
@@ -367,16 +367,21 @@ serve(async (req) => {
             }
 
             // Update database for lead to start nurture sequence
+            const currentStep = existingLead?.email_sequence_step || 0;
+            const updatePayload: Record<string, any> = {
+                last_email_sent_at: new Date().toISOString(),
+                converted: false,
+                unsubscribed: false
+            };
+            if (currentStep === 0) {
+                updatePayload.email_sequence_step = 1;
+                updatePayload.first_email_subject = firstEmailSubject || customSubject;
+                updatePayload.first_email_body = firstEmailBody || customHtml;
+            }
+
             const { error: dbErr } = await supabase
                 .from("sgk_mails")
-                .update({
-                    email_sequence_step: 1,
-                    last_email_sent_at: new Date().toISOString(),
-                    first_email_subject: firstEmailSubject || customSubject,
-                    first_email_body: firstEmailBody || customHtml,
-                    converted: false,
-                    unsubscribed: false
-                })
+                .update(updatePayload)
                 .eq("email", email);
 
             if (dbErr) {
