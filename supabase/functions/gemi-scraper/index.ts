@@ -154,7 +154,19 @@ Deno.serve(async (_req) => {
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   const startTime = new Date();
 
-  console.log("🚀 ΓΕΜΗ IKE Scraper starting...");
+  // ΠΑΥΣΗ ΜΕΧΡΙ ΤΟΝ ΣΕΠΤΕΜΒΡΙΟ: Αν η ημερομηνία είναι πριν την 1η Σεπτεμβρίου 2026, ο scraper παραμένει σε παύση.
+  const septStart = new Date("2026-09-01T00:00:00+03:00");
+  if (startTime < septStart) {
+    console.log("⏸️ Ο ΓΕΜΗ IKE Scraper είναι σε ΠΑΥΣΗ μέχρι την 1η Σεπτεμβρίου 2026.");
+    return new Response(JSON.stringify({ 
+      status: "paused", 
+      message: "Ο scraper είναι σε παύση και θα ξεκινήσει αυτόματα την 1η Σεπτεμβρίου 2026." 
+    }), {
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  console.log("🚀 ΓΕΜΗ IKE Scraper starting (Σεπτέμβριος 2026+)...");
 
   // Φόρτωσε ALL existing emails σε chunks
   const existingEmails = new Set<string>();
