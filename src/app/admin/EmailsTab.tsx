@@ -537,11 +537,12 @@ export function EmailsTab() {
   };
 
   const handleSendCampaign = async () => {
+    const uncontactedFiltered = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
     const rawTargets = singleLeadTarget 
       ? [singleLeadTarget] 
       : (selectedLeads.length > 0 
           ? filteredLeads.filter(l => selectedLeads.includes(l.id)) 
-          : filteredLeads);
+          : uncontactedFiltered);
 
     const targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false);
 
@@ -1122,6 +1123,7 @@ export function EmailsTab() {
     return true;
   });
 
+  const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
   const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0)).length;
@@ -1313,7 +1315,7 @@ export function EmailsTab() {
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#3b5bdb] text-white rounded-xl hover:bg-[#3b5bdb]/90 transition-all text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
             >
               <Send size={12} />
-              Μαζικη Αποστολη {selectedLeads.length > 0 ? `(${selectedLeads.length})` : `(${filteredLeads.length})`}
+              Μαζικη Αποστολη {selectedLeads.length > 0 ? `(${selectedLeads.length})` : `(${uncontactedFilteredLeads.length})`}
             </button>
             {selectedLeads.length > 0 && (
               <button
@@ -1405,10 +1407,11 @@ export function EmailsTab() {
                   <th className="py-3 px-4 w-12 text-center">
                     <input 
                       type="checkbox" 
-                      checked={filteredLeads.length > 0 && filteredLeads.filter(l => !l.unsubscribed).every(l => selectedLeads.includes(l.id))}
+                      title="Επιλογή όλων των Νέων παραληπτών (0/5) στο τρέχον φίλτρο"
+                      checked={uncontactedFilteredLeads.length > 0 && uncontactedFilteredLeads.every(l => selectedLeads.includes(l.id))}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          setSelectedLeads(filteredLeads.filter(l => !l.unsubscribed).map(l => l.id));
+                          setSelectedLeads(uncontactedFilteredLeads.map(l => l.id));
                         } else {
                           setSelectedLeads([]);
                         }
