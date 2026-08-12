@@ -317,7 +317,7 @@ export function EmailsTab() {
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<'all' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed' | 'legacy'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
 
   const fetchLeads = async () => {
@@ -1091,6 +1091,12 @@ export function EmailsTab() {
     }
 
     // 2. Status filter
+    if (statusFilter === 'new_ike') {
+      return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
+    }
+    if (statusFilter === 'legacy') {
+      return lead.type === 'legacy_ike';
+    }
     if (statusFilter === 'converted') {
       return lead.converted;
     }
@@ -1106,148 +1112,164 @@ export function EmailsTab() {
     if (statusFilter === 'unsubscribed') {
       return lead.unsubscribed;
     }
-    if (statusFilter === 'legacy') {
-      return lead.type === 'legacy_ike' || (lead.created_at >= '2026-01-01' && lead.created_at <= '2026-07-31T23:59:59');
-    }
 
     return true;
   });
 
+  const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
+  const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0)).length;
   const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) >= 1 && (l.email_sequence_step || 0) < 5).length;
   const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
   const convertedCount = leads.filter(l => l.converted).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
-  const legacyCount = leads.filter(l => l.type === 'legacy_ike' || (l.created_at >= '2026-01-01' && l.created_at <= '2026-07-31T23:59:59')).length;
 
   return (
     <div className="space-y-8">
 
       {/* Quick Stats Grid & Interactive Filter Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2.5">
         {/* Card 1: Όλοι */}
         <div 
           onClick={() => setStatusFilter('all')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'all' 
               ? 'bg-white border-[#3b5bdb] ring-2 ring-[#3b5bdb]/20' 
               : 'bg-white/60 backdrop-blur-xl border-gray-200/60 hover:border-gray-300'
           }`}
         >
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
-            <p className="text-xl font-black text-slate-900 mt-1">{leads.length}</p>
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
+            <p className="text-lg font-black text-slate-900 mt-1">{leads.length}</p>
           </div>
-          <div className="w-9 h-9 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
-            <Mail size={18} />
-          </div>
-        </div>
-
-        {/* Card 2: Νέοι (0/5) */}
-        <div 
-          onClick={() => setStatusFilter('new')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'new' 
-              ? 'bg-white border-blue-500 ring-2 ring-blue-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-blue-200/60 hover:border-blue-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Νεοι (0/5)</p>
-            <p className="text-xl font-black text-blue-700 mt-1">{newCount}</p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
-            <Plus size={18} />
+          <div className="w-8 h-8 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
+            <Mail size={16} />
           </div>
         </div>
 
-        {/* Card 3: Ενεργοί (1-4/5) */}
+        {/* Card 2: Νέες ΙΚΕ (Αύγουστος 2026+) */}
         <div 
-          onClick={() => setStatusFilter('active')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'active' 
+          onClick={() => setStatusFilter('new_ike')}
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'new_ike' 
               ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20' 
               : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
           }`}
         >
           <div>
-            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Ενεργοι (1-4/5)</p>
-            <p className="text-xl font-black text-emerald-700 mt-1">{activeCount}</p>
+            <p className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Νεες ΙΚΕ (08/26+)</p>
+            <p className="text-lg font-black text-emerald-700 mt-1">{newIkeCount}</p>
           </div>
-          <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-            <CheckCircle2 size={18} />
-          </div>
-        </div>
-
-        {/* Card 4: Ολοκληρωμένοι (5/5) */}
-        <div 
-          onClick={() => setStatusFilter('completed')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'completed' 
-              ? 'bg-white border-amber-500 ring-2 ring-amber-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-amber-200/60 hover:border-amber-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Ολοκληρωμενοι (5/5)</p>
-            <p className="text-xl font-black text-amber-700 mt-1">{completedCount}</p>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
-            <Check size={18} />
+          <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+            <Building2 size={16} />
           </div>
         </div>
 
-        {/* Card 5: Παλιές ΙΚΕ (Ιαν-Ιουλ 2026) */}
+        {/* Card 3: Παλιές ΙΚΕ (01-07/26) */}
         <div 
           onClick={() => setStatusFilter('legacy')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'legacy' 
               ? 'bg-white border-indigo-500 ring-2 ring-indigo-500/20' 
               : 'bg-white/60 backdrop-blur-xl border-indigo-200/60 hover:border-indigo-300'
           }`}
         >
           <div>
-            <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Παλιες ΙΚΕ (01-07/26)</p>
-            <p className="text-xl font-black text-indigo-700 mt-1">{legacyCount}</p>
+            <p className="text-[9px] font-black text-indigo-600 uppercase tracking-widest">Παλιες ΙΚΕ (01-07/26)</p>
+            <p className="text-lg font-black text-indigo-700 mt-1">{legacyCount}</p>
           </div>
-          <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
-            <Building2 size={18} />
+          <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+            <Building2 size={16} />
           </div>
         </div>
 
-        {/* Card 6: Πελάτες (Converted) */}
+        {/* Card 4: Νέοι (0/5) */}
+        <div 
+          onClick={() => setStatusFilter('new')}
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'new' 
+              ? 'bg-white border-blue-500 ring-2 ring-blue-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-blue-200/60 hover:border-blue-300'
+          }`}
+        >
+          <div>
+            <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest">Νεοι (0/5)</p>
+            <p className="text-lg font-black text-blue-700 mt-1">{newCount}</p>
+          </div>
+          <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+            <Plus size={16} />
+          </div>
+        </div>
+
+        {/* Card 5: Ενεργοί (1-4/5) */}
+        <div 
+          onClick={() => setStatusFilter('active')}
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'active' 
+              ? 'bg-white border-teal-500 ring-2 ring-teal-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-teal-200/60 hover:border-teal-300'
+          }`}
+        >
+          <div>
+            <p className="text-[9px] font-black text-teal-600 uppercase tracking-widest">Ενεργοι (1-4/5)</p>
+            <p className="text-lg font-black text-teal-700 mt-1">{activeCount}</p>
+          </div>
+          <div className="w-8 h-8 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center font-bold">
+            <CheckCircle2 size={16} />
+          </div>
+        </div>
+
+        {/* Card 6: Ολοκληρωμένοι (5/5) */}
+        <div 
+          onClick={() => setStatusFilter('completed')}
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'completed' 
+              ? 'bg-white border-amber-500 ring-2 ring-amber-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-amber-200/60 hover:border-amber-300'
+          }`}
+        >
+          <div>
+            <p className="text-[9px] font-black text-amber-600 uppercase tracking-widest">Ολοκληρωμενοι (5/5)</p>
+            <p className="text-lg font-black text-amber-700 mt-1">{completedCount}</p>
+          </div>
+          <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+            <Check size={16} />
+          </div>
+        </div>
+
+        {/* Card 7: Πελάτες (Converted) */}
         <div 
           onClick={() => setStatusFilter('converted')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'converted' 
               ? 'bg-white border-purple-500 ring-2 ring-purple-500/20' 
               : 'bg-white/60 backdrop-blur-xl border-purple-200/60 hover:border-purple-300'
           }`}
         >
           <div>
-            <p className="text-[10px] font-black text-purple-600 uppercase tracking-widest">Πελατες (Converted)</p>
-            <p className="text-xl font-black text-purple-700 mt-1">{convertedCount}</p>
+            <p className="text-[9px] font-black text-purple-600 uppercase tracking-widest">Πελατες (Converted)</p>
+            <p className="text-lg font-black text-purple-700 mt-1">{convertedCount}</p>
           </div>
-          <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
-            <Users size={18} />
+          <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+            <Users size={16} />
           </div>
         </div>
 
-        {/* Card 7: Απεγγραφές (Unsubscribed) */}
+        {/* Card 8: Απεγγραφές (Unsubscribed) */}
         <div 
           onClick={() => setStatusFilter('unsubscribed')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'unsubscribed' 
               ? 'bg-white border-rose-500 ring-2 ring-rose-500/20' 
               : 'bg-white/60 backdrop-blur-xl border-rose-200/60 hover:border-rose-300'
           }`}
         >
           <div>
-            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsub)</p>
-            <p className="text-xl font-black text-rose-600 mt-1">{unsubscribedCount}</p>
+            <p className="text-[9px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsub)</p>
+            <p className="text-lg font-black text-rose-600 mt-1">{unsubscribedCount}</p>
           </div>
-          <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
-            <AlertCircle size={18} />
+          <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+            <AlertCircle size={16} />
           </div>
         </div>
       </div>
@@ -1350,12 +1372,13 @@ export function EmailsTab() {
           {statusFilter !== 'all' && (
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
-              {statusFilter === 'new' && <span className="text-blue-600 font-black">Νέοι (0/5)</span>}
-              {statusFilter === 'active' && <span className="text-emerald-600 font-black">Ενεργοί (1-4/5)</span>}
-              {statusFilter === 'completed' && <span className="text-amber-600 font-black">Ολοκληρωμένοι (5/5)</span>}
-              {statusFilter === 'legacy' && <span className="text-indigo-600 font-black">Παλιές ΙΚΕ (01-07/26)</span>}
-              {statusFilter === 'converted' && <span className="text-purple-600 font-black">Πελάτες (Converted)</span>}
-              {statusFilter === 'unsubscribed' && <span className="text-rose-600 font-black">Απεγγραφές (Unsubscribed)</span>}
+              {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
+              {statusFilter === 'legacy' && <span className="text-indigo-600 font-black">🏢 Παλιές ΙΚΕ (01-07/26)</span>}
+              {statusFilter === 'new' && <span className="text-blue-600 font-black">➕ Νέοι (0/5)</span>}
+              {statusFilter === 'active' && <span className="text-teal-600 font-black">⚡ Ενεργοί (1-4/5)</span>}
+              {statusFilter === 'completed' && <span className="text-amber-600 font-black">✅ Ολοκληρωμένοι (5/5)</span>}
+              {statusFilter === 'converted' && <span className="text-purple-600 font-black">💜 Πελάτες (Converted)</span>}
+              {statusFilter === 'unsubscribed' && <span className="text-rose-600 font-black">🔴 Απεγγραφές (Unsubscribed)</span>}
               <button
                 onClick={() => setStatusFilter('all')}
                 className="ml-1 text-slate-400 hover:text-slate-700 bg-slate-100 p-1 rounded-md cursor-pointer"

@@ -226,6 +226,7 @@ Deno.serve(async (_req) => {
           last_name: "",
           company: company.coNameEl || "",
           phone: company.phone || null,
+          type: "new_ike",
           marketing_consent: true,
           unsubscribe_token: crypto.randomUUID(),
           email_sequence_step: 0,
