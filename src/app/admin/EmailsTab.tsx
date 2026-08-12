@@ -317,7 +317,7 @@ export function EmailsTab() {
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'completed' | 'converted' | 'unsubscribed' | 'legacy'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
 
   const fetchLeads = async () => {
