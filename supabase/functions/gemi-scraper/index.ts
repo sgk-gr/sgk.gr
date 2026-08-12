@@ -156,11 +156,22 @@ Deno.serve(async (_req) => {
 
   console.log("🚀 ΓΕΜΗ IKE Scraper starting...");
 
-  // Φόρτωσε existing emails
-  const { data: existingData } = await supabase.from("sgk_mails").select("email");
-  const existingEmails = new Set<string>(
-    (existingData || []).map((r: any) => (r.email || "").toLowerCase().trim()).filter(Boolean)
-  );
+  // Φόρτωσε ALL existing emails σε chunks
+  const existingEmails = new Set<string>();
+  let fetchPage = 0;
+  while (true) {
+    const { data: pageData } = await supabase
+      .from("sgk_mails")
+      .select("email")
+      .range(fetchPage * 1000, (fetchPage + 1) * 1000 - 1);
+    if (!pageData || pageData.length === 0) break;
+    pageData.forEach((r: any) => {
+      const e = (r.email || "").toLowerCase().trim();
+      if (e) existingEmails.add(e);
+    });
+    if (pageData.length < 1000) break;
+    fetchPage++;
+  }
 
   // State
   const { data: stateData } = await supabase
