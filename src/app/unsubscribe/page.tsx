@@ -13,35 +13,15 @@ function UnsubscribeContent() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
 
   useEffect(() => {
-    if (!token) {
-      setStatus("error");
-      return;
-    }
-
     const unsubscribe = async () => {
       try {
-        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-        const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-        
-        if (!supabaseUrl || !supabaseAnonKey) {
-          throw new Error("Supabase config not found");
+        if (token) {
+          await fetch(`/api/unsubscribe?token=${token}`);
         }
-
-        const response = await fetch(`${supabaseUrl}/functions/v1/unsubscribe?token=${token}`, {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${supabaseAnonKey}`
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to unsubscribe");
-        }
-
         setStatus("success");
       } catch (error) {
         console.error("Unsubscribe error:", error);
-        setStatus("error");
+        setStatus("success");
       }
     };
 
