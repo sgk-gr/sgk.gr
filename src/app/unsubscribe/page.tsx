@@ -10,22 +10,12 @@ function UnsubscribeContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "success" | "error">("success");
 
   useEffect(() => {
-    const unsubscribe = async () => {
-      try {
-        if (token) {
-          await fetch(`/api/unsubscribe?token=${token}`);
-        }
-        setStatus("success");
-      } catch (error) {
-        console.error("Unsubscribe error:", error);
-        setStatus("success");
-      }
-    };
-
-    unsubscribe();
+    if (token) {
+      fetch(`/api/unsubscribe?token=${token}`).catch(err => console.error(err));
+    }
   }, [token]);
 
   return (
