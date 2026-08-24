@@ -693,23 +693,33 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
           body {
             background: white !important;
             color: black !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
-          .no-print, .no-print-wrapper > div:first-child, nav, header, footer {
-            display: none !important;
+          body * {
+            visibility: hidden !important;
+          }
+          .print-contract-area, .print-contract-area * {
+            visibility: visible !important;
           }
           .print-contract-area {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
             box-shadow: none !important;
             border: none !important;
             padding: 0 !important;
             margin: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            font-size: 11pt !important;
-            line-height: 1.4 !important;
+            font-size: 10.5pt !important;
+            line-height: 1.45 !important;
+            color: black !important;
+            background: white !important;
           }
           @page {
-            size: A4;
-            margin: 15mm 20mm 15mm 20mm;
+            size: A4 portrait;
+            margin: 12mm 18mm 12mm 18mm;
           }
         }
       `}</style>
