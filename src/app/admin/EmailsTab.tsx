@@ -248,38 +248,40 @@ const templates = [
   {
     name: "📜 Ιδιωτικό Συμφωνητικό (ΓΕΜΗ)",
     subject: "Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — SGK Digital",
-    body: `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
-<p>Αξιότιμε συνεργάτη,</p>
-<p>Σας αποστέλλουμε το επίσημο <strong>Ιδιωτικό Συμφωνητικό Συνεργασίας</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+    body: `<p>Καλημέρα σας,</p>
+<p>Σας στέλνουμε αυτό το μήνυμα σε συνέχεια της επικοινωνίας μας σχετικά με το νέο σας <strong>Website</strong></p>
+<p>Στο παρόν email <strong>επισυνάπτουμε το συμφωνητικό συνεργασίας μας</strong>. Το έχουμε ανεβάσει και στο gov και πρέπει να υπογραφεί</p>
 
-<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">📄 Επίσημο Έγγραφο Συμφωνητικού (PDF)</div>
-  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε, να εκτυπώσετε ή να κατεβάσετε σε PDF το πλήρες συμφωνητικό:</p>
-  <a href="https://sgk.gr/doc/contract" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
-    📄 Προβολή & Λήψη Συμφωνητικού (PDF)
-  </a>
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 25px 0;">
+  <h3 style="margin-top: 0; color: #3b5bdb; font-size: 16px; font-weight: bold; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">💸 Στοιχεία Κατάθεσης Προκαταβολής</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; line-height: 1.5;">
+    <tbody>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Ποσό:</td>
+        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; font-size: 16px; width: 65%;">124,00 €</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Τράπεζα:</td>
+        <td style="padding: 6px 0px; color: #0f172a; width: 65%;">Eurobank</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Δικαιούχος:</td>
+        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; width: 65%;">ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; vertical-align: top; width: 35%;">IBAN:</td>
+        <td style="padding: 6px 0px; color: #0f172a; font-family: monospace; font-size: 14px; font-weight: bold; letter-spacing: 0.5px; width: 65%;">GR4602601970000830201330337</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Αιτιολογία:</td>
+        <td style="padding: 6px 0px; color: #475569; font-style: italic; width: 65%;">website</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
-  <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
-  <p style="margin: 0 !important; font-size: 13px; color: #475569; line-height: 1.6;">
-    <strong>Ανάδοχος:</strong> ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ (ΑΦΜ: 131398972 / ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ)<br/>
-    <strong>Αντικείμενο:</strong> Σχεδίαση, ανάπτυξη & παράδοση ιστοσελίδας εταιρικής διαφάνειας ΓΕΜΗ<br/>
-    <strong>Συνολική Αμοιβή:</strong> 124,00 € (συμπεριλαμβανομένου ΦΠΑ 24%, Domain & Hosting 1ου έτους)<br/>
-    <strong>Χρόνος Παράδοσης:</strong> 5 εργάσιμες ημέρες
-  </p>
-</div>
-
-<h4>Όροι & Συμφωνία</h4>
-<ul style="color: #334155; font-size: 13px; line-height: 1.6;">
-  <li><strong>Άρθρο 1:</strong> Κατασκευή ιστοσελίδας με πλήρη στοιχεία διαφάνειας (ΑΦΜ, ΓΕΜΗ, νόμιμη εκπροσώπηση).</li>
-  <li><strong>Άρθρο 2:</strong> Περιλαμβάνεται domain name & φιλοξενία (hosting) για 1 χρόνο. Ετήσια ανανέωση στα 124€ με ΦΠΑ.</li>
-  <li><strong>Άρθρο 3:</strong> Παράδοση εντός 5 εργάσιμων ημερών.</li>
-  <li><strong>Άρθρο 4:</strong> Πληρωμή στον λογαριασμό Eurobank: <strong>GR4602601970000830201330337</strong> (δικαιούχος Σπυρίδων Τσάβος).</li>
-</ul>
-
-<p>Μπορείτε να απαντήσετε σε αυτό το email για οποιαδήποτε διευκρίνιση.</p>
-<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`,
+<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
+<p style="margin-top: 30px !important; border-top: 1px solid #f0f0f0; padding-top: 20px;">Με εκτίμηση,<br /><strong>Η ομάδα της SGK Software Development</strong></p>`,
     defaultButtonText: "📄 Προβολή & Λήψη Συμφωνητικού (PDF)",
     defaultButtonLink: "https://sgk.gr/doc/contract"
   },
@@ -372,6 +374,9 @@ export function EmailsTab() {
     const docId = contract.id || ("contract_" + Date.now());
     const docUrl = `https://sgk.gr/doc/contract?id=${docId}`;
 
+    const companyLabel = contract.tradeName || contract.companyName || singleLeadTarget?.company || "";
+    const amountLabel = contract.totalAmountNum ? `${contract.totalAmountNum.toFixed(2).replace('.', ',')} €` : (contract.totalAmountText || "124,00 €");
+
     // Cloud document sync
     try {
       fetch("/api/documents", {
@@ -381,47 +386,46 @@ export function EmailsTab() {
       }).catch(e => console.error(e));
     } catch(e) {}
 
-    const body = `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
-<p>Αξιότιμε συνεργάτη,</p>
-<p>Σας αποστέλλουμε το επίσημο <strong>Ιδιωτικό Συμφωνητικό Συνεργασίας</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας <strong>${contract.tradeName || contract.companyName || ""}</strong>, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+    const body = `<p>Καλημέρα σας,</p>
+<p>Σας στέλνουμε αυτό το μήνυμα σε συνέχεια της επικοινωνίας μας σχετικά με το νέο σας <strong>Website ${companyLabel}</strong></p>
+<p>Στο παρόν email <strong>επισυνάπτουμε το συμφωνητικό συνεργασίας μας</strong>. Το έχουμε ανεβάσει και στο gov και πρέπει να υπογραφεί</p>
 
-<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">📄 Επίσημο Έγγραφο Συμφωνητικού (PDF)</div>
-  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε, να εκτυπώσετε ή να κατεβάσετε σε PDF το πλήρες συμφωνητικό:</p>
-  <a href="${docUrl}" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
-    📄 Προβολή & Λήψη Συμφωνητικού (PDF)
-  </a>
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 25px 0;">
+  <h3 style="margin-top: 0; color: #3b5bdb; font-size: 16px; font-weight: bold; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">💸 Στοιχεία Κατάθεσης Προκαταβολής</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; line-height: 1.5;">
+    <tbody>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Ποσό:</td>
+        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; font-size: 16px; width: 65%;">${amountLabel}</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Τράπεζα:</td>
+        <td style="padding: 6px 0px; color: #0f172a; width: 65%;">Eurobank</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Δικαιούχος:</td>
+        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; width: 65%;">ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; vertical-align: top; width: 35%;">IBAN:</td>
+        <td style="padding: 6px 0px; color: #0f172a; font-family: monospace; font-size: 14px; font-weight: bold; letter-spacing: 0.5px; width: 65%;">GR4602601970000830201330337</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Αιτιολογία:</td>
+        <td style="padding: 6px 0px; color: #475569; font-style: italic; width: 65%;">website ${companyLabel}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
-  <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
-  <p style="margin: 0 !important; font-size: 13px; color: #475569; line-height: 1.6;">
-    <strong>Επωνυμία Εργοδότη:</strong> ${contract.companyName || "................................"}<br/>
-    <strong>Διακριτικός Τίτλος:</strong> ${contract.tradeName || "................................"}<br/>
-    <strong>Α.Φ.Μ. Πελάτη:</strong> ${contract.clientAfm || "...................."}<br/>
-    <strong>Αριθμός Γ.Ε.ΜΗ.:</strong> ${contract.gemiNo || "...................."}<br/>
-    <strong>Εκπρόσωπος:</strong> ${contract.representativeName || "...................."}<br/>
-    <strong>Συνολική Αμοιβή:</strong> ${contract.totalAmountText || "124,00 €"} (συμπεριλαμβανομένου Φ.Π.Α. 24%)<br/>
-    <strong>Χρόνος Παράδοσης:</strong> ${contract.deliveryDaysText || "5"} εργάσιμες ημέρες
-  </p>
-</div>
+<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
+<p style="margin-top: 30px !important; border-top: 1px solid #f0f0f0; padding-top: 20px;">Με εκτίμηση,<br /><strong>Η ομάδα της SGK Software Development</strong></p>`;
 
-<h4>Βασικοί Όροι Σύμβασης</h4>
-<ul style="color: #334155; font-size: 13px; line-height: 1.6;">
-  <li><strong>Άρθρο 1:</strong> Κατασκευή ιστοσελίδας εταιρικής διαφάνειας με τα πλήρη στοιχεία της επιχείρησης.</li>
-  <li><strong>Άρθρο 2:</strong> Περιλαμβάνεται domain name & hosting 1ου έτους. Μετά το 1ο έτος, ανανέωση στα ${contract.renewalAmountText || "124,00 €"} ετησίως.</li>
-  <li><strong>Άρθρο 3:</strong> Παράδοση εντός ${contract.deliveryDaysText || "5"} εργάσιμων ημερών.</li>
-  <li><strong>Άρθρο 4:</strong> Πληρωμή στον λογαριασμό Eurobank IBAN: <strong>${contract.ibanDetails || "GR4602601970000830201330337"}</strong>.</li>
-</ul>
-
-<p>Παρακαλούμε για την επιβεβαίωσή σας απαντώντας σε αυτό το μήνυμα.</p>
-<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`;
-
-    setCampaignSubject(`Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${contract.tradeName || contract.companyName || "SGK Digital"}`);
+    setCampaignSubject(`Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${companyLabel || "SGK Digital"}`);
     setCampaignBody(body);
-    setButtonText("📄 Λήψη Συμφωνητικού (PDF)");
+    setButtonText("📄 Προβολή & Λήψη Συμφωνητικού (PDF)");
     setButtonLink(docUrl);
-    toast.success(`Εισήχθη το συμφωνητικό για «${contract.tradeName || contract.companyName || "Πελάτη"}» με PDF link!`);
+    toast.success(`Εισήχθη το συμφωνητικό για «${companyLabel || "Πελάτη"}» με PDF link!`);
   };
 
   // Helper to insert invoice / offer into email
@@ -796,14 +800,14 @@ export function EmailsTab() {
           industry: lead.company,
         });
 
-        const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
+        const response = await fetch("/api/admin/send-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({
             email: lead.email,
+            leadId: lead.id,
             unsubscribe_token: unsubscribeToken,
             customSubject: campaignSubject,
             customHtml: finalBody,
@@ -1197,7 +1201,7 @@ export function EmailsTab() {
                   })()}
                   className="w-full h-full border-0"
                   title="Email Preview"
-                  sandbox="allow-same-origin"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
                 />
               </div>
             </div>
@@ -1313,11 +1317,10 @@ export function EmailsTab() {
 
     try {
       while (keepGoing) {
-        const response = await fetch("https://xrmvingehhiymchoggka.supabase.co/functions/v1/send-nurture-email", {
+        const response = await fetch("/api/admin/send-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({
             processAllDue: true,
