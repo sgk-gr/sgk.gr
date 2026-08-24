@@ -1136,7 +1136,7 @@ export function EmailsTab() {
     <div className="space-y-8">
 
       {/* Summary KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Card 1: Όλα τα Emails */}
         <div 
           onClick={() => setStatusFilter('all')}
@@ -1155,43 +1155,7 @@ export function EmailsTab() {
           </div>
         </div>
 
-        {/* Card 2: Νέες ΙΚΕ */}
-        <div 
-          onClick={() => setStatusFilter('new_ike')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'new_ike' 
-              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Νεες ΙΚΕ</p>
-            <p className="text-xl font-black text-emerald-700 mt-1">{newIkeCount}</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-            <Building2 size={18} />
-          </div>
-        </div>
-
-        {/* Card 3: Πελάτες (Converted) */}
-        <div 
-          onClick={() => setStatusFilter('converted')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'converted' 
-              ? 'bg-white border-purple-500 ring-2 ring-purple-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-purple-200/60 hover:border-purple-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-purple-600 uppercase tracking-widest">Πελατες (Converted)</p>
-            <p className="text-xl font-black text-purple-700 mt-1">{convertedCount}</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
-            <Users size={18} />
-          </div>
-        </div>
-
-        {/* Card 4: Απεγγραφές (Unsubscribed) */}
+        {/* Card 2: Απεγγραφές (Unsubscribed) */}
         <div 
           onClick={() => setStatusFilter('unsubscribed')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
