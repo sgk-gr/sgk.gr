@@ -36,12 +36,29 @@ function parseGemiCompany(co: any) {
     }
   }
 
+  const street = co.street || co.address || co.road || "";
+  const streetNo = co.streetNumber || co.streetNo || co.num || "";
+  const tk = co.postalCode || co.zipCode || co.tk || "";
+  const city = co.city || co.municipality || "Αθήνα";
+
+  let fullAddress = "";
+  if (street) {
+    fullAddress += street;
+    if (streetNo) fullAddress += ` ${streetNo}`;
+    if (city) fullAddress += ` - ${city}`;
+    if (tk) fullAddress += ` ${tk}`;
+  } else if (city) {
+    fullAddress = tk ? `${city} ${tk}` : city;
+  }
+
   return {
     companyName: co.coNameEl || co.coNamesEn?.[0] || "",
     tradeName: (co.coTitlesEl && co.coTitlesEl[0]) || (co.coTitlesEn && co.coTitlesEn[0]) || co.coNameEl || "",
     gemiNo: co.arGemi || "",
     clientAfm: co.afm || "",
-    city: co.city || "Αθήνα",
+    city: city,
+    address: fullAddress || city,
+    fullAddress: fullAddress || city,
     representativeName: repName,
     representativeFatherName: repFather,
     representativeTitle: repTitle

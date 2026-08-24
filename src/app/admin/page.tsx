@@ -7,7 +7,7 @@ import {
   TrendingUp, TrendingDown, RefreshCcw, Info, CheckCircle2, AlertTriangle,
   LayoutDashboard, Search, FileSpreadsheet, Percent, Coins, ArrowRightLeft,
   ChevronRight, Sparkles, Filter, HelpCircle, QrCode, Printer, Check, Copy,
-  Briefcase, Edit3, Mail, Activity, FileCheck
+  Briefcase, Edit3, Mail, Activity, FileCheck, Building2, Loader2
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
@@ -139,6 +139,8 @@ export default function AdminVatDashboard() {
   const [aadeClientName, setAadeClientName] = useState<string>("ΓΙΑΚΟΥΜΑΚΗ ΒΑΣΙΛΙΚΗ ΑΝΤΩΝΙΟΣ");
   const [aadeClientAfm, setAadeClientAfm] = useState<string>("161578030");
   const [aadeClientAddress, setAadeClientAddress] = useState<string>("ΔΑΡΑΤΣΟ Ι ΜΥΓΙΑΚΗ 0 - ΧΑΝΙΑ 73100");
+  const [aadeGemiSearch, setAadeGemiSearch] = useState<string>("");
+  const [isAadeSearchingGemi, setIsAadeSearchingGemi] = useState<boolean>(false);
   const [aadeDocNo, setAadeDocNo] = useState<string>("4");
   const [aadeDate, setAadeDate] = useState<string>(() => {
     const today = new Date();
@@ -345,6 +347,47 @@ export default function AdminVatDashboard() {
       description: "Το τιμολόγιο προστέθηκε επιτυχώς στη βάση σας!"
     });
   };
+
+  // AADE GEMI / AFM Auto-Lookup Function
+  const handleAadeGemiLookup = async (queryToSearch?: string) => {
+    const q = (queryToSearch !== undefined ? queryToSearch : aadeGemiSearch).trim();
+    if (!q) {
+      toast.error("Παρακαλώ εισάγετε Α.Φ.Μ. ή Αριθμό Γ.Ε.ΜΗ.");
+      return;
+    }
+
+    setIsAadeSearchingGemi(true);
+    toast.info(`Αναζήτηση στοιχείων για "${q}" στο Γ.Ε.ΜΗ...`);
+
+    try {
+      const res = await fetch(`/api/gemi-lookup?query=${encodeURIComponent(q)}`);
+      const data = await res.json();
+
+      if (!res.ok || !data.success || !data.company) {
+        throw new Error(data.error || "Δεν βρέθηκαν στοιχεία στο Γ.Ε.ΜΗ.");
+      }
+
+      const comp = data.company;
+      if (comp.clientAfm) setAadeClientAfm(comp.clientAfm);
+      if (comp.companyName || comp.tradeName) {
+        setAadeClientName(comp.companyName || comp.tradeName);
+      }
+      if (comp.fullAddress || comp.address || comp.city) {
+        setAadeClientAddress(comp.fullAddress || comp.address || comp.city);
+      }
+
+      toast.success("✨ Τα στοιχεία αντλήθηκαν αυτόματα από το Γ.Ε.ΜΗ.!", {
+        description: comp.companyName || comp.tradeName
+      });
+      setAadeGemiSearch("");
+    } catch (err: any) {
+      console.error("AADE GEMI lookup error:", err);
+      toast.error(err.message || "Αποτυχία ανάκτησης από Γ.Ε.ΜΗ.");
+    } finally {
+      setIsAadeSearchingGemi(false);
+    }
+  };
+
   // Preset Loading Helper
   const handleLoadPreset = (presetType: "eshop" | "webapp" | "hosting" | "ai" | "consulting") => {
     switch (presetType) {
@@ -1612,29 +1655,107 @@ export default function AdminVatDashboard() {
 
                     {/* Client Info form */}
                     <div className="space-y-3 border-t border-gray-200 pt-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                          Στοιχεία Πελάτη (Τιμολόγησης)
+                        </label>
+                        <span className="text-[9px] bg-blue-50 text-blue-700 font-bold px-2 py-0.5 rounded-md flex items-center gap-1 border border-blue-150">
+                          <Sparkles size={11} className="text-[#3b5bdb]" />
+                          Γ.Ε.ΜΗ. API
+                        </span>
+                      </div>
+
+                      {/* Auto-lookup via GEMI API */}
+                      <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50/50 border border-blue-200/80 rounded-xl space-y-2">
+                        <div className="flex items-center justify-between">
+                          <label className="text-[10px] font-black text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
+                            <Building2 size={13} className="text-[#3b5bdb]" />
+                            Αυτόματη Ανάκτηση από Γ.Ε.ΜΗ. / ΑΦΜ
+                          </label>
+                          <span className="text-[8.5px] text-blue-600 font-medium">9 ψηφία ή Αρ. ΓΕΜΗ</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <div className="relative flex-1">
+                            <input
+                              type="text"
+                              placeholder="π.χ. 161578030..."
+                              value={aadeGemiSearch}
+                              onChange={(e) => setAadeGemiSearch(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault();
+                                  handleAadeGemiLookup();
+                                }
+                              }}
+                              className="w-full pl-8 pr-3 py-2 bg-white border border-blue-200 rounded-lg text-xs font-mono font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
+                            />
+                            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-blue-500" />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleAadeGemiLookup()}
+                            disabled={isAadeSearchingGemi || !aadeGemiSearch.trim()}
+                            className="px-3.5 py-2 bg-[#3b5bdb] hover:bg-[#2b4bba] disabled:opacity-50 text-white rounded-lg text-xs font-black uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm cursor-pointer disabled:cursor-not-allowed"
+                          >
+                            {isAadeSearchingGemi ? (
+                              <Loader2 size={13} className="animate-spin" />
+                            ) : (
+                              <Sparkles size={13} />
+                            )}
+                            <span>Άντληση</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center justify-between">
+                          <span>Α.Φ.Μ. Πελάτη</span>
+                          <span className="text-[9px] text-blue-600 font-normal">Πληκτρολογήστε & πατήστε Άντληση</span>
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={aadeClientAfm}
+                            placeholder="π.χ. 161578030"
+                            onChange={(e) => setAadeClientAfm(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleAadeGemiLookup(aadeClientAfm);
+                              }
+                            }}
+                            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 font-mono text-xs focus:border-[#3b5bdb]/50 outline-none font-bold"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleAadeGemiLookup(aadeClientAfm)}
+                            disabled={isAadeSearchingGemi || !aadeClientAfm.trim()}
+                            title="Ανάκτηση στοιχείων από το Γ.Ε.ΜΗ. με βάση αυτό το ΑΦΜ"
+                            className="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer disabled:opacity-40"
+                          >
+                            {isAadeSearchingGemi ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                            <span className="text-[11px]">Άντληση</span>
+                          </button>
+                        </div>
+                      </div>
+
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Επωνυμια Πελατη</label>
                         <input
                           type="text"
                           value={aadeClientName}
+                          placeholder="π.χ. Επωνυμία Επιχείρησης"
                           onChange={(e) => setAadeClientName(e.target.value)}
                           className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Α.Φ.Μ. Πελατη</label>
-                        <input
-                          type="text"
-                          value={aadeClientAfm}
-                          onChange={(e) => setAadeClientAfm(e.target.value)}
-                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 font-mono text-xs focus:border-[#3b5bdb]/50 outline-none"
-                        />
-                      </div>
+
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Διευθυνση Πελατη</label>
                         <input
                           type="text"
                           value={aadeClientAddress}
+                          placeholder="π.χ. Οδός, Αριθμός - Πόλη ΤΚ"
                           onChange={(e) => setAadeClientAddress(e.target.value)}
                           className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                         />
