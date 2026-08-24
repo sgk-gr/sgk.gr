@@ -286,28 +286,22 @@ const templates = [
     defaultButtonLink: "https://sgk.gr/doc/contract"
   },
   {
-    name: "🧾 Πρότυπο Τιμολογίου & Τεχνική Προσφορά",
-    subject: "Τεχνική Προσφορά & Προτιμολόγιο — SGK Digital",
-    body: `<h2>Τεχνική Προσφορά & Προτιμολόγιο 🧾</h2>
-<p>Αγαπητέ συνεργάτη,</p>
-<p>Σας αποστέλλουμε την επίσημη αναλυτική <strong>Τεχνική Προσφορά & το Προτιμολόγιο</strong> για το έργο σας από την <strong>SGK Digital</strong>.</p>
-
-<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">🧾 Επίσημο Προτιμολόγιο & Τεχνική Προσφορά (2 Σελίδες)</div>
-  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε αναλυτικά τις υπηρεσίες, τα παραδοτέα και τα οικονομικά στοιχεία σε μορφή PDF:</p>
-  <a href="https://sgk.gr/doc/invoice" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
-    🧾 Προβολή & Λήψη Προσφοράς / Τιμολογίου (PDF)
-  </a>
+    name: "🧾 Εξοφλημένο Τιμολόγιο Παροχής Υπηρεσιών",
+    subject: "Σας επισυνάπτουμε το τιμολόγιό σας — SGK Digital",
+    body: `<div style="text-align: center; padding: 10px 0 16px 0;">
+  <h2 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">Σας επισυνάπτουμε το τιμολόγιό σας</h2>
+  <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155; line-height: 1.6;">
+    Σας ευχαριστούμε θερμά για τη συνεργασία και την εμπιστοσύνη σας στην <strong>SGK Digital</strong>. Σας επισυνάπτουμε σε μορφή αρχείου PDF το επίσημο τιμολόγιο που αφορά τις υπηρεσίες μας.
+  </p>
 </div>
 
-<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 16px; border-radius: 8px; margin: 15px 0; font-size: 13px;">
-  <strong>Καθαρή Αξία:</strong> 100,00 € | <strong>Φ.Π.Α. 24%:</strong> 24,00 €<br/>
-  <strong>Συνολικό Πληρωτέο Ποσό:</strong> 124,00 € (με ΦΠΑ 24%)
-</div>
-
-<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
-<p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`,
-    defaultButtonText: "🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)",
+<p style="margin: 20px 0 0 0; font-size: 13px; color: #64748b; text-align: center; line-height: 1.5;">
+  Για οποιαδήποτε απορία ή διευκρίνιση σχετικά με το παραστατικό σας, μπορείτε να επικοινωνήσετε μαζί μας απαντώντας σε αυτό το email ή καλώντας μας στο <strong>211 114 0013</strong>.
+</p>
+<p style="margin: 24px 0 0 0; text-align: center; font-size: 14px; color: #0f172a; font-weight: bold;">
+  Με εκτίμηση,<br /><span style="color: #3b5bdb;">Η ομάδα της SGK Digital</span>
+</p>`,
+    defaultButtonText: "🧾 Λήψη Εξοφλημένου Τιμολογίου (PDF)",
     defaultButtonLink: "https://sgk.gr/doc/invoice"
   }
 ];
@@ -473,31 +467,25 @@ function safeEncodeBase64(data: any): string {
       }).catch(e => console.error(e));
     } catch(e) {}
 
-    const body = `<h2>Τεχνική Προσφορά & Προτιμολόγιο 🧾</h2>
-<p>Αξιότιμε συνεργάτη <strong>${clientTitle}</strong>,</p>
-<p>Σας αποστέλλουμε την επίσημη αναλυτική <strong>Τεχνική Προσφορά & το Προτιμολόγιο</strong> για το έργο σας από την <strong>SGK Digital</strong>.</p>
-
-<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
-  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">🧾 Επίσημο Προτιμολόγιο & Τεχνική Προσφορά (2 Σελίδες)</div>
-  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να κατεβάσετε άμεσα το επίσημο έγγραφο σε PDF:</p>
-  <a href="${docUrl}" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
-    🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)
-  </a>
+    const body = `<div style="text-align: center; padding: 10px 0 16px 0;">
+  <h2 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">Σας επισυνάπτουμε το τιμολόγιό σας</h2>
+  <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155; line-height: 1.6;">
+    Σας ευχαριστούμε θερμά για τη συνεργασία και την εμπιστοσύνη σας στην <strong>SGK Digital</strong>. Σας επισυνάπτουμε σε μορφή αρχείου PDF το επίσημο τιμολόγιο που αφορά τις υπηρεσίες μας.
+  </p>
 </div>
 
-<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 16px; border-radius: 8px; margin: 15px 0; font-size: 13px;">
-  <strong>Καθαρή Αξία:</strong> 100,00 € | <strong>Φ.Π.Α. 24%:</strong> 24,00 €<br/>
-  <strong>Συνολικό Πληρωτέο Ποσό:</strong> 124,00 € (με ΦΠΑ 24%)
-</div>
+<p style="margin: 20px 0 0 0; font-size: 13px; color: #64748b; text-align: center; line-height: 1.5;">
+  Για οποιαδήποτε απορία ή διευκρίνιση σχετικά με το παραστατικό σας, μπορείτε να επικοινωνήσετε μαζί μας απαντώντας σε αυτό το email ή καλώντας μας στο <strong>211 114 0013</strong>.
+</p>
+<p style="margin: 24px 0 0 0; text-align: center; font-size: 14px; color: #0f172a; font-weight: bold;">
+  Με εκτίμηση,<br /><span style="color: #3b5bdb;">Η ομάδα της SGK Digital</span>
+</p>`;
 
-<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
-<p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`;
-
-    setCampaignSubject(`Τεχνική Προσφορά & Προτιμολόγιο — ${clientTitle || "SGK Digital"}`);
+    setCampaignSubject(`Σας επισυνάπτουμε το τιμολόγιό σας — ${clientTitle || "SGK Digital"}`);
     setCampaignBody(body);
-    setButtonText("🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)");
+    setButtonText("🧾 Λήψη Εξοφλημένου Τιμολογίου (PDF)");
     setButtonLink(docUrl);
-    toast.success(`Εισήχθη το τιμολόγιο για «${clientTitle || "Πελάτη"}» με σύνδεσμο άμεσης λήψης PDF!`);
+    toast.success(`Εισήχθη το εξοφλημένο τιμολόγιο για «${clientTitle || "Πελάτη"}» με PDF link!`);
   };
 
   const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
