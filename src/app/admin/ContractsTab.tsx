@@ -164,9 +164,171 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
     setIsEditing(true);
   };
 
-  // Print Contract
+  // Print Contract via clean dedicated window
   const handlePrint = () => {
-    window.print();
+    const printWindow = window.open('', '_blank', 'width=850,height=1000');
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+
+    const content = `
+      <!DOCTYPE html>
+      <html lang="el">
+      <head>
+        <meta charset="utf-8">
+        <title>Ιδιωτικό Συμφωνητικό - ${currentContract.tradeName || currentContract.companyName || 'SGK'}</title>
+        <style>
+          @page {
+            size: A4 portrait;
+            margin: 18mm 18mm 18mm 18mm;
+          }
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+          body {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: #000;
+            background: #fff;
+            padding: 0;
+          }
+          .doc-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 22px;
+          }
+          .doc-header h1 {
+            font-size: 14.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+          }
+          .doc-header h2 {
+            font-size: 13.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          p {
+            margin-bottom: 11px;
+            text-align: justify;
+          }
+          .party-item {
+            padding-left: 20px;
+            margin-bottom: 9px;
+            text-align: justify;
+          }
+          .article-box {
+            margin-top: 14px;
+            margin-bottom: 12px;
+          }
+          .article-heading {
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 13.5px;
+          }
+          .signatures-grid {
+            margin-top: 35px;
+            display: flex;
+            justify-content: space-between;
+            page-break-inside: avoid;
+          }
+          .sig-box {
+            width: 45%;
+            text-align: center;
+            font-size: 12.5px;
+          }
+          .sig-line {
+            height: 55px;
+            border-bottom: 1px dashed #555;
+            margin: 8px auto 10px auto;
+            width: 75%;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="doc-header">
+          <h1>ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ</h1>
+          <h2>ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)</h2>
+        </div>
+
+        <p>Στην <strong>${currentContract.city || 'Αθήνα'}</strong>, σήμερα στις <strong>${formatDateGreek(currentContract.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:</p>
+
+        <p class="party-item"><strong>1. Αφενός:</strong> ο κ. <strong>${currentContract.contractorName}</strong>, με έδρα επιχείρησης στη ${currentContract.contractorAddress}, με επάγγελμα «${currentContract.contractorProfession}», με Α.Φ.Μ. <strong>${currentContract.contractorAfm}</strong> / Δ.Ο.Υ. <strong>${currentContract.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,</p>
+
+        <p>και</p>
+
+        <p class="party-item"><strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«${currentContract.companyName || '________________________'}»</strong> (διακριτικός τίτλος <strong>«${currentContract.tradeName || '________________________'}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>${currentContract.gemiNo || '________________'}</strong>, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || 'τον διαχειριστή αυτής'} κ. <strong>${currentContract.representativeName || '________________________'}</strong> του <strong>${currentContract.representativeFatherName || '________________'}</strong>, με Α.Φ.Μ. <strong>${currentContract.clientAfm || '________________'}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,</p>
+
+        <p style="margin-bottom: 14px;">συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:</p>
+
+        <div class="article-box">
+          <div class="article-heading">Άρθρο 1 – Αντικείμενο της σύμβασης</div>
+          <p>Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη τη σχεδίαση, ανάπτυξη και παράδοση μίας απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης (Γ.Ε.ΜΗ., Α.Φ.Μ., έδρα, νόμιμη εκπροσώπηση, στοιχεία επικοινωνίας), σύμφωνα με το υπόδειγμα/παράδειγμα σχεδιασμού που έχει υποδείξει ο Εργοδότης.</p>
+          <p>Σκοπός της ιστοσελίδας είναι να παρέχει στον Εργοδότη έναν δημόσια προσβάσιμο σύνδεσμο (link) με τα στοιχεία διαφάνειας της επιχείρησής του, ώστε να καλύπτονται οι σχετικές του υποχρεώσεις έναντι του Γ.Ε.ΜΗ.</p>
+          <p>Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η κατασκευή της ιστοσελίδας, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.</p>
+        </div>
+
+        <div class="article-box">
+          <div class="article-heading">Άρθρο 2 – Domain και φιλοξενία (hosting)</div>
+          <p>Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.</p>
+          <p>Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>${currentContract.renewalAmountText}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.</p>
+        </div>
+
+        <div class="article-box">
+          <div class="article-heading">Άρθρο 3 – Χρόνος παράδοσης</div>
+          <p>Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός <strong>${currentContract.deliveryDaysText}</strong> εργάσιμων ημερών από την ${currentContract.advanceAmountNum > 0 ? 'καταβολή της προκαταβολής του Άρθρου 4' : 'εξόφληση της αμοιβής του Άρθρου 4'}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.</p>
+        </div>
+
+        <div class="article-box">
+          <div class="article-heading">Άρθρο 4 – Αμοιβή και τρόπος πληρωμής</div>
+          <p><strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>${currentContract.totalAmountText}</strong>, συμπεριλαμβανομένου Φ.Π.Α.</p>
+          ${currentContract.advanceAmountNum === 0 
+            ? `<p><strong>4.2</strong> Η εξόφληση της αμοιβής πραγματοποιείται <strong>εφάπαξ</strong> με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής.</p>` 
+            : `<p><strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>${currentContract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της προκαταβολής.</p>
+               <p><strong>4.3</strong> Το υπόλοιπο ποσό των <strong>${currentContract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.</p>`
+          }
+          <p><strong>${currentContract.advanceAmountNum === 0 ? '4.3' : '4.4'}</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.</p>
+          <p><strong>${currentContract.advanceAmountNum === 0 ? '4.4' : '4.5'}</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>${currentContract.ibanDetails}</strong>, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.</p>
+        </div>
+
+        <div class="article-box">
+          <div class="article-heading">Άρθρο 5 – Λοιποί όροι</div>
+          <p>Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού της ιστοσελίδας περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.</p>
+          <p>Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.</p>
+          <p>Το παρόν συντάχθηκε σε δύο (2) όμοια πρωτότυπα, τα οποία αφού αναγνώσθηκαν και βεβαιώθηκαν από τους συμβαλλόμενους, υπεγράφησαν από αυτούς και έλαβε έκαστο εξ αυτών από ένα.</p>
+        </div>
+
+        <div class="signatures-grid">
+          <div class="sig-box">
+            <p style="font-weight: bold; margin-bottom: 3px;">Οι Συμβαλλόμενοι:</p>
+            <p style="font-weight: bold; margin-bottom: 6px;">Ο Ανάδοχος</p>
+            <div class="sig-line"></div>
+            <p style="font-weight: bold; text-transform: uppercase;">${currentContract.contractorName}</p>
+          </div>
+
+          <div class="sig-box">
+            <p style="font-weight: bold; margin-bottom: 3px;">&nbsp;</p>
+            <p style="font-weight: bold; margin-bottom: 6px;">Ο Εργοδότης / Πελάτης</p>
+            <div class="sig-line"></div>
+            <p style="font-weight: bold; text-transform: uppercase;">${currentContract.representativeName || '____________________'}</p>
+            <p style="font-size: 11px; font-style: italic; color: #444;">(για λογαριασμό της ${currentContract.tradeName || currentContract.companyName || 'εταιρείας'})</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.open();
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+      printWindow.print();
+    }, 250);
   };
 
   // Helper for auto-calculating amounts
