@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { 
   FileCheck, Printer, Plus, Trash2, Edit3, Download, Eye, 
-  Building2, User, CreditCard, Search, Sparkles, Loader2, RefreshCw
+  Building2, User, CreditCard, Search, Sparkles, Loader2, RefreshCw,
+  PenTool, X, Check, RotateCcw, ShieldCheck, Copy, Landmark
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -42,6 +43,10 @@ export interface ContractData {
   deliveryDaysText: string;
   ibanDetails: string;
   includeSignature: boolean;
+
+  // Digital Signatures (Base64 Canvas Drawings)
+  contractorSignatureData?: string;
+  clientSignatureData?: string;
 }
 
 const DEFAULT_CONTRACT: ContractData = {
@@ -76,6 +81,8 @@ const DEFAULT_CONTRACT: ContractData = {
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
   includeSignature: false,
+  contractorSignatureData: "",
+  clientSignatureData: "",
 };
 
 // Helper function to format Greek date
@@ -88,10 +95,206 @@ const formatDateGreek = (dateStr: string) => {
   return dateStr;
 };
 
+interface SignatureModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (dataUrl: string) => void;
+  title: string;
+  subtitle?: string;
+  initialDataUrl?: string;
+}
+
+function SignatureModal({ isOpen, onClose, onSave, title, subtitle, initialDataUrl }: SignatureModalProps) {
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [hasDrawn, setHasDrawn] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set canvas dimensions with high-DPI scaling
+    const rect = canvas.getBoundingClientRect();
+    const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#0f2b6e"; // Professional blue ink
+    ctx.lineWidth = 2.5;
+
+    // Load initial data if present
+    if (initialDataUrl) {
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, rect.width, rect.height);
+        setHasDrawn(true);
+      };
+      img.src = initialDataUrl;
+    } else {
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      setHasDrawn(false);
+    }
+  }, [isOpen, initialDataUrl]);
+
+  if (!isOpen) return null;
+
+  const getPos = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    const rect = canvas.getBoundingClientRect();
+    if ("touches" in e) {
+      const touch = e.touches[0];
+      return {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      };
+    } else {
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    }
+  };
+
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    setIsDrawing(true);
+    setHasDrawn(true);
+  };
+
+  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => {
+    setIsDrawing(false);
+  };
+
+  const handleClear = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const rect = canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    setHasDrawn(false);
+  };
+
+  const handleSave = () => {
+    const canvas = canvasRef.current;
+    if (!canvas || !hasDrawn) {
+      toast.error("Παρακαλώ σχεδιάστε την υπογραφή σας πριν την αποθήκευση.");
+      return;
+    }
+    const dataUrl = canvas.toDataURL("image/png");
+    onSave(dataUrl);
+    onClose();
+    toast.success("Η υπογραφή αποθηκεύτηκε επιτυχώς!");
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-gray-100 flex flex-col animate-in fade-in zoom-in-95 duration-200">
+        <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white">
+              <PenTool size={16} />
+            </div>
+            <div>
+              <h3 className="font-bold text-sm text-white leading-tight">{title}</h3>
+              {subtitle && <p className="text-[11px] text-slate-400 font-medium">{subtitle}</p>}
+            </div>
+          </div>
+          <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer">
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="p-5 space-y-4">
+          <div className="relative border-2 border-dashed border-blue-300 rounded-2xl bg-slate-50 overflow-hidden touch-none h-48 select-none">
+            <canvas
+              ref={canvasRef}
+              onMouseDown={startDrawing}
+              onMouseMove={draw}
+              onMouseUp={stopDrawing}
+              onMouseLeave={stopDrawing}
+              onTouchStart={startDrawing}
+              onTouchMove={draw}
+              onTouchEnd={stopDrawing}
+              className="w-full h-full cursor-crosshair block"
+            />
+            {!hasDrawn && (
+              <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-slate-400 text-xs font-semibold">
+                <PenTool size={22} className="mb-1 text-slate-300 animate-bounce" />
+                Σχεδιάστε εδώ με το δάχτυλο ή το ποντίκι
+              </div>
+            )}
+            <div className="absolute bottom-4 left-6 right-6 border-b border-gray-300 pointer-events-none" />
+            <div className="absolute bottom-1 right-3 text-[9px] text-gray-400 pointer-events-none uppercase font-mono tracking-wider">
+              Ψηφιακή Υπογραφή (Touch / Pen)
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between gap-3 pt-2">
+            <button
+              type="button"
+              onClick={handleClear}
+              className="px-3.5 py-2 border border-gray-200 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <RotateCcw size={13} />
+              Καθαρισμός
+            </button>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+              >
+                Ακύρωση
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={!hasDrawn}
+                className="px-5 py-2 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md cursor-pointer disabled:opacity-50"
+              >
+                <Check size={14} />
+                Αποθήκευση
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ContractsTab({ initialLead }: { initialLead?: { company?: string; email?: string; first_name?: string } }) {
   const [contracts, setContracts] = useState<ContractData[]>([]);
   const [currentContract, setCurrentContract] = useState<ContractData>(DEFAULT_CONTRACT);
   const [isEditing, setIsEditing] = useState(true);
+  const [activeSignatureModal, setActiveSignatureModal] = useState<"contractor" | "client" | null>(null);
 
   // Load saved contracts from LocalStorage
   useEffect(() => {
@@ -345,14 +548,20 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
           <div class="sig-box">
             <p style="font-weight: bold; margin-bottom: 3px;">Οι Συμβαλλόμενοι:</p>
             <p style="font-weight: bold; margin-bottom: 6px;">Ο Ανάδοχος</p>
-            <div class="sig-line"></div>
+            ${currentContract.contractorSignatureData 
+              ? `<div style="height: 55px; display: flex; align-items: center; justify-content: center; margin: 4px 0 8px 0;"><img src="${currentContract.contractorSignatureData}" alt="Υπογραφή Αναδόχου" style="max-height: 52px; max-width: 170px; object-fit: contain;" /></div>`
+              : `<div class="sig-line"></div>`
+            }
             <p style="font-weight: bold; text-transform: uppercase;">${currentContract.contractorName}</p>
           </div>
 
           <div class="sig-box">
             <p style="font-weight: bold; margin-bottom: 3px;">&nbsp;</p>
             <p style="font-weight: bold; margin-bottom: 6px;">Ο Εργοδότης / Πελάτης</p>
-            <div class="sig-line"></div>
+            ${currentContract.clientSignatureData 
+              ? `<div style="height: 55px; display: flex; align-items: center; justify-content: center; margin: 4px 0 8px 0;"><img src="${currentContract.clientSignatureData}" alt="Υπογραφή Πελάτη" style="max-height: 52px; max-width: 170px; object-fit: contain;" /></div>`
+              : `<div class="sig-line"></div>`
+            }
             <p style="font-weight: bold; text-transform: uppercase;">${currentContract.representativeName || '................................'}</p>
             <p style="font-size: 11px; font-style: italic; color: #444;">(για λογαριασμό της ${currentContract.tradeName || currentContract.companyName || '....................'})</p>
           </div>
@@ -388,6 +597,60 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
     }));
   };
 
+  // Helper for 1-click GOV.gr submission
+  const handleCopyToGov = () => {
+    const text = `
+ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ
+ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)
+
+Στην ${currentContract.city || "Αθήνα"}, σήμερα στις ${formatDateGreek(currentContract.contractDate)}, μεταξύ των κάτωθι συμβαλλόμενων:
+
+1. Αφενός: ο κ. ${currentContract.contractorName}, με έδρα επιχείρησης στη ${currentContract.contractorAddress}, με επάγγελμα «${currentContract.contractorProfession}», με Α.Φ.Μ. ${currentContract.contractorAfm} / Δ.Ο.Υ. ${currentContract.contractorDoy}, εφεξής καλούμενος «ο Ανάδοχος»,
+
+και
+
+2. Αφετέρου: η εταιρεία με την επωνυμία «${currentContract.companyName || "................................................"}» (διακριτικός τίτλος «${currentContract.tradeName || "................................"}»), με αριθμό Γ.Ε.ΜΗ. ${currentContract.gemiNo || "...................."}, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. ${currentContract.representativeName || "................................"} του ${currentContract.representativeFatherName || "...................."}, με Α.Φ.Μ. ${currentContract.clientAfm || "...................."}, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
+
+συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:
+
+Άρθρο 1 – Αντικείμενο της σύμβασης
+Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη τη σχεδίαση, ανάπτυξη και παράδοση μίας απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης (Γ.Ε.ΜΗ., Α.Φ.Μ., έδρα, νόμιμη εκπροσώπηση, στοιχεία επικοινωνίας), σύμφωνα με το υπόδειγμα/παράδειγμα σχεδιασμού που έχει υποδείξει ο Εργοδότης.
+Σκοπός της ιστοσελίδας είναι να παρέχει στον Εργοδότη έναν δημόσια προσβάσιμο σύνδεσμο (link) με τα στοιχεία διαφάνειας της επιχείρησής του, ώστε να καλύπτονται οι σχετικές του υποχρεώσεις έναντι του Γ.Ε.ΜΗ.
+Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η κατασκευή της ιστοσελίδας, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.
+
+Άρθρο 2 – Domain και φιλοξενία (hosting)
+Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.
+Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των ${currentContract.renewalAmountText} ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
+
+Άρθρο 3 – Χρόνος παράδοσης
+Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός ${currentContract.deliveryDaysText} εργάσιμων ημερών από την ${currentContract.advanceAmountNum > 0 ? "καταβολή της προκαταβολής του Άρθρου 4" : "εξόφληση της αμοιβής του Άρθρου 4"}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.
+
+Άρθρο 4 – Αμοιβή και τρόπος πληρωμής
+4.1 Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των ${currentContract.totalAmountText}, συμπεριλαμβανομένου Φ.Π.Α.
+${currentContract.advanceAmountNum === 0 
+  ? "4.2 Η εξόφληση της αμοιβής πραγματοποιείται εφάπαξ με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής."
+  : `4.2 Ως προκαταβολή συμφωνείται το ποσό των ${currentContract.advanceAmountText}, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών.\n4.3 Το υπόλοιπο ποσό των ${currentContract.remainingAmountText} εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.`
+}
+${currentContract.advanceAmountNum === 0 ? "4.3" : "4.4"} Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.
+${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN ${currentContract.ibanDetails}, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.
+
+Άρθρο 5 – Λοιποί όροι
+Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού της ιστοσελίδας περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.
+Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.
+Το παρόν συντάχθηκε σε δύο (2) όμοια πρωτότυπα, τα οποία αφού αναγνώσθηκαν και βεβαιώθηκαν από τους συμβαλλόμενους, υπεγράφησαν από αυτούς και έλαβε έκαστο εξ αυτών από ένα.
+
+Οι Συμβαλλόμενοι:
+Ο Ανάδοχος: ${currentContract.contractorName}
+Ο Εργοδότης / Πελάτης: ${currentContract.representativeName || "................................"} (για λογαριασμό της ${currentContract.tradeName || currentContract.companyName || "...................."})
+    `.trim();
+
+    if (navigator?.clipboard) {
+      navigator.clipboard.writeText(text);
+    }
+    toast.success("📋 Το κείμενο αντιγράφηκε στο πρόχειρο! Ανοίγει το docs.gov.gr...");
+    window.open("https://docs.gov.gr/", "_blank");
+  };
+
   return (
     <div className="space-y-8 no-print-wrapper">
       {/* Top Header Actions */}
@@ -398,7 +661,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
             Ιδιωτικά Συμφωνητικά (ΓΕΜΗ)
           </h2>
           <p className="text-xs text-slate-500 font-semibold mt-1">
-            Δημιουργία, Προεπισκόπηση & Εκτύπωση Επίσημου Συμφωνητικού Κατασκευής Ιστοσελίδας
+            Δημιουργία, Live Ψηφιακή Υπογραφή, Προεπισκόπηση & Εκτύπωση Συμφωνητικού
           </p>
         </div>
 
@@ -413,6 +676,15 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
           >
             {isEditing ? <Eye size={14} /> : <Edit3 size={14} />}
             {isEditing ? "Προεπισκόπηση PDF" : "Επεξεργασία Φόρμας"}
+          </button>
+
+          <button
+            onClick={handleCopyToGov}
+            className="px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+            title="Αντιγραφή κειμένου & Άνοιγμα GOV.gr"
+          >
+            <Landmark size={14} className="text-indigo-600" />
+            GOV.gr
           </button>
 
           <button
@@ -807,6 +1079,128 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                   />
                 </div>
               </div>
+
+              {/* Digital Signatures Pad Section */}
+              <div className="space-y-4 pt-3 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <PenTool size={14} className="text-blue-600" />
+                    Ψηφιακές Υπογραφές (Touch / Mouse)
+                  </h4>
+                  <span className="text-[9px] text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <ShieldCheck size={11} />
+                    Αποτύπωση στο PDF
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Contractor Signature Card */}
+                  <div className="p-3 border border-gray-200 rounded-2xl bg-white space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-600">
+                        Ο Ανάδοχος
+                      </span>
+                      {currentContract.contractorSignatureData && (
+                        <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+                          <Check size={10} /> Υπογράφηκε
+                        </span>
+                      )}
+                    </div>
+
+                    {currentContract.contractorSignatureData ? (
+                      <div className="space-y-2">
+                        <div className="h-14 bg-slate-50 border border-gray-100 rounded-xl flex items-center justify-center p-1">
+                          <img 
+                            src={currentContract.contractorSignatureData} 
+                            alt="Υπογραφή Αναδόχου" 
+                            className="max-h-full max-w-full object-contain"
+                          />
+                        </div>
+                        <div className="flex gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setActiveSignatureModal("contractor")}
+                            className="flex-1 py-1 text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer"
+                          >
+                            Αλλαγή
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCurrentContract(prev => ({ ...prev, contractorSignatureData: "" }))}
+                            className="px-2 py-1 text-[10px] font-bold text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                            title="Διαγραφή Υπογραφής"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setActiveSignatureModal("contractor")}
+                        className="w-full py-2.5 bg-blue-50 hover:bg-blue-100 border border-dashed border-blue-300 text-blue-800 rounded-xl text-[11px] font-bold flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer"
+                      >
+                        <PenTool size={14} className="text-blue-600" />
+                        <span>Υπογραφή Αναδόχου</span>
+                        <span className="text-[8.5px] text-blue-500 font-normal">με δάχτυλο ή ποντίκι</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Client Signature Card */}
+                  <div className="p-3 border border-gray-200 rounded-2xl bg-white space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-600">
+                        Ο Εργοδότης / Πελάτης
+                      </span>
+                      {currentContract.clientSignatureData && (
+                        <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+                          <Check size={10} /> Υπογράφηκε
+                        </span>
+                      )}
+                    </div>
+
+                    {currentContract.clientSignatureData ? (
+                      <div className="space-y-2">
+                        <div className="h-14 bg-slate-50 border border-gray-100 rounded-xl flex items-center justify-center p-1">
+                          <img 
+                            src={currentContract.clientSignatureData} 
+                            alt="Υπογραφή Πελάτη" 
+                            className="max-h-full max-w-full object-contain"
+                          />
+                        </div>
+                        <div className="flex gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setActiveSignatureModal("client")}
+                            className="flex-1 py-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors cursor-pointer"
+                          >
+                            Αλλαγή
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCurrentContract(prev => ({ ...prev, clientSignatureData: "" }))}
+                            className="px-2 py-1 text-[10px] font-bold text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                            title="Διαγραφή Υπογραφής"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setActiveSignatureModal("client")}
+                        className="w-full py-2.5 bg-emerald-50 hover:bg-emerald-100 border border-dashed border-emerald-300 text-emerald-800 rounded-xl text-[11px] font-bold flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer"
+                      >
+                        <PenTool size={14} className="text-emerald-600" />
+                        <span>Υπογραφή Πελάτη</span>
+                        <span className="text-[8.5px] text-emerald-500 font-normal">με δάχτυλο ή ποντίκι</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -822,7 +1216,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                   ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ
                 </h1>
                 <h2 className="text-sm uppercase tracking-tight text-black font-extrabold">
-                  ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣТОΙΧΕΙΑ ΓΕΜΗ)
+                  ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)
                 </h2>
               </div>
 
@@ -934,10 +1328,17 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
               <div className="mt-12 pt-8 grid grid-cols-2 gap-8 text-center text-xs">
                 <div>
                   <p className="font-bold text-sm mb-4">Οι Συμβαλλόμενοι:</p>
-                  <p className="font-bold text-gray-900 mb-6">Ο Ανάδοχος</p>
+                  <p className="font-bold text-gray-900 mb-4">Ο Ανάδοχος</p>
                   
-                  {/* Digital Signature graphic */}
-                  {currentContract.includeSignature ? (
+                  {currentContract.contractorSignatureData ? (
+                    <div className="h-16 flex items-center justify-center my-1">
+                      <img 
+                        src={currentContract.contractorSignatureData} 
+                        alt="Υπογραφή Αναδόχου" 
+                        className="max-h-14 max-w-[170px] object-contain"
+                      />
+                    </div>
+                  ) : currentContract.includeSignature ? (
                     <div className="my-2 flex flex-col items-center justify-center">
                       <svg width="180" height="60" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 45 C 35 15, 45 60, 70 30 C 95 10, 85 55, 115 35 C 135 20, 150 50, 185 25" stroke="#1d4ed8" strokeWidth="2.5" strokeLinecap="round" fill="none" />
@@ -953,8 +1354,20 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
 
                 <div>
                   <p className="font-bold text-sm mb-4">&nbsp;</p>
-                  <p className="font-bold text-gray-900 mb-6">Ο Εργοδότης / Πελάτης</p>
-                  <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
+                  <p className="font-bold text-gray-900 mb-4">Ο Εργοδότης / Πελάτης</p>
+                  
+                  {currentContract.clientSignatureData ? (
+                    <div className="h-16 flex items-center justify-center my-1">
+                      <img 
+                        src={currentContract.clientSignatureData} 
+                        alt="Υπογραφή Πελάτη" 
+                        className="max-h-14 max-w-[170px] object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
+                  )}
+
                   <p className="font-bold uppercase tracking-wider">{currentContract.representativeName || "................................"}</p>
                   <p className="text-[10px] text-gray-600 italic">
                     (για λογαριασμό της {currentContract.tradeName || currentContract.companyName || "...................."})
@@ -967,6 +1380,22 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
         </div>
 
       </div>
+
+      {/* Signature Modal */}
+      <SignatureModal
+        isOpen={activeSignatureModal !== null}
+        onClose={() => setActiveSignatureModal(null)}
+        title={activeSignatureModal === "contractor" ? "Υπογραφή Αναδόχου" : "Υπογραφή Εργοδότη / Πελάτη"}
+        subtitle={activeSignatureModal === "contractor" ? currentContract.contractorName : (currentContract.representativeName || currentContract.tradeName || "Εργοδότης / Πελάτης")}
+        initialDataUrl={activeSignatureModal === "contractor" ? currentContract.contractorSignatureData : currentContract.clientSignatureData}
+        onSave={(dataUrl) => {
+          if (activeSignatureModal === "contractor") {
+            setCurrentContract(prev => ({ ...prev, contractorSignatureData: dataUrl }));
+          } else if (activeSignatureModal === "client") {
+            setCurrentContract(prev => ({ ...prev, clientSignatureData: dataUrl }));
+          }
+        }}
+      />
 
       {/* PRINT MEDIA STYLES FOR CLEAN PDF GENERATION */}
       <style jsx global>{`
