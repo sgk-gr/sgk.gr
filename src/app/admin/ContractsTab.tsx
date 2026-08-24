@@ -173,20 +173,31 @@ export function ContractsTab({
     }
   };
 
-  // Save contract to list
+  // Save contract to list and cloud
   const handleSaveContract = () => {
     const existingIdx = contracts.findIndex(c => c.id === currentContract.id);
     let updated: ContractData[];
+    let toSave = currentContract;
     if (existingIdx >= 0) {
       updated = [...contracts];
       updated[existingIdx] = currentContract;
     } else {
-      const newContract = { ...currentContract, id: "contract_" + Date.now() };
-      updated = [newContract, ...contracts];
-      setCurrentContract(newContract);
+      toSave = { ...currentContract, id: currentContract.id || ("contract_" + Date.now()) };
+      updated = [toSave, ...contracts];
+      setCurrentContract(toSave);
     }
     setContracts(updated);
     localStorage.setItem("sgk_saved_contracts", JSON.stringify(updated));
+
+    // Async sync to Supabase cloud storage
+    try {
+      fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "contract", id: toSave.id, data: toSave })
+      }).catch(e => console.error(e));
+    } catch(e) {}
+
     toast.success("Το συμφωνητικό αποθηκεύτηκε επιτυχώς!");
   };
 
@@ -458,11 +469,22 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
   // Helper for sending contract directly to client via Email composer
   const handleSendContractByEmail = () => {
     handleSaveContract();
+    const docId = currentContract.id || ("contract_" + Date.now());
+    const docUrl = `https://sgk.gr/doc/contract?id=${docId}`;
+
     const draft = {
       subject: `Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${currentContract.tradeName || currentContract.companyName || "SGK Digital"}`,
       body: `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
 <p>Αξιότιμε συνεργάτη,</p>
-<p>Σας αποστέλλουμε το <strong>Ιδιωτικό Συμφωνητικό</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας <strong>${currentContract.tradeName || currentContract.companyName || ""}</strong>, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+<p>Σας αποστέλλουμε το επίσημο <strong>Ιδιωτικό Συμφωνητικό Συνεργασίας</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας <strong>${currentContract.tradeName || currentContract.companyName || ""}</strong>, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+
+<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">📄 Επίσημο Έγγραφο Συμφωνητικού (PDF)</div>
+  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε, να εκτυπώσετε ή να κατεβάσετε σε PDF το πλήρες υπογεγραμμένο συμφωνητικό:</p>
+  <a href="${docUrl}" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+    📄 Προβολή & Λήψη Συμφωνητικού (PDF)
+  </a>
+</div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
   <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
@@ -487,8 +509,8 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
 
 <p>Παρακαλούμε για την επιβεβαίωσή σας απαντώντας σε αυτό το μήνυμα.</p>
 <p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`,
-      buttonText: "Επικοινωνία & Επιβεβαίωση",
-      buttonLink: "https://sgk.gr",
+      buttonText: "📄 Λήψη Συμφωνητικού (PDF)",
+      buttonLink: docUrl,
       targetLead: {
         company: currentContract.tradeName || currentContract.companyName,
         first_name: currentContract.representativeName,
@@ -499,7 +521,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
     if (onSendToEmail) {
       onSendToEmail();
     } else {
-      toast.success("📋 Το συμφωνητικό προετοιμάστηκε! Μεταβείτε στην καρτέλα Email Leads για αποστολή.");
+      toast.success("📋 Το συμφωνητικό προετοιμάστηκε με επίσημο σύνδεσμο PDF!");
     }
   };
 

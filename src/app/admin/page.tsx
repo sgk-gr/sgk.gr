@@ -390,66 +390,66 @@ export default function AdminVatDashboard() {
 
   // Send AADE Invoice & Technical Offer to Email tab / leads
   const handleSendInvoiceOfferByEmail = () => {
-    const itemsHtml = offerItems.map((it, idx) => `
-      <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0;">
-        <strong style="color: #0f2d59; font-size: 13px;">${idx + 1}. ${it.title}</strong>
-        ${it.duration ? `<span style="font-size: 10px; background: #ecfdf5; color: #047857; padding: 2px 6px; border-radius: 10px; margin-left: 8px; font-weight: bold;">⏱️ ${it.duration}</span>` : ""}
-        <p style="font-size: 12px; color: #64748b; margin: 3px 0 0 0 !important;">${it.description}</p>
-      </div>
-    `).join("");
+    const docId = "invoice_" + Date.now();
+    const docUrl = `https://sgk.gr/doc/invoice?id=${docId}`;
 
-    const body = `<h2>Τεχνική Προσφορά & Στοιχεία Τιμολόγησης 🧾</h2>
+    const invoicePayload = {
+      id: docId,
+      clientName: aadeClientName,
+      clientAfm: aadeClientAfm,
+      clientAddress: aadeClientAddress,
+      docNo: aadeDocNo,
+      date: aadeDate,
+      net: aadeMath.net,
+      vat: aadeMath.vat,
+      gross: aadeMath.gross,
+      withholding: aadeMath.withholding,
+      payable: aadeMath.payable,
+      offerItems: offerItems,
+    };
+
+    // Save to LocalStorage list
+    try {
+      const saved = localStorage.getItem("sgk_saved_invoices");
+      const list = saved ? JSON.parse(saved) : [];
+      localStorage.setItem("sgk_saved_invoices", JSON.stringify([invoicePayload, ...list]));
+    } catch(e) {}
+
+    // Save to Cloud Storage / DB
+    try {
+      fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "invoice", id: docId, data: invoicePayload, leadEmail: "" })
+      }).catch(err => console.error("Cloud doc sync error:", err));
+    } catch(e) {}
+
+    const body = `<h2>Τεχνική Προσφορά & Προτιμολόγιο 🧾</h2>
 <p>Αξιότιμε συνεργάτη <strong>${aadeClientName || ""}</strong>,</p>
-<p>Σας αποστέλλουμε την αναλυτική τεχνική προσφορά και τα οικονομικά στοιχεία για τις υπηρεσίες της <strong>SGK Digital</strong>.</p>
+<p>Σας αποστέλλουμε την επίσημη αναλυτική <strong>Τεχνική Προσφορά & το Προτιμολόγιο</strong> για το έργο σας από την <strong>SGK Digital</strong>.</p>
+
+<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">🧾 Επίσημο Προτιμολόγιο & Τεχνική Προσφορά (2 Σελίδες)</div>
+  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε αναλυτικά τις υπηρεσίες, τα παραδοτέα και τα οικονομικά στοιχεία σε μορφή PDF:</p>
+  <a href="${docUrl}" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+    🧾 Προβολή & Λήψη Προσφοράς / Τιμολογίου (PDF)
+  </a>
+</div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 16px; border-radius: 8px; margin: 15px 0; font-size: 13px;">
   <strong>Στοιχεία Πελάτη:</strong> ${aadeClientName || "-"}<br/>
   <strong>Α.Φ.Μ.:</strong> ${aadeClientAfm || "-"} | <strong>Διεύθυνση:</strong> ${aadeClientAddress || "-"}<br/>
-  <strong>Αρ. Παραστατικού:</strong> #${aadeDocNo} (${new Date(aadeDate).toLocaleDateString('el-GR')})
+  <strong>Συνολικό Ποσό:</strong> ${aadeMath.gross.toLocaleString('el-GR', { minimumFractionDigits: 2 })} € (με ΦΠΑ 24%)
 </div>
 
-<h4>📋 Αναλυτική Τεχνική Προσφορά</h4>
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 15px;">
-  ${itemsHtml || "<p>Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας</p>"}
-</div>
-
-<h4>Οικονομική Προσφορά</h4>
-<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
-  <thead>
-    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
-      <th style="padding: 8px;">Περιγραφή</th>
-      <th style="padding: 8px; text-align: right; width: 100px;">Αξία</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px;">Καθαρή Αξία Υπηρεσιών</td>
-      <td style="padding: 8px; text-align: right; font-weight: 600;">${aadeMath.net.toLocaleString('el-GR', { minimumFractionDigits: 2 })} €</td>
-    </tr>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px;">Φ.Π.Α. (24%)</td>
-      <td style="padding: 8px; text-align: right; font-weight: 600;">${aadeMath.vat.toLocaleString('el-GR', { minimumFractionDigits: 2 })} €</td>
-    </tr>
-    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
-      <td style="padding: 10px 8px; color: #166534;">Συνολική Αξία (με ΦΠΑ)</td>
-      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">${aadeMath.gross.toLocaleString('el-GR', { minimumFractionDigits: 2 })} €</td>
-    </tr>
-  </tbody>
-</table>
-
-<h4>Στοιχεία Κατάθεσης / Τράπεζα</h4>
-<p style="font-size: 12px; color: #475569;">
-  <strong>Eurobank:</strong> <code style="color: #3b5bdb; font-weight: bold;">GR4602601970000830201330337</code><br/>
-  Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ (SGK Digital)
-</p>
-
+<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
 <p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`;
 
     const draft = {
-      subject: `Τεχνική Προσφορά & Στοιχεία Τιμολόγησης — ${aadeClientName || "SGK Digital"}`,
+      subject: `Τεχνική Προσφορά & Προτιμολόγιο — ${aadeClientName || "SGK Digital"}`,
       body,
-      buttonText: "Online Εξόφληση",
-      buttonLink: "https://sgk.gr",
+      buttonText: "🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)",
+      buttonLink: docUrl,
       targetLead: {
         company: aadeClientName,
         first_name: aadeClientName,
@@ -459,7 +459,7 @@ export default function AdminVatDashboard() {
 
     localStorage.setItem("sgk_email_draft", JSON.stringify(draft));
     setActivePortalTab("emails");
-    toast.success("🧾 Η προσφορά & το τιμολόγιο μεταφέρθηκαν στο Email Leads!");
+    toast.success("🧾 Το προτιμολόγιο & η προσφορά ετοιμάστηκαν με επίσημο σύνδεσμο PDF!");
   };
 
   // Preset Loading Helper

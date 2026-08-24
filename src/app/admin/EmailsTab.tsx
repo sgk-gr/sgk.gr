@@ -250,7 +250,15 @@ const templates = [
     subject: "Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — SGK Digital",
     body: `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
 <p>Αξιότιμε συνεργάτη,</p>
-<p>Σας αποστέλλουμε το <strong>Ιδιωτικό Συμφωνητικό</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+<p>Σας αποστέλλουμε το επίσημο <strong>Ιδιωτικό Συμφωνητικό Συνεργασίας</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+
+<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">📄 Επίσημο Έγγραφο Συμφωνητικού (PDF)</div>
+  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε, να εκτυπώσετε ή να κατεβάσετε σε PDF το πλήρες συμφωνητικό:</p>
+  <a href="https://sgk.gr/doc/contract" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+    📄 Προβολή & Λήψη Συμφωνητικού (PDF)
+  </a>
+</div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
   <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
@@ -272,61 +280,33 @@ const templates = [
 
 <p>Μπορείτε να απαντήσετε σε αυτό το email για οποιαδήποτε διευκρίνιση.</p>
 <p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`,
-    defaultButtonText: "Επικοινωνία & Επιβεβαίωση",
-    defaultButtonLink: "https://sgk.gr"
+    defaultButtonText: "📄 Προβολή & Λήψη Συμφωνητικού (PDF)",
+    defaultButtonLink: "https://sgk.gr/doc/contract"
   },
   {
     name: "🧾 Πρότυπο Τιμολογίου & Τεχνική Προσφορά",
-    subject: "Τεχνική Προσφορά & Στοιχεία Τιμολόγησης — SGK Digital",
-    body: `<h2>Τεχνική Προσφορά & Στοιχεία Τιμολόγησης 🧾</h2>
+    subject: "Τεχνική Προσφορά & Προτιμολόγιο — SGK Digital",
+    body: `<h2>Τεχνική Προσφορά & Προτιμολόγιο 🧾</h2>
 <p>Αγαπητέ συνεργάτη,</p>
-<p>Σας αποστέλλουμε την αναλυτική τεχνική προσφορά και τα οικονομικά στοιχεία για το έργο σας από την <strong>SGK Digital</strong>.</p>
+<p>Σας αποστέλλουμε την επίσημη αναλυτική <strong>Τεχνική Προσφορά & το Προτιμολόγιο</strong> για το έργο σας από την <strong>SGK Digital</strong>.</p>
 
-<h4>📋 Αναλυτική Τεχνική Προσφορά</h4>
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 15px;">
-  <div style="margin-bottom: 10px;">
-    <strong style="color: #0f2d59; font-size: 13px;">1. Κατασκευή Eshop / Ιστοσελίδας (Next.js / WordPress)</strong>
-    <p style="font-size: 12px; color: #64748b; margin: 3px 0 0 0 !important;">Custom responsive σχεδίαση, διασύνδεση με τράπεζες, ταχύτητα Google PageSpeed 95+, SSL & βασικό SEO.</p>
-  </div>
-  <div style="border-top: 1px solid #e2e8f0; padding-top: 8px;">
-    <strong style="color: #0f2d59; font-size: 13px;">2. AI Automations & Hosting Υποδομή</strong>
-    <p style="font-size: 12px; color: #64748b; margin: 3px 0 0 0 !important;">Διασύνδεση με AI Agents, αυτοματοποιημένες ειδοποιήσεις και 12 μήνες υποστήριξη.</p>
-  </div>
+<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">🧾 Επίσημο Προτιμολόγιο & Τεχνική Προσφορά (2 Σελίδες)</div>
+  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε αναλυτικά τις υπηρεσίες, τα παραδοτέα και τα οικονομικά στοιχεία σε μορφή PDF:</p>
+  <a href="https://sgk.gr/doc/invoice" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+    🧾 Προβολή & Λήψη Προσφοράς / Τιμολογίου (PDF)
+  </a>
 </div>
 
-<h4>Οικονομική Προσφορά</h4>
-<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
-  <thead>
-    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
-      <th style="padding: 8px;">Περιγραφή</th>
-      <th style="padding: 8px; text-align: right; width: 100px;">Αξία</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px;">Καθαρή Αξία Υπηρεσιών</td>
-      <td style="padding: 8px; text-align: right; font-weight: 600;">100,00 €</td>
-    </tr>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px;">Φ.Π.Α. (24%)</td>
-      <td style="padding: 8px; text-align: right; font-weight: 600;">24,00 €</td>
-    </tr>
-    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
-      <td style="padding: 10px 8px; color: #166534;">Συνολική Αξία (με ΦΠΑ)</td>
-      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">124,00 €</td>
-    </tr>
-  </tbody>
-</table>
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 16px; border-radius: 8px; margin: 15px 0; font-size: 13px;">
+  <strong>Καθαρή Αξία:</strong> 100,00 € | <strong>Φ.Π.Α. 24%:</strong> 24,00 €<br/>
+  <strong>Συνολικό Πληρωτέο Ποσό:</strong> 124,00 € (με ΦΠΑ 24%)
+</div>
 
-<h4>Στοιχεία Κατάθεσης / Τράπεζα</h4>
-<p style="font-size: 12px; color: #475569;">
-  <strong>Eurobank:</strong> <code style="color: #3b5bdb; font-weight: bold;">GR4602601970000830201330337</code><br/>
-  Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ
-</p>
-
+<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
 <p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`,
-    defaultButtonText: "Δείτε Περισσότερα",
-    defaultButtonLink: "https://sgk.gr"
+    defaultButtonText: "🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)",
+    defaultButtonLink: "https://sgk.gr/doc/invoice"
   }
 ];
 
@@ -389,9 +369,29 @@ export function EmailsTab() {
   // Helper to insert a contract into the active email composer
   const handleInsertContract = (contract: any) => {
     if (!contract) return;
+    const docId = contract.id || ("contract_" + Date.now());
+    const docUrl = `https://sgk.gr/doc/contract?id=${docId}`;
+
+    // Cloud document sync
+    try {
+      fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "contract", id: docId, data: contract, leadEmail: singleLeadTarget?.email || "" })
+      }).catch(e => console.error(e));
+    } catch(e) {}
+
     const body = `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
 <p>Αξιότιμε συνεργάτη,</p>
-<p>Σας αποστέλλουμε το <strong>Ιδιωτικό Συμφωνητικό</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας <strong>${contract.tradeName || contract.companyName || ""}</strong>, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+<p>Σας αποστέλλουμε το επίσημο <strong>Ιδιωτικό Συμφωνητικό Συνεργασίας</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας <strong>${contract.tradeName || contract.companyName || ""}</strong>, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+
+<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">📄 Επίσημο Έγγραφο Συμφωνητικού (PDF)</div>
+  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε, να εκτυπώσετε ή να κατεβάσετε σε PDF το πλήρες συμφωνητικό:</p>
+  <a href="${docUrl}" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+    📄 Προβολή & Λήψη Συμφωνητικού (PDF)
+  </a>
+</div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
   <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
@@ -419,19 +419,63 @@ export function EmailsTab() {
 
     setCampaignSubject(`Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${contract.tradeName || contract.companyName || "SGK Digital"}`);
     setCampaignBody(body);
-    setButtonText("Επικοινωνία & Επιβεβαίωση");
-    setButtonLink("https://sgk.gr");
-    toast.success(`Εισήχθη το συμφωνητικό για «${contract.tradeName || contract.companyName || "Πελάτη"}»!`);
+    setButtonText("📄 Λήψη Συμφωνητικού (PDF)");
+    setButtonLink(docUrl);
+    toast.success(`Εισήχθη το συμφωνητικό για «${contract.tradeName || contract.companyName || "Πελάτη"}» με PDF link!`);
   };
 
   // Helper to insert invoice / offer into email
-  const handleInsertInvoice = () => {
-    const invoiceTpl = templates.find(t => t.name.includes("Πρότυπο Τιμολογίου")) || templates[5];
-    setCampaignSubject(invoiceTpl.subject);
-    setCampaignBody(invoiceTpl.body);
-    setButtonText(invoiceTpl.defaultButtonText || "Δείτε Περισσότερα");
-    setButtonLink(invoiceTpl.defaultButtonLink || "https://sgk.gr");
-    toast.success("Εισήχθη το πρότυπο τιμολογίου & τεχνικής προσφοράς!");
+  const handleInsertInvoice = (customData?: any) => {
+    const docId = customData?.id || ("invoice_" + Date.now());
+    const docUrl = `https://sgk.gr/doc/invoice?id=${docId}`;
+
+    const clientTitle = customData?.clientName || singleLeadTarget?.company || singleLeadTarget?.first_name || "";
+
+    // Cloud document sync
+    try {
+      fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          type: "invoice", 
+          id: docId, 
+          data: customData || {
+            clientName: clientTitle || "Πελάτης",
+            net: 100,
+            vat: 24,
+            gross: 124,
+            payable: 124,
+          }, 
+          leadEmail: singleLeadTarget?.email || "" 
+        })
+      }).catch(e => console.error(e));
+    } catch(e) {}
+
+    const body = `<h2>Τεχνική Προσφορά & Προτιμολόγιο 🧾</h2>
+<p>Αξιότιμε συνεργάτη <strong>${clientTitle}</strong>,</p>
+<p>Σας αποστέλλουμε την επίσημη αναλυτική <strong>Τεχνική Προσφορά & το Προτιμολόγιο</strong> για το έργο σας από την <strong>SGK Digital</strong>.</p>
+
+<div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
+  <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">🧾 Επίσημο Προτιμολόγιο & Τεχνική Προσφορά (2 Σελίδες)</div>
+  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε αναλυτικά τις υπηρεσίες, τα παραδοτέα και τα οικονομικά στοιχεία σε μορφή PDF:</p>
+  <a href="${docUrl}" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+    🧾 Προβολή & Λήψη Προσφοράς / Τιμολογίου (PDF)
+  </a>
+</div>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 16px; border-radius: 8px; margin: 15px 0; font-size: 13px;">
+  <strong>Στοιχεία Πελάτη:</strong> ${clientTitle || "-"}<br/>
+  <strong>Συνολικό Ποσό:</strong> ${customData?.gross ? `${customData.gross.toFixed(2).replace('.', ',')} €` : "124,00 € (με ΦΠΑ 24%)"}
+</div>
+
+<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`;
+
+    setCampaignSubject(`Τεχνική Προσφορά & Προτιμολόγιο — ${clientTitle || "SGK Digital"}`);
+    setCampaignBody(body);
+    setButtonText("🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)");
+    setButtonLink(docUrl);
+    toast.success("Εισήχθη το πρότυπο τιμολογίου & τεχνικής προσφοράς με PDF link!");
   };
 
   const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1625,9 +1669,15 @@ export function EmailsTab() {
                                 setSingleLeadTarget(lead);
                                 const comp = lead.company || "";
                                 const name = lead.first_name || "";
-                                const contractTpl = templates.find(t => t.name.includes("Ιδιωτικό Συμφωνητικό")) || templates[4];
-                                setCampaignSubject(`Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${comp || name || "SGK Digital"}`);
-                                handleInsertContract({
+                                
+                                // Look for matching saved contract first
+                                const matchedContract = savedContracts.find(c => 
+                                  (c.companyName && comp && c.companyName.toLowerCase().includes(comp.toLowerCase())) ||
+                                  (c.tradeName && comp && c.tradeName.toLowerCase().includes(comp.toLowerCase()))
+                                );
+
+                                const contractToUse = matchedContract || {
+                                  id: "contract_" + Date.now(),
                                   companyName: comp,
                                   tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp,
                                   representativeName: name,
@@ -1635,11 +1685,13 @@ export function EmailsTab() {
                                   deliveryDaysText: "πέντε (5)",
                                   renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
                                   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος"
-                                });
+                                };
+
+                                handleInsertContract(contractToUse);
                                 setIsCampaignModalOpen(true);
                               }}
                               className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white border border-amber-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                              title="Αποστολή Ιδιωτικού Συμφωνητικού με Email"
+                              title="Αποστολή Επισήμου Ιδιωτικού Συμφωνητικού με PDF Link"
                             >
                               <FileCheck size={12} />
                               Συμφωνητικο
@@ -1648,15 +1700,22 @@ export function EmailsTab() {
                             <button
                               onClick={() => {
                                 setSingleLeadTarget(lead);
-                                const invoiceTpl = templates.find(t => t.name.includes("Πρότυπο Τιμολογίου")) || templates[5];
-                                setCampaignSubject(invoiceTpl.subject);
-                                setCampaignBody(invoiceTpl.body);
-                                setButtonText(invoiceTpl.defaultButtonText || "Δείτε Περισσότερα");
-                                setButtonLink(invoiceTpl.defaultButtonLink || "https://sgk.gr");
+                                const comp = lead.company || "";
+                                const name = lead.first_name || "";
+                                handleInsertInvoice({
+                                  id: "invoice_" + Date.now(),
+                                  clientName: comp || name || "Πελάτης",
+                                  clientAfm: "000000000",
+                                  clientAddress: "Αθήνα",
+                                  net: 100,
+                                  vat: 24,
+                                  gross: 124,
+                                  payable: 124,
+                                });
                                 setIsCampaignModalOpen(true);
                               }}
                               className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white border border-indigo-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                              title="Αποστολή Τιμολογίου & Τεχνικής Προσφοράς με Email"
+                              title="Αποστολή Τεχνικής Προσφοράς & Τιμολογίου με PDF Link"
                             >
                               <Calculator size={12} />
                               Τιμολογιο
