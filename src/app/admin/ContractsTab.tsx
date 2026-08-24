@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   FileCheck, Printer, Plus, Trash2, Edit3, Download, Eye, 
-  Building2, User, CreditCard
+  Building2, User, CreditCard, Search, Sparkles, Loader2, RefreshCw
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -120,6 +120,45 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
       }));
     }
   }, [initialLead]);
+
+  const [gemiSearchQuery, setGemiSearchQuery] = useState("");
+  const [isSearchingGemi, setIsSearchingGemi] = useState(false);
+
+  // GEMI Auto Lookup Handler
+  const handleGemiLookup = async (overrideQuery?: string) => {
+    const q = (overrideQuery || gemiSearchQuery || currentContract.clientAfm || currentContract.gemiNo || "").trim();
+    if (!q) {
+      toast.error("Παρακαλώ εισάγετε Α.Φ.Μ. (9 ψηφία) ή Αριθμό Γ.Ε.ΜΗ. (12 ψηφία).");
+      return;
+    }
+
+    setIsSearchingGemi(true);
+    try {
+      const res = await fetch(`/api/gemi-lookup?query=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      if (data.success && data.company) {
+        const co = data.company;
+        setCurrentContract(prev => ({
+          ...prev,
+          companyName: co.companyName || prev.companyName,
+          tradeName: co.tradeName || prev.tradeName,
+          gemiNo: co.gemiNo || prev.gemiNo,
+          clientAfm: co.clientAfm || prev.clientAfm,
+          city: co.city || prev.city,
+          representativeName: co.representativeName || prev.representativeName,
+          representativeFatherName: co.representativeFatherName || prev.representativeFatherName,
+          representativeTitle: co.representativeTitle || prev.representativeTitle,
+        }));
+        toast.success(`✨ Αντλήθηκαν τα στοιχεία της «${co.tradeName || co.companyName}» από το Γ.Ε.ΜΗ.!`);
+      } else {
+        toast.error(data.error || "Δεν βρέθηκε επιχείρηση στο Γ.Ε.ΜΗ. με αυτά τα στοιχεία.");
+      }
+    } catch (err: any) {
+      toast.error("Σφάλμα σύνδεσης με το API του Γ.Ε.ΜΗ.");
+    } finally {
+      setIsSearchingGemi(false);
+    }
+  };
 
   // Save contract to list
   const handleSaveContract = () => {
@@ -487,6 +526,58 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                 </div>
               </div>
 
+              {/* GEMI API Auto-fill Box */}
+              <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 rounded-2xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-blue-900 flex items-center gap-1.5">
+                    <Sparkles size={14} className="text-blue-600 animate-pulse" />
+                    Αυτόματη Συμπλήρωση από Γ.Ε.ΜΗ. (API)
+                  </span>
+                  <span className="text-[9px] font-bold text-blue-600 bg-blue-100/80 px-2 py-0.5 rounded-full">
+                    Live σύνδεση με ΓΕΜΗ
+                  </span>
+                </div>
+                <p className="text-[10px] text-blue-800/80 font-medium">
+                  Εισάγετε <strong>Α.Φ.Μ. (9 ψηφία)</strong> ή <strong>Αριθμό Γ.Ε.ΜΗ. (12 ψηφία)</strong> για αυτόματη άντληση επωνυμίας, εκπροσώπου, πατρωνύμου κ.α.:
+                </p>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400" size={14} />
+                    <input
+                      type="text"
+                      value={gemiSearchQuery}
+                      onChange={(e) => setGemiSearchQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleGemiLookup();
+                        }
+                      }}
+                      placeholder="π.χ. 803351366 ή 195135303000..."
+                      className="w-full pl-8 pr-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb] focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleGemiLookup()}
+                    disabled={isSearchingGemi}
+                    className="px-4 py-2 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white rounded-xl font-black text-xs uppercase tracking-wider shadow-sm flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {isSearchingGemi ? (
+                      <>
+                        <Loader2 size={13} className="animate-spin" />
+                        Ανάκτηση...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={13} />
+                        Ανάκτηση
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
               {/* Client Info */}
               <div className="space-y-4 pt-2 border-t border-gray-100">
                 <h4 className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
@@ -521,9 +612,23 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
-                      Αριθμός Γ.Ε.ΜΗ.
-                    </label>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider">
+                        Αριθμός Γ.Ε.ΜΗ.
+                      </label>
+                      {currentContract.gemiNo && (
+                        <button
+                          type="button"
+                          onClick={() => handleGemiLookup(currentContract.gemiNo)}
+                          disabled={isSearchingGemi}
+                          className="text-[9px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-0.5 cursor-pointer"
+                          title="Αναζήτηση στο ΓΕΜΗ με αυτόν τον αριθμό"
+                        >
+                          <RefreshCw size={10} />
+                          Άντληση
+                        </button>
+                      )}
+                    </div>
                     <input
                       type="text"
                       value={currentContract.gemiNo}
@@ -575,9 +680,23 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
-                      Α.Φ.Μ. Πελάτη
-                    </label>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider">
+                        Α.Φ.Μ. Πελάτη
+                      </label>
+                      {currentContract.clientAfm && (
+                        <button
+                          type="button"
+                          onClick={() => handleGemiLookup(currentContract.clientAfm)}
+                          disabled={isSearchingGemi}
+                          className="text-[9px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-0.5 cursor-pointer"
+                          title="Αναζήτηση στο ΓΕΜΗ με αυτό το ΑΦΜ"
+                        >
+                          <RefreshCw size={10} />
+                          Άντληση
+                        </button>
+                      )}
+                    </div>
                     <input
                       type="text"
                       value={currentContract.clientAfm}
