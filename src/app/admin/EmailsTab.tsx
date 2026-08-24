@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus, Search, Building2 } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus, Search, Building2, FileCheck } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 const templates = [
@@ -1502,6 +1502,55 @@ export function EmailsTab() {
                             Αποστολη
                           </button>
                         )}
+                        <button
+                          onClick={() => {
+                            const saved = localStorage.getItem("sgk_saved_contracts");
+                            let contractsList = [];
+                            if (saved) {
+                              try { contractsList = JSON.parse(saved); } catch(e){}
+                            }
+                            const comp = lead.company || "";
+                            const name = lead.first_name || "";
+                            const newContract = {
+                              id: "contract_" + Date.now(),
+                              createdAt: new Date().toISOString(),
+                              contractDate: new Date().toISOString().split("T")[0],
+                              city: "Αθήνα",
+                              contractorName: "ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ",
+                              contractorAddress: "Μεταμόρφωση Αττικής, οδός Ερμού 1 και Λυκοβρύσεως 14, Τ.Κ. 14452",
+                              contractorAfm: "131398972",
+                              contractorDoy: "ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ",
+                              contractorProfession: "Παροχή Υπηρεσιών Πληροφορικής",
+                              companyName: comp || "",
+                              tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp || "",
+                              gemiNo: "",
+                              representativeName: name || "",
+                              representativeFatherName: "",
+                              representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
+                              clientAfm: "",
+                              totalAmountNum: 124.00,
+                              totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                              advanceAmountNum: 50.00,
+                              advanceAmountText: "πενήντα ευρώ (50,00 €)",
+                              remainingAmountNum: 74.00,
+                              remainingAmountText: "εβδομήντα τεσσάρων ευρώ (74,00 €)",
+                              renewalAmountNum: 124.00,
+                              renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                              deliveryDaysNum: 5,
+                              deliveryDaysText: "πέντε (5)",
+                              ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
+                              includeSignature: true,
+                            };
+                            const updated = [newContract, ...contractsList];
+                            localStorage.setItem("sgk_saved_contracts", JSON.stringify(updated));
+                            toast.success("Δημιουργήθηκε ιδιωτικό συμφωνητικό για τον πελάτη!");
+                          }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white border border-amber-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                          title="Δημιουργία Ιδιωτικού Συμφωνητικού (ΓΕΜΗ)"
+                        >
+                          <FileCheck size={12} />
+                          Συμφωνητικο
+                        </button>
                         <button
                           onClick={() => handleDeleteLead(lead.id, lead.email)}
                           className="inline-flex items-center justify-center p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-all cursor-pointer border border-transparent hover:border-rose-100"
