@@ -185,8 +185,8 @@ const templates = [
   <p style="margin: 0 !important; font-size: 14px; font-weight: bold; color: #166534; line-height: 1.5;">Το παραστατικό έχει εξοφληθεί πλήρως. Σας ευχαριστούμε πολύ για τη συνεργασία και την εμπιστοσύνη σας!</p>
 </div>
 <p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`,
-    defaultButtonText: "",
-    defaultButtonLink: ""
+    defaultButtonText: "🧾 Λήψη Εξοφλημένου Τιμολογίου (PDF)",
+    defaultButtonLink: "https://sgk.gr/doc/invoice"
   },
   {
     name: "✉️ Τιμολόγιο προς Εξόφληση",
@@ -284,25 +284,6 @@ const templates = [
 <p style="margin-top: 30px !important; border-top: 1px solid #f0f0f0; padding-top: 20px;">Με εκτίμηση,<br /><strong>Η ομάδα της SGK Software Development</strong></p>`,
     defaultButtonText: "📄 Προβολή & Λήψη Συμφωνητικού (PDF)",
     defaultButtonLink: "https://sgk.gr/doc/contract"
-  },
-  {
-    name: "🧾 Εξοφλημένο Τιμολόγιο Παροχής Υπηρεσιών",
-    subject: "Σας επισυνάπτουμε το τιμολόγιό σας — SGK Digital",
-    body: `<div style="text-align: center; padding: 10px 0 16px 0;">
-  <h2 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">Σας επισυνάπτουμε το τιμολόγιό σας</h2>
-  <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155; line-height: 1.6;">
-    Σας ευχαριστούμε θερμά για τη συνεργασία και την εμπιστοσύνη σας στην <strong>SGK Digital</strong>. Σας επισυνάπτουμε σε μορφή αρχείου PDF το επίσημο τιμολόγιο που αφορά τις υπηρεσίες μας.
-  </p>
-</div>
-
-<p style="margin: 20px 0 0 0; font-size: 13px; color: #64748b; text-align: center; line-height: 1.5;">
-  Για οποιαδήποτε απορία ή διευκρίνιση σχετικά με το παραστατικό σας, μπορείτε να επικοινωνήσετε μαζί μας απαντώντας σε αυτό το email ή καλώντας μας στο <strong>211 114 0013</strong>.
-</p>
-<p style="margin: 24px 0 0 0; text-align: center; font-size: 14px; color: #0f172a; font-weight: bold;">
-  Με εκτίμηση,<br /><span style="color: #3b5bdb;">Η ομάδα της SGK Digital</span>
-</p>`,
-    defaultButtonText: "🧾 Λήψη Εξοφλημένου Τιμολογίου (PDF)",
-    defaultButtonLink: "https://sgk.gr/doc/invoice"
   }
 ];
 
@@ -469,21 +450,50 @@ function safeEncodeBase64(data: any): string {
       }).catch(e => console.error(e));
     } catch(e) {}
 
-    const body = `<div style="text-align: center; padding: 10px 0 16px 0;">
-  <h2 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">Σας επισυνάπτουμε το τιμολόγιό σας</h2>
-  <p style="margin: 0 0 16px 0; font-size: 15px; color: #334155; line-height: 1.6;">
-    Σας ευχαριστούμε θερμά για τη συνεργασία και την εμπιστοσύνη σας στην <strong>SGK Digital</strong>. Σας επισυνάπτουμε σε μορφή αρχείου PDF το επίσημο τιμολόγιο που αφορά τις υπηρεσίες μας.
-  </p>
+    const netVal = invoicePayload.net || 100;
+    const vatVal = invoicePayload.vat || 24;
+    const grossVal = invoicePayload.gross || 124;
+
+    const body = `<h2>Εξοφλημένο Τιμολόγιο 🧾</h2>
+<p>Αγαπητέ συνεργάτη,</p>
+<p>Σας αποστέλλουμε συνημμένα σε μορφή PDF το εξοφλημένο τιμολόγιο παροχής υπηρεσιών που αφορά τις εργασίες μας. <br/><strong>Το παραστατικό έχει εξοφληθεί πλήρως και δεν εκκρεμεί κάποιο υπόλοιπο.</strong></p>
+<h4>Στοιχεία Παραστατικού</h4>
+<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
+  <thead>
+    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
+      <th style="padding: 8px;">Περιγραφή Χρέωσης</th>
+      <th style="padding: 8px; text-align: right; width: 100px;">Ποσό</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px; vertical-align: middle;">
+        <strong>Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας</strong><br/>
+        <span style="font-size: 11px; color: #64748b; line-height: 1.4; display: block; margin-top: 4px;">
+          Τιμολόγιο Παροχής Υπηρεσιών # ${docId}
+        </span>
+      </td>
+      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">${netVal} €</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px; vertical-align: middle;">ΦΠΑ 24%</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">${vatVal} €</td>
+    </tr>
+    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
+      <td style="padding: 10px 8px; color: #166534;">Συνολικό Ποσό (με ΦΠΑ)</td>
+      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">${grossVal} €</td>
+    </tr>
+  </tbody>
+</table>
+<div style="background-color: #f0fdf4; border: 2px solid #4ade80; border-radius: 12px; padding: 18px; text-align: center; margin: 20px 0;">
+  <div style="display: inline-block; background-color: #22c55e; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+    ✓ ΕΞΟΦΛΗΘΗΚΕ / PAID
+  </div>
+  <p style="margin: 0 !important; font-size: 14px; font-weight: bold; color: #166534; line-height: 1.5;">Το παραστατικό έχει εξοφληθεί πλήρως. Σας ευχαριστούμε πολύ για τη συνεργασία και την εμπιστοσύνη σας!</p>
 </div>
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`;
 
-<p style="margin: 20px 0 0 0; font-size: 13px; color: #64748b; text-align: center; line-height: 1.5;">
-  Για οποιαδήποτε απορία ή διευκρίνιση σχετικά με το παραστατικό σας, μπορείτε να επικοινωνήσετε μαζί μας απαντώντας σε αυτό το email ή καλώντας μας στο <strong>211 114 0013</strong>.
-</p>
-<p style="margin: 24px 0 0 0; text-align: center; font-size: 14px; color: #0f172a; font-weight: bold;">
-  Με εκτίμηση,<br /><span style="color: #3b5bdb;">Η ομάδα της SGK Digital</span>
-</p>`;
-
-    setCampaignSubject(`Σας επισυνάπτουμε το τιμολόγιό σας — ${clientTitle || "SGK Digital"}`);
+    setCampaignSubject(`Εξοφλημένο Τιμολόγιο Παροχής Υπηρεσιών — ${clientTitle || "SGK Digital"}`);
     setCampaignBody(body);
     setButtonText("🧾 Λήψη Εξοφλημένου Τιμολογίου (PDF)");
     setButtonLink(docUrl);
