@@ -70,58 +70,103 @@ const formatDateGreek = (dateStr?: string) => {
   return dateStr;
 };
 
+// Safe UTF-8 Base64 decoder
+function safeDecodeBase64(base64Str: string): any {
+  try {
+    const binary = atob(base64Str);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    const jsonStr = new TextDecoder().decode(bytes);
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    try {
+      return JSON.parse(decodeURIComponent(atob(base64Str)));
+    } catch (e2) {
+      return null;
+    }
+  }
+}
+
 function ContractViewer() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const dataParam = searchParams.get("data");
+  const autoDownload = searchParams.get("download") === "1" || searchParams.get("download") === "true";
 
   const [contract, setContract] = useState<ContractData>(DEFAULT_CONTRACT);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadContract() {
-      // 1. Try URL dataParam first
+      // 1. Try URL dataParam first (Instant 100% accurate data with no network needed)
       if (dataParam) {
-        try {
-          const decoded = JSON.parse(decodeURIComponent(atob(dataParam)));
-          setContract({ ...DEFAULT_CONTRACT, ...decoded });
+        const decoded = safeDecodeBase64(dataParam);
+        if (decoded) {
+          setContract(prev => ({ ...DEFAULT_CONTRACT, ...decoded }));
           setLoading(false);
+          if (autoDownload) {
+            setTimeout(() => window.print(), 600);
+          }
           return;
-        } catch (e) {}
+        }
       }
 
-      // 2. Try localStorage if opened locally
+      // 2. Try localStorage if opened on same browser
       if (id) {
         const localSaved = localStorage.getItem("sgk_saved_contracts");
         if (localSaved) {
           try {
             const list = JSON.parse(localSaved);
-            const found = list.find((c: any) => c.id === id);
+            const found = list.find((c: any) => c.id === id || (c.clientAfm && id.includes(c.clientAfm)));
             if (found) {
-              setContract({ ...DEFAULT_CONTRACT, ...found });
+              setContract(prev => ({ ...DEFAULT_CONTRACT, ...found }));
               setLoading(false);
+              if (autoDownload) {
+                setTimeout(() => window.print(), 600);
+              }
               return;
             }
           } catch (e) {}
         }
 
         // 3. Try Cloud API fetch
+        let fetchedData: any = null;
         try {
           const res = await fetch(`/api/documents?type=contract&id=${id}`);
           const json = await res.json();
           if (json.success && json.document?.data) {
-            setContract({ ...DEFAULT_CONTRACT, ...json.document.data });
+            fetchedData = json.document.data;
           }
         } catch (e) {
           console.error(e);
         }
+
+        // 4. Fallback direct public Supabase Storage CDN
+        if (!fetchedData) {
+          try {
+            const cdnRes = await fetch(`https://xrmvingehhiymchoggka.supabase.co/storage/v1/object/public/pdf_uploads/documents/contract_${id}.json`);
+            if (cdnRes.ok) {
+              const cdnJson = await cdnRes.json();
+              if (cdnJson?.data) fetchedData = cdnJson.data;
+            }
+          } catch (e) {}
+        }
+
+        if (fetchedData) {
+          setContract(prev => ({ ...DEFAULT_CONTRACT, ...fetchedData }));
+        }
       }
 
       setLoading(false);
+      if (autoDownload) {
+        setTimeout(() => window.print(), 600);
+      }
     }
 
     loadContract();
-  }, [id, dataParam]);
+  }, [id, dataParam, autoDownload]);
 
   if (loading) {
     return (
@@ -146,7 +191,7 @@ function ContractViewer() {
           <div>
             <span className="text-xs font-black uppercase tracking-wider block">Ιδιωτικο Συμφωνητικο (ΓΕΜΗ)</span>
             <span className="text-[10px] text-slate-400 font-mono">
-              {contract.companyName && contract.companyName !== "................................................" ? contract.companyName : "Επίσημο Έγγραφο"}
+              {contract.companyName && contract.companyName !== "................................................" ? (contract.tradeName || contract.companyName) : "Επίσημο Έγγραφο"}
             </span>
           </div>
         </div>
@@ -158,205 +203,177 @@ function ContractViewer() {
           </span>
           <button
             onClick={() => window.print()}
-            className="px-5 py-2 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-sans font-black text-xs uppercase tracking-wider rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
+            className="px-5 py-2 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2 cursor-pointer"
           >
+            <Download size={14} />
             <Printer size={14} />
-            <span>Εκτυπωση / Ληψη PDF</span>
+            Λήψη PDF / Εκτύπωση
           </button>
         </div>
       </nav>
 
-      {/* Contract Document Container (Standard A4 styling) */}
-      <main className="max-w-[850px] mx-auto my-8 bg-white p-12 md:p-16 shadow-2xl rounded-2xl border border-slate-200 print:shadow-none print:border-none print:my-0 print:p-0 print:max-w-full">
+      {/* A4 Document Paper Container */}
+      <main className="max-w-[850px] mx-auto my-8 p-10 sm:p-14 bg-white border border-gray-200 rounded-2xl shadow-2xl print:m-0 print:p-0 print:border-none print:shadow-none print:max-w-none print:rounded-none">
         
-        {/* Header Titles */}
-        <div className="text-center mb-8 pb-4 border-b-2 border-slate-900">
-          <h1 className="text-xl md:text-2xl font-black tracking-tight uppercase leading-tight mb-1 text-black font-sans">
+        {/* Document Header */}
+        <div className="text-center pb-6 border-b-2 border-gray-900 mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-wide text-gray-900 leading-tight">
             ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ
           </h1>
-          <h2 className="text-sm md:text-base font-bold tracking-tight uppercase text-slate-700 font-sans">
+          <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-700 mt-1">
             ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)
           </h2>
         </div>
 
-        {/* Date & Intro */}
-        <p className="text-sm md:text-[15px] leading-relaxed mb-4 text-justify">
-          Στην <strong>{contract.city || "Αθήνα"}</strong>, σήμερα στις <strong>{formatDateGreek(contract.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:
-        </p>
+        {/* Intro */}
+        <div className="text-justify text-[13px] leading-relaxed text-gray-800 space-y-4 mb-6">
+          <p>
+            Στην <strong>{contract.city || "Αθήνα"}</strong>, σήμερα στις <strong>{formatDateGreek(contract.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:
+          </p>
 
-        {/* Contractor */}
-        <p className="text-sm md:text-[15px] leading-relaxed mb-3 text-justify pl-4 border-l-2 border-slate-300">
-          <strong>1. Αφενός:</strong> ο κ. <strong>{contract.contractorName}</strong>, με έδρα επιχείρησης στη {contract.contractorAddress}, με επάγγελμα «{contract.contractorProfession}», με Α.Φ.Μ. <strong>{contract.contractorAfm}</strong> / Δ.Ο.Υ. <strong>{contract.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,
-        </p>
+          {/* Contractor */}
+          <div className="p-3.5 bg-gray-50/80 rounded-lg border border-gray-200">
+            <p>
+              <strong>1. Αφενός:</strong> ο κ. <strong>{contract.contractorName}</strong>, με έδρα επιχείρησης στη {contract.contractorAddress}, με επάγγελμα «{contract.contractorProfession}», με Α.Φ.Μ. <strong>{contract.contractorAfm}</strong> / Δ.Ο.Υ. <strong>{contract.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,
+            </p>
+          </div>
 
-        <p className="text-center font-bold text-xs uppercase tracking-widest my-2 text-slate-500 font-sans">και</p>
+          <p className="text-center font-bold text-xs uppercase tracking-widest text-gray-500 my-2">ΚΑΙ</p>
 
-        {/* Client */}
-        <p className="text-sm md:text-[15px] leading-relaxed mb-6 text-justify pl-4 border-l-2 border-slate-300">
-          <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{contract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{contract.tradeName || "................................"}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>{contract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {contract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{contract.representativeName || "................................"}</strong> του <strong>{contract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{contract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
-        </p>
+          {/* Client */}
+          <div className="p-3.5 bg-blue-50/40 rounded-lg border border-blue-100">
+            <p>
+              <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία «<strong>{contract.companyName || "................................................"}</strong>» (διακριτικός τίτλος «<strong>{contract.tradeName || "................................"}</strong>»), με αριθμό <strong>Γ.Ε.ΜΗ. {contract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {contract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{contract.representativeName || "................................"}</strong> του <strong>{contract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{contract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
+            </p>
+          </div>
 
-        <p className="text-sm md:text-[15px] leading-relaxed mb-6 font-semibold">
-          συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:
-        </p>
+          <p className="font-semibold text-center pt-2">
+            συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:
+          </p>
+        </div>
 
         {/* Articles */}
-        <div className="space-y-6 text-sm md:text-[15px] leading-relaxed text-justify">
+        <div className="space-y-5 text-[12.5px] leading-relaxed text-gray-800">
           
           {/* Article 1 */}
-          <div className="border border-slate-200 rounded-xl p-5 bg-slate-50/50 print:border-slate-400 print:bg-transparent print:p-0 print:border-none">
-            <h3 className="font-bold text-black font-sans uppercase text-xs tracking-wider mb-2">
-              Άρθρο 1 – Αντικείμενο της σύμβασης
+          <div className="border border-gray-200 rounded-lg p-4 bg-white">
+            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+              ΑΡΘΡΟ 1 – ΑΝΤΙΚΕΙΜΕΝΟ ΤΗΣ ΣΥΜΒΑΣΗΣ
             </h3>
-            <p className="mb-2">
+            <p className="text-justify mb-2">
               Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη τη σχεδίαση, ανάπτυξη και παράδοση μίας απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης (Γ.Ε.ΜΗ., Α.Φ.Μ., έδρα, νόμιμη εκπροσώπηση, στοιχεία επικοινωνίας), σύμφωνα με το υπόδειγμα/παράδειγμα σχεδιασμού που έχει υποδείξει ο Εργοδότης.
             </p>
-            <p className="mb-2">
+            <p className="text-justify mb-2">
               Σκοπός της ιστοσελίδας είναι να παρέχει στον Εργοδότη έναν δημόσια προσβάσιμο σύνδεσμο (link) με τα στοιχεία διαφάνειας της επιχείρησής του, ώστε να καλύπτονται οι σχετικές του υποχρεώσεις έναντι του Γ.Ε.ΜΗ.
             </p>
-            <p>
+            <p className="text-justify">
               Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η κατασκευή της ιστοσελίδας, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.
             </p>
           </div>
 
           {/* Article 2 */}
-          <div className="border border-slate-200 rounded-xl p-5 bg-slate-50/50 print:border-slate-400 print:bg-transparent print:p-0 print:border-none">
-            <h3 className="font-bold text-black font-sans uppercase text-xs tracking-wider mb-2">
-              Άρθρο 2 – Domain και φιλοξενία (hosting)
+          <div className="border border-gray-200 rounded-lg p-4 bg-white">
+            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+              ΑΡΘΡΟ 2 – DOMAIN ΚΑΙ ΦΙΛΟΞΕΝΙΑ (HOSTING)
             </h3>
-            <p className="mb-2">
-              Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.
+            <p className="text-justify mb-2">
+              1. Το domain name και η φιλοξενία (hosting) της ιστοσελίδας παρέχονται από τον Ανάδοχο και συμπεριλαμβάνονται στο αρχικό κόστος για τους πρώτους δώδεκα (12) μήνες από την ημερομηνία παράδοσης.
             </p>
-            <p>
-              Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>{contract.renewalAmountText}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
+            <p className="text-justify">
+              2. Μετά το πέρας του πρώτου έτους, η ετήσια ανανέωση του domain name και της φιλοξενίας ανέρχεται στο ποσό των <strong>{contract.renewalAmountText || "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)"}</strong> συμπεριλαμβανομένου Φ.Π.Α. 24% ετησίως, καταβλητέο κατόπιν σχετικής ειδοποίησης του Αναδόχου.
             </p>
           </div>
 
           {/* Article 3 */}
-          <div className="border border-slate-200 rounded-xl p-5 bg-slate-50/50 print:border-slate-400 print:bg-transparent print:p-0 print:border-none">
-            <h3 className="font-bold text-black font-sans uppercase text-xs tracking-wider mb-2">
-              Άρθρο 3 – Χρόνος παράδοσης
+          <div className="border border-gray-200 rounded-lg p-4 bg-white">
+            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+              ΑΡΘΡΟ 3 – ΧΡΟΝΟΣ ΠΑΡΑΔΟΣΗΣ
             </h3>
-            <p>
-              Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός <strong>{contract.deliveryDaysText}</strong> εργάσιμων ημερών από την {(contract.advanceAmountNum || 0) > 0 ? "καταβολή της προκαταβολής του Άρθρου 4" : "εξόφληση της αμοιβής του Άρθρου 4"}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.
+            <p className="text-justify">
+              Ο Ανάδοχος υποχρεούται να ολοκληρώσει και να παραδώσει την ιστοσελίδα σε πλήρη λειτουργία εντός <strong>{contract.deliveryDaysText || "πέντε (5)"}</strong> εργάσιμων ημερών από την ημερομηνία υπογραφής του παρόντος και την παροχή όλων των απαραίτητων στοιχείων από τον Εργοδότη.
             </p>
           </div>
 
           {/* Article 4 */}
-          <div className="border border-slate-200 rounded-xl p-5 bg-slate-50/50 print:border-slate-400 print:bg-transparent print:p-0 print:border-none">
-            <h3 className="font-bold text-black font-sans uppercase text-xs tracking-wider mb-2">
-              Άρθρο 4 – Αμοιβή και τρόπος πληρωμής
+          <div className="border border-gray-200 rounded-lg p-4 bg-white">
+            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+              ΑΡΘΡΟ 4 – ΑΜΟΙΒΗ ΚΑΙ ΤΡΟΠΟΣ ΠΛΗΡΩΜΗΣ
             </h3>
-            <p className="mb-2">
-              <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{contract.totalAmountText}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
+            <p className="text-justify mb-2">
+              1. Η συνολική αμοιβή του Αναδόχου για την πλήρη εκτέλεση του έργου ορίζεται στο ποσό των <strong>{contract.totalAmountText || "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α. 24%.
             </p>
-            {(contract.advanceAmountNum || 0) === 0 ? (
-              <p className="mb-2">
-                <strong>4.2</strong> Η εξόφληση της αμοιβής πραγματοποιείται <strong>εφάπαξ</strong> με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής.
-              </p>
-            ) : (
-              <>
-                <p className="mb-2">
-                  <strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>{contract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών.
-                </p>
-                <p className="mb-2">
-                  <strong>4.3</strong> Το υπόλοιπο ποσό των <strong>{contract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.
-                </p>
-              </>
-            )}
-            <p className="mb-2">
-              <strong>{(contract.advanceAmountNum || 0) === 0 ? "4.3" : "4.4"}</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.
+            <p className="text-justify mb-2">
+              2. Η καταβολή της αμοιβής πραγματοποιείται με κατάθεση στον τραπεζικό λογαριασμό του Αναδόχου: <strong>{contract.ibanDetails || "GR4602601970000830201330337 (Eurobank)"}</strong>.
             </p>
-            <p>
-              <strong>{(contract.advanceAmountNum || 0) === 0 ? "4.4" : "4.5"}</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>{contract.ibanDetails}</strong>.
+            <p className="text-justify">
+              3. Με την ολοκλήρωση της πληρωμής, ο Ανάδοχος εκδίδει και αποστέλλει στον Εργοδότη το νόμιμο φορολογικό παραστατικό (Τιμολόγιο Παροχής Υπηρεσιών).
             </p>
           </div>
 
           {/* Article 5 */}
-          <div className="border border-slate-200 rounded-xl p-5 bg-slate-50/50 print:border-slate-400 print:bg-transparent print:p-0 print:border-none">
-            <h3 className="font-bold text-black font-sans uppercase text-xs tracking-wider mb-2">
-              Άρθρο 5 – Λοιποί όροι
+          <div className="border border-gray-200 rounded-lg p-4 bg-white">
+            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+              ΑΡΘΡΟ 5 – ΤΕΛΙΚΕΣ ΔΙΑΤΑΞΕΙΣ & ΥΠΟΓΡΑΦΕΣ
             </h3>
-            <p className="mb-2">
-              Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού της ιστοσελίδας περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.
+            <p className="text-justify mb-4">
+              Το παρόν συντάχθηκε σε δύο (2) πρωτότυπα αντίτυπα, αναγνώσθηκε, εγκρίθηκε και υπογράφεται από τους συμβαλλόμενους, λαμβάνοντας έκαστος από ένα αντίτυπο.
             </p>
-            <p className="mb-2">
-              Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.
-            </p>
-            <p>
-              Το παρόν συντάχθηκε σε δύο (2) όμοια πρωτότυπα, τα οποία αφού αναγνώσθηκαν και βεβαιώθηκαν από τους συμβαλλόμενους, υπεγράφησαν από αυτούς και έλαβε έκαστο εξ αυτών από ένα.
-            </p>
-          </div>
 
-        </div>
-
-        {/* Signatures Section */}
-        <div className="mt-14 pt-8 border-t border-slate-200 print:mt-10">
-          <p className="text-center font-bold text-sm uppercase tracking-wider mb-8 text-slate-800 font-sans">
-            Οι Συμβαλλόμενοι
-          </p>
-
-          <div className="grid grid-cols-2 gap-12 text-center text-sm font-sans">
-            {/* Contractor */}
-            <div className="space-y-4">
-              <p className="font-black text-black">Ο Ανάδοχος</p>
-              <div className="h-20 flex items-center justify-center">
-                <span className="text-xs text-slate-400 italic">Υπογραφή & Σφραγίδα</span>
+            {/* Signature Area */}
+            <div className="grid grid-cols-2 gap-8 pt-6 border-t border-gray-200 text-center">
+              <div>
+                <p className="font-bold text-xs uppercase tracking-wider text-gray-900 mb-1">Ο ΑΝΑΔΟΧΟΣ</p>
+                <p className="text-[11px] text-gray-600 mb-12">ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ</p>
+                <div className="border-t border-dashed border-gray-400 w-48 mx-auto pt-1 text-[10px] text-gray-400">
+                  (Υπογραφή / Σφραγίδα)
+                </div>
               </div>
-              <div className="w-48 mx-auto border-b border-dashed border-slate-400 pb-1">
-                <p className="font-bold text-xs">{contract.contractorName}</p>
+
+              <div>
+                <p className="font-bold text-xs uppercase tracking-wider text-gray-900 mb-1">Ο ΕΡΓΟΔΟΤΗΣ / ΠΕΛΑΤΗΣ</p>
+                <p className="text-[11px] text-gray-600 mb-12">
+                  {contract.representativeName || contract.companyName || "................................"}
+                </p>
+                <div className="border-t border-dashed border-gray-400 w-48 mx-auto pt-1 text-[10px] text-gray-400">
+                  (Υπογραφή / Σφραγίδα)
+                </div>
               </div>
             </div>
 
-            {/* Employer */}
-            <div className="space-y-4">
-              <p className="font-black text-black">Ο Εργοδότης / Πελάτης</p>
-              <div className="h-20 flex items-center justify-center">
-                <span className="text-xs text-slate-400 italic">Υπογραφή & Σφραγίδα</span>
-              </div>
-              <div className="w-48 mx-auto border-b border-dashed border-slate-400 pb-1">
-                <p className="font-bold text-xs">
-                  {contract.representativeName && contract.representativeName !== "................................" ? contract.representativeName : "................................"}
-                </p>
-                <p className="text-[10px] text-slate-500">
-                  (για την {contract.tradeName || contract.companyName || "επιχείρηση"})
-                </p>
-              </div>
-            </div>
           </div>
+
         </div>
 
       </main>
 
-      {/* Print CSS Rules */}
+      {/* Print Styles */}
       <style jsx global>{`
         @media print {
           body {
-            background-color: #ffffff !important;
-            color: #000000 !important;
+            background-color: white !important;
+            color: black !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
           .no-print {
             display: none !important;
           }
-          @page {
-            size: A4 portrait;
-            margin: 15mm;
+          main {
+            box-shadow: none !important;
+            border: none !important;
+            margin: 0 !important;
+            padding: 20mm !important;
+            max-width: 100% !important;
           }
         }
       `}</style>
-
     </div>
   );
 }
 
 export default function ContractPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
-        <Loader2 className="animate-spin w-8 h-8 text-[#3b5bdb]" />
-        <span className="ml-3 text-sm font-bold">Φόρτωση...</span>
-      </div>
-    }>
+    <Suspense fallback={<div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">Φόρτωση...</div>}>
       <ContractViewer />
     </Suspense>
   );

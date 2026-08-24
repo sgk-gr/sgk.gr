@@ -31,9 +31,9 @@ export async function POST(req: Request) {
     const filePath = `documents/${docType}_${docId}.json`;
     const buffer = Buffer.from(filePayload, "utf-8");
 
-    // Upload / update in attachments bucket
+    // Upload / update in pdf_uploads bucket (supports JSON & public access)
     const { error: uploadError } = await supabase.storage
-      .from("attachments")
+      .from("pdf_uploads")
       .upload(filePath, buffer, {
         contentType: "application/json",
         cacheControl: "3600",
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       });
 
     if (uploadError) {
-      console.warn("Storage upload notice:", uploadError.message);
+      console.warn("Storage upload notice (pdf_uploads):", uploadError.message);
     }
 
     const publicUrl = `https://sgk.gr/doc/${docType}?id=${docId}`;
@@ -78,9 +78,18 @@ export async function GET(req: Request) {
     });
 
     const filePath = `documents/${docType}_${id}.json`;
-    const { data, error } = await supabase.storage
-      .from("attachments")
+    let { data, error } = await supabase.storage
+      .from("pdf_uploads")
       .download(filePath);
+
+    if (error || !data) {
+      // Fallback try attachments
+      const fallback = await supabase.storage
+        .from("attachments")
+        .download(filePath);
+      data = fallback.data;
+      error = fallback.error;
+    }
 
     if (error || !data) {
       return NextResponse.json({ error: "Document not found in cloud storage" }, { status: 404 });

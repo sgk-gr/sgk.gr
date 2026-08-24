@@ -4,9 +4,24 @@ import React, { useState, useEffect } from "react";
 import { 
   FileCheck, Printer, Plus, Trash2, Edit3, Download, Eye, 
   Building2, User, CreditCard, Search, Sparkles, Loader2, RefreshCw,
-  X, Check, Copy, Landmark, Mail
+  X, Check, Copy, Landmark, Mail, ExternalLink
 } from "lucide-react";
 import { toast } from "sonner";
+
+// Safe UTF-8 Base64 encoder
+function safeEncodeBase64(data: any): string {
+  try {
+    const jsonStr = JSON.stringify(data);
+    const utf8Bytes = new TextEncoder().encode(jsonStr);
+    let binary = "";
+    for (let i = 0; i < utf8Bytes.length; i++) {
+      binary += String.fromCharCode(utf8Bytes[i]);
+    }
+    return btoa(binary);
+  } catch (e) {
+    return "";
+  }
+}
 
 export interface ContractData {
   id: string;
@@ -175,21 +190,25 @@ export function ContractsTab({
 
   // Save contract to list and cloud
   const handleSaveContract = () => {
-    const existingIdx = contracts.findIndex(c => c.id === currentContract.id);
+    const docId = currentContract.id || ("contract_" + (currentContract.clientAfm || currentContract.gemiNo || Date.now()));
+    const toSave: ContractData = {
+      ...currentContract,
+      id: docId,
+    };
+
+    const existingIdx = contracts.findIndex(c => c.id === toSave.id || (c.clientAfm && c.clientAfm === toSave.clientAfm && toSave.clientAfm !== "...................."));
     let updated: ContractData[];
-    let toSave = currentContract;
     if (existingIdx >= 0) {
       updated = [...contracts];
-      updated[existingIdx] = currentContract;
+      updated[existingIdx] = toSave;
     } else {
-      toSave = { ...currentContract, id: currentContract.id || ("contract_" + Date.now()) };
       updated = [toSave, ...contracts];
-      setCurrentContract(toSave);
     }
+    setCurrentContract(toSave);
     setContracts(updated);
     localStorage.setItem("sgk_saved_contracts", JSON.stringify(updated));
 
-    // Async sync to Supabase cloud storage
+    // Async sync to Supabase cloud storage (pdf_uploads)
     try {
       fetch("/api/documents", {
         method: "POST",
@@ -199,6 +218,7 @@ export function ContractsTab({
     } catch(e) {}
 
     toast.success("Το συμφωνητικό αποθηκεύτηκε επιτυχώς!");
+    return toSave;
   };
 
   // Delete contract
@@ -468,12 +488,13 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
 
   // Helper for sending contract directly to client via Email composer
   const handleSendContractByEmail = () => {
-    handleSaveContract();
-    const docId = currentContract.id || ("contract_" + Date.now());
-    const docUrl = `https://sgk.gr/doc/contract?id=${docId}`;
+    const toSave = handleSaveContract();
+    const docId = toSave.id;
+    const b64 = safeEncodeBase64(toSave);
+    const docUrl = `https://sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
 
-    const companyLabel = currentContract.tradeName || currentContract.companyName || "";
-    const amountLabel = `${(currentContract.totalAmountNum || 124).toFixed(2).replace(".", ",")} €`;
+    const companyLabel = toSave.tradeName || toSave.companyName || "";
+    const amountLabel = `${(toSave.totalAmountNum || 124).toFixed(2).replace(".", ",")} €`;
 
     const draft = {
       subject: `Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${companyLabel || "SGK Digital"}`,
@@ -511,11 +532,11 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
 
 <p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
 <p style="margin-top: 30px !important; border-top: 1px solid #f0f0f0; padding-top: 20px;">Με εκτίμηση,<br /><strong>Η ομάδα της SGK Software Development</strong></p>`,
-      buttonText: "📄 Προβολή & Λήψη Συμφωνητικού (PDF)",
+      buttonText: "📄 Λήψη Συμφωνητικού (PDF)",
       buttonLink: docUrl,
       targetLead: {
-        company: currentContract.tradeName || currentContract.companyName,
-        first_name: currentContract.representativeName,
+        company: toSave.tradeName || toSave.companyName,
+        first_name: toSave.representativeName,
         email: ""
       }
     };
@@ -523,7 +544,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
     if (onSendToEmail) {
       onSendToEmail();
     } else {
-      toast.success("📋 Το συμφωνητικό προετοιμάστηκε με επίσημο σύνδεσμο PDF!");
+      toast.success("📋 Το συμφωνητικό προετοιμάστηκε με άμεση λήψη PDF!");
     }
   };
 
@@ -552,6 +573,19 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
           >
             {isEditing ? <Eye size={14} /> : <Edit3 size={14} />}
             {isEditing ? "Προεπισκόπηση PDF" : "Επεξεργασία Φόρμας"}
+          </button>
+
+          <button
+            onClick={() => {
+              const toSave = handleSaveContract();
+              const b64 = safeEncodeBase64(toSave);
+              window.open(`/doc/contract?id=${toSave.id}&data=${b64}`, '_blank');
+            }}
+            className="px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+            title="Άνοιγμα της δημόσιας σελίδας / PDF σε νέα καρτέλα"
+          >
+            <ExternalLink size={14} />
+            Live PDF Link
           </button>
 
           <button

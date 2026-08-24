@@ -62,10 +62,30 @@ const formatDateGreek = (dateStr?: string) => {
   return dateStr;
 };
 
+// Safe UTF-8 Base64 decoder
+function safeDecodeBase64(base64Str: string): any {
+  try {
+    const binary = atob(base64Str);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    const jsonStr = new TextDecoder().decode(bytes);
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    try {
+      return JSON.parse(decodeURIComponent(atob(base64Str)));
+    } catch (e2) {
+      return null;
+    }
+  }
+}
+
 function InvoiceViewer() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const dataParam = searchParams.get("data");
+  const autoDownload = searchParams.get("download") === "1" || searchParams.get("download") === "true";
 
   const [doc, setDoc] = useState<InvoiceDocData>(DEFAULT_INVOICE);
   const [loading, setLoading] = useState(true);
@@ -74,12 +94,15 @@ function InvoiceViewer() {
     async function loadDoc() {
       // 1. Try URL dataParam first
       if (dataParam) {
-        try {
-          const decoded = JSON.parse(decodeURIComponent(atob(dataParam)));
-          setDoc({ ...DEFAULT_INVOICE, ...decoded });
+        const decoded = safeDecodeBase64(dataParam);
+        if (decoded) {
+          setDoc(prev => ({ ...DEFAULT_INVOICE, ...decoded }));
           setLoading(false);
+          if (autoDownload) {
+            setTimeout(() => window.print(), 600);
+          }
           return;
-        } catch (e) {}
+        }
       }
 
       // 2. Try localStorage
@@ -90,30 +113,52 @@ function InvoiceViewer() {
             const list = JSON.parse(localSaved);
             const found = list.find((c: any) => c.id === id);
             if (found) {
-              setDoc({ ...DEFAULT_INVOICE, ...found });
+              setDoc(prev => ({ ...DEFAULT_INVOICE, ...found }));
               setLoading(false);
+              if (autoDownload) {
+                setTimeout(() => window.print(), 600);
+              }
               return;
             }
           } catch (e) {}
         }
 
         // 3. Try Cloud API fetch
+        let fetchedData: any = null;
         try {
           const res = await fetch(`/api/documents?type=invoice&id=${id}`);
           const json = await res.json();
           if (json.success && json.document?.data) {
-            setDoc({ ...DEFAULT_INVOICE, ...json.document.data });
+            fetchedData = json.document.data;
           }
         } catch (e) {
           console.error(e);
         }
+
+        // 4. Fallback direct public Supabase Storage CDN
+        if (!fetchedData) {
+          try {
+            const cdnRes = await fetch(`https://xrmvingehhiymchoggka.supabase.co/storage/v1/object/public/pdf_uploads/documents/invoice_${id}.json`);
+            if (cdnRes.ok) {
+              const cdnJson = await cdnRes.json();
+              if (cdnJson?.data) fetchedData = cdnJson.data;
+            }
+          } catch (e) {}
+        }
+
+        if (fetchedData) {
+          setDoc(prev => ({ ...DEFAULT_INVOICE, ...fetchedData }));
+        }
       }
 
       setLoading(false);
+      if (autoDownload) {
+        setTimeout(() => window.print(), 600);
+      }
     }
 
     loadDoc();
-  }, [id, dataParam]);
+  }, [id, dataParam, autoDownload]);
 
   if (loading) {
     return (

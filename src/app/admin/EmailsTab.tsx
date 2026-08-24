@@ -368,11 +368,27 @@ export function EmailsTab() {
     }
   }, [isCampaignModalOpen]);
 
+// Safe UTF-8 Base64 encoder
+function safeEncodeBase64(data: any): string {
+  try {
+    const jsonStr = JSON.stringify(data);
+    const utf8Bytes = new TextEncoder().encode(jsonStr);
+    let binary = "";
+    for (let i = 0; i < utf8Bytes.length; i++) {
+      binary += String.fromCharCode(utf8Bytes[i]);
+    }
+    return btoa(binary);
+  } catch (e) {
+    return "";
+  }
+}
+
   // Helper to insert a contract into the active email composer
   const handleInsertContract = (contract: any) => {
     if (!contract) return;
-    const docId = contract.id || ("contract_" + Date.now());
-    const docUrl = `https://sgk.gr/doc/contract?id=${docId}`;
+    const docId = contract.id || ("contract_" + (contract.clientAfm || contract.gemiNo || Date.now()));
+    const b64 = safeEncodeBase64(contract);
+    const docUrl = `https://sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
 
     const companyLabel = contract.tradeName || contract.companyName || singleLeadTarget?.company || "";
     const amountLabel = contract.totalAmountNum ? `${contract.totalAmountNum.toFixed(2).replace('.', ',')} €` : (contract.totalAmountText || "124,00 €");
@@ -423,15 +439,23 @@ export function EmailsTab() {
 
     setCampaignSubject(`Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${companyLabel || "SGK Digital"}`);
     setCampaignBody(body);
-    setButtonText("📄 Προβολή & Λήψη Συμφωνητικού (PDF)");
+    setButtonText("📄 Λήψη Συμφωνητικού (PDF)");
     setButtonLink(docUrl);
-    toast.success(`Εισήχθη το συμφωνητικό για «${companyLabel || "Πελάτη"}» με PDF link!`);
+    toast.success(`Εισήχθη το συμφωνητικό για «${companyLabel || "Πελάτη"}» με σύνδεσμο άμεσης λήψης PDF!`);
   };
 
   // Helper to insert invoice / offer into email
   const handleInsertInvoice = (customData?: any) => {
     const docId = customData?.id || ("invoice_" + Date.now());
-    const docUrl = `https://sgk.gr/doc/invoice?id=${docId}`;
+    const invoicePayload = customData || {
+      clientName: singleLeadTarget?.company || singleLeadTarget?.first_name || "Πελάτης",
+      net: 100,
+      vat: 24,
+      gross: 124,
+      payable: 124,
+    };
+    const b64 = safeEncodeBase64(invoicePayload);
+    const docUrl = `https://sgk.gr/doc/invoice?id=${docId}&data=${b64}&download=1`;
 
     const clientTitle = customData?.clientName || singleLeadTarget?.company || singleLeadTarget?.first_name || "";
 
@@ -443,13 +467,7 @@ export function EmailsTab() {
         body: JSON.stringify({ 
           type: "invoice", 
           id: docId, 
-          data: customData || {
-            clientName: clientTitle || "Πελάτης",
-            net: 100,
-            vat: 24,
-            gross: 124,
-            payable: 124,
-          }, 
+          data: invoicePayload, 
           leadEmail: singleLeadTarget?.email || "" 
         })
       }).catch(e => console.error(e));
@@ -461,25 +479,25 @@ export function EmailsTab() {
 
 <div style="background-color: #f8fafc; border: 2px solid #3b5bdb; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0;">
   <div style="font-size: 14px; font-weight: bold; color: #0f2d59; margin-bottom: 8px;">🧾 Επίσημο Προτιμολόγιο & Τεχνική Προσφορά (2 Σελίδες)</div>
-  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να δείτε αναλυτικά τις υπηρεσίες, τα παραδοτέα και τα οικονομικά στοιχεία σε μορφή PDF:</p>
+  <p style="margin: 0 0 15px 0 !important; font-size: 13px; color: #64748b;">Πατήστε στο παρακάτω κουμπί για να κατεβάσετε άμεσα το επίσημο έγγραφο σε PDF:</p>
   <a href="${docUrl}" target="_blank" style="display: inline-block; background-color: #3b5bdb; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
-    🧾 Προβολή & Λήψη Προσφοράς / Τιμολογίου (PDF)
+    🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)
   </a>
 </div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 16px; border-radius: 8px; margin: 15px 0; font-size: 13px;">
-  <strong>Στοιχεία Πελάτη:</strong> ${clientTitle || "-"}<br/>
-  <strong>Συνολικό Ποσό:</strong> ${customData?.gross ? `${customData.gross.toFixed(2).replace('.', ',')} €` : "124,00 € (με ΦΠΑ 24%)"}
+  <strong>Καθαρή Αξία:</strong> 100,00 € | <strong>Φ.Π.Α. 24%:</strong> 24,00 €<br/>
+  <strong>Συνολικό Πληρωτέο Ποσό:</strong> 124,00 € (με ΦΠΑ 24%)
 </div>
 
 <p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
-<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`;
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`;
 
     setCampaignSubject(`Τεχνική Προσφορά & Προτιμολόγιο — ${clientTitle || "SGK Digital"}`);
     setCampaignBody(body);
     setButtonText("🧾 Λήψη Προσφοράς / Τιμολογίου (PDF)");
     setButtonLink(docUrl);
-    toast.success("Εισήχθη το πρότυπο τιμολογίου & τεχνικής προσφοράς με PDF link!");
+    toast.success(`Εισήχθη το τιμολόγιο για «${clientTitle || "Πελάτη"}» με σύνδεσμο άμεσης λήψης PDF!`);
   };
 
   const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
