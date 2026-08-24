@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 export default function GlobalPromoBar() {
   const pathname = usePathname();
   
-  // Do not show the promo bar on the elv8 requirements questionnaire page
-  if (pathname === "/elv8-requirements") {
+  // Do not show the promo bar on doc pages, admin pages, or elv8 requirements
+  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements") {
     return null;
   }
 
@@ -16,7 +16,7 @@ export default function GlobalPromoBar() {
     : "/pay-as-you-grow";
 
   return (
-    <div className="global-promo-bar fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20 shadow-[0_-4px_10px_rgba(0,0,0,0.15)] whitespace-nowrap overflow-hidden text-ellipsis px-2">
+    <div className="global-promo-bar fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20 shadow-[0_-4px_10px_rgba(0,0,0,0.15)] whitespace-nowrap overflow-hidden text-ellipsis px-2 print:hidden no-print">
       Νέος πελάτης;{" "}
       <Link 
         href={targetHref} 

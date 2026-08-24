@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Printer, Download, ArrowLeft, ShieldCheck, Loader2 } from "lucide-react";
+import { Printer, Download, ShieldCheck, Loader2 } from "lucide-react";
 
 interface ContractData {
   id?: string;
@@ -203,7 +203,7 @@ function ContractViewer() {
           </span>
           <button
             onClick={() => window.print()}
-            className="px-5 py-2 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2 cursor-pointer"
+            className="px-5 py-2.5 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2 cursor-pointer"
           >
             <Download size={14} />
             <Printer size={14} />
@@ -213,57 +213,57 @@ function ContractViewer() {
       </nav>
 
       {/* A4 Document Paper Container */}
-      <main className="max-w-[850px] mx-auto my-8 p-10 sm:p-14 bg-white border border-gray-200 rounded-2xl shadow-2xl print:m-0 print:p-0 print:border-none print:shadow-none print:max-w-none print:rounded-none">
+      <main className="max-w-[850px] mx-auto my-8 p-10 sm:p-14 bg-white border border-gray-200 rounded-2xl shadow-2xl print:m-0 print:p-0 print:border-none print:shadow-none print:max-w-none print:rounded-none print:bg-white print:text-black">
         
         {/* Document Header */}
-        <div className="text-center pb-6 border-b-2 border-gray-900 mb-8">
-          <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-wide text-gray-900 leading-tight">
+        <div className="text-center pb-4 border-b-2 border-gray-900 mb-6 print:pb-3 print:mb-4">
+          <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-wide text-gray-900 leading-tight print:text-lg">
             ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ
           </h1>
-          <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-700 mt-1">
+          <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-700 mt-1 print:text-[11px]">
             ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)
           </h2>
         </div>
 
         {/* Intro */}
-        <div className="text-justify text-[13px] leading-relaxed text-gray-800 space-y-4 mb-6">
+        <div className="contract-intro text-justify text-[13px] print:text-[11px] leading-relaxed text-gray-800 space-y-3 mb-5 print:mb-3">
           <p>
             Στην <strong>{contract.city || "Αθήνα"}</strong>, σήμερα στις <strong>{formatDateGreek(contract.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:
           </p>
 
           {/* Contractor */}
-          <div className="p-3.5 bg-gray-50/80 rounded-lg border border-gray-200">
+          <div className="p-3 bg-gray-50/80 rounded-lg border border-gray-200 print:bg-white print:p-2">
             <p>
               <strong>1. Αφενός:</strong> ο κ. <strong>{contract.contractorName}</strong>, με έδρα επιχείρησης στη {contract.contractorAddress}, με επάγγελμα «{contract.contractorProfession}», με Α.Φ.Μ. <strong>{contract.contractorAfm}</strong> / Δ.Ο.Υ. <strong>{contract.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,
             </p>
           </div>
 
-          <p className="text-center font-bold text-xs uppercase tracking-widest text-gray-500 my-2">ΚΑΙ</p>
+          <p className="text-center font-bold text-xs print:text-[10px] uppercase tracking-widest text-gray-500 my-1">ΚΑΙ</p>
 
           {/* Client */}
-          <div className="p-3.5 bg-blue-50/40 rounded-lg border border-blue-100">
+          <div className="p-3 bg-blue-50/40 rounded-lg border border-blue-100 print:bg-white print:border-gray-200 print:p-2">
             <p>
               <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία «<strong>{contract.companyName || "................................................"}</strong>» (διακριτικός τίτλος «<strong>{contract.tradeName || "................................"}</strong>»), με αριθμό <strong>Γ.Ε.ΜΗ. {contract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {contract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{contract.representativeName || "................................"}</strong> του <strong>{contract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{contract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
             </p>
           </div>
 
-          <p className="font-semibold text-center pt-2">
+          <p className="font-semibold text-center pt-1 print:pt-0">
             συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:
           </p>
         </div>
 
-        {/* Articles */}
-        <div className="space-y-5 text-[12.5px] leading-relaxed text-gray-800">
+        {/* Articles Container */}
+        <div className="space-y-4 print:space-y-3 text-[12.5px] print:text-[10.5px] leading-relaxed text-gray-800">
           
           {/* Article 1 */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-white">
-            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+          <div className="contract-article border border-gray-200 rounded-lg p-4 print:p-2.5 bg-white">
+            <h3 className="font-bold uppercase text-[13px] print:text-[11px] text-gray-900 mb-1.5 border-b pb-1">
               ΑΡΘΡΟ 1 – ΑΝΤΙΚΕΙΜΕΝΟ ΤΗΣ ΣΥΜΒΑΣΗΣ
             </h3>
-            <p className="text-justify mb-2">
+            <p className="text-justify mb-1.5">
               Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη τη σχεδίαση, ανάπτυξη και παράδοση μίας απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης (Γ.Ε.ΜΗ., Α.Φ.Μ., έδρα, νόμιμη εκπροσώπηση, στοιχεία επικοινωνίας), σύμφωνα με το υπόδειγμα/παράδειγμα σχεδιασμού που έχει υποδείξει ο Εργοδότης.
             </p>
-            <p className="text-justify mb-2">
+            <p className="text-justify mb-1.5">
               Σκοπός της ιστοσελίδας είναι να παρέχει στον Εργοδότη έναν δημόσια προσβάσιμο σύνδεσμο (link) με τα στοιχεία διαφάνειας της επιχείρησής του, ώστε να καλύπτονται οι σχετικές του υποχρεώσεις έναντι του Γ.Ε.ΜΗ.
             </p>
             <p className="text-justify">
@@ -272,11 +272,11 @@ function ContractViewer() {
           </div>
 
           {/* Article 2 */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-white">
-            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+          <div className="contract-article border border-gray-200 rounded-lg p-4 print:p-2.5 bg-white">
+            <h3 className="font-bold uppercase text-[13px] print:text-[11px] text-gray-900 mb-1.5 border-b pb-1">
               ΑΡΘΡΟ 2 – DOMAIN ΚΑΙ ΦΙΛΟΞΕΝΙΑ (HOSTING)
             </h3>
-            <p className="text-justify mb-2">
+            <p className="text-justify mb-1.5">
               1. Το domain name και η φιλοξενία (hosting) της ιστοσελίδας παρέχονται από τον Ανάδοχο και συμπεριλαμβάνονται στο αρχικό κόστος για τους πρώτους δώδεκα (12) μήνες από την ημερομηνία παράδοσης.
             </p>
             <p className="text-justify">
@@ -285,8 +285,8 @@ function ContractViewer() {
           </div>
 
           {/* Article 3 */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-white">
-            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+          <div className="contract-article border border-gray-200 rounded-lg p-4 print:p-2.5 bg-white">
+            <h3 className="font-bold uppercase text-[13px] print:text-[11px] text-gray-900 mb-1.5 border-b pb-1">
               ΑΡΘΡΟ 3 – ΧΡΟΝΟΣ ΠΑΡΑΔΟΣΗΣ
             </h3>
             <p className="text-justify">
@@ -295,14 +295,14 @@ function ContractViewer() {
           </div>
 
           {/* Article 4 */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-white">
-            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+          <div className="contract-article border border-gray-200 rounded-lg p-4 print:p-2.5 bg-white">
+            <h3 className="font-bold uppercase text-[13px] print:text-[11px] text-gray-900 mb-1.5 border-b pb-1">
               ΑΡΘΡΟ 4 – ΑΜΟΙΒΗ ΚΑΙ ΤΡΟΠΟΣ ΠΛΗΡΩΜΗΣ
             </h3>
-            <p className="text-justify mb-2">
+            <p className="text-justify mb-1.5">
               1. Η συνολική αμοιβή του Αναδόχου για την πλήρη εκτέλεση του έργου ορίζεται στο ποσό των <strong>{contract.totalAmountText || "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α. 24%.
             </p>
-            <p className="text-justify mb-2">
+            <p className="text-justify mb-1.5">
               2. Η καταβολή της αμοιβής πραγματοποιείται με κατάθεση στον τραπεζικό λογαριασμό του Αναδόχου: <strong>{contract.ibanDetails || "GR4602601970000830201330337 (Eurobank)"}</strong>.
             </p>
             <p className="text-justify">
@@ -311,27 +311,27 @@ function ContractViewer() {
           </div>
 
           {/* Article 5 */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-white">
-            <h3 className="font-bold uppercase text-[13px] text-gray-900 mb-2 border-b pb-1">
+          <div className="contract-article border border-gray-200 rounded-lg p-4 print:p-2.5 bg-white">
+            <h3 className="font-bold uppercase text-[13px] print:text-[11px] text-gray-900 mb-1.5 border-b pb-1">
               ΑΡΘΡΟ 5 – ΤΕΛΙΚΕΣ ΔΙΑΤΑΞΕΙΣ & ΥΠΟΓΡΑΦΕΣ
             </h3>
-            <p className="text-justify mb-4">
+            <p className="text-justify mb-3">
               Το παρόν συντάχθηκε σε δύο (2) πρωτότυπα αντίτυπα, αναγνώσθηκε, εγκρίθηκε και υπογράφεται από τους συμβαλλόμενους, λαμβάνοντας έκαστος από ένα αντίτυπο.
             </p>
 
             {/* Signature Area */}
-            <div className="grid grid-cols-2 gap-8 pt-6 border-t border-gray-200 text-center">
+            <div className="contract-signatures grid grid-cols-2 gap-8 pt-4 border-t border-gray-200 text-center">
               <div>
-                <p className="font-bold text-xs uppercase tracking-wider text-gray-900 mb-1">Ο ΑΝΑΔΟΧΟΣ</p>
-                <p className="text-[11px] text-gray-600 mb-12">ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ</p>
+                <p className="font-bold text-xs print:text-[11px] uppercase tracking-wider text-gray-900 mb-1">Ο ΑΝΑΔΟΧΟΣ</p>
+                <p className="text-[11px] print:text-[10px] text-gray-600 mb-10 print:mb-8">ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ</p>
                 <div className="border-t border-dashed border-gray-400 w-48 mx-auto pt-1 text-[10px] text-gray-400">
                   (Υπογραφή / Σφραγίδα)
                 </div>
               </div>
 
               <div>
-                <p className="font-bold text-xs uppercase tracking-wider text-gray-900 mb-1">Ο ΕΡΓΟΔΟΤΗΣ / ΠΕΛΑΤΗΣ</p>
-                <p className="text-[11px] text-gray-600 mb-12">
+                <p className="font-bold text-xs print:text-[11px] uppercase tracking-wider text-gray-900 mb-1">Ο ΕΡΓΟΔΟΤΗΣ / ΠΕΛΑΤΗΣ</p>
+                <p className="text-[11px] print:text-[10px] text-gray-600 mb-10 print:mb-8">
                   {contract.representativeName || contract.companyName || "................................"}
                 </p>
                 <div className="border-t border-dashed border-gray-400 w-48 mx-auto pt-1 text-[10px] text-gray-400">
@@ -349,21 +349,42 @@ function ContractViewer() {
       {/* Print Styles */}
       <style jsx global>{`
         @media print {
-          body {
+          @page {
+            size: A4 portrait;
+            margin: 10mm 15mm;
+          }
+          html, body {
             background-color: white !important;
             color: black !important;
             margin: 0 !important;
             padding: 0 !important;
           }
-          .no-print {
+          .no-print,
+          .global-promo-bar,
+          #floating-chatbot,
+          nav,
+          footer {
             display: none !important;
           }
           main {
             box-shadow: none !important;
             border: none !important;
             margin: 0 !important;
-            padding: 20mm !important;
+            padding: 0 !important;
             max-width: 100% !important;
+          }
+          .contract-intro {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
+          .contract-article {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+            margin-bottom: 8px !important;
+          }
+          .contract-signatures {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
           }
         }
       `}</style>
