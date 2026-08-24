@@ -56,13 +56,13 @@ const DEFAULT_CONTRACT: ContractData = {
   contractorDoy: "ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ",
   contractorProfession: "Παροχή Υπηρεσιών Πληροφορικής",
 
-  companyName: "LYROUDIS CONSULTING SERVICES ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε.",
-  tradeName: "LYROUDIS CONSULTING SERVICES",
-  gemiNo: "195135303000",
-  representativeName: "ΒΑΣΙΛΕΙΟΣ ΛΥΡΟΥΔΗΣ",
-  representativeFatherName: "ΧΡΗΣΤΟΥ",
+  companyName: "",
+  tradeName: "",
+  gemiNo: "",
+  representativeName: "",
+  representativeFatherName: "",
   representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
-  clientAfm: "050480299",
+  clientAfm: "",
 
   totalAmountNum: 124.00,
   totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
@@ -261,7 +261,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
 
         <p>και</p>
 
-        <p class="party-item"><strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«${currentContract.companyName || '________________________'}»</strong> (διακριτικός τίτλος <strong>«${currentContract.tradeName || '________________________'}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>${currentContract.gemiNo || '________________'}</strong>, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || 'τον διαχειριστή αυτής'} κ. <strong>${currentContract.representativeName || '________________________'}</strong> του <strong>${currentContract.representativeFatherName || '________________'}</strong>, με Α.Φ.Μ. <strong>${currentContract.clientAfm || '________________'}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,</p>
+        <p class="party-item"><strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«${currentContract.companyName || '................................................'}»</strong> (διακριτικός τίτλος <strong>«${currentContract.tradeName || '................................'}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>${currentContract.gemiNo || '....................'}</strong>, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || 'τον διαχειριστή αυτής'} κ. <strong>${currentContract.representativeName || '................................'}</strong> του <strong>${currentContract.representativeFatherName || '....................'}</strong>, με Α.Φ.Μ. <strong>${currentContract.clientAfm || '....................'}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,</p>
 
         <p style="margin-bottom: 14px;">συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:</p>
 
@@ -314,8 +314,8 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
             <p style="font-weight: bold; margin-bottom: 3px;">&nbsp;</p>
             <p style="font-weight: bold; margin-bottom: 6px;">Ο Εργοδότης / Πελάτης</p>
             <div class="sig-line"></div>
-            <p style="font-weight: bold; text-transform: uppercase;">${currentContract.representativeName || '____________________'}</p>
-            <p style="font-size: 11px; font-style: italic; color: #444;">(για λογαριασμό της ${currentContract.tradeName || currentContract.companyName || 'εταιρείας'})</p>
+            <p style="font-weight: bold; text-transform: uppercase;">${currentContract.representativeName || '................................'}</p>
+            <p style="font-size: 11px; font-style: italic; color: #444;">(για λογαριασμό της ${currentContract.tradeName || currentContract.companyName || '....................'})</p>
           </div>
         </div>
       </body>
@@ -528,7 +528,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                       type="text"
                       value={currentContract.gemiNo}
                       onChange={(e) => setCurrentContract({ ...currentContract, gemiNo: e.target.value })}
-                      placeholder="195135303000"
+                      placeholder="π.χ. 195135303000"
                       className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
                     />
                   </div>
@@ -543,7 +543,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                       type="text"
                       value={currentContract.representativeName}
                       onChange={(e) => setCurrentContract({ ...currentContract, representativeName: e.target.value })}
-                      placeholder="ΒΑΣΙΛΕΙΟΣ ΛΥΡΟΥΔΗΣ"
+                      placeholder="π.χ. ΒΑΣΙΛΕΙΟΣ ΛΥΡΟΥΔΗΣ"
                       className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
                     />
                   </div>
@@ -555,7 +555,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                       type="text"
                       value={currentContract.representativeFatherName}
                       onChange={(e) => setCurrentContract({ ...currentContract, representativeFatherName: e.target.value })}
-                      placeholder="ΧΡΗΣΤΟΥ"
+                      placeholder="π.χ. ΧΡΗΣΤΟΥ"
                       className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
                     />
                   </div>
@@ -582,7 +582,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                       type="text"
                       value={currentContract.clientAfm}
                       onChange={(e) => setCurrentContract({ ...currentContract, clientAfm: e.target.value })}
-                      placeholder="050480299"
+                      placeholder="π.χ. 050480299"
                       className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
                     />
                   </div>
@@ -719,7 +719,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
               <p className="mb-3">και</p>
 
               <p className="mb-4 pl-4">
-                <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{currentContract.companyName || "________________________"}»</strong> (διακριτικός τίτλος <strong>«{currentContract.tradeName || "________________________"}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>{currentContract.gemiNo || "________________"}</strong>, νομίμως εκπροσωπούμενη από {currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{currentContract.representativeName || "________________________"}</strong> του <strong>{currentContract.representativeFatherName || "________________"}</strong>, με Α.Φ.Μ. <strong>{currentContract.clientAfm || "________________"}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
+                <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{currentContract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{currentContract.tradeName || "................................"}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>{currentContract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{currentContract.representativeName || "................................"}</strong> του <strong>{currentContract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{currentContract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
               </p>
 
               <p className="mb-6">
@@ -836,9 +836,9 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                   <p className="font-bold text-sm mb-4">&nbsp;</p>
                   <p className="font-bold text-gray-900 mb-6">Ο Εργοδότης / Πελάτης</p>
                   <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
-                  <p className="font-bold uppercase tracking-wider">{currentContract.representativeName || "____________________"}</p>
+                  <p className="font-bold uppercase tracking-wider">{currentContract.representativeName || "................................"}</p>
                   <p className="text-[10px] text-gray-600 italic">
-                    (για λογαριασμό της {currentContract.tradeName || currentContract.companyName || "εταιρείας"})
+                    (για λογαριασμό της {currentContract.tradeName || currentContract.companyName || "...................."})
                   </p>
                 </div>
               </div>
