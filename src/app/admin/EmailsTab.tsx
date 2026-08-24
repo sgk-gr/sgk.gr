@@ -1135,132 +1135,77 @@ export function EmailsTab() {
   return (
     <div className="space-y-8">
 
-      {/* Quick Stats Grid & Interactive Filter Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2.5">
-        {/* Card 1: Όλοι */}
+      {/* Summary KPI Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Card 1: Όλα τα Emails */}
         <div 
           onClick={() => setStatusFilter('all')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'all' 
               ? 'bg-white border-[#3b5bdb] ring-2 ring-[#3b5bdb]/20' 
               : 'bg-white/60 backdrop-blur-xl border-gray-200/60 hover:border-gray-300'
           }`}
         >
           <div>
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
-            <p className="text-lg font-black text-slate-900 mt-1">{leads.length}</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
+            <p className="text-xl font-black text-slate-900 mt-1">{leads.length}</p>
           </div>
-          <div className="w-8 h-8 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
-            <Mail size={16} />
+          <div className="w-10 h-10 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
+            <Mail size={18} />
           </div>
         </div>
 
-        {/* Card 2: Νέες ΙΚΕ (Αύγουστος 2026+) */}
+        {/* Card 2: Νέες ΙΚΕ */}
         <div 
           onClick={() => setStatusFilter('new_ike')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'new_ike' 
               ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20' 
               : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
           }`}
         >
           <div>
-            <p className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Νεες ΙΚΕ (08/26+)</p>
-            <p className="text-lg font-black text-emerald-700 mt-1">{newIkeCount}</p>
+            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Νεες ΙΚΕ</p>
+            <p className="text-xl font-black text-emerald-700 mt-1">{newIkeCount}</p>
           </div>
-          <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-            <Building2 size={16} />
-          </div>
-        </div>
-
-
-        {/* Card 4: Νέοι (0/5) */}
-        <div 
-          onClick={() => setStatusFilter('new')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'new' 
-              ? 'bg-white border-blue-500 ring-2 ring-blue-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-blue-200/60 hover:border-blue-300'
-          }`}
-        >
-          <div>
-            <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest">Νεοι (0/5)</p>
-            <p className="text-lg font-black text-blue-700 mt-1">{newCount}</p>
-          </div>
-          <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
-            <Plus size={16} />
+          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+            <Building2 size={18} />
           </div>
         </div>
 
-        {/* Card 5: Ενεργοί (1-4/5) */}
-        <div 
-          onClick={() => setStatusFilter('active')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'active' 
-              ? 'bg-white border-teal-500 ring-2 ring-teal-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-teal-200/60 hover:border-teal-300'
-          }`}
-        >
-          <div>
-            <p className="text-[9px] font-black text-teal-600 uppercase tracking-widest">Ενεργοι (1-4/5)</p>
-            <p className="text-lg font-black text-teal-700 mt-1">{activeCount}</p>
-          </div>
-          <div className="w-8 h-8 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center font-bold">
-            <CheckCircle2 size={16} />
-          </div>
-        </div>
-
-        {/* Card 6: Ολοκληρωμένοι (5/5) */}
-        <div 
-          onClick={() => setStatusFilter('completed')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'completed' 
-              ? 'bg-white border-amber-500 ring-2 ring-amber-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-amber-200/60 hover:border-amber-300'
-          }`}
-        >
-          <div>
-            <p className="text-[9px] font-black text-amber-600 uppercase tracking-widest">Ολοκληρωμενοι (5/5)</p>
-            <p className="text-lg font-black text-amber-700 mt-1">{completedCount}</p>
-          </div>
-          <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
-            <Check size={16} />
-          </div>
-        </div>
-
-        {/* Card 7: Πελάτες (Converted) */}
+        {/* Card 3: Πελάτες (Converted) */}
         <div 
           onClick={() => setStatusFilter('converted')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'converted' 
               ? 'bg-white border-purple-500 ring-2 ring-purple-500/20' 
               : 'bg-white/60 backdrop-blur-xl border-purple-200/60 hover:border-purple-300'
           }`}
         >
           <div>
-            <p className="text-[9px] font-black text-purple-600 uppercase tracking-widest">Πελατες (Converted)</p>
-            <p className="text-lg font-black text-purple-700 mt-1">{convertedCount}</p>
+            <p className="text-[10px] font-black text-purple-600 uppercase tracking-widest">Πελατες (Converted)</p>
+            <p className="text-xl font-black text-purple-700 mt-1">{convertedCount}</p>
           </div>
-          <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
-            <Users size={16} />
+          <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+            <Users size={18} />
           </div>
         </div>
 
-        {/* Card 8: Απεγγραφές (Unsubscribed) */}
+        {/* Card 4: Απεγγραφές (Unsubscribed) */}
         <div 
           onClick={() => setStatusFilter('unsubscribed')}
-          className={`p-3.5 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'unsubscribed' 
               ? 'bg-white border-rose-500 ring-2 ring-rose-500/20' 
               : 'bg-white/60 backdrop-blur-xl border-rose-200/60 hover:border-rose-300'
           }`}
         >
           <div>
-            <p className="text-[9px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsub)</p>
-            <p className="text-lg font-black text-rose-600 mt-1">{unsubscribedCount}</p>
+            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsub)</p>
+            <p className="text-xl font-black text-rose-600 mt-1">{unsubscribedCount}</p>
           </div>
-          <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
-            <AlertCircle size={16} />
+          <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+            <AlertCircle size={18} />
           </div>
         </div>
       </div>
@@ -1278,14 +1223,6 @@ export function EmailsTab() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <button
-              onClick={handleAutoProcessDue}
-              disabled={autoProcessing}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#a855f7] to-[#3b5bdb] text-white rounded-xl hover:opacity-95 transition-all text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer disabled:opacity-50"
-            >
-              {autoProcessing ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />}
-              ⚡ AI Auto-Pilot (Εκτελεση Ακολουθιας)
-            </button>
             <button
               onClick={() => {
                 setSingleLeadTarget(null);
@@ -1404,15 +1341,13 @@ export function EmailsTab() {
                   <th className="py-3 px-4">Email / Όνομα</th>
                   <th className="py-3 px-4">Ημ/νία Εγγραφής</th>
                   <th className="py-3 px-4 text-center">Κατάσταση</th>
-                  <th className="py-3 px-4 text-center">Ακολουθία Email</th>
-                  <th className="py-3 px-4 text-center font-bold text-slate-500">Επόμενη Αποστολή AI</th>
                   <th className="py-3 px-4 text-center">Ενέργειες</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-xs font-semibold text-slate-700">
                 {filteredLeads.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-8 text-center text-slate-400 font-normal">
+                    <td colSpan={5} className="py-8 text-center text-slate-400 font-normal">
                       {searchTerm ? (
                         <div>
                           <p className="font-bold text-slate-600 text-sm">Δεν βρέθηκαν αποτελέσματα</p>
@@ -1465,12 +1400,6 @@ export function EmailsTab() {
                       ) : (
                         <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-700">Active</span>
                       )}
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      {renderSequenceStep(lead.email_sequence_step)}
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      {renderNextSendTime(lead)}
                     </td>
                     <td className="py-3 px-4 text-center">
                       <div className="flex items-center justify-center gap-2">
