@@ -140,6 +140,7 @@ serve(async (req) => {
     }
 
     try {
+        const payload = await req.json();
         const { processAllDue, email, step = 1, unsubscribe_token, customSubject, customHtml, business_name, firstEmailSubject, firstEmailBody } = payload;
         const openAiKey = Deno.env.get("OPENAI_API_KEY") || Deno.env.get("GEMINI_API_KEY") || "";
         const resendKey = Deno.env.get("RESEND_API_KEY") || "";
