@@ -7,8 +7,8 @@ import {
   TrendingUp, TrendingDown, RefreshCcw, Info, CheckCircle2, AlertTriangle,
   LayoutDashboard, Search, FileSpreadsheet, Percent, Coins, ArrowRightLeft,
   ChevronRight, Sparkles, Filter, HelpCircle, QrCode, Printer, Check, Copy,
-  Briefcase, Edit3, Mail, Activity
-import { FileCheck } from "lucide-react";
+  Briefcase, Edit3, Mail, Activity, FileCheck
+} from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { EmailsTab } from "./EmailsTab";
