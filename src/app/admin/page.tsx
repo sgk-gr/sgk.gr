@@ -388,6 +388,80 @@ export default function AdminVatDashboard() {
     }
   };
 
+  // Send AADE Invoice & Technical Offer to Email tab / leads
+  const handleSendInvoiceOfferByEmail = () => {
+    const itemsHtml = offerItems.map((it, idx) => `
+      <div style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0;">
+        <strong style="color: #0f2d59; font-size: 13px;">${idx + 1}. ${it.title}</strong>
+        ${it.duration ? `<span style="font-size: 10px; background: #ecfdf5; color: #047857; padding: 2px 6px; border-radius: 10px; margin-left: 8px; font-weight: bold;">⏱️ ${it.duration}</span>` : ""}
+        <p style="font-size: 12px; color: #64748b; margin: 3px 0 0 0 !important;">${it.description}</p>
+      </div>
+    `).join("");
+
+    const body = `<h2>Τεχνική Προσφορά & Στοιχεία Τιμολόγησης 🧾</h2>
+<p>Αξιότιμε συνεργάτη <strong>${aadeClientName || ""}</strong>,</p>
+<p>Σας αποστέλλουμε την αναλυτική τεχνική προσφορά και τα οικονομικά στοιχεία για τις υπηρεσίες της <strong>SGK Digital</strong>.</p>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 16px; border-radius: 8px; margin: 15px 0; font-size: 13px;">
+  <strong>Στοιχεία Πελάτη:</strong> ${aadeClientName || "-"}<br/>
+  <strong>Α.Φ.Μ.:</strong> ${aadeClientAfm || "-"} | <strong>Διεύθυνση:</strong> ${aadeClientAddress || "-"}<br/>
+  <strong>Αρ. Παραστατικού:</strong> #${aadeDocNo} (${new Date(aadeDate).toLocaleDateString('el-GR')})
+</div>
+
+<h4>📋 Αναλυτική Τεχνική Προσφορά</h4>
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 15px;">
+  ${itemsHtml || "<p>Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας</p>"}
+</div>
+
+<h4>Οικονομική Προσφορά</h4>
+<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
+  <thead>
+    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
+      <th style="padding: 8px;">Περιγραφή</th>
+      <th style="padding: 8px; text-align: right; width: 100px;">Αξία</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Καθαρή Αξία Υπηρεσιών</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600;">${aadeMath.net.toLocaleString('el-GR', { minimumFractionDigits: 2 })} €</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Φ.Π.Α. (24%)</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600;">${aadeMath.vat.toLocaleString('el-GR', { minimumFractionDigits: 2 })} €</td>
+    </tr>
+    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
+      <td style="padding: 10px 8px; color: #166534;">Συνολική Αξία (με ΦΠΑ)</td>
+      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">${aadeMath.gross.toLocaleString('el-GR', { minimumFractionDigits: 2 })} €</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Στοιχεία Κατάθεσης / Τράπεζα</h4>
+<p style="font-size: 12px; color: #475569;">
+  <strong>Eurobank:</strong> <code style="color: #3b5bdb; font-weight: bold;">GR4602601970000830201330337</code><br/>
+  Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ (SGK Digital)
+</p>
+
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`;
+
+    const draft = {
+      subject: `Τεχνική Προσφορά & Στοιχεία Τιμολόγησης — ${aadeClientName || "SGK Digital"}`,
+      body,
+      buttonText: "Online Εξόφληση",
+      buttonLink: "https://sgk.gr",
+      targetLead: {
+        company: aadeClientName,
+        first_name: aadeClientName,
+        email: ""
+      }
+    };
+
+    localStorage.setItem("sgk_email_draft", JSON.stringify(draft));
+    setActivePortalTab("emails");
+    toast.success("🧾 Η προσφορά & το τιμολόγιο μεταφέρθηκαν στο Email Leads!");
+  };
+
   // Preset Loading Helper
   const handleLoadPreset = (presetType: "eshop" | "webapp" | "hosting" | "ai" | "consulting") => {
     switch (presetType) {
@@ -819,8 +893,10 @@ export default function AdminVatDashboard() {
           className="relative z-10 w-full max-w-sm"
         >
           <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 p-8 rounded-3xl shadow-2xl text-center">
-            <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center p-2.5 shadow-md mb-6">
-              <img src="/sgk-logo.png" alt="SGK Logo" className="w-full h-full object-contain" />
+            <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-2.5 shadow-md mb-6">
+              <span className="font-heading font-black text-2xl tracking-tighter text-white">
+                sgk<span className="text-[#3b5bdb]">.</span>
+              </span>
             </div>
             
             <h1 className="text-xl font-black text-gray-900 tracking-tight flex items-center justify-center gap-2 mb-2">
@@ -873,8 +949,10 @@ export default function AdminVatDashboard() {
       <header className="relative z-10 border-b border-gray-200/80 bg-gray-50/70 backdrop-blur-md sticky top-0 shadow-lg no-print">
         <div className="max-w-7xl mx-auto px-6 h-[85px] flex items-center justify-between">
           <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center p-1.5 shadow-md">
-              <img src="/sgk-logo.png" alt="SGK Logo" className="w-full h-full object-contain" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-1 shadow-md shrink-0">
+              <span className="font-heading font-black text-lg tracking-tighter text-white">
+                sgk<span className="text-[#3b5bdb]">.</span>
+              </span>
             </div>
             <div>
               <h1 className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
@@ -1907,11 +1985,19 @@ export default function AdminVatDashboard() {
               {/* PIXEL-PERFECT TWO-PAGE proposal PREVIEW Mockup (7 cols) */}
               <div className="lg:col-span-7 min-w-0">
                 
-                {/* Print trigger on screen */}
-                <div className="flex justify-end no-print">
+                {/* Action buttons trigger on screen */}
+                <div className="flex justify-end gap-2 mb-3 no-print">
+                  <button 
+                    onClick={handleSendInvoiceOfferByEmail}
+                    className="px-5 py-3 bg-sky-600 hover:bg-sky-700 text-white font-black text-xs uppercase italic tracking-wider rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-sky-500/20 hover:scale-[1.02] cursor-pointer"
+                    title="Αποστολή Τεχνικής Προσφοράς & Τιμολογίου με Email"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>Αποστολη με Email</span>
+                  </button>
                   <button 
                     onClick={() => window.print()}
-                    className="px-6 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-slate-950 font-black text-xs uppercase italic tracking-wider rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-500/10 hover:scale-[1.02]"
+                    className="px-6 py-3 bg-[#3b5bdb] hover:bg-[#2b4bba] text-slate-950 font-black text-xs uppercase italic tracking-wider rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-500/10 hover:scale-[1.02] cursor-pointer"
                   >
                     <Printer className="w-4 h-4" />
                     <span>Εκτυπωση & Αποθηκευση ως PDF (2 Σελιδες)</span>
@@ -1927,10 +2013,18 @@ export default function AdminVatDashboard() {
                   </div>
 
                   {/* Print trigger inside card */}
-                  <div className="absolute top-12 right-10 no-print">
+                  <div className="absolute top-12 right-10 no-print flex gap-2">
+                    <button 
+                      onClick={handleSendInvoiceOfferByEmail}
+                      className="p-2 bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 rounded-lg transition-all flex items-center gap-1.5 text-[10px] font-bold cursor-pointer"
+                      title="Αποστολή με Email"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>Email</span>
+                    </button>
                     <button 
                       onClick={() => window.print()}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition-all flex items-center gap-1.5 text-[10px] font-bold"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition-all flex items-center gap-1.5 text-[10px] font-bold cursor-pointer"
                     >
                       <Printer className="w-3.5 h-3.5" />
                       <span>Εκτύπωση</span>
@@ -1962,10 +2056,15 @@ export default function AdminVatDashboard() {
                       </div>
                     </div>
 
-                    {/* SGK Branded Logo (Enlarged!) */}
+                    {/* SGK Branded Logo (Crisp Vector/Typography Brand) */}
                     <div className="flex flex-col items-end w-1/3">
-                      <div className="h-16 w-auto">
-                        <img src="/sgk-logo.png" alt="SGK Software Development" className="h-full w-auto object-contain" />
+                      <div className="flex flex-col items-end">
+                        <span className="font-heading font-black text-3xl tracking-tighter text-[#0f2d59] leading-none">
+                          sgk<span className="text-[#3b5bdb]">.</span>
+                        </span>
+                        <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest mt-1">
+                          Software Development
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -2353,7 +2452,7 @@ export default function AdminVatDashboard() {
             className="relative z-10"
           >
             <main className="max-w-7xl mx-auto px-6 mt-8">
-              <ContractsTab />
+              <ContractsTab onSendToEmail={() => setActivePortalTab("emails")} />
             </main>
           </motion.div>
         )}

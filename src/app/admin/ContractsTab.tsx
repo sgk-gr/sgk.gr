@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { 
   FileCheck, Printer, Plus, Trash2, Edit3, Download, Eye, 
   Building2, User, CreditCard, Search, Sparkles, Loader2, RefreshCw,
-  X, Check, Copy, Landmark
+  X, Check, Copy, Landmark, Mail
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -49,7 +49,7 @@ export interface ContractData {
   clientSignatureData?: string;
 }
 
-const DEFAULT_CONTRACT: ContractData = {
+export const DEFAULT_CONTRACT: ContractData = {
   id: "contract_default",
   createdAt: new Date().toISOString(),
   contractDate: new Date().toISOString().split("T")[0],
@@ -95,7 +95,13 @@ const formatDateGreek = (dateStr: string) => {
   return dateStr;
 };
 
-export function ContractsTab({ initialLead }: { initialLead?: { company?: string; email?: string; first_name?: string } }) {
+export function ContractsTab({ 
+  initialLead, 
+  onSendToEmail 
+}: { 
+  initialLead?: { company?: string; email?: string; first_name?: string };
+  onSendToEmail?: () => void;
+}) {
   const [contracts, setContracts] = useState<ContractData[]>([]);
   const [currentContract, setCurrentContract] = useState<ContractData>(DEFAULT_CONTRACT);
   const [isEditing, setIsEditing] = useState(true);
@@ -449,6 +455,54 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
     window.open("https://docs.gov.gr/", "_blank");
   };
 
+  // Helper for sending contract directly to client via Email composer
+  const handleSendContractByEmail = () => {
+    handleSaveContract();
+    const draft = {
+      subject: `Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${currentContract.tradeName || currentContract.companyName || "SGK Digital"}`,
+      body: `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
+<p>Αξιότιμε συνεργάτη,</p>
+<p>Σας αποστέλλουμε το <strong>Ιδιωτικό Συμφωνητικό</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας <strong>${currentContract.tradeName || currentContract.companyName || ""}</strong>, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
+  <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
+  <p style="margin: 0 !important; font-size: 13px; color: #475569; line-height: 1.6;">
+    <strong>Επωνυμία Εργοδότη:</strong> ${currentContract.companyName || "................................"}<br/>
+    <strong>Διακριτικός Τίτλος:</strong> ${currentContract.tradeName || "................................"}<br/>
+    <strong>Α.Φ.Μ. Πελάτη:</strong> ${currentContract.clientAfm || "...................."}<br/>
+    <strong>Αριθμός Γ.Ε.ΜΗ.:</strong> ${currentContract.gemiNo || "...................."}<br/>
+    <strong>Εκπρόσωπος:</strong> ${currentContract.representativeName || "...................."}<br/>
+    <strong>Συνολική Αμοιβή:</strong> ${currentContract.totalAmountText} (συμπεριλαμβανομένου Φ.Π.Α. 24%)<br/>
+    <strong>Χρόνος Παράδοσης:</strong> ${currentContract.deliveryDaysText} εργάσιμες ημέρες
+  </p>
+</div>
+
+<h4>Βασικοί Όροι Σύμβασης</h4>
+<ul style="color: #334155; font-size: 13px; line-height: 1.6;">
+  <li><strong>Άρθρο 1:</strong> Κατασκευή ιστοσελίδας εταιρικής διαφάνειας με τα πλήρη στοιχεία της επιχείρησης.</li>
+  <li><strong>Άρθρο 2:</strong> Περιλαμβάνεται domain name & hosting 1ου έτους. Μετά το 1ο έτος, ανανέωση στα ${currentContract.renewalAmountText} ετησίως.</li>
+  <li><strong>Άρθρο 3:</strong> Παράδοση εντός ${currentContract.deliveryDaysText} εργάσιμων ημερών.</li>
+  <li><strong>Άρθρο 4:</strong> Πληρωμή στον λογαριασμό Eurobank IBAN: <strong>${currentContract.ibanDetails}</strong>.</li>
+</ul>
+
+<p>Παρακαλούμε για την επιβεβαίωσή σας απαντώντας σε αυτό το μήνυμα.</p>
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`,
+      buttonText: "Επικοινωνία & Επιβεβαίωση",
+      buttonLink: "https://sgk.gr",
+      targetLead: {
+        company: currentContract.tradeName || currentContract.companyName,
+        first_name: currentContract.representativeName,
+        email: ""
+      }
+    };
+    localStorage.setItem("sgk_email_draft", JSON.stringify(draft));
+    if (onSendToEmail) {
+      onSendToEmail();
+    } else {
+      toast.success("📋 Το συμφωνητικό προετοιμάστηκε! Μεταβείτε στην καρτέλα Email Leads για αποστολή.");
+    }
+  };
+
   return (
     <div className="space-y-8 no-print-wrapper">
       {/* Top Header Actions */}
@@ -459,7 +513,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
             Ιδιωτικά Συμφωνητικά (ΓΕΜΗ)
           </h2>
           <p className="text-xs text-slate-500 font-semibold mt-1">
-            Δημιουργία, Live Ψηφιακή Υπογραφή, Προεπισκόπηση & Εκτύπωση Συμφωνητικού
+            Δημιουργία, Προεπισκόπηση, Αποστολή Email & Εκτύπωση Συμφωνητικού
           </p>
         </div>
 
@@ -474,6 +528,15 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
           >
             {isEditing ? <Eye size={14} /> : <Edit3 size={14} />}
             {isEditing ? "Προεπισκόπηση PDF" : "Επεξεργασία Φόρμας"}
+          </button>
+
+          <button
+            onClick={handleSendContractByEmail}
+            className="px-4 py-2.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+            title="Αποστολή του συμφωνητικού με email στον πελάτη"
+          >
+            <Mail size={14} className="text-sky-600" />
+            Email
           </button>
 
           <button

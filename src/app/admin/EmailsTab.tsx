@@ -240,6 +240,89 @@ const templates = [
 <p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>`,
     defaultButtonText: "Online Εξόφληση",
     defaultButtonLink: "https://sgk.gr/pay-invoice?ref=[ΑΡΙΘΜΟΣ_ΤΙΜΟΛΟΓΙΟΥ]"
+  },
+  {
+    name: "📜 Ιδιωτικό Συμφωνητικό (ΓΕΜΗ)",
+    subject: "Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — SGK Digital",
+    body: `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
+<p>Αξιότιμε συνεργάτη,</p>
+<p>Σας αποστέλλουμε το <strong>Ιδιωτικό Συμφωνητικό</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
+  <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
+  <p style="margin: 0 !important; font-size: 13px; color: #475569; line-height: 1.6;">
+    <strong>Ανάδοχος:</strong> ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ (ΑΦΜ: 131398972 / ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ)<br/>
+    <strong>Αντικείμενο:</strong> Σχεδίαση, ανάπτυξη & παράδοση ιστοσελίδας εταιρικής διαφάνειας ΓΕΜΗ<br/>
+    <strong>Συνολική Αμοιβή:</strong> 124,00 € (συμπεριλαμβανομένου ΦΠΑ 24%, Domain & Hosting 1ου έτους)<br/>
+    <strong>Χρόνος Παράδοσης:</strong> 5 εργάσιμες ημέρες
+  </p>
+</div>
+
+<h4>Όροι & Συμφωνία</h4>
+<ul style="color: #334155; font-size: 13px; line-height: 1.6;">
+  <li><strong>Άρθρο 1:</strong> Κατασκευή ιστοσελίδας με πλήρη στοιχεία διαφάνειας (ΑΦΜ, ΓΕΜΗ, νόμιμη εκπροσώπηση).</li>
+  <li><strong>Άρθρο 2:</strong> Περιλαμβάνεται domain name & φιλοξενία (hosting) για 1 χρόνο. Ετήσια ανανέωση στα 124€ με ΦΠΑ.</li>
+  <li><strong>Άρθρο 3:</strong> Παράδοση εντός 5 εργάσιμων ημερών.</li>
+  <li><strong>Άρθρο 4:</strong> Πληρωμή στον λογαριασμό Eurobank: <strong>GR4602601970000830201330337</strong> (δικαιούχος Σπυρίδων Τσάβος).</li>
+</ul>
+
+<p>Μπορείτε να απαντήσετε σε αυτό το email για οποιαδήποτε διευκρίνιση.</p>
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`,
+    defaultButtonText: "Επικοινωνία & Επιβεβαίωση",
+    defaultButtonLink: "https://sgk.gr"
+  },
+  {
+    name: "🧾 Πρότυπο Τιμολογίου & Τεχνική Προσφορά",
+    subject: "Τεχνική Προσφορά & Στοιχεία Τιμολόγησης — SGK Digital",
+    body: `<h2>Τεχνική Προσφορά & Στοιχεία Τιμολόγησης 🧾</h2>
+<p>Αγαπητέ συνεργάτη,</p>
+<p>Σας αποστέλλουμε την αναλυτική τεχνική προσφορά και τα οικονομικά στοιχεία για το έργο σας από την <strong>SGK Digital</strong>.</p>
+
+<h4>📋 Αναλυτική Τεχνική Προσφορά</h4>
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 15px;">
+  <div style="margin-bottom: 10px;">
+    <strong style="color: #0f2d59; font-size: 13px;">1. Κατασκευή Eshop / Ιστοσελίδας (Next.js / WordPress)</strong>
+    <p style="font-size: 12px; color: #64748b; margin: 3px 0 0 0 !important;">Custom responsive σχεδίαση, διασύνδεση με τράπεζες, ταχύτητα Google PageSpeed 95+, SSL & βασικό SEO.</p>
+  </div>
+  <div style="border-top: 1px solid #e2e8f0; padding-top: 8px;">
+    <strong style="color: #0f2d59; font-size: 13px;">2. AI Automations & Hosting Υποδομή</strong>
+    <p style="font-size: 12px; color: #64748b; margin: 3px 0 0 0 !important;">Διασύνδεση με AI Agents, αυτοματοποιημένες ειδοποιήσεις και 12 μήνες υποστήριξη.</p>
+  </div>
+</div>
+
+<h4>Οικονομική Προσφορά</h4>
+<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
+  <thead>
+    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
+      <th style="padding: 8px;">Περιγραφή</th>
+      <th style="padding: 8px; text-align: right; width: 100px;">Αξία</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Καθαρή Αξία Υπηρεσιών</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600;">100,00 €</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 8px;">Φ.Π.Α. (24%)</td>
+      <td style="padding: 8px; text-align: right; font-weight: 600;">24,00 €</td>
+    </tr>
+    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
+      <td style="padding: 10px 8px; color: #166534;">Συνολική Αξία (με ΦΠΑ)</td>
+      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">124,00 €</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Στοιχεία Κατάθεσης / Τράπεζα</h4>
+<p style="font-size: 12px; color: #475569;">
+  <strong>Eurobank:</strong> <code style="color: #3b5bdb; font-weight: bold;">GR4602601970000830201330337</code><br/>
+  Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ
+</p>
+
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`,
+    defaultButtonText: "Δείτε Περισσότερα",
+    defaultButtonLink: "https://sgk.gr"
   }
 ];
 
@@ -254,6 +337,7 @@ export function EmailsTab() {
   const [buttonLink, setButtonLink] = useState(templates[0].defaultButtonLink);
   const [sendingProgress, setSendingProgress] = useState<{ current: number; total: number; active: boolean; statusText: string } | null>(null);
   const [singleLeadTarget, setSingleLeadTarget] = useState<any | null>(null);
+  const [savedContracts, setSavedContracts] = useState<any[]>([]);
   
   // Single Add Lead form state
   const [newEmail, setNewEmail] = useState("");
@@ -270,6 +354,81 @@ export function EmailsTab() {
   // PDF Upload states
   const [uploadingPdf, setUploadingPdf] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
+
+  // Load saved contracts & check for pending drafts
+  useEffect(() => {
+    const loadContracts = () => {
+      const saved = localStorage.getItem("sgk_saved_contracts");
+      if (saved) {
+        try {
+          setSavedContracts(JSON.parse(saved));
+        } catch (e) {}
+      }
+    };
+    loadContracts();
+
+    const pendingDraft = localStorage.getItem("sgk_email_draft");
+    if (pendingDraft) {
+      try {
+        const parsed = JSON.parse(pendingDraft);
+        if (parsed.subject) setCampaignSubject(parsed.subject);
+        if (parsed.body) setCampaignBody(parsed.body);
+        if (parsed.buttonText !== undefined) setButtonText(parsed.buttonText);
+        if (parsed.buttonLink !== undefined) setButtonLink(parsed.buttonLink);
+        if (parsed.targetLead) setSingleLeadTarget(parsed.targetLead);
+        setIsCampaignModalOpen(true);
+        localStorage.removeItem("sgk_email_draft");
+      } catch (e) {}
+    }
+  }, [isCampaignModalOpen]);
+
+  // Helper to insert a contract into the active email composer
+  const handleInsertContract = (contract: any) => {
+    if (!contract) return;
+    const body = `<h2>Ιδιωτικό Συμφωνητικό Παροχής Υπηρεσιών 📜</h2>
+<p>Αξιότιμε συνεργάτη,</p>
+<p>Σας αποστέλλουμε το <strong>Ιδιωτικό Συμφωνητικό</strong> για την κατασκευή της ιστοσελίδας εταιρικής διαφάνειας της επιχείρησής σας <strong>${contract.tradeName || contract.companyName || ""}</strong>, σύμφωνα με τις υποχρεώσεις δημοσιότητας του Γ.Ε.ΜΗ.</p>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 14px 18px; border-radius: 8px; margin: 15px 0;">
+  <p style="margin: 0 0 6px 0 !important; font-weight: bold; color: #1e293b;">Στοιχεία Συμφωνητικού</p>
+  <p style="margin: 0 !important; font-size: 13px; color: #475569; line-height: 1.6;">
+    <strong>Επωνυμία Εργοδότη:</strong> ${contract.companyName || "................................"}<br/>
+    <strong>Διακριτικός Τίτλος:</strong> ${contract.tradeName || "................................"}<br/>
+    <strong>Α.Φ.Μ. Πελάτη:</strong> ${contract.clientAfm || "...................."}<br/>
+    <strong>Αριθμός Γ.Ε.ΜΗ.:</strong> ${contract.gemiNo || "...................."}<br/>
+    <strong>Εκπρόσωπος:</strong> ${contract.representativeName || "...................."}<br/>
+    <strong>Συνολική Αμοιβή:</strong> ${contract.totalAmountText || "124,00 €"} (συμπεριλαμβανομένου Φ.Π.Α. 24%)<br/>
+    <strong>Χρόνος Παράδοσης:</strong> ${contract.deliveryDaysText || "5"} εργάσιμες ημέρες
+  </p>
+</div>
+
+<h4>Βασικοί Όροι Σύμβασης</h4>
+<ul style="color: #334155; font-size: 13px; line-height: 1.6;">
+  <li><strong>Άρθρο 1:</strong> Κατασκευή ιστοσελίδας εταιρικής διαφάνειας με τα πλήρη στοιχεία της επιχείρησης.</li>
+  <li><strong>Άρθρο 2:</strong> Περιλαμβάνεται domain name & hosting 1ου έτους. Μετά το 1ο έτος, ανανέωση στα ${contract.renewalAmountText || "124,00 €"} ετησίως.</li>
+  <li><strong>Άρθρο 3:</strong> Παράδοση εντός ${contract.deliveryDaysText || "5"} εργάσιμων ημερών.</li>
+  <li><strong>Άρθρο 4:</strong> Πληρωμή στον λογαριασμό Eurobank IBAN: <strong>${contract.ibanDetails || "GR4602601970000830201330337"}</strong>.</li>
+</ul>
+
+<p>Παρακαλούμε για την επιβεβαίωσή σας απαντώντας σε αυτό το μήνυμα.</p>
+<p style="margin-top: 20px; color: #64748b; font-style: italic;">Με εκτίμηση,<br/><strong>SGK Software Development</strong></p>`;
+
+    setCampaignSubject(`Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${contract.tradeName || contract.companyName || "SGK Digital"}`);
+    setCampaignBody(body);
+    setButtonText("Επικοινωνία & Επιβεβαίωση");
+    setButtonLink("https://sgk.gr");
+    toast.success(`Εισήχθη το συμφωνητικό για «${contract.tradeName || contract.companyName || "Πελάτη"}»!`);
+  };
+
+  // Helper to insert invoice / offer into email
+  const handleInsertInvoice = () => {
+    const invoiceTpl = templates.find(t => t.name.includes("Πρότυπο Τιμολογίου")) || templates[5];
+    setCampaignSubject(invoiceTpl.subject);
+    setCampaignBody(invoiceTpl.body);
+    setButtonText(invoiceTpl.defaultButtonText || "Δείτε Περισσότερα");
+    setButtonLink(invoiceTpl.defaultButtonLink || "https://sgk.gr");
+    toast.success("Εισήχθη το πρότυπο τιμολογίου & τεχνικής προσφοράς!");
+  };
 
   const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -781,6 +940,66 @@ export function EmailsTab() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
             {/* Left Column: Form Editor */}
             <div className="space-y-4 flex flex-col h-full min-h-0 overflow-y-auto pr-2 custom-scrollbar bg-slate-900/50 border border-slate-850 p-6 rounded-2xl">
+              {/* Quick Document Insertion Toolbar */}
+              <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-1.5">
+                    <Sparkles size={12} className="text-[#3b5bdb]" />
+                    Εισαγωγη Επισήμου Εγγραφου
+                  </span>
+                  <span className="text-[9px] text-[#4ade80] font-bold">1-Click Auto-Fill</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {/* Saved Contract Selector */}
+                  <div className="relative">
+                    <select
+                      onChange={(e) => {
+                        const cid = e.target.value;
+                        if (!cid) return;
+                        const found = savedContracts.find(c => c.id === cid);
+                        if (found) {
+                          handleInsertContract(found);
+                        } else if (cid === "current_lead" && singleLeadTarget) {
+                          const comp = singleLeadTarget.company || "";
+                          const name = singleLeadTarget.first_name || "";
+                          handleInsertContract({
+                            companyName: comp,
+                            tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp,
+                            representativeName: name,
+                            totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                            deliveryDaysText: "πέντε (5)",
+                            renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                            ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος"
+                          });
+                        }
+                        e.target.value = "";
+                      }}
+                      className="w-full px-3 py-2 bg-slate-900 border border-slate-750 text-slate-200 text-xs font-bold rounded-lg focus:border-[#3b5bdb] outline-none cursor-pointer"
+                    >
+                      <option value="">📜 Εισαγωγή Συμφωνητικού...</option>
+                      {singleLeadTarget && (
+                        <option value="current_lead">✨ Συμφωνητικό για {singleLeadTarget.first_name || singleLeadTarget.company || singleLeadTarget.email}</option>
+                      )}
+                      {savedContracts.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.tradeName || c.companyName || "Συμφωνητικό"} ({c.totalAmountNum || 124}€)
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Invoice Template Button */}
+                  <button
+                    type="button"
+                    onClick={handleInsertInvoice}
+                    className="px-3 py-2 bg-slate-900 hover:bg-slate-850 border border-slate-750 text-slate-200 hover:text-white text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <Calculator size={13} className="text-amber-400" />
+                    <span>🧾 Εισαγωγή Τιμολογίου & Προσφοράς</span>
+                  </button>
+                </div>
+              </div>
+
               <div className="space-y-1.5">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Πρότυπο (Template)</label>
                 <select
@@ -1380,70 +1599,66 @@ export function EmailsTab() {
                           {lead.converted ? "Πελάτης 🎉" : "Έγινε Πελάτης"}
                         </button>
                         {!lead.unsubscribed && (
-                          <button
-                            onClick={() => {
-                              setSingleLeadTarget(lead);
-                              setCampaignSubject(templates[0].subject);
-                              setCampaignBody(templates[0].body);
-                              setButtonText(templates[0].defaultButtonText || "");
-                              setButtonLink(templates[0].defaultButtonLink || "");
-                              setIsCampaignModalOpen(true);
-                            }}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#3b5bdb]/10 text-[#3b5bdb] hover:bg-[#3b5bdb] hover:text-white rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                          >
-                            <Mail size={12} />
-                            Αποστολη
-                          </button>
+                          <>
+                            <button
+                              onClick={() => {
+                                setSingleLeadTarget(lead);
+                                setCampaignSubject(templates[0].subject);
+                                setCampaignBody(templates[0].body);
+                                setButtonText(templates[0].defaultButtonText || "");
+                                setButtonLink(templates[0].defaultButtonLink || "");
+                                setIsCampaignModalOpen(true);
+                              }}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3b5bdb]/10 text-[#3b5bdb] hover:bg-[#3b5bdb] hover:text-white rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                              title="Αποστολή Προσαρμοσμένου Email"
+                            >
+                              <Mail size={12} />
+                              Email
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setSingleLeadTarget(lead);
+                                const comp = lead.company || "";
+                                const name = lead.first_name || "";
+                                const contractTpl = templates.find(t => t.name.includes("Ιδιωτικό Συμφωνητικό")) || templates[4];
+                                setCampaignSubject(`Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${comp || name || "SGK Digital"}`);
+                                handleInsertContract({
+                                  companyName: comp,
+                                  tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp,
+                                  representativeName: name,
+                                  totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                                  deliveryDaysText: "πέντε (5)",
+                                  renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                                  ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος"
+                                });
+                                setIsCampaignModalOpen(true);
+                              }}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white border border-amber-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                              title="Αποστολή Ιδιωτικού Συμφωνητικού με Email"
+                            >
+                              <FileCheck size={12} />
+                              Συμφωνητικο
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setSingleLeadTarget(lead);
+                                const invoiceTpl = templates.find(t => t.name.includes("Πρότυπο Τιμολογίου")) || templates[5];
+                                setCampaignSubject(invoiceTpl.subject);
+                                setCampaignBody(invoiceTpl.body);
+                                setButtonText(invoiceTpl.defaultButtonText || "Δείτε Περισσότερα");
+                                setButtonLink(invoiceTpl.defaultButtonLink || "https://sgk.gr");
+                                setIsCampaignModalOpen(true);
+                              }}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white border border-indigo-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                              title="Αποστολή Τιμολογίου & Τεχνικής Προσφοράς με Email"
+                            >
+                              <Calculator size={12} />
+                              Τιμολογιο
+                            </button>
+                          </>
                         )}
-                        <button
-                          onClick={() => {
-                            const saved = localStorage.getItem("sgk_saved_contracts");
-                            let contractsList = [];
-                            if (saved) {
-                              try { contractsList = JSON.parse(saved); } catch(e){}
-                            }
-                            const comp = lead.company || "";
-                            const name = lead.first_name || "";
-                            const newContract = {
-                              id: "contract_" + Date.now(),
-                              createdAt: new Date().toISOString(),
-                              contractDate: new Date().toISOString().split("T")[0],
-                              city: "Αθήνα",
-                              contractorName: "ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ",
-                              contractorAddress: "Μεταμόρφωση Αττικής, οδός Ερμού 1 και Λυκοβρύσεως 14, Τ.Κ. 14452",
-                              contractorAfm: "131398972",
-                              contractorDoy: "ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ",
-                              contractorProfession: "Παροχή Υπηρεσιών Πληροφορικής",
-                              companyName: comp || "",
-                              tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp || "",
-                              gemiNo: "",
-                              representativeName: name || "",
-                              representativeFatherName: "",
-                              representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
-                              clientAfm: "",
-                              totalAmountNum: 124.00,
-                              totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
-                              advanceAmountNum: 0.00,
-                              advanceAmountText: "μηδέν ευρώ (0,00 €)",
-                              remainingAmountNum: 0.00,
-                              remainingAmountText: "μηδέν ευρώ (0,00 €)",
-                              renewalAmountNum: 124.00,
-                              renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
-                              deliveryDaysNum: 5,
-                              deliveryDaysText: "πέντε (5)",
-                              ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
-                              includeSignature: false,
-                            };
-                            const updated = [newContract, ...contractsList];
-                            localStorage.setItem("sgk_saved_contracts", JSON.stringify(updated));
-                            toast.success("Δημιουργήθηκε ιδιωτικό συμφωνητικό για τον πελάτη!");
-                          }}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white border border-amber-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                          title="Δημιουργία Ιδιωτικού Συμφωνητικού (ΓΕΜΗ)"
-                        >
-                          <FileCheck size={12} />
-                          Συμφωνητικο
-                        </button>
                         <button
                           onClick={() => handleDeleteLead(lead.id, lead.email)}
                           className="inline-flex items-center justify-center p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-all cursor-pointer border border-transparent hover:border-rose-100"
