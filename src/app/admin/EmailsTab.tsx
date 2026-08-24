@@ -1539,7 +1539,7 @@ export function EmailsTab() {
                               deliveryDaysNum: 5,
                               deliveryDaysText: "πέντε (5)",
                               ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
-                              includeSignature: true,
+                              includeSignature: false,
                             };
                             const updated = [newContract, ...contractsList];
                             localStorage.setItem("sgk_saved_contracts", JSON.stringify(updated));

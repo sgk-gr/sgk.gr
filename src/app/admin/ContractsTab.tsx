@@ -75,7 +75,7 @@ const DEFAULT_CONTRACT: ContractData = {
   deliveryDaysNum: 5,
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
-  includeSignature: true,
+  includeSignature: false,
 };
 
 // Helper function to format Greek date
@@ -664,7 +664,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                       </svg>
                     </div>
                   ) : (
-                    <div className="h-16" />
+                    <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
                   )}
 
                   <p className="font-bold uppercase tracking-wider">{currentContract.contractorName}</p>
