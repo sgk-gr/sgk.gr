@@ -142,19 +142,20 @@
   
   /* Suppress default browser header URLs, titles, dates and margins */
   @page {
-    size: A4 portrait !important;
-    margin: 0 !important;
+    size: A4 portrait;
+    margin: 10mm 12mm;
   }
   
-  /* Reset global backgrounds and body sizes to white A4 sheets */
+  /* Reset global backgrounds and body sizes to white sheets */
   body, html {
     background: white !important;
     color: black !important;
     margin: 0 !important;
     padding: 0 !important;
-    width: 210mm !important;
-    height: 100% !important;
-    overflow: hidden !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
   }
 
   /* Strip dark background colors, absolute glow divs, and scroll bars from parent dashboard containers */

@@ -358,20 +358,24 @@ function ContractViewer() {
         @media print {
           @page {
             size: A4 portrait;
-            margin: 12mm 18mm 12mm 18mm;
+            margin: 12mm 15mm;
           }
           html, body {
             background: white !important;
             color: black !important;
             margin: 0 !important;
             padding: 0 !important;
-            font-size: 10.5pt !important;
-            line-height: 1.45 !important;
+            height: auto !important;
+            min-height: 0 !important;
+            overflow: visible !important;
+            font-size: 10pt !important;
+            line-height: 1.4 !important;
           }
           .no-print,
           .global-promo-bar,
           #floating-chatbot,
           nav,
+          header,
           footer {
             display: none !important;
           }
@@ -381,14 +385,19 @@ function ContractViewer() {
             margin: 0 !important;
             padding: 0 !important;
             max-width: 100% !important;
+            width: 100% !important;
+            height: auto !important;
+            overflow: visible !important;
           }
           .contract-article {
             break-inside: avoid !important;
             page-break-inside: avoid !important;
+            margin-bottom: 10px !important;
           }
           .contract-signatures {
             break-inside: avoid !important;
             page-break-inside: avoid !important;
+            margin-top: 20px !important;
           }
         }
       `}</style>
