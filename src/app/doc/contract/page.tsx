@@ -99,6 +99,14 @@ function ContractViewer() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (contract?.companyName && contract.companyName !== "................................................") {
+      document.title = `Ιδιωτικό Συμφωνητικό - ${contract.tradeName || contract.companyName}`;
+    } else {
+      document.title = "Ιδιωτικό Συμφωνητικό - SGK Digital";
+    }
+  }, [contract]);
+
+  useEffect(() => {
     async function loadContract() {
       // 1. Try URL dataParam first (Instant 100% accurate data with no network needed)
       if (dataParam) {
@@ -358,7 +366,7 @@ function ContractViewer() {
         @media print {
           @page {
             size: A4 portrait;
-            margin: 12mm 15mm;
+            margin: 0;
           }
           html, body {
             background: white !important;
@@ -383,11 +391,12 @@ function ContractViewer() {
             box-shadow: none !important;
             border: none !important;
             margin: 0 !important;
-            padding: 0 !important;
+            padding: 14mm 16mm !important;
             max-width: 100% !important;
             width: 100% !important;
             height: auto !important;
             overflow: visible !important;
+            box-sizing: border-box !important;
           }
           .contract-article {
             break-inside: avoid !important;

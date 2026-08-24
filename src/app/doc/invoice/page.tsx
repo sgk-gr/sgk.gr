@@ -91,6 +91,14 @@ function InvoiceViewer() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (doc?.clientName && doc.clientName !== "Πελάτης") {
+      document.title = `Προσφορά & Τιμολόγιο - ${doc.clientName}`;
+    } else {
+      document.title = "Προσφορά & Τιμολόγιο - SGK Digital";
+    }
+  }, [doc]);
+
+  useEffect(() => {
     async function loadDoc() {
       // 1. Try URL dataParam first
       if (dataParam) {
@@ -416,16 +424,36 @@ function InvoiceViewer() {
       {/* Print CSS Rules */}
       <style jsx global>{`
         @media print {
-          body {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-          }
-          .no-print {
-            display: none !important;
-          }
           @page {
             size: A4 portrait;
-            margin: 12mm;
+            margin: 0;
+          }
+          html, body {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto !important;
+            min-height: 0 !important;
+            overflow: visible !important;
+          }
+          .no-print,
+          .global-promo-bar,
+          #floating-chatbot,
+          nav,
+          header,
+          footer {
+            display: none !important;
+          }
+          main {
+            box-shadow: none !important;
+            border: none !important;
+            margin: 0 !important;
+            padding: 12mm 15mm !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            height: auto !important;
+            box-sizing: border-box !important;
           }
         }
       `}</style>
