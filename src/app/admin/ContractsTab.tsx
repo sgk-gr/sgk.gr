@@ -66,10 +66,10 @@ const DEFAULT_CONTRACT: ContractData = {
 
   totalAmountNum: 124.00,
   totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
-  advanceAmountNum: 50.00,
-  advanceAmountText: "πενήντα ευρώ (50,00 €)",
-  remainingAmountNum: 74.00,
-  remainingAmountText: "εβδομήντα τεσσάρων ευρώ (74,00 €)",
+  advanceAmountNum: 0.00,
+  advanceAmountText: "μηδέν ευρώ (0,00 €)",
+  remainingAmountNum: 0.00,
+  remainingAmountText: "μηδέν ευρώ (0,00 €)",
   renewalAmountNum: 124.00,
   renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
   deliveryDaysNum: 5,
@@ -172,16 +172,16 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
   // Helper for auto-calculating amounts
   const handleTotalChange = (val: number) => {
     const total = val || 0;
-    const advance = 50;
+    const advance = currentContract.advanceAmountNum || 0;
     const remaining = Math.max(0, total - advance);
     setCurrentContract(prev => ({
       ...prev,
       totalAmountNum: total,
       totalAmountText: `${total === 124 ? "εκατόν είκοσι τεσσάρων" : total} ευρώ (${total.toFixed(2).replace(".", ",")} €)`,
       advanceAmountNum: advance,
-      advanceAmountText: `πενήντα ευρώ (${advance.toFixed(2).replace(".", ",")} €)`,
+      advanceAmountText: advance === 0 ? "μηδέν ευρώ (0,00 €)" : `${advance === 50 ? "πενήντα" : advance} ευρώ (${advance.toFixed(2).replace(".", ",")} €)`,
       remainingAmountNum: remaining,
-      remainingAmountText: `${remaining === 74 ? "εβδομήντα τεσσάρων" : remaining} ευρώ (${remaining.toFixed(2).replace(".", ",")} €)`,
+      remainingAmountText: remaining === 0 ? "μηδέν ευρώ (0,00 €)" : `${remaining === 74 ? "εβδομήντα τεσσάρων" : remaining} ευρώ (${remaining.toFixed(2).replace(".", ",")} €)`,
       renewalAmountNum: total,
       renewalAmountText: `${total === 124 ? "εκατόν είκοσι τεσσάρων" : total} ευρώ (${total.toFixed(2).replace(".", ",")} €)`
     }));
@@ -598,7 +598,7 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                     Άρθρο 3 – Χρόνος παράδοσης
                   </h3>
                   <p>
-                    Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός <strong>{currentContract.deliveryDaysText}</strong> εργάσιμων ημερών από την καταβολή της προκαταβολής του Άρθρου 4. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.
+                    Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός <strong>{currentContract.deliveryDaysText}</strong> εργάσιμων ημερών από την {currentContract.advanceAmountNum > 0 ? "καταβολή της προκαταβολής του Άρθρου 4" : "εξόφληση της αμοιβής του Άρθρου 4"}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.
                   </p>
                 </div>
 
@@ -609,17 +609,27 @@ export function ContractsTab({ initialLead }: { initialLead?: { company?: string
                   <p className="mb-1.5">
                     <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{currentContract.totalAmountText}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
                   </p>
+
+                  {currentContract.advanceAmountNum === 0 ? (
+                    <p className="mb-1.5">
+                      <strong>4.2</strong> Η εξόφληση της αμοιβής πραγματοποιείται <strong>εφάπαξ</strong> με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής.
+                    </p>
+                  ) : (
+                    <>
+                      <p className="mb-1.5">
+                        <strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>{currentContract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της προκαταβολής.
+                      </p>
+                      <p className="mb-1.5">
+                        <strong>4.3</strong> Το υπόλοιπο ποσό των <strong>{currentContract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.
+                      </p>
+                    </>
+                  )}
+
                   <p className="mb-1.5">
-                    <strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>{currentContract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της προκαταβολής.
-                  </p>
-                  <p className="mb-1.5">
-                    <strong>4.3</strong> Το υπόλοιπο ποσό των <strong>{currentContract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.
-                  </p>
-                  <p className="mb-1.5">
-                    <strong>4.4</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.
+                    <strong>{currentContract.advanceAmountNum === 0 ? "4.3" : "4.4"}</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.
                   </p>
                   <p>
-                    <strong>4.5</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>{currentContract.ibanDetails}</strong>, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.
+                    <strong>{currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"}</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>{currentContract.ibanDetails}</strong>, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.
                   </p>
                 </div>
 
