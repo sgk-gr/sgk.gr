@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { 
   Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, 
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
-  FileCheck, Calculator, Sparkles 
+  FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
@@ -322,8 +322,10 @@ export function EmailsTab() {
   // Single Add Lead form state
   const [newEmail, setNewEmail] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
-  const [newLastName, setNewLastName] = useState("");
-  const [addingLead, setAddingLead] = useState(false);
+  // Lead Edit & Create Modal State
+  const [editingLead, setEditingLead] = useState<any | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isSavingLead, setIsSavingLead] = useState(false);
 
   // Bulk Import state
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
@@ -579,59 +581,100 @@ function safeEncodeBase64(data: any): string {
     setSelectedLeads([]);
   }, [statusFilter, searchTerm]);
 
-  const handleAddSingleLead = async (e: React.FormEvent) => {
+  const handleOpenEditLead = (lead: any) => {
+    setEditingLead({
+      id: lead.id,
+      email: lead.email || "",
+      first_name: lead.first_name || "",
+      last_name: lead.last_name || "",
+      company: lead.company || "",
+      phone: lead.phone || "",
+      afm: lead.afm || "",
+      gemi_number: lead.gemi_number || "",
+      converted: Boolean(lead.converted),
+      unsubscribed: Boolean(lead.unsubscribed),
+      type: lead.type || "new_ike",
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleOpenCreateLead = () => {
+    setEditingLead({
+      id: null,
+      email: "",
+      first_name: "",
+      last_name: "",
+      company: "",
+      phone: "",
+      afm: "",
+      gemi_number: "",
+      converted: false,
+      unsubscribed: false,
+      type: "new_ike",
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveLead = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newEmail.trim()) {
+    if (!editingLead) return;
+    if (!editingLead.email.trim()) {
       toast.error("Παρακαλώ εισάγετε ένα email");
       return;
     }
-    const emailLower = newEmail.trim().toLowerCase();
+    const emailLower = editingLead.email.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailLower)) {
       toast.error("Μη έγκυρο format email");
       return;
     }
 
+    setIsSavingLead(true);
     try {
-      setAddingLead(true);
-      // Check if duplicate
-      const { data: existing, error: checkError } = await supabase
-        .from("sgk_mails")
-        .select("id")
-        .eq("email", emailLower)
-        .maybeSingle();
+      const payload: any = {
+        email: emailLower,
+        first_name: editingLead.first_name?.trim() || null,
+        last_name: editingLead.last_name?.trim() || null,
+        company: editingLead.company?.trim() || null,
+        phone: editingLead.phone?.trim() || null,
+        afm: editingLead.afm?.trim() || null,
+        gemi_number: editingLead.gemi_number?.trim() || null,
+        converted: Boolean(editingLead.converted),
+        unsubscribed: Boolean(editingLead.unsubscribed),
+        type: editingLead.type || "new_ike",
+      };
 
-      if (checkError) throw checkError;
-      if (existing) {
-        toast.error("Αυτό το email υπάρχει ήδη στη λίστα!");
-        return;
+      if (editingLead.id) {
+        // Update existing lead
+        const { error } = await supabase
+          .from("sgk_mails")
+          .update(payload)
+          .eq("id", editingLead.id);
+
+        if (error) throw error;
+        toast.success("Τα στοιχεία του πελάτη ενημερώθηκαν επιτυχώς!");
+      } else {
+        // Create new lead
+        payload.marketing_consent = true;
+        payload.unsubscribe_token = crypto.randomUUID();
+        payload.email_sequence_step = 0;
+
+        const { error } = await supabase
+          .from("sgk_mails")
+          .insert([payload]);
+
+        if (error) throw error;
+        toast.success("Ο νέος πελάτης προστέθηκε επιτυχώς!");
       }
 
-      const { error: insertError } = await supabase
-        .from("sgk_mails")
-        .insert({
-          email: emailLower,
-          first_name: newFirstName.trim() || null,
-          last_name: newLastName.trim() || null,
-          marketing_consent: true,
-          unsubscribe_token: crypto.randomUUID(),
-          email_sequence_step: 0, // start from 0 (not started)
-          unsubscribed: false,
-          converted: false
-        });
-
-      if (insertError) throw insertError;
-
-      toast.success("Το email προστέθηκε με επιτυχία!");
-      setNewEmail("");
-      setNewFirstName("");
-      setNewLastName("");
+      setIsEditModalOpen(false);
+      setEditingLead(null);
       await fetchLeads();
     } catch (err: any) {
       console.error(err);
-      toast.error(`Σφάλμα κατά την προσθήκη: ${err.message || "Άγνωστο σφάλμα"}`);
+      toast.error(`Σφάλμα: ${err.message || "Αποτυχία αποθήκευσης"}`);
     } finally {
-      setAddingLead(false);
+      setIsSavingLead(false);
     }
   };
 
@@ -954,8 +997,78 @@ function safeEncodeBase64(data: any): string {
     );
   }
 
+  const filteredLeads = useMemo(() => {
+    return leads.filter((lead) => {
+      if (searchTerm.trim()) {
+        const query = searchTerm.toLowerCase().trim();
+        const emailMatch = (lead.email || "").toLowerCase().includes(query);
+        const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
+        const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
+        const companyMatch = (lead.company || "").toLowerCase().includes(query);
+        const phoneMatch = (lead.phone || "").toLowerCase().includes(query);
+        const afmMatch = (lead.afm || "").toLowerCase().includes(query);
+        const fullNameMatch = `${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase().includes(query);
+        if (!(emailMatch || firstNameMatch || lastNameMatch || companyMatch || phoneMatch || afmMatch || fullNameMatch)) return false;
+      }
+
+      if (statusFilter === 'new_ike') {
+        return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
+      }
+      if (statusFilter === 'legacy') {
+        return lead.type === 'legacy_ike';
+      }
+      if (statusFilter === 'converted') {
+        return lead.converted;
+      }
+      if (statusFilter === 'new') {
+        return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) === 0);
+      }
+      if (statusFilter === 'completed') {
+        return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) >= 5);
+      }
+      if (statusFilter === 'active') {
+        return !lead.unsubscribed && !lead.converted && (lead.email_sequence_step || 0) >= 1 && (lead.email_sequence_step || 0) < 5;
+      }
+      if (statusFilter === 'unsubscribed') {
+        return lead.unsubscribed;
+      }
+
+      return true;
+    });
+  }, [leads, searchTerm, statusFilter]);
+
+  const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
+  const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
+  const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
+  const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0)).length;
+  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) >= 1 && (l.email_sequence_step || 0) < 5).length;
+  const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
+  const convertedCount = leads.filter(l => l.converted).length;
+  const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
+
+  const previewEmailDoc = useMemo(() => {
+    if (!campaignBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
+    
+    const sampleLead = singleLeadTarget || leads.find(l => selectedLeads.includes(l.id));
+    const businessName = sampleLead ? (sampleLead.first_name || "Συνεργάτη") : "Συνεργάτη";
+    
+    const bodyHtml = campaignBody.includes("<p>") || campaignBody.includes("</div>") || campaignBody.includes("<br")
+      ? campaignBody
+      : campaignBody.replace(/\n/g, '<br />');
+
+    return buildProfessionalEmailHtml({
+      businessName: businessName,
+      subject: campaignSubject,
+      bodyHtml: bodyHtml,
+      buttonText: buttonText || undefined,
+      buttonLink: buttonLink || undefined,
+      unsubscribeToken: "preview-token",
+      industry: sampleLead?.company,
+    });
+  }, [campaignBody, singleLeadTarget, leads, selectedLeads, campaignSubject, buttonText, buttonLink]);
+
   // Define full-screen campaign modal component
-  const campaignModal = isCampaignModalOpen && (
+  const campaignModal = isCampaignModalOpen ? (
     <div className="fixed inset-0 bg-white z-[99999] flex flex-col h-screen w-screen overflow-hidden">
       {/* Header */}
       <div className="bg-slate-900 px-6 py-4 border-b border-slate-800 flex justify-between items-center text-white shrink-0">
@@ -1172,7 +1285,7 @@ function safeEncodeBase64(data: any): string {
                 />
               </div>
               <p className="text-[10px] text-slate-500 font-bold uppercase italic leading-tight">
-                💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα το responsive layout της <strong>SGK Digital</strong> με τα snappi χρώματα και η υπογραφή μας.
+                💡 Στο κάτω μέρος του email θα προστεθεί αυτόματα το responsive layout της <strong>SGK Digital</strong> με τα εταιρικά στοιχεία και η υπογραφή μας.
               </p>
             </div>
 
@@ -1185,26 +1298,7 @@ function safeEncodeBase64(data: any): string {
               <div className="flex-1 rounded-2xl overflow-hidden border border-slate-800 shadow-inner min-h-0 bg-[#f0f2f5]">
                 <iframe
                   key={campaignBody + campaignSubject + buttonText + buttonLink}
-                  srcDoc={(() => {
-                    if (!campaignBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
-                    
-                    const sampleLead = singleLeadTarget || leads.find(l => selectedLeads.includes(l.id));
-                    const businessName = sampleLead ? (sampleLead.first_name || "Συνεργάτη") : "Συνεργάτη";
-                    
-                    const bodyHtml = campaignBody.includes("<p>") || campaignBody.includes("</div>") || campaignBody.includes("<br")
-                      ? campaignBody
-                      : campaignBody.replace(/\n/g, '<br />');
-
-                    return buildProfessionalEmailHtml({
-                      businessName: businessName,
-                      subject: campaignSubject,
-                      bodyHtml: bodyHtml,
-                      buttonText: buttonText || undefined,
-                      buttonLink: buttonLink || undefined,
-                      unsubscribeToken: "preview-token",
-                      industry: sampleLead?.company,
-                    });
-                  })()}
+                  srcDoc={previewEmailDoc}
                   className="w-full h-full border-0"
                   title="Email Preview"
                   sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
@@ -1235,178 +1329,7 @@ function safeEncodeBase64(data: any): string {
         </div>
       )}
     </div>
-  );
-
-  const renderSequenceStep = (step: number | null | undefined) => {
-    const currentStep = step || 0;
-    return (
-      <div className="flex items-center justify-center gap-1">
-        {[1, 2, 3, 4, 5].map((num) => {
-          const isSent = currentStep >= num;
-          return (
-            <span
-              key={num}
-              className={`
-                w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black border transition-all
-                ${isSent 
-                  ? 'bg-emerald-500 text-white border-emerald-500 shadow-sm shadow-emerald-500/20' 
-                  : 'bg-slate-100 text-slate-400 border-slate-200'
-                }
-              `}
-              title={isSent ? `Στάλθηκε το Email ${num}` : `Εκκρεμεί το Email ${num}`}
-            >
-              {num}
-            </span>
-          );
-        })}
-      </div>
-    );
-  };
-
-  const renderNextSendTime = (lead: any) => {
-    if (lead.unsubscribed) {
-      return <span className="text-slate-400 font-semibold">—</span>;
-    }
-    if (lead.converted) {
-      return <span className="text-emerald-500 font-bold">Ολοκληρώθηκε 🎉</span>;
-    }
-    if (lead.email_sequence_step === 0) {
-      return <span className="text-slate-500 italic">Δεν έχει ξεκινήσει</span>;
-    }
-    if (lead.email_sequence_step >= 5) {
-      return <span className="text-slate-500 italic font-bold text-emerald-600">Ολοκληρώθηκε (5/5)</span>;
-    }
-
-    if (!lead.last_email_sent_at) {
-      return <span className="text-[#3b5bdb] font-bold animate-pulse">Άμεσα ⚡</span>;
-    }
-
-    const lastSent = new Date(lead.last_email_sent_at);
-    const nextSend = new Date(lastSent.getTime() + 3 * 24 * 60 * 60 * 1000);
-    const now = new Date();
-
-    if (nextSend <= now) {
-      return <span className="text-emerald-600 font-bold animate-pulse">Εκκρεμεί (Άμεσα) ⚡</span>;
-    }
-
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'short',
-      day: '2-digit',
-      month: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    };
-    
-    const hoursLeft = Math.ceil((nextSend.getTime() - now.getTime()) / (1000 * 60 * 60));
-    let timeLabel = "";
-    if (hoursLeft >= 24) {
-      const days = Math.floor(hoursLeft / 24);
-      const hours = hoursLeft % 24;
-      timeLabel = `σε ${days}η ${hours}ω`;
-    } else {
-      timeLabel = `σε ${hoursLeft}ω`;
-    }
-
-    return (
-      <div className="flex flex-col items-center justify-center font-mono text-[11px] leading-tight">
-        <span className="text-slate-700 font-bold">{nextSend.toLocaleDateString("el-GR", options)}</span>
-        <span className="text-[9px] text-slate-400 mt-0.5">{timeLabel}</span>
-      </div>
-    );
-  };
-
-  const handleAutoProcessDue = async () => {
-    setAutoProcessing(true);
-    toast.info("Έναρξη αυτόματης επεξεργασίας εκκρεμών AI follow-up emails...");
-    let totalSent = 0;
-    let keepGoing = true;
-
-    try {
-      while (keepGoing) {
-        const response = await fetch("/api/admin/send-email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            processAllDue: true,
-            batchLimit: 5
-          })
-        });
-
-        const resJson = await response.json();
-        if (resJson.success) {
-          const count = resJson.processedCount || 0;
-          totalSent += count;
-          if (count === 0) {
-            keepGoing = false;
-          } else {
-            toast.info(`Στάλθηκαν ${totalSent} AI emails μέχρι στιγμής... συνεχίζεται...`);
-          }
-        } else {
-          toast.error(`Σφάλμα: ${resJson.error || "Άγνωστο σφάλμα"}`);
-          keepGoing = false;
-        }
-      }
-
-      if (totalSent > 0) {
-        toast.success(`Η ακολουθία ολοκληρώθηκε! Στάλθηκαν συνολικά ${totalSent} επόμενα AI emails.`);
-      } else {
-        toast.info("Δεν βρέθηκαν εκκρεμή emails που να έχουν συμπληρώσει 3 ημέρες.");
-      }
-      fetchLeads();
-    } catch (err: any) {
-      toast.error(`Σφάλμα αυτόματης αποστολής: ${err.message}`);
-    } finally {
-      setAutoProcessing(false);
-    }
-  };
-
-  const filteredLeads = leads.filter((lead) => {
-    // 1. Search term filter
-    if (searchTerm.trim()) {
-      const query = searchTerm.toLowerCase().trim();
-      const emailMatch = (lead.email || "").toLowerCase().includes(query);
-      const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
-      const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
-      const fullNameMatch = `${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase().includes(query);
-      if (!(emailMatch || firstNameMatch || lastNameMatch || fullNameMatch)) return false;
-    }
-
-    // 2. Status filter
-    if (statusFilter === 'new_ike') {
-      return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
-    }
-    if (statusFilter === 'legacy') {
-      return lead.type === 'legacy_ike';
-    }
-    if (statusFilter === 'converted') {
-      return lead.converted;
-    }
-    if (statusFilter === 'new') {
-      return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) === 0);
-    }
-    if (statusFilter === 'completed') {
-      return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) >= 5);
-    }
-    if (statusFilter === 'active') {
-      return !lead.unsubscribed && !lead.converted && (lead.email_sequence_step || 0) >= 1 && (lead.email_sequence_step || 0) < 5;
-    }
-    if (statusFilter === 'unsubscribed') {
-      return lead.unsubscribed;
-    }
-
-    return true;
-  });
-
-  const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
-  const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
-  const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
-  const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0)).length;
-  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) >= 1 && (l.email_sequence_step || 0) < 5).length;
-  const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
-  const convertedCount = leads.filter(l => l.converted).length;
-  const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
+  ) : null;
 
   return (
     <div className="space-y-8">
@@ -1487,6 +1410,13 @@ function safeEncodeBase64(data: any): string {
               </button>
             )}
             <button
+              onClick={handleOpenCreateLead}
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer"
+            >
+              <UserPlus size={14} />
+              + Νεος Πελατης
+            </button>
+            <button
               onClick={() => {
                 setImportData("");
                 setIsImportModalOpen(true);
@@ -1520,7 +1450,7 @@ function safeEncodeBase64(data: any): string {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
               type="text"
-              placeholder="Αναζήτηση email, ονόματος..."
+              placeholder="Αναζήτηση email, ονόματος, εταιρείας, τηλεφώνου..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-9 pr-8 py-2 bg-white border border-gray-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-[#3b5bdb] focus:ring-1 focus:ring-[#3b5bdb]/20 transition-all placeholder:text-slate-400 shadow-sm"
@@ -1541,6 +1471,7 @@ function safeEncodeBase64(data: any): string {
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
               {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
+              {statusFilter === 'legacy' && <span className="text-blue-600 font-black">🏢 Παλαιές ΙΚΕ</span>}
               {statusFilter === 'new' && <span className="text-blue-600 font-black">➕ Νέοι (0/5)</span>}
               {statusFilter === 'active' && <span className="text-teal-600 font-black">⚡ Ενεργοί (1-4/5)</span>}
               {statusFilter === 'completed' && <span className="text-amber-600 font-black">✅ Ολοκληρωμένοι (5/5)</span>}
@@ -1578,7 +1509,7 @@ function safeEncodeBase64(data: any): string {
                       className="rounded border-gray-300 text-[#3b5bdb] focus:ring-[#3b5bdb] h-4 w-4 cursor-pointer"
                     />
                   </th>
-                  <th className="py-3 px-4">Email / Όνομα</th>
+                  <th className="py-3 px-4">Email / Όνομα / Τηλέφωνο</th>
                   <th className="py-3 px-4">Ημ/νία Εγγραφής</th>
                   <th className="py-3 px-4 text-center">Κατάσταση</th>
                   <th className="py-3 px-4 text-center">Ενέργειες</th>
@@ -1625,8 +1556,33 @@ function safeEncodeBase64(data: any): string {
                     </td>
                     <td className="py-3 px-4">
                       <div className="font-bold text-gray-900">{lead.email}</div>
-                      <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                        {lead.first_name || lead.last_name ? `${lead.first_name || ""} ${lead.last_name || ""}` : "-"}
+                      {lead.company && (
+                        <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-1 mt-0.5">
+                          <Building2 size={11} className="text-slate-400 shrink-0" />
+                          <span>{lead.company}</span>
+                        </div>
+                      )}
+                      {(lead.first_name || lead.last_name) && (
+                        <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
+                          {lead.first_name || ""} {lead.last_name || ""}
+                        </div>
+                      )}
+                      <div className="flex flex-wrap items-center gap-2 mt-1">
+                        {lead.phone && (
+                          <a 
+                            href={`tel:${lead.phone}`}
+                            className="inline-flex items-center gap-1 text-[11px] font-bold text-[#3b5bdb] hover:underline bg-blue-50/80 px-2 py-0.5 rounded-md border border-blue-100"
+                            title="Κλήση στο τηλέφωνο"
+                          >
+                            <Phone size={10} />
+                            {lead.phone}
+                          </a>
+                        )}
+                        {lead.afm && (
+                          <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                            ΑΦΜ: {lead.afm}
+                          </span>
+                        )}
                       </div>
                     </td>
                     <td className="py-3 px-4 text-slate-500 font-mono">
@@ -1656,81 +1612,30 @@ function safeEncodeBase64(data: any): string {
                           {lead.converted ? "Πελάτης 🎉" : "Έγινε Πελάτης"}
                         </button>
                         {!lead.unsubscribed && (
-                          <>
-                            <button
-                              onClick={() => {
-                                setSingleLeadTarget(lead);
-                                setCampaignSubject(templates[0].subject);
-                                setCampaignBody(templates[0].body);
-                                setButtonText(templates[0].defaultButtonText || "");
-                                setButtonLink(templates[0].defaultButtonLink || "");
-                                setIsCampaignModalOpen(true);
-                              }}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3b5bdb]/10 text-[#3b5bdb] hover:bg-[#3b5bdb] hover:text-white rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                              title="Αποστολή Προσαρμοσμένου Email"
-                            >
-                              <Mail size={12} />
-                              Email
-                            </button>
-
-                            <button
-                              onClick={() => {
-                                setSingleLeadTarget(lead);
-                                const comp = lead.company || "";
-                                const name = lead.first_name || "";
-                                
-                                // Look for matching saved contract first
-                                const matchedContract = savedContracts.find(c => 
-                                  (c.companyName && comp && c.companyName.toLowerCase().includes(comp.toLowerCase())) ||
-                                  (c.tradeName && comp && c.tradeName.toLowerCase().includes(comp.toLowerCase()))
-                                );
-
-                                const contractToUse = matchedContract || {
-                                  id: "contract_" + Date.now(),
-                                  companyName: comp,
-                                  tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp,
-                                  representativeName: name,
-                                  totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
-                                  deliveryDaysText: "πέντε (5)",
-                                  renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
-                                  ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος"
-                                };
-
-                                handleInsertContract(contractToUse);
-                                setIsCampaignModalOpen(true);
-                              }}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white border border-amber-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                              title="Αποστολή Επισήμου Ιδιωτικού Συμφωνητικού με PDF Link"
-                            >
-                              <FileCheck size={12} />
-                              Συμφωνητικο
-                            </button>
-
-                            <button
-                              onClick={() => {
-                                setSingleLeadTarget(lead);
-                                const comp = lead.company || "";
-                                const name = lead.first_name || "";
-                                handleInsertInvoice({
-                                  id: "invoice_" + Date.now(),
-                                  clientName: comp || name || "Πελάτης",
-                                  clientAfm: "000000000",
-                                  clientAddress: "Αθήνα",
-                                  net: 100,
-                                  vat: 24,
-                                  gross: 124,
-                                  payable: 124,
-                                });
-                                setIsCampaignModalOpen(true);
-                              }}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white border border-indigo-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                              title="Αποστολή Τεχνικής Προσφοράς & Τιμολογίου με PDF Link"
-                            >
-                              <Calculator size={12} />
-                              Τιμολογιο
-                            </button>
-                          </>
+                          <button
+                            onClick={() => {
+                              setSingleLeadTarget(lead);
+                              setCampaignSubject(templates[0].subject);
+                              setCampaignBody(templates[0].body);
+                              setButtonText(templates[0].defaultButtonText || "");
+                              setButtonLink(templates[0].defaultButtonLink || "");
+                              setIsCampaignModalOpen(true);
+                            }}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3b5bdb]/10 text-[#3b5bdb] hover:bg-[#3b5bdb] hover:text-white rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                            title="Αποστολή Προσαρμοσμένου Email"
+                          >
+                            <Mail size={12} />
+                            Email
+                          </button>
                         )}
+                        <button
+                          onClick={() => handleOpenEditLead(lead)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 text-blue-700 hover:bg-[#3b5bdb] hover:text-white border border-blue-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                          title="Επεξεργασία στοιχείων πελάτη (Όνομα, Email, Τηλέφωνο, Εταιρεία, ΑΦΜ)"
+                        >
+                          <Edit3 size={12} />
+                          Επεξεργασια
+                        </button>
                         <button
                           onClick={() => handleDeleteLead(lead.id, lead.email)}
                           className="inline-flex items-center justify-center p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-all cursor-pointer border border-transparent hover:border-rose-100"
@@ -1750,6 +1655,181 @@ function safeEncodeBase64(data: any): string {
 
       {/* Campaign Email Modal - Ported to body level to fix z-index issues */}
       {isClient && typeof document !== "undefined" && createPortal(campaignModal, document.body)}
+
+      {/* Edit / Create Lead Modal */}
+      {isEditModalOpen && editingLead && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-xl w-full overflow-hidden border border-gray-100 animate-scale-up">
+            
+            {/* Modal Header */}
+            <div className="bg-slate-900 px-6 py-4 text-white flex justify-between items-center">
+              <h3 className="font-black text-sm uppercase tracking-wider italic flex items-center gap-2">
+                {editingLead.id ? <Edit3 className="text-[#3b5bdb]" size={18} /> : <UserPlus className="text-emerald-400" size={18} />}
+                {editingLead.id ? "Επεξεργασια Στοιχειων Πελατη" : "Προσθηκη Νεου Πελατη / Lead"}
+              </h3>
+              <button 
+                onClick={() => {
+                  if (isSavingLead) return;
+                  setIsEditModalOpen(false);
+                  setEditingLead(null);
+                }}
+                className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <form onSubmit={handleSaveLead} className="p-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <div className="sm:col-span-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Email Πελάτη *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={editingLead.email}
+                    onChange={(e) => setEditingLead({ ...editingLead, email: e.target.value })}
+                    placeholder="π.χ. info@company.gr"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Τηλέφωνο Επικοινωνίας
+                  </label>
+                  <input
+                    type="tel"
+                    value={editingLead.phone}
+                    onChange={(e) => setEditingLead({ ...editingLead, phone: e.target.value })}
+                    placeholder="π.χ. 6999524389 / 2111140013"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Επωνυμία Εταιρείας / Brand
+                  </label>
+                  <input
+                    type="text"
+                    value={editingLead.company}
+                    onChange={(e) => setEditingLead({ ...editingLead, company: e.target.value })}
+                    placeholder="π.χ. Atrekia Pharma ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε."
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Όνομα / Εκπρόσωπος
+                  </label>
+                  <input
+                    type="text"
+                    value={editingLead.first_name}
+                    onChange={(e) => setEditingLead({ ...editingLead, first_name: e.target.value })}
+                    placeholder="π.χ. Δημήτριος"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Επώνυμο
+                  </label>
+                  <input
+                    type="text"
+                    value={editingLead.last_name}
+                    onChange={(e) => setEditingLead({ ...editingLead, last_name: e.target.value })}
+                    placeholder="π.χ. Λιακόπουλος"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Α.Φ.Μ.
+                  </label>
+                  <input
+                    type="text"
+                    value={editingLead.afm}
+                    onChange={(e) => setEditingLead({ ...editingLead, afm: e.target.value })}
+                    placeholder="π.χ. 803379105"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Αριθμός Γ.Ε.ΜΗ.
+                  </label>
+                  <input
+                    type="text"
+                    value={editingLead.gemi_number}
+                    onChange={(e) => setEditingLead({ ...editingLead, gemi_number: e.target.value })}
+                    placeholder="π.χ. 195662501000"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold font-mono"
+                  />
+                </div>
+
+              </div>
+
+              {/* Status checkboxes */}
+              <div className="pt-3 border-t border-gray-100 flex flex-wrap items-center gap-6">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingLead.converted}
+                    onChange={(e) => setEditingLead({ ...editingLead, converted: e.target.checked })}
+                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 h-4 w-4"
+                  />
+                  <span className="text-xs font-black text-emerald-800">
+                    🎉 Έγινε Πελάτης (Converted)
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingLead.unsubscribed}
+                    onChange={(e) => setEditingLead({ ...editingLead, unsubscribed: e.target.checked })}
+                    className="rounded border-gray-300 text-rose-600 focus:ring-rose-500 h-4 w-4"
+                  />
+                  <span className="text-xs font-bold text-rose-700">
+                    Διεγράφη (Unsubscribed)
+                  </span>
+                </label>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="bg-slate-50 -mx-6 -mb-6 px-6 py-4 mt-6 border-t border-gray-150 flex justify-end gap-3 rounded-b-3xl">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsEditModalOpen(false);
+                    setEditingLead(null);
+                  }}
+                  className="px-4 py-2 text-xs font-black uppercase tracking-wider text-slate-500 hover:text-slate-700 transition-colors"
+                >
+                  Ακύρωση
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingLead}
+                  className="px-5 py-2 text-xs font-black uppercase tracking-wider text-white bg-[#3b5bdb] hover:bg-blue-700 rounded-xl shadow-md disabled:opacity-50 flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  {isSavingLead ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
+                  Αποθηκευση Στοιχειων
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      )}
 
       {/* Import Leads Modal */}
       {isImportModalOpen && (
