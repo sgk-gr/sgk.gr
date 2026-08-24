@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, Users, Loader2, X, Trash2, Plus, Search, Building2, FileCheck } from "lucide-react";
+import { 
+  Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, 
+  Users, Loader2, X, Trash2, Plus, Search, Building2, 
+  FileCheck, Calculator, Sparkles 
+} from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 const templates = [
