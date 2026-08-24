@@ -12,7 +12,6 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { EmailsTab } from "./EmailsTab";
-import { TrackingTab } from "./TrackingTab";
 import { ContractsTab } from "./ContractsTab";
 
 // --- Types ---
@@ -82,7 +81,7 @@ export default function AdminVatDashboard() {
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "contracts" | "tax" | "emails" | "tracking">("ledger");
+  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "contracts" | "tax" | "emails">("ledger");
   
   // Year & Ledger State
   const [filterYear, setFilterYear] = useState<string>(() => String(new Date().getFullYear()));
@@ -939,18 +938,6 @@ export default function AdminVatDashboard() {
           >
             <Mail className="w-4 h-4" />
             Email Leads
-          </button>
-
-          <button
-            onClick={() => setActivePortalTab("tracking")}
-            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
-              activePortalTab === "tracking"
-                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
-                : "text-gray-600 hover:text-slate-200"
-            }`}
-          >
-            <Activity className="w-4 h-4" />
-            Traffic & AI
           </button>
         </div>
       </div>
@@ -2266,22 +2253,6 @@ export default function AdminVatDashboard() {
           </motion.div>
         )}
 
-
-        {/* --- TAB 6: TRACKING PORTAL --- */}
-        {activePortalTab === "tracking" && (
-          <motion.div
-            key="tracking-tab"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3 }}
-            className="relative z-10"
-          >
-            <main className="max-w-7xl mx-auto px-6 mt-8">
-              <TrackingTab />
-            </main>
-          </motion.div>
-        )}
 
       </AnimatePresence>
 
