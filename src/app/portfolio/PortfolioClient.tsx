@@ -72,6 +72,30 @@ const featuredProjects = [
 // ----------------------------------------------------
 const gridProjects = [
   {
+    title: "ELV8 Energy Drink",
+    category: "Headless E-commerce & Brand",
+    description: "Η νέα εποχή στην ενέργεια. Το επίσημο ηλεκτρονικό κατάστημα (E-shop) της ELV8 Energy Drink — 0% Ζάχαρη, 200mg Φυσική Καφεΐνη, Ηλεκτρολύτες & Βιταμίνες για μέγιστη απόδοση.",
+    tags: ["Headless E-shop", "Next.js", "WooCommerce", "Energy Drink"],
+    image: "/images/solutions/unsplash_eshop.jpg",
+    link: "https://www.elv8now.com/",
+  },
+  {
+    title: "Sellas Country Houses IKE",
+    category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
+    description: "Κατασκευή σύγχρονης εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ για τη SELLAS COUNTRY HOUSES ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε., με SSL ασφάλεια και αυτόματη διασύνδεση δεδομένων ΓΕΜΗ.",
+    tags: ["ΓΕΜΗ Compliance", "Next.js", "Hospitality", "SSL"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "https://www.sellascountryhouses.gr/",
+  },
+  {
+    title: "PNP Constructions IKE",
+    category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
+    description: "Κατασκευή εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ για την PNP CONSTRUCTIONS ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε. (Άρθρο 47 §2 Ν. 4072/2012) με 100% GDPR συμμόρφωση.",
+    tags: ["ΓΕΜΗ Compliance", "Constructions", "Next.js", "SSL"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "https://www.pnpconstructions.com/",
+  },
+  {
     title: "MIMI AND NONI IKE",
     category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
     description: "Κατασκευή εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ για την MIMI AND NONI ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε. (Άρθρο 47 §2 Ν. 4072/2012).",
@@ -283,6 +307,8 @@ export default function PortfolioClient() {
                 <Link
                   key={index}
                   href={project.link}
+                  target={project.link.startsWith("http") ? "_blank" : undefined}
+                  rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="block cursor-pointer group"
                 >
                   <motion.div
