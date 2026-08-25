@@ -999,14 +999,6 @@ function safeEncodeBase64(data: any): string {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center p-12">
-        <RefreshCcw className="animate-spin text-[#3b5bdb]" size={32} />
-      </div>
-    );
-  }
-
   const filteredLeads = useMemo(() => {
     return leads.filter((lead) => {
       if (searchTerm.trim()) {
@@ -1340,6 +1332,14 @@ function safeEncodeBase64(data: any): string {
       )}
     </div>
   ) : null;
+
+  if (loading) {
+    return (
+      <div className="flex justify-center p-12">
+        <RefreshCcw className="animate-spin text-[#3b5bdb]" size={32} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
