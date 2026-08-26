@@ -318,6 +318,9 @@ export function EmailsTab() {
   const [uploadingPdf, setUploadingPdf] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
 
+  // Live GEMI IKE Scanner state
+  const [isScanningGemi, setIsScanningGemi] = useState(false);
+
   // Load saved contracts & check for pending drafts
   useEffect(() => {
     const loadContracts = () => {
@@ -999,6 +1002,35 @@ function safeEncodeBase64(data: any): string {
     }
   };
 
+  const handleScanGemiIkes = async () => {
+    setIsScanningGemi(true);
+    toast.loading("Γίνεται live σάρωση στο Γ.Ε.ΜΗ. για νεοσύστατες Ι.Κ.Ε. χωρίς ιστοσελίδα...", { id: "gemi-scan" });
+    try {
+      const res = await fetch("/api/admin/scan-gemi-ikes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ limit: 50 }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Αποτυχία σάρωσης ΓΕΜΗ");
+      }
+
+      if (data.count > 0) {
+        toast.success(`🎉 Βρέθηκαν & προστέθηκαν ${data.count} νέες Ι.Κ.Ε. στη λίστα! (Εξετάστηκαν: ${data.totalExamined})`, { id: "gemi-scan" });
+      } else {
+        toast.info(`Η σάρωση ολοκληρώθηκε (Εξετάστηκαν ${data.totalExamined} επιχειρήσεις). Δεν βρέθηκαν νέα leads — όλα υπάρχουν ήδη στη βάση.`, { id: "gemi-scan" });
+      }
+
+      await fetchLeads();
+    } catch (err: any) {
+      console.error("GEMI Scan Error:", err);
+      toast.error(`Σφάλμα κατά τη σάρωση: ${err.message || "Άγνωστο σφάλμα"}`, { id: "gemi-scan" });
+    } finally {
+      setIsScanningGemi(false);
+    }
+  };
+
   const filteredLeads = useMemo(() => {
     return leads.filter((lead) => {
       if (searchTerm.trim()) {
@@ -1425,6 +1457,15 @@ function safeEncodeBase64(data: any): string {
             >
               <UserPlus size={14} />
               + Νεος Πελατης
+            </button>
+            <button
+              onClick={handleScanGemiIkes}
+              disabled={isScanningGemi}
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer disabled:opacity-50"
+              title="Live σάρωση στο Γ.Ε.ΜΗ. για νεοσύστατες Ι.Κ.Ε. χωρίς ιστοσελίδα"
+            >
+              {isScanningGemi ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} className="text-yellow-300" />}
+              ⚡ Ευρεση Νεων ΙΚΕ (ΓΕΜΗ)
             </button>
             <button
               onClick={() => {
