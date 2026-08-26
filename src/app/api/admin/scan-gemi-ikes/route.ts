@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
     }
 
     const maxResults = body.limit || 50;
+    const targetMonth = body.month || null; // e.g. "2026-09" or "2026-08"
     const pageSize = 50;
 
     // 1. Fetch existing emails from Supabase to prevent duplicates
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
     let totalNoEmail = 0;
     let offset = 0;
 
-    while (newLeadsToInsert.length < maxResults && offset < 300) {
+    while (newLeadsToInsert.length < maxResults && offset < 500) {
       const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=19&resultsSortBy=-arGemi`;
 
       const res = await fetch(url, {
@@ -82,6 +83,11 @@ export async function POST(req: NextRequest) {
 
       for (const co of results) {
         totalExamined++;
+
+        // Filter: Check target month if requested (e.g. "2026-09")
+        if (targetMonth && co.incorporationDate && !co.incorporationDate.startsWith(targetMonth)) {
+          continue;
+        }
 
         // Filter: Check official website
         if (hasOfficialWebsite(co.url)) {
