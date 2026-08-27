@@ -139,6 +139,7 @@ export default function AdminVatDashboard() {
   const [aadeClientName, setAadeClientName] = useState<string>("ΓΙΑΚΟΥΜΑΚΗ ΒΑΣΙΛΙΚΗ ΑΝΤΩΝΙΟΣ");
   const [aadeClientAfm, setAadeClientAfm] = useState<string>("161578030");
   const [aadeClientAddress, setAadeClientAddress] = useState<string>("ΔΑΡΑΤΣΟ Ι ΜΥΓΙΑΚΗ 0 - ΧΑΝΙΑ 73100");
+  const [aadeClientEmail, setAadeClientEmail] = useState<string>("");
   const [aadeGemiSearch, setAadeGemiSearch] = useState<string>("");
   const [isAadeSearchingGemi, setIsAadeSearchingGemi] = useState<boolean>(false);
   const [aadeDocNo, setAadeDocNo] = useState<string>("4");
@@ -453,7 +454,7 @@ export default function AdminVatDashboard() {
       targetLead: {
         company: aadeClientName,
         first_name: aadeClientName,
-        email: ""
+        email: aadeClientEmail || ""
       }
     };
 
@@ -1835,6 +1836,17 @@ export default function AdminVatDashboard() {
                           value={aadeClientAddress}
                           placeholder="π.χ. Οδός, Αριθμός - Πόλη ΤΚ"
                           onChange={(e) => setAadeClientAddress(e.target.value)}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Email Πελατη (για Αποστολη)</label>
+                        <input
+                          type="email"
+                          value={aadeClientEmail}
+                          placeholder="π.χ. info@client.gr"
+                          onChange={(e) => setAadeClientEmail(e.target.value)}
                           className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-900 text-xs font-semibold focus:border-[#3b5bdb]/50 outline-none"
                         />
                       </div>

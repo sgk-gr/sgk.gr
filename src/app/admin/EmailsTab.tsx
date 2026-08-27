@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { 
   Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, 
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
-  FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save
+  FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
@@ -810,17 +810,37 @@ function safeEncodeBase64(data: any): string {
   };
 
   const handleSendCampaign = async () => {
-    const uncontactedFiltered = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
-    const rawTargets = singleLeadTarget 
-      ? [singleLeadTarget] 
-      : (selectedLeads.length > 0 
-          ? filteredLeads.filter(l => selectedLeads.includes(l.id)) 
-          : uncontactedFiltered);
+    let targets: any[] = [];
 
-    const targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false);
+    if (singleLeadTarget) {
+      const email = (singleLeadTarget.email || "").trim().toLowerCase();
+      if (!email) {
+        toast.error("Παρακαλώ εισάγετε το email του παραλήπτη");
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        toast.error("Μη έγκυρο format email παραλήπτη");
+        return;
+      }
+      targets = [{
+        id: singleLeadTarget.id || null,
+        email: email,
+        first_name: singleLeadTarget.first_name || singleLeadTarget.company || "Συνεργάτη",
+        company: singleLeadTarget.company || "",
+        unsubscribe_token: singleLeadTarget.unsubscribe_token || crypto.randomUUID()
+      }];
+    } else {
+      const uncontactedFiltered = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
+      const rawTargets = selectedLeads.length > 0 
+        ? filteredLeads.filter(l => selectedLeads.includes(l.id)) 
+        : uncontactedFiltered;
 
-    if (rawTargets.length > targets.length) {
-      toast.info(`Εξαιρέθηκαν ${rawTargets.length - targets.length} παραλήπτες που έχουν κάνει απεγγραφή.`);
+      targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false);
+
+      if (rawTargets.length > targets.length) {
+        toast.info(`Εξαιρέθηκαν ${rawTargets.length - targets.length} παραλήπτες που έχουν κάνει απεγγραφή.`);
+      }
     }
 
     if (targets.length === 0 || !campaignSubject || !campaignBody) {
@@ -1109,8 +1129,8 @@ function safeEncodeBase64(data: any): string {
         <h3 className="font-black text-sm uppercase tracking-wider italic flex items-center gap-2">
           <Mail className="text-[#3b5bdb]" size={18} />
           {singleLeadTarget 
-            ? `Αποστολη Email στο ${singleLeadTarget.email}` 
-            : `Μαζικη Αποστολη (${singleLeadTarget ? 1 : (selectedLeads.length > 0 ? selectedLeads.length : leads.length)} παραληπτες)`}
+            ? (singleLeadTarget.email ? `Αποστολη Email στο ${singleLeadTarget.email}` : `Αποστολη Email σε Πελατη (${singleLeadTarget.company || singleLeadTarget.first_name || "Νέο Έγγραφο"})`) 
+            : `Μαζικη Αποστολη (${selectedLeads.length > 0 ? selectedLeads.length : uncontactedFilteredLeads.length} παραληπτες)`}
         </h3>
         <button 
           onClick={() => {
@@ -1145,6 +1165,118 @@ function safeEncodeBase64(data: any): string {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-0">
             {/* Left Column: Form Editor */}
             <div className="space-y-4 flex flex-col h-full min-h-0 overflow-y-auto pr-2 custom-scrollbar bg-slate-900/50 border border-slate-850 p-6 rounded-2xl">
+              
+              {/* Recipient Selection Section */}
+              <div className="p-3.5 bg-slate-950/90 border border-slate-800 rounded-xl space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-1.5">
+                    <User size={13} className="text-[#3b5bdb]" />
+                    Παραληπτης Email
+                  </span>
+                  <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!singleLeadTarget) {
+                          setSingleLeadTarget({ email: "", first_name: "", company: "" });
+                        }
+                      }}
+                      className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                        singleLeadTarget 
+                          ? "bg-[#3b5bdb] text-white shadow-sm" 
+                          : "text-slate-400 hover:text-white"
+                      }`}
+                    >
+                      Μεμονωμένος
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSingleLeadTarget(null);
+                      }}
+                      className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                        !singleLeadTarget 
+                          ? "bg-[#3b5bdb] text-white shadow-sm" 
+                          : "text-slate-400 hover:text-white"
+                      }`}
+                    >
+                      Μαζική ({selectedLeads.length > 0 ? selectedLeads.length : uncontactedFilteredLeads.length})
+                    </button>
+                  </div>
+                </div>
+
+                {singleLeadTarget ? (
+                  <div className="space-y-2 pt-1">
+                    {/* Quick Lead Picker from existing DB */}
+                    <div>
+                      <select
+                        value={singleLeadTarget.id || ""}
+                        onChange={(e) => {
+                          const selectedId = e.target.value;
+                          if (!selectedId) return;
+                          const lead = leads.find(l => l.id === selectedId);
+                          if (lead) {
+                            setSingleLeadTarget({
+                              id: lead.id,
+                              email: lead.email,
+                              first_name: lead.first_name || lead.company || "",
+                              company: lead.company || "",
+                              unsubscribe_token: lead.unsubscribe_token
+                            });
+                          }
+                        }}
+                        className="w-full px-3 py-2 bg-slate-900 border border-slate-750 text-slate-200 text-xs font-bold rounded-lg focus:border-[#3b5bdb] outline-none cursor-pointer"
+                      >
+                        <option value="">🔍 Επιλογή από αποθηκευμένους πελάτες ({leads.length})...</option>
+                        {leads.map((l) => (
+                          <option key={l.id} value={l.id}>
+                            {l.company ? `${l.company} (${l.email})` : l.first_name ? `${l.first_name} (${l.email})` : l.email}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {/* Email Address Input */}
+                      <div>
+                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                          Email Παραλήπτη <span className="text-rose-400">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          value={singleLeadTarget.email || ""}
+                          onChange={(e) => setSingleLeadTarget({ ...singleLeadTarget, email: e.target.value })}
+                          placeholder="π.χ. info@client.gr"
+                          className="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-slate-100 text-xs font-bold rounded-lg focus:border-[#3b5bdb] outline-none"
+                          required
+                        />
+                      </div>
+
+                      {/* Name / Company Input */}
+                      <div>
+                        <label className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                          Όνομα / Επωνυμία
+                        </label>
+                        <input
+                          type="text"
+                          value={singleLeadTarget.first_name || singleLeadTarget.company || ""}
+                          onChange={(e) => setSingleLeadTarget({ ...singleLeadTarget, first_name: e.target.value, company: e.target.value })}
+                          placeholder="π.χ. THINK LOCALIZATION I.K.E."
+                          className="w-full px-3 py-2 bg-slate-900 border border-slate-700 text-slate-100 text-xs font-bold rounded-lg focus:border-[#3b5bdb] outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-2.5 bg-slate-900/60 rounded-lg border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+                    <span>
+                      📨 Αποστολή σε <strong className="text-white">{selectedLeads.length > 0 ? selectedLeads.length : uncontactedFilteredLeads.length} παραλήπτες</strong> από τη λίστα
+                    </span>
+                    <span className="text-[9px] text-[#3b5bdb] font-bold uppercase">Μαζικη Καμπανια</span>
+                  </div>
+                )}
+              </div>
+
               {/* Quick Document Insertion Toolbar */}
               <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-2">
                 <div className="flex items-center justify-between">
