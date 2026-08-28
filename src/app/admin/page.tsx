@@ -823,6 +823,45 @@ export default function AdminVatDashboard() {
     const isRefund = balance < 0;
     const finalAmount = Math.abs(balance);
 
+    // Tax Brackets Breakdown
+    let activeBracket = "9%";
+    let activeBracketRange = "0€ — 10.000€";
+    let activeBracketRate = 9;
+    let nextBracketThreshold = 10000;
+    let remainingToNextBracket = Math.max(0, 10000 - totalTaxableIncome);
+
+    if (totalTaxableIncome > 40000) {
+      activeBracket = "44%";
+      activeBracketRange = "Άνω των 40.000€";
+      activeBracketRate = 44;
+      nextBracketThreshold = 0;
+      remainingToNextBracket = 0;
+    } else if (totalTaxableIncome > 30000) {
+      activeBracket = "36%";
+      activeBracketRange = "30.001€ — 40.000€";
+      activeBracketRate = 36;
+      nextBracketThreshold = 40000;
+      remainingToNextBracket = 40000 - totalTaxableIncome;
+    } else if (totalTaxableIncome > 20000) {
+      activeBracket = "28%";
+      activeBracketRange = "20.001€ — 30.000€";
+      activeBracketRate = 28;
+      nextBracketThreshold = 30000;
+      remainingToNextBracket = 30000 - totalTaxableIncome;
+    } else if (totalTaxableIncome > 10000) {
+      activeBracket = "22%";
+      activeBracketRange = "10.001€ — 20.000€";
+      activeBracketRate = 22;
+      nextBracketThreshold = 20000;
+      remainingToNextBracket = 20000 - totalTaxableIncome;
+    } else {
+      activeBracket = isNewBusiness && yearlySummary.incomeGross <= 10000 ? "4,5% (Νέα Επιχ.)" : "9%";
+      activeBracketRange = "0€ — 10.000€";
+      activeBracketRate = isNewBusiness && yearlySummary.incomeGross <= 10000 ? 4.5 : 9;
+      nextBracketThreshold = 10000;
+      remainingToNextBracket = 10000 - totalTaxableIncome;
+    }
+
     return {
       annualGrossSalary,
       businessNetProfit: taxableBusinessIncome,
@@ -833,7 +872,12 @@ export default function AdminVatDashboard() {
       userWithheldB2B,
       isRefund,
       finalAmount,
-      taxDiscount
+      taxDiscount,
+      activeBracket,
+      activeBracketRange,
+      activeBracketRate,
+      remainingToNextBracket,
+      nextBracketThreshold
     };
   }, [taxNetSalary, taxMonths, taxChildren, isNewBusiness, yearlySummary, taxWithheldB2B, estimatedWithheld20]);
 
@@ -2426,7 +2470,49 @@ export default function AdminVatDashboard() {
                         <span className="font-mono text-[#2b4bba]">{taxMath.totalTaxableIncome.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                       </div>
 
-                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mt-6 mb-2">Υπολογισμός Φόρου</p>
+                      {/* Visual Tax Bracket Card */}
+                      <div className="p-3.5 bg-gradient-to-br from-slate-50 to-blue-50/50 rounded-xl border border-blue-100/90 space-y-2.5 my-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                            📊 Φορολογικη Κλιμακα: <span className="text-[#3b5bdb] font-extrabold">{taxMath.activeBracket}</span>
+                          </span>
+                          <span className="px-2 py-0.5 bg-[#3b5bdb]/10 text-[#2b4bba] text-[9px] font-black rounded-md border border-[#3b5bdb]/20">
+                            {taxMath.activeBracketRange}
+                          </span>
+                        </div>
+
+                        {/* 5-Step Bracket Visualizer */}
+                        <div className="grid grid-cols-5 gap-1.5 pt-1">
+                          {[
+                            { range: "0-10k", rate: isNewBusiness ? "4.5%" : "9%", active: taxMath.totalTaxableIncome <= 10000 },
+                            { range: "10k-20k", rate: "22%", active: taxMath.totalTaxableIncome > 10000 && taxMath.totalTaxableIncome <= 20000 },
+                            { range: "20k-30k", rate: "28%", active: taxMath.totalTaxableIncome > 20000 && taxMath.totalTaxableIncome <= 30000 },
+                            { range: "30k-40k", rate: "36%", active: taxMath.totalTaxableIncome > 30000 && taxMath.totalTaxableIncome <= 40000 },
+                            { range: ">40k", rate: "44%", active: taxMath.totalTaxableIncome > 40000 },
+                          ].map((b, i) => (
+                            <div 
+                              key={i} 
+                              className={`p-1.5 rounded-lg text-center transition-all border ${
+                                b.active 
+                                  ? "bg-[#3b5bdb] text-white border-[#3b5bdb] shadow-md shadow-blue-500/20 scale-105 font-bold" 
+                                  : "bg-white/90 text-slate-500 border-gray-200/80 opacity-60"
+                              }`}
+                            >
+                              <div className="text-[8px] font-bold uppercase tracking-tight">{b.range}</div>
+                              <div className={`text-[11px] font-black ${b.active ? "text-white" : "text-gray-800"}`}>{b.rate}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {taxMath.remainingToNextBracket > 0 && (
+                          <div className="text-[9px] text-slate-500 font-semibold pt-1 flex items-center justify-between border-t border-blue-100/60 mt-1">
+                            <span>Απόσταση από επόμενη κλίμακα:</span>
+                            <span className="font-mono text-gray-800 font-bold">+{taxMath.remainingToNextBracket.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic mt-4 mb-2">Υπολογισμός Φόρου</p>
 
                       <div className="flex justify-between items-center text-xs border-b border-gray-200 pb-2">
                         <span className="text-gray-600">Αρχικός Φόρος Κλίμακας:</span>
