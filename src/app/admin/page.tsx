@@ -689,14 +689,25 @@ export default function AdminVatDashboard() {
       expenseVat += m.expenseVat;
     });
 
-    const netVatPayable = incomeVat - expenseVat;
+    const netVatTotal = incomeVat - expenseVat;
+
+    let totalPaidVat = 0;
+    MONTHS.forEach(m => {
+      const paid = paidMonths[`${filterYear}_${m}`] || 0;
+      totalPaidVat += paid;
+    });
+
+    const remainingVatBalance = Math.max(0, netVatTotal - totalPaidVat);
 
     return {
       incomeGross, incomeNet, incomeVat,
       expenseGross, expenseNet, expenseVat,
-      netVatPayable
+      netVatTotal,
+      totalPaidVat,
+      remainingVatBalance,
+      netVatPayable: remainingVatBalance
     };
-  }, [monthlyStats]);
+  }, [monthlyStats, paidMonths, filterYear]);
 
   // Upcoming VAT deadline countdown (Greek tax rules)
   const nextDeadline = useMemo(() => {
@@ -1119,23 +1130,28 @@ export default function AdminVatDashboard() {
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                       <Coins className="w-12 h-12 text-amber-500" />
                     </div>
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Υπόλοιπο ΦΠΑ {filterYear}</p>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Ανεξοφλητο Υπολοιπο ΦΠΑ {filterYear}</p>
                     <h3 className={`text-3xl font-black mt-2 italic ${
-                      yearlySummary.netVatPayable >= 0 ? "text-amber-400" : "text-[#2b4bba]"
+                      yearlySummary.remainingVatBalance > 0 ? "text-amber-400" : "text-emerald-600"
                     }`}>
-                      {Math.abs(yearlySummary.netVatPayable).toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
+                      {yearlySummary.remainingVatBalance.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
                     </h3>
                     <div className="flex justify-between items-center mt-4 text-xs font-bold border-t border-gray-200/60 pt-3">
                       <span className="text-gray-600">Κατάσταση Έτους:</span>
-                      {yearlySummary.netVatPayable >= 0 ? (
+                      {yearlySummary.remainingVatBalance > 0 ? (
                         <span className="text-amber-500 flex items-center gap-1 font-black">Προς Πληρωμή <AlertTriangle className="w-3.5 h-3.5" /></span>
                       ) : (
-                        <span className="text-[#2b4bba] flex items-center gap-1 font-black">Πιστωτικό Υπόλοιπο <CheckCircle2 className="w-3.5 h-3.5" /></span>
+                        <span className="text-emerald-600 flex items-center gap-1 font-black">Όλα Εξοφλημένα <CheckCircle2 className="w-3.5 h-3.5" /></span>
                       )}
+                    </div>
+                    
+                    <div className="flex justify-between items-center mt-2 text-[10px] font-bold text-gray-500">
+                      <span>Συνολικός ΦΠΑ: {yearlySummary.netVatTotal.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
+                      <span className="text-emerald-600">Πληρώθηκαν: -{yearlySummary.totalPaidVat.toLocaleString("el-GR", { maximumFractionDigits: 2 })}€</span>
                     </div>
 
                     {/* Dynamic VAT deadline countdown */}
-                    {yearlySummary.netVatPayable >= 0 && nextDeadline && (
+                    {yearlySummary.remainingVatBalance > 0 && nextDeadline && (
                       <div className="mt-4 pt-3 border-t border-gray-200/60 text-[10px] font-bold text-gray-600 flex flex-col gap-1.5 animate-in slide-in-from-bottom-2 duration-300">
                         <div className="flex justify-between items-center">
                           <span>Επόμενη Πληρωμή ΦΠΑ:</span>
@@ -1151,10 +1167,10 @@ export default function AdminVatDashboard() {
                         </div>
                       </div>
                     )}
-                    {yearlySummary.netVatPayable < 0 && (
-                      <div className="mt-4 pt-3 border-t border-gray-200/60 text-[10px] font-bold text-[#2b4bba] flex items-center gap-1.5 animate-in slide-in-from-bottom-2 duration-300">
+                    {yearlySummary.remainingVatBalance === 0 && (
+                      <div className="mt-4 pt-3 border-t border-gray-200/60 text-[10px] font-bold text-emerald-600 flex items-center gap-1.5 animate-in slide-in-from-bottom-2 duration-300">
                         <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                        <span>Δεν εκκρεμεί πληρωμή ΦΠΑ για το έτος.</span>
+                        <span>Δεν εκκρεμεί καμία πληρωμή ΦΠΑ για το έτος!</span>
                       </div>
                     )}
                   </div>
