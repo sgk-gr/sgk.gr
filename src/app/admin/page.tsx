@@ -1201,7 +1201,7 @@ export default function AdminVatDashboard() {
                               </span>
                               <div className="flex items-center gap-2">
                                 {netPayable > 0 && (
-                                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 px-2 py-1 rounded shadow-sm hover:bg-gray-50 transition-colors">
+                                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 px-2 py-1 rounded-lg shadow-sm hover:bg-gray-50 transition-colors">
                                     <span className="text-[9px] font-black uppercase text-gray-600">ΠΛΗΡΩΜΗ:</span>
                                     <input 
                                       type="number" 
@@ -1211,6 +1211,24 @@ export default function AdminVatDashboard() {
                                       className="w-16 bg-transparent border-b border-gray-300 focus:border-[#3b5bdb] text-[10px] font-bold text-gray-800 outline-none text-right"
                                     />
                                     <span className="text-[10px] font-bold text-gray-500">€</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        if (isPaid) {
+                                          updateMonthPaid(filterYear, m, 0);
+                                        } else {
+                                          updateMonthPaid(filterYear, m, Number(netPayable.toFixed(2)));
+                                        }
+                                      }}
+                                      title={isPaid ? "Ακύρωση εξόφλησης" : "1-Click Εξόφληση / Μηδενισμός"}
+                                      className={`px-1.5 py-0.5 rounded text-[9px] font-bold transition-all cursor-pointer ${
+                                        isPaid 
+                                          ? "bg-emerald-100 text-emerald-700 hover:bg-rose-100 hover:text-rose-700" 
+                                          : "bg-blue-50 text-[#3b5bdb] hover:bg-[#3b5bdb] hover:text-white"
+                                      }`}
+                                    >
+                                      {isPaid ? "✓" : "Εξόφληση"}
+                                    </button>
                                   </div>
                                 )}
                                 <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md ${
