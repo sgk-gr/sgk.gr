@@ -14,6 +14,136 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: "eshop-cost-guide-2026",
+    slug: "poso-kostizei-i-kataskevi-eshop-odigos-times-2026",
+    title: "Πόσο Κοστίζει η Κατασκευή Eshop το 2026: Ο Απόλυτος Οδηγός Τιμών, Πλατφόρμες & Κρυφά Έξοδα",
+    excerpt: "Αναλυτικός οδηγός κόστους κατασκευής eshop για το 2026 στην Ελλάδα. Σύγκριση WooCommerce, Shopify, Headless React, ετήσια πάγια και το επαναστατικό μοντέλο Pay As You Grow (250€).",
+    date: "29 Αυγούστου 2026",
+    author: "sgk.gr",
+    category: "eCommerce & Τιμές",
+    image: "/payg-banner.svg",
+    metaTitle: "Πόσο Κοστίζει η Κατασκευή Eshop το 2026 | Οδηγός Τιμών & Pay As You Grow",
+    metaDescription: "Πόσο κοστίζει πραγματικά η κατασκευή eshop στην Ελλάδα το 2026; Αναλυτικός πίνακας τιμών WooCommerce vs Shopify vs Pay As You Grow (250€ setup + 5%) και κρυφά κόστη.",
+    content: `
+      <h2>Πόσο κοστίζει η κατασκευή ενός επαγγελματικού eshop στην Ελλάδα το 2026;</h2>
+      <p>Το <strong>κόστος κατασκευής ενός επαγγελματικού eshop στην Ελλάδα το 2026 κυμαίνεται από 600€ έως 3.500€+</strong> για παραδοσιακή ανάπτυξη (ανάλογα με την πλατφόρμα, τον αριθμό προϊόντων και τις διασυνδέσεις ERP/Τραπεζών). Ταυτόχρονα, σύγχρονες τεχνολογικές εταιρείες όπως η <strong>SGK Digital</strong> προσφέρουν το μοντέλο <strong>Pay As You Grow</strong> με αρχικό κόστος <strong>μόλις 250€ εφάπαξ</strong> και 5% προμήθεια επί των πωλήσεων για 12 μήνες, εκμηδενίζοντας το αρχικό οικονομικό ρίσκο.</p>
+
+      <h3>Συγκριτικός Πίνακας Κόστους & Πλατφορμών Eshop (2026)</h3>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+        <thead>
+          <tr style="background: #1e293b; color: #ffffff;">
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Μοντέλο / Πλατφόρμα</th>
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Αρχικό Κόστος Κατασκευής</th>
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Μηνιαία / Ετήσια Πάγια</th>
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Ιδιοκτησία & Ελευθερία</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Pay As You Grow (SGK Digital)</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #16a34a; font-weight: bold;">250€ (Εφάπαξ Setup)</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">5% στις πωλήσεις για 12 μήνες (0€ αν 0 πωλήσεις)</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>100% Δικό σας</strong> μετά τους 12 μήνες χωρίς πάγια</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>WooCommerce (Custom)</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">1.500€ — 3.500€</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Hosting + Domain + SSL (~150€ - 300€/έτος)</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">100% Δικό σας, Open Source</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Shopify</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">800€ — 2.000€ (Setup)</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">36€ - 300€/μήνα + 2% transaction fee + plugins</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Ενοικίαση (κλειδωμένη πλατφόρμα)</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Headless React / Next.js</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">3.500€ — 6.000€+</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Cloud Server VPS (~300€ - 600€/έτος)</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Απόλυτος έλεγχος & ακαριαία ταχύτητα (<0.5s)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>1. Ποια είναι τα βασικά στάδια κατασκευής ενός eshop;</h3>
+      <p>Για να είναι ένα ηλεκτρονικό κατάστημα αποδοτικό και κερδοφόρο, η διαδικασία ανάπτυξης περιλαμβάνει 5 κρίσιμα βήματα:</p>
+      <ul>
+        <li><strong>UI/UX Σχεδιασμός (Mobile-First):</strong> Περισσότερο από το 80% των online αγορών στην Ελλάδα πραγματοποιούνται από κινητά τηλέφωνα (Smartphones). Ο σχεδιασμός πρέπει να είναι ελαφρύς και ταχύτατος.</li>
+        <li><strong>Ανάπτυξη & Core Web Vitals 95+:</strong> Η ταχύτητα φόρτωσης επηρεάζει άμεσα το conversion rate και την κατάταξη στη Google.</li>
+        <li><strong>Διασύνδεση Πληρωμών:</strong> Ελληνικές Τράπεζες (Alpha Bank, Τράπεζα Πειραιώς, Eurobank, Εθνική), Viva Wallet, Stripe, PayPal, IRIS payments και Αντικαταβολή (COD).</li>
+        <li><strong>Διασύνδεση Courier & Voucher:</strong> Αυτόματη έκδοση voucher με ACS, Γενική Ταχυδρομική, Speedex, Courier Center και Box Now.</li>
+        <li><strong>Τεχνικό SEO & Structured Data (Schema.org):</strong> Για άμεση αναγνώριση των προϊόντων, των τιμών και της διαθεσιμότητας από τις μηχανές αναζήτησης και τα AI models (Google Gemini, ChatGPT Search).</li>
+      </ul>
+
+      <h3>2. Ποια είναι τα ετήσια πάγια έξοδα συντήρησης ενός eshop;</h3>
+      <p>Εκτός από το αρχικό κόστος κατασκευής, κάθε eshop έχει τα παρακάτω πάγια λειτουργικά έξοδα:</p>
+      <ul>
+        <li><strong>Όνομα Χώρου (Domain Name .gr):</strong> Περίπου 20€ - 30€ ανά 2 έτη.</li>
+        <li><strong>Φιλοξενία (Web Hosting / VPS):</strong> Από 100€ έως 400€/έτος για γρήγορους NVMe SSD servers.</li>
+        <li><strong>Πιστοποιητικό Ασφαλείας SSL:</strong> Συνήθως δωρεάν (Let's Encrypt) ή 50€/έτος για Wildcard SSL.</li>
+        <li><strong>Τεχνική Υποστήριξη & Ενημερώσεις Ασφαλείας:</strong> Απαραίτητη για τη συνεχή προστασία από κυβερνοεπιθέσεις και τη διασφάλιση 99.9% uptime.</li>
+      </ul>
+
+      <h3>3. Γιατί το μοντέλο "Pay As You Grow" αλλάζει τα δεδομένα;</h3>
+      <p>Το παραδοσιακό μοντέλο απαιτεί από τον επιχειρηματία να προκαταβάλει 2.000€ - 4.000€ χωρίς να γνωρίζει αν η αγορά θα ανταποκριθεί. Με το μοντέλο <strong>Pay As You Grow της SGK Digital</strong>:</p>
+      <ul>
+        <li>Πληρώνετε μόνο <strong>250€ εφάπαξ</strong> (που καλύπτει Server 1 έτους, Domain .gr 2 ετών, SSL και setup).</li>
+        <li>Δίνετε <strong>5% προμήθεια επί των πωλήσεων για 12 μήνες</strong>. Αν δεν κάνετε πωλήσεις, δεν πληρώνετε ούτε 1 ευρώ παραπάνω!</li>
+        <li>Μετά τους 12 μήνες, το eshop μεταβιβάζεται σε <strong>100% πλήρη δική σας ιδιοκτησία</strong> χωρίς καμία περαιτέρω προμήθεια ή δέσμευση.</li>
+        <li>Υπάρχει δυνατότητα πρόωρης εξαγοράς ανά πάσα στιγμή χωρίς καμία ρήτρα.</li>
+      </ul>
+
+      <p>Είστε έτοιμοι να ξεκινήσετε; <a href="/pay-as-you-grow" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Ανακαλύψτε το Pay As You Grow εδώ</a> ή <a href="/kataskevi-eshop" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">δείτε τα αναλυτικά πακέτα κατασκευής eshop της SGK Digital</a>.</p>
+    `
+  },
+  {
+    id: "ike-legal-guide-2026",
+    slug: "kataskevi-istoselidas-ike-gemi-nomothesia-2026",
+    title: "Ιστοσελίδα ΙΚΕ & ΓΕΜΗ (Ν.4072/12): Υποχρεώσεις, Προθεσμίες, Πρόστιμα & Κόστος 2026",
+    excerpt: "Πλήρης οδηγός για την υποχρεωτική ιστοσελίδα ΙΚΕ στο ΓΕΜΗ βάσει του Ν.4072/2012 και της ΚΥΑ 46982/2025. Προθεσμία 1 μηνός, υποχρεωτικά πεδία και κατασκευή σε 24h με 124€.",
+    date: "29 Αυγούστου 2026",
+    author: "sgk.gr",
+    category: "Νομοθεσία & Επιχειρήσεις",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200",
+    metaTitle: "Ιστοσελίδα ΙΚΕ ΓΕΜΗ 2026: Υποχρέωση, Προθεσμίες & Κόστος 124€ | SGK",
+    metaDescription: "Είναι υποχρεωτική η ιστοσελίδα για κάθε νέα ΙΚΕ; Τι ορίζει το Άρθρο 47 §2 Ν.4072/2012 και η ΚΥΑ 46982/2025; Όλα τα υποχρεωτικά στοιχεία και παράδοση σε 24 ώρες με 124€.",
+    content: `
+      <h2>Είναι υποχρεωτική η ιστοσελίδα για κάθε Ιδιωτική Κεφαλαιουχική Εταιρεία (Ι.Κ.Ε.);</h2>
+      <p><strong>Ναι, η κατασκευή εταιρικής ιστοσελίδας είναι 100% νομικά υποχρεωτική για κάθε νέα και υφιστάμενη Ι.Κ.Ε. στην Ελλάδα.</strong> Σύμφωνα με το <strong>Άρθρο 47 §2 του Νόμου 4072/2012</strong> (όπως εξειδικεύτηκε με την ΚΥΑ 46982/2025), κάθε ΙΚΕ οφείλει μέσα σε διάστημα <strong>ενός (1) μηνός από τη σύστασή της</strong> να αποκτήσει δικό της ιστότοπο και να τον καταχωρίσει επίσημα στη μερίδα της στο Γενικό Εμπορικό Μητρώο (Γ.Ε.ΜΗ.).</p>
+
+      <h3>Ποια στοιχεία πρέπει να περιλαμβάνει υποχρεωτικά η ιστοσελίδα ΙΚΕ;</h3>
+      <p>Βάσει της νομοθεσίας, η ιστοσελίδα της ΙΚΕ δεν μπορεί να είναι απλώς μια λευκή σελίδα. Πρέπει να αναγράφει ρητά τα εξής 5 υποχρεωτικά στοιχεία δημοσιότητας:</p>
+      <ul>
+        <li><strong>1. Εταιρική Επωνυμία & Διακριτικός Τίτλος:</strong> Όπως ακριβώς αναγράφονται στο καταστατικό σύστασης.</li>
+        <li><strong>2. Αριθμός Γ.Ε.ΜΗ., Α.Φ.Μ. & Δ.Ο.Υ.:</strong> Ο μοναδικός 12ψήφιος αριθμός ΓΕΜΗ και τα φορολογικά στοιχεία της εταιρείας.</li>
+        <li><strong>3. Εταιρικό Κεφάλαιο:</strong> Το συνολικό ποσό του κεφαλαίου και το ποσό των εγγυητικών εισφορών των εταίρων (άρθρο 77).</li>
+        <li><strong>4. Ονόματα Εταίρων & Διαχειριστών:</strong> Πλήρη στοιχεία της διοίκησης και των μετόχων της εταιρείας.</li>
+        <li><strong>5. Καταστατική Έδρα:</strong> Η επίσημη ταχυδρομική διεύθυνση της επιχείρησης.</li>
+      </ul>
+
+      <h3>Ποιες είναι οι συνέπειες και τα πρόστιμα αν δεν δηλωθεί ιστοσελίδα στο ΓΕΜΗ;</h3>
+      <p>Η παράλειψη δήλωσης ιστοσελίδας εντός της νόμιμης προθεσμίας επιφέρει:</p>
+      <ul>
+        <li>Διοικητικά πρόστιμα από το αρμόδιο Εμπορικό Επιμελητήριο και τις ελεγκτικές αρχές.</li>
+        <li>Αδυναμία έκδοσης πιστοποιητικών ΓΕΜΗ (πιστοποιητικό καλής λειτουργίας / Good Standing).</li>
+        <li>Κώλυμα σε τραπεζικές συναλλαγές, άνοιγμα εταιρικών λογαριασμών και υποβολή φακέλων για επιδοτήσεις (ΕΣΠΑ).</li>
+      </ul>
+
+      <h3>Πόσο κοστίζει και σε πόσο χρόνο παραδίδεται;</h3>
+      <p>Η <strong>SGK Digital</strong> παρέχει ολοκληρωμένο πακέτο κατασκευής ιστοσελίδας ΙΚΕ με παράδοση <strong>εντός 24 ωρών</strong> και συνολικό κόστος <strong>124€ (συμπεριλαμβανομένου ΦΠΑ 24%)</strong>. Το πακέτο περιλαμβάνει:</p>
+      <ul>
+        <li>Κατοχύρωση επίσημου Domain Name .gr για 2 ολόκληρα έτη.</li>
+        <li>Φιλοξενία (Cloud Hosting) σε ταχύτατους servers για 1 έτος.</li>
+        <li>Πιστοποιητικό Ασφαλείας SSL (HTTPS).</li>
+        <li>Επαγγελματικό Εταιρικό Email (info@company.gr).</li>
+        <li>Πλήρη σχεδιασμό και άμεση παράδοση του URL για καταχώρηση στο ΓΕΜΗ.</li>
+      </ul>
+
+      <p>Μην αφήνετε την επιχείρησή σας εκτεθειμένη σε πρόστιμα. <a href="/kataskevi-istoselidas-ike" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Δείτε όλες τις λεπτομέρειες για την Ιστοσελίδα ΙΚΕ εδώ</a> ή <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">παραγγείλτε την ιστοσελίδα σας online σε 2 λεπτά!</a></p>
+    `
+  },
+  {
     id: "payg-1",
     slug: "pay-as-you-grow-to-mellon-tou-ecommerce",
     title: "Pay As You Grow: Ξεκίνα το δικό σου E-shop χωρίς κανένα ρίσκο",
