@@ -40,9 +40,9 @@ serve(async (req) => {
 - Να είσαι ευγενικός, προσιτός, φιλικός και σύντομος (1-3 προτάσεις το πολύ).
 - Απαγορεύονται οι περίεργες λέξεις ή παράξενοι χαρακτήρες (π.χ. ΜΗΝ γράφεις "πφφφφ", "πώσει", "τοτος").
 - Όταν προτείνεις σύνδεσμο (link), γράφε ΑΚΡΙΒΩΣ τη μορφή [πατήστε εδώ](URL) με ένα κενό πριν την αγκύλη. Παραδείγματα:
-  * Για το Pay As You Grow: [πατήστε εδώ](https://sgk.gr/eshop-offer?plan=pay-as-you-grow)
-  * Για την προσφορά ΙΚΕ 124€: [πατήστε εδώ](https://sgk.gr/ike-offer)
-  * Για γενική κατασκευή eShop: [πατήστε εδώ](https://sgk.gr/eshop-offer)
+  * Για το Pay As You Grow (250€): [πατήστε εδώ](https://sgk.gr/pay-as-you-grow)
+  * Για την προσφορά ΙΚΕ 124€: [πατήστε εδώ](https://sgk.gr/kataskevi-istoselidas-ike)
+  * Για κατασκευή eShop: [πατήστε εδώ](https://sgk.gr/kataskevi-eshop)
   * Για υπολογισμό κόστους: [πατήστε εδώ](https://sgk.gr/estimate)
   * Για Portfolio / Έργα: [πατήστε εδώ](https://sgk.gr/portfolio)
 - Μην ζητάς στοιχεία επικοινωνίας από τον χρήστη. Δώσε του το τηλέφωνο +30 6999524389 και το info@sgk.gr αν θέλει να επικοινωνήσει.`;
@@ -85,13 +85,15 @@ serve(async (req) => {
           return;
         }
 
+        let buffer = "";
         try {
           while (true) {
             const { value, done } = await reader.read();
             if (done) break;
             
-            const chunk = decoder.decode(value, { stream: true });
-            const lines = chunk.split('\n');
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
             
             for (const line of lines) {
               if (line.startsWith('data: ')) {
@@ -102,13 +104,25 @@ serve(async (req) => {
                   const parsed = JSON.parse(data);
                   const text = parsed.choices?.[0]?.delta?.content;
                   if (text) {
-                    // Send chunk in vercel AI SDK format: 0:"text"
                     controller.enqueue(encoder.encode(`0:${JSON.stringify(text)}\n`));
                   }
                 } catch (e) {
-                  // ignore parse error for partial lines
+                  // ignore parse error
                 }
               }
+            }
+          }
+
+          if (buffer.startsWith('data: ')) {
+            const data = buffer.slice(6).trim();
+            if (data !== '[DONE]') {
+              try {
+                const parsed = JSON.parse(data);
+                const text = parsed.choices?.[0]?.delta?.content;
+                if (text) {
+                  controller.enqueue(encoder.encode(`0:${JSON.stringify(text)}\n`));
+                }
+              } catch (e) {}
             }
           }
         } catch (e) {

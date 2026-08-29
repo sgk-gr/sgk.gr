@@ -33,6 +33,47 @@ const playNotificationSound = () => {
   }
 };
 
+const renderFormattedContent = (content: string) => {
+  if (!content) return null;
+
+  const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g;
+  const parts: (string | JSX.Element)[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = linkRegex.exec(content)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(content.substring(lastIndex, match.index));
+    }
+    const linkText = match[1];
+    let url = match[2];
+    
+    // Auto-correct any legacy or broken URLs
+    if (url.includes("ikeer") || url.includes("ike-offer")) {
+      url = "https://sgk.gr/kataskevi-istoselidas-ike";
+    }
+
+    parts.push(
+      <a
+        key={match.index}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-0.5 font-bold underline text-[#3b5bdb] hover:text-[#2b4bba] transition-colors"
+      >
+        {linkText}
+      </a>
+    );
+    lastIndex = linkRegex.lastIndex;
+  }
+
+  if (lastIndex < content.length) {
+    parts.push(content.substring(lastIndex));
+  }
+
+  return <>{parts.map((p, i) => (typeof p === 'string' ? <span key={i}>{p}</span> : p))}</>;
+};
+
 export default function FloatingChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -83,13 +124,16 @@ export default function FloatingChatBot() {
 
       let done = false;
       let text = '';
+      let buffer = '';
       let soundPlayed = false;
       while (!done) {
         const { value, done: readerDone } = await reader.read();
         done = readerDone;
         if (value) {
-          const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split('\n');
+          buffer += decoder.decode(value, { stream: !done });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
           for (const line of lines) {
             if (line.startsWith('0:')) {
               try {
@@ -111,6 +155,19 @@ export default function FloatingChatBot() {
             return newArray;
           });
         }
+      }
+
+      if (buffer.startsWith('0:')) {
+        try {
+          const content = JSON.parse(buffer.substring(2));
+          text += content;
+          const displayText = text.split('<SEND_EMAIL>')[0];
+          setMessages((prev) => {
+            const newArray = [...prev];
+            newArray[newArray.length - 1] = { ...newArray[newArray.length - 1], content: displayText };
+            return newArray;
+          });
+        } catch (e) {}
       }
 
       const sendEmailRegex = /<SEND_EMAIL>([\s\S]*?)<\/SEND_EMAIL>/;
@@ -225,7 +282,7 @@ export default function FloatingChatBot() {
                           ? 'bg-primary text-primary-foreground rounded-2xl rounded-tr-sm shadow-sm' 
                           : 'bg-muted/80 rounded-2xl rounded-tl-sm border border-border/50 shadow-sm'
                       }`}>
-                        {m.content || (m.toolInvocations && (
+                        {m.content ? renderFormattedContent(m.content) : (m.toolInvocations && (
                           <div className="flex items-center gap-2 opacity-70 italic text-xs">
                             <Bot className="w-3 h-3 animate-spin" />
                             Αποστολή στοιχείων...
