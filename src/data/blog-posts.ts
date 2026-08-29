@@ -1070,7 +1070,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Ολοκληρωμένο Πακέτο:</strong> Περιλαμβάνει σχεδιασμό Λογότυπου, Εταιρικό Email, κατοχύρωση Domain name (.gr) για 2 έτη, φιλοξενία (hosting) για 1 έτος, πιστοποιητικό ασφαλείας SSL και πλήρη συμμόρφωση GDPR.</li>
         <li><strong>Μόνο 124€ (συμπεριλαμβανομένου ΦΠΑ):</strong> Μια εφάπαξ πληρωμή, χωρίς κρυφές χρεώσεις, με έκδοση κανονικού τιμολογίου εξόδων.</li>
       </ul>
-      <p>Μην ρισκάρετε πρόστιμα και καθυστερήσεις. <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Πατήστε εδώ για να ξεκινήσουμε την κατασκευή της ιστοσελίδας της ΙΚΕ σας σήμερα!</a></p>
+      <p>Μην ρισκάρετε πρόστιμα και καθυστερήσεις. <a href="/kataskevi-istoselidas-ike" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Δείτε το πλήρες πακέτο Κατασκευής Ιστοσελίδας ΙΚΕ εδώ</a> ή <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">πατήστε εδώ για άμεση παραγγελία σε 24 ώρες!</a></p>
     `
   },
   {

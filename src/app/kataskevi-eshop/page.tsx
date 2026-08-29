@@ -102,24 +102,49 @@ const features = [
 
 const packages = [
     {
-        name: "Starter eshop",
-        price: "από €2.300",
-        features: ["Μέχρι 1.000 προϊόντα", "Headless React + Woo", "Responsive design", "Βασικό SEO", "Payment gateways", "3 μήνες support"],
-        cta: "Ξεκινήστε",
-        highlight: false,
-    },
-    {
-        name: "Pro eshop",
-        price: "από €3.500",
-        features: ["Απεριόριστα προϊόντα", "Headless React + Woo", "Advanced SEO", "Όλα τα payment gateways", "ERP integration", "6 μήνες support"],
-        cta: "Η καλύτερη επιλογή",
+        name: "Pay As You Grow",
+        price: "250€ + 5%",
+        subtitle: "Μηδενικό Ρίσκο — Πληρώνεις μόνο όταν πουλάς",
+        features: [
+            "250€ εφάπαξ (Server 1 έτος, Domain .gr 2 έτη, SSL)",
+            "5% προμήθεια επί των πωλήσεων για 12 μήνες μόνο",
+            "0€ προμήθεια αν δεν έχετε πωλήσεις (Zero Risk)",
+            "100% δικό σας μετά τους 12 μήνες (χωρίς μηνιαία πάγια)",
+            "Πρόωρη εξαγορά ανά πάσα στιγμή χωρίς καμία ρήτρα",
+            "Core Web Vitals 95+ & Mobile-First σχεδίαση",
+        ],
+        cta: "Έναρξη Χωρίς Ρίσκο",
+        href: "/pay-as-you-grow",
         highlight: true,
     },
     {
-        name: "Custom eshop",
-        price: "από €4.000",
-        features: ["Custom React frontend", "Headless architecture", "Core Web Vitals 98+", "AI recommendations", "Full ERP/CRM sync", "12 μήνες support"],
-        cta: "Κορυφαία λύση",
+        name: "Custom WooCommerce",
+        price: "από €2.300",
+        subtitle: "Κλασικό Μοντέλο Ορόσημων (50% - 25% - 25%)",
+        features: [
+            "50% προκαταβολή, 25% στο Design, 25% στο Launch",
+            "Μέχρι 2.000 προϊόντα & Custom UI/UX σχεδίαση",
+            "Διασύνδεση με Ελληνικές Τράπεζες, Viva & Courier",
+            "Πλήρες On-Page SEO & Schema Structured Data",
+            "Εκπαίδευση διαχειριστή & 6 μήνες τεχνική υποστήριξη",
+        ],
+        cta: "Ζητήστε Προσφορά",
+        href: "/estimate",
+        highlight: false,
+    },
+    {
+        name: "Headless Enterprise",
+        price: "από €3.900",
+        subtitle: "Custom Next.js Frontend + ERP Sync",
+        features: [
+            "Next.js React Frontend & Cloud Backend",
+            "Ακαριαία ταχύτητα φόρτωσης (<0.5 δευτερόλεπτα)",
+            "Αμφίδρομη διασύνδεση με ERP / CRM / Αποθήκη",
+            "AI Agent προσωποποιημένων προτάσεων αγορών",
+            "12 μήνες SLA Enterprise υποστήριξη 24/7",
+        ],
+        cta: "Enterprise Λύση",
+        href: "/estimate",
         highlight: false,
     },
 ];
@@ -266,8 +291,9 @@ export default function KataskevEshopPage() {
                         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                             {packages.map((pkg) => (
                                 <div key={pkg.name} className={`p-8 rounded-xl border ${pkg.highlight ? 'border-[#3b5bdb] bg-[#3b5bdb] text-white shadow-lg shadow-blue-100' : 'border-gray-250 bg-white text-black shadow-sm'} flex flex-col`}>
-                                    {pkg.highlight && <span className="text-[10px] font-bold uppercase tracking-wider text-white mb-2 self-start bg-blue-700 px-2 py-0.5 rounded-full">Δημοφιλέστερο</span>}
-                                    <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
+                                    {pkg.highlight && <span className="text-[10px] font-bold uppercase tracking-wider text-white mb-2 self-start bg-blue-700 px-2 py-0.5 rounded-full">Δημοφιλέστερο (Pay As You Grow)</span>}
+                                    <h3 className="text-2xl font-bold mb-1">{pkg.name}</h3>
+                                    {pkg.subtitle && <p className={`text-xs mb-3 ${pkg.highlight ? 'text-blue-100' : 'text-gray-500'}`}>{pkg.subtitle}</p>}
                                     <p className={`text-3xl font-bold mb-8 ${pkg.highlight ? 'text-white' : 'text-[#3b5bdb]'}`}>{pkg.price}</p>
                                     <ul className="space-y-3 mb-8 flex-1">
                                         {pkg.features.map((f) => (
@@ -278,8 +304,8 @@ export default function KataskevEshopPage() {
                                         ))}
                                     </ul>
                                     <Link
-                                        href="/estimate"
-                                        className={`w-full text-center py-3 px-6 font-medium rounded-lg transition-all duration-300 text-sm ${pkg.highlight ? 'bg-[#4ade80] text-black hover:bg-[#22c55e] shadow-sm' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 shadow-sm'}`}
+                                        href={pkg.href || "/estimate"}
+                                        className={`w-full text-center py-3 px-6 font-medium rounded-lg transition-all duration-300 text-sm ${pkg.highlight ? 'bg-[#4ade80] text-black hover:bg-[#22c55e] shadow-sm font-bold' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 shadow-sm'}`}
                                     >
                                         {pkg.cta}
                                     </Link>
