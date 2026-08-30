@@ -1092,6 +1092,7 @@ function safeEncodeBase64(data: any): string {
   }, [leads, searchTerm, statusFilter]);
 
   const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
+  const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed);
   const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0)).length;
@@ -1575,13 +1576,23 @@ function safeEncodeBase64(data: any): string {
               Μαζικη Αποστολη {selectedLeads.length > 0 ? `(${selectedLeads.length})` : `(${uncontactedFilteredLeads.length})`}
             </button>
             {selectedLeads.length > 0 && (
-              <button
-                onClick={handleDeleteSelectedLeads}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer"
-              >
-                <Trash2 size={12} />
-                Διαγραφη ({selectedLeads.length})
-              </button>
+              <>
+                <button
+                  onClick={() => setSelectedLeads([])}
+                  className="inline-flex items-center gap-1 px-3 py-2 bg-slate-200 text-slate-700 rounded-xl hover:bg-slate-300 transition-all text-xs font-bold cursor-pointer"
+                  title="Αποεπιλογή όλων"
+                >
+                  <X size={12} />
+                  Αποεπιλογή ({selectedLeads.length})
+                </button>
+                <button
+                  onClick={handleDeleteSelectedLeads}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer"
+                >
+                  <Trash2 size={12} />
+                  Διαγραφη ({selectedLeads.length})
+                </button>
+              </>
             )}
             <button
               onClick={handleOpenCreateLead}
@@ -1680,11 +1691,11 @@ function safeEncodeBase64(data: any): string {
                   <th className="py-3 px-4 w-12 text-center">
                     <input 
                       type="checkbox" 
-                      title="Επιλογή όλων των Νέων παραληπτών (0/5) στο τρέχον φίλτρο"
-                      checked={uncontactedFilteredLeads.length > 0 && uncontactedFilteredLeads.every(l => selectedLeads.includes(l.id))}
+                      title="Επιλογή όλων των εγγραφών στη λίστα"
+                      checked={selectableFilteredLeads.length > 0 && selectableFilteredLeads.every(l => selectedLeads.includes(l.id))}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          setSelectedLeads(uncontactedFilteredLeads.map(l => l.id));
+                          setSelectedLeads(selectableFilteredLeads.map(l => l.id));
                         } else {
                           setSelectedLeads([]);
                         }
