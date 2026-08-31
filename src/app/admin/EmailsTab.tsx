@@ -1533,7 +1533,7 @@ function safeEncodeBase64(data: any): string {
           </div>
         </div>
 
-        {/* Card 2: Χωρίς Email (0/5) */}
+        {/* Card 2: Εκκρεμούν / Χωρίς Email */}
         <div 
           onClick={() => setStatusFilter('new')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
@@ -1841,12 +1841,12 @@ function safeEncodeBase64(data: any): string {
                         <div className="inline-flex flex-col items-center">
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-100 text-blue-800 border border-blue-200 shadow-sm">
                             <Check size={11} className="text-blue-600 stroke-[3]" />
-                            Εστάλη ({lead.email_sequence_step || 1}/5)
+                            Εστάλη Email
                           </span>
                         </div>
                       ) : (
                         <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200">
-                          ⚪ Νέο (0/5)
+                          ⚪ Εκκρεμεί
                         </span>
                       )}
                     </td>
