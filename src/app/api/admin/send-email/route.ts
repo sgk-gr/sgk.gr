@@ -5,8 +5,6 @@ export async function POST(req: Request) {
   try {
     const payload = await req.json();
     const {
-      processAllDue,
-      batchLimit = 5,
       email,
       unsubscribe_token,
       customSubject,
@@ -20,30 +18,7 @@ export async function POST(req: Request) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-    // Case 1: Process All Due Auto Follow-ups
-    if (processAllDue) {
-      try {
-        const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": supabaseServiceKey,
-            "Authorization": `Bearer ${supabaseServiceKey}`,
-          },
-          body: JSON.stringify({
-            processAllDue: true,
-            batchLimit,
-          }),
-        });
-
-        const data = await edgeResponse.json();
-        return NextResponse.json(data);
-      } catch (e: any) {
-        return NextResponse.json({ success: false, error: e.message }, { status: 500 });
-      }
-    }
-
-    // Case 2: Send Single/Campaign Email
+    // Send Single/Campaign Email (Manual only)
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
