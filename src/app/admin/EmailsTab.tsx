@@ -1079,13 +1079,13 @@ function safeEncodeBase64(data: any): string {
         return lead.converted;
       }
       if (statusFilter === 'new') {
-        return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) === 0);
+        return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) === 0) && !lead.last_email_sent_at;
       }
       if (statusFilter === 'completed') {
         return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) >= 5);
       }
       if (statusFilter === 'active') {
-        return !lead.unsubscribed && !lead.converted && (lead.email_sequence_step || 0) >= 1 && (lead.email_sequence_step || 0) < 5;
+        return !lead.unsubscribed && !lead.converted && (((lead.email_sequence_step || 0) >= 1) || Boolean(lead.last_email_sent_at));
       }
       if (statusFilter === 'unsubscribed') {
         return lead.unsubscribed;
@@ -1095,12 +1095,12 @@ function safeEncodeBase64(data: any): string {
     });
   }, [leads, searchTerm, statusFilter]);
 
-  const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
+  const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0 && !l.last_email_sent_at);
   const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed);
   const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
-  const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0)).length;
-  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) >= 1 && (l.email_sequence_step || 0) < 5).length;
+  const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0) && !l.last_email_sent_at).length;
+  const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (((l.email_sequence_step || 0) >= 1) || Boolean(l.last_email_sent_at))).length;
   const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
   const convertedCount = leads.filter(l => l.converted).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
@@ -1514,7 +1514,7 @@ function safeEncodeBase64(data: any): string {
     <div className="space-y-8">
 
       {/* Summary KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Όλα τα Emails */}
         <div 
           onClick={() => setStatusFilter('all')}
@@ -1533,21 +1533,57 @@ function safeEncodeBase64(data: any): string {
           </div>
         </div>
 
-        {/* Card 2: Απεγγραφές (Unsubscribed) */}
+        {/* Card 2: Χωρίς Email (0/5) */}
         <div 
-          onClick={() => setStatusFilter('unsubscribed')}
+          onClick={() => setStatusFilter('new')}
           className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'unsubscribed' 
-              ? 'bg-white border-rose-500 ring-2 ring-rose-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-rose-200/60 hover:border-rose-300'
+            statusFilter === 'new' 
+              ? 'bg-white border-amber-500 ring-2 ring-amber-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-amber-200/60 hover:border-amber-300'
           }`}
         >
           <div>
-            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Απεγγραφες (Unsub)</p>
-            <p className="text-xl font-black text-rose-600 mt-1">{unsubscribedCount}</p>
+            <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Χωρις Email (0/5)</p>
+            <p className="text-xl font-black text-amber-700 mt-1">{newCount}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
-            <AlertCircle size={18} />
+          <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+            <Users size={18} />
+          </div>
+        </div>
+
+        {/* Card 3: Εστάλη Email (1-5) */}
+        <div 
+          onClick={() => setStatusFilter('active')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'active' 
+              ? 'bg-white border-blue-500 ring-2 ring-blue-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-blue-200/60 hover:border-blue-300'
+          }`}
+        >
+          <div>
+            <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Εσταλη Email (1-5)</p>
+            <p className="text-xl font-black text-blue-700 mt-1">{activeCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+            <Send size={18} />
+          </div>
+        </div>
+
+        {/* Card 4: Πελάτες */}
+        <div 
+          onClick={() => setStatusFilter('converted')}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+            statusFilter === 'converted' 
+              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20' 
+              : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
+          }`}
+        >
+          <div>
+            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Πελατες 🎉</p>
+            <p className="text-xl font-black text-emerald-700 mt-1">{convertedCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+            <CheckCircle2 size={18} />
           </div>
         </div>
       </div>
@@ -1783,16 +1819,35 @@ function safeEncodeBase64(data: any): string {
                         )}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-slate-500 font-mono">
-                      {new Date(lead.created_at).toLocaleDateString("el-GR")}
+                    <td className="py-3 px-4 text-slate-500 font-mono text-xs">
+                      <div>{new Date(lead.created_at).toLocaleDateString("el-GR")}</div>
+                      {lead.last_email_sent_at && (
+                        <div className="text-[10px] text-blue-600 font-bold mt-1 flex items-center gap-1" title="Ημερομηνία & ώρα τελευταίας αποστολής">
+                          <Mail size={10} className="shrink-0" />
+                          <span>{new Date(lead.last_email_sent_at).toLocaleDateString("el-GR", { day: "2-digit", month: "2-digit" })} {new Date(lead.last_email_sent_at).toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}</span>
+                        </div>
+                      )}
                     </td>
                     <td className="py-3 px-4 text-center">
                       {lead.unsubscribed ? (
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-red-100 text-red-700">Unsubscribed</span>
+                        <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-red-100 text-red-700 border border-red-200">
+                          🔴 Unsubscribed
+                        </span>
                       ) : lead.converted ? (
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">🎉 Πελάτης</span>
+                        <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">
+                          🎉 Πελάτης
+                        </span>
+                      ) : ((lead.email_sequence_step || 0) > 0 || lead.last_email_sent_at) ? (
+                        <div className="inline-flex flex-col items-center">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-100 text-blue-800 border border-blue-200 shadow-sm">
+                            <Check size={11} className="text-blue-600 stroke-[3]" />
+                            Εστάλη ({lead.email_sequence_step || 1}/5)
+                          </span>
+                        </div>
                       ) : (
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-700">Active</span>
+                        <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200">
+                          ⚪ Νέο (0/5)
+                        </span>
                       )}
                     </td>
                     <td className="py-3 px-4 text-center">
