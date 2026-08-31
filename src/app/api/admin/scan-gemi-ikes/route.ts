@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
     }
 
     const maxResults = body.limit || 50;
-    const targetMonth = body.month || null; // e.g. "2026-09" or "2026-08"
+    const targetMonth = body.month || null; // e.g. "2026-09"
+    const minDate = body.minDate !== undefined ? body.minDate : "2026-08-31"; // Default: 31/08/2026 and newer only!
     const pageSize = 50;
 
     // 1. Fetch existing emails from Supabase to prevent duplicates
@@ -83,6 +84,14 @@ export async function POST(req: NextRequest) {
 
       for (const co of results) {
         totalExamined++;
+
+        // Filter: Check minimum incorporation date (only 31/08/2026 and newer)
+        if (minDate && co.incorporationDate) {
+          const incDate = String(co.incorporationDate).split("T")[0].trim();
+          if (incDate < minDate) {
+            continue;
+          }
+        }
 
         // Filter: Check target month if requested (e.g. "2026-09")
         if (targetMonth && co.incorporationDate && !co.incorporationDate.startsWith(targetMonth)) {
