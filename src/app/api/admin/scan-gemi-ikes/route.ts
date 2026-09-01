@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
+
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 const GEMI_API_KEY = process.env.GEMI_API_KEY || "1QV0mFBoWsaprgiphMaBKEANZL0tRCc5";
 const GEMI_API_BASE = "https://opendata-api.businessportal.gr/api/opendata/v1";
@@ -25,6 +28,27 @@ function isValidEmail(email?: string | null): boolean {
   return !IGNORED_DOMAINS.some(d => domain.includes(d));
 }
 
+async function fetchGemiWithTimeout(url: string, apiKey: string) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 12000);
+  try {
+    const res = await fetch(url, {
+      headers: {
+        api_key: apiKey,
+        Accept: "application/json",
+        "User-Agent": "SGK-Digital-Scanner/1.0",
+      },
+      signal: controller.signal,
+      cache: "no-store",
+    });
+    clearTimeout(timeoutId);
+    return res;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    throw err;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     let body: any = {};
@@ -39,13 +63,17 @@ export async function POST(req: NextRequest) {
     const minDate = body.minDate !== undefined ? body.minDate : "2026-08-31"; // Default: 31/08/2026 and newer only!
     const pageSize = 50;
 
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
     // 1. Fetch existing emails from Supabase to prevent duplicates
     const { data: existingRecords, error: existingErr } = await supabase
       .from("sgk_mails")
       .select("email");
 
     if (existingErr) {
-      console.error("Error querying Supabase existing emails:", existingErr);
+      console.warn("Notice querying Supabase existing emails:", existingErr);
     }
 
     const existingEmailSet = new Set<string>();
@@ -64,23 +92,24 @@ export async function POST(req: NextRequest) {
     while (newLeadsToInsert.length < maxResults && offset < 500) {
       const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=19&resultsSortBy=-arGemi`;
 
-      const res = await fetch(url, {
-        headers: {
-          api_key: GEMI_API_KEY,
-          Accept: "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error("GEMI API Error:", res.status, errorText);
+      let results: any[] = [];
+      try {
+        const res = await fetchGemiWithTimeout(url, GEMI_API_KEY);
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error("GEMI API Response error:", res.status, errorText);
+          break;
+        }
+        const data = await res.json();
+        results = data.searchResults || [];
+      } catch (fetchErr: any) {
+        console.error(`GEMI fetch error at offset ${offset}:`, fetchErr.message);
         break;
       }
 
-      const data = await res.json();
-      const results: any[] = data.searchResults || [];
-
       if (results.length === 0) break;
+
+      let olderCountInPage = 0;
 
       for (const co of results) {
         totalExamined++;
@@ -89,6 +118,7 @@ export async function POST(req: NextRequest) {
         if (minDate && co.incorporationDate) {
           const incDate = String(co.incorporationDate).split("T")[0].trim();
           if (incDate < minDate) {
+            olderCountInPage++;
             continue;
           }
         }
@@ -144,24 +174,37 @@ export async function POST(req: NextRequest) {
         if (newLeadsToInsert.length >= maxResults) break;
       }
 
+      // If more than 80% of companies in this batch are older than minDate, stop paginating
+      if (minDate && olderCountInPage > 40) {
+        break;
+      }
+
       offset += results.length;
       if (results.length < pageSize) break;
     }
 
-    // Insert new leads into Supabase in batch
+    // Insert new leads into Supabase in batch safely
     let insertedCount = 0;
     if (newLeadsToInsert.length > 0) {
       const { data: insertedData, error: insertErr } = await supabase
         .from("sgk_mails")
-        .insert(newLeadsToInsert)
+        .upsert(newLeadsToInsert, { onConflict: "email", ignoreDuplicates: true })
         .select();
 
       if (insertErr) {
-        console.error("Supabase insert error:", insertErr);
-        throw insertErr;
+        console.error("Supabase upsert error:", insertErr);
+        // Fallback: try individual inserts to salvage whatever possible
+        for (const lead of newLeadsToInsert) {
+          try {
+            await supabase.from("sgk_mails").insert([lead]);
+            insertedCount++;
+          } catch (e) {
+            // Ignore single failure
+          }
+        }
+      } else {
+        insertedCount = insertedData?.length || newLeadsToInsert.length;
       }
-
-      insertedCount = insertedData?.length || newLeadsToInsert.length;
     }
 
     return NextResponse.json({
@@ -182,3 +225,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
