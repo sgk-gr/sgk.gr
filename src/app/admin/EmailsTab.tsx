@@ -936,11 +936,19 @@ function safeEncodeBase64(data: any): string {
         });
 
         if (!response.ok) {
-          throw new Error("Failed");
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || `HTTP ${response.status}`);
         }
+
+        const sentTime = new Date().toISOString();
+        setLeads(prev => prev.map(item => (item.id === lead.id || item.email.toLowerCase() === lead.email.toLowerCase())
+          ? { ...item, email_sequence_step: 1, last_email_sent_at: sentTime }
+          : item
+        ));
         successCount++;
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error sending to:", lead.email, error);
+        toast.error(`Αποτυχία αποστολής στο ${lead.email}: ${error.message || "Σφάλμα"}`);
         failCount++;
       }
     }
