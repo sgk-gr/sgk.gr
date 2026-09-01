@@ -5,7 +5,8 @@ import {
   ShieldCheck, Landmark, AlertCircle, 
   Zap, CheckCircle2, Sliders, Calendar, 
   Sparkles, Check, Home, Target, TrendingDown,
-  Info, Smartphone, ArrowDownRight
+  Info, Smartphone, ArrowDownRight, Award,
+  Clock, DollarSign, ArrowRight, ShieldAlert, Sparkle
 } from "lucide-react";
 
 export function SpyrosTab() {
@@ -43,11 +44,11 @@ export function SpyrosTab() {
     initialAmount: 4000.0,
     currentBalance: 2526.0,
     regularBalance: 2430.83,
-    overdueBalance: 95.17, // Πληρώνεται 1η αντί 26
+    overdueBalance: 95.17,
     monthlyInstallment: 94.95,
-    dueDate: "26 κάθε μήνα (πληρωμή 1η)",
+    dueDate: "26 κάθε μήνα (πληρωμή στην ώρα της)",
     lastUpdate: "31/07/2026",
-    status: "due_shift", // 5 days interval
+    status: "clean_on_time",
     maxOverdue12M: 2,
   };
 
@@ -70,7 +71,7 @@ export function SpyrosTab() {
     accountNo: "5278 9075 5152 4705",
     limit: 900.0,
     tiresiasBalance: 905.17,
-    currentBalance: 680.54, // LIVE APP DATA!
+    currentBalance: 680.54, // LIVE APP DATA
     lastStatementBalance: 667.93,
     minPayment: 15.00,
     paymentDueDate: "18/09/2026",
@@ -98,6 +99,24 @@ export function SpyrosTab() {
   const totalCreditLimit = nbgCard.limit + eurobankCard.limit; // 2900
   const overallCardUtilization = (totalCardBalance / totalCreditLimit) * 100; // 91.99%
 
+  // Exact Month-by-Month Projection Data for Spyros (50€ -> 100€ Plan)
+  const projectionSchedule = [
+    { month: "Σεπτέμβριος 2026", nbgPay: 50, nbgBal: 630, nbgUtil: "70.0%", euroPay: 50, euroBal: 1937, euroUtil: "96.8%", score: "390", notes: "Έναρξη πλάνου & πληρωμή δόσεων 26/9" },
+    { month: "Οκτώβριος 2026", nbgPay: 50, nbgBal: 580, nbgUtil: "64.4%", euroPay: 50, euroBal: 1887, euroUtil: "94.3%", score: "410", notes: "Σταθερή μείωση Εθνικής" },
+    { month: "Νοέμβριος 2026", nbgPay: 50, nbgBal: 530, nbgUtil: "58.8%", euroPay: 50, euroBal: 1837, euroUtil: "91.8%", score: "430", notes: "Εθνική πλησιάζει το 50%" },
+    { month: "Δεκέμβριος 2026", nbgPay: 50, nbgBal: 480, nbgUtil: "53.3%", euroPay: 50, euroBal: 1787, euroUtil: "89.3%", score: "450", notes: "Κλείσιμο έτους με θετικό momentum" },
+    { month: "Ιανουάριος 2027", nbgPay: 50, nbgBal: 430, nbgUtil: "47.7%", euroPay: 50, euroBal: 1737, euroUtil: "86.8%", score: "480", notes: "🎉 Σημείο Καμπής: Εθνική < 50% & καθαρίζει το 12μηνο 01/2026!" },
+    { month: "Φεβρουάριος 2027", nbgPay: 50, nbgBal: 380, nbgUtil: "42.2%", euroPay: 50, euroBal: 1687, euroUtil: "84.3%", score: "495", notes: "Συνεχής άνοδος σκορ" },
+    { month: "Μάρτιος 2027", nbgPay: 50, nbgBal: 330, nbgUtil: "36.6%", euroPay: 50, euroBal: 1637, euroUtil: "81.8%", score: "510", notes: "Πέρασμα στην πράσινη ζώνη (500+)" },
+    { month: "Απρίλιος 2027", nbgPay: 50, nbgBal: 280, nbgUtil: "31.1%", euroPay: 50, euroBal: 1587, euroUtil: "79.3%", score: "525", notes: "🎯 Εθνική αγγίζει το 30% (Optimal)" },
+    { month: "Μάιος 2027", nbgPay: 100, nbgBal: 180, nbgUtil: "20.0%", euroPay: 100, euroBal: 1487, euroUtil: "74.3%", score: "540", notes: "⚡ Έναρξη Φάσης 2: Αύξηση σε 100€/κάρτα!" },
+    { month: "Ιούνιος 2027", nbgPay: 100, nbgBal: 80, nbgUtil: "8.8%", euroPay: 100, euroBal: 1387, euroUtil: "69.3%", score: "550", notes: "Εθνική σχεδόν μηδενισμένη" },
+    { month: "Ιούλιος 2027", nbgPay: 80, nbgBal: 0, nbgUtil: "0.0%", euroPay: 120, euroBal: 1267, euroUtil: "63.3%", score: "560", notes: "🏆 ΠΛΗΡΗΣ ΕΞΟΦΛΗΣΗ ΕΘΝΙΚΗΣ (0€)!" },
+    { month: "Αύγουστος 2027", nbgPay: 0, nbgBal: 0, nbgUtil: "0.0%", euroPay: 200, euroBal: 1067, euroUtil: "53.3%", score: "570", notes: "Όλα τα 200€ πάνε στη Eurobank" },
+    { month: "Σεπτέμβριος 2027", nbgPay: 0, nbgBal: 0, nbgUtil: "0.0%", euroPay: 200, euroBal: 867, euroUtil: "43.3%", score: "580", notes: "Eurobank < 50%" },
+    { month: "Οκτώβριος 2027", nbgPay: 0, nbgBal: 0, nbgUtil: "0.0%", euroPay: 200, euroBal: 667, euroUtil: "33.3%", score: "590+", notes: "🏆 ΤΕΛΙΚΟΣ ΣΤΟΧΟΣ: Εξαιρετικό Πιστωτικό Προφίλ A-Tier!" },
+  ];
+
   // Simulated Score Calculation based on extra payment
   const simulatedStats = (() => {
     let remainingExtra = extraPayment;
@@ -111,13 +130,11 @@ export function SpyrosTab() {
     remainingExtra -= euroCardPaid;
 
     let scoreBoost = 0;
-    // Clearing the 5-day Eurobank shift
     if (euroOverduePaid >= 95.17) scoreBoost += 55;
-    // NBG is already at 75.6% (680€) -> extra drop brings huge boost
     if (nbgCardPaid > 50) scoreBoost += 35;
-    if (nbgCardPaid > 230) scoreBoost += 30; // NBG below 50% (450€)
-    if (euroCardPaid > 500) scoreBoost += 40; // Eurobank below 75%
-    if (euroCardPaid > 980) scoreBoost += 35; // Eurobank below 50%
+    if (nbgCardPaid > 230) scoreBoost += 30;
+    if (euroCardPaid > 500) scoreBoost += 40;
+    if (euroCardPaid > 980) scoreBoost += 35;
 
     const projectedScore = Math.min(maxScore, currentScore + scoreBoost);
     const projectedRisk = Math.max(8, defaultProb - (scoreBoost * 0.45));
@@ -152,7 +169,7 @@ export function SpyrosTab() {
               </span>
             </h1>
             <p className="text-xs text-slate-400 font-medium max-w-2xl leading-relaxed">
-              Live συνδυασμός της έκθεσης <strong>Τειρεσία (27/08/2026)</strong> και των πραγματικών στοιχείων πληρωμών. 
+              Live συνδυασμός της έκθεσης <strong>Τειρεσία (27/08/2026)</strong> και του εξατομικευμένου πλάνου αποπληρωμής (50€ ➔ 100€). 
               Η κάρτα της Εθνικής έχει ήδη μειωθεί στα <strong>680,54 € (75,6%)</strong>!
             </p>
           </div>
@@ -176,6 +193,130 @@ export function SpyrosTab() {
         </div>
       </div>
 
+      {/* SPECIAL CUSTOM PLAN SPOTLIGHT CARD (50€ -> 100€) */}
+      <div className="bg-gradient-to-br from-emerald-950/60 via-slate-900 to-teal-950/60 border border-emerald-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl text-white space-y-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-emerald-500/20 pb-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black uppercase tracking-widest mb-1.5">
+              <Target size={12} className="text-emerald-400" />
+              Εξατομικευμενο Πλανο Αποπληρωμης 2026 - 2027
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+              🚀 Το Πλάνο σας: 50€/μήνα ➔ 100€/μήνα (Εξόφληση έως Οκτ 2027)
+            </h2>
+          </div>
+
+          <div className="bg-emerald-900/40 border border-emerald-700/50 px-4 py-2 rounded-2xl text-right">
+            <span className="text-[10px] text-emerald-300 font-bold uppercase block">Τελικός Στόχος</span>
+            <span className="text-lg font-black text-emerald-400 font-mono">Οκτώβριος 2027 (0€ Κάρτες)</span>
+          </div>
+        </div>
+
+        {/* 2 Phases Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          
+          {/* Phase 1 */}
+          <div className="bg-slate-900/80 p-5 rounded-2xl border border-emerald-500/30 space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                ΦΑΣΗ 1: ΣΕΠ 2026 – ΑΠΡ 2027 (8 ΜΗΝΕΣ)
+              </span>
+              <span className="font-mono text-xs font-bold text-slate-300">231,92 € / μήνα</span>
+            </div>
+            <h4 className="font-black text-base text-white">50 € στην Εθνική + 50 € στη Eurobank</h4>
+            <ul className="text-xs text-slate-300 space-y-1.5">
+              <li className="flex items-center gap-2">
+                <Check size={14} className="text-emerald-400 shrink-0" />
+                <span><strong>Δάνεια στην ώρα τους (26 του μήνα):</strong> Eurobank 94,95€ + TBI 36,97€ (0 καθυστερήσεις!).</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check size={14} className="text-emerald-400 shrink-0" />
+                <span><strong>Κάρτα Εθνικής:</strong> 50 € / μήνα ➔ Πέφτει από 680€ στα <strong>280 € (31% χρήση)</strong>!</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check size={14} className="text-emerald-400 shrink-0" />
+                <span><strong>Κάρτα Eurobank:</strong> 50 € / μήνα ➔ Πέφτει στα 1.587 €.</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Phase 2 */}
+          <div className="bg-slate-900/80 p-5 rounded-2xl border border-teal-500/30 space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] font-black uppercase tracking-widest text-teal-400 bg-teal-500/10 px-2.5 py-1 rounded-full border border-teal-500/20">
+                ΦΑΣΗ 2: ΜΑΙ 2027 – ΟΚΤ 2027 (6 ΜΗΝΕΣ)
+              </span>
+              <span className="font-mono text-xs font-bold text-teal-300">331,92 € / μήνα</span>
+            </div>
+            <h4 className="font-black text-base text-white">100 € / κάρτα ➔ Επιτάχυνση & Πλήρης Εξόφληση</h4>
+            <ul className="text-xs text-slate-300 space-y-1.5">
+              <li className="flex items-center gap-2">
+                <Award size={14} className="text-yellow-400 shrink-0" />
+                <span><strong>Ιούλιος 2027:</strong> Η κάρτα της Εθνικής <strong>ΜΗΔΕΝΙΖΕΙ ΠΛΗΡΩΣ (0,00 €)</strong>!</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Award size={14} className="text-yellow-400 shrink-0" />
+                <span><strong>Αύγ - Οκτ 2027:</strong> Και τα 200€ κατευθύνονται στη Eurobank ➔ Πλήρης εξυγίανση!</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Award size={14} className="text-yellow-400 shrink-0" />
+                <span><strong>Behavior Score Τειρεσία:</strong> Άλμα στο <strong>560 - 590+ (A-Tier)</strong>!</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Month-by-Month Projection Table */}
+        <div className="space-y-3 pt-2">
+          <div className="flex justify-between items-center">
+            <h3 className="text-sm font-black uppercase tracking-wider text-white flex items-center gap-2">
+              <Calendar size={16} className="text-emerald-400" />
+              Μηνιαια Προβολη Εξελιξης Υπολοιπων & Score Τειρεσια (14 Μηνες)
+            </h3>
+            <span className="text-[10px] font-mono text-emerald-300">Προβλεπόμενη Πορεία</span>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-950/80">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-900 border-b border-slate-800 text-[10px] font-black uppercase tracking-wider text-slate-400">
+                  <th className="p-3">Μηνας</th>
+                  <th className="p-3">Πληρωμη Εθνικης</th>
+                  <th className="p-3">Υπολοιπο Εθνικης (Οριο 900€)</th>
+                  <th className="p-3">Πληρωμη Eurobank</th>
+                  <th className="p-3">Υπολοιπο Eurobank (Οριο 2000€)</th>
+                  <th className="p-3 text-emerald-400">Score Τειρεσια</th>
+                  <th className="p-3">Οροσημο / Σημειωση</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60 font-mono">
+                {projectionSchedule.map((row, idx) => (
+                  <tr key={idx} className={`hover:bg-slate-900/50 transition-colors ${idx >= 8 ? 'bg-emerald-950/10' : ''}`}>
+                    <td className="p-3 font-bold text-white font-sans">{row.month}</td>
+                    <td className="p-3 text-emerald-400 font-bold">{row.nbgPay > 0 ? `${row.nbgPay} €` : "—"}</td>
+                    <td className="p-3">
+                      <span className={`font-bold ${row.nbgBal === 0 ? 'text-emerald-400 font-black' : 'text-slate-200'}`}>
+                        {row.nbgBal} €
+                      </span>
+                      <span className="text-[10px] text-slate-500 ml-1.5">({row.nbgUtil})</span>
+                    </td>
+                    <td className="p-3 text-teal-400 font-bold">{row.euroPay} €</td>
+                    <td className="p-3">
+                      <span className="text-slate-200 font-bold">{row.euroBal} €</span>
+                      <span className="text-[10px] text-slate-500 ml-1.5">({row.euroUtil})</span>
+                    </td>
+                    <td className="p-3 font-black text-emerald-300 text-sm">{row.score}</td>
+                    <td className="p-3 text-[11px] font-sans text-slate-300">{row.notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
       {/* TOP 3 SUMMARY KPI CARDS & BEHAVIOR SCORE GAUGE */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
@@ -195,7 +336,7 @@ export function SpyrosTab() {
             <div className="flex justify-between text-xs font-bold">
               <span className="text-rose-500 font-mono">326 (Βάση 27/8)</span>
               <span className="text-amber-500 font-mono">~390 (Μετά 1/9)</span>
-              <span className="text-emerald-600 font-mono">520+ (Στόχος)</span>
+              <span className="text-emerald-600 font-mono">560+ (Οκτ 2027)</span>
             </div>
             <div className="h-4 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200 flex">
               <div 
@@ -287,7 +428,7 @@ export function SpyrosTab() {
               />
             </div>
             <p className="text-[11px] text-slate-500">
-              🎯 <strong>Στόχος:</strong> Ρίξιμο της κάρτας Eurobank από 1.987€ σε 1.000€ για να πέσει η συνολική χρήση κάτω από 55%!
+              🎯 <strong>Στόχος Πλάνου:</strong> Με τα 50€+50€/μήνα, η συνολική χρήση πέφτει στο <strong>40% τον Απρίλιο 2027</strong> και στο <strong>0% τον Οκτώβριο 2027</strong>!
             </p>
           </div>
 
@@ -296,7 +437,7 @@ export function SpyrosTab() {
               <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
               <span className="font-bold text-emerald-950">Κατάσταση Δόσεων:</span>
             </div>
-            <span className="font-mono font-black text-emerald-700">Εξοφλούνται την 1η κάθε μήνα</span>
+            <span className="font-mono font-black text-emerald-700">Πληρωμή στις 26 κάθε μήνα</span>
           </div>
         </div>
 
@@ -316,11 +457,11 @@ export function SpyrosTab() {
           
           {/* 1. EUROBANK LOAN */}
           <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-2 h-full bg-amber-500" />
+            <div className="absolute top-0 right-0 w-2 h-full bg-emerald-500" />
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
-                  🗓️ Πληρωμή 1η αντί 26 (Τυπική Καθυστέρηση 5 Ημερών)
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                  ✓ Πληρωμή στις 26 του μήνα (Ενήμερη)
                 </span>
                 <h3 className="font-black text-base text-gray-900 mt-1.5">{eurobankLoan.title}</h3>
                 <p className="text-xs text-slate-400 font-mono">Κωδ. {eurobankLoan.accountNo}</p>
@@ -343,19 +484,18 @@ export function SpyrosTab() {
                 <span className="font-bold text-gray-800 font-mono">{eurobankLoan.monthlyInstallment} €</span>
               </div>
               <div>
-                <span className="text-[9px] text-amber-600 font-bold uppercase block">Λήξη Δόσης</span>
-                <span className="font-bold text-gray-800 font-mono">26 του μήνα</span>
+                <span className="text-[9px] text-emerald-600 font-bold uppercase block">Ημ/νία Πληρωμής</span>
+                <span className="font-bold text-gray-800 font-mono">26 κάθε μήνα</span>
               </div>
             </div>
 
-            <div className="bg-blue-50/80 border border-blue-200/80 rounded-2xl p-3 text-xs text-blue-950 space-y-1.5">
-              <p className="font-bold flex items-center gap-1.5 text-blue-900">
-                <Info size={14} className="text-[#3b5bdb]" />
-                💡 Pro-Tip για τον Τειρεσία:
+            <div className="bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-3 text-xs text-emerald-950 space-y-1">
+              <p className="font-bold flex items-center gap-1.5 text-emerald-900">
+                <CheckCircle2 size={14} className="text-emerald-600" />
+                Στρατηγική Πληρωμής στην ώρα της (26/09):
               </p>
-              <p className="text-[11px] text-blue-900/90 leading-relaxed">
-                Επειδή η δόση λήγει στις 26 και εσείς την πληρώνετε την 1η, ο Τειρεσίας στις 27 του μήνα βλέπει «καθυστέρηση 1 ημέρας». 
-                <strong>Λύση:</strong> Μπορείτε με ένα αίτημα στο e-banking ή τηλεφωνικά στη Eurobank να μεταφέρετε την ημερομηνία χρέωσης της δόσης στην <strong>1η ή 2η του μήνα</strong>, ώστε να μην καταγράφεται ποτέ καμία ημέρα καθυστέρησης!
+              <p className="text-[11px] text-emerald-900/90 leading-relaxed">
+                Πληρώνοντας τη δόση των <strong>94,95 €</strong> σταθερά στις <strong>26 του μήνα</strong>, η Eurobank στέλνει στον Τειρεσία ένδειξη <strong>«0 Καθυστέρηση»</strong>, μηδενίζοντας άμεσα κάθε αρνητικό δείκτη!
               </p>
             </div>
           </div>
@@ -438,8 +578,8 @@ export function SpyrosTab() {
 
             <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-2xl border border-gray-150 text-xs mb-3">
               <div>
-                <span className="text-[9px] text-slate-400 font-bold uppercase block">Ελάχιστη Καταβολή</span>
-                <span className="font-bold text-gray-800 font-mono">{nbgCard.minPayment.toFixed(2)} €</span>
+                <span className="text-[9px] text-slate-400 font-bold uppercase block">Πλάνο Πληρωμής</span>
+                <span className="font-bold text-emerald-600 font-mono">50,00 € / μήνα</span>
               </div>
               <div>
                 <span className="text-[9px] text-slate-400 font-bold uppercase block">Ημ/νία Λήξης</span>
@@ -449,12 +589,12 @@ export function SpyrosTab() {
 
             <div className="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-xs space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-emerald-900 font-medium">🎯 Επόμενος Στόχος 50% (Sweet Spot):</span>
-                <span className="font-black text-emerald-800 font-mono">450 € (Απομένουν ~230€)</span>
+                <span className="text-emerald-900 font-medium">🎯 Στόχος Ιανουάριος 2027 (&lt;50%):</span>
+                <span className="font-black text-emerald-800 font-mono">430 € (Σε 5 μήνες)</span>
               </div>
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-emerald-900 font-medium">🎯 Τελικός Στόχος 30% (Optimal):</span>
-                <span className="font-bold text-emerald-950 font-mono">270 € (Απομένουν ~410€)</span>
+                <span className="text-emerald-900 font-medium">🏆 Πλήρης Εξόφληση (0€):</span>
+                <span className="font-bold text-emerald-950 font-mono">Ιούλιος 2027</span>
               </div>
             </div>
           </div>
@@ -488,179 +628,26 @@ export function SpyrosTab() {
               </div>
             </div>
 
+            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-2xl border border-gray-150 text-xs mb-3">
+              <div>
+                <span className="text-[9px] text-slate-400 font-bold uppercase block">Φάση 1 (έως Απρ 27)</span>
+                <span className="font-bold text-gray-800 font-mono">50,00 € / μήνα</span>
+              </div>
+              <div>
+                <span className="text-[9px] text-slate-400 font-bold uppercase block">Φάση 2 (Μαι - Οκτ 27)</span>
+                <span className="font-bold text-teal-600 font-mono">100€ - 200€ / μήνα</span>
+              </div>
+            </div>
+
             <div className="bg-slate-50 border border-gray-150 rounded-2xl p-3 text-xs space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-slate-600">Στόχος 1 (70% Όριο):</span>
-                <span className="font-bold text-gray-900 font-mono">1.400 € (Καταβολή ~587€)</span>
+                <span className="text-slate-600">🎯 Στόχος Μάιος 2027:</span>
+                <span className="font-bold text-gray-900 font-mono">1.487 € (74% χρήση)</span>
               </div>
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-slate-600">Στόχος 2 (50% Όριο - Sweet Spot):</span>
-                <span className="font-bold text-emerald-600 font-mono">1.000 € (Καταβολή ~987€)</span>
+                <span className="text-slate-600">🏆 Στόχος Οκτώβριος 2027:</span>
+                <span className="font-bold text-emerald-600 font-mono">&lt;650 € (33% χρήση - Αποπληρωμένη)</span>
               </div>
-              <div className="flex justify-between items-center text-[11px]">
-                <span className="text-slate-600">Στόχος 3 (30% Όριο - Optimal):</span>
-                <span className="font-bold text-emerald-700 font-mono">600 € (Καταβολή ~1.387€)</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      {/* INTERACTIVE PAYOFF & CREDIT SCORE SIMULATOR */}
-      <div className="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-black uppercase tracking-widest mb-1.5">
-              <Sliders size={12} className="text-indigo-400" />
-              Live Interactive Simulator
-            </div>
-            <h2 className="text-xl font-black text-white tracking-tight">
-              Προσομοιωτής Αποπληρωμής & Εκτίμηση Score Τειρεσία
-            </h2>
-          </div>
-
-          <div className="bg-slate-850 px-4 py-2 rounded-2xl border border-slate-750 text-right">
-            <span className="text-[10px] text-slate-400 font-bold uppercase block">Επιπλέον Διαθέσιμο Ποσό</span>
-            <span className="text-xl font-black text-emerald-400 font-mono">{extraPayment} €</span>
-          </div>
-        </div>
-
-        {/* Slider Input */}
-        <div className="space-y-3">
-          <div className="flex justify-between text-xs font-bold text-slate-300">
-            <span>Σύρετε για να επιλέξετε έκτακτο ποσό αποπληρωμής:</span>
-            <span className="text-indigo-400 font-mono">{extraPayment} € / μήνα</span>
-          </div>
-          <input 
-            type="range" 
-            min={50} 
-            max={2000} 
-            step={50}
-            value={extraPayment}
-            onChange={(e) => setExtraPayment(Number(e.target.value))}
-            className="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-          />
-          <div className="flex justify-between text-[10px] font-mono text-slate-500">
-            <span>50 €</span>
-            <span>500 €</span>
-            <span>1.000 €</span>
-            <span>1.500 €</span>
-            <span>2.000 €</span>
-          </div>
-        </div>
-
-        {/* Results of Simulation */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-          
-          <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Προτεραιοτητα 1 (Eurobank 26 ➔ 1)</span>
-            <p className="text-sm font-bold text-emerald-400 font-mono">
-              ✓ Τακτοποιημένη την 1η του μήνα
-            </p>
-            <p className="text-[11px] text-slate-400">Μηδενίζει τον Δείκτη Καθυστέρησης στο δάνειο Eurobank.</p>
-          </div>
-
-          <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Προτεραιοτητα 2 (Καρτα Εθνικης)</span>
-            <p className="text-sm font-bold text-emerald-300 font-mono">
-              680€ ➔ {(Math.max(270, nbgCard.currentBalance - extraPayment)).toFixed(0)}€
-            </p>
-            <p className="text-[11px] text-slate-400">
-              Utilization: {(((Math.max(270, nbgCard.currentBalance - extraPayment)) / nbgCard.limit) * 100).toFixed(0)}% (Στόχος &lt;50%)
-            </p>
-          </div>
-
-          <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Προβλεπομενο Behavior Score</span>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-emerald-300 font-mono">{simulatedStats.projectedScore}</span>
-              <span className="text-xs text-emerald-400 font-bold font-mono">+{simulatedStats.projectedScore - currentScore} pts</span>
-            </div>
-            <p className="text-[11px] text-slate-400">Εκτιμώμενο Default Risk: {simulatedStats.projectedRisk}%</p>
-          </div>
-
-        </div>
-      </div>
-
-      {/* ROADMAP & TIMELINE MILESTONES */}
-      <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#3b5bdb] flex items-center justify-center font-bold">
-            <Target size={20} />
-          </div>
-          <div>
-            <h2 className="text-lg font-black text-gray-900 tracking-tight uppercase">
-              Χρονοδιαγραμμα Εξυγιανσης & Σταθμοι (Roadmap)
-            </h2>
-            <p className="text-xs text-slate-500 font-medium">
-              Βήμα-προς-βήμα πρόγραμμα για να φτάσετε στο μέγιστο πιστωτικό σκορ
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          
-          {/* Milestone 1 */}
-          <div className="bg-emerald-50/60 p-5 rounded-2xl border border-emerald-200 space-y-2 relative">
-            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200">
-              ΦΑΣΗ 1 • ΣΕΠ 2026 (ΣΕ ΕΞΕΛΙΞΗ)
-            </span>
-            <h4 className="font-black text-sm text-gray-900 pt-1">Εθνική κάτω από 700€ & Eurobank</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              • Η Εθνική είναι ήδη στα <strong>680,54 €</strong> (75,6%).<br/>
-              • Πληρωμή δόσης Eurobank 94,95€ την 1η του μήνα.<br/>
-              • Αίτημα μεταφοράς χρέωσης Eurobank στην 1η.
-            </p>
-            <div className="text-[11px] font-bold text-emerald-700 font-mono pt-1">
-              📈 Αναμενόμενο Score: 390 - 420
-            </div>
-          </div>
-
-          {/* Milestone 2 */}
-          <div className="bg-slate-50 p-5 rounded-2xl border border-gray-200/80 space-y-2 relative">
-            <span className="text-[10px] font-black uppercase tracking-widest text-[#3b5bdb] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
-              ΦΑΣΗ 2 • ΟΚΤ - ΔΕΚ 2026
-            </span>
-            <h4 className="font-black text-sm text-gray-900 pt-1">Ελάφρυνση Καρτών (50%)</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              • Ρίξιμο κάρτας Εθνικής κάτω από <strong>450 €</strong>.<br/>
-              • Ρίξιμο κάρτας Eurobank κάτω από <strong>1.400 €</strong>.<br/>
-              • Σταθερή πληρωμή δόσεων δανείων στην ώρα τους.
-            </p>
-            <div className="text-[11px] font-bold text-emerald-700 font-mono pt-1">
-              📈 Αναμενόμενο Score: 440 - 470
-            </div>
-          </div>
-
-          {/* Milestone 3 */}
-          <div className="bg-slate-50 p-5 rounded-2xl border border-gray-200/80 space-y-2 relative">
-            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
-              ΦΑΣΗ 3 • ΙΑΝ - ΜΑΡ 2027
-            </span>
-            <h4 className="font-black text-sm text-gray-900 pt-1">Καθαρισμός 12μηνου Ιστορικού</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              • Συμπληρώνονται 12 μήνες από την παλιά καθυστέρηση του 01/2026 στην Εθνική!<br/>
-              • Το ιστορικό «σβήνει» από το στατιστικό παράθυρο.
-            </p>
-            <div className="text-[11px] font-bold text-emerald-700 font-mono pt-1">
-              📈 Αναμενόμενο Score: 490 - 520+
-            </div>
-          </div>
-
-          {/* Milestone 4 */}
-          <div className="bg-slate-50 p-5 rounded-2xl border border-gray-200/80 space-y-2 relative">
-            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
-              ΦΑΣΗ 4 • ΚΑΛΟΚΑΙΡΙ 2027
-            </span>
-            <h4 className="font-black text-sm text-gray-900 pt-1">Άριστο Πιστωτικό Προφίλ</h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              • Κάρτες σε επίπεδα &lt;30% χρήσης.<br/>
-              • Τα δάνεια έχουν μειωθεί σημαντικά.<br/>
-              • Πλήρης πρόσβαση σε τραπεζικό δανεισμό / στεγαστικό ΑΠΦ.
-            </p>
-            <div className="text-[11px] font-bold text-emerald-700 font-mono pt-1">
-              🏆 Score: 540+ (A-Tier Rating)
             </div>
           </div>
 
@@ -699,7 +686,7 @@ export function SpyrosTab() {
                 </div>
                 <div>
                   <p className="text-xs font-bold">Δόση Προσωπικού Δανείου Eurobank</p>
-                  <p className="text-[10px] text-slate-500">Πληρωμή την 1η κάθε μήνα</p>
+                  <p className="text-[10px] text-slate-500">Πληρωμή στις 26 Σεπτεμβρίου στην ώρα της</p>
                 </div>
               </div>
               <span className="font-mono font-black text-xs">94,95 €</span>
@@ -744,11 +731,11 @@ export function SpyrosTab() {
                   {checkedMonthlyTasks["nbg_card_sept"] && <Check size={14} />}
                 </div>
                 <div>
-                  <p className="text-xs font-bold">Mastercard Εθνικής (Λήξη 18/09/2026)</p>
-                  <p className="text-[10px] text-slate-500">Ελάχιστη: 15,00€ | Προτεινόμενο: 50€-100€</p>
+                  <p className="text-xs font-bold">Καταβολή Mastercard Εθνικής (Πλάνο 50€)</p>
+                  <p className="text-[10px] text-slate-500">Λήξη 18/09/2026 - Στόχος να πέσει στα 630€</p>
                 </div>
               </div>
-              <span className="font-mono font-black text-xs">~50 - 100 €</span>
+              <span className="font-mono font-black text-xs">50,00 €</span>
             </div>
 
             {/* Task 4 */}
@@ -767,13 +754,18 @@ export function SpyrosTab() {
                   {checkedMonthlyTasks["euro_card_sept"] && <Check size={14} />}
                 </div>
                 <div>
-                  <p className="text-xs font-bold">Καταβολή Mastercard Eurobank</p>
-                  <p className="text-[10px] text-slate-500">Ελάχιστη καταβολή ή στοχευμένη πληρωμή</p>
+                  <p className="text-xs font-bold">Καταβολή Mastercard Eurobank (Πλάνο 50€)</p>
+                  <p className="text-[10px] text-slate-500">Μηνιαία σταθερή καταβολή</p>
                 </div>
               </div>
-              <span className="font-mono font-black text-xs">~100,00 €</span>
+              <span className="font-mono font-black text-xs">50,00 €</span>
             </div>
 
+          </div>
+
+          <div className="pt-2 border-t border-gray-150 flex justify-between items-center text-xs font-black text-gray-900">
+            <span>Συνολική Μηνιαία Δαπάνη (Φάση 1):</span>
+            <span className="font-mono text-emerald-600 text-sm">231,92 € / μήνα</span>
           </div>
         </div>
 
@@ -807,7 +799,7 @@ export function SpyrosTab() {
           </div>
 
           <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-blue-200 text-xs text-slate-800">
-            💡 <strong>Συμβουλή:</strong> Μόλις το Behavior Score σταθεροποιηθεί πάνω από 500 τους επόμενους μήνες, η πόρτα για οποιοδήποτε στεγαστικό ή επιχειρηματικό πρόγραμμα είναι ορθάνοιχτη με τους καλύτερους όρους της αγοράς.
+            💡 <strong>Συμβουλή:</strong> Με το πλάνο των 50€ ➔ 100€, το σκορ σας τον Μάιο 2027 θα έχει ξεπεράσει το <strong>540</strong> και τον Οκτώβριο το <strong>580+</strong>, έχοντας πλήρη πρόσβαση σε οποιαδήποτε τραπεζική χρηματοδότηση με τους κορυφαίους όρους!
           </div>
         </div>
 
