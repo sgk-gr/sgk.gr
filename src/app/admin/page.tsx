@@ -7,12 +7,13 @@ import {
   TrendingUp, TrendingDown, RefreshCcw, Info, CheckCircle2, AlertTriangle,
   LayoutDashboard, Search, FileSpreadsheet, Percent, Coins, ArrowRightLeft,
   ChevronRight, Sparkles, Filter, HelpCircle, QrCode, Printer, Check, Copy,
-  Briefcase, Edit3, Mail, Activity, FileCheck, Building2, Loader2
+  Briefcase, Edit3, Mail, Activity, FileCheck, Building2, Loader2, User
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { EmailsTab } from "./EmailsTab";
 import { ContractsTab } from "./ContractsTab";
+import { SpyrosTab } from "./SpyrosTab";
 
 // --- Types ---
 interface Transaction {
@@ -81,7 +82,7 @@ export default function AdminVatDashboard() {
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "contracts" | "tax" | "emails">("ledger");
+  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "contracts" | "tax" | "emails" | "spyros">("ledger");
   
   // Year & Ledger State
   const [filterYear, setFilterYear] = useState<string>(() => String(new Date().getFullYear()));
@@ -1115,6 +1116,17 @@ export default function AdminVatDashboard() {
           >
             <Mail className="w-4 h-4" />
             Email Leads
+          </button>
+          <button
+            onClick={() => setActivePortalTab("spyros")}
+            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
+              activePortalTab === "spyros"
+                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-500/20"
+                : "text-emerald-700 hover:text-emerald-900 bg-emerald-50/50"
+            }`}
+          >
+            <User className="w-4 h-4 text-emerald-600" />
+            Σπύρος (Financial & Τειρεσίας)
           </button>
         </div>
       </div>
@@ -2589,7 +2601,7 @@ export default function AdminVatDashboard() {
           </motion.div>
         )}
 
-        {/* --- TAB 4: EMAILS PORTAL --- */}
+        {/* --- TAB 5: EMAILS PORTAL --- */}
         {activePortalTab === "emails" && (
           <motion.div
             key="emails-tab"
@@ -2605,6 +2617,21 @@ export default function AdminVatDashboard() {
           </motion.div>
         )}
 
+        {/* --- TAB 6: SPYROS PERSONAL FINANCIAL & TIRESIAS DASHBOARD --- */}
+        {activePortalTab === "spyros" && (
+          <motion.div
+            key="spyros-tab"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.2 }}
+            className="relative z-10"
+          >
+            <main className="max-w-7xl mx-auto px-6 mt-8">
+              <SpyrosTab />
+            </main>
+          </motion.div>
+        )}
 
       </AnimatePresence>
 
