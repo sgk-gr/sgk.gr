@@ -69,7 +69,6 @@ export async function POST(req: Request) {
     };
 
     if (step === 1) {
-      updatePayload.first_email_sent_at = now;
       if (firstEmailSubject) updatePayload.first_email_subject = firstEmailSubject;
       if (firstEmailBody) updatePayload.first_email_body = firstEmailBody;
     }

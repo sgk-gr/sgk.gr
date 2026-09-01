@@ -203,7 +203,6 @@ serve(async (req) => {
             .from("sgk_mails")
             .update({
                 last_email_sent_at: now,
-                first_email_sent_at: now,
                 email_sequence_step: 1,
                 first_email_subject: firstEmailSubject || customSubject,
                 first_email_body: firstEmailBody || customHtml,
