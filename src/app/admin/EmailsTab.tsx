@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { 
   Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, 
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
-  FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User
+  FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
+  Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
@@ -322,8 +323,33 @@ export function EmailsTab() {
   const [uploadingPdf, setUploadingPdf] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
 
-  // Live GEMI IKE Scanner state
+  // Live GEMI IKE Scanner state & Real-time Live Modal
   const [isScanningGemi, setIsScanningGemi] = useState(false);
+  const [isScanModalOpen, setIsScanModalOpen] = useState(false);
+  const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
+  const [scanStats, setScanStats] = useState({
+    totalExamined: 0,
+    added: 0,
+    totalDuplicates: 0,
+    totalHasWebsite: 0,
+    totalNoEmail: 0,
+    totalOldDate: 0,
+  });
+  const [scanLogs, setScanLogs] = useState<Array<{
+    id: string;
+    time: string;
+    type: string;
+    category?: string;
+    company?: string;
+    email?: string;
+    afm?: string;
+    date?: string;
+    url?: string;
+    phone?: string;
+    reason?: string;
+    message?: string;
+  }>>([]);
+  const scanTerminalRef = useRef<HTMLDivElement>(null);
 
   // Load saved contracts & check for pending drafts
   useEffect(() => {
@@ -597,6 +623,12 @@ function safeEncodeBase64(data: any): string {
   useEffect(() => {
     setSelectedLeads([]);
   }, [statusFilter, searchTerm]);
+
+  useEffect(() => {
+    if (scanTerminalRef.current) {
+      scanTerminalRef.current.scrollTop = scanTerminalRef.current.scrollHeight;
+    }
+  }, [scanLogs]);
 
   const handleOpenEditLead = (lead: any) => {
     setEditingLead({
@@ -1027,29 +1059,158 @@ function safeEncodeBase64(data: any): string {
   };
 
   const handleScanGemiIkes = async () => {
+    setIsScanModalOpen(true);
     setIsScanningGemi(true);
-    toast.loading("Γίνεται live σάρωση στο Γ.Ε.ΜΗ. για νεοσύστατες Ι.Κ.Ε. χωρίς ιστοσελίδα...", { id: "gemi-scan" });
+    setScanStatusMessage("⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. (31/08 & Σεπτέμβριος 2026)...");
+    setScanStats({
+      totalExamined: 0,
+      added: 0,
+      totalDuplicates: 0,
+      totalHasWebsite: 0,
+      totalNoEmail: 0,
+      totalOldDate: 0,
+    });
+    setScanLogs([
+      {
+        id: "init",
+        time: new Date().toLocaleTimeString("el-GR"),
+        type: "init",
+        message: "🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API του Γ.Ε.ΜΗ..."
+      }
+    ]);
+
     try {
       const res = await fetch("/api/admin/scan-gemi-ikes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ limit: 50 }),
+        body: JSON.stringify({ stream: true, limit: 50, minDate: "2026-08-31" }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Αποτυχία σάρωσης ΓΕΜΗ");
+
+      if (!res.ok) {
+        throw new Error(`Σφάλμα σύνδεσης με τον διακομιστή (${res.status})`);
       }
 
-      if (data.count > 0) {
-        toast.success(`🎉 Βρέθηκαν & προστέθηκαν ${data.count} νέες Ι.Κ.Ε. στη λίστα! (Εξετάστηκαν: ${data.totalExamined})`, { id: "gemi-scan" });
-      } else {
-        toast.info(`Η σάρωση ολοκληρώθηκε (Εξετάστηκαν ${data.totalExamined} επιχειρήσεις). Δεν βρέθηκαν νέα leads — όλα υπάρχουν ήδη στη βάση.`, { id: "gemi-scan" });
+      if (!res.body) {
+        throw new Error("ReadableStream is not supported");
       }
 
-      await fetchLeads();
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const parts = buffer.split("\n\n");
+        buffer = parts.pop() || "";
+
+        for (const part of parts) {
+          const trimmed = part.trim();
+          if (!trimmed.startsWith("data:")) continue;
+          const jsonStr = trimmed.replace(/^data:\s*/, "");
+          if (!jsonStr) continue;
+
+          try {
+            const event = JSON.parse(jsonStr);
+            const timeStr = new Date().toLocaleTimeString("el-GR");
+
+            if (event.message) {
+              setScanStatusMessage(event.message);
+            }
+
+            if (event.stats) {
+              setScanStats(prev => ({
+                ...prev,
+                ...event.stats,
+              }));
+            }
+
+            if (event.type === "log") {
+              setScanLogs(prev => [
+                ...prev,
+                {
+                  id: String(Date.now() + Math.random()),
+                  time: timeStr,
+                  type: "log",
+                  category: event.category,
+                  company: event.company,
+                  email: event.email,
+                  afm: event.afm,
+                  date: event.date,
+                  url: event.url,
+                  phone: event.phone,
+                  reason: event.reason,
+                }
+              ]);
+            } else if (event.type === "page" || event.type === "info" || event.type === "warning") {
+              setScanLogs(prev => [
+                ...prev,
+                {
+                  id: String(Date.now() + Math.random()),
+                  time: timeStr,
+                  type: event.type,
+                  message: event.message,
+                }
+              ]);
+            } else if (event.type === "done") {
+              if (event.count !== undefined) {
+                setScanStats(prev => ({
+                  ...prev,
+                  added: event.count,
+                  totalExamined: event.totalExamined || prev.totalExamined,
+                  totalDuplicates: event.totalDuplicates || prev.totalDuplicates,
+                  totalHasWebsite: event.totalHasWebsite || prev.totalHasWebsite,
+                  totalNoEmail: event.totalNoEmail || prev.totalNoEmail,
+                  totalOldDate: event.totalOldDate || prev.totalOldDate,
+                }));
+              }
+              setScanLogs(prev => [
+                ...prev,
+                {
+                  id: "done",
+                  time: timeStr,
+                  type: "done",
+                  message: event.message || `🎉 Η σάρωση ολοκληρώθηκε! Προστέθηκαν ${event.count || 0} νέα leads.`
+                }
+              ]);
+              if (event.count > 0) {
+                toast.success(`🎉 Προστέθηκαν ${event.count} νέες Ι.Κ.Ε. στη λίστα!`);
+              } else {
+                toast.info(`Η σάρωση ολοκληρώθηκε. Όλες οι Ι.Κ.Ε. υπάρχουν ήδη στη βάση.`);
+              }
+              await fetchLeads();
+            } else if (event.type === "error") {
+              setScanLogs(prev => [
+                ...prev,
+                {
+                  id: "error",
+                  time: timeStr,
+                  type: "error",
+                  message: `❌ Σφάλμα: ${event.error}`
+                }
+              ]);
+              toast.error(`Σφάλμα σάρωσης: ${event.error}`);
+            }
+          } catch (jsonErr) {
+            console.error("Error parsing stream chunk:", jsonErr);
+          }
+        }
+      }
+
     } catch (err: any) {
       console.error("GEMI Scan Error:", err);
-      toast.error(`Σφάλμα κατά τη σάρωση: ${err.message || "Άγνωστο σφάλμα"}`, { id: "gemi-scan" });
+      toast.error(`Σφάλμα κατά τη σάρωση: ${err.message || "Άγνωστο σφάλμα"}`);
+      setScanLogs(prev => [
+        ...prev,
+        {
+          id: "catch-error",
+          time: new Date().toLocaleTimeString("el-GR"),
+          type: "error",
+          message: `❌ Σφάλμα δικτύου/διακομιστή: ${err.message || "Άγνωστο σφάλμα"}`
+        }
+      ]);
     } finally {
       setIsScanningGemi(false);
     }
@@ -2148,6 +2309,279 @@ function safeEncodeBase64(data: any): string {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Live GEMI IKE Scanner Modal */}
+      {isScanModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-3 sm:p-6">
+          <div className="bg-slate-950 text-slate-100 rounded-3xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col border border-slate-800 overflow-hidden animate-scale-up">
+            
+            {/* Modal Header */}
+            <div className="bg-slate-900/90 px-6 py-4 border-b border-slate-800 flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
+                  {isScanningGemi ? (
+                    <Loader2 size={20} className="animate-spin text-white" />
+                  ) : (
+                    <Sparkles size={20} className="text-yellow-300" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-black text-white text-base tracking-wide uppercase flex items-center gap-2">
+                    ⚡ Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Νεων Ι.Κ.Ε.
+                    {isScanningGemi && (
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 animate-pulse">
+                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
+                        Live Scrape
+                      </span>
+                    )}
+                  </h3>
+                  <p className="text-xs text-slate-400 font-mono">
+                    Έλεγχος επιχειρήσεων σε πραγματικό χρόνο από 31/08/2026 & Σεπτέμβριο 2026
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  if (isScanningGemi) {
+                    if (window.confirm("Η σάρωση εκτελείται. Είστε σίγουροι ότι θέλετε να κλείσετε το παράθυρο;")) {
+                      setIsScanModalOpen(false);
+                    }
+                  } else {
+                    setIsScanModalOpen(false);
+                  }
+                }}
+                className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800/80 transition-all cursor-pointer"
+                title="Κλείσιμο"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Live KPI Badges Strip */}
+            <div className="bg-slate-900/50 p-4 border-b border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-center">
+              {/* Examined */}
+              <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-2xl">
+                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Εξεταστηκαν</p>
+                <p className="text-lg font-black text-white mt-0.5">{scanStats.totalExamined}</p>
+              </div>
+
+              {/* Added */}
+              <div className="bg-emerald-950/40 border border-emerald-800/60 p-2.5 rounded-2xl">
+                <p className="text-[9px] font-black uppercase tracking-wider text-emerald-400">🟢 Προσθεθηκαν (Νεα)</p>
+                <p className="text-lg font-black text-emerald-300 mt-0.5">{scanStats.added}</p>
+              </div>
+
+              {/* Duplicates */}
+              <div className="bg-amber-950/40 border border-amber-800/60 p-2.5 rounded-2xl">
+                <p className="text-[9px] font-black uppercase tracking-wider text-amber-400">🟡 Διπλοτυπα (Βαση)</p>
+                <p className="text-lg font-black text-amber-300 mt-0.5">{scanStats.totalDuplicates}</p>
+              </div>
+
+              {/* Has Website */}
+              <div className="bg-blue-950/40 border border-blue-800/60 p-2.5 rounded-2xl">
+                <p className="text-[9px] font-black uppercase tracking-wider text-blue-400">🔵 Εχουν Site</p>
+                <p className="text-lg font-black text-blue-300 mt-0.5">{scanStats.totalHasWebsite}</p>
+              </div>
+
+              {/* No Email */}
+              <div className="bg-slate-800/50 border border-slate-700/60 p-2.5 rounded-2xl">
+                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">⚪ Χωρις Email</p>
+                <p className="text-lg font-black text-slate-300 mt-0.5">{scanStats.totalNoEmail}</p>
+              </div>
+
+              {/* Old Date */}
+              <div className="bg-purple-950/40 border border-purple-800/60 p-2.5 rounded-2xl">
+                <p className="text-[9px] font-black uppercase tracking-wider text-purple-400">⏳ Παλια Ημ/νια</p>
+                <p className="text-lg font-black text-purple-300 mt-0.5">{scanStats.totalOldDate}</p>
+              </div>
+            </div>
+
+            {/* Live Terminal Log Stream */}
+            <div className="p-4 flex-1 flex flex-col min-h-0 bg-slate-950">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+                  <Terminal size={14} className="text-indigo-400" />
+                  <span>Real-time Scanner Log:</span>
+                </div>
+                <div className="text-[11px] font-mono text-indigo-400 truncate max-w-md">
+                  {scanStatusMessage}
+                </div>
+              </div>
+
+              <div 
+                ref={scanTerminalRef}
+                className="flex-1 min-h-[280px] max-h-[380px] bg-black/90 rounded-2xl p-4 overflow-y-auto font-mono text-xs border border-slate-800/80 space-y-2 shadow-inner"
+              >
+                {scanLogs.map((log) => {
+                  if (log.type === "init" || log.type === "info" || log.type === "page") {
+                    return (
+                      <div key={log.id} className="text-cyan-400/90 text-[11px] flex items-start gap-2 py-0.5">
+                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                        <span>{log.message}</span>
+                      </div>
+                    );
+                  }
+
+                  if (log.type === "warning") {
+                    return (
+                      <div key={log.id} className="text-amber-400/90 text-[11px] flex items-start gap-2 py-0.5">
+                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                        <span>{log.message}</span>
+                      </div>
+                    );
+                  }
+
+                  if (log.type === "error") {
+                    return (
+                      <div key={log.id} className="text-rose-400 text-[11px] flex items-start gap-2 py-1 bg-rose-950/30 px-2 rounded border border-rose-900/50">
+                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                        <span>{log.message}</span>
+                      </div>
+                    );
+                  }
+
+                  if (log.type === "done") {
+                    return (
+                      <div key={log.id} className="mt-3 p-3 rounded-xl bg-emerald-950/60 border border-emerald-700/80 text-emerald-300 text-xs flex items-center gap-2.5 font-bold shadow-lg shadow-emerald-950/50">
+                        <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
+                        <div>{log.message}</div>
+                      </div>
+                    );
+                  }
+
+                  // Log items per company
+                  if (log.category === "added") {
+                    return (
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-1 px-2 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-emerald-200">
+                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-black text-[9px] uppercase tracking-wider shrink-0 border border-emerald-500/30">
+                          🟢 ΠΡΟΣΘΗΚΗ
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="font-bold text-white">{log.company}</span>
+                          {log.email && <span className="text-emerald-400 ml-1.5 font-semibold">({log.email})</span>}
+                          {log.afm && <span className="text-slate-400 ml-1.5 text-[10px]">ΑΦΜ: {log.afm}</span>}
+                          <p className="text-emerald-400/80 text-[10px] mt-0.5">{log.reason}</p>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (log.category === "duplicate") {
+                    return (
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-amber-950/10 border border-amber-900/20 text-amber-200/80">
+                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
+                          🟡 ΔΙΠΛΟΤΥΠΟ
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-slate-300 font-medium">{log.company}</span>
+                          {log.email && <span className="text-slate-400 ml-1">({log.email})</span>}
+                          <p className="text-slate-500 text-[10px]">{log.reason}</p>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (log.category === "has_website") {
+                    return (
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-blue-950/10 border border-blue-900/20 text-blue-200/70">
+                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
+                          🔵 ΕΧΕΙ SITE
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-slate-400">{log.company}</span>
+                          {log.url && <span className="text-blue-400/80 ml-1">({log.url})</span>}
+                          <p className="text-slate-500 text-[10px]">{log.reason}</p>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (log.category === "no_email") {
+                    return (
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-slate-900/30 text-slate-400">
+                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
+                          ⚪ ΧΩΡΙΣ EMAIL
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-slate-400">{log.company}</span>
+                          <span className="text-slate-500 ml-1 text-[10px]">— {log.reason}</span>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (log.category === "old_date") {
+                    return (
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-purple-950/10 text-purple-300/60">
+                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-purple-900/40 text-purple-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
+                          ⏳ ΠΑΛΙΑ
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-slate-400">{log.company}</span>
+                          {log.date && <span className="text-purple-400/70 ml-1">({log.date})</span>}
+                          <span className="text-slate-500 ml-1 text-[10px]">— {log.reason}</span>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                })}
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-slate-900 px-6 py-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="text-xs text-slate-400 flex items-center gap-2">
+                {isScanningGemi ? (
+                  <>
+                    <Loader2 size={14} className="animate-spin text-indigo-400" />
+                    <span>Η σάρωση βρίσκεται σε εξέλιξη...</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 size={14} className="text-emerald-400" />
+                    <span>Η διαδικασία ολοκληρώθηκε.</span>
+                  </>
+                )}
+              </div>
+
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                <button
+                  onClick={() => setIsScanModalOpen(false)}
+                  className="px-4 py-2 text-xs font-black uppercase tracking-wider text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition-all cursor-pointer"
+                >
+                  {isScanningGemi ? "Ακυρωση" : "Κλεισιμο"}
+                </button>
+
+                {!isScanningGemi && scanStats.added > 0 && (
+                  <button
+                    onClick={() => {
+                      setIsScanModalOpen(false);
+                      setCampaignSubject(templates[0].subject);
+                      setCampaignBody(templates[0].body);
+                      setButtonText(templates[0].defaultButtonText || "");
+                      setButtonLink(templates[0].defaultButtonLink || "");
+                      setIsCampaignModalOpen(true);
+                    }}
+                    className="px-5 py-2 text-xs font-black uppercase tracking-wider text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-xl shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    <Send size={12} />
+                    Μαζικη Αποστολη στα {scanStats.added} Νεα Leads
+                  </button>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
       )}
