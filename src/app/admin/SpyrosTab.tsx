@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { 
-  ShieldCheck, CreditCard, Landmark, AlertCircle, 
+  ShieldCheck, Landmark, AlertCircle, 
   Zap, CheckCircle2, Sliders, Calendar, 
-  Sparkles, Check, Home, Target
+  Sparkles, Check, Home, Target, TrendingDown,
+  Info, Smartphone, ArrowDownRight
 } from "lucide-react";
 
 export function SpyrosTab() {
@@ -30,7 +31,7 @@ export function SpyrosTab() {
     });
   };
 
-  // Base Data from Tiresias Report (27/08/2026)
+  // Base Data from Tiresias Report (27/08/2026) & Live Bank Data (01/09/2026)
   const currentScore = 326;
   const maxScore = 600;
   const defaultProb = 65.0;
@@ -42,10 +43,11 @@ export function SpyrosTab() {
     initialAmount: 4000.0,
     currentBalance: 2526.0,
     regularBalance: 2430.83,
-    overdueBalance: 95.17,
+    overdueBalance: 95.17, // Πληρώνεται 1η αντί 26
     monthlyInstallment: 94.95,
+    dueDate: "26 κάθε μήνα (πληρωμή 1η)",
     lastUpdate: "31/07/2026",
-    status: "overdue",
+    status: "due_shift", // 5 days interval
     maxOverdue12M: 2,
   };
 
@@ -62,15 +64,19 @@ export function SpyrosTab() {
     maxOverdue12M: 1,
   };
 
-  // Credit Cards
+  // Credit Cards (Live updated with actual app screenshot on 01/09/2026)
   const nbgCard = {
-    title: "Mastercard (Εθνική Τράπεζα)",
-    accountNo: "0000050905152477",
+    title: "Mastercard Classic (Εθνική Τράπεζα)",
+    accountNo: "5278 9075 5152 4705",
     limit: 900.0,
-    currentBalance: 905.17,
+    tiresiasBalance: 905.17,
+    currentBalance: 680.54, // LIVE APP DATA!
+    lastStatementBalance: 667.93,
+    minPayment: 15.00,
+    paymentDueDate: "18/09/2026",
     overdueBalance: 0.0,
-    utilization: (905.17 / 900.0) * 100,
-    lastUpdate: "31/07/2026",
+    utilization: (680.54 / 900.0) * 100, // 75.61%
+    lastUpdate: "01/09/2026 (Live NBG App)",
     maxOverdue12M: 10,
   };
 
@@ -85,13 +91,12 @@ export function SpyrosTab() {
     maxOverdue12M: 1,
   };
 
-  // Aggregates
-  const totalLoanBalance = eurobankLoan.currentBalance + tbiLoan.currentBalance;
-  const totalCardBalance = nbgCard.currentBalance + eurobankCard.currentBalance;
-  const totalDebt = totalLoanBalance + totalCardBalance;
-  const totalCreditLimit = nbgCard.limit + eurobankCard.limit;
-  const overallCardUtilization = (totalCardBalance / totalCreditLimit) * 100;
-  const totalOverdue = eurobankLoan.overdueBalance;
+  // Aggregates (Live)
+  const totalLoanBalance = eurobankLoan.currentBalance + tbiLoan.currentBalance; // 3810.14
+  const totalCardBalance = nbgCard.currentBalance + eurobankCard.currentBalance; // 2667.98
+  const totalDebt = totalLoanBalance + totalCardBalance; // 6478.12
+  const totalCreditLimit = nbgCard.limit + eurobankCard.limit; // 2900
+  const overallCardUtilization = (totalCardBalance / totalCreditLimit) * 100; // 91.99%
 
   // Simulated Score Calculation based on extra payment
   const simulatedStats = (() => {
@@ -106,11 +111,13 @@ export function SpyrosTab() {
     remainingExtra -= euroCardPaid;
 
     let scoreBoost = 0;
+    // Clearing the 5-day Eurobank shift
     if (euroOverduePaid >= 95.17) scoreBoost += 55;
+    // NBG is already at 75.6% (680€) -> extra drop brings huge boost
     if (nbgCardPaid > 50) scoreBoost += 35;
-    if (nbgCardPaid > 450) scoreBoost += 30;
-    if (euroCardPaid > 500) scoreBoost += 40;
-    if (euroCardPaid > 980) scoreBoost += 35;
+    if (nbgCardPaid > 230) scoreBoost += 30; // NBG below 50% (450€)
+    if (euroCardPaid > 500) scoreBoost += 40; // Eurobank below 75%
+    if (euroCardPaid > 980) scoreBoost += 35; // Eurobank below 50%
 
     const projectedScore = Math.min(maxScore, currentScore + scoreBoost);
     const projectedRisk = Math.max(8, defaultProb - (scoreBoost * 0.45));
@@ -145,17 +152,17 @@ export function SpyrosTab() {
               </span>
             </h1>
             <p className="text-xs text-slate-400 font-medium max-w-2xl leading-relaxed">
-              Αναλυτική απεικόνιση πιστοληπτικού προφίλ βάσει της επίσημης έκθεσης <strong>Τειρεσία (27/08/2026)</strong>. 
-              Οδηγός βήμα-προς-βήμα για την αύξηση της βαθμολογίας (Behavior Score) από <strong>326</strong> σε <strong>520+</strong>.
+              Live συνδυασμός της έκθεσης <strong>Τειρεσία (27/08/2026)</strong> και των πραγματικών στοιχείων πληρωμών. 
+              Η κάρτα της Εθνικής έχει ήδη μειωθεί στα <strong>680,54 € (75,6%)</strong>!
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="bg-slate-900/90 border border-slate-800 px-4 py-3 rounded-2xl flex items-center gap-3 shadow-inner">
-              <Calendar size={18} className="text-indigo-400" />
+              <Smartphone size={18} className="text-emerald-400" />
               <div>
-                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Ημ/νια Εκθεσης</p>
-                <p className="text-xs font-bold text-white font-mono">27/08/2026</p>
+                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Live Ενημέρωση App</p>
+                <p className="text-xs font-bold text-emerald-400 font-mono">01/09/2026 (Live)</p>
               </div>
             </div>
             <div className="bg-emerald-950/40 border border-emerald-800/60 px-4 py-3 rounded-2xl flex items-center gap-3 shadow-inner">
@@ -186,8 +193,8 @@ export function SpyrosTab() {
 
           <div className="my-5 space-y-2">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-rose-500 font-mono">326 (Τρέχον)</span>
-              <span className="text-slate-400 font-mono">380 (Fair)</span>
+              <span className="text-rose-500 font-mono">326 (Βάση 27/8)</span>
+              <span className="text-amber-500 font-mono">~390 (Μετά 1/9)</span>
               <span className="text-emerald-600 font-mono">520+ (Στόχος)</span>
             </div>
             <div className="h-4 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200 flex">
@@ -202,13 +209,13 @@ export function SpyrosTab() {
             </div>
           </div>
 
-          <div className="bg-amber-50 rounded-2xl p-3.5 border border-amber-200/60 text-xs text-amber-900 space-y-1">
+          <div className="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200/60 text-xs text-emerald-950 space-y-1">
             <div className="flex items-center justify-between font-bold">
-              <span>Πιθανότητα Αθέτησης (Default Risk):</span>
-              <span className="font-mono text-rose-600 font-black text-sm">{defaultProb}%</span>
+              <span>Πραγματική Κατάσταση:</span>
+              <span className="font-mono text-emerald-700 font-black text-sm">Τακτοποιημένη 1/9</span>
             </div>
-            <p className="text-[11px] text-amber-800/90 leading-tight">
-              💡 Μετά τον μηδενισμό της καθυστέρησης των 95€ και την ελάφρυνση των καρτών, το σκορ μετακινείται αυτόματα στην πράσινη ζώνη (520+).
+            <p className="text-[11px] text-emerald-800/90 leading-tight">
+              ✓ Η δόση Eurobank πληρώθηκε 1/9 και η Εθνική έπεσε στα 680€ (-225€). Στην επόμενη ανανέωση του Τειρεσία το σκορ θα ανέβει αυτόματα!
             </p>
           </div>
         </div>
@@ -217,7 +224,7 @@ export function SpyrosTab() {
         <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Συνολικες Οφειλες</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Συνολικες Οφειλες (Live)</p>
               <h3 className="text-lg font-black text-gray-900 tracking-tight mt-0.5">Υπολοιπο Χρεων</h3>
             </div>
             <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-blue-500/10 text-blue-600 border border-blue-500/20">
@@ -226,9 +233,14 @@ export function SpyrosTab() {
           </div>
 
           <div className="my-3">
-            <p className="text-3xl font-black text-gray-900 tracking-tight">
-              {totalDebt.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €
-            </p>
+            <div className="flex items-baseline gap-2">
+              <p className="text-3xl font-black text-gray-900 tracking-tight">
+                {totalDebt.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €
+              </p>
+              <span className="text-xs font-bold text-emerald-600 flex items-center">
+                <TrendingDown size={14} className="mr-0.5" /> -225 €
+              </span>
+            </div>
             <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
               <div className="bg-slate-50 p-2.5 rounded-xl border border-gray-100">
                 <span className="text-[10px] text-slate-500 font-bold uppercase block">Δανεια (2)</span>
@@ -238,7 +250,7 @@ export function SpyrosTab() {
               </div>
               <div className="bg-slate-50 p-2.5 rounded-xl border border-gray-100">
                 <span className="text-[10px] text-slate-500 font-bold uppercase block">Καρτες (2)</span>
-                <span className="font-black text-gray-800 text-sm font-mono">
+                <span className="font-black text-emerald-700 text-sm font-mono">
                   {totalCardBalance.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €
                 </span>
               </div>
@@ -255,11 +267,11 @@ export function SpyrosTab() {
         <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Χρηση Πιστωτικων Οριων</p>
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Χρηση Πιστωτικων Οριων (Live)</p>
               <h3 className="text-lg font-black text-gray-900 tracking-tight mt-0.5">Card Utilization</h3>
             </div>
-            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-rose-500/10 text-rose-600 border border-rose-500/20">
-              {overallCardUtilization.toFixed(1)}% (Κορεσμός)
+            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-amber-500/10 text-amber-700 border border-amber-500/20">
+              {overallCardUtilization.toFixed(1)}% (Βελτίωση)
             </span>
           </div>
 
@@ -270,21 +282,21 @@ export function SpyrosTab() {
             </div>
             <div className="h-3 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200">
               <div 
-                className="h-full rounded-full bg-rose-500"
+                className="h-full rounded-full bg-amber-500"
                 style={{ width: `${Math.min(100, overallCardUtilization)}%` }}
               />
             </div>
             <p className="text-[11px] text-slate-500">
-              🎯 <strong>Ιδανικός Στόχος Τειρεσία:</strong> Χρήση κάτω από <strong>30%</strong> (δηλαδή σύνολο καρτών κάτω από 870€).
+              🎯 <strong>Στόχος:</strong> Ρίξιμο της κάρτας Eurobank από 1.987€ σε 1.000€ για να πέσει η συνολική χρήση κάτω από 55%!
             </p>
           </div>
 
-          <div className="bg-rose-50 border border-rose-200 rounded-2xl p-2.5 flex items-center justify-between text-xs">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-2.5 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
-              <AlertCircle size={16} className="text-rose-600 shrink-0" />
-              <span className="font-bold text-rose-900">Τρέχουσα Καθυστέρηση:</span>
+              <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+              <span className="font-bold text-emerald-950">Κατάσταση Δόσεων:</span>
             </div>
-            <span className="font-mono font-black text-rose-700">{totalOverdue.toFixed(2)} € (1 δόση)</span>
+            <span className="font-mono font-black text-emerald-700">Εξοφλούνται την 1η κάθε μήνα</span>
           </div>
         </div>
 
@@ -295,7 +307,7 @@ export function SpyrosTab() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-black text-gray-900 tracking-tight uppercase flex items-center gap-2">
             <Landmark className="text-[#3b5bdb]" size={20} />
-            Αναλυτικη Κατασταση Ενεργων Χορηγησεων (Τειρεσιας)
+            Αναλυτικη Κατασταση Ενεργων Χορηγησεων
           </h2>
           <span className="text-xs font-bold text-slate-500">4 Ενεργά Προϊόντα</span>
         </div>
@@ -304,11 +316,11 @@ export function SpyrosTab() {
           
           {/* 1. EUROBANK LOAN */}
           <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-2 h-full bg-rose-500" />
+            <div className="absolute top-0 right-0 w-2 h-full bg-amber-500" />
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-100">
-                  ⚠️ Καθυστερηση 1 Δοσης
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                  🗓️ Πληρωμή 1η αντί 26 (Τυπική Καθυστέρηση 5 Ημερών)
                 </span>
                 <h3 className="font-black text-base text-gray-900 mt-1.5">{eurobankLoan.title}</h3>
                 <p className="text-xs text-slate-400 font-mono">Κωδ. {eurobankLoan.accountNo}</p>
@@ -331,18 +343,19 @@ export function SpyrosTab() {
                 <span className="font-bold text-gray-800 font-mono">{eurobankLoan.monthlyInstallment} €</span>
               </div>
               <div>
-                <span className="text-[9px] text-rose-500 font-bold uppercase block">Σε Καθυστέρηση</span>
-                <span className="font-black text-rose-600 font-mono">{eurobankLoan.overdueBalance} €</span>
+                <span className="text-[9px] text-amber-600 font-bold uppercase block">Λήξη Δόσης</span>
+                <span className="font-bold text-gray-800 font-mono">26 του μήνα</span>
               </div>
             </div>
 
-            <div className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-3 text-xs text-rose-950 space-y-1">
-              <p className="font-bold flex items-center gap-1.5">
-                <Zap size={14} className="text-rose-600" />
-                ΑΜΕΣΗ ΕΝΕΡΓΕΙΑ #1 (Κορυφαία Προτεραιότητα):
+            <div className="bg-blue-50/80 border border-blue-200/80 rounded-2xl p-3 text-xs text-blue-950 space-y-1.5">
+              <p className="font-bold flex items-center gap-1.5 text-blue-900">
+                <Info size={14} className="text-[#3b5bdb]" />
+                💡 Pro-Tip για τον Τειρεσία:
               </p>
-              <p className="text-[11px] text-rose-900/90 leading-relaxed">
-                Πληρώστε τα <strong>95,17 €</strong> άμεσα. Με αυτό το ποσό, ο δείκτης καθυστέρησης μηδενίζει αμέσως στην επόμενη ανανέωση του Τειρεσία και δίνει άμεσα +50 πόντους στο Behavior Score!
+              <p className="text-[11px] text-blue-900/90 leading-relaxed">
+                Επειδή η δόση λήγει στις 26 και εσείς την πληρώνετε την 1η, ο Τειρεσίας στις 27 του μήνα βλέπει «καθυστέρηση 1 ημέρας». 
+                <strong>Λύση:</strong> Μπορείτε με ένα αίτημα στο e-banking ή τηλεφωνικά στη Eurobank να μεταφέρετε την ημερομηνία χρέωσης της δόσης στην <strong>1η ή 2η του μήνα</strong>, ώστε να μην καταγράφεται ποτέ καμία ημέρα καθυστέρησης!
               </p>
             </div>
           </div>
@@ -392,47 +405,56 @@ export function SpyrosTab() {
             </div>
           </div>
 
-          {/* 3. NBG MASTERCARD */}
-          <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-2 h-full bg-amber-500" />
+          {/* 3. NBG MASTERCARD (LIVE DATA FROM APP SCREENSHOT) */}
+          <div className="bg-white rounded-3xl p-6 border border-emerald-200 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-2 h-full bg-emerald-500" />
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-100">
-                  💳 Εξαντλημενο Οριο (100.5%)
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 flex items-center gap-1">
+                  <CheckCircle2 size={11} className="text-emerald-600" />
+                  Live App: Έπεσε στο 75,6% (680,54 €)
                 </span>
                 <h3 className="font-black text-base text-gray-900 mt-1.5">{nbgCard.title}</h3>
-                <p className="text-xs text-slate-400 font-mono">Κωδ. {nbgCard.accountNo}</p>
+                <p className="text-xs text-slate-400 font-mono">Κάρτα: {nbgCard.accountNo}</p>
               </div>
               <div className="text-right">
-                <span className="text-[10px] text-slate-400 font-bold uppercase block">Υπόλοιπο</span>
-                <span className="text-xl font-black text-gray-900 font-mono">
+                <span className="text-[10px] text-slate-400 font-bold uppercase block">Τρέχουσα Οφειλή</span>
+                <span className="text-xl font-black text-emerald-700 font-mono">
                   {nbgCard.currentBalance.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €
                 </span>
+                <span className="text-[10px] text-emerald-600 font-bold block">-224,63 € από Τειρεσία</span>
               </div>
             </div>
 
             <div className="my-3 space-y-1.5">
               <div className="flex justify-between text-xs font-bold text-gray-700">
                 <span>Υπόλοιπο: {nbgCard.currentBalance}€</span>
-                <span className="text-slate-400">Όριο: {nbgCard.limit}€</span>
+                <span className="text-slate-400">Όριο: {nbgCard.limit}€ (75,6%)</span>
               </div>
               <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200">
-                <div className="h-full rounded-full bg-amber-500" style={{ width: "100%" }} />
+                <div className="h-full rounded-full bg-emerald-500" style={{ width: "75.6%" }} />
               </div>
             </div>
 
-            <div className="bg-slate-50 border border-gray-150 rounded-2xl p-3 text-xs space-y-1.5">
+            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-2xl border border-gray-150 text-xs mb-3">
+              <div>
+                <span className="text-[9px] text-slate-400 font-bold uppercase block">Ελάχιστη Καταβολή</span>
+                <span className="font-bold text-gray-800 font-mono">{nbgCard.minPayment.toFixed(2)} €</span>
+              </div>
+              <div>
+                <span className="text-[9px] text-slate-400 font-bold uppercase block">Ημ/νία Λήξης</span>
+                <span className="font-bold text-indigo-600 font-mono">{nbgCard.paymentDueDate}</span>
+              </div>
+            </div>
+
+            <div className="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-xs space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-slate-600">Στόχος 1 (Κάτω από όριο):</span>
-                <span className="font-bold text-gray-900 font-mono">850 € (Καταβολή ~60€)</span>
+                <span className="text-emerald-900 font-medium">🎯 Επόμενος Στόχος 50% (Sweet Spot):</span>
+                <span className="font-black text-emerald-800 font-mono">450 € (Απομένουν ~230€)</span>
               </div>
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-slate-600">Στόχος 2 (50% Όριο - Sweet Spot):</span>
-                <span className="font-bold text-emerald-600 font-mono">450 € (Καταβολή ~455€)</span>
-              </div>
-              <div className="flex justify-between items-center text-[11px]">
-                <span className="text-slate-600">Στόχος 3 (30% Όριο - Optimal):</span>
-                <span className="font-bold text-emerald-700 font-mono">270 € (Καταβολή ~635€)</span>
+                <span className="text-emerald-900 font-medium">🎯 Τελικός Στόχος 30% (Optimal):</span>
+                <span className="font-bold text-emerald-950 font-mono">270 € (Απομένουν ~410€)</span>
               </div>
             </div>
           </div>
@@ -532,20 +554,20 @@ export function SpyrosTab() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
           
           <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Προτεραιοτητα 1 (Καθυστερηση)</span>
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Προτεραιοτητα 1 (Eurobank 26 ➔ 1)</span>
             <p className="text-sm font-bold text-emerald-400 font-mono">
-              {simulatedStats.euroOverduePaid >= 95.17 ? "✓ Εξοφλείται πλήρως (95,17€)" : `Καταβολή ${simulatedStats.euroOverduePaid.toFixed(2)}€`}
+              ✓ Τακτοποιημένη την 1η του μήνα
             </p>
             <p className="text-[11px] text-slate-400">Μηδενίζει τον Δείκτη Καθυστέρησης στο δάνειο Eurobank.</p>
           </div>
 
           <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-1">
             <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Προτεραιοτητα 2 (Καρτα Εθνικης)</span>
-            <p className="text-sm font-bold text-indigo-400 font-mono">
-              -{simulatedStats.nbgCardPaid.toFixed(0)}€ (Υπόλοιπο: {(nbgCard.currentBalance - simulatedStats.nbgCardPaid).toFixed(0)}€)
+            <p className="text-sm font-bold text-emerald-300 font-mono">
+              680€ ➔ {(Math.max(270, nbgCard.currentBalance - extraPayment)).toFixed(0)}€
             </p>
             <p className="text-[11px] text-slate-400">
-              Utilization: {(((nbgCard.currentBalance - simulatedStats.nbgCardPaid) / nbgCard.limit) * 100).toFixed(0)}%
+              Utilization: {(((Math.max(270, nbgCard.currentBalance - extraPayment)) / nbgCard.limit) * 100).toFixed(0)}% (Στόχος &lt;50%)
             </p>
           </div>
 
@@ -580,17 +602,18 @@ export function SpyrosTab() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           
           {/* Milestone 1 */}
-          <div className="bg-slate-50 p-5 rounded-2xl border border-gray-200/80 space-y-2 relative">
-            <span className="text-[10px] font-black uppercase tracking-widest text-[#3b5bdb] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
-              ΦΑΣΗ 1 • ΣΕΠ 2026
+          <div className="bg-emerald-50/60 p-5 rounded-2xl border border-emerald-200 space-y-2 relative">
+            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200">
+              ΦΑΣΗ 1 • ΣΕΠ 2026 (ΣΕ ΕΞΕΛΙΞΗ)
             </span>
-            <h4 className="font-black text-sm text-gray-900 pt-1">Μηδενισμός Καθυστέρησης</h4>
+            <h4 className="font-black text-sm text-gray-900 pt-1">Εθνική κάτω από 700€ & Eurobank</h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              • Καταβολή <strong>95,17 €</strong> στο δάνειο Eurobank.<br/>
-              • Καταβολή <strong>60 €</strong> στην κάρτα Εθνικής για να πέσει κάτω από το όριο (845€).
+              • Η Εθνική είναι ήδη στα <strong>680,54 €</strong> (75,6%).<br/>
+              • Πληρωμή δόσης Eurobank 94,95€ την 1η του μήνα.<br/>
+              • Αίτημα μεταφοράς χρέωσης Eurobank στην 1η.
             </p>
             <div className="text-[11px] font-bold text-emerald-700 font-mono pt-1">
-              📈 Αναμενόμενο Score: 380 - 410
+              📈 Αναμενόμενο Score: 390 - 420
             </div>
           </div>
 
@@ -675,11 +698,11 @@ export function SpyrosTab() {
                   {checkedMonthlyTasks["euro_loan_sept"] && <Check size={14} />}
                 </div>
                 <div>
-                  <p className="text-xs font-bold">Δόση Προσωπικού Δανείου Eurobank + Καθυστέρηση</p>
-                  <p className="text-[10px] text-slate-500">Ποσό: 94,95€ + 95,17€ καθυστέρηση = 190,12€</p>
+                  <p className="text-xs font-bold">Δόση Προσωπικού Δανείου Eurobank</p>
+                  <p className="text-[10px] text-slate-500">Πληρωμή την 1η κάθε μήνα</p>
                 </div>
               </div>
-              <span className="font-mono font-black text-xs">190,12 €</span>
+              <span className="font-mono font-black text-xs">94,95 €</span>
             </div>
 
             {/* Task 2 */}
@@ -721,11 +744,11 @@ export function SpyrosTab() {
                   {checkedMonthlyTasks["nbg_card_sept"] && <Check size={14} />}
                 </div>
                 <div>
-                  <p className="text-xs font-bold">Καταβολή Mastercard Εθνικής (Στόχος &lt; 850€)</p>
-                  <p className="text-[10px] text-slate-500">Ελάχιστη + επιπλέον για μείωση κάτω από το όριο</p>
+                  <p className="text-xs font-bold">Mastercard Εθνικής (Λήξη 18/09/2026)</p>
+                  <p className="text-[10px] text-slate-500">Ελάχιστη: 15,00€ | Προτεινόμενο: 50€-100€</p>
                 </div>
               </div>
-              <span className="font-mono font-black text-xs">~80,00 €</span>
+              <span className="font-mono font-black text-xs">~50 - 100 €</span>
             </div>
 
             {/* Task 4 */}
