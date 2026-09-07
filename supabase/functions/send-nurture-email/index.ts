@@ -159,6 +159,21 @@ serve(async (req) => {
             throw new Error("Missing email address");
         }
 
+        const cleanEmail = email.toLowerCase().trim();
+
+        // Hardcoded Global Blacklist Suppression
+        const GLOBAL_BLACKLIST = ["jdcike@jdc.gr", "spam@spam.com"];
+        const GLOBAL_BLACKLIST_DOMAINS = ["jdc.gr"];
+
+        const domain = cleanEmail.split("@")[1] || "";
+        if (GLOBAL_BLACKLIST.includes(cleanEmail) || GLOBAL_BLACKLIST_DOMAINS.includes(domain)) {
+            console.warn(`⛔ [send-nurture-email] BLOCKED: ${cleanEmail} is in global blacklist.`);
+            return new Response(JSON.stringify({ success: false, message: "Blocked: Email is in global blacklist" }), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+                status: 403,
+            });
+        }
+
         const resendKey = Deno.env.get("RESEND_API_KEY") || "";
         const resend = new Resend(resendKey);
 
@@ -171,14 +186,14 @@ serve(async (req) => {
         const { data: existingLead } = await supabase
             .from("sgk_mails")
             .select("id, unsubscribed, marketing_consent")
-            .eq("email", email)
+            .eq("email", cleanEmail)
             .maybeSingle();
 
         if (existingLead && (existingLead.unsubscribed || existingLead.marketing_consent === false)) {
-            console.log(`Email sending blocked for unsubscribed user: ${email}`);
+            console.log(`Email sending blocked for unsubscribed user: ${cleanEmail}`);
             return new Response(JSON.stringify({ success: false, message: "Blocked: Lead has unsubscribed" }), {
                 headers: { ...corsHeaders, "Content-Type": "application/json" },
-                status: 200,
+                status: 403,
             });
         }
 
@@ -188,7 +203,7 @@ serve(async (req) => {
 
         const resendResult = await resend.emails.send({
             from: "SGK Digital <info@sgk.gr>",
-            to: email,
+            to: cleanEmail,
             subject: customSubject,
             html: customHtml,
             reply_to: "info@sgk.gr"
@@ -207,9 +222,8 @@ serve(async (req) => {
                 first_email_subject: firstEmailSubject || customSubject,
                 first_email_body: firstEmailBody || customHtml,
                 converted: false,
-                unsubscribed: false
             })
-            .eq("email", email);
+            .eq("email", cleanEmail);
 
         return new Response(JSON.stringify({ success: true, message: "Email sent successfully" }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },

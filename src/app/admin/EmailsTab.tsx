@@ -9,6 +9,7 @@ import {
   Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
+import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
 
 const templates = [
   {
@@ -767,6 +768,28 @@ function safeEncodeBase64(data: any): string {
     }
   };
 
+  const handleBlacklistEmail = async (id: string, email: string) => {
+    if (!window.confirm(`⚠️ Θέλετε να προσθέσετε το email «${email}» στη Μόνιμη Μαύρη Λίστα (Blacklist);\n\nΔεν θα σταλεί ΠΟΤΕ ξανά email σε αυτόν τον παραλήπτη.`)) {
+      return;
+    }
+
+    const { error } = await supabase
+      .from("sgk_mails")
+      .update({ 
+        unsubscribed: true,
+        marketing_consent: false
+      })
+      .eq("id", id);
+
+    if (error) {
+      toast.error(`Σφάλμα κατά τον αποκλεισμό: ${error.message}`);
+    } else {
+      toast.success(`⛔ Το email «${email}» μπήκε στη Μόνιμη Μαύρη Λίστα και αποκλείστηκε 100%!`);
+      setSelectedLeads(prev => prev.filter(item => item !== id));
+      fetchLeads();
+    }
+  };
+
   const handleDeleteSelectedLeads = async () => {
     if (selectedLeads.length === 0) return;
     
@@ -859,6 +882,12 @@ function safeEncodeBase64(data: any): string {
         toast.error("Μη έγκυρο format email παραλήπτη");
         return;
       }
+
+      if (isEmailBlacklisted(email)) {
+        toast.error(`⛔ ΑΠΟΚΛΕΙΣΜΕΝΟ: Το email «${email}» βρίσκεται στη Μόνιμη Μαύρη Λίστα (Blacklist)!`);
+        return;
+      }
+
       targets = [{
         id: singleLeadTarget.id || null,
         email: email,
@@ -867,15 +896,15 @@ function safeEncodeBase64(data: any): string {
         unsubscribe_token: singleLeadTarget.unsubscribe_token || crypto.randomUUID()
       }];
     } else {
-      const uncontactedFiltered = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0);
+      const uncontactedFiltered = filteredLeads.filter(l => !l.unsubscribed && !l.converted && !isEmailBlacklisted(l.email) && (l.email_sequence_step || 0) === 0);
       const rawTargets = selectedLeads.length > 0 
         ? filteredLeads.filter(l => selectedLeads.includes(l.id)) 
         : uncontactedFiltered;
 
-      targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false);
+      targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false && !isEmailBlacklisted(l.email));
 
       if (rawTargets.length > targets.length) {
-        toast.info(`Εξαιρέθηκαν ${rawTargets.length - targets.length} παραλήπτες που έχουν κάνει απεγγραφή.`);
+        toast.info(`Εξαιρέθηκαν ${rawTargets.length - targets.length} παραλήπτες (απεγγραφές / μαύρη λίστα).`);
       }
     }
 
@@ -1264,8 +1293,8 @@ function safeEncodeBase64(data: any): string {
     });
   }, [leads, searchTerm, statusFilter]);
 
-  const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && (l.email_sequence_step || 0) === 0 && !l.last_email_sent_at);
-  const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed);
+  const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && !isEmailBlacklisted(l.email) && (l.email_sequence_step || 0) === 0 && !l.last_email_sent_at);
+  const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !isEmailBlacklisted(l.email));
   const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0) && !l.last_email_sent_at).length;
@@ -1933,142 +1962,168 @@ function safeEncodeBase64(data: any): string {
                     </td>
                   </tr>
                 ) : (
-                  filteredLeads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="py-3 px-4 text-center">
-                      {!lead.unsubscribed ? (
-                        <input 
-                          type="checkbox" 
-                          checked={selectedLeads.includes(lead.id)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedLeads(prev => [...prev, lead.id]);
-                            } else {
-                              setSelectedLeads(prev => prev.filter(id => id !== lead.id));
-                            }
-                          }}
-                          className="rounded border-gray-300 text-[#3b5bdb] focus:ring-[#3b5bdb] h-4 w-4 cursor-pointer"
-                        />
-                      ) : (
-                        <input 
-                          type="checkbox" 
-                          disabled 
-                          className="rounded border-gray-200 bg-gray-50 h-4 w-4 cursor-not-allowed opacity-50"
-                        />
-                      )}
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="font-bold text-gray-900">{lead.email}</div>
-                      {lead.company && (
-                        <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-1 mt-0.5">
-                          <Building2 size={11} className="text-slate-400 shrink-0" />
-                          <span>{lead.company}</span>
-                        </div>
-                      )}
-                      {(lead.first_name || lead.last_name) && (
-                        <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
-                          {lead.first_name || ""} {lead.last_name || ""}
-                        </div>
-                      )}
-                      <div className="flex flex-wrap items-center gap-2 mt-1">
-                        {lead.phone && (
-                          <a 
-                            href={`tel:${lead.phone}`}
-                            className="inline-flex items-center gap-1 text-[11px] font-bold text-[#3b5bdb] hover:underline bg-blue-50/80 px-2 py-0.5 rounded-md border border-blue-100"
-                            title="Κλήση στο τηλέφωνο"
-                          >
-                            <Phone size={10} />
-                            {lead.phone}
-                          </a>
-                        )}
-                        {lead.afm && (
-                          <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
-                            ΑΦΜ: {lead.afm}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 text-slate-500 font-mono text-xs">
-                      <div>{new Date(lead.created_at).toLocaleDateString("el-GR")}</div>
-                      {lead.last_email_sent_at && (
-                        <div className="text-[10px] text-blue-600 font-bold mt-1 flex items-center gap-1" title="Ημερομηνία & ώρα τελευταίας αποστολής">
-                          <Mail size={10} className="shrink-0" />
-                          <span>{new Date(lead.last_email_sent_at).toLocaleDateString("el-GR", { day: "2-digit", month: "2-digit" })} {new Date(lead.last_email_sent_at).toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}</span>
-                        </div>
-                      )}
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      {lead.unsubscribed ? (
-                        <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-red-100 text-red-700 border border-red-200">
-                          🔴 Unsubscribed
-                        </span>
-                      ) : lead.converted ? (
-                        <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">
-                          🎉 Πελάτης
-                        </span>
-                      ) : ((lead.email_sequence_step || 0) > 0 || lead.last_email_sent_at) ? (
-                        <div className="inline-flex flex-col items-center">
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-100 text-blue-800 border border-blue-200 shadow-sm">
-                            <Check size={11} className="text-blue-600 stroke-[3]" />
-                            Εστάλη Email
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200">
-                          ⚪ Εκκρεμεί
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        <button
-                          onClick={() => handleToggleConverted(lead.id, lead.converted || false, lead.email)}
-                          className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer border ${
-                            lead.converted
-                              ? "bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-700 shadow-sm"
-                              : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300"
-                          }`}
-                          title={lead.converted ? "Σημειώθηκε ως Πελάτης (Πατήστε για επαναφορά σε Lead)" : "Σημειώστε ως Πελάτη για να διακοπούν τα αυτόματα AI emails"}
-                        >
-                          <CheckCircle2 size={12} />
-                          {lead.converted ? "Πελάτης 🎉" : "Έγινε Πελάτης"}
-                        </button>
-                        {!lead.unsubscribed && (
-                          <button
-                            onClick={() => {
-                              setSingleLeadTarget(lead);
-                              setCampaignSubject(templates[0].subject);
-                              setCampaignBody(templates[0].body);
-                              setButtonText(templates[0].defaultButtonText || "");
-                              setButtonLink(templates[0].defaultButtonLink || "");
-                              setIsCampaignModalOpen(true);
-                            }}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3b5bdb]/10 text-[#3b5bdb] hover:bg-[#3b5bdb] hover:text-white rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                            title="Αποστολή Προσαρμοσμένου Email"
-                          >
-                            <Mail size={12} />
-                            Email
-                          </button>
-                        )}
-                        <button
-                          onClick={() => handleOpenEditLead(lead)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 text-blue-700 hover:bg-[#3b5bdb] hover:text-white border border-blue-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
-                          title="Επεξεργασία στοιχείων πελάτη (Όνομα, Email, Τηλέφωνο, Εταιρεία, ΑΦΜ)"
-                        >
-                          <Edit3 size={12} />
-                          Επεξεργασια
-                        </button>
-                        <button
-                          onClick={() => handleDeleteLead(lead.id, lead.email)}
-                          className="inline-flex items-center justify-center p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-all cursor-pointer border border-transparent hover:border-rose-100"
-                          title="Διαγραφή"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )))}
+                  filteredLeads.map((lead) => {
+                    const isBlacklisted = isEmailBlacklisted(lead.email) || lead.unsubscribed || lead.marketing_consent === false;
+                    return (
+                      <tr key={lead.id} className={`transition-colors ${isBlacklisted ? 'bg-rose-50/20 opacity-90' : 'hover:bg-slate-50/50'}`}>
+                        <td className="py-3 px-4 text-center">
+                          {!isBlacklisted ? (
+                            <input 
+                              type="checkbox" 
+                              checked={selectedLeads.includes(lead.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedLeads(prev => [...prev, lead.id]);
+                                } else {
+                                  setSelectedLeads(prev => prev.filter(id => id !== lead.id));
+                                }
+                              }}
+                              className="rounded border-gray-300 text-[#3b5bdb] focus:ring-[#3b5bdb] h-4 w-4 cursor-pointer"
+                            />
+                          ) : (
+                            <input 
+                              type="checkbox" 
+                              disabled 
+                              title="Αποκλεισμένο (Blacklist / Unsubscribed)"
+                              className="rounded border-gray-200 bg-gray-100 h-4 w-4 cursor-not-allowed opacity-40"
+                            />
+                          )}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="font-bold text-gray-900 flex items-center gap-1.5">
+                            <span>{lead.email}</span>
+                            {isEmailBlacklisted(lead.email) && (
+                              <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase bg-slate-900 text-rose-400 border border-rose-500/40">
+                                Blacklist
+                              </span>
+                            )}
+                          </div>
+                          {lead.company && (
+                            <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-1 mt-0.5">
+                              <Building2 size={11} className="text-slate-400 shrink-0" />
+                              <span>{lead.company}</span>
+                            </div>
+                          )}
+                          {(lead.first_name || lead.last_name) && (
+                            <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
+                              {lead.first_name || ""} {lead.last_name || ""}
+                            </div>
+                          )}
+                          <div className="flex flex-wrap items-center gap-2 mt-1">
+                            {lead.phone && (
+                              <a 
+                                href={`tel:${lead.phone}`}
+                                className="inline-flex items-center gap-1 text-[11px] font-bold text-[#3b5bdb] hover:underline bg-blue-50/80 px-2 py-0.5 rounded-md border border-blue-100"
+                                title="Κλήση στο τηλέφωνο"
+                              >
+                                <Phone size={10} />
+                                {lead.phone}
+                              </a>
+                            )}
+                            {lead.afm && (
+                              <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                                ΑΦΜ: {lead.afm}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 text-slate-500 font-mono text-xs">
+                          <div>{new Date(lead.created_at).toLocaleDateString("el-GR")}</div>
+                          {lead.last_email_sent_at && (
+                            <div className="text-[10px] text-blue-600 font-bold mt-1 flex items-center gap-1" title="Ημερομηνία & ώρα τελευταίας αποστολής">
+                              <Mail size={10} className="shrink-0" />
+                              <span>{new Date(lead.last_email_sent_at).toLocaleDateString("el-GR", { day: "2-digit", month: "2-digit" })} {new Date(lead.last_email_sent_at).toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}</span>
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          {isEmailBlacklisted(lead.email) ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-slate-900 text-rose-400 border border-rose-500/40 shadow-sm" title="Μόνιμα Αποκλεισμένο Email (Blacklist)">
+                              <Ban size={10} /> ⛔ Blacklist
+                            </span>
+                          ) : lead.unsubscribed ? (
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-red-100 text-red-700 border border-red-200">
+                              🔴 Unsubscribed
+                            </span>
+                          ) : lead.converted ? (
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">
+                              🎉 Πελάτης
+                            </span>
+                          ) : ((lead.email_sequence_step || 0) > 0 || lead.last_email_sent_at) ? (
+                            <div className="inline-flex flex-col items-center">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-100 text-blue-800 border border-blue-200 shadow-sm">
+                                <Check size={11} className="text-blue-600 stroke-[3]" />
+                                Εστάλη Email
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200">
+                              ⚪ Εκκρεμεί
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          <div className="flex items-center justify-center gap-2">
+                            <button
+                              onClick={() => handleToggleConverted(lead.id, lead.converted || false, lead.email)}
+                              className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer border ${
+                                lead.converted
+                                  ? "bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-700 shadow-sm"
+                                  : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300"
+                              }`}
+                              title={lead.converted ? "Σημειώθηκε ως Πελάτης (Πατήστε για επαναφορά σε Lead)" : "Σημειώστε ως Πελάτη για να διακοπούν τα αυτόματα AI emails"}
+                            >
+                              <CheckCircle2 size={12} />
+                              {lead.converted ? "Πελάτης 🎉" : "Έγινε Πελάτης"}
+                            </button>
+                            {!isBlacklisted && (
+                              <button
+                                onClick={() => {
+                                  setSingleLeadTarget(lead);
+                                  setCampaignSubject(templates[0].subject);
+                                  setCampaignBody(templates[0].body);
+                                  setButtonText(templates[0].defaultButtonText || "");
+                                  setButtonLink(templates[0].defaultButtonLink || "");
+                                  setIsCampaignModalOpen(true);
+                                }}
+                                className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#3b5bdb]/10 text-[#3b5bdb] hover:bg-[#3b5bdb] hover:text-white rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                                title="Αποστολή Προσαρμοσμένου Email"
+                              >
+                                <Mail size={12} />
+                                Email
+                              </button>
+                            )}
+                            {!isBlacklisted && (
+                              <button
+                                onClick={() => handleBlacklistEmail(lead.id, lead.email)}
+                                className="inline-flex items-center gap-1 px-2 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white border border-rose-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                                title="Προσθήκη στη Μόνιμη Μαύρη Λίστα (Blacklist)"
+                              >
+                                <Ban size={11} />
+                                Blacklist
+                              </button>
+                            )}
+                            <button
+                              onClick={() => handleOpenEditLead(lead)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 text-blue-700 hover:bg-[#3b5bdb] hover:text-white border border-blue-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                              title="Επεξεργασία στοιχείων πελάτη (Όνομα, Email, Τηλέφωνο, Εταιρεία, ΑΦΜ)"
+                            >
+                              <Edit3 size={12} />
+                              Επεξεργασια
+                            </button>
+                            <button
+                              onClick={() => handleDeleteLead(lead.id, lead.email)}
+                              className="inline-flex items-center justify-center p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-all cursor-pointer border border-transparent hover:border-rose-100"
+                              title="Διαγραφή"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { isEmailBlacklisted } from "@/lib/blacklist";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -211,6 +212,20 @@ export async function POST(req: NextRequest) {
                   company: companyTitle,
                   afm,
                   reason: `Δεν έχει δηλώσει email στο ΓΕΜΗ (παραλείφθηκε)`,
+                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
+                });
+                continue;
+              }
+
+              // Filter: Check Global Blacklist
+              if (isEmailBlacklisted(email)) {
+                emit({
+                  type: "log",
+                  category: "blacklisted",
+                  company: companyTitle,
+                  email,
+                  afm,
+                  reason: `⛔ ΜΑΥΡΗ ΛΙΣΤΑ: Το email (${email}) βρίσκεται στη μόνιμη μαύρη λίστα αποκλεισμού (απορρίφθηκε)`,
                   stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
                 });
                 continue;

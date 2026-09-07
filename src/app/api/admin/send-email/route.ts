@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { isEmailBlacklisted } from "@/lib/blacklist";
 
 export async function POST(req: Request) {
   try {
@@ -23,6 +24,38 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
+    const cleanEmail = email.toLowerCase().trim();
+
+    // 1. HARD BLOCK: Check Global In-Code Blacklist
+    if (isEmailBlacklisted(cleanEmail)) {
+      console.warn(`[send-email API] BLOCKED: ${cleanEmail} is in global suppression blacklist.`);
+      return NextResponse.json({
+        success: false,
+        error: `BLOCKED: The email ${cleanEmail} is permanently blacklisted.`,
+        blacklisted: true,
+      }, { status: 403 });
+    }
+
+    // 2. HARD BLOCK: Check Supabase DB for Unsubscribed / Blacklisted status
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { persistSession: false },
+    });
+
+    const { data: dbLead } = await supabase
+      .from("sgk_mails")
+      .select("id, email, unsubscribed, marketing_consent")
+      .eq("email", cleanEmail)
+      .maybeSingle();
+
+    if (dbLead && (dbLead.unsubscribed === true || dbLead.marketing_consent === false)) {
+      console.warn(`[send-email API] BLOCKED: ${cleanEmail} has unsubscribed or opted out.`);
+      return NextResponse.json({
+        success: false,
+        error: `BLOCKED: The recipient ${cleanEmail} has unsubscribed.`,
+        blacklisted: true,
+      }, { status: 403 });
+    }
+
     let edgeFnSuccess = false;
     let edgeFnError = "";
 
@@ -35,7 +68,7 @@ export async function POST(req: Request) {
           "Authorization": `Bearer ${supabaseServiceKey}`,
         },
         body: JSON.stringify({
-          email,
+          email: cleanEmail,
           unsubscribe_token,
           customSubject,
           customHtml,
@@ -57,11 +90,6 @@ export async function POST(req: Request) {
       edgeFnError = e.message;
     }
 
-    // Direct Supabase Client DB update to record last_email_sent_at and first_email details
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: { persistSession: false },
-    });
-
     const now = new Date().toISOString();
     const updatePayload: any = {
       last_email_sent_at: now,
@@ -76,7 +104,7 @@ export async function POST(req: Request) {
     if (leadId) {
       await supabase.from("sgk_mails").update(updatePayload).eq("id", leadId);
     } else {
-      await supabase.from("sgk_mails").update(updatePayload).eq("email", email.toLowerCase().trim());
+      await supabase.from("sgk_mails").update(updatePayload).eq("email", cleanEmail);
     }
 
     if (!edgeFnSuccess && edgeFnError) {
@@ -88,7 +116,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      email,
+      email: cleanEmail,
       sentAt: now,
     });
   } catch (err: any) {
