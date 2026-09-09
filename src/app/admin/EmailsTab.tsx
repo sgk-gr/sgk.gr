@@ -333,6 +333,7 @@ export function EmailsTab() {
     added: 0,
     totalDuplicates: 0,
     totalHasWebsite: 0,
+    totalCustomDomain: 0,
     totalNoEmail: 0,
     totalOldDate: 0,
   });
@@ -1104,6 +1105,7 @@ function safeEncodeBase64(data: any): string {
       added: 0,
       totalDuplicates: 0,
       totalHasWebsite: 0,
+      totalCustomDomain: 0,
       totalNoEmail: 0,
       totalOldDate: 0,
     });
@@ -1199,6 +1201,7 @@ function safeEncodeBase64(data: any): string {
                   totalExamined: event.totalExamined || prev.totalExamined,
                   totalDuplicates: event.totalDuplicates || prev.totalDuplicates,
                   totalHasWebsite: event.totalHasWebsite || prev.totalHasWebsite,
+                  totalCustomDomain: event.totalCustomDomain || prev.totalCustomDomain,
                   totalNoEmail: event.totalNoEmail || prev.totalNoEmail,
                   totalOldDate: event.totalOldDate || prev.totalOldDate,
                 }));
@@ -2425,7 +2428,7 @@ function safeEncodeBase64(data: any): string {
             </div>
 
             {/* Live KPI Badges Strip */}
-            <div className="bg-slate-900/50 p-4 border-b border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-center">
+            <div className="bg-slate-900/50 p-3.5 border-b border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center">
               {/* Examined */}
               <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-2xl">
                 <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Εξεταστηκαν</p>
@@ -2434,13 +2437,19 @@ function safeEncodeBase64(data: any): string {
 
               {/* Added */}
               <div className="bg-emerald-950/40 border border-emerald-800/60 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-emerald-400">🟢 Προσθεθηκαν (Νεα)</p>
+                <p className="text-[9px] font-black uppercase tracking-wider text-emerald-400">🟢 Προσθεθηκαν</p>
                 <p className="text-lg font-black text-emerald-300 mt-0.5">{scanStats.added}</p>
+              </div>
+
+              {/* Custom Domain Skipped */}
+              <div className="bg-indigo-950/40 border border-indigo-800/60 p-2.5 rounded-2xl" title="Εταιρείες με δικό τους domain email (@domain.gr)">
+                <p className="text-[9px] font-black uppercase tracking-wider text-indigo-400">🏢 Εταιρικο Domain</p>
+                <p className="text-lg font-black text-indigo-300 mt-0.5">{scanStats.totalCustomDomain || 0}</p>
               </div>
 
               {/* Duplicates */}
               <div className="bg-amber-950/40 border border-amber-800/60 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-amber-400">🟡 Διπλοτυπα (Βαση)</p>
+                <p className="text-[9px] font-black uppercase tracking-wider text-amber-400">🟡 Διπλοτυπα</p>
                 <p className="text-lg font-black text-amber-300 mt-0.5">{scanStats.totalDuplicates}</p>
               </div>
 
@@ -2529,6 +2538,38 @@ function safeEncodeBase64(data: any): string {
                           {log.email && <span className="text-emerald-400 ml-1.5 font-semibold">({log.email})</span>}
                           {log.afm && <span className="text-slate-400 ml-1.5 text-[10px]">ΑΦΜ: {log.afm}</span>}
                           <p className="text-emerald-400/80 text-[10px] mt-0.5">{log.reason}</p>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (log.category === "custom_domain") {
+                    return (
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-indigo-950/15 border border-indigo-900/30 text-indigo-200/80">
+                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
+                          🏢 ΕΤΑΙΡΙΚΟ DOMAIN
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-slate-300 font-medium">{log.company}</span>
+                          {log.email && <span className="text-indigo-300 ml-1 font-mono">({log.email})</span>}
+                          <p className="text-slate-500 text-[10px]">{log.reason}</p>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (log.category === "blacklisted") {
+                    return (
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-rose-950/20 border border-rose-900/40 text-rose-300/80">
+                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
+                          ⛔ BLACKLIST
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-slate-300 font-medium">{log.company}</span>
+                          {log.email && <span className="text-rose-400 ml-1 font-mono">({log.email})</span>}
+                          <p className="text-rose-400/70 text-[10px]">{log.reason}</p>
                         </div>
                       </div>
                     );

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { isEmailBlacklisted } from "@/lib/blacklist";
+import { isEmailBlacklisted, isCustomDomainEmail } from "@/lib/blacklist";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -113,6 +113,7 @@ export async function POST(req: NextRequest) {
           let totalExamined = 0;
           let totalDuplicates = 0;
           let totalHasWebsite = 0;
+          let totalCustomDomain = 0;
           let totalNoEmail = 0;
           let totalOldDate = 0;
           let offset = 0;
@@ -177,7 +178,7 @@ export async function POST(req: NextRequest) {
                   afm,
                   date: incDate,
                   reason: `Σύσταση (${incDate}) πριν τις ${minDate} (παραλείφθηκε)`,
-                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
+                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
                 continue;
               }
@@ -198,7 +199,7 @@ export async function POST(req: NextRequest) {
                   afm,
                   url: urlClean,
                   reason: `Έχει ήδη επίσημη ιστοσελίδα (${urlClean}) (παραλείφθηκε)`,
-                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
+                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
                 continue;
               }
@@ -212,7 +213,7 @@ export async function POST(req: NextRequest) {
                   company: companyTitle,
                   afm,
                   reason: `Δεν έχει δηλώσει email στο ΓΕΜΗ (παραλείφθηκε)`,
-                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
+                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
                 continue;
               }
@@ -226,7 +227,22 @@ export async function POST(req: NextRequest) {
                   email,
                   afm,
                   reason: `⛔ ΜΑΥΡΗ ΛΙΣΤΑ: Το email (${email}) βρίσκεται στη μόνιμη μαύρη λίστα αποκλεισμού (απορρίφθηκε)`,
-                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
+                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
+                });
+                continue;
+              }
+
+              // Filter: Check Custom Corporate Domain (e.g. @domain.gr, @company.com)
+              if (isCustomDomainEmail(email)) {
+                totalCustomDomain++;
+                emit({
+                  type: "log",
+                  category: "custom_domain",
+                  company: companyTitle,
+                  email,
+                  afm,
+                  reason: `🏢 Εταιρικό Domain (${email}): Η επιχείρηση διαθέτει ήδη δικό της εταιρικό domain/email (παραλείφθηκε)`,
+                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
                 continue;
               }
@@ -241,7 +257,7 @@ export async function POST(req: NextRequest) {
                   email,
                   afm,
                   reason: `Το email (${email}) υπάρχει ήδη στη βάση δεδομένων (παραλείφθηκε)`,
-                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
+                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
                 continue;
               }
@@ -276,7 +292,7 @@ export async function POST(req: NextRequest) {
                 phone,
                 date: incDate,
                 reason: `🎉 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
-                stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate }
+                stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
 
               if (newLeadsToInsert.length >= maxResults) break;
@@ -330,6 +346,7 @@ export async function POST(req: NextRequest) {
             totalExamined,
             totalDuplicates,
             totalHasWebsite,
+            totalCustomDomain,
             totalNoEmail,
             totalOldDate,
             leads: newLeadsToInsert,
