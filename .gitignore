@@ -34,6 +34,9 @@ dist
 scratch/
 *.py
 *.txt
+!llms.txt
+!public/llms.txt
+!public/robots.txt
 *.mjs
 public/*_screenshot*.png
 

@@ -449,17 +449,17 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     id: "7",
     slug: "ti-einai-ai-agents-epicheiriseis",
-    title: "Τι είναι τα AI Agents και Πώς Μπορούν να Αλλάξουν την Επιχείρησή σας",
-    excerpt: "Πλήρης οδηγός για τα AI agents: τι είναι, πώς λειτουργούν, use cases για ελληνικές επιχειρήσεις. Από customer service μέχρι sales automation — όλα όσα χρειάζεστε να ξέρετε.",
-    date: "9 Μαΐου 2026",
+    title: "AI Agent: Τι είναι, Πώς Λειτουργεί και Πώς Αλλάζει τις Επιχειρήσεις στην Ελλάδα (2026)",
+    excerpt: "Πλήρης οδηγός για τα AI agents (πράκτορες τεχνητής νοημοσύνης): τι είναι, πώς διαφέρουν από τα απλά chatbots, use cases για ελληνικές επιχειρήσεις και κόστος υλοποίησης.",
+    date: "12 Σεπτεμβρίου 2026",
     author: "sgk.gr",
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
-    metaTitle: "Τι είναι τα AI Agents; Οδηγός για Επιχειρήσεις 2025 | SGK Blog",
-    metaDescription: "Τι είναι τα AI agents και πώς λειτουργούν; Use cases, κόστος, τεχνολογίες. Ο πλήρης οδηγός για ελληνικές επιχειρήσεις που θέλουν να αξιοποιήσουν το AI.",
+    metaTitle: "AI Agent: Τι είναι & Πώς λειτουργεί; Οδηγός για Επιχειρήσεις 2026 | SGK",
+    metaDescription: "AI agent τι είναι και πώς λειτουργεί; Ο απόλυτος οδηγός για ελληνικές επιχειρήσεις. Διαφορές AI agent vs chatbot, custom αυτοματισμοί, κόστη και πραγματικά παραδείγματα.",
     content: `
-      <h2>Τι είναι τα AI Agents; Ο Πλήρης Οδηγός για Επιχειρήσεις</h2>
-      <p>Τα <strong>AI agents</strong> είναι η επόμενη εξέλιξη στην τεχνητή νοημοσύνη — και αλλάζουν ριζικά τον τρόπο που λειτουργούν οι επιχειρήσεις. Αν έχετε ακούσει τον όρο αλλά δεν είστε σίγουροι τι σημαίνει ακριβώς, αυτό το άρθρο είναι για εσάς.</p>
+      <h2>AI Agent: Τι είναι και πώς λειτουργεί; Ο Πλήρης Οδηγός για Επιχειρήσεις</h2>
+      <p>Η αναζήτηση για <strong>«AI agent τι είναι»</strong> και <strong>«AI agency Ελλάδα»</strong> εκτοξεύεται, καθώς η παραγωγική τεχνητή νοημοσύνη περνάει από το στάδιο του απλού πειραματισμού στην ουσιαστική επιχειρησιακή δράση. Τα <strong>AI agents</strong> (ή πράκτορες τεχνητής νοημοσύνης) αποτελούν το μεγαλύτερο άλμα στην τεχνολογία από την εμφάνιση του cloud.</p>
 
       <h3>AI Agent vs Chatbot: Ποια η Διαφορά;</h3>
       <p>Ένα παραδοσιακό <strong>chatbot</strong> ακολουθεί προκαθορισμένα scripts. Ρωτάτε "Ποιες είναι οι τιμές;" και απαντά με ένα έτοιμο κείμενο.</p>
@@ -1232,6 +1232,104 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Η νέα πλατφόρμα <a href="https://www.hightravel.gr/" target="_blank" rel="noopener noreferrer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">hightravel.gr</a> προσφέρει μια μοναδική εμπειρία στους ταξιδιώτες, αυξάνοντας τις direct κρατήσεις και εκδηλώσεις ενδιαφέροντος, ενώ εξοικονομεί δεκάδες ώρες εβδομαδιαίως από τη διαχείριση των πακέτων.</p>
 
       <p><a href="/case-study/high-travel" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Δείτε το αναλυτικό Case Study της High Travel εδώ</a> ή <a href="/estimate" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">επικοινωνήστε μαζί μας για να χτίσουμε τη δική σας ταξιδιωτική πλατφόρμα!</a></p>
+    `
+  },
+  {
+    id: "ai-agency-greece-guide-2026",
+    slug: "ai-agency-ellada-ai-agents-aftomatismoi-epicheiriseon",
+    title: "AI Agency στην Ελλάδα: Ο Απόλυτος Οδηγός για AI Agents & Αυτοματισμούς Επιχειρήσεων (2026)",
+    excerpt: "Ψάχνετε την κορυφαία AI Agency στην Ελλάδα; Μάθετε τι είναι οι AI Agents (πράκτορες τεχνητής νοημοσύνης), πώς λειτουργούν οι custom αυτοματισμοί και πώς μειώνουν το κόστος λειτουργίας κατά 70%.",
+    date: "23 Σεπτεμβρίου 2026",
+    author: "sgk.gr",
+    category: "AI & Innovation",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
+    metaTitle: "AI Agency στην Ελλάδα 2026 | AI Agents & Custom Αυτοματισμοί | SGK",
+    metaDescription: "Η κορυφαία AI Agency στην Ελλάδα (SGK Digital). Πλήρης οδηγός για AI agents, αυτοματισμούς επιχειρήσεων, διασύνδεση με ERP και 24/7 customer service. Δείτε use cases & τιμές.",
+    content: `
+      <h2>Γιατί κάθε Ελληνική Επιχείρηση Χρειάζεται μια Εξειδικευμένη AI Agency το 2026</h2>
+      <p>Το επιχειρηματικό τοπίο στην Ελλάδα αλλάζει ραγδαία. Η αναζήτηση για <strong>«AI Agency Ελλάδα»</strong>, <strong>«AI agent τι είναι»</strong> και <strong>«custom αυτοματισμοί επιχειρήσεων»</strong> δεν είναι πλέον απλές τεχνολογικές περιέργειες, αλλά επιτακτική ανάγκη επιβίωσης και ανάπτυξης. Οι επιχειρήσεις που υιοθετούν αυτόνομους πράκτορες τεχνητής νοημοσύνης (AI Agents) εξοικονομούν έως και <strong>70% στα λειτουργικά κόστη</strong>, ανταποκρίνονται ακαριαία στους πελάτες τους και αυξάνουν τις πωλήσεις τους χωρίς να προσλαμβάνουν στρατιές προσωπικού για επαναλαμβανόμενες εργασίες.</p>
+
+      <h3>Τι είναι μια AI Agency και πώς διαφέρει από μια απλή διαφημιστική εταιρεία;</h3>
+      <p>Μια παραδοσιακή διαφημιστική εταιρεία (digital marketing agency) εστιάζει στην προβολή — Google Ads, Social Media, SEO. Αντίθετα, μια <strong>AI Agency</strong> (όπως η <strong>SGK Digital</strong> στην Αθήνα) είναι μια εταιρεία <em>βαθιάς τεχνολογίας και λογισμικού</em> που σχεδιάζει, αναπτύσσει και ενσωματώνει <strong>έξυπνα συστήματα αυτόνομης δράσης (Agentic AI)</strong> μέσα στον πυρήνα των εταιρικών διαδικασιών.</p>
+      
+      <p>Μια σύγχρονη AI Agency προσφέρει:</p>
+      <ul>
+        <li><strong>Ανάπτυξη Custom AI Agents:</strong> Αυτόνομοι ψηφιακοί υπάλληλοι που εκπαιδεύονται αποκλειστικά στα δεδομένα και τα προϊόντα της δικής σας επιχείρησης.</li>
+        <li><strong>Custom Επιχειρηματικοί Αυτοματισμοί (Process Automation):</strong> Σύνδεση ERP συστημάτων (Softone, Entersoft), e-shops (WooCommerce, Shopify), τραπεζών και courier (ACS, BoxNow) μέσω έξυπνων ροών εργασίας (n8n, LangGraph).</li>
+        <li><strong>24/7 Omnichannel Customer Service:</strong> Εξυπηρέτηση σε WhatsApp Business, Instagram DM, Facebook Messenger και Website Live Chat με άπταιστη κατανόηση ελληνικών.</li>
+        <li><strong>RAG (Retrieval-Augmented Generation) & Knowledge Base:</strong> Ενοποίηση εταιρικών αρχείων (PDFs, συμβόλαια, εγχειρίδια) σε ιδιωτικές vector databases με 100% GDPR συμμόρφωση.</li>
+      </ul>
+
+      <h3>AI Agent: Τι είναι και πώς λειτουργεί;</h3>
+      <p>Πολλοί επιχειρηματίες ρωτούν: <em>«AI agent τι είναι και σε τι διαφέρει από το παλιό chatbot;»</em></p>
+      <p>Η θεμελιώδης διαφορά είναι ότι το απλό chatbot έχει προκαθορισμένα κουμπιά και «τυφλά» σενάρια. Αν ο χρήστης ρωτήσει κάτι εκτός σεναρίου, το chatbot αποτυγχάνει. Αντίθετα, ένας <strong>AI Agent</strong>:</p>
+      <ol>
+        <li><strong>Κατανοεί το νόημα (Natural Language Understanding):</strong> Μπορεί να διαβάσει σύνθετα ερωτήματα, ορθογραφικά λάθη ή ακόμα και Greeklish.</li>
+        <li><strong>Σκέφτεται και σχεδιάζει (Reasoning & Planning):</strong> Αποφασίζει ποια ενέργεια πρέπει να κάνει για να ικανοποιήσει το αίτημα.</li>
+        <li><strong>Χρησιμοποιεί εργαλεία (Tool Calling):</strong> Συνδέεται live με τις εξωτερικές βάσεις — μπορεί να ελέγξει αν ένα προϊόν είναι διαθέσιμο στην αποθήκη, να εντοπίσει ένα δέμα στο site της ACS Courier, ή να εκδώσει παραγγελία.</li>
+        <li><strong>Δρα αυτόνομα:</strong> Δεν περιμένει ανθρώπινη έγκριση για τυποποιημένες εργασίες, αλλά αν χρειαστεί, μεταφέρει τη συνομιλία με πλήρες ιστορικό σε άνθρωπο.</li>
+      </ol>
+
+      <h3>Συγκριτικός Πίνακας: Παραδοσιακό Chatbot vs AI Agent της SGK Digital</h3>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+        <thead>
+          <tr style="background: #1e293b; color: #ffffff;">
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Χαρακτηριστικό</th>
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Κλασικό Chatbot</th>
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Αυτόνομος AI Agent (SGK)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ευφυΐα & Συλλογιστική</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Στατικά if/then δέντρα επιλογών</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">LLM Reasoning (GPT-4o, Claude 3.5, Gemini Pro)</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ελληνική Γλώσσα & Αργκό</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Συχνά αποτυγχάνει σε άγνωστες λέξεις</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Άριστη κατανόηση Ελληνικών & Greeklish</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Διασύνδεση με ERP / CRM / Courier</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Σχεδόν ανύπαρκτη</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">Real-time Two-Way API Integration</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Εκτέλεση Ενεργειών (Actions)</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Μόνο εμφάνιση προκαθορισμένου κειμένου</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Ακύρωση παραγγελίας, έκδοση voucher, κράτηση ραντεβού</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ποσοστό Αυτόνομης Επίλυσης</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">15% - 25%</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">65% - 85% των περιπτώσεων</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>5 Κορυφαίοι Custom Αυτοματισμοί για Ελληνικές Επιχειρήσεις</h3>
+      <p>Στην SGK Digital, υλοποιούμε custom αυτοματισμούς που δίνουν άμεση υπεραξία:</p>
+      <ul>
+        <li><strong>1. Αυτόματο Customer Support σε WhatsApp & Web:</strong> Ο AI Agent απαντά σε λιγότερο από 1 δευτερόλεπτο, εντοπίζει παραγγελίες, εξηγεί πολιτικές επιστροφών και προτείνει συμπληρωματικά προϊόντα (cross-sell).</li>
+        <li><strong>2. Συμφωνία Τιμολογίων & OCR Παραστατικών:</strong> Αυτόματη ανάγνωση PDF τιμολογίων προμηθευτών με AI, εξαγωγή ΑΦΜ, καθαρής αξίας και ΦΠΑ, και άμεση καταχώρηση στο ERP.</li>
+        <li><strong>3. Skroutz & E-shop Syncing (Case Study Sigmalabs):</strong> Αυτόματος έλεγχος τιμών ανταγωνισμού στο Skroutz, δυναμική αναπροσαρμογή τιμών και αυτόματη ειδοποίηση για ελλείψεις στο απόθεμα.</li>
+        <li><strong>4. Lead Qualification & Αυτόματο Κλείσιμο Ραντεβού:</strong> Ο AI πράκτορας συνομιλεί με υποψήφιους πελάτες, αξιολογεί το budget και τις ανάγκες τους, και δεσμεύει ώρα στο ημερολόγιο της εταιρείας.</li>
+        <li><strong>5. Αυτόματο Screening Βιογραφικών (Case Study Rekrua):</strong> Αξιολόγηση εκατοντάδων βιογραφικών μέσα σε δευτερόλεπτα με βαθμολόγηση συμβατότητας ανά θέση εργασίας.</li>
+      </ul>
+
+      <h3>Πόσο Κοστίζει η Υιοθέτηση AI Agents;</h3>
+      <p>Το κόστος εξαρτάται από τον βαθμό αυτονομίας και τις διασυνδέσεις που απαιτούνται:</p>
+      <ul>
+        <li><strong>Starter AI Agent (από 1.000€):</strong> Ιδανικό για επιχειρήσεις που θέλουν έξυπνο customer support widget εκπαιδευμένο στα προϊόντα και τις υπηρεσίες τους.</li>
+        <li><strong>Business AI Agent (από 2.500€):</strong> Πλήρης διασύνδεση με ERP/CRM/E-shop, omnichannel υποστήριξη (WhatsApp, Messenger), παρακολούθηση courier και analytics.</li>
+        <li><strong>Enterprise Multi-Agent Systems (από 8.000€):</strong> Σύνθετα οικοσυστήματα πρακτόρων, ιδιωτικά on-premise μοντέλα για απόλυτη προστασία απορρήτου και πλήρεις αυτοματισμοί ροών εργασίας.</li>
+      </ul>
+
+      <h3>Συμπέρασμα: Πώς να Ξεκινήσετε με την SGK Digital</h3>
+      <p>Η μετάβαση στην εποχή της τεχνητής νοημοσύνης δεν χρειάζεται να είναι περίπλοκη. Με 18+ χρόνια εμπειρίας στην ανάπτυξη enterprise λογισμικού, η <strong>SGK Digital</strong> σχεδιάζει λύσεις προσαρμοσμένες στις πραγματικές ανάγκες της δικής σας εταιρείας.</p>
+      
+      <p>Επισκεφθείτε την επίσημη σελίδα μας για <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">AI Agents & Επιχειρηματικούς Αυτοματισμούς</a> ή <a href="/estimate" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">ζητήστε ένα δωρεάν Custom AI Demo σήμερα</a>.</p>
     `
   }
 ];

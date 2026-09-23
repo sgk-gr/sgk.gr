@@ -9,6 +9,7 @@ import JoJoChatModal from "./JoJoChatModal";
 
 const navItems = [
   { label: "Υπηρεσίες", href: "/services", color: "bg-[#4ade80]" },
+  { label: "AI Agents", href: "/ai-agents", color: "bg-[#3b5bdb]" },
   { label: "Λύσεις", href: "/solutions", color: "bg-[#facc15]" },
   { label: "Πελάτες", href: "/portfolio", color: "bg-[#3b5bdb]" },
   { 

@@ -13,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/kataskevi-eshop-woocommerce`, priority: 0.90, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/kataskevi-istoselidon`, priority: 0.90, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/web-development`, priority: 0.85, changeFrequency: 'monthly' as const },
-    { url: `${baseUrl}/ai-agents`, priority: 0.85, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/ai-agents`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/portfolio`, priority: 0.85, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/services`, priority: 0.80, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/solutions`, priority: 0.80, changeFrequency: 'monthly' as const },
