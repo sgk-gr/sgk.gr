@@ -7,6 +7,7 @@
 export const GLOBAL_BLACKLIST_EMAILS: string[] = [
   "jdcike@jdc.gr",
   "spam@spam.com",
+  "varguropoulos@gmail.com",
 ];
 
 export const GLOBAL_BLACKLIST_DOMAINS: string[] = [
