@@ -39,20 +39,66 @@ const templates = [
   {
     name: "✈️ Τουρισμός: Πλατφόρμα & Κρατήσεις (High Travel Style)",
     subject: "Απευθείας Online Κρατήσεις για τη νέα σας τουριστική εταιρεία ✈️ (0% Προμήθειες)",
-    body: `<h2>Αποκτήστε Περισσότερες Άμεσες Κρατήσεις — Χωρίς Προμήθειες σε Τρίτους ✈️</h2>
-<p>Γεια σας,</p>
-<p>Συγχαρητήρια για την έναρξη της νέας σας εταιρείας και καλή αρχή στην τουριστική αγορά!</p>
-<p>Στην εποχή μας, ο ταξιδιώτης αποφασίζει και κλείνει τις διακοπές ή τις εκδρομές του <strong>από το κινητό του μέσα σε λίγα λεπτά</strong>. Αν η διαδικασία δεν είναι άμεση, εύκολη και αυτόματη, είτε η κράτηση χάνεται, είτε αναγκάζεστε να πληρώνετε υπέρογκες προμήθειες (15% έως 25%) σε μεσάζοντες και πλατφόρμες τρίτων.</p>
-<p>Στην <strong>SGK Digital</strong> βοηθάμε τουριστικά γραφεία και επιχειρήσεις να αποκτήσουν <strong>τη δική τους αυτόνομη μηχανή κρατήσεων</strong>. Χαρακτηριστικό παράδειγμα είναι η ολοκληρωμένη πλατφόρμα που δημιουργήσαμε για την <strong>High Travel</strong> (<a href="https://www.hightravel.gr/" target="_blank" style="color: #3b5bdb; font-weight: bold;">hightravel.gr</a>):</p>
-<p><strong>Τι κερδίζετε στην καθημερινή σας λειτουργία:</strong></p>
-<ul>
-  <li>⚡ <strong>Άμεσες Κρατήσεις από το Κινητό σε 3 Κλικ:</strong> Οι ταξιδιώτες βρίσκουν προορισμούς, διαθεσιμότητα και κλείνουν θέση αμέσως, χωρίς κολλήματα και χωρίς να φεύγουν από τη σελίδα σας.</li>
-  <li>🎯 <strong>Ανέβασμα Εκδρομής / Πακέτου σε 2 Λεπτά:</strong> Ένα περιβάλλον διαχείρισης τόσο απλό, που οποιοσδήποτε στην ομάδα σας ανεβάζει νέα ταξίδια, φωτογραφίες, τιμές και προσφορές χωρίς καμία τεχνική γνώση.</li>
-  <li>💳 <strong>Αυτόματες Πληρωμές & Επιβεβαιώσεις 24/7:</strong> Εισπράττετε απευθείας στον τραπεζικό σας λογαριασμό με κάρτα, και τα voucher/αποδείξεις αποστέλλονται αυτόματα στον πελάτη, ακόμα κι όταν το γραφείο είναι κλειστό.</li>
-  <li>💰 <strong>0% Προμήθειες — 100% Δικό σας:</strong> Κρατάτε όλο το κέρδος των πωλήσεών σας. Η πλατφόρμα είναι δική σας περιουσία, χωρίς κρυφές χρεώσεις ή δεσμεύσεις.</li>
-  <li>🏛️ <strong>100% Νομική Συμμόρφωση:</strong> Πλήρης κάλυψη των υποχρεωτικών στοιχείων δημοσιότητας Γ.Ε.ΜΗ. & ΜΗ.Τ.Ε.</li>
-</ul>
-<p>Για να συζητήσουμε άμεσα τις ανάγκες σας και να σας δώσουμε συγκεκριμένες προτάσεις και ιδέες για τη νέα σας εταιρεία, <strong>καλέστε μας απευθείας στα 211 114 0013 ή 6999 524 389</strong> (ή απαντήστε απλά σε αυτό το email)!</p>
+    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
+<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b192e; overflow: hidden;">
+  <a href="https://www.hightravel.gr/" target="_blank" style="display: block; text-decoration: none;">
+    <img 
+      src="https://sgk.gr/tourism-banner.jpg" 
+      alt="Τουριστική Πλατφόρμα & Σύστημα Κρατήσεων High Travel - SGK Digital" 
+      width="600" 
+      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
+    />
+  </a>
+</div>
+
+<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Απευθείας Online Κρατήσεις — Χωρίς Προμήθειες σε Τρίτους ✈️</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Γεια σας,</p>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Συγχαρητήρια για την έναρξη της νέας σας εταιρείας και καλή αρχή στην τουριστική αγορά!</p>
+
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">Στην εποχή μας, ο ταξιδιώτης αποφασίζει και κλείνει τις διακοπές ή τις εκδρομές του <strong>από το κινητό του μέσα σε λίγα λεπτά</strong>. Αν η διαδικασία δεν είναι άμεση και εύκολη, η κράτηση χάνεται ή αναγκάζεστε να πληρώνετε υπέρογκες προμήθειες (15% έως 25%) σε μεσάζοντες και πλατφόρμες τρίτων.</p>
+
+<!-- Live Case Study Card -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3b5bdb; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #0f172a;">
+    🌟 Πραγματικό Παράδειγμα: High Travel (<a href="https://www.hightravel.gr/" target="_blank" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">hightravel.gr</a>)
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
+    Σχεδιάσαμε και παραδώσαμε την αυτόνομη τουριστική πλατφόρμα της High Travel Ι.Κ.Ε., δίνοντάς τους τη δυνατότητα να δέχονται καθημερινά online κρατήσεις και πληρωμές με κάρτα <strong>απευθείας στον τραπεζικό τους λογαριασμό, με 0% προμήθειες</strong>.
+  </p>
+</div>
+
+<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Τι κερδίζετε στην καθημερινή λειτουργία της επιχείρησής σας:</p>
+
+<div style="margin: 0 0 16px 0; padding-left: 4px;">
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    ⚡ <strong>Άμεσες Κρατήσεις από το Κινητό σε 3 Κλικ:</strong> Οι ταξιδιώτες βρίσκουν προορισμούς, διαθεσιμότητα και κλείνουν θέση αμέσως χωρίς κολλήματα.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    🎯 <strong>Ανέβασμα Εκδρομής σε 2 Λεπτά:</strong> Πανεύκολο σύστημα διαχείρισης — οποιοσδήποτε στην ομάδα σας ανεβάζει νέα ταξίδια, φωτογραφίες, τιμές και προσφορές χωρίς καμία τεχνική γνώση.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    💳 <strong>Αυτόματες Εισπράξεις & Vouchers 24/7:</strong> Οι πληρωμές μπαίνουν απευθείας στην τράπεζά σας και τα voucher αποστέλλονται αυτόματα στον πελάτη, ακόμα κι όταν το γραφείο είναι κλειστό.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    💰 <strong>0% Προμήθειες — 100% Δικό σας:</strong> Κρατάτε όλο το κέρδος των πωλήσεών σας. Η πλατφόρμα ανήκει αποκλειστικά σε εσάς χωρίς μηνιαίες δεσμεύσεις ή ποσοστά ανά κράτηση.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    🏛️ <strong>100% Συμβατότητα ΓΕΜΗ & ΜΗ.Τ.Ε.:</strong> Αυτόματη ανάρτηση όλων των νόμιμων εταιρικών στοιχείων δημοσιότητας.
+  </p>
+</div>
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
+    📞 Θέλετε να συζητήσουμε άμεσα για τη νέα σας εταιρεία;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
+    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> (ή απαντήστε απλά σε αυτό το email).
+  </p>
+</div>
+
 <div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
   ℹ️ <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
