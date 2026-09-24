@@ -1150,13 +1150,24 @@ function safeEncodeBase64(data: any): string {
   };
 
   const handleScanGemiIkes = async () => {
-    const categoryLabel = 
-      scanCategory === "tourism" ? "✈️ Τουρισμός / Travel" :
-      scanCategory === "operations_tech" ? "⚡ Operations & Τεχνικές" : "🏢 Όλες οι Νέες ΙΚΕ";
+    const industryLabel = 
+      scanIndustry === "tourism" ? "✈️ Τουρισμός / Travel" :
+      scanIndustry === "operations_tech" ? "⚡ Operations & Τεχνικές" : "🌐 Όλοι οι Κλάδοι";
+
+    const legalLabel =
+      scanLegalForm === "ike" ? "🏢 Μόνο Ι.Κ.Ε." :
+      scanLegalForm === "ae" ? "🏛️ Μόνο Α.Ε." :
+      scanLegalForm === "oe_ee" ? "👥 Ο.Ε. & Ε.Ε." : "🌍 Όλες οι Μορφές";
+
+    const monthLabel =
+      scanMonth === "current" ? `📅 ${currentMonthName} ${now.getFullYear()}` :
+      scanMonth === "previous" ? `📅 ${prevMonthName} ${prevDate.getFullYear()}` : `📅 Όλο το ${now.getFullYear()}`;
+
+    const targetDesc = `${industryLabel} • ${legalLabel} • ${monthLabel}`;
 
     setIsScanModalOpen(true);
     setIsScanningGemi(true);
-    setScanStatusMessage(`⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. (Στόχευση: ${categoryLabel})...`);
+    setScanStatusMessage(`⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. (${targetDesc})...`);
     setScanStats({
       totalExamined: 0,
       added: 0,
@@ -1171,7 +1182,7 @@ function safeEncodeBase64(data: any): string {
         id: "init",
         time: new Date().toLocaleTimeString("el-GR"),
         type: "init",
-        message: `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API του Γ.Ε.ΜΗ. για [${categoryLabel}]...`
+        message: `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για [${targetDesc}]...`
       }
     ]);
 
