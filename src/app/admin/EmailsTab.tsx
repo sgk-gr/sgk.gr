@@ -13,7 +13,7 @@ import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS }
 
 const templates = [
   {
-    name: "🌐 Istoselida ike 124 ευρω",
+    name: "Istoselida ike 124 ευρω",
     subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Εταιρική ιστοσελίδα & δημοσιότητα ΓΕΜΗ σε 24 ώρες",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #f1f5f9; overflow: hidden;">
@@ -27,7 +27,7 @@ const templates = [
   </a>
 </div>
 
-<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Εταιρική Ιστοσελίδα Ι.Κ.Ε. & Πλήρης Δημοσιότητα ΓΕΜΗ σε 24 Ώρες 🌐</h2>
+<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Εταιρική Ιστοσελίδα Ι.Κ.Ε. & Πλήρης Δημοσιότητα ΓΕΜΗ σε 24 Ώρες</h2>
 
 <p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Γεια σας,</p>
 
@@ -38,7 +38,7 @@ const templates = [
 <!-- All-in-One Highlights Card -->
 <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
   <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #0f172a;">
-    🚀 Ολοκληρωμένη Λύση «Με το Κλειδί στο Χέρι» — Μόνο 124€
+    Ολοκληρωμένη Λύση «Με το Κλειδί στο Χέρι» — Μόνο 124€
   </p>
   <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
     Η ιστοσελίδα σας είναι <strong>live την επόμενη εργάσιμη ημέρα</strong>, πλήρως συμβατή με τις προδιαγραφές του ΓΕΜΗ, χωρίς να σπαταλήσετε χρόνο ή χρήμα σε περίπλοκες διαδικασίες.
@@ -49,19 +49,19 @@ const templates = [
 
 <div style="margin: 0 0 16px 0; padding-left: 4px;">
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    ⚡ <strong>Παράδοση σε 24 Ώρες:</strong> Η ιστοσελίδα σας θα είναι live και έτοιμη την επόμενη εργάσιμη ημέρα για άμεση δήλωση στο ΓΕΜΗ.
+    <strong>Παράδοση σε 24 Ώρες:</strong> Η ιστοσελίδα σας θα είναι live και έτοιμη την επόμενη εργάσιμη ημέρα για άμεση δήλωση στο ΓΕΜΗ.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🏛️ <strong>100% Συμβατότητα με Προδιαγραφές ΓΕΜΗ:</strong> Πλήρης ανάρτηση υποχρεωτικών στοιχείων (Αρ. ΓΕΜΗ, ΑΦΜ, Έδρα, Διαχειριστές, Κεφάλαιο) και ειδική ενότητα για δημοσίευση Ισολογισμών & Πρακτικών.
+    <strong>100% Συμβατότητα με Προδιαγραφές ΓΕΜΗ:</strong> Πλήρης ανάρτηση υποχρεωτικών στοιχείων (Αρ. ΓΕΜΗ, ΑΦΜ, Έδρα, Διαχειριστές, Κεφάλαιο) και ειδική ενότητα για δημοσίευση Ισολογισμών & Πρακτικών.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    ✉️ <strong>1 Εταιρικό Email (info@mydomain.gr):</strong> Επαγγελματική διεύθυνση με Webmail και εύκολη ρύθμιση σε κινητό και Outlook.
+    <strong>1 Εταιρικό Email (info@mydomain.gr):</strong> Επαγγελματική διεύθυνση με Webmail και εύκολη ρύθμιση σε κινητό και Outlook.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🌐 <strong>Όλα Πληρωμένα για το Πρώτο Έτος:</strong> Σχεδιασμός Logo + Domain Name (.gr για 2 έτη) + Ταχύτατο Hosting (1 έτος) + Πιστοποιητικό SSL + Πλήρης Συμμόρφωση GDPR.
+    <strong>Όλα Πληρωμένα για το Πρώτο Έτος:</strong> Σχεδιασμός Logo + Domain Name (.gr για 2 έτη) + Ταχύτατο Hosting (1 έτος) + Πιστοποιητικό SSL + Πλήρης Συμμόρφωση GDPR.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🧾 <strong>Τελικό Κόστος 124€ (με ΦΠΑ 24%):</strong> Καμία κρυφή χρέωση — εκδίδεται άμεσα κανονικό τιμολόγιο εξόδων για την εταιρεία σας.
+    <strong>Τελικό Κόστος 124€ (με ΦΠΑ 24%):</strong> Καμία κρυφή χρέωση — εκδίδεται άμεσα κανονικό τιμολόγιο εξόδων για την εταιρεία σας.
   </p>
 </div>
 
@@ -76,15 +76,15 @@ const templates = [
 </div>
 
 <div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  ℹ️ <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
+  <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
 </div>`,
     defaultButtonText: "Έναρξη Κατασκευής Online (124€)",
     defaultButtonLink: "https://sgk.gr/ike-offer"
   },
   {
-    name: "✈️ Τουρισμός: Πλατφόρμα & Κρατήσεις (High Travel Style)",
-    subject: "Απευθείας Online Κρατήσεις για τη νέα σας τουριστική εταιρεία ✈️ (0% Προμήθειες)",
+    name: "Τουρισμός: Πλατφόρμα & Κρατήσεις (High Travel Style)",
+    subject: "Απευθείας Online Κρατήσεις για τη νέα σας τουριστική εταιρεία (0% Προμήθειες)",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b192e; overflow: hidden;">
   <a href="https://www.hightravel.gr/" target="_blank" style="display: block; text-decoration: none;">
@@ -97,7 +97,7 @@ const templates = [
   </a>
 </div>
 
-<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Απευθείας Online Κρατήσεις — Χωρίς Προμήθειες σε Τρίτους ✈️</h2>
+<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Απευθείας Online Κρατήσεις — Χωρίς Προμήθειες σε Τρίτους</h2>
 
 <p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Γεια σας,</p>
 
@@ -108,7 +108,7 @@ const templates = [
 <!-- Live Case Study Card -->
 <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3b5bdb; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
   <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #0f172a;">
-    🌟 Πραγματικό Παράδειγμα: High Travel (<a href="https://www.hightravel.gr/" target="_blank" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">hightravel.gr</a>)
+    Πραγματικό Παράδειγμα: High Travel (<a href="https://www.hightravel.gr/" target="_blank" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">hightravel.gr</a>)
   </p>
   <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
     Σχεδιάσαμε και παραδώσαμε την αυτόνομη τουριστική πλατφόρμα της High Travel Ι.Κ.Ε., δίνοντάς τους τη δυνατότητα να δέχονται καθημερινά online κρατήσεις και πληρωμές με κάρτα <strong>απευθείας στον τραπεζικό τους λογαριασμό, με 0% προμήθειες</strong>.
@@ -119,19 +119,19 @@ const templates = [
 
 <div style="margin: 0 0 16px 0; padding-left: 4px;">
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    ⚡ <strong>Άμεσες Κρατήσεις από το Κινητό σε 3 Κλικ:</strong> Οι ταξιδιώτες βρίσκουν προορισμούς, διαθεσιμότητα και κλείνουν θέση αμέσως χωρίς κολλήματα.
+    <strong>Άμεσες Κρατήσεις από το Κινητό σε 3 Κλικ:</strong> Οι ταξιδιώτες βρίσκουν προορισμούς, διαθεσιμότητα και κλείνουν θέση αμέσως χωρίς κολλήματα.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🎯 <strong>Ανέβασμα Εκδρομής σε 2 Λεπτά:</strong> Πανεύκολο σύστημα διαχείρισης — οποιοσδήποτε στην ομάδα σας ανεβάζει νέα ταξίδια, φωτογραφίες, τιμές και προσφορές χωρίς καμία τεχνική γνώση.
+    <strong>Ανέβασμα Εκδρομής σε 2 Λεπτά:</strong> Πανεύκολο σύστημα διαχείρισης — οποιοσδήποτε στην ομάδα σας ανεβάζει νέα ταξίδια, φωτογραφίες, τιμές και προσφορές χωρίς καμία τεχνική γνώση.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    💳 <strong>Αυτόματες Εισπράξεις & Vouchers 24/7:</strong> Οι πληρωμές μπαίνουν απευθείας στην τράπεζά σας και τα voucher αποστέλλονται αυτόματα στον πελάτη, ακόμα κι όταν το γραφείο είναι κλειστό.
+    <strong>Αυτόματες Εισπράξεις & Vouchers 24/7:</strong> Οι πληρωμές μπαίνουν απευθείας στην τράπεζά σας και τα voucher αποστέλλονται αυτόματα στον πελάτη, ακόμα κι όταν το γραφείο είναι κλειστό.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    💰 <strong>0% Προμήθειες — 100% Δικό σας:</strong> Κρατάτε όλο το κέρδος των πωλήσεών σας. Η πλατφόρμα ανήκει αποκλειστικά σε εσάς χωρίς μηνιαίες δεσμεύσεις ή ποσοστά ανά κράτηση.
+    <strong>0% Προμήθειες — 100% Δικό σας:</strong> Κρατάτε όλο το κέρδος των πωλήσεών σας. Η πλατφόρμα ανήκει αποκλειστικά σε εσάς χωρίς μηνιαίες δεσμεύσεις ή ποσοστά ανά κράτηση.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🏛️ <strong>100% Συμβατότητα ΓΕΜΗ & ΜΗ.Τ.Ε.:</strong> Αυτόματη ανάρτηση όλων των νόμιμων εταιρικών στοιχείων δημοσιότητας.
+    <strong>100% Συμβατότητα ΓΕΜΗ & ΜΗ.Τ.Ε.:</strong> Αυτόματη ανάρτηση όλων των νόμιμων εταιρικών στοιχείων δημοσιότητας.
   </p>
 </div>
 
@@ -146,40 +146,50 @@ const templates = [
 </div>
 
 <div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  ℹ️ <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
+  <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
 </div>`,
     defaultButtonText: "Δείτε Ζωντανά την Πλατφόρμα (hightravel.gr)",
     defaultButtonLink: "https://www.hightravel.gr/"
   },
   {
-    name: "⚡ Operations: Custom Web App Τεχνικών & Έργων (KM-Fiber Style)",
-    subject: "Αυτοματοποίηση Συντονισμού Τεχνικών, Συνεργείων & Έργων ⚡ (KM-Fiber Case Study)",
-    body: `<h2>Συντονίστε Τεχνικούς, Έργα & Στόλο Αυτόματα — Χωρίς Χαμένο Χρόνο & Τηλεφωνήματα ⚡</h2>
+    name: "Operations: Custom Web App Τεχνικών & Έργων (KM-Fiber Style)",
+    subject: "Αυτοματοποίηση Συντονισμού Τεχνικών, Συνεργείων & Έργων (KM-Fiber Case Study)",
+    body: `<h2>Συντονίστε Τεχνικούς, Έργα & Στόλο Αυτόματα — Χωρίς Χαμένο Χρόνο & Τηλεφωνήματα</h2>
 <p>Γεια σας,</p>
 <p>Συγχαρητήρια για την έναρξη της νέας σας εταιρείας και καλή επιτυχία στα νέα σας έργα!</p>
 <p>Στις τεχνικές, εργολαβικές και κατασκευαστικές εταιρείες, ο καθημερινός συντονισμός συνεργείων μέσα από δεκάδες τηλεφωνήματα, μηνύματα στο Viber και χειρόγραφα δελτία δημιουργεί <strong>καθυστερήσεις, ανθρώπινα λάθη και τεράστιο χαμένο χρόνο</strong> για τη διοίκηση.</p>
 <p>Στην <strong>SGK Digital</strong> αναπτύσσουμε εξειδικευμένες εφαρμογές λειτουργίας (Operational Apps) σχεδιασμένες για τις ανάγκες των συνεργείων στο πεδίο. Ενδεικτικά, για την <strong>KM-FIBER</strong> (κορυφαίο συνεργάτη της Cosmote στις εγκαταστάσεις οπτικών ινών), δημιουργήσαμε το κεντρικό σύστημα συντονισμού τους:</p>
 <p><strong>Τι κερδίζετε στην καθημερινή πράξη:</strong></p>
 <ul>
-  <li>📍 <strong>Live Χάρτης Συνεργείων:</strong> Βλέπετε σε πραγματικό χρόνο πού βρίσκεται κάθε τεχνικός/όχημα και αναθέτετε άμεσα νέες εργασίες στο πλησιέστερο συνεργείο, μηδενίζοντας τα άσκοπα χιλιόμετρα.</li>
-  <li>📱 <strong>Ψηφιακό Δελτίο στο Κινητό:</strong> Ο τεχνικός βλέπει το πρόγραμμά του στο κινητό, ολοκληρώνει την εργασία με φωτογραφίες παράδοσης και ο πελάτης υπογράφει ψηφιακά στην οθόνη.</li>
-  <li>📑 <strong>Αυτόματες Αναφορές & Τιμολόγηση:</strong> Τέλος στα χαμένα χαρτάκια και τις σημειώσεις — όλες οι αναφορές έργων, τα υλικά και τα δελτία παράγονται αυτόματα σε Excel / PDF για το λογιστήριό σας.</li>
-  <li>⏰ <strong>Εξοικονόμηση 20+ Ωρών την Εβδομάδα:</strong> Μηδενισμός των περιττών τηλεφωνημάτων και πλήρης έλεγχος της προόδου των έργων από μία οθόνη.</li>
-  <li>🏛️ <strong>100% Νομική Συμμόρφωση:</strong> Πλήρης κάλυψη όλων των υποχρεωτικών εταιρικών στοιχείων δημοσιότητας Γ.Ε.ΜΗ.</li>
+  <li><strong>Live Χάρτης Συνεργείων:</strong> Βλέπετε σε πραγματικό χρόνο πού βρίσκεται κάθε τεχνικός/όχημα και αναθέτετε άμεσα νέες εργασίες στο πλησιέστερο συνεργείο, μηδενίζοντας τα άσκοπα χιλιόμετρα.</li>
+  <li><strong>Ψηφιακό Δελτίο στο Κινητό:</strong> Ο τεχνικός βλέπει το πρόγραμμά του στο κινητό, ολοκληρώνει την εργασία με φωτογραφίες παράδοσης και ο πελάτης υπογράφει ψηφιακά στην οθόνη.</li>
+  <li><strong>Αυτόματες Αναφορές & Τιμολόγηση:</strong> Τέλος στα χαμένα χαρτάκια και τις σημειώσεις — όλες οι αναφορές έργων, τα υλικά και τα δελτία παράγονται αυτόματα σε Excel / PDF για το λογιστήριό σας.</li>
+  <li><strong>Εξοικονόμηση 20+ Ωρών την Εβδομάδα:</strong> Μηδενισμός των περιττών τηλεφωνημάτων και πλήρης έλεγχος της προόδου των έργων από μία οθόνη.</li>
+  <li><strong>100% Νομική Συμμόρφωση:</strong> Πλήρης κάλυψη όλων των υποχρεωτικών εταιρικών στοιχείων δημοσιότητας Γ.Ε.ΜΗ.</li>
 </ul>
-<p>Για να συζητήσουμε άμεσα πώς μπορεί να εφαρμοστεί ένα αντίστοιχο σύστημα στη δική σας εταιρεία και να οργανώσετε τα συνεργεία σας από την πρώτη μέρα, <strong>καλέστε μας απευθείας στα 211 114 0013 ή 6999 524 389</strong> (ή απαντήστε απλά σε αυτό το email)!</p>
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
+    📞 Θέλετε να συζητήσουμε άμεσα για τη νέα σας εταιρεία;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
+    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> (ή απαντήστε απλά σε αυτό το email).
+  </p>
+</div>
+
 <div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  ℹ️ <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
+  <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νέας σας εταιρείας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
 </div>`,
     defaultButtonText: "Δείτε το Case Study της KM-Fiber",
     defaultButtonLink: "https://sgk.gr/case-study/km-fiber"
   },
   {
-    name: "✨ Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)",
-    subject: "Αναβαθμίστε την Ι.Κ.Ε. σας σε Πλήρη Εταιρική Ιστοσελίδα 🚀 (Ειδική Προσφορά 390€)",
-    body: `<h2>Μετατρέψτε την Ιστοσελίδα της Ι.Κ.Ε. σας σε Ισχυρό Εργαλείο Πωλήσεων & Προβολής! 🚀</h2>
+    name: "Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)",
+    subject: "Αναβαθμίστε την Ι.Κ.Ε. σας σε Πλήρη Εταιρική Ιστοσελίδα (Ειδική Προσφορά 390€)",
+    body: `<h2>Μετατρέψτε την Ιστοσελίδα της Ι.Κ.Ε. σας σε Ισχυρό Εργαλείο Πωλήσεων & Προβολής!</h2>
 <p>Γεια σας,</p>
 <p>Χαιρόμαστε ιδιαίτερα που συνεργαστήκαμε για τη δημιουργία της επίσημης σελίδας ΓΕΜΗ της εταιρείας σας!</p>
 <p>Η νομική συμμόρφωση είναι το πρώτο βήμα. Ωστόσο, στην ψηφιακή εποχή, οι υποψήφιοι πελάτες και συνεργάτες σας αναζητούν μια <strong>πλήρη εταιρική παρουσίαση</strong> για να δουν τις υπηρεσίες και το προφίλ της επιχείρησής σας.</p>
@@ -192,8 +202,17 @@ const templates = [
   <li><strong>Ενσωμάτωση των Στοιχείων ΓΕΜΗ:</strong> Όλα τα στοιχεία ΓΕΜΗ, το κεφάλαιο, οι διαχειριστές και η ενότητα δημοσίευσης Ισολογισμών (PDF) παραμένουν 100% ενεργά και ενσωματωμένα στη νέα σας ιστοσελίδα.</li>
   <li><strong>Χωρίς Επιπλέον Κόστος Hosting/Domain για το 2026:</strong> Το Domain (.gr), η φιλοξενία, τα εταιρικά emails, το SSL και το GDPR καλύπτονται ήδη από τη συνδρομή της ΙΚΕ σας!</li>
 </ul>
-<p><strong>Τελική Τιμή Αναβάθμισης:</strong> Μόνο <strong>390€ εφάπαξ</strong> (συμπεριλαμβανομένου ΦΠΑ 24% - εκδίζεται τιμολόγιο εξόδων). Η ετήσια συνδρομή σας παραμένει σταθερά στα <strong>124€/έτος</strong> από το 2027, όπως ακριβώς συμφωνήθηκε!</p>
-<p>Δώστε στην εταιρεία σας την εικόνα που της αξίζει. Για να ξεκινήσουμε την αναβάθμιση ή να συζητήσουμε τις λεπτομέρειες, <strong>απαντήστε σε αυτό το email</strong> ή καλέστε μας στο σταθερό <strong>211 114 0013</strong> ή στο κινητό <strong>6999 524 389</strong>!</p>`,
+<p><strong>Τελική Τιμή Αναβάθμισης:</strong> Μόνο <strong>390€ εφάπαξ</strong> (συμπεριλαμβανομένου ΦΠΑ 24% - εκδίδεται τιμολόγιο εξόδων). Η ετήσια συνδρομή σας παραμένει σταθερά στα <strong>124€/έτος</strong> από το 2027, όπως ακριβώς συμφωνήθηκε!</p>
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
+    📞 Θέλετε να ξεκινήσουμε άμεσα την αναβάθμιση;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
+    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> (ή απαντήστε απλά σε αυτό το email).
+  </p>
+</div>`,
     defaultButtonText: "",
     defaultButtonLink: ""
   },
@@ -205,9 +224,9 @@ const templates = [
     defaultButtonLink: ""
   },
   {
-    name: "🔥 Eshop - Pay As You Grow (250€ Setup)",
+    name: "Eshop - Pay As You Grow (250€ Setup)",
     subject: "Δημιουργία Eshop χωρίς ρίσκο - Pay As You Grow",
-    body: `<h2>Αποκτήστε το δικό σας Eshop με 0€ ρίσκο! 🚀</h2>
+    body: `<h2>Αποκτήστε το δικό σας Eshop με 0€ ρίσκο!</h2>
 <h3>Μοντέλο Pay As You Grow (PAYG) από την SGK Digital</h3>
 <p>Γεια σας,</p>
 <p>Θέλετε να ξεκινήσετε το δικό σας ηλεκτρονικό κατάστημα (E-shop) αλλά σας προβληματίζει το αρχικό κόστος και το ρίσκο της επένδυσης;</p>
@@ -219,14 +238,23 @@ const templates = [
   <li><strong>100% Δικό σας:</strong> Μετά τους 12 μήνες, το Eshop περνάει στην πλήρη ιδιοκτησία σας χωρίς μηνιαίες συνδρομές ή άλλες προμήθειες.</li>
   <li><strong>Δυνατότητα Εξαγοράς:</strong> Μπορείτε να εξαγοράσετε το υπόλοιπο της αξίας του Eshop ανά πάσα στιγμή χωρίς καμία επιπλέον επιβάρυνση.</li>
 </ul>
-<p>Απαντήστε σε αυτό το email για να ξεκινήσουμε άμεσα τη δημιουργία του δικού σας E-shop!</p>`,
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
+    📞 Θέλετε να συζητήσουμε άμεσα για το νέο σας E-shop;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
+    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> (ή απαντήστε απλά σε αυτό το email).
+  </p>
+</div>`,
     defaultButtonText: "Δείτε την Προσφορά",
     defaultButtonLink: "https://www.sgk.gr/pay-as-you-grow"
   },
   {
-    name: "🛍️ Προσφορά Κατασκευής E-shop (Next.js + WooCommerce)",
+    name: "Προσφορά Κατασκευής E-shop (Next.js + WooCommerce)",
     subject: "Προσφορά Κατασκευής E-shop — SGK Digital",
-    body: `<h2>Προσφορά Κατασκευής E-shop 🛍️</h2>
+    body: `<h2>Προσφορά Κατασκευής E-shop</h2>
 <h3>Headless λύση — WordPress WooCommerce + Next.js</h3>
 <p>Σας ευχαριστούμε για το ενδιαφέρον σας. Παρακάτω θα βρείτε την αναλυτική πρόταση για την κατασκευή του νέου σας ηλεκτρονικού καταστήματος, σχεδιασμένη να σας δώσει ταχύτητα, ασφάλεια και μια εμπειρία χρήστη αντίστοιχη των μεγαλύτερων πλατφορμών του κλάδου.</p>
 <h4>Η Τεχνολογία: Headless WooCommerce + Next.js</h4>
