@@ -374,9 +374,9 @@ export function EmailsTab() {
   const [uploadingPdf, setUploadingPdf] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("");
 
-  // Live GEMI IKE Scanner state & Real-time Live Modal
+  // Live GEMI Scanner state & Real-time Live Modal
   const [isScanningGemi, setIsScanningGemi] = useState(false);
-  const [scanCategory, setScanCategory] = useState<"all" | "tourism" | "operations_tech">("all");
+  const [scanCategory, setScanCategory] = useState<"tourism" | "operations_tech" | "all" | "ike">("tourism");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
   const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
   const [scanStats, setScanStats] = useState({
@@ -1917,19 +1917,26 @@ function safeEncodeBase64(data: any): string {
                 disabled={isScanningGemi}
                 className="bg-slate-800 text-slate-100 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-indigo-400 cursor-pointer"
               >
-                <option value="all">🏢 Όλες οι Νέες ΙΚΕ</option>
-                <option value="tourism">✈️ Τουρισμός / Travel / Rent-a-car</option>
-                <option value="operations_tech">⚡ Operations / Τεχνικές / Logistics</option>
+                <option value="tourism">✈️ Τουρισμός (Όλες οι μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ...)</option>
+                <option value="operations_tech">⚡ Operations / Τεχνικές (Όλες οι μορφές)</option>
+                <option value="all">🌐 Όλες οι Επιχειρήσεις (Όλες οι μορφές)</option>
+                <option value="ike">🏢 Μόνο Νέες ΙΚΕ (Ι.Κ.Ε. μόνο)</option>
               </select>
               <button
                 onClick={handleScanGemiIkes}
                 disabled={isScanningGemi}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
-                title="Live σάρωση στο Γ.Ε.ΜΗ. με την επιλεγμένη στόχευση"
+                title="Live σάρωση στο Γ.Ε.ΜΗ. με την επιλεγμένη στόχευση σε όλες τις μορφές εταιρειών"
               >
                 {isScanningGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-yellow-300" />}
                 <span>
-                  {scanCategory === "tourism" ? "Ευρεση Τουρισμου" : scanCategory === "operations_tech" ? "Ευρεση Operations" : "Ευρεση (ΓΕΜΗ)"}
+                  {scanCategory === "tourism" 
+                    ? "Ευρεση Τουρισμου (Ολες οι μορφες)" 
+                    : scanCategory === "operations_tech" 
+                    ? "Ευρεση Operations (Ολες οι μορφες)" 
+                    : scanCategory === "ike"
+                    ? "Ευρεση ΙΚΕ"
+                    : "Ευρεση (Ολες οι μορφες)"}
                 </span>
               </button>
             </div>
@@ -2130,12 +2137,12 @@ function safeEncodeBase64(data: any): string {
                               <span>{lead.company}</span>
                               {lead.type === 'tourism' && (
                                 <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300">
-                                  ✈️ Τουρισμός
+                                  ✈️ Τουρισμός {lead.last_name ? `• ${lead.last_name}` : ''}
                                 </span>
                               )}
                               {lead.type === 'operations_tech' && (
                                 <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-purple-100 text-purple-800 border border-purple-300">
-                                  ⚡ Operations
+                                  ⚡ Operations {lead.last_name ? `• ${lead.last_name}` : ''}
                                 </span>
                               )}
                               {(lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01')) && (
@@ -2143,11 +2150,16 @@ function safeEncodeBase64(data: any): string {
                                   🏢 ΙΚΕ
                                 </span>
                               )}
+                              {lead.type === 'general_co' && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-slate-100 text-slate-700 border border-slate-200">
+                                  🏢 {lead.last_name || 'Επιχείρηση'}
+                                </span>
+                              )}
                             </div>
                           )}
-                          {(lead.first_name || lead.last_name) && (
+                          {(lead.first_name || lead.last_name) && lead.first_name !== lead.company && (
                             <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
-                              {lead.first_name || ""} {lead.last_name || ""}
+                              {lead.first_name || ""} {lead.last_name ? `(${lead.last_name})` : ""}
                             </div>
                           )}
                           <div className="flex flex-wrap items-center gap-2 mt-1">
@@ -2534,7 +2546,15 @@ function safeEncodeBase64(data: any): string {
                 </div>
                 <div>
                   <h3 className="font-black text-white text-base tracking-wide uppercase flex items-center gap-2">
-                    ⚡ Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Νεων Ι.Κ.Ε.
+                    ⚡ Live Σαρωση Γ.Ε.ΜΗ. — {
+                      scanCategory === "tourism" 
+                        ? "Εύρεση Τουρισμού (Όλες οι μορφές)" 
+                        : scanCategory === "operations_tech" 
+                        ? "Εύρεση Operations (Όλες οι μορφές)" 
+                        : scanCategory === "ike" 
+                        ? "Εύρεση Νέων Ι.Κ.Ε." 
+                        : "Εύρεση Επιχειρήσεων (Όλες οι μορφές)"
+                    }
                     {isScanningGemi && (
                       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 animate-pulse">
                         <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
@@ -2543,7 +2563,9 @@ function safeEncodeBase64(data: any): string {
                     )}
                   </h3>
                   <p className="text-xs text-slate-400 font-mono">
-                    Έλεγχος επιχειρήσεων σε πραγματικό χρόνο από 31/08/2026 & Σεπτέμβριο 2026
+                    {scanCategory === "ike"
+                      ? "Έλεγχος νέων Ι.Κ.Ε. σε πραγματικό χρόνο"
+                      : "Έλεγχος επιχειρήσεων όλων των νομικών μορφών (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές, κ.α.)"}
                   </p>
                 </div>
               </div>

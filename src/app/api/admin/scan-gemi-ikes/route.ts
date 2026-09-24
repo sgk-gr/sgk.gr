@@ -29,7 +29,7 @@ function isValidEmail(email?: string | null): boolean {
   return !IGNORED_DOMAINS.some(d => domain.includes(d));
 }
 
-function detectLeadIndustry(co: any): { type: string; label: string; icon: string } {
+function detectLeadIndustry(co: any): { type: string; label: string; icon: string; legalForm: string } {
   const textToSearch = [
     co.coNameEl || "",
     ...(co.coTitlesEl || []),
@@ -38,19 +38,27 @@ function detectLeadIndustry(co: any): { type: string; label: string; icon: strin
     ...(co.activities || []).map((a: any) => `${a.activity?.id || ""} ${a.activity?.descr || ""}`),
   ].join(" ").toUpperCase();
 
+  const legalForm = co.legalType?.descr || "Επιχείρηση";
+
   // 1. Tourism / Travel / Rent-a-car / Hospitality
   const tourismRegex = /(79\.\d+|79\d{2}|771\d+|77\.1|7734|77\.34|55\.\d+|55\d{2}|ΤΟΥΡΙΣΤ|TRAVEL|TOUR|RENT A CAR|CAR RENTAL|YACHT|CHARTER|HOTEL|VILLA|CRUISE|HOLIDAY|ΕΚΔΡΟΜ|ΞΕΝΟΔΟΧ)/i;
   if (tourismRegex.test(textToSearch)) {
-    return { type: "tourism", label: "Τουρισμός / Travel", icon: "✈️" };
+    return { type: "tourism", label: `Τουρισμός (${legalForm})`, icon: "✈️", legalForm };
   }
 
   // 2. Operations / Tech / Field Workforce / Telecom / Logistics
   const opsRegex = /(42\.\d+|42\d{2}|43\.\d+|43\d{2}|61\.\d+|61\d{2}|494\d+|49\.4|52\.\d+|52\d{2}|80\.\d+|ΤΗΛΕΠΙΚΟΙΝΩΝ|ΟΠΤΙΚ|FIBER|ΤΕΧΝΙΚ|ΕΡΓΟΛΑΒ|LOGISTICS|ΜΕΤΑΦΟΡ|ΣΥΝΤΗΡΗΣ|ΕΓΚΑΤΑΣΤΑΣ|SECURITY|ΚΑΤΑΣΚΕΥ)/i;
   if (opsRegex.test(textToSearch)) {
-    return { type: "operations_tech", label: "Operations & Τεχνική", icon: "⚡" };
+    return { type: "operations_tech", label: `Operations & Τεχνική (${legalForm})`, icon: "⚡", legalForm };
   }
 
-  return { type: "new_ike", label: "Γενική ΙΚΕ", icon: "🏢" };
+  const isIke = legalForm.toUpperCase().includes("ΙΚΕ") || legalForm.toUpperCase().includes("Ι.Κ.Ε.");
+  return { 
+    type: isIke ? "new_ike" : "general_co", 
+    label: legalForm, 
+    icon: "🏢",
+    legalForm 
+  };
 }
 
 async function fetchGemiWithTimeout(url: string, apiKey: string) {
@@ -83,9 +91,11 @@ export async function POST(req: NextRequest) {
   }
 
   const maxResults = body.limit || 50;
-  const targetCategory = body.targetCategory || "all"; // "all" | "tourism" | "operations_tech"
+  const targetCategory = body.targetCategory || "tourism"; // "tourism" | "operations_tech" | "all" | "ike"
   const targetMonth = body.month || null; // e.g. "2026-09"
-  const minDate = body.minDate !== undefined ? body.minDate : "2026-08-31"; // Default: 31/08/2026 and newer only!
+  const minDate = body.minDate !== undefined 
+    ? body.minDate 
+    : (targetCategory === "ike" ? "2026-08-31" : "2026-01-01"); // Default: 2026-01-01 for all forms, or 2026-08-31 for IKE
   const isStream = body.stream !== false; // Default to streaming
   const pageSize = 50;
 
@@ -108,13 +118,15 @@ export async function POST(req: NextRequest) {
 
         try {
           const categoryLabels: Record<string, string> = {
-            all: "🏢 Όλες οι Νέες ΙΚΕ",
-            tourism: "✈️ Τουρισμός / Travel",
-            operations_tech: "⚡ Operations & Τεχνικές",
+            tourism: "✈️ Τουρισμός (Όλες οι νομικές μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ κ.α.)",
+            operations_tech: "⚡ Operations & Τεχνικές (Όλες οι νομικές μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ κ.α.)",
+            all: "🌐 Όλες οι Επιχειρήσεις (Όλες οι μορφές)",
+            all_forms: "🌐 Όλες οι Επιχειρήσεις (Όλες οι μορφές)",
+            ike: "🏢 Μόνο Νέες ΙΚΕ",
           };
           emit({
             type: "init",
-            message: `⚡ Σύνδεση με OpenData API του Γ.Ε.ΜΗ. (Στόχευση: ${categoryLabels[targetCategory] || "Όλες"})...`,
+            message: `⚡ Σύνδεση με OpenData API του Γ.Ε.ΜΗ. (Στόχευση: ${categoryLabels[targetCategory] || "Όλες οι μορφές"})...`,
             minDate,
             maxResults,
             targetCategory
@@ -149,7 +161,7 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = 0;
 
-          const maxOffset = targetCategory !== "all" ? 1500 : 500;
+          const maxOffset = (targetCategory === "tourism" || targetCategory === "operations_tech") ? 2500 : 800;
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor(offset / pageSize) + 1;
             emit({
@@ -159,7 +171,9 @@ export async function POST(req: NextRequest) {
               page: pageNum
             });
 
-            const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=19&resultsSortBy=-arGemi`;
+            // Only restrict to legalTypes=19 if specifically requesting only IKE
+            const legalTypeParam = targetCategory === "ike" ? "&legalTypes=19" : "";
+            const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}&resultsSortBy=-arGemi`;
 
             let results: any[] = [];
             try {
@@ -191,7 +205,8 @@ export async function POST(req: NextRequest) {
 
             for (const co of results) {
               totalExamined++;
-              const companyTitle = co.coNameEl || (co.coTitlesEl && co.coTitlesEl[0]) || "Νέα Ι.Κ.Ε.";
+              const legalForm = co.legalType?.descr || "Επιχείρηση";
+              const companyTitle = co.coNameEl || (co.coTitlesEl && co.coTitlesEl[0]) || `Νέα ${legalForm}`;
               const incDate = co.incorporationDate ? String(co.incorporationDate).split("T")[0].trim() : "";
               const email = (co.email || "").toLowerCase().trim();
               const urlClean = co.url || "";
@@ -199,7 +214,7 @@ export async function POST(req: NextRequest) {
               const afm = co.afm ? String(co.afm).trim() : null;
               const arGemi = co.arGemi ? String(co.arGemi).trim() : null;
 
-              // Filter: Check minimum incorporation date (only 31/08/2026 and newer)
+              // Filter: Check minimum incorporation date
               if (minDate && incDate && incDate < minDate) {
                 totalOldDate++;
                 olderCountInPage++;
@@ -310,7 +325,7 @@ export async function POST(req: NextRequest) {
                 email: email,
                 company: companyTitle,
                 first_name: companyTitle,
-                last_name: "",
+                last_name: legalForm,
                 phone: phone,
                 afm: afm,
                 gemi_number: arGemi,
@@ -325,6 +340,7 @@ export async function POST(req: NextRequest) {
 
               newLeadsToInsert.push(newLead);
 
+              const formBadge = co.legalType?.descr ? `[${co.legalType.descr}] ` : "";
               emit({
                 type: "log",
                 category: "added",
@@ -333,15 +349,15 @@ export async function POST(req: NextRequest) {
                 afm,
                 phone,
                 date: incDate,
-                reason: `${industry.icon} ΝΕΑ Ι.Κ.Ε. [${industry.label}] ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
+                reason: `${industry.icon} ΝΕΑ ΕΠΙΧΕΙΡΗΣΗ ${formBadge}${industry.label} ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
 
               if (newLeadsToInsert.length >= maxResults) break;
             }
 
-            // If more than 80% of companies in this batch are older than minDate, stop paginating
-            if (minDate && olderCountInPage > 40) {
+            // If more than 45 companies in this batch are older than minDate, stop paginating
+            if (minDate && olderCountInPage >= 45) {
               emit({
                 type: "info",
                 message: `ℹ️ Εντοπίστηκαν παλαιότερες εγγραφές (πριν τις ${minDate}). Η σάρωση ολοκληρώθηκε επιτυχώς.`
@@ -358,7 +374,7 @@ export async function POST(req: NextRequest) {
           if (newLeadsToInsert.length > 0) {
             emit({
               type: "info",
-              message: `💾 Αποθήκευση ${newLeadsToInsert.length} νέων Ι.Κ.Ε. στη βάση δεδομένων...`
+              message: `💾 Αποθήκευση ${newLeadsToInsert.length} νέων επιχειρήσεων στη βάση δεδομένων...`
             });
 
             const { data: insertedData, error: insertErr } = await supabase
@@ -392,7 +408,7 @@ export async function POST(req: NextRequest) {
             totalNoEmail,
             totalOldDate,
             leads: newLeadsToInsert,
-            message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε.`
+            message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέα leads (${categoryLabels[targetCategory] || "Όλες οι μορφές"}).`
           });
 
         } catch (err: any) {
