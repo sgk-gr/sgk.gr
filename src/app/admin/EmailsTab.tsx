@@ -376,7 +376,9 @@ export function EmailsTab() {
 
   // Live GEMI Scanner state & Real-time Live Modal
   const [isScanningGemi, setIsScanningGemi] = useState(false);
-  const [scanCategory, setScanCategory] = useState<"tourism" | "operations_tech" | "all" | "ike">("tourism");
+  const [scanIndustry, setScanIndustry] = useState<"all" | "tourism" | "operations_tech">("all");
+  const [scanLegalForm, setScanLegalForm] = useState<"ike" | "all" | "ae" | "oe_ee">("ike");
+  const [scanMonth, setScanMonth] = useState<"current" | "previous" | "all_year">("current");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
   const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
   const [scanStats, setScanStats] = useState({
@@ -1177,7 +1179,13 @@ function safeEncodeBase64(data: any): string {
       const res = await fetch("/api/admin/scan-gemi-ikes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ stream: true, limit: 50, minDate: "2026-08-31", targetCategory: scanCategory }),
+        body: JSON.stringify({ 
+          stream: true, 
+          limit: 50, 
+          targetCategory: scanIndustry,
+          targetLegalForm: scanLegalForm,
+          month: scanMonth,
+        }),
       });
 
       if (!res.ok) {
@@ -1368,6 +1376,15 @@ function safeEncodeBase64(data: any): string {
   const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
   const convertedCount = leads.filter(l => l.converted).length;
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
+
+  const now = useMemo(() => new Date(), []);
+  const greekMonths = useMemo(() => [
+    "Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος",
+    "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος", "Δεκέμβριος"
+  ], []);
+  const currentMonthName = greekMonths[now.getMonth()];
+  const prevDate = useMemo(() => new Date(now.getFullYear(), now.getMonth() - 1, 1), [now]);
+  const prevMonthName = greekMonths[prevDate.getMonth()];
 
   const previewEmailDoc = useMemo(() => {
     if (!campaignBody) return `<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;color:#999;font-size:14px;background:#f0f2f5;"><div style="text-align:center;"><div style="font-size:32px;margin-bottom:12px;">📧</div><div>Το περιεχόμενο του email<br>θα εμφανιστεί εδώ...</div></div></body></html>`;
@@ -1905,38 +1922,64 @@ function safeEncodeBase64(data: any): string {
               <UserPlus size={14} />
               + Νεος Πελατης
             </button>
-            {/* Targeted GEMI Scanner Selector & Trigger */}
-            <div className="inline-flex items-center bg-slate-900 border border-slate-700/80 rounded-xl p-1 shadow-md gap-1">
+            {/* Targeted GEMI Scanner Dual Selectors & Trigger */}
+            <div className="inline-flex items-center flex-wrap bg-slate-900 border border-slate-700/80 rounded-xl p-1 shadow-md gap-1">
               <div className="flex items-center gap-1 pl-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
                 <Target size={12} className="text-yellow-400" />
                 <span className="hidden sm:inline">Στοχευση:</span>
               </div>
+
+              {/* 1. Industry Selector */}
               <select
-                value={scanCategory}
-                onChange={(e) => setScanCategory(e.target.value as any)}
+                value={scanIndustry}
+                onChange={(e) => setScanIndustry(e.target.value as any)}
                 disabled={isScanningGemi}
                 className="bg-slate-800 text-slate-100 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-indigo-400 cursor-pointer"
+                title="Επιλογή Κλάδου"
               >
-                <option value="tourism">✈️ Τουρισμός (Όλες οι μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ...)</option>
-                <option value="operations_tech">⚡ Operations / Τεχνικές (Όλες οι μορφές)</option>
-                <option value="all">🌐 Όλες οι Επιχειρήσεις (Όλες οι μορφές)</option>
-                <option value="ike">🏢 Μόνο Νέες ΙΚΕ (Ι.Κ.Ε. μόνο)</option>
+                <option value="all">🌐 Όλοι οι Κλάδοι</option>
+                <option value="tourism">✈️ Τουρισμός / Rentals</option>
+                <option value="operations_tech">⚡ Operations / Τεχνικές</option>
               </select>
+
+              {/* 2. Legal Form Selector */}
+              <select
+                value={scanLegalForm}
+                onChange={(e) => setScanLegalForm(e.target.value as any)}
+                disabled={isScanningGemi}
+                className="bg-slate-800 text-cyan-300 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-400 cursor-pointer"
+                title="Επιλογή Νομικής Μορφής"
+              >
+                <option value="ike">🏢 Μόνο Ι.Κ.Ε.</option>
+                <option value="all">🌍 Όλες οι Μορφές</option>
+                <option value="ae">🏛️ Μόνο Α.Ε.</option>
+                <option value="oe_ee">👥 Ο.Ε. & Ε.Ε.</option>
+              </select>
+
+              {/* 3. Dynamic Month Selector */}
+              <select
+                value={scanMonth}
+                onChange={(e) => setScanMonth(e.target.value as any)}
+                disabled={isScanningGemi}
+                className="bg-slate-800 text-amber-300 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-amber-400 cursor-pointer"
+                title="Επιλογή Μήνα Ίδρυσης"
+              >
+                <option value="current">📅 {currentMonthName} {now.getFullYear()} (Τρέχων)</option>
+                <option value="previous">📅 {prevMonthName} {prevDate.getFullYear()}</option>
+                <option value="all_year">📅 Όλο το {now.getFullYear()}</option>
+              </select>
+
               <button
                 onClick={handleScanGemiIkes}
                 disabled={isScanningGemi}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
-                title="Live σάρωση στο Γ.Ε.ΜΗ. με την επιλεγμένη στόχευση σε όλες τις μορφές εταιρειών"
+                title="Live σάρωση στο Γ.Ε.ΜΗ. με τα επιλεγμένα κριτήρια"
               >
                 {isScanningGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-yellow-300" />}
                 <span>
-                  {scanCategory === "tourism" 
-                    ? "Ευρεση Τουρισμου (Ολες οι μορφες)" 
-                    : scanCategory === "operations_tech" 
-                    ? "Ευρεση Operations (Ολες οι μορφες)" 
-                    : scanCategory === "ike"
-                    ? "Ευρεση ΙΚΕ"
-                    : "Ευρεση (Ολες οι μορφες)"}
+                  {scanLegalForm === "ike"
+                    ? (scanIndustry === "tourism" ? "Ευρεση Τουρισμου (ΙΚΕ)" : scanIndustry === "operations_tech" ? "Ευρεση Operations (ΙΚΕ)" : "Ευρεση Νεων ΙΚΕ")
+                    : (scanIndustry === "tourism" ? "Ευρεση Τουρισμου" : scanIndustry === "operations_tech" ? "Ευρεση Operations" : "Ευρεση Επιχειρησεων")}
                 </span>
               </button>
             </div>
@@ -2547,13 +2590,11 @@ function safeEncodeBase64(data: any): string {
                 <div>
                   <h3 className="font-black text-white text-base tracking-wide uppercase flex items-center gap-2">
                     ⚡ Live Σαρωση Γ.Ε.ΜΗ. — {
-                      scanCategory === "tourism" 
-                        ? "Εύρεση Τουρισμού (Όλες οι μορφές)" 
-                        : scanCategory === "operations_tech" 
-                        ? "Εύρεση Operations (Όλες οι μορφές)" 
-                        : scanCategory === "ike" 
-                        ? "Εύρεση Νέων Ι.Κ.Ε." 
-                        : "Εύρεση Επιχειρήσεων (Όλες οι μορφές)"
+                      scanIndustry === "tourism"
+                        ? `Εύρεση Τουρισμού (${scanLegalForm === "ike" ? "Μόνο ΙΚΕ" : scanLegalForm === "ae" ? "Μόνο ΑΕ" : scanLegalForm === "oe_ee" ? "ΟΕ / ΕΕ" : "Όλες οι μορφές"})`
+                        : scanIndustry === "operations_tech"
+                        ? `Εύρεση Operations (${scanLegalForm === "ike" ? "Μόνο ΙΚΕ" : scanLegalForm === "ae" ? "Μόνο ΑΕ" : scanLegalForm === "oe_ee" ? "ΟΕ / ΕΕ" : "Όλες οι μορφές"})`
+                        : (scanLegalForm === "ike" ? "Εύρεση Νέων Ι.Κ.Ε." : scanLegalForm === "ae" ? "Εύρεση Νέων Α.Ε." : scanLegalForm === "oe_ee" ? "Εύρεση Ο.Ε. & Ε.Ε." : "Εύρεση Επιχειρήσεων (Όλες οι μορφές)")
                     }
                     {isScanningGemi && (
                       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 animate-pulse">
@@ -2563,9 +2604,19 @@ function safeEncodeBase64(data: any): string {
                     )}
                   </h3>
                   <p className="text-xs text-slate-400 font-mono">
-                    {scanCategory === "ike"
-                      ? "Έλεγχος νέων Ι.Κ.Ε. σε πραγματικό χρόνο"
-                      : "Έλεγχος επιχειρήσεων όλων των νομικών μορφών (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές, κ.α.)"}
+                    {scanMonth === "current"
+                      ? `Ίδρυση τον τρέχοντα μήνα (${currentMonthName} ${now.getFullYear()})`
+                      : scanMonth === "previous"
+                      ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
+                      : `Ίδρυση εντός του ${now.getFullYear()}`}
+                    {" • "}
+                    {scanLegalForm === "ike"
+                      ? "Μόνο Ι.Κ.Ε."
+                      : scanLegalForm === "ae"
+                      ? "Μόνο Α.Ε."
+                      : scanLegalForm === "oe_ee"
+                      ? "Ο.Ε. & Ε.Ε."
+                      : "Όλες οι μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ)"}
                   </p>
                 </div>
               </div>

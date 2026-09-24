@@ -91,11 +91,41 @@ export async function POST(req: NextRequest) {
   }
 
   const maxResults = body.limit || 50;
-  const targetCategory = body.targetCategory || "tourism"; // "tourism" | "operations_tech" | "all" | "ike"
-  const targetMonth = body.month || null; // e.g. "2026-09"
-  const minDate = body.minDate !== undefined 
-    ? body.minDate 
-    : (targetCategory === "ike" ? "2026-08-31" : "2026-01-01"); // Default: 2026-01-01 for all forms, or 2026-08-31 for IKE
+  const targetCategory = body.targetCategory || body.industry || "all"; // "all" | "tourism" | "operations_tech"
+  const targetLegalForm = body.targetLegalForm || body.legalForm || (body.targetCategory === "ike" ? "ike" : "all"); // "all" | "ike" | "ae" | "oe_ee"
+  
+  // Dynamic Month Handling: automatically follows current month (e.g. 2026-09 in September, 2026-10 in October)
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonthNum = String(now.getMonth() + 1).padStart(2, "0");
+  const currentMonthPrefix = `${currentYear}-${currentMonthNum}`; // e.g. "2026-09"
+
+  const prevDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const prevMonthNum = String(prevDate.getMonth() + 1).padStart(2, "0");
+  const prevMonthPrefix = `${prevDate.getFullYear()}-${prevMonthNum}`; // e.g. "2026-08"
+
+  let targetMonth: string | null = null;
+  let minDate: string = `${currentMonthPrefix}-01`;
+
+  if (body.month === "previous") {
+    targetMonth = prevMonthPrefix;
+    minDate = `${prevMonthPrefix}-01`;
+  } else if (body.month === "all_year") {
+    targetMonth = null;
+    minDate = `${currentYear}-01-01`;
+  } else if (body.month && typeof body.month === "string" && body.month.match(/^\d{4}-\d{2}$/)) {
+    targetMonth = body.month;
+    minDate = `${body.month}-01`;
+  } else {
+    // Default: current month!
+    targetMonth = currentMonthPrefix;
+    minDate = `${currentMonthPrefix}-01`;
+  }
+
+  if (body.minDate) {
+    minDate = body.minDate;
+  }
+
   const isStream = body.stream !== false; // Default to streaming
   const pageSize = 50;
 
@@ -117,19 +147,28 @@ export async function POST(req: NextRequest) {
         };
 
         try {
-          const categoryLabels: Record<string, string> = {
-            tourism: "✈️ Τουρισμός (Όλες οι νομικές μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ κ.α.)",
-            operations_tech: "⚡ Operations & Τεχνικές (Όλες οι νομικές μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ κ.α.)",
-            all: "🌐 Όλες οι Επιχειρήσεις (Όλες οι μορφές)",
-            all_forms: "🌐 Όλες οι Επιχειρήσεις (Όλες οι μορφές)",
-            ike: "🏢 Μόνο Νέες ΙΚΕ",
+          const industryLabels: Record<string, string> = {
+            all: "Όλοι οι Κλάδοι",
+            tourism: "✈️ Τουρισμός / Travel",
+            operations_tech: "⚡ Operations & Τεχνικές",
           };
+          const legalLabels: Record<string, string> = {
+            all: "Όλες οι Μορφές",
+            ike: "Μόνο Ι.Κ.Ε.",
+            ae: "Μόνο Α.Ε.",
+            oe_ee: "Ο.Ε. & Ε.Ε.",
+          };
+
+          const monthLabel = targetMonth ? `Μήνας: ${targetMonth}` : `Από ${minDate}`;
+
           emit({
             type: "init",
-            message: `⚡ Σύνδεση με OpenData API του Γ.Ε.ΜΗ. (Στόχευση: ${categoryLabels[targetCategory] || "Όλες οι μορφές"})...`,
+            message: `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Κλάδος: ${industryLabels[targetCategory] || targetCategory} | Μορφή: ${legalLabels[targetLegalForm] || targetLegalForm} | 📅 ${monthLabel}]...`,
             minDate,
             maxResults,
-            targetCategory
+            targetCategory,
+            targetLegalForm,
+            targetMonth
           });
 
           // 1. Fetch existing emails from Supabase
@@ -171,8 +210,16 @@ export async function POST(req: NextRequest) {
               page: pageNum
             });
 
-            // Only restrict to legalTypes=19 if specifically requesting only IKE
-            const legalTypeParam = targetCategory === "ike" ? "&legalTypes=19" : "";
+            // Handle legal types filtering
+            let legalTypeParam = "";
+            if (targetLegalForm === "ike") {
+              legalTypeParam = "&legalTypes=19";
+            } else if (targetLegalForm === "ae") {
+              legalTypeParam = "&legalTypes=1";
+            } else if (targetLegalForm === "oe_ee") {
+              legalTypeParam = "&legalTypes=2,4";
+            }
+
             const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}&resultsSortBy=-arGemi`;
 
             let results: any[] = [];
@@ -231,8 +278,11 @@ export async function POST(req: NextRequest) {
               }
 
               // Filter: Check target month if requested (e.g. "2026-09")
-              if (targetMonth && co.incorporationDate && !co.incorporationDate.startsWith(targetMonth)) {
+              if (targetMonth && (!incDate || !incDate.startsWith(targetMonth))) {
                 totalOldDate++;
+                if (incDate && incDate < targetMonth) {
+                  olderCountInPage++;
+                }
                 continue;
               }
 
@@ -408,7 +458,7 @@ export async function POST(req: NextRequest) {
             totalNoEmail,
             totalOldDate,
             leads: newLeadsToInsert,
-            message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέα leads (${categoryLabels[targetCategory] || "Όλες οι μορφές"}).`
+            message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέα leads (${industryLabels[targetCategory] || "Κλάδος"} • ${legalLabels[targetLegalForm] || "Μορφή"}).`
           });
 
         } catch (err: any) {
