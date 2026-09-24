@@ -6,7 +6,7 @@ import {
   Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, 
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
   FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
-  Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban
+  Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
@@ -376,6 +376,7 @@ export function EmailsTab() {
 
   // Live GEMI IKE Scanner state & Real-time Live Modal
   const [isScanningGemi, setIsScanningGemi] = useState(false);
+  const [scanCategory, setScanCategory] = useState<"all" | "tourism" | "operations_tech">("all");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
   const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
   const [scanStats, setScanStats] = useState({
@@ -1147,9 +1148,13 @@ function safeEncodeBase64(data: any): string {
   };
 
   const handleScanGemiIkes = async () => {
+    const categoryLabel = 
+      scanCategory === "tourism" ? "✈️ Τουρισμός / Travel" :
+      scanCategory === "operations_tech" ? "⚡ Operations & Τεχνικές" : "🏢 Όλες οι Νέες ΙΚΕ";
+
     setIsScanModalOpen(true);
     setIsScanningGemi(true);
-    setScanStatusMessage("⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. (31/08 & Σεπτέμβριος 2026)...");
+    setScanStatusMessage(`⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. (Στόχευση: ${categoryLabel})...`);
     setScanStats({
       totalExamined: 0,
       added: 0,
@@ -1164,7 +1169,7 @@ function safeEncodeBase64(data: any): string {
         id: "init",
         time: new Date().toLocaleTimeString("el-GR"),
         type: "init",
-        message: "🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API του Γ.Ε.ΜΗ..."
+        message: `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API του Γ.Ε.ΜΗ. για [${categoryLabel}]...`
       }
     ]);
 
@@ -1172,7 +1177,7 @@ function safeEncodeBase64(data: any): string {
       const res = await fetch("/api/admin/scan-gemi-ikes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ stream: true, limit: 50, minDate: "2026-08-31" }),
+        body: JSON.stringify({ stream: true, limit: 50, minDate: "2026-08-31", targetCategory: scanCategory }),
       });
 
       if (!res.ok) {
@@ -1900,15 +1905,34 @@ function safeEncodeBase64(data: any): string {
               <UserPlus size={14} />
               + Νεος Πελατης
             </button>
-            <button
-              onClick={handleScanGemiIkes}
-              disabled={isScanningGemi}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer disabled:opacity-50"
-              title="Live σάρωση στο Γ.Ε.ΜΗ. για νεοσύστατες Ι.Κ.Ε. χωρίς ιστοσελίδα"
-            >
-              {isScanningGemi ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} className="text-yellow-300" />}
-              ⚡ Ευρεση Νεων ΙΚΕ (ΓΕΜΗ)
-            </button>
+            {/* Targeted GEMI Scanner Selector & Trigger */}
+            <div className="inline-flex items-center bg-slate-900 border border-slate-700/80 rounded-xl p-1 shadow-md gap-1">
+              <div className="flex items-center gap-1 pl-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
+                <Target size={12} className="text-yellow-400" />
+                <span className="hidden sm:inline">Στοχευση:</span>
+              </div>
+              <select
+                value={scanCategory}
+                onChange={(e) => setScanCategory(e.target.value as any)}
+                disabled={isScanningGemi}
+                className="bg-slate-800 text-slate-100 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-indigo-400 cursor-pointer"
+              >
+                <option value="all">🏢 Όλες οι Νέες ΙΚΕ</option>
+                <option value="tourism">✈️ Τουρισμός / Travel / Rent-a-car</option>
+                <option value="operations_tech">⚡ Operations / Τεχνικές / Logistics</option>
+              </select>
+              <button
+                onClick={handleScanGemiIkes}
+                disabled={isScanningGemi}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
+                title="Live σάρωση στο Γ.Ε.ΜΗ. με την επιλεγμένη στόχευση"
+              >
+                {isScanningGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-yellow-300" />}
+                <span>
+                  {scanCategory === "tourism" ? "Ευρεση Τουρισμου" : scanCategory === "operations_tech" ? "Ευρεση Operations" : "Ευρεση (ΓΕΜΗ)"}
+                </span>
+              </button>
+            </div>
             <button
               onClick={() => {
                 setImportData("");

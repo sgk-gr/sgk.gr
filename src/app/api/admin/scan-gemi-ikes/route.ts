@@ -83,6 +83,7 @@ export async function POST(req: NextRequest) {
   }
 
   const maxResults = body.limit || 50;
+  const targetCategory = body.targetCategory || "all"; // "all" | "tourism" | "operations_tech"
   const targetMonth = body.month || null; // e.g. "2026-09"
   const minDate = body.minDate !== undefined ? body.minDate : "2026-08-31"; // Default: 31/08/2026 and newer only!
   const isStream = body.stream !== false; // Default to streaming
@@ -106,11 +107,17 @@ export async function POST(req: NextRequest) {
         };
 
         try {
+          const categoryLabels: Record<string, string> = {
+            all: "🏢 Όλες οι Νέες ΙΚΕ",
+            tourism: "✈️ Τουρισμός / Travel",
+            operations_tech: "⚡ Operations & Τεχνικές",
+          };
           emit({
             type: "init",
-            message: "⚡ Σύνδεση με OpenData API του Γ.Ε.ΜΗ...",
+            message: `⚡ Σύνδεση με OpenData API του Γ.Ε.ΜΗ. (Στόχευση: ${categoryLabels[targetCategory] || "Όλες"})...`,
             minDate,
-            maxResults
+            maxResults,
+            targetCategory
           });
 
           // 1. Fetch existing emails from Supabase
@@ -142,7 +149,8 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = 0;
 
-          while (newLeadsToInsert.length < maxResults && offset < 500) {
+          const maxOffset = targetCategory !== "all" ? 1500 : 500;
+          while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor(offset / pageSize) + 1;
             emit({
               type: "page",
@@ -289,6 +297,14 @@ export async function POST(req: NextRequest) {
               seenInBatch.add(email);
 
               const industry = detectLeadIndustry(co);
+
+              // Filter by target category if specified
+              if (targetCategory === "tourism" && industry.type !== "tourism") {
+                continue;
+              }
+              if (targetCategory === "operations_tech" && industry.type !== "operations_tech") {
+                continue;
+              }
 
               const newLead = {
                 email: email,
