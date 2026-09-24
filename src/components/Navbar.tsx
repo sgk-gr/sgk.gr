@@ -64,12 +64,12 @@ const Navbar = () => {
                 sgk<span className="text-[#3b5bdb]">.</span>
               </span>
             </Link>
-            <Link href="/pay-as-you-grow" className="flex flex-col items-start cursor-pointer mt-0.5 ml-1.5 hover:opacity-85 transition-opacity" title="Πληρωμή με βάση την πρόοδο του έργου (Pay as you grow)">
+            <Link href="/ike-offer" className="flex flex-col items-start cursor-pointer mt-0.5 ml-1.5 hover:opacity-85 transition-opacity" title="Εταιρική Ιστοσελίδα ΙΚΕ ΓΕΜΗ 124€">
               <div className="bg-[#80ff9f] text-black text-[12px] font-bold px-1.5 py-[2px] leading-none tracking-tight">
-                Pay as
+                Ι.Κ.Ε. ΓΕΜΗ
               </div>
               <div className="bg-[#3b5bdb] text-white text-[12px] font-bold px-1.5 py-[2px] leading-none tracking-tight">
-                you grow
+                124€
               </div>
             </Link>
           </div>

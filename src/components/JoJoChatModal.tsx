@@ -11,13 +11,13 @@ const slides = [
   {
     title: (
       <>
-        Pay As <br /> You Grow <br /> Μοντέλο.
+        Κατασκευή <br /> Ιστοσελίδας Ι.Κ.Ε. <br /> ΓΕΜΗ σε 24 Ώρες.
       </>
     ),
-    description: "Απόκτησε E-shop με setup fee 250€, έτοιμο να πουλάει την επόμενη μέρα, και 5% προμήθεια επί των πωλήσεων για 12 μήνες. Αν δεν πουλάς, δεν πληρώνεις τίποτα. 100% δικό σου μετά τον χρόνο!",
+    description: "Πλήρης εταιρική ιστοσελίδα Ι.Κ.Ε. για το ΓΕΜΗ σε 24 ώρες με domain .gr, hosting, email και SSL μόνο με 124€.",
     image: "/hero_slide_4.png",
-    linkText: "Μάθε για τις πληρωμές",
-    linkUrl: "/pay-as-you-grow"
+    linkText: "Δες την προσφορά (124€)",
+    linkUrl: "/ike-offer"
   },
   {
     title: (
