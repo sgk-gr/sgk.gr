@@ -29,6 +29,30 @@ function isValidEmail(email?: string | null): boolean {
   return !IGNORED_DOMAINS.some(d => domain.includes(d));
 }
 
+function detectLeadIndustry(co: any): { type: string; label: string; icon: string } {
+  const textToSearch = [
+    co.coNameEl || "",
+    ...(co.coTitlesEl || []),
+    ...(co.coTitlesEn || []),
+    co.objective || "",
+    ...(co.activities || []).map((a: any) => `${a.activity?.id || ""} ${a.activity?.descr || ""}`),
+  ].join(" ").toUpperCase();
+
+  // 1. Tourism / Travel / Rent-a-car / Hospitality
+  const tourismRegex = /(79\.\d+|79\d{2}|771\d+|77\.1|7734|77\.34|55\.\d+|55\d{2}|ΤΟΥΡΙΣΤ|TRAVEL|TOUR|RENT A CAR|CAR RENTAL|YACHT|CHARTER|HOTEL|VILLA|CRUISE|HOLIDAY|ΕΚΔΡΟΜ|ΞΕΝΟΔΟΧ)/i;
+  if (tourismRegex.test(textToSearch)) {
+    return { type: "tourism", label: "Τουρισμός / Travel", icon: "✈️" };
+  }
+
+  // 2. Operations / Tech / Field Workforce / Telecom / Logistics
+  const opsRegex = /(42\.\d+|42\d{2}|43\.\d+|43\d{2}|61\.\d+|61\d{2}|494\d+|49\.4|52\.\d+|52\d{2}|80\.\d+|ΤΗΛΕΠΙΚΟΙΝΩΝ|ΟΠΤΙΚ|FIBER|ΤΕΧΝΙΚ|ΕΡΓΟΛΑΒ|LOGISTICS|ΜΕΤΑΦΟΡ|ΣΥΝΤΗΡΗΣ|ΕΓΚΑΤΑΣΤΑΣ|SECURITY|ΚΑΤΑΣΚΕΥ)/i;
+  if (opsRegex.test(textToSearch)) {
+    return { type: "operations_tech", label: "Operations & Τεχνική", icon: "⚡" };
+  }
+
+  return { type: "new_ike", label: "Γενική ΙΚΕ", icon: "🏢" };
+}
+
 async function fetchGemiWithTimeout(url: string, apiKey: string) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 12000);
@@ -264,6 +288,8 @@ export async function POST(req: NextRequest) {
 
               seenInBatch.add(email);
 
+              const industry = detectLeadIndustry(co);
+
               const newLead = {
                 email: email,
                 company: companyTitle,
@@ -277,7 +303,7 @@ export async function POST(req: NextRequest) {
                 email_sequence_step: 0,
                 unsubscribed: false,
                 converted: false,
-                type: "new_ike",
+                type: industry.type,
                 created_at: new Date().toISOString()
               };
 
@@ -291,7 +317,7 @@ export async function POST(req: NextRequest) {
                 afm,
                 phone,
                 date: incDate,
-                reason: `🎉 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
+                reason: `${industry.icon} ΝΕΑ Ι.Κ.Ε. [${industry.label}] ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
 

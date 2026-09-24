@@ -37,6 +37,55 @@ const templates = [
     defaultButtonLink: "https://sgk.gr/ike-offer"
   },
   {
+    name: "✈️ Τουρισμός: Πλατφόρμα & Κρατήσεις (High Travel Style)",
+    subject: "Custom Τουριστική Πλατφόρμα & Σύστημα Κρατήσεων για τη νέα σας εταιρεία ✈️",
+    body: `<h2>Αποκτήστε τη Δική σας Αυτόνομη Τουριστική Πλατφόρμα & Σύστημα Κρατήσεων ✈️</h2>
+<p>Γεια σας,</p>
+<p>Συγχαρητήρια για την ίδρυση της νέας σας τουριστικής εταιρείας και καλή αρχή στην τουριστική αγορά!</p>
+<p>Στην <strong>SGK Digital</strong>, εξειδικευόμαστε στον σχεδιασμό και την ανάπτυξη <strong>σύγχρονων τουριστικών πλατφορμών & custom web apps</strong>. Πρόσφατα σχεδιάσαμε και παραδώσαμε την ολοκληρωμένη πλατφόρμα της <strong>High Travel ΙΚΕ</strong> (<a href="https://www.hightravel.gr/" target="_blank" style="color: #3b5bdb; font-weight: bold;">hightravel.gr</a>) με τεχνολογία <strong>Next.js 15 & Custom React Admin</strong>.</p>
+<p><strong>Τι σας προσφέρει μια Custom Τουριστική Πλατφόρμα:</strong></p>
+<ul>
+  <li><strong>Αστραπιαία Ταχύτητα & Mobile-First UX:</strong> Υπερταχύτητα φόρτωσης (υψηλότερο conversion σε κρατήσεις από κινητά) και άριστο SEO σε όλους τους προορισμούς.</li>
+  <li><strong>Εξειδικευμένο Διαχειριστικό (Custom React Admin):</strong> Πλήρης αυτονομία στην προσθήκη ταξιδιωτικών πακέτων, εκδρομών, τιμών, posters και εκπτώσεων, χωρίς εξάρτηση από βαριά και αργά έτοιμα θέματα.</li>
+  <li><strong>Έξυπνα Φίλτρα & Online Κρατήσεις:</strong> Αναζήτηση ανά ημερομηνία, άτομα (ενήλικες/παιδιά), εύρος τιμών και τύπο μεταφοράς (λεωφορείο, αεροπλάνο, πλοίο).</li>
+  <li><strong>Χωρίς Προμήθειες σε Τρίτες Πλατφόρμες:</strong> Η πλατφόρμα ανήκει 100% σε εσάς, χωρίς μηνιαίες δεσμεύσεις ή προμήθειες ανά κράτηση.</li>
+  <li><strong>100% Συμβατότητα με ΓΕΜΗ & ΜΗ.Τ.Ε.:</strong> Αυτόματη κάλυψη όλων των υποχρεωτικών εταιρικών στοιχείων δημοσιότητας.</li>
+</ul>
+<p>Θα χαρούμε να σας παρουσιάσουμε σε ένα <strong>σύντομο live demo 15 λεπτών</strong> πώς λειτουργεί το διαχειριστικό και η αρχιτεκτονική της High Travel και πώς μπορούμε να προσαρμόσουμε αντίστοιχη λύση στο δικό σας brand.</p>
+<p>Απαντήστε απλά σε αυτό το email ή καλέστε μας στα <strong>211 114 0013</strong> / <strong>6999 524 389</strong> για να συζητήσουμε τις ανάγκες σας!</p>
+<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  ℹ️ <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
+  Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
+</div>`,
+    defaultButtonText: "Δείτε το Case Study High Travel",
+    defaultButtonLink: "https://sgk.gr/case-study/high-travel"
+  },
+  {
+    name: "⚡ Operations: Custom Web App Τεχνικών & Έργων (KM-Fiber Style)",
+    subject: "Custom Web App για Συντονισμό Τεχνικών, Έργων & Στόλου ⚡ (KM-Fiber Case Study)",
+    body: `<h2>Αυτοματοποιήστε τη Διαχείριση Τεχνικών, Έργων & Στόλου με Custom Web App ⚡</h2>
+<p>Γεια σας,</p>
+<p>Συγχαρητήρια για την έναρξη της νέας σας εταιρείας και καλή επιτυχία στα έργα σας!</p>
+<p>Γνωρίζουμε ότι στις τεχνικές εταιρείες, τις εγκαταστάσεις και τα logistics, ο καθημερινός συντονισμός συνεργείων και έργων μέσω τηλεφώνων, μηνυμάτων και Excel προκαλεί <strong>καθυστερήσεις, ανθρώπινα λάθη και τεράστιο χαμένο χρόνο</strong>.</p>
+<p>Στην <strong>SGK Digital</strong> αναπτύσσουμε εξειδικευμένα <strong>Web Applications & Operational Portals</strong> για τη διαχείριση προσωπικού πεδίου και τεχνικών έργων. Ενδεικτικά, για την <strong>KM-FIBER</strong> (κορυφαίο συνεργάτη της Cosmote στις οπτικές ίνες), αναπτύξαμε την κεντρική πλατφόρμα λειτουργίας τους:</p>
+<p><strong>Δυνατότητες Custom Operational App:</strong></p>
+<ul>
+  <li><strong>Live Χάρτης & Tracking Συνεργείων:</strong> Παρακολούθηση θέσης τεχνικών σε πραγματικό χρόνο και ανάθεση νέων βλαβών/εργασιών στο πλησιέστερο συνεργείο.</li>
+  <li><strong>Mobile Interface για Τεχνικούς:</strong> Ο τεχνικός βλέπει το ημερήσιο πρόγραμμά του στο κινητό, συμπληρώνει το ψηφιακό δελτίο εργασίας και ολοκληρώνει το έργο άμεσα.</li>
+  <li><strong>AI Αυτόματος Έλεγχος Φωτογραφιών:</strong> Αυτόματη αναγνώριση και ποιοτικός έλεγχος φωτογραφιών εγκατάστασης πριν την παράδοση στον πελάτη.</li>
+  <li><strong>Αυτόματη Ενημέρωση Αναφορών & Τιμολόγησης:</strong> Μηδενισμός χειροκίνητων καταχωρήσεων — όλες οι αναφορές παράγονται αυτόματα σε Excel / PDF και διασυνδέονται με το ERP σας.</li>
+  <li><strong>100% Συμβατότητα με ΓΕΜΗ:</strong> Πλήρης κάλυψη των υποχρεωτικών στοιχείων δημοσιότητας της νέας σας εταιρείας.</li>
+</ul>
+<p>Θα χαρούμε να σας δείξουμε σε ένα <strong>σύντομο live demo 15 λεπτών</strong> πώς η KM-FIBER εξοικονόμησε 20+ ώρες εβδομαδιαίως και πώς μπορεί να προσαρμοστεί η λύση στον δικό σας κλάδο.</p>
+<p>Απαντήστε σε αυτό το email ή καλέστε μας στα <strong>211 114 0013</strong> / <strong>6999 524 389</strong> για να κανονίσουμε μια πρώτη γνωριμία!</p>
+<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  ℹ️ <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
+  Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νέας σας εταιρείας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
+</div>`,
+    defaultButtonText: "Δείτε το Case Study KM-Fiber",
+    defaultButtonLink: "https://sgk.gr/case-study/km-fiber"
+  },
+  {
     name: "✨ Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)",
     subject: "Αναβαθμίστε την Ι.Κ.Ε. σας σε Πλήρη Εταιρική Ιστοσελίδα 🚀 (Ειδική Προσφορά 390€)",
     body: `<h2>Μετατρέψτε την Ιστοσελίδα της Ι.Κ.Ε. σας σε Ισχυρό Εργαλείο Πωλήσεων & Προβολής! 🚀</h2>
@@ -1271,6 +1320,12 @@ function safeEncodeBase64(data: any): string {
         if (!(emailMatch || firstNameMatch || lastNameMatch || companyMatch || phoneMatch || afmMatch || fullNameMatch)) return false;
       }
 
+      if (statusFilter === 'tourism') {
+        return lead.type === 'tourism';
+      }
+      if (statusFilter === 'operations_tech') {
+        return lead.type === 'operations_tech';
+      }
       if (statusFilter === 'new_ike') {
         return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
       }
@@ -1299,7 +1354,9 @@ function safeEncodeBase64(data: any): string {
 
   const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && !isEmailBlacklisted(l.email) && (l.email_sequence_step || 0) === 0 && !l.last_email_sent_at);
   const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !isEmailBlacklisted(l.email));
-  const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && l.created_at >= '2026-08-01')).length;
+  const tourismCount = leads.filter(l => l.type === 'tourism').length;
+  const opsTechCount = leads.filter(l => l.type === 'operations_tech').length;
+  const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && lead.created_at >= '2026-08-01')).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0) && !l.last_email_sent_at).length;
   const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (((l.email_sequence_step || 0) >= 1) || Boolean(l.last_email_sent_at))).length;
@@ -1902,10 +1959,51 @@ function safeEncodeBase64(data: any): string {
             )}
           </div>
 
+          {/* Quick Category Filter Pills */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <button
+              onClick={() => setStatusFilter(statusFilter === 'tourism' ? 'all' : 'tourism')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                statusFilter === 'tourism'
+                  ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
+                  : 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
+              }`}
+            >
+              <span>✈️ Τουρισμός</span>
+              <span className="text-[10px] px-1 rounded-full bg-white/40">{tourismCount}</span>
+            </button>
+
+            <button
+              onClick={() => setStatusFilter(statusFilter === 'operations_tech' ? 'all' : 'operations_tech')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                statusFilter === 'operations_tech'
+                  ? 'bg-purple-600 text-white border-purple-700 shadow-sm'
+                  : 'bg-purple-50 text-purple-800 border-purple-200 hover:bg-purple-100'
+              }`}
+            >
+              <span>⚡ Operations & Tech</span>
+              <span className="text-[10px] px-1 rounded-full bg-white/40">{opsTechCount}</span>
+            </button>
+
+            <button
+              onClick={() => setStatusFilter(statusFilter === 'new_ike' ? 'all' : 'new_ike')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                statusFilter === 'new_ike'
+                  ? 'bg-blue-600 text-white border-blue-700 shadow-sm'
+                  : 'bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100'
+              }`}
+            >
+              <span>🏢 Νέες ΙΚΕ</span>
+              <span className="text-[10px] px-1 rounded-full bg-white/40">{newIkeCount}</span>
+            </button>
+          </div>
+
           {/* Active Filter Indicator */}
           {statusFilter !== 'all' && (
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
+              {statusFilter === 'tourism' && <span className="text-amber-700 font-black">✈️ Τουρισμός / Travel</span>}
+              {statusFilter === 'operations_tech' && <span className="text-purple-700 font-black">⚡ Operations & Τεχνικές</span>}
               {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
               {statusFilter === 'legacy' && <span className="text-blue-600 font-black">🏢 Παλαιές ΙΚΕ</span>}
               {statusFilter === 'new' && <span className="text-blue-600 font-black">➕ Νέοι (0/5)</span>}
@@ -2003,9 +2101,24 @@ function safeEncodeBase64(data: any): string {
                             )}
                           </div>
                           {lead.company && (
-                            <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-1 mt-0.5">
+                            <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-1.5 mt-0.5 flex-wrap">
                               <Building2 size={11} className="text-slate-400 shrink-0" />
                               <span>{lead.company}</span>
+                              {lead.type === 'tourism' && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300">
+                                  ✈️ Τουρισμός
+                                </span>
+                              )}
+                              {lead.type === 'operations_tech' && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-purple-100 text-purple-800 border border-purple-300">
+                                  ⚡ Operations
+                                </span>
+                              )}
+                              {(lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01')) && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
+                                  🏢 ΙΚΕ
+                                </span>
+                              )}
                             </div>
                           )}
                           {(lead.first_name || lead.last_name) && (
