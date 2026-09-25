@@ -1,4 +1,4 @@
-import { PDFParse } from "pdf-parse";
+import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
@@ -21,6 +21,7 @@ async function extractFromYmsDocument(arGemi: string): Promise<YmsExtractedInfo 
         api_key: GEMI_API_KEY,
         Accept: "application/json",
       },
+      signal: AbortSignal.timeout(6000),
     });
 
     if (!res.ok) return null;
@@ -50,15 +51,17 @@ async function extractFromYmsDocument(arGemi: string): Promise<YmsExtractedInfo 
     if (!targetDoc || !targetDoc.url) return null;
 
     const pdfUrl = targetDoc.url;
-    const pdfRes = await fetch(pdfUrl);
+    const pdfRes = await fetch(pdfUrl, {
+      signal: AbortSignal.timeout(8000),
+    });
     if (!pdfRes.ok) return null;
 
     const arrayBuffer = await pdfRes.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
 
-    const parser = new PDFParse({ data: buffer });
-    const parsed = await parser.getText();
-    const fullText = parsed.text || "";
+    // Dynamically import unpdf (safe for Vercel Serverless / Node.js)
+    const { extractText } = await import("unpdf");
+    const { text } = await extractText(arrayBuffer);
+    const fullText = Array.isArray(text) ? text.join("\n") : String(text || "");
 
     if (!fullText) return null;
 
@@ -106,7 +109,7 @@ async function extractFromYmsDocument(arGemi: string): Promise<YmsExtractedInfo 
 
     return null;
   } catch (err) {
-    console.error("Error reading YMS PDF document from GEMI:", err);
+    console.error("Error reading YMS PDF document from GEMI (non-fatal):", err);
     return null;
   }
 }
