@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { 
   FileCheck, Printer, Plus, Trash2, Edit3, Download, Eye, 
   Building2, User, CreditCard, Search, Sparkles, Loader2, RefreshCw,
-  X, Check, Copy, Landmark, Mail, ExternalLink
+  X, Check, Copy, Landmark, Mail, ExternalLink, Receipt
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -45,6 +45,12 @@ export interface ContractData {
   representativeTitle: string;
   representativeAfm?: string;
   clientAfm: string;
+  address?: string;
+
+  // Service / Scope
+  serviceType: "ike_gemi" | "eshop" | "website" | "custom";
+  serviceTitle: string;
+  serviceDescription: string;
 
   // Amounts & Terms
   totalAmountNum: number;
@@ -85,6 +91,11 @@ export const DEFAULT_CONTRACT: ContractData = {
   representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
   representativeAfm: "",
   clientAfm: "",
+  address: "",
+
+  serviceType: "ike_gemi",
+  serviceTitle: "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ)",
+  serviceDescription: "Σχεδίαση, ανάπτυξη και παράδοση απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ., καταχώριση domain name (.gr) και φιλοξενία (hosting) 1ου έτους.",
 
   totalAmountNum: 124.00,
   totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
@@ -122,6 +133,7 @@ export function ContractsTab({
   const [contracts, setContracts] = useState<ContractData[]>([]);
   const [currentContract, setCurrentContract] = useState<ContractData>(DEFAULT_CONTRACT);
   const [isEditing, setIsEditing] = useState(true);
+  const [previewDocType, setPreviewDocType] = useState<"contract" | "invoice">("contract");
   const [ymsDetectedInfo, setYmsDetectedInfo] = useState<{ detected: boolean; afm?: string; father?: string; name?: string } | null>(null);
 
   // Load saved contracts from LocalStorage
@@ -204,7 +216,133 @@ export function ContractsTab({
     }
   };
 
-  // Save contract to list and cloud
+  // Invoice Calculations based on contract state
+  const getInvoiceCalculations = (c: ContractData) => {
+    const gross = c.totalAmountNum || 124;
+    const net = Number((gross / 1.24).toFixed(2));
+    const vat = Number((gross - net).toFixed(2));
+    const withholding = gross >= 300 ? Number((net * 0.20).toFixed(2)) : 0;
+    const payable = Number((gross - withholding).toFixed(2));
+
+    let offerItems: { title: string; description: string; duration: string }[] = [];
+    if (c.serviceType === "ike_gemi") {
+      offerItems = [
+        {
+          title: "Κατασκευή Ιστοσελίδας ΓΕΜΗ (Single Page)",
+          description: "Ανάρτηση στοιχείων επιχείρησης, διοίκησης, ΑΦΜ, ΓΕΜΗ, ΚΑΔ και νομικών γνωστοποιήσεων σύμφωνα με τις προδιαγραφές του Γ.Ε.ΜΗ.",
+          duration: `${c.deliveryDaysNum || 5} εργάσιμες ημέρες`
+        },
+        {
+          title: "Κατοχύρωση Domain (.gr) & Cloud Hosting",
+          description: "Κατοχύρωση επίσημου .gr domain name και φιλοξενία σε ταχύτατο cloud server με πιστοποιητικό SSL.",
+          duration: "12 μήνες"
+        }
+      ];
+    } else if (c.serviceType === "eshop") {
+      offerItems = [
+        {
+          title: "Κατασκευή Eshop (WooCommerce & Custom Design)",
+          description: "Σχεδιασμός & ανάπτυξη custom ηλεκτρονικού καταστήματος. Περιλαμβάνει responsive σχεδίαση για κινητά/tablets, διασύνδεση με τράπεζες, Google PageSpeed 95+ και βασικό SEO.",
+          duration: `${c.deliveryDaysNum || 25} εργάσιμες ημέρες`
+        },
+        {
+          title: "Premium Hosting & Τεχνική Υποστήριξη (VPS & Cloudflare)",
+          description: "Φιλοξενία σε dedicated cloud server, διαμόρφωση Cloudflare CDN/WAF για μέγιστη ασφάλεια, αυτόματα daily backups και 12 μήνες συνεχή υποστήριξη.",
+          duration: "12 μήνες"
+        }
+      ];
+    } else if (c.serviceType === "website") {
+      offerItems = [
+        {
+          title: "Κατασκευή Εταιρικής Ιστοσελίδας (Corporate Website)",
+          description: "Σχεδίαση και υλοποίηση σύγχρονου εταιρικού website παρουσίασης υπηρεσιών, δυναμική φόρμα επικοινωνίας, διασύνδεση social media και mobile-first responsive σχεδιασμός.",
+          duration: `${c.deliveryDaysNum || 15} εργάσιμες ημέρες`
+        },
+        {
+          title: "Cloud Hosting & SSL Encryption",
+          description: "Υψηλής ταχύτητας cloud hosting, SSL Encryption και υποστήριξη 1ου έτους.",
+          duration: "12 μήνες"
+        }
+      ];
+    } else {
+      offerItems = [
+        {
+          title: c.serviceTitle || "Υπηρεσίες Πληροφορικής & Ανάπτυξης",
+          description: c.serviceDescription || "Εξατομικευμένη σχεδίαση, υλοποίηση και τεχνική παράδοση σύμφωνα με τις προδιαγραφές.",
+          duration: `${c.deliveryDaysNum || 10} εργάσιμες ημέρες`
+        }
+      ];
+    }
+
+    return { gross, net, vat, withholding, payable, offerItems };
+  };
+
+  // Helper to switch service preset
+  const handleApplyPreset = (presetId: "ike_gemi" | "eshop" | "website" | "custom") => {
+    if (presetId === "ike_gemi") {
+      setCurrentContract(prev => ({
+        ...prev,
+        serviceType: "ike_gemi",
+        serviceTitle: "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ)",
+        serviceDescription: "Σχεδίαση, ανάπτυξη και παράδοση απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ., καταχώριση domain name (.gr) και φιλοξενία (hosting) 1ου έτους.",
+        totalAmountNum: 124,
+        totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+        advanceAmountNum: 0,
+        advanceAmountText: "μηδέν ευρώ (0,00 €)",
+        remainingAmountNum: 0,
+        remainingAmountText: "μηδέν ευρώ (0,00 €)",
+        renewalAmountNum: 124,
+        renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+        deliveryDaysNum: 5,
+        deliveryDaysText: "πέντε (5)",
+      }));
+      toast.info("Επιλέχθηκε το πακέτο: Ι.Κ.Ε. ΓΕΜΗ (124€)");
+    } else if (presetId === "eshop") {
+      setCurrentContract(prev => ({
+        ...prev,
+        serviceType: "eshop",
+        serviceTitle: "Κατασκευή Ηλεκτρονικού Καταστήματος (E-Shop)",
+        serviceDescription: "Custom σχεδιασμός & ανάπτυξη e-shop, διασύνδεση με τράπεζα, σύστημα διαχείρισης παραγγελιών, responsive UI και SEO.",
+        totalAmountNum: 1240,
+        totalAmountText: "χιλίων διακοσίων σαράντα ευρώ (1.240,00 €)",
+        advanceAmountNum: 620,
+        advanceAmountText: "εξακοσίων είκοσι ευρώ (620,00 €)",
+        remainingAmountNum: 620,
+        remainingAmountText: "εξακοσίων είκοσι ευρώ (620,00 €)",
+        renewalAmountNum: 180,
+        renewalAmountText: "εκατόν ογδόντα ευρώ (180,00 €)",
+        deliveryDaysNum: 25,
+        deliveryDaysText: "είκοσι πέντε (25)",
+      }));
+      toast.info("Επιλέχθηκε το πακέτο: Κατασκευή Eshop (1.240€)");
+    } else if (presetId === "website") {
+      setCurrentContract(prev => ({
+        ...prev,
+        serviceType: "website",
+        serviceTitle: "Κατασκευή Εταιρικής Ιστοσελίδας (Corporate Website)",
+        serviceDescription: "Σχεδίαση και υλοποίηση σύγχρονου εταιρικού website παρουσίασης υπηρεσιών, δυναμική φόρμα επικοινωνίας, διασύνδεση social media και responsive σχεδιασμός.",
+        totalAmountNum: 620,
+        totalAmountText: "εξακοσίων είκοσι ευρώ (620,00 €)",
+        advanceAmountNum: 310,
+        advanceAmountText: "τριακοσίων δέκα ευρώ (310,00 €)",
+        remainingAmountNum: 310,
+        remainingAmountText: "τριακοσίων δέκα ευρώ (310,00 €)",
+        renewalAmountNum: 120,
+        renewalAmountText: "εκατόν είκοσι ευρώ (120,00 €)",
+        deliveryDaysNum: 15,
+        deliveryDaysText: "δεκαπέντε (15)",
+      }));
+      toast.info("Επιλέχθηκε το πακέτο: Εταιρική Ιστοσελίδα (620€)");
+    } else {
+      setCurrentContract(prev => ({
+        ...prev,
+        serviceType: "custom",
+      }));
+      toast.info("Επιλέχθηκε: Προσαρμοσμένο Έργο");
+    }
+  };
+
+  // Save contract to list and cloud (also syncs invoice data)
   const handleSaveContract = () => {
     const docId = currentContract.id || ("contract_" + (currentContract.clientAfm || currentContract.gemiNo || Date.now()));
     const toSave: ContractData = {
@@ -224,16 +362,52 @@ export function ContractsTab({
     setContracts(updated);
     localStorage.setItem("sgk_saved_contracts", JSON.stringify(updated));
 
-    // Async sync to Supabase cloud storage (pdf_uploads)
+    // Save corresponding Invoice to localStorage as well
+    const calc = getInvoiceCalculations(toSave);
+    const invoiceDoc = {
+      id: toSave.id,
+      clientName: toSave.tradeName || toSave.companyName,
+      clientAfm: toSave.clientAfm,
+      clientAddress: toSave.address || toSave.city || "Αθήνα",
+      docNo: "1",
+      date: toSave.contractDate,
+      serviceTitle: toSave.serviceTitle,
+      serviceDescription: toSave.serviceDescription,
+      net: calc.net,
+      vat: calc.vat,
+      gross: calc.gross,
+      withholding: calc.withholding,
+      payable: calc.payable,
+      offerItems: calc.offerItems,
+    };
+    try {
+      const savedInvoices = localStorage.getItem("sgk_saved_invoices");
+      const invoicesList = savedInvoices ? JSON.parse(savedInvoices) : [];
+      const invIdx = invoicesList.findIndex((i: any) => i.id === toSave.id);
+      if (invIdx >= 0) {
+        invoicesList[invIdx] = invoiceDoc;
+      } else {
+        invoicesList.unshift(invoiceDoc);
+      }
+      localStorage.setItem("sgk_saved_invoices", JSON.stringify(invoicesList));
+    } catch(e) {}
+
+    // Async sync to Supabase cloud storage (both contract & invoice)
     try {
       fetch("/api/documents", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "contract", id: toSave.id, data: toSave })
       }).catch(e => console.error(e));
+
+      fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "invoice", id: toSave.id, data: invoiceDoc })
+      }).catch(e => console.error(e));
     } catch(e) {}
 
-    toast.success("Το συμφωνητικό αποθηκεύτηκε επιτυχώς!");
+    toast.success("Το συμφωνητικό και το τιμολόγιο αποθηκεύτηκαν επιτυχώς!");
     return toSave;
   };
 
@@ -265,24 +439,289 @@ export function ContractsTab({
     setIsEditing(true);
   };
 
-  // Print Contract via clean dedicated window
-  const handlePrint = () => {
+  // Contract HTML Builder for Printing
+  const getContractBodyHtml = (c: ContractData) => `
+    <div style="font-family: 'Times New Roman', Times, Georgia, serif; font-size: 13px; line-height: 1.45; color: #000; text-align: justify;">
+      <div style="text-align: center; font-weight: bold; margin-bottom: 18px;">
+        <h1 style="font-size: 14.5px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ</h1>
+        <h2 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">${(c.serviceTitle || "ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)").toUpperCase()}</h2>
+      </div>
+
+      <p style="margin-bottom: 9px;">Στην <strong>${c.city || 'Αθήνα'}</strong>, σήμερα στις <strong>${formatDateGreek(c.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:</p>
+
+      <p style="padding-left: 18px; margin-bottom: 8px;"><strong>1. Αφενός:</strong> ο κ. <strong>${c.contractorName}</strong>, με έδρα επιχείρησης στη ${c.contractorAddress}, με επάγγελμα «${c.contractorProfession}», με Α.Φ.Μ. <strong>${c.contractorAfm}</strong> / Δ.Ο.Υ. <strong>${c.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,</p>
+
+      <p style="margin-bottom: 8px;">και</p>
+
+      <p style="padding-left: 18px; margin-bottom: 10px;"><strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«${c.companyName || '................................................'}»</strong> (διακριτικός τίτλος <strong>«${c.tradeName || '................................'}»</strong>), με Α.Φ.Μ. <strong>${c.clientAfm || '....................'}</strong> και αριθμό Γ.Ε.ΜΗ. <strong>${c.gemiNo || '....................'}</strong>, νομίμως εκπροσωπούμενη από ${c.representativeTitle || 'τον διαχειριστή αυτής'} κ. <strong>${c.representativeName || '................................'}</strong> του <strong>${c.representativeFatherName || '....................'}</strong>, με Α.Φ.Μ. <strong>${c.representativeAfm || '....................'}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,</p>
+
+      <p style="margin-bottom: 12px;">συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:</p>
+
+      <div style="margin-bottom: 10px;">
+        <div style="font-weight: bold; margin-bottom: 3px; font-size: 13px;">Άρθρο 1 – Αντικείμενο της σύμβασης</div>
+        <p style="margin-bottom: 6px;">Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη την υλοποίηση και παροχή της υπηρεσίας: <strong>${c.serviceTitle || "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ)"}</strong>.</p>
+        <p style="margin-bottom: 6px;">${c.serviceDescription || "Σχεδίαση, ανάπτυξη και παράδοση απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ., καταχώριση domain name (.gr) και φιλοξενία (hosting) 1ου έτους."}</p>
+        <p style="margin-bottom: 6px;">Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η υλοποίηση του παραδοτέου έργου, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.</p>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <div style="font-weight: bold; margin-bottom: 3px; font-size: 13px;">Άρθρο 2 – Domain και φιλοξενία (hosting)</div>
+        <p style="margin-bottom: 6px;">Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.</p>
+        <p style="margin-bottom: 6px;">Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>${c.renewalAmountText}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.</p>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <div style="font-weight: bold; margin-bottom: 3px; font-size: 13px;">Άρθρο 3 – Χρόνος παράδοσης</div>
+        <p style="margin-bottom: 6px;">Ο Ανάδοχος υποχρεούται να παραδώσει το έργο εντός <strong>${c.deliveryDaysText}</strong> εργάσιμων ημερών από την ${c.advanceAmountNum > 0 ? 'καταβολή της προκαταβολής του Άρθρου 4' : 'εξόφληση της αμοιβής του Άρθρου 4'}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία για την υλοποίηση.</p>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <div style="font-weight: bold; margin-bottom: 3px; font-size: 13px;">Άρθρο 4 – Αμοιβή και τρόπος πληρωμής</div>
+        <p style="margin-bottom: 4px;"><strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή ανέρχεται στο ποσό των <strong>${c.totalAmountText}</strong>, συμπεριλαμβανομένου Φ.Π.Α.</p>
+        ${c.advanceAmountNum === 0 
+          ? `<p style="margin-bottom: 4px;"><strong>4.2</strong> Η εξόφληση της αμοιβής πραγματοποιείται <strong>εφάπαξ</strong> με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής.</p>` 
+          : `<p style="margin-bottom: 4px;"><strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>${c.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών.</p>
+             <p style="margin-bottom: 4px;"><strong>4.3</strong> Το υπόλοιπο ποσό των <strong>${c.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση του έργου.</p>`
+        }
+        <p style="margin-bottom: 4px;"><strong>${c.advanceAmountNum === 0 ? '4.3' : '4.4'}</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.</p>
+        <p style="margin-bottom: 4px;"><strong>${c.advanceAmountNum === 0 ? '4.4' : '4.5'}</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>${c.ibanDetails}</strong>, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.</p>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <div style="font-weight: bold; margin-bottom: 3px; font-size: 13px;">Άρθρο 5 – Λοιποί όροι</div>
+        <p style="margin-bottom: 4px;">Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.</p>
+        <p style="margin-bottom: 4px;">Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.</p>
+        <p style="margin-bottom: 4px;">Το παρόν συντάχθηκε σε δύο (2) όμοια πρωτότυπα, τα οποία αφού αναγνώσθηκαν και βεβαιώθηκαν από τους συμβαλλόμενους, υπεγράφησαν από αυτούς και έλαβε έκαστο εξ αυτών από ένα.</p>
+      </div>
+
+      <div style="margin-top: 24px; display: flex; justify-content: space-between; page-break-inside: avoid;">
+        <div style="width: 45%; text-align: center; font-size: 12px;">
+          <p style="font-weight: bold; margin-bottom: 2px;">Οι Συμβαλλόμενοι:</p>
+          <p style="font-weight: bold; margin-bottom: 4px;">Ο Ανάδοχος</p>
+          <div style="height: 48px; border-bottom: 1px dashed #555; margin: 6px auto 8px auto; width: 75%;"></div>
+          <p style="font-weight: bold; text-transform: uppercase;">${c.contractorName}</p>
+        </div>
+
+        <div style="width: 45%; text-align: center; font-size: 12px;">
+          <p style="font-weight: bold; margin-bottom: 2px;">&nbsp;</p>
+          <p style="font-weight: bold; margin-bottom: 4px;">Ο Εργοδότης / Πελάτης</p>
+          <div style="height: 48px; border-bottom: 1px dashed #555; margin: 6px auto 8px auto; width: 75%;"></div>
+          <p style="font-weight: bold; text-transform: uppercase;">${c.representativeName || '................................'}</p>
+          <p style="font-size: 11px; font-style: italic; color: #444;">(για λογαριασμό της ${c.tradeName || c.companyName || '....................'})</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Invoice Page 1 (AADE Mockup) HTML Builder
+  const getInvoicePage1BodyHtml = (c: ContractData, calc: ReturnType<typeof getInvoiceCalculations>) => `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1e293b; font-size: 12px; line-height: 1.4;">
+      <div style="font-size: 8.5px; color: #e11d48; font-weight: 800; text-align: center; background: #fff1f2; border: 1px solid #fecdd3; padding: 7px 12px; border-radius: 8px; margin-bottom: 14px; font-style: italic;">
+        ⚠️ Το παρόν δεν αποτελεί φορολογικό στοιχείο (τιμολόγιο), αλλά απεικόνιση της προσφοράς και του συμφωνηθέντος ποσού.
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #cbd5e1; padding-bottom: 14px; margin-bottom: 12px;">
+        <div style="font-size: 10.5px; width: 68%;">
+          <div style="display: flex; gap: 8px; margin-bottom: 3px;">
+            <span style="background: #f1f5f9; border: 1px solid #cbd5e1; font-weight: bold; padding: 1px 6px; border-radius: 4px; font-size: 8.5px; min-width: 65px; text-align: center;">ΕΠΩΝΥΜΙΑ</span>
+            <span style="font-weight: 800; color: #0f172a;">${c.contractorName}</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 3px;">
+            <span style="background: #f1f5f9; border: 1px solid #cbd5e1; font-weight: bold; padding: 1px 6px; border-radius: 4px; font-size: 8.5px; min-width: 65px; text-align: center;">Α.Φ.Μ.</span>
+            <span style="font-weight: 800; color: #0f172a;">${c.contractorAfm}</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 3px;">
+            <span style="background: #f1f5f9; border: 1px solid #cbd5e1; font-weight: bold; padding: 1px 6px; border-radius: 4px; font-size: 8.5px; min-width: 65px; text-align: center;">ΕΠΑΓΓΕΛΜΑ</span>
+            <span style="font-weight: 800; color: #0f172a;">${c.contractorProfession}</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 3px;">
+            <span style="background: #f1f5f9; border: 1px solid #cbd5e1; font-weight: bold; padding: 1px 6px; border-radius: 4px; font-size: 8.5px; min-width: 65px; text-align: center;">Δ.Ο.Υ.</span>
+            <span style="font-weight: 800; color: #0f172a;">${c.contractorDoy}</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <span style="background: #f1f5f9; border: 1px solid #cbd5e1; font-weight: bold; padding: 1px 6px; border-radius: 4px; font-size: 8.5px; min-width: 65px; text-align: center;">ΔΙΕΥΘΥΝΣΗ</span>
+            <span style="font-weight: 800; color: #0f172a; font-size: 9.5px;">${c.contractorAddress}</span>
+          </div>
+        </div>
+
+        <div style="text-align: right; width: 30%;">
+          <div style="font-size: 26px; font-weight: 900; color: #0f2d59; letter-spacing: -1px; line-height: 1;">
+            sgk<span style="color: #3b5bdb;">.</span>
+          </div>
+          <div style="font-size: 8px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 3px;">
+            Software Development
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #0f2d59; color: #fff; text-align: center; padding: 7px; font-size: 11.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 6px; margin-bottom: 10px;">
+        Τιμολογιο Παροχης Υπηρεσιων
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; font-size: 9.5px; font-weight: bold;">
+        <div style="border: 1px solid #e2e8f0; padding: 6px; border-radius: 6px; background: #f8fafc;">
+          <span style="font-size: 7.5px; color: #64748b; display: block; text-transform: uppercase;">ΣΕΙΡΑ</span>
+          <span>A</span>
+        </div>
+        <div style="border: 1px solid #e2e8f0; padding: 6px; border-radius: 6px; background: #f8fafc;">
+          <span style="font-size: 7.5px; color: #64748b; display: block; text-transform: uppercase;">Α.Α.</span>
+          <span>1</span>
+        </div>
+        <div style="border: 1px solid #e2e8f0; padding: 6px; border-radius: 6px; background: #f8fafc;">
+          <span style="font-size: 7.5px; color: #64748b; display: block; text-transform: uppercase;">ΗΜΕΡΟΜΗΝΙΑ</span>
+          <span>${formatDateGreek(c.contractDate)}</span>
+        </div>
+        <div style="border: 1px solid #e2e8f0; padding: 6px; border-radius: 6px; background: #f8fafc;">
+          <span style="font-size: 7.5px; color: #64748b; display: block; text-transform: uppercase;">ΜΑΡΚ</span>
+          <span style="font-family: monospace; font-size: 8.5px;">4000135...</span>
+        </div>
+        <div style="border: 1px solid #e2e8f0; padding: 6px; border-radius: 6px; background: #f8fafc;">
+          <span style="font-size: 7.5px; color: #64748b; display: block; text-transform: uppercase;">ΤΡΟΠΟΣ ΠΛΗΡΩΜΗΣ</span>
+          <span>Web Banking</span>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 8px; background: #f8fafc; margin-bottom: 12px;">
+        <div style="font-size: 9.5px; font-weight: 900; color: #0f172a; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px; margin-bottom: 6px;">
+          Στοιχεια Ληπτη (Πελατη)
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
+          <div>
+            <div style="font-size: 8.5px; color: #64748b; text-transform: uppercase;">Επωνυμια / Διακριτικος Τιτλος</div>
+            <div style="font-weight: 900; color: #0f172a;">${c.tradeName || c.companyName || '-'}</div>
+          </div>
+          <div>
+            <div style="font-size: 8.5px; color: #64748b; text-transform: uppercase;">Α.Φ.Μ. / Γ.Ε.ΜΗ.</div>
+            <div style="font-weight: 900; color: #0f172a;">${c.clientAfm || '-'} ${c.gemiNo ? ' | ' + c.gemiNo : ''}</div>
+          </div>
+          <div style="grid-column: span 2;">
+            <div style="font-size: 8.5px; color: #64748b; text-transform: uppercase;">Διευθυνση Εδρας / Εκπροσωπος</div>
+            <div style="font-weight: 600; color: #334155;">${c.address || c.city || 'Αθήνα'} • Εκπρόσωπος: ${c.representativeName || '-'}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 12px;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 11px;">
+          <thead style="background: #0f2d59; color: #fff; font-size: 9px; text-transform: uppercase; font-weight: bold;">
+            <tr>
+              <th style="padding: 7px 10px;">Περιγραφη Υπηρεσιων</th>
+              <th style="padding: 7px 10px; text-align: right;">Ποσοτητα</th>
+              <th style="padding: 7px 10px; text-align: right;">Καθαρη Αξια</th>
+              <th style="padding: 7px 10px; text-align: right;">Φ.Π.Α. (24%)</th>
+              <th style="padding: 7px 10px; text-align: right;">Συνολο</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top: 1px solid #e2e8f0;">
+              <td style="padding: 8px 10px;">
+                <strong style="display: block; color: #0f172a;">${c.serviceTitle || "Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας"}</strong>
+                <span style="font-size: 9.5px; color: #64748b;">${c.serviceDescription || "Σύμφωνα με την τεχνική προσφορά (Σελίδα 2)"}</span>
+              </td>
+              <td style="padding: 8px 10px; text-align: right; font-family: monospace;">1</td>
+              <td style="padding: 8px 10px; text-align: right; font-family: monospace; font-weight: bold;">${calc.net.toFixed(2).replace(".", ",")} €</td>
+              <td style="padding: 8px 10px; text-align: right; font-family: monospace; font-weight: bold; color: #3b5bdb;">${calc.vat.toFixed(2).replace(".", ",")} €</td>
+              <td style="padding: 8px 10px; text-align: right; font-family: monospace; font-weight: 900; color: #0f172a;">${calc.gross.toFixed(2).replace(".", ",")} €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+        <div style="width: 50%; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 11px;">
+          <div style="display: flex; justify-content: space-between; color: #475569; font-weight: bold; margin-bottom: 4px;">
+            <span>Καθαρή Αξία:</span>
+            <span style="font-family: monospace; color: #0f172a;">${calc.net.toFixed(2).replace(".", ",")} €</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: #3b5bdb; font-weight: bold; margin-bottom: 4px;">
+            <span>Φ.Π.Α. 24%:</span>
+            <span style="font-family: monospace;">+${calc.vat.toFixed(2).replace(".", ",")} €</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: #0f172a; font-weight: 900; font-size: 12.5px; padding-top: 5px; border-top: 1px solid #e2e8f0; margin-bottom: 4px;">
+            <span>Συνολική Αξία:</span>
+            <span style="font-family: monospace;">${calc.gross.toFixed(2).replace(".", ",")} €</span>
+          </div>
+          ${calc.withholding > 0 ? `
+            <div style="display: flex; justify-content: space-between; color: #e11d48; font-weight: bold; font-size: 10.5px; margin-bottom: 4px;">
+              <span>Παρακράτηση Φόρου 20%:</span>
+              <span style="font-family: monospace;">-${calc.withholding.toFixed(2).replace(".", ",")} €</span>
+            </div>
+          ` : ''}
+          <div style="display: flex; justify-content: space-between; color: #047857; font-weight: 900; font-size: 13px; padding-top: 5px; border-top: 2px solid #10b981;">
+            <span>Πληρωτέο Ποσό:</span>
+            <span style="font-family: monospace;">${calc.payable.toFixed(2).replace(".", ",")} €</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 10px 12px; border-radius: 8px; background: #eff6ff; border: 1px solid #bfdbfe; font-size: 11px;">
+        <span style="font-weight: 900; color: #0f2d59; text-transform: uppercase; display: block; font-size: 9px; margin-bottom: 2px;">Τραπεζικος Λογαριασμος Εξοφλησης</span>
+        <div style="font-family: monospace; font-weight: bold; color: #1e293b;">
+          Eurobank IBAN: <span style="color: #3b5bdb; font-weight: 900;">GR46 0260 1970 0008 3020 1330 337</span>
+        </div>
+        <div style="font-size: 9px; color: #64748b; margin-top: 2px;">Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ</div>
+      </div>
+    </div>
+  `;
+
+  // Invoice Page 2 (Technical Offer) HTML Builder
+  const getInvoicePage2BodyHtml = (c: ContractData, calc: ReturnType<typeof getInvoiceCalculations>) => `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1e293b; font-size: 12px; line-height: 1.45;">
+      <div style="border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-size: 9px; font-weight: 900; color: #3b5bdb; text-transform: uppercase; letter-spacing: 1.5px; display: block;">SGK Digital Technical Scope</span>
+          <h2 style="font-size: 18px; font-weight: 900; text-transform: uppercase; color: #0f172a; letter-spacing: -0.5px; margin: 0;">Αναλυτικη Τεχνικη Προσφορα</h2>
+        </div>
+        <div style="text-align: right; font-size: 11px; font-weight: bold; color: #64748b;">
+          Σελίδα 2 / 2
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        ${calc.offerItems.map((item, idx) => `
+          <div style="padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <h3 style="font-weight: 900; font-size: 13px; color: #0f2d59; margin: 0;">
+                ${idx + 1}. ${item.title}
+              </h3>
+              ${item.duration ? `
+                <span style="font-size: 9.5px; font-weight: bold; font-family: monospace; background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 9999px; border: 1px solid #a7f3d0;">
+                  ⏱️ ${item.duration}
+                </span>
+              ` : ''}
+            </div>
+            <p style="font-size: 11.5px; color: #334155; line-height: 1.5; margin: 0; text-align: justify;">
+              ${item.description}
+            </p>
+          </div>
+        `).join('')}
+      </div>
+
+      <div style="margin-top: 35px; padding-top: 14px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 11px; color: #64748b; font-weight: 600;">
+        <p style="margin-bottom: 3px;">Όλα τα παραδοτέα συνοδεύονται από εγγύηση καλής λειτουργίας & υποστήριξη της <strong>SGK Digital</strong>.</p>
+        <p style="font-size: 9.5px; color: #94a3b8; margin: 0;">SGK Software Development • info@sgk.gr • 211 114 0013</p>
+      </div>
+    </div>
+  `;
+
+  // General Clean Window Printer
+  const openPrintWindow = (bodyHtml: string, title: string) => {
     const printWindow = window.open('', '_blank', 'width=850,height=1000');
     if (!printWindow) {
       window.print();
       return;
     }
 
-    const content = `
+    const fullHtml = `
       <!DOCTYPE html>
       <html lang="el">
       <head>
         <meta charset="utf-8">
-        <title>Ιδιωτικό Συμφωνητικό - ${currentContract.tradeName || currentContract.companyName || 'SGK'}</title>
+        <title>${title}</title>
         <style>
           @page {
             size: A4 portrait;
-            margin: 18mm 18mm 18mm 18mm;
+            margin: 12mm 15mm 12mm 15mm;
           }
           * {
             box-sizing: border-box;
@@ -290,147 +729,65 @@ export function ContractsTab({
             padding: 0;
           }
           body {
-            font-family: 'Times New Roman', Times, Georgia, serif;
-            font-size: 13.5px;
-            line-height: 1.5;
-            color: #000;
             background: #fff;
+            color: #000;
             padding: 0;
           }
-          .doc-header {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 22px;
+          .page-sheet {
+            page-break-after: always;
+            break-after: page;
+            min-height: 255mm;
           }
-          .doc-header h1 {
-            font-size: 14.5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-          }
-          .doc-header h2 {
-            font-size: 13.5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-          }
-          p {
-            margin-bottom: 11px;
-            text-align: justify;
-          }
-          .party-item {
-            padding-left: 20px;
-            margin-bottom: 9px;
-            text-align: justify;
-          }
-          .article-box {
-            margin-top: 14px;
-            margin-bottom: 12px;
-          }
-          .article-heading {
-            font-weight: bold;
-            margin-bottom: 4px;
-            font-size: 13.5px;
-          }
-          .signatures-grid {
-            margin-top: 35px;
-            display: flex;
-            justify-content: space-between;
-            page-break-inside: avoid;
-          }
-          .sig-box {
-            width: 45%;
-            text-align: center;
-            font-size: 12.5px;
-          }
-          .sig-line {
-            height: 55px;
-            border-bottom: 1px dashed #555;
-            margin: 8px auto 10px auto;
-            width: 75%;
+          .page-sheet:last-child {
+            page-break-after: avoid;
+            break-after: avoid;
           }
         </style>
       </head>
       <body>
-        <div class="doc-header">
-          <h1>ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ</h1>
-          <h2>ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)</h2>
-        </div>
-
-        <p>Στην <strong>${currentContract.city || 'Αθήνα'}</strong>, σήμερα στις <strong>${formatDateGreek(currentContract.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:</p>
-
-        <p class="party-item"><strong>1. Αφενός:</strong> ο κ. <strong>${currentContract.contractorName}</strong>, με έδρα επιχείρησης στη ${currentContract.contractorAddress}, με επάγγελμα «${currentContract.contractorProfession}», με Α.Φ.Μ. <strong>${currentContract.contractorAfm}</strong> / Δ.Ο.Υ. <strong>${currentContract.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,</p>
-
-        <p>και</p>
-
-        <p class="party-item"><strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«${currentContract.companyName || '................................................'}»</strong> (διακριτικός τίτλος <strong>«${currentContract.tradeName || '................................'}»</strong>), με Α.Φ.Μ. <strong>${currentContract.clientAfm || '....................'}</strong> και αριθμό Γ.Ε.ΜΗ. <strong>${currentContract.gemiNo || '....................'}</strong>, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || 'τον διαχειριστή αυτής'} κ. <strong>${currentContract.representativeName || '................................'}</strong> του <strong>${currentContract.representativeFatherName || '....................'}</strong>, με Α.Φ.Μ. <strong>${currentContract.representativeAfm || '....................'}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,</p>
-
-        <p style="margin-bottom: 14px;">συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:</p>
-
-        <div class="article-box">
-          <div class="article-heading">Άρθρο 1 – Αντικείμενο της σύμβασης</div>
-          <p>Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη τη σχεδίαση, ανάπτυξη και παράδοση μίας απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης (Γ.Ε.ΜΗ., Α.Φ.Μ., έδρα, νόμιμη εκπροσώπηση, στοιχεία επικοινωνίας), σύμφωνα με το υπόδειγμα/παράδειγμα σχεδιασμού που έχει υποδείξει ο Εργοδότης.</p>
-          <p>Σκοπός της ιστοσελίδας είναι να παρέχει στον Εργοδότη έναν δημόσια προσβάσιμο σύνδεσμο (link) με τα στοιχεία διαφάνειας της επιχείρησής του, ώστε να καλύπτονται οι σχετικές του υποχρεώσεις έναντι του Γ.Ε.ΜΗ.</p>
-          <p>Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η κατασκευή της ιστοσελίδας, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.</p>
-        </div>
-
-        <div class="article-box">
-          <div class="article-heading">Άρθρο 2 – Domain και φιλοξενία (hosting)</div>
-          <p>Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.</p>
-          <p>Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>${currentContract.renewalAmountText}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.</p>
-        </div>
-
-        <div class="article-box">
-          <div class="article-heading">Άρθρο 3 – Χρόνος παράδοσης</div>
-          <p>Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός <strong>${currentContract.deliveryDaysText}</strong> εργάσιμων ημερών από την ${currentContract.advanceAmountNum > 0 ? 'καταβολή της προκαταβολής του Άρθρου 4' : 'εξόφληση της αμοιβής του Άρθρου 4'}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.</p>
-        </div>
-
-        <div class="article-box">
-          <div class="article-heading">Άρθρο 4 – Αμοιβή και τρόπος πληρωμής</div>
-          <p><strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>${currentContract.totalAmountText}</strong>, συμπεριλαμβανομένου Φ.Π.Α.</p>
-          ${currentContract.advanceAmountNum === 0 
-            ? `<p><strong>4.2</strong> Η εξόφληση της αμοιβής πραγματοποιείται <strong>εφάπαξ</strong> με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής.</p>` 
-            : `<p><strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>${currentContract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της προκαταβολής.</p>
-               <p><strong>4.3</strong> Το υπόλοιπο ποσό των <strong>${currentContract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.</p>`
-          }
-          <p><strong>${currentContract.advanceAmountNum === 0 ? '4.3' : '4.4'}</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.</p>
-          <p><strong>${currentContract.advanceAmountNum === 0 ? '4.4' : '4.5'}</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>${currentContract.ibanDetails}</strong>, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.</p>
-        </div>
-
-        <div class="article-box">
-          <div class="article-heading">Άρθρο 5 – Λοιποί όροι</div>
-          <p>Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού της ιστοσελίδας περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.</p>
-          <p>Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.</p>
-          <p>Το παρόν συντάχθηκε σε δύο (2) όμοια πρωτότυπα, τα οποία αφού αναγνώσθηκαν και βεβαιώθηκαν από τους συμβαλλόμενους, υπεγράφησαν από αυτούς και έλαβε έκαστο εξ αυτών από ένα.</p>
-        </div>
-
-        <div class="signatures-grid">
-          <div class="sig-box">
-            <p style="font-weight: bold; margin-bottom: 3px;">Οι Συμβαλλόμενοι:</p>
-            <p style="font-weight: bold; margin-bottom: 6px;">Ο Ανάδοχος</p>
-            <div class="sig-line"></div>
-            <p style="font-weight: bold; text-transform: uppercase;">${currentContract.contractorName}</p>
-          </div>
-
-          <div class="sig-box">
-            <p style="font-weight: bold; margin-bottom: 3px;">&nbsp;</p>
-            <p style="font-weight: bold; margin-bottom: 6px;">Ο Εργοδότης / Πελάτης</p>
-            <div class="sig-line"></div>
-            <p style="font-weight: bold; text-transform: uppercase;">${currentContract.representativeName || '................................'}</p>
-            <p style="font-size: 11px; font-style: italic; color: #444;">(για λογαριασμό της ${currentContract.tradeName || currentContract.companyName || '....................'})</p>
-          </div>
-        </div>
+        ${bodyHtml}
       </body>
       </html>
     `;
 
     printWindow.document.open();
-    printWindow.document.write(content);
+    printWindow.document.write(fullHtml);
     printWindow.document.close();
     printWindow.focus();
     setTimeout(() => {
       printWindow.print();
     }, 250);
   };
+
+  // 1. Print Contract Only
+  const handlePrintContract = () => {
+    const html = `<div class="page-sheet">${getContractBodyHtml(currentContract)}</div>`;
+    openPrintWindow(html, `Συμφωνητικό - ${currentContract.tradeName || currentContract.companyName || 'SGK'}`);
+  };
+
+  // 2. Print Invoice Only (Page 1 + Page 2)
+  const handlePrintInvoice = () => {
+    const calc = getInvoiceCalculations(currentContract);
+    const html = `
+      <div class="page-sheet page-break">${getInvoicePage1BodyHtml(currentContract, calc)}</div>
+      <div class="page-sheet">${getInvoicePage2BodyHtml(currentContract, calc)}</div>
+    `;
+    openPrintWindow(html, `Προσφορά & Τιμολόγιο - ${currentContract.tradeName || currentContract.companyName || 'SGK'}`);
+  };
+
+  // 3. Print BOTH Documents in 1 PDF (Page 1: Contract, Page 2: Invoice, Page 3: Technical Offer)
+  const handlePrintBoth = () => {
+    const calc = getInvoiceCalculations(currentContract);
+    const html = `
+      <div class="page-sheet page-break">${getContractBodyHtml(currentContract)}</div>
+      <div class="page-sheet page-break">${getInvoicePage1BodyHtml(currentContract, calc)}</div>
+      <div class="page-sheet">${getInvoicePage2BodyHtml(currentContract, calc)}</div>
+    `;
+    openPrintWindow(html, `Συμφωνητικό & Τιμολόγιο - ${currentContract.tradeName || currentContract.companyName || 'SGK'}`);
+  };
+
+  // Alias for backward compatibility
+  const handlePrint = handlePrintBoth;
 
   // Helper for auto-calculating amounts
   const handleTotalChange = (val: number) => {
@@ -590,61 +947,87 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
             }`}
           >
             {isEditing ? <Eye size={14} /> : <Edit3 size={14} />}
-            {isEditing ? "Προεπισκόπηση PDF" : "Επεξεργασία Φόρμας"}
+            {isEditing ? "Προεπισκόπηση" : "Επεξεργασία"}
           </button>
 
+          {/* Dedicated Contract Print */}
+          <button
+            onClick={handlePrintContract}
+            className="px-3.5 py-2.5 bg-blue-50 hover:bg-blue-100 text-[#3b5bdb] border border-blue-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            title="Εκτύπωση ή λήψη μόνο του Συμφωνητικού (1 Σελίδα)"
+          >
+            <Printer size={14} />
+            Συμφωνητικό
+          </button>
+
+          {/* Dedicated Invoice Print */}
+          <button
+            onClick={handlePrintInvoice}
+            className="px-3.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            title="Εκτύπωση ή λήψη μόνο του Τιμολογίου & Τεχνικής Προσφοράς (2 Σελίδες)"
+          >
+            <Receipt size={14} />
+            Τιμολόγιο
+          </button>
+
+          {/* Highlighted COMBINED DOWNLOAD BUTTON (Both Documents in 1 PDF) */}
+          <button
+            onClick={handlePrintBoth}
+            className="px-4 py-2.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-[#3b5bdb] hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-indigo-500/25 ring-2 ring-indigo-400/30"
+            title="Λήψη και των δύο εγγράφων (Συμφωνητικό + Τιμολόγιο + Προσφορά) σε 1 ενιαίο PDF αρχείο"
+          >
+            <Download size={14} />
+            ⚡ Λήψη Και των 2 (1 PDF)
+          </button>
+
+          {/* Live Link Button */}
           <button
             onClick={() => {
               const toSave = handleSaveContract();
               const b64 = safeEncodeBase64(toSave);
-              window.open(`/doc/contract?id=${toSave.id}&data=${b64}`, '_blank');
+              const targetUrl = previewDocType === "contract"
+                ? `/doc/contract?id=${toSave.id}&data=${b64}`
+                : `/doc/invoice?id=${toSave.id}&data=${b64}`;
+              window.open(targetUrl, '_blank');
             }}
-            className="px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
-            title="Άνοιγμα της δημόσιας σελίδας / PDF σε νέα καρτέλα"
+            className="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            title="Άνοιγμα δημόσιου link του ενεργού εγγράφου"
           >
-            <ExternalLink size={14} />
-            Live PDF Link
+            <ExternalLink size={13} />
+            Live Link
           </button>
 
           <button
             onClick={handleSendContractByEmail}
-            className="px-4 py-2.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+            className="px-3.5 py-2.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
             title="Αποστολή του συμφωνητικού με email στον πελάτη"
           >
-            <Mail size={14} className="text-sky-600" />
+            <Mail size={13} className="text-sky-600" />
             Email
           </button>
 
           <button
             onClick={handleCopyToGov}
-            className="px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+            className="px-3.5 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
             title="Αντιγραφή κειμένου & Άνοιγμα GOV.gr"
           >
-            <Landmark size={14} className="text-indigo-600" />
+            <Landmark size={13} className="text-indigo-600" />
             GOV.gr
           </button>
 
           <button
             onClick={handleSaveContract}
-            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-md shadow-emerald-600/20"
+            className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-600/20"
           >
-            <Download size={14} />
+            <Download size={13} />
             Αποθήκευση
           </button>
 
           <button
-            onClick={handlePrint}
-            className="px-5 py-2.5 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-blue-500/20"
-          >
-            <Printer size={14} />
-            Εκτύπωση / PDF
-          </button>
-
-          <button
             onClick={handleCreateNew}
-            className="px-4 py-2.5 bg-gray-900 hover:bg-black text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+            className="px-3.5 py-2.5 bg-gray-900 hover:bg-black text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
           >
-            <Plus size={14} />
+            <Plus size={13} />
             Νέο
           </button>
         </div>
@@ -940,6 +1323,113 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                 </div>
               </div>
 
+              {/* Service & Scope Selection */}
+              <div className="space-y-4 pt-2 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <Receipt size={14} className="text-indigo-600" />
+                    Υπηρεσία & Πακέτο Έργου
+                  </h4>
+                  <span className="text-[10px] text-slate-500 font-bold">
+                    Αυτόματη προσαρμογή τιμολογίου & συμφωνητικού
+                  </span>
+                </div>
+
+                {/* Preset Chips */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPreset("ike_gemi")}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      currentContract.serviceType === "ike_gemi"
+                        ? "bg-blue-50 border-[#3b5bdb] ring-2 ring-[#3b5bdb]/30 text-blue-950 font-bold"
+                        : "bg-slate-50 border-gray-200 hover:bg-slate-100 text-slate-700"
+                    }`}
+                  >
+                    <span className="block text-xs font-black">🏢 Ι.Κ.Ε. ΓΕΜΗ</span>
+                    <span className="text-[10px] font-bold text-blue-600">124,00 € (Εφάπαξ)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPreset("eshop")}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      currentContract.serviceType === "eshop"
+                        ? "bg-blue-50 border-[#3b5bdb] ring-2 ring-[#3b5bdb]/30 text-blue-950 font-bold"
+                        : "bg-slate-50 border-gray-200 hover:bg-slate-100 text-slate-700"
+                    }`}
+                  >
+                    <span className="block text-xs font-black">🛒 E-Shop</span>
+                    <span className="text-[10px] font-bold text-emerald-600">1.240,00 €</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPreset("website")}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      currentContract.serviceType === "website"
+                        ? "bg-blue-50 border-[#3b5bdb] ring-2 ring-[#3b5bdb]/30 text-blue-950 font-bold"
+                        : "bg-slate-50 border-gray-200 hover:bg-slate-100 text-slate-700"
+                    }`}
+                  >
+                    <span className="block text-xs font-black">🌐 Εταιρικό Site</span>
+                    <span className="text-[10px] font-bold text-indigo-600">620,00 €</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleApplyPreset("custom")}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      currentContract.serviceType === "custom"
+                        ? "bg-blue-50 border-[#3b5bdb] ring-2 ring-[#3b5bdb]/30 text-blue-950 font-bold"
+                        : "bg-slate-50 border-gray-200 hover:bg-slate-100 text-slate-700"
+                    }`}
+                  >
+                    <span className="block text-xs font-black">⚙️ Custom</span>
+                    <span className="text-[10px] font-bold text-slate-500">Προσαρμοσμένο</span>
+                  </button>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
+                    Τίτλος Υπηρεσίας (εμφανίζεται στο Συμφωνητικό & στο Τιμολόγιο)
+                  </label>
+                  <input
+                    type="text"
+                    value={currentContract.serviceTitle}
+                    onChange={(e) => setCurrentContract({ ...currentContract, serviceTitle: e.target.value })}
+                    placeholder="π.χ. Κατασκευή Ηλεκτρονικού Καταστήματος (E-Shop)"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
+                    Περιγραφή Υπηρεσίας / Παραδοτέα (Άρθρο 1 & Προσφορά)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={currentContract.serviceDescription}
+                    onChange={(e) => setCurrentContract({ ...currentContract, serviceDescription: e.target.value })}
+                    placeholder="Συνοπτική περιγραφή των συμφωνηθέντων παραδοτέων..."
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-medium text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
+                    Διεύθυνση Έδρας Επιχείρησης (για το Τιμολόγιο)
+                  </label>
+                  <input
+                    type="text"
+                    value={currentContract.address || ""}
+                    onChange={(e) => setCurrentContract({ ...currentContract, address: e.target.value })}
+                    placeholder="π.χ. Λεωφόρος Κηφισίας 100, Αθήνα, Τ.Κ. 11526"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
+                  />
+                </div>
+              </div>
+
               {/* Financial Terms */}
               <div className="space-y-4 pt-2 border-t border-gray-100">
                 <h4 className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
@@ -1038,151 +1528,446 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                     className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
                   />
                 </div>
+
+                {/* Live Invoice Breakdown Card */}
+                {(() => {
+                  const calc = getInvoiceCalculations(currentContract);
+                  return (
+                    <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2.5">
+                      <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                        <span className="text-[11px] font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                          <Receipt size={13} className="text-emerald-600" />
+                          Αυτόματος Υπολογισμός Τιμολογίου
+                        </span>
+                        <span className="text-[10px] font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-200">
+                          ΦΠΑ 24%
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="flex justify-between text-slate-600">
+                          <span>Καθαρή Αξία:</span>
+                          <span className="font-mono font-bold text-slate-900">{calc.net.toFixed(2).replace(".", ",")} €</span>
+                        </div>
+                        <div className="flex justify-between text-blue-600">
+                          <span>Φ.Π.Α. (24%):</span>
+                          <span className="font-mono font-bold">+{calc.vat.toFixed(2).replace(".", ",")} €</span>
+                        </div>
+                        <div className="flex justify-between text-slate-900 font-bold border-t border-slate-200 pt-1.5">
+                          <span>Συνολική Αξία:</span>
+                          <span className="font-mono">{calc.gross.toFixed(2).replace(".", ",")} €</span>
+                        </div>
+                        <div className="flex justify-between text-emerald-700 font-black border-t border-slate-200 pt-1.5">
+                          <span>Πληρωτέο:</span>
+                          <span className="font-mono font-black">{calc.payable.toFixed(2).replace(".", ",")} €</span>
+                        </div>
+                      </div>
+                      {calc.withholding > 0 && (
+                        <div className="text-[10px] text-rose-600 font-bold flex justify-between pt-1 border-t border-dashed border-rose-200">
+                          <span>Παρακράτηση 20% (άνω των 300€):</span>
+                          <span className="font-mono">-{calc.withholding.toFixed(2).replace(".", ",")} €</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
               </div>
             </div>
           )}
         </div>
 
-        {/* Right Column: Dynamic A4 Document Preview (Formatted exactly like uploaded Idiotiko_Symfonitiko.pdf) */}
+        {/* Right Column: Dynamic Document Preview with Document Selector Tabs */}
         <div className={isEditing ? "lg:col-span-6" : "lg:col-span-8"}>
-          <div className="sticky top-24">
-            <div className="bg-white text-black font-serif shadow-2xl rounded-sm p-10 md:p-14 border border-gray-200 text-sm leading-relaxed tracking-normal print-contract-area">
-              
-              {/* DOCUMENT TITLE */}
-              <div className="text-center font-bold mb-8">
-                <h1 className="text-base uppercase tracking-tight text-black font-extrabold mb-1">
-                  ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ
-                </h1>
-                <h2 className="text-sm uppercase tracking-tight text-black font-extrabold">
-                  ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)
-                </h2>
+          <div className="sticky top-24 space-y-3">
+            
+            {/* Document Selector Tabs */}
+            <div className="flex items-center justify-between bg-white/90 backdrop-blur-md border border-gray-200 p-2 rounded-2xl shadow-sm no-print">
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setPreviewDocType("contract")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    previewDocType === "contract"
+                      ? "bg-[#3b5bdb] text-white shadow-md shadow-blue-500/20"
+                      : "bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  }`}
+                >
+                  <FileCheck size={14} />
+                  📜 Συμφωνητικό
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewDocType("invoice")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    previewDocType === "invoice"
+                      ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                      : "bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  }`}
+                >
+                  <Receipt size={14} />
+                  🧾 Πρότυπο Τιμολογίου & Προσφορά
+                </button>
               </div>
 
-              {/* INTRO PARAGRAPH */}
-              <p className="mb-4">
-                Στην <strong>{currentContract.city || "Αθήνα"}</strong>, σήμερα στις <strong>{formatDateGreek(currentContract.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:
-              </p>
-
-              <p className="mb-3 pl-4">
-                <strong>1. Αφενός:</strong> ο κ. <strong>{currentContract.contractorName}</strong>, με έδρα επιχείρησης στη {currentContract.contractorAddress}, με επάγγελμα «{currentContract.contractorProfession}», με Α.Φ.Μ. <strong>{currentContract.contractorAfm}</strong> / Δ.Ο.Υ. <strong>{currentContract.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,
-              </p>
-
-              <p className="mb-3">και</p>
-
-              <p className="mb-4 pl-4">
-                <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{currentContract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{currentContract.tradeName || "................................"}»</strong>), με Α.Φ.Μ. <strong>{currentContract.clientAfm || "...................."}</strong> και αριθμό Γ.Ε.ΜΗ. <strong>{currentContract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{currentContract.representativeName || "................................"}</strong> του <strong>{currentContract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{currentContract.representativeAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
-              </p>
-
-              <p className="mb-6">
-                συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:
-              </p>
-
-              {/* ARTICLES */}
-              <div className="space-y-5 text-justify">
-                <div>
-                  <h3 className="font-bold text-black text-sm mb-1.5">
-                    Άρθρο 1 – Αντικείμενο της σύμβασης
-                  </h3>
-                  <p className="mb-2">
-                    Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη τη σχεδίαση, ανάπτυξη και παράδοση μίας απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης (Γ.Ε.ΜΗ., Α.Φ.Μ., έδρα, νόμιμη εκπροσώπηση, στοιχεία επικοινωνίας), σύμφωνα με το υπόδειγμα/παράδειγμα σχεδιασμού που έχει υποδείξει ο Εργοδότης.
-                  </p>
-                  <p className="mb-2">
-                    Σκοπός της ιστοσελίδας είναι να παρέχει στον Εργοδότη έναν δημόσια προσβάσιμο σύνδεσμο (link) με τα στοιχεία διαφάνειας της επιχείρησής του, ώστε να καλύπτονται οι σχετικές του υποχρεώσεις έναντι του Γ.Ε.ΜΗ.
-                  </p>
-                  <p>
-                    Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η κατασκευή της ιστοσελίδας, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-black text-sm mb-1.5">
-                    Άρθρο 2 – Domain και φιλοξενία (hosting)
-                  </h3>
-                  <p className="mb-2">
-                    Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.
-                  </p>
-                  <p>
-                    Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>{currentContract.renewalAmountText}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-black text-sm mb-1.5">
-                    Άρθρο 3 – Χρόνος παράδοσης
-                  </h3>
-                  <p>
-                    Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός <strong>{currentContract.deliveryDaysText}</strong> εργάσιμων ημερών από την {currentContract.advanceAmountNum > 0 ? "καταβολή της προκαταβολής του Άρθρου 4" : "εξόφληση της αμοιβής του Άρθρου 4"}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-black text-sm mb-1.5">
-                    Άρθρο 4 – Αμοιβή και τρόπος πληρωμής
-                  </h3>
-                  <p className="mb-1.5">
-                    <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{currentContract.totalAmountText}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
-                  </p>
-
-                  {currentContract.advanceAmountNum === 0 ? (
-                    <p className="mb-1.5">
-                      <strong>4.2</strong> Η εξόφληση της αμοιβής πραγματοποιείται <strong>εφάπαξ</strong> με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής.
-                    </p>
-                  ) : (
-                    <>
-                      <p className="mb-1.5">
-                        <strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>{currentContract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της προκαταβολής.
-                      </p>
-                      <p className="mb-1.5">
-                        <strong>4.3</strong> Το υπόλοιπο ποσό των <strong>{currentContract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.
-                      </p>
-                    </>
-                  )}
-
-                  <p className="mb-1.5">
-                    <strong>{currentContract.advanceAmountNum === 0 ? "4.3" : "4.4"}</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.
-                  </p>
-                  <p>
-                    <strong>{currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"}</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>{currentContract.ibanDetails}</strong>, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-black text-sm mb-1.5">
-                    Άρθρο 5 – Λοιποί όροι
-                  </h3>
-                  <p className="mb-2">
-                    Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού της ιστοσελίδας περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.
-                  </p>
-                  <p className="mb-2">
-                    Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.
-                  </p>
-                  <p>
-                    Το παρόν συντάχθηκε σε δύο (2) όμοια πρωτότυπα, τα οποία αφού αναγνώσθηκαν και βεβαιώθηκαν από τους συμβαλλόμενους, υπεγράφησαν από αυτούς και έλαβε έκαστο εξ αυτών από ένα.
-                  </p>
-                </div>
+              <div className="flex items-center gap-2">
+                <span className="hidden sm:inline-block text-[10px] text-slate-400 font-bold">
+                  {previewDocType === "contract" ? "1 Σελίδα" : "2 Σελίδες"}
+                </span>
+                <button
+                  type="button"
+                  onClick={previewDocType === "contract" ? handlePrintContract : handlePrintInvoice}
+                  className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                  title="Εκτύπωση ενεργού εγγράφου"
+                >
+                  <Printer size={12} />
+                  Εκτύπωση
+                </button>
               </div>
-
-              {/* SIGNATURES SECTION */}
-              <div className="mt-12 pt-8 grid grid-cols-2 gap-8 text-center text-xs">
-                <div>
-                  <p className="font-bold text-sm mb-4">Οι Συμβαλλόμενοι:</p>
-                  <p className="font-bold text-gray-900 mb-6">Ο Ανάδοχος</p>
-                  <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
-                  <p className="font-bold uppercase tracking-wider">{currentContract.contractorName}</p>
-                </div>
-
-                <div>
-                  <p className="font-bold text-sm mb-4">&nbsp;</p>
-                  <p className="font-bold text-gray-900 mb-6">Ο Εργοδότης / Πελάτης</p>
-                  <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
-                  <p className="font-bold uppercase tracking-wider">{currentContract.representativeName || "................................"}</p>
-                  <p className="text-[10px] text-gray-600 italic">
-                    (για λογαριασμό της {currentContract.tradeName || currentContract.companyName || "...................."})
-                  </p>
-                </div>
-              </div>
-
             </div>
+
+            {/* PREVIEW CONTAINER */}
+            {previewDocType === "contract" ? (
+              <div className="bg-white text-black font-serif shadow-2xl rounded-sm p-10 md:p-14 border border-gray-200 text-sm leading-relaxed tracking-normal print-contract-area">
+                {/* DOCUMENT TITLE */}
+                <div className="text-center font-bold mb-8">
+                  <h1 className="text-base uppercase tracking-tight text-black font-extrabold mb-1">
+                    ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ
+                  </h1>
+                  <h2 className="text-sm uppercase tracking-tight text-black font-extrabold">
+                    {currentContract.serviceTitle ? currentContract.serviceTitle.toUpperCase() : "ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)"}
+                  </h2>
+                </div>
+
+                {/* INTRO PARAGRAPH */}
+                <p className="mb-4">
+                  Στην <strong>{currentContract.city || "Αθήνα"}</strong>, σήμερα στις <strong>{formatDateGreek(currentContract.contractDate)}</strong>, μεταξύ των κάτωθι συμβαλλόμενων:
+                </p>
+
+                <p className="mb-3 pl-4">
+                  <strong>1. Αφενός:</strong> ο κ. <strong>{currentContract.contractorName}</strong>, με έδρα επιχείρησης στη {currentContract.contractorAddress}, με επάγγελμα «{currentContract.contractorProfession}», με Α.Φ.Μ. <strong>{currentContract.contractorAfm}</strong> / Δ.Ο.Υ. <strong>{currentContract.contractorDoy}</strong>, εφεξής καλούμενος «ο Ανάδοχος»,
+                </p>
+
+                <p className="mb-3">και</p>
+
+                <p className="mb-4 pl-4">
+                  <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{currentContract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{currentContract.tradeName || "................................"}»</strong>), με Α.Φ.Μ. <strong>{currentContract.clientAfm || "...................."}</strong> και αριθμό Γ.Ε.ΜΗ. <strong>{currentContract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{currentContract.representativeName || "................................"}</strong> του <strong>{currentContract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{currentContract.representativeAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
+                </p>
+
+                <p className="mb-6">
+                  συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:
+                </p>
+
+                {/* ARTICLES */}
+                <div className="space-y-5 text-justify">
+                  <div>
+                    <h3 className="font-bold text-black text-sm mb-1.5">
+                      Άρθρο 1 – Αντικείμενο της σύμβασης
+                    </h3>
+                    <p className="mb-2">
+                      Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη την υλοποίηση και παροχή της υπηρεσίας: <strong>{currentContract.serviceTitle || "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ)"}</strong>.
+                    </p>
+                    <p className="mb-2">
+                      {currentContract.serviceDescription || "Σχεδίαση, ανάπτυξη και παράδοση απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ., καταχώριση domain name (.gr) και φιλοξενία (hosting) 1ου έτους."}
+                    </p>
+                    <p>
+                      Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η υλοποίηση του παραδοτέου έργου, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-black text-sm mb-1.5">
+                      Άρθρο 2 – Domain και φιλοξενία (hosting)
+                    </h3>
+                    <p className="mb-2">
+                      Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.
+                    </p>
+                    <p>
+                      Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>{currentContract.renewalAmountText}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-black text-sm mb-1.5">
+                      Άρθρο 3 – Χρόνος παράδοσης
+                    </h3>
+                    <p>
+                      Ο Ανάδοχος υποχρεούται να παραδώσει το έργο εντός <strong>{currentContract.deliveryDaysText}</strong> εργάσιμων ημερών από την {currentContract.advanceAmountNum > 0 ? "καταβολή της προκαταβολής του Άρθρου 4" : "εξόφληση της αμοιβής του Άρθρου 4"}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία για την υλοποίηση.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-black text-sm mb-1.5">
+                      Άρθρο 4 – Αμοιβή και τρόπος πληρωμής
+                    </h3>
+                    <p className="mb-1.5">
+                      <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή ανέρχεται στο ποσό των <strong>{currentContract.totalAmountText}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
+                    </p>
+
+                    {currentContract.advanceAmountNum === 0 ? (
+                      <p className="mb-1.5">
+                        <strong>4.2</strong> Η εξόφληση της αμοιβής πραγματοποιείται <strong>εφάπαξ</strong> με την ανάθεση και πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της αμοιβής.
+                      </p>
+                    ) : (
+                      <>
+                        <p className="mb-1.5">
+                          <strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>{currentContract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της προκαταβολής.
+                        </p>
+                        <p className="mb-1.5">
+                          <strong>4.3</strong> Το υπόλοιπο ποσό των <strong>{currentContract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.
+                        </p>
+                      </>
+                    )}
+
+                    <p className="mb-1.5">
+                      <strong>{currentContract.advanceAmountNum === 0 ? "4.3" : "4.4"}</strong> Το σχετικό φορολογικό παραστατικό (τιμολόγιο) θα εκδοθεί από τον Ανάδοχο κατά την είσπραξη της αμοιβής.
+                    </p>
+                    <p>
+                      <strong>{currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"}</strong> Οι πληρωμές πραγματοποιούνται με κατάθεση/έμβασμα στον τραπεζικό λογαριασμό IBAN <strong>{currentContract.ibanDetails}</strong>, εκτός εάν άλλως συμφωνηθεί μεταξύ των μερών.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-black text-sm mb-1.5">
+                      Άρθρο 5 – Λοιποί όροι
+                    </h3>
+                    <p className="mb-2">
+                      Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.
+                    </p>
+                    <p className="mb-2">
+                      Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.
+                    </p>
+                    <p>
+                      Το παρόν συντάχθηκε σε δύο (2) όμοια πρωτότυπα, τα οποία αφού αναγνώσθηκαν και βεβαιώθηκαν από τους συμβαλλόμενους, υπεγράφησαν από αυτούς και έλαβε έκαστο εξ αυτών από ένα.
+                    </p>
+                  </div>
+                </div>
+
+                {/* SIGNATURES SECTION */}
+                <div className="mt-12 pt-8 grid grid-cols-2 gap-8 text-center text-xs">
+                  <div>
+                    <p className="font-bold text-sm mb-4">Οι Συμβαλλόμενοι:</p>
+                    <p className="font-bold text-gray-900 mb-6">Ο Ανάδοχος</p>
+                    <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
+                    <p className="font-bold uppercase tracking-wider">{currentContract.contractorName}</p>
+                  </div>
+
+                  <div>
+                    <p className="font-bold text-sm mb-4">&nbsp;</p>
+                    <p className="font-bold text-gray-900 mb-6">Ο Εργοδότης / Πελάτης</p>
+                    <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
+                    <p className="font-bold uppercase tracking-wider">{currentContract.representativeName || "................................"}</p>
+                    <p className="text-[10px] text-gray-600 italic">
+                      (για λογαριασμό της {currentContract.tradeName || currentContract.companyName || "...................."})
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* INVOICE & TECHNICAL PROPOSAL 2-PAGE PREVIEW */
+              <div className="space-y-6">
+                {/* PAGE 1: INVOICE MOCKUP */}
+                <div className="bg-white p-8 md:p-10 shadow-2xl rounded-2xl border border-slate-200 text-slate-800 font-sans">
+                  <div className="text-[9px] text-rose-600 font-extrabold text-center bg-rose-50/50 border border-rose-200 py-2 px-3 rounded-xl mb-4 italic tracking-wide">
+                    ⚠️ Το παρόν δεν αποτελεί φορολογικό στοιχείο (τιμολόγιο), αλλά απεικόνιση της προσφοράς και του συμφωνηθέντος ποσού.
+                  </div>
+
+                  {/* Seller Header */}
+                  <div className="flex justify-between items-start gap-4 border-b-2 border-slate-200 pb-5">
+                    <div className="space-y-1.5 text-[11px] text-slate-700 w-2/3">
+                      <div className="flex gap-2">
+                        <span className="bg-slate-100 border border-slate-300 text-slate-800 font-bold px-2 py-0.5 rounded text-[8.5px] uppercase min-w-[70px] text-center">Επωνυμια</span>
+                        <span className="font-bold text-slate-900">{currentContract.contractorName}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="bg-slate-100 border border-slate-300 text-slate-800 font-bold px-2 py-0.5 rounded text-[8.5px] uppercase min-w-[70px] text-center">Α.Φ.Μ.</span>
+                        <span className="font-bold text-slate-900">{currentContract.contractorAfm}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="bg-slate-100 border border-slate-300 text-slate-800 font-bold px-2 py-0.5 rounded text-[8.5px] uppercase min-w-[70px] text-center">Επαγγελμα</span>
+                        <span className="font-bold text-slate-900">{currentContract.contractorProfession}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="bg-slate-100 border border-slate-300 text-slate-800 font-bold px-2 py-0.5 rounded text-[8.5px] uppercase min-w-[70px] text-center">Δ.Ο.Υ.</span>
+                        <span className="font-bold text-slate-900">{currentContract.contractorDoy}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="bg-slate-100 border border-slate-300 text-slate-800 font-bold px-2 py-0.5 rounded text-[8.5px] uppercase min-w-[70px] text-center">Διευθυνση</span>
+                        <span className="font-bold text-slate-900 text-[10px]">{currentContract.contractorAddress}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col items-end w-1/3">
+                      <span className="font-heading font-black text-2xl tracking-tighter text-[#0f2d59] leading-none">
+                        sgk<span className="text-[#3b5bdb]">.</span>
+                      </span>
+                      <span className="text-[7.5px] font-black text-slate-500 uppercase tracking-widest mt-1">
+                        Software Development
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Doc Title */}
+                  <div className="bg-[#0f2d59] text-white text-center py-2 text-xs font-black uppercase tracking-widest rounded-lg mt-3 shadow-sm">
+                    Τιμολογιο Παροχης Υπηρεσιων
+                  </div>
+
+                  {/* Meta Info */}
+                  <div className="grid grid-cols-5 gap-1.5 mt-2 text-[10px] font-bold text-slate-800">
+                    <div className="border border-slate-200 p-2 rounded-lg bg-slate-50/50">
+                      <span className="text-[8px] text-slate-500 block uppercase">Σειρα</span>
+                      <span>A</span>
+                    </div>
+                    <div className="border border-slate-200 p-2 rounded-lg bg-slate-50/50">
+                      <span className="text-[8px] text-slate-500 block uppercase">Α.Α.</span>
+                      <span>1</span>
+                    </div>
+                    <div className="border border-slate-200 p-2 rounded-lg bg-slate-50/50">
+                      <span className="text-[8px] text-slate-500 block uppercase">Ημερομηνια</span>
+                      <span>{formatDateGreek(currentContract.contractDate)}</span>
+                    </div>
+                    <div className="border border-slate-200 p-2 rounded-lg bg-slate-50/50">
+                      <span className="text-[8px] text-slate-500 block uppercase">ΜΑΡΚ</span>
+                      <span className="font-mono text-[9px] truncate block">4000135...</span>
+                    </div>
+                    <div className="border border-slate-200 p-2 rounded-lg bg-slate-50/50">
+                      <span className="text-[8px] text-slate-500 block uppercase">Πληρωμη</span>
+                      <span>Web Banking</span>
+                    </div>
+                  </div>
+
+                  {/* Buyer Details */}
+                  <div className="mt-3 border border-slate-200 p-3 rounded-xl bg-slate-50/50">
+                    <h4 className="text-[9.5px] font-black text-slate-900 uppercase border-b border-slate-200 pb-1 mb-2">
+                      Στοιχεια Ληπτη (Πελατη)
+                    </h4>
+                    <div className="grid grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <div className="text-[9px] text-slate-500 uppercase">Επωνυμια / Διακριτικος Τιτλος</div>
+                        <div className="font-black text-slate-900">{currentContract.tradeName || currentContract.companyName || "-"}</div>
+                      </div>
+                      <div>
+                        <div className="text-[9px] text-slate-500 uppercase">Α.Φ.Μ. / Γ.Ε.ΜΗ.</div>
+                        <div className="font-black text-slate-900">{currentContract.clientAfm || "-"} {currentContract.gemiNo ? `| ${currentContract.gemiNo}` : ""}</div>
+                      </div>
+                      <div className="col-span-2">
+                        <div className="text-[9px] text-slate-500 uppercase">Διευθυνση Εδρας / Εκπροσωπος</div>
+                        <div className="font-semibold text-slate-800">{currentContract.address || currentContract.city || "Αθήνα"} • Εκπρόσωπος: {currentContract.representativeName || "-"}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Pricing Table */}
+                  {(() => {
+                    const calc = getInvoiceCalculations(currentContract);
+                    return (
+                      <>
+                        <div className="mt-3 border border-slate-200 rounded-xl overflow-hidden">
+                          <table className="w-full text-left text-xs">
+                            <thead className="bg-[#0f2d59] text-white text-[9.5px] uppercase tracking-wider font-bold">
+                              <tr>
+                                <th className="p-2.5">Περιγραφη Υπηρεσιων</th>
+                                <th className="p-2.5 text-right">Ποσοτητα</th>
+                                <th className="p-2.5 text-right">Καθαρη Αξια</th>
+                                <th className="p-2.5 text-right">Φ.Π.Α. (24%)</th>
+                                <th className="p-2.5 text-right">Συνολο</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200 font-medium">
+                              <tr>
+                                <td className="p-2.5">
+                                  <strong className="block text-slate-900">{currentContract.serviceTitle || "Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας"}</strong>
+                                  <span className="text-[10px] text-slate-500">{currentContract.serviceDescription || "Σύμφωνα με την τεχνική προσφορά (Σελίδα 2)"}</span>
+                                </td>
+                                <td className="p-2.5 text-right font-mono">1</td>
+                                <td className="p-2.5 text-right font-mono font-bold">{calc.net.toFixed(2).replace(".", ",")} €</td>
+                                <td className="p-2.5 text-right font-mono font-bold text-blue-600">{calc.vat.toFixed(2).replace(".", ",")} €</td>
+                                <td className="p-2.5 text-right font-mono font-black text-slate-900">{calc.gross.toFixed(2).replace(".", ",")} €</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        {/* Financial Summary */}
+                        <div className="mt-3 flex justify-end">
+                          <div className="w-full sm:w-1/2 bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5 text-xs">
+                            <div className="flex justify-between text-slate-600 font-bold">
+                              <span>Καθαρή Αξία:</span>
+                              <span className="font-mono text-slate-900">{calc.net.toFixed(2).replace(".", ",")} €</span>
+                            </div>
+                            <div className="flex justify-between text-blue-600 font-bold">
+                              <span>Φ.Π.Α. 24%:</span>
+                              <span className="font-mono">+{calc.vat.toFixed(2).replace(".", ",")} €</span>
+                            </div>
+                            <div className="flex justify-between text-slate-900 font-black text-sm pt-1.5 border-t border-slate-200">
+                              <span>Συνολική Αξία:</span>
+                              <span className="font-mono">{calc.gross.toFixed(2).replace(".", ",")} €</span>
+                            </div>
+                            {calc.withholding > 0 && (
+                              <div className="flex justify-between text-rose-600 font-bold text-xs pt-0.5">
+                                <span>Παρακράτηση Φόρου 20%:</span>
+                                <span className="font-mono">-{calc.withholding.toFixed(2).replace(".", ",")} €</span>
+                              </div>
+                            )}
+                            <div className="flex justify-between text-emerald-700 font-black text-sm pt-1.5 border-t-2 border-emerald-500">
+                              <span>Πληρωτέο Ποσό:</span>
+                              <span className="font-mono font-black">{calc.payable.toFixed(2).replace(".", ",")} €</span>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
+
+                  {/* Bank Details */}
+                  <div className="mt-3 p-2.5 rounded-xl bg-blue-50/60 border border-blue-200 text-xs">
+                    <span className="font-black text-[#0f2d59] uppercase block text-[9.5px] mb-0.5">Τραπεζικος Λογαριασμος Εξοφλησης</span>
+                    <div className="font-mono font-bold text-slate-800">
+                      Eurobank IBAN: <span className="text-[#3b5bdb]">GR46 0260 1970 0008 3020 1330 337</span>
+                    </div>
+                    <div className="text-[9.5px] text-slate-500 mt-0.5">Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ</div>
+                  </div>
+                </div>
+
+                {/* PAGE 2: TECHNICAL PROPOSAL */}
+                <div className="bg-white p-8 md:p-10 shadow-2xl rounded-2xl border border-slate-200 text-slate-800 font-sans">
+                  <div className="border-b-2 border-slate-900 pb-3 mb-5 flex justify-between items-center">
+                    <div>
+                      <span className="text-[9px] font-black text-[#3b5bdb] uppercase tracking-widest block">SGK Digital Technical Scope</span>
+                      <h2 className="text-lg font-black uppercase text-slate-900 tracking-tight">Αναλυτικη Τεχνικη Προσφορα</h2>
+                    </div>
+                    <div className="text-right text-xs font-bold text-slate-500">
+                      Σελίδα 2 / 2
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {getInvoiceCalculations(currentContract).offerItems.map((item, idx) => (
+                      <div key={idx} className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-black text-xs text-[#0f2d59]">
+                            {idx + 1}. {item.title}
+                          </h3>
+                          {item.duration && (
+                            <span className="text-[9.5px] font-bold font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200">
+                              ⏱️ {item.duration}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-700 leading-relaxed text-justify">
+                          {item.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Security & Guarantee Footer */}
+                  <div className="mt-8 pt-5 border-t border-slate-200 text-center text-xs text-slate-500 font-semibold space-y-1">
+                    <p>Όλα τα παραδοτέα συνοδεύονται από εγγύηση καλής λειτουργίας & υποστήριξη της <strong>SGK Digital</strong>.</p>
+                    <p className="text-[10px] text-slate-400">SGK Software Development • info@sgk.gr • 211 114 0013</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

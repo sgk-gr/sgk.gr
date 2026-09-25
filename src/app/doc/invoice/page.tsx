@@ -18,6 +18,8 @@ interface InvoiceDocData {
   clientAddress?: string;
   docNo?: string;
   date?: string;
+  serviceTitle?: string;
+  serviceDescription?: string;
   net?: number;
   vat?: number;
   gross?: number;
@@ -327,8 +329,8 @@ function InvoiceViewer() {
               <tbody className="divide-y divide-slate-200 font-medium">
                 <tr>
                   <td className="p-3">
-                    <strong className="block text-slate-900">Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας</strong>
-                    <span className="text-[10px] text-slate-500">Σύμφωνα με την τεχνική προσφορά (Σελίδα 2)</span>
+                    <strong className="block text-slate-900">{doc.serviceTitle || "Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας"}</strong>
+                    <span className="text-[10px] text-slate-500">{doc.serviceDescription || "Σύμφωνα με την τεχνική προσφορά (Σελίδα 2)"}</span>
                   </td>
                   <td className="p-3 text-right font-mono">1</td>
                   <td className="p-3 text-right font-mono font-bold">{net.toFixed(2).replace(".", ",")} €</td>
