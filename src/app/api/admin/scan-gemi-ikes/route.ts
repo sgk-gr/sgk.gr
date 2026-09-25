@@ -72,47 +72,70 @@ const OPS_TEXT_REGEX = /(?:\b(LOGISTICS|SECURITY|FIBER|FIBER OPTIC)\b|ΤΗΛΕΠ
 function detectLeadIndustry(co: any): { type: string; label: string; icon: string; legalForm: string } {
   const legalForm = co.legalType?.descr || "Επιχείρηση";
 
-  // 1. Extract KAD digits cleanly without any text concatenation
-  const kadCodes: string[] = [];
+  // 1. Extract Primary KAD vs all KADs cleanly without text collisions
+  let primaryKad = "";
+  const allKadCodes: string[] = [];
+
   if (Array.isArray(co.activities)) {
     for (const a of co.activities) {
       const rawId = a?.activity?.id || a?.id;
       if (rawId) {
-        kadCodes.push(String(rawId).replace(/[^0-9]/g, ""));
+        const clean = String(rawId).replace(/[^0-9]/g, "");
+        allKadCodes.push(clean);
+        if (a.type === "Κύρια" || !primaryKad) {
+          primaryKad = clean;
+        }
       }
     }
   }
   if (co.objective) {
     const matches = co.objective.match(/\b\d{4,8}\b/g);
     if (matches) {
-      for (const m of matches) kadCodes.push(m);
+      for (const m of matches) allKadCodes.push(m);
+      if (!primaryKad && matches.length > 0) primaryKad = matches[0];
     }
   }
 
-  // 2. Strict KAD prefix matching (prevents substrings like '7920' inside '47920000')
-  const hasTourismKad = kadCodes.some(k => isTourismKad(k));
-  const hasOpsKad = kadCodes.some(k => isOperationsKad(k));
-
-  // 3. Searchable text with all numbers stripped out so KAD digits don't match keywords
-  const rawTextParts = [
+  // 2. Check company name & trade titles specifically
+  const nameAndTitles = normalizeGreek([
     co.coNameEl || "",
     ...(co.coTitlesEl || []),
     ...(co.coTitlesEn || []),
-    ...(co.activities || []).map((a: any) => a.activity?.descr || ""),
-    co.objective ? co.objective.replace(/[0-9]/g, " ") : ""
-  ];
-  const normalizedText = normalizeGreek(rawTextParts.join(" "));
+  ].join(" "));
 
-  const hasTourismText = TOURISM_TEXT_REGEX.test(normalizedText);
-  const hasOpsText = OPS_TEXT_REGEX.test(normalizedText);
+  const nameHasTourism = TOURISM_TEXT_REGEX.test(nameAndTitles);
+  const nameHasOps = OPS_TEXT_REGEX.test(nameAndTitles);
+
+  // 3. Primary KAD checks
+  const isPrimaryTourism = isTourismKad(primaryKad);
+  const isPrimaryOps = isOperationsKad(primaryKad);
+
+  // 4. Secondary KAD checks
+  const hasAnyTourismKad = allKadCodes.some(k => isTourismKad(k));
+  const hasAnyOpsKad = allKadCodes.some(k => isOperationsKad(k));
+
+  // 5. Unrelated Major Primary Sectors (e.g. Real Estate, Investments, Consulting, Wholesale, Healthcare)
+  // If a company is primarily Real Estate (68), Investment (64/66), Consulting (70), Wholesale (46), Medical (21/86)
+  // it should NOT be flagged as Tourism just because of a secondary Airbnb KAD, UNLESS its name explicitly says so.
+  const isUnrelatedPrimarySector = 
+    primaryKad.startsWith("68") || 
+    primaryKad.startsWith("64") || 
+    primaryKad.startsWith("66") || 
+    primaryKad.startsWith("70") || 
+    primaryKad.startsWith("46") || 
+    primaryKad.startsWith("21") || 
+    primaryKad.startsWith("86");
+
+  const isTourism = isPrimaryTourism || nameHasTourism || (hasAnyTourismKad && !isUnrelatedPrimarySector);
+  const isOps = isPrimaryOps || nameHasOps || (hasAnyOpsKad && !isUnrelatedPrimarySector);
 
   // Tourism takes priority if matched
-  if (hasTourismKad || hasTourismText) {
+  if (isTourism) {
     return { type: "tourism", label: `Τουρισμός (${legalForm})`, icon: "✈️", legalForm };
   }
 
   // Operations & Tech
-  if (hasOpsKad || hasOpsText) {
+  if (isOps) {
     return { type: "operations_tech", label: `Operations & Τεχνική (${legalForm})`, icon: "⚡", legalForm };
   }
 
