@@ -29,26 +29,90 @@ function isValidEmail(email?: string | null): boolean {
   return !IGNORED_DOMAINS.some(d => domain.includes(d));
 }
 
+function normalizeGreek(text: string): string {
+  return (text || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase();
+}
+
+function isTourismKad(kad: string): boolean {
+  return (
+    kad.startsWith("55") ||      // Καταλύματα (ξενοδοχεία, ενοικιαζόμενα δωμάτια, βίλες, κάμπινγκ)
+    kad.startsWith("79") ||      // Ταξιδιωτικά γραφεία, tour operators, υπηρεσίες κρατήσεων
+    kad.startsWith("7711") ||    // Ενοικίαση επιβατικών αυτοκινήτων (Rent a car)
+    kad.startsWith("7712") ||    // Ενοικίαση φορτηγών χωρίς οδηγό
+    kad.startsWith("7721") ||    // Ενοικίαση ειδών αναψυχής και αθλητικών ειδών (σκάφη αναψυχής κλπ.)
+    kad.startsWith("7734") ||    // Ενοικίαση εξοπλισμού υδάτινων μεταφορών (yacht charter)
+    kad.startsWith("5010") ||    // Θαλάσσιες και ακτοπλοϊκές μεταφορές επιβατών (κρουαζιέρες)
+    kad.startsWith("5030")       // Εσωτερικές υδάτινες μεταφορές επιβατών
+  );
+}
+
+function isOperationsKad(kad: string): boolean {
+  return (
+    kad.startsWith("41") ||      // Κατασκευές κτιρίων
+    kad.startsWith("42") ||      // Έργα πολιτικού μηχανικού
+    kad.startsWith("43") ||      // Εξειδικευμένες κατασκευαστικές δραστηριότητες (ηλεκτρολογικά, υδραυλικά κλπ.)
+    kad.startsWith("61") ||      // Τηλεπικοινωνίες (ενσύρματες, ασύρματες, δορυφορικές, οπτικές ίνες)
+    kad.startsWith("494") ||     // Οδικές μεταφορές εμπορευμάτων & υπηρεσίες μετακόμισης (49.41, 49.42)
+    kad.startsWith("521") ||     // Αποθήκευση (warehousing / logistics 52.10)
+    kad.startsWith("522") ||     // Υποστηρικτικές προς τη μεταφορά δραστηριότητες (logistics 52.21-52.29)
+    kad.startsWith("801") ||     // Υπηρεσίες ιδιωτικής προστασίας (security 80.10)
+    kad.startsWith("802") ||     // Υπηρεσίες συστημάτων ασφαλείας (security systems 80.20)
+    kad.startsWith("33") ||      // Επισκευή και εγκατάσταση μηχανημάτων και εξοπλισμού
+    kad.startsWith("7112")       // Δραστηριότητες μηχανικών και τεχνικές συμβουλές
+  );
+}
+
+const TOURISM_TEXT_REGEX = /(?:\b(TOUR|TOURS|TOURISM|TOURIST|TOURISTIC|TRAVEL|RENT A CAR|CAR RENTAL|YACHT|CHARTER|BOAT RENTAL|HOTEL|HOTELS|VILLA|VILLAS|RESORT|RESORTS|CRUISE|HOLIDAY|HOLIDAYS|HOSPITALITY)\b|ΤΟΥΡΙΣΤ|ΞΕΝΟΔΟΧ|ΒΙΛΑ|ΒΙΛΕΣ|ΒΙΛΛΑ|ΒΙΛΛΕΣ|ΚΡΟΥΑΖΙΕΡ|ΕΚΔΡΟΜ|ΕΝΟΙΚΙΑΖΟΜΕΝ[Α-Ω\s]+ΔΩΜΑΤΙ|ΤΟΥΡΙΣΤΙΚ[Α-Ω\s]+ΚΑΤΑΛΥΜ|ΚΑΤΑΛΥΜΑΤΑ ΔΙΑΚΟΠΩΝ|ΦΙΛΟΞΕΝΙ)/;
+
+const OPS_TEXT_REGEX = /(?:\b(LOGISTICS|SECURITY|FIBER|FIBER OPTIC)\b|ΤΗΛΕΠΙΚΟΙΝΩΝ|ΟΠΤΙΚΕΣ ΙΝΕΣ|ΟΠΤΙΚΗ ΙΝΑ|ΟΠΤΙΚΩΝ ΙΝΩΝ|ΤΕΧΝΙΚΗ ΕΤΑΙΡΕΙΑ|ΤΕΧΝΙΚΕΣ ΕΡΓΑΣΙΕΣ|ΤΕΧΝΙΚΟ ΓΡΑΦΕΙΟ|ΤΕΧΝΙΚΩΝ ΕΡΓΩΝ|ΤΕΧΝΙΚΕΣ ΥΠΗΡΕΣΙΕΣ|ΤΕΧΝΙΚΟΣ ΕΛΕΓΧΟΣ|ΤΕΧΝΙΚΩΝ ΕΓΚΑΤΑΣΤΑΣΕΩΝ|ΕΡΓΟΛΑΒ|ΜΕΤΑΦΟΡΙΚΗ|ΜΕΤΑΦΟΡΕΣ ΕΜΠΟΡΕΥΜΑΤΩΝ|ΔΙΑΜΕΤΑΦΟΡ|ΣΥΝΤΗΡΗΣΗ ΚΤΙΡΙΩΝ|ΣΥΝΤΗΡΗΣΕΙΣ|ΣΥΝΤΗΡΗΣΗ ΕΓΚΑΤΑΣΤΑΣΕΩΝ|ΗΛΕΚΤΡΟΛΟΓΙΚ|ΥΔΡΑΥΛΙΚΕΣ ΕΓΚΑΤΑΣΤΑΣΕΙΣ|ΥΔΡΑΥΛΙΚΑ ΕΡΓΑ|ΥΔΡΑΥΛΙΚΟΣ|ΥΔΡΑΥΛΙΚΟΙ|ΨΥΚΤΙΚΕΣ ΕΓΚΑΤΑΣΤΑΣΕΙΣ|ΨΥΚΤΙΚΟΣ|ΨΥΚΤΙΚΟΙ|ΧΩΜΑΤΟΥΡΓ|ΦΥΛΑΞΗ|ΣΥΣΤΗΜΑΤΑ ΑΣΦΑΛΕΙΑΣ|ΙΔΙΩΤΙΚΗ ΑΣΦΑΛΕΙΑ|ΚΑΤΑΣΚΕΥΑΣΤΙΚΗ|ΚΑΤΑΣΚΕΥΕΣ ΚΤΙΡΙΩΝ|ΟΙΚΟΔΟΜΙΚΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ|ΑΝΕΛΚΥΣΤ|ΜΟΝΩΣΕΙΣ)/;
+
 function detectLeadIndustry(co: any): { type: string; label: string; icon: string; legalForm: string } {
-  const textToSearch = [
+  const legalForm = co.legalType?.descr || "Επιχείρηση";
+
+  // 1. Extract KAD digits cleanly without any text concatenation
+  const kadCodes: string[] = [];
+  if (Array.isArray(co.activities)) {
+    for (const a of co.activities) {
+      const rawId = a?.activity?.id || a?.id;
+      if (rawId) {
+        kadCodes.push(String(rawId).replace(/[^0-9]/g, ""));
+      }
+    }
+  }
+  if (co.objective) {
+    const matches = co.objective.match(/\b\d{4,8}\b/g);
+    if (matches) {
+      for (const m of matches) kadCodes.push(m);
+    }
+  }
+
+  // 2. Strict KAD prefix matching (prevents substrings like '7920' inside '47920000')
+  const hasTourismKad = kadCodes.some(k => isTourismKad(k));
+  const hasOpsKad = kadCodes.some(k => isOperationsKad(k));
+
+  // 3. Searchable text with all numbers stripped out so KAD digits don't match keywords
+  const rawTextParts = [
     co.coNameEl || "",
     ...(co.coTitlesEl || []),
     ...(co.coTitlesEn || []),
-    co.objective || "",
-    ...(co.activities || []).map((a: any) => `${a.activity?.id || ""} ${a.activity?.descr || ""}`),
-  ].join(" ").toUpperCase();
+    ...(co.activities || []).map((a: any) => a.activity?.descr || ""),
+    co.objective ? co.objective.replace(/[0-9]/g, " ") : ""
+  ];
+  const normalizedText = normalizeGreek(rawTextParts.join(" "));
 
-  const legalForm = co.legalType?.descr || "Επιχείρηση";
+  const hasTourismText = TOURISM_TEXT_REGEX.test(normalizedText);
+  const hasOpsText = OPS_TEXT_REGEX.test(normalizedText);
 
-  // 1. Tourism / Travel / Rent-a-car / Hospitality
-  const tourismRegex = /(79\.\d+|79\d{2}|771\d+|77\.1|7734|77\.34|55\.\d+|55\d{2}|ΤΟΥΡΙΣΤ|TRAVEL|TOUR|RENT A CAR|CAR RENTAL|YACHT|CHARTER|HOTEL|VILLA|CRUISE|HOLIDAY|ΕΚΔΡΟΜ|ΞΕΝΟΔΟΧ)/i;
-  if (tourismRegex.test(textToSearch)) {
+  // Tourism takes priority if matched
+  if (hasTourismKad || hasTourismText) {
     return { type: "tourism", label: `Τουρισμός (${legalForm})`, icon: "✈️", legalForm };
   }
 
-  // 2. Operations / Tech / Field Workforce / Telecom / Logistics
-  const opsRegex = /(42\.\d+|42\d{2}|43\.\d+|43\d{2}|61\.\d+|61\d{2}|494\d+|49\.4|52\.\d+|52\d{2}|80\.\d+|ΤΗΛΕΠΙΚΟΙΝΩΝ|ΟΠΤΙΚ|FIBER|ΤΕΧΝΙΚ|ΕΡΓΟΛΑΒ|LOGISTICS|ΜΕΤΑΦΟΡ|ΣΥΝΤΗΡΗΣ|ΕΓΚΑΤΑΣΤΑΣ|SECURITY|ΚΑΤΑΣΚΕΥ)/i;
-  if (opsRegex.test(textToSearch)) {
+  // Operations & Tech
+  if (hasOpsKad || hasOpsText) {
     return { type: "operations_tech", label: `Operations & Τεχνική (${legalForm})`, icon: "⚡", legalForm };
   }
 
