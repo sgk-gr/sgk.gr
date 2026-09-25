@@ -11,7 +11,8 @@ const nextConfig = {
   images: {
     // Στατικά sites χρειάζονται αυτό για τις εικόνες
     unoptimized: true,
-  }
+  },
+  serverExternalPackages: ['pdf-parse'],
 };
 
 export default nextConfig;

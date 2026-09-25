@@ -43,6 +43,7 @@ export interface ContractData {
   representativeName: string;
   representativeFatherName: string;
   representativeTitle: string;
+  representativeAfm?: string;
   clientAfm: string;
 
   // Amounts & Terms
@@ -82,6 +83,7 @@ export const DEFAULT_CONTRACT: ContractData = {
   representativeName: "",
   representativeFatherName: "",
   representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
+  representativeAfm: "",
   clientAfm: "",
 
   totalAmountNum: 124.00,
@@ -120,6 +122,7 @@ export function ContractsTab({
   const [contracts, setContracts] = useState<ContractData[]>([]);
   const [currentContract, setCurrentContract] = useState<ContractData>(DEFAULT_CONTRACT);
   const [isEditing, setIsEditing] = useState(true);
+  const [ymsDetectedInfo, setYmsDetectedInfo] = useState<{ detected: boolean; afm?: string; father?: string; name?: string } | null>(null);
 
   // Load saved contracts from LocalStorage
   useEffect(() => {
@@ -175,9 +178,22 @@ export function ContractsTab({
           city: co.city || prev.city,
           representativeName: co.representativeName || prev.representativeName,
           representativeFatherName: co.representativeFatherName || prev.representativeFatherName,
+          representativeAfm: co.representativeAfm || prev.representativeAfm || "",
           representativeTitle: co.representativeTitle || prev.representativeTitle,
         }));
-        toast.success(`✨ Αντλήθηκαν τα στοιχεία της «${co.tradeName || co.companyName}» από το Γ.Ε.ΜΗ.!`);
+
+        if (co.ymsFound && (co.representativeAfm || co.representativeFatherName)) {
+          setYmsDetectedInfo({
+            detected: true,
+            afm: co.representativeAfm,
+            father: co.representativeFatherName,
+            name: co.representativeName,
+          });
+          toast.success(`✨ Αντλήθηκαν τα στοιχεία & η Ανακοίνωση Σύστασης ΥΜΣ! (ΑΦΜ Διαχειριστή: ${co.representativeAfm || "-"}, Πατρώνυμο: ${co.representativeFatherName || "-"})`);
+        } else {
+          setYmsDetectedInfo(null);
+          toast.success(`✨ Αντλήθηκαν τα στοιχεία της «${co.tradeName || co.companyName}» από το Γ.Ε.ΜΗ.!`);
+        }
       } else {
         toast.error(data.error || "Δεν βρέθηκε επιχείρηση στο Γ.Ε.ΜΗ. με αυτά τα στοιχεία.");
       }
@@ -241,9 +257,11 @@ export function ContractsTab({
       gemiNo: "",
       representativeName: "",
       representativeFatherName: "",
+      representativeAfm: "",
       clientAfm: "",
     };
     setCurrentContract(newContract);
+    setYmsDetectedInfo(null);
     setIsEditing(true);
   };
 
@@ -344,7 +362,7 @@ export function ContractsTab({
 
         <p>και</p>
 
-        <p class="party-item"><strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«${currentContract.companyName || '................................................'}»</strong> (διακριτικός τίτλος <strong>«${currentContract.tradeName || '................................'}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>${currentContract.gemiNo || '....................'}</strong>, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || 'τον διαχειριστή αυτής'} κ. <strong>${currentContract.representativeName || '................................'}</strong> του <strong>${currentContract.representativeFatherName || '....................'}</strong>, με Α.Φ.Μ. <strong>${currentContract.clientAfm || '....................'}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,</p>
+        <p class="party-item"><strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«${currentContract.companyName || '................................................'}»</strong> (διακριτικός τίτλος <strong>«${currentContract.tradeName || '................................'}»</strong>), με Α.Φ.Μ. <strong>${currentContract.clientAfm || '....................'}</strong> και αριθμό Γ.Ε.ΜΗ. <strong>${currentContract.gemiNo || '....................'}</strong>, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || 'τον διαχειριστή αυτής'} κ. <strong>${currentContract.representativeName || '................................'}</strong> του <strong>${currentContract.representativeFatherName || '....................'}</strong>, με Α.Φ.Μ. <strong>${currentContract.representativeAfm || currentContract.clientAfm || '....................'}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,</p>
 
         <p style="margin-bottom: 14px;">συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:</p>
 
@@ -444,7 +462,7 @@ export function ContractsTab({
 
 και
 
-2. Αφετέρου: η εταιρεία με την επωνυμία «${currentContract.companyName || "................................................"}» (διακριτικός τίτλος «${currentContract.tradeName || "................................"}»), με αριθμό Γ.Ε.ΜΗ. ${currentContract.gemiNo || "...................."}, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. ${currentContract.representativeName || "................................"} του ${currentContract.representativeFatherName || "...................."}, με Α.Φ.Μ. ${currentContract.clientAfm || "...................."}, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
+2. Αφετέρου: η εταιρεία με την επωνυμία «${currentContract.companyName || "................................................"}» (διακριτικός τίτλος «${currentContract.tradeName || "................................"}»), με Α.Φ.Μ. ${currentContract.clientAfm || "...................."} και αριθμό Γ.Ε.ΜΗ. ${currentContract.gemiNo || "...................."}, νομίμως εκπροσωπούμενη από ${currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. ${currentContract.representativeName || "................................"} του ${currentContract.representativeFatherName || "...................."}, με Α.Φ.Μ. ${currentContract.representativeAfm || currentContract.clientAfm || "...................."}, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
 
 συμφωνήθηκαν, συνομολογήθηκαν και έγιναν αμοιβαία αποδεκτά τα ακόλουθα:
 
@@ -776,6 +794,16 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                   Στοιχεία Εργοδότη / Πελάτη
                 </h4>
 
+                {ymsDetectedInfo?.detected && (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200/90 rounded-2xl flex items-center gap-2.5 text-emerald-900 text-[11px] font-semibold">
+                    <Check size={14} className="text-emerald-600 shrink-0" />
+                    <div>
+                      <span className="font-bold text-emerald-800">Ανακοίνωση Σύστασης ΥΜΣ: </span>
+                      Αντλήθηκε αυτόματα (ΑΦΜ: <span className="font-mono font-bold text-emerald-900">{ymsDetectedInfo.afm || "-"}</span>, Πατρώνυμο: <span className="font-bold text-emerald-900">{ymsDetectedInfo.father || "-"}</span>)
+                    </div>
+                  </div>
+                )}
+
                 <div>
                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
                     Επωνυμία Εταιρείας (π.χ. LYROUDIS CONSULTING SERVICES Μ.Ι.Κ.Ε.)
@@ -860,20 +888,20 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
-                      Ιδιότητα Εκπροσώπου
+                      Α.Φ.Μ. Διαχειριστή (ΥΜΣ)
                     </label>
                     <input
                       type="text"
-                      value={currentContract.representativeTitle}
-                      onChange={(e) => setCurrentContract({ ...currentContract, representativeTitle: e.target.value })}
-                      placeholder="τον μοναδικό εταίρο και διαχειριστή αυτής"
+                      value={currentContract.representativeAfm || ""}
+                      onChange={(e) => setCurrentContract({ ...currentContract, representativeAfm: e.target.value })}
+                      placeholder="π.χ. 050480299"
                       className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
                     />
                   </div>
                   <div>
                     <div className="flex items-center justify-between mb-1">
                       <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider">
-                        Α.Φ.Μ. Πελάτη
+                        Α.Φ.Μ. Εταιρείας / Πελάτη
                       </label>
                       {currentContract.clientAfm && (
                         <button
@@ -892,10 +920,23 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                       type="text"
                       value={currentContract.clientAfm}
                       onChange={(e) => setCurrentContract({ ...currentContract, clientAfm: e.target.value })}
-                      placeholder="π.χ. 050480299"
+                      placeholder="π.χ. 803351366"
                       className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
                     />
                   </div>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1">
+                    Ιδιότητα Εκπροσώπου
+                  </label>
+                  <input
+                    type="text"
+                    value={currentContract.representativeTitle}
+                    onChange={(e) => setCurrentContract({ ...currentContract, representativeTitle: e.target.value })}
+                    placeholder="τον μοναδικό εταίρο και διαχειριστή αυτής"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-none focus:border-[#3b5bdb]"
+                  />
                 </div>
               </div>
 
@@ -1029,7 +1070,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
               <p className="mb-3">και</p>
 
               <p className="mb-4 pl-4">
-                <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{currentContract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{currentContract.tradeName || "................................"}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>{currentContract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{currentContract.representativeName || "................................"}</strong> του <strong>{currentContract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{currentContract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
+                <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{currentContract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{currentContract.tradeName || "................................"}»</strong>), με Α.Φ.Μ. <strong>{currentContract.clientAfm || "...................."}</strong> και αριθμό Γ.Ε.ΜΗ. <strong>{currentContract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {currentContract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{currentContract.representativeName || "................................"}</strong> του <strong>{currentContract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{currentContract.representativeAfm || currentContract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
               </p>
 
               <p className="mb-6">

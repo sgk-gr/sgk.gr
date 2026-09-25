@@ -19,6 +19,7 @@ interface ContractData {
   representativeName?: string;
   representativeFatherName?: string;
   representativeTitle?: string;
+  representativeAfm?: string;
   clientAfm?: string;
   totalAmountNum?: number;
   totalAmountText?: string;
@@ -47,6 +48,7 @@ const DEFAULT_CONTRACT: ContractData = {
   representativeName: "................................",
   representativeFatherName: "....................",
   representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
+  representativeAfm: "",
   clientAfm: "....................",
   totalAmountNum: 124,
   totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
@@ -245,7 +247,7 @@ function ContractViewer() {
         <p className="mb-3">και</p>
 
         <p className="mb-4 pl-4 text-justify">
-          <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{contract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{contract.tradeName || "................................"}»</strong>), με αριθμό Γ.Ε.ΜΗ. <strong>{contract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {contract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{contract.representativeName || "................................"}</strong> του <strong>{contract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{contract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
+          <strong>2. Αφετέρου:</strong> η εταιρεία με την επωνυμία <strong>«{contract.companyName || "................................................"}»</strong> (διακριτικός τίτλος <strong>«{contract.tradeName || "................................"}»</strong>), με Α.Φ.Μ. <strong>{contract.clientAfm || "...................."}</strong> και αριθμό Γ.Ε.ΜΗ. <strong>{contract.gemiNo || "...................."}</strong>, νομίμως εκπροσωπούμενη από {contract.representativeTitle || "τον διαχειριστή αυτής"} κ. <strong>{contract.representativeName || "................................"}</strong> του <strong>{contract.representativeFatherName || "...................."}</strong>, με Α.Φ.Μ. <strong>{contract.representativeAfm || contract.clientAfm || "...................."}</strong>, εφεξής καλούμενη «ο Εργοδότης» ή «ο Πελάτης»,
         </p>
 
         <p className="mb-6 text-justify">

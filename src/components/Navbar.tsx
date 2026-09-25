@@ -57,20 +57,12 @@ const Navbar = () => {
             ΕΛ <ChevronDown size={16} className="opacity-90" />
           </div>
 
-          {/* Logo & Badge */}
-          <div className="flex items-center gap-1 pl-8 lg:pl-12 xl:pl-16">
+          {/* Logo */}
+          <div className="flex items-center pl-8 lg:pl-12 xl:pl-16">
             <Link href="/" className="flex items-center">
               <span className="font-heading font-bold text-3xl tracking-tighter text-black transition-colors duration-300">
                 sgk<span className="text-[#3b5bdb]">.</span>
               </span>
-            </Link>
-            <Link href="/ike-offer" className="flex flex-col items-start cursor-pointer mt-0.5 ml-1.5 hover:opacity-85 transition-opacity" title="Εταιρική Ιστοσελίδα ΙΚΕ ΓΕΜΗ 124€">
-              <div className="bg-[#80ff9f] text-black text-[12px] font-bold px-1.5 py-[2px] leading-none tracking-tight">
-                Ι.Κ.Ε. ΓΕΜΗ
-              </div>
-              <div className="bg-[#3b5bdb] text-white text-[12px] font-bold px-1.5 py-[2px] leading-none tracking-tight">
-                124€
-              </div>
             </Link>
           </div>
         </div>
