@@ -396,16 +396,9 @@ function InvoiceViewer() {
           <div className="space-y-6">
             {(doc.offerItems || []).map((item, idx) => (
               <div key={item.id || idx} className="p-5 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-black text-sm text-[#0f2d59]">
-                    {idx + 1}. {item.title}
-                  </h3>
-                  {item.duration && (
-                    <span className="text-[10px] font-bold font-mono bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                      ⏱️ {item.duration}
-                    </span>
-                  )}
-                </div>
+                <h3 className="font-black text-sm text-[#0f2d59]">
+                  {idx + 1}. {item.title}
+                </h3>
                 <p className="text-xs text-slate-700 leading-relaxed text-justify">
                   {item.description}
                 </p>

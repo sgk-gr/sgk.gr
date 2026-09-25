@@ -680,16 +680,9 @@ export function ContractsTab({
       <div style="display: flex; flex-direction: column; gap: 14px;">
         ${calc.offerItems.map((item, idx) => `
           <div style="padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <h3 style="font-weight: 900; font-size: 13px; color: #0f2d59; margin: 0;">
-                ${idx + 1}. ${item.title}
-              </h3>
-              ${item.duration ? `
-                <span style="font-size: 9.5px; font-weight: bold; font-family: monospace; background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 9999px; border: 1px solid #a7f3d0;">
-                  ⏱️ ${item.duration}
-                </span>
-              ` : ''}
-            </div>
+            <h3 style="font-weight: 900; font-size: 13px; color: #0f2d59; margin: 0 0 6px 0;">
+              ${idx + 1}. ${item.title}
+            </h3>
             <p style="font-size: 11.5px; color: #334155; line-height: 1.5; margin: 0; text-align: justify;">
               ${item.description}
             </p>
@@ -1943,16 +1936,9 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                   <div className="space-y-4">
                     {getInvoiceCalculations(currentContract).offerItems.map((item, idx) => (
                       <div key={idx} className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-1.5">
-                        <div className="flex items-center justify-between">
-                          <h3 className="font-black text-xs text-[#0f2d59]">
-                            {idx + 1}. {item.title}
-                          </h3>
-                          {item.duration && (
-                            <span className="text-[9.5px] font-bold font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200">
-                              ⏱️ {item.duration}
-                            </span>
-                          )}
-                        </div>
+                        <h3 className="font-black text-xs text-[#0f2d59]">
+                          {idx + 1}. {item.title}
+                        </h3>
                         <p className="text-xs text-slate-700 leading-relaxed text-justify">
                           {item.description}
                         </p>
