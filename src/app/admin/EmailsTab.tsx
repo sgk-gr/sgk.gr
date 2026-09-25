@@ -495,8 +495,6 @@ export function EmailsTab() {
 
   // Live GEMI Scanner state & Real-time Live Modal
   const [isScanningGemi, setIsScanningGemi] = useState(false);
-  const [scanIndustry, setScanIndustry] = useState<"all" | "tourism" | "operations_tech">("all");
-  const [scanLegalForm, setScanLegalForm] = useState<"ike" | "all" | "ae" | "oe_ee">("ike");
   const [scanMonth, setScanMonth] = useState<"current" | "previous" | "all_year">("current");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
   const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
@@ -1269,24 +1267,13 @@ function safeEncodeBase64(data: any): string {
   };
 
   const handleScanGemiIkes = async () => {
-    const industryLabel = 
-      scanIndustry === "tourism" ? "✈️ Τουρισμός / Travel" :
-      scanIndustry === "operations_tech" ? "⚡ Operations & Τεχνικές" : "🌐 Όλοι οι Κλάδοι";
-
-    const legalLabel =
-      scanLegalForm === "ike" ? "🏢 Μόνο Ι.Κ.Ε." :
-      scanLegalForm === "ae" ? "🏛️ Μόνο Α.Ε." :
-      scanLegalForm === "oe_ee" ? "👥 Ο.Ε. & Ε.Ε." : "🌍 Όλες οι Μορφές";
-
     const monthLabel =
       scanMonth === "current" ? `📅 ${currentMonthName} ${now.getFullYear()}` :
       scanMonth === "previous" ? `📅 ${prevMonthName} ${prevDate.getFullYear()}` : `📅 Όλο το ${now.getFullYear()}`;
 
-    const targetDesc = `${industryLabel} • ${legalLabel} • ${monthLabel}`;
-
     setIsScanModalOpen(true);
     setIsScanningGemi(true);
-    setScanStatusMessage(`⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. (${targetDesc})...`);
+    setScanStatusMessage(`⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`);
     setScanStats({
       totalExamined: 0,
       added: 0,
@@ -1301,7 +1288,7 @@ function safeEncodeBase64(data: any): string {
         id: "init",
         time: new Date().toLocaleTimeString("el-GR"),
         type: "init",
-        message: `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για [${targetDesc}]...`
+        message: `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
       }
     ]);
 
@@ -1312,8 +1299,8 @@ function safeEncodeBase64(data: any): string {
         body: JSON.stringify({ 
           stream: true, 
           limit: 50, 
-          targetCategory: scanIndustry,
-          targetLegalForm: scanLegalForm,
+          targetCategory: "all",
+          targetLegalForm: "ike",
           month: scanMonth,
         }),
       });
@@ -2056,37 +2043,10 @@ function safeEncodeBase64(data: any): string {
             <div className="inline-flex items-center flex-wrap bg-slate-900 border border-slate-700/80 rounded-xl p-1 shadow-md gap-1">
               <div className="flex items-center gap-1 pl-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
                 <Target size={12} className="text-yellow-400" />
-                <span className="hidden sm:inline">Στοχευση:</span>
+                <span className="hidden sm:inline">Μήνας:</span>
               </div>
 
-              {/* 1. Industry Selector */}
-              <select
-                value={scanIndustry}
-                onChange={(e) => setScanIndustry(e.target.value as any)}
-                disabled={isScanningGemi}
-                className="bg-slate-800 text-slate-100 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-indigo-400 cursor-pointer"
-                title="Επιλογή Κλάδου"
-              >
-                <option value="all">🌐 Όλοι οι Κλάδοι</option>
-                <option value="tourism">✈️ Τουρισμός / Rentals</option>
-                <option value="operations_tech">⚡ Operations / Τεχνικές</option>
-              </select>
-
-              {/* 2. Legal Form Selector */}
-              <select
-                value={scanLegalForm}
-                onChange={(e) => setScanLegalForm(e.target.value as any)}
-                disabled={isScanningGemi}
-                className="bg-slate-800 text-cyan-300 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-400 cursor-pointer"
-                title="Επιλογή Νομικής Μορφής"
-              >
-                <option value="ike">🏢 Μόνο Ι.Κ.Ε.</option>
-                <option value="all">🌍 Όλες οι Μορφές</option>
-                <option value="ae">🏛️ Μόνο Α.Ε.</option>
-                <option value="oe_ee">👥 Ο.Ε. & Ε.Ε.</option>
-              </select>
-
-              {/* 3. Dynamic Month Selector */}
+              {/* Dynamic Month Selector */}
               <select
                 value={scanMonth}
                 onChange={(e) => setScanMonth(e.target.value as any)}
@@ -2102,15 +2062,11 @@ function safeEncodeBase64(data: any): string {
               <button
                 onClick={handleScanGemiIkes}
                 disabled={isScanningGemi}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
-                title="Live σάρωση στο Γ.Ε.ΜΗ. με τα επιλεγμένα κριτήρια"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
+                title="Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."
               >
                 {isScanningGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-yellow-300" />}
-                <span>
-                  {scanLegalForm === "ike"
-                    ? (scanIndustry === "tourism" ? "Ευρεση Τουρισμου (ΙΚΕ)" : scanIndustry === "operations_tech" ? "Ευρεση Operations (ΙΚΕ)" : "Ευρεση Νεων ΙΚΕ")
-                    : (scanIndustry === "tourism" ? "Ευρεση Τουρισμου" : scanIndustry === "operations_tech" ? "Ευρεση Operations" : "Ευρεση Επιχειρησεων")}
-                </span>
+                <span>Ευρεση Νεων ΙΚΕ</span>
               </button>
             </div>
             <button
@@ -2166,27 +2122,14 @@ function safeEncodeBase64(data: any): string {
           {/* Quick Category Filter Pills */}
           <div className="flex flex-wrap items-center gap-1.5">
             <button
-              onClick={() => setStatusFilter(statusFilter === 'tourism' ? 'all' : 'tourism')}
+              onClick={() => setStatusFilter('all')}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
-                statusFilter === 'tourism'
-                  ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
-                  : 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
+                statusFilter === 'all'
+                  ? 'bg-slate-800 text-white border-slate-900 shadow-sm'
+                  : 'bg-slate-100 text-slate-800 border-slate-200 hover:bg-slate-200'
               }`}
             >
-              <span>✈️ Τουρισμός</span>
-              <span className="text-[10px] px-1 rounded-full bg-white/40">{tourismCount}</span>
-            </button>
-
-            <button
-              onClick={() => setStatusFilter(statusFilter === 'operations_tech' ? 'all' : 'operations_tech')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
-                statusFilter === 'operations_tech'
-                  ? 'bg-purple-600 text-white border-purple-700 shadow-sm'
-                  : 'bg-purple-50 text-purple-800 border-purple-200 hover:bg-purple-100'
-              }`}
-            >
-              <span>⚡ Operations & Tech</span>
-              <span className="text-[10px] px-1 rounded-full bg-white/40">{opsTechCount}</span>
+              <span>🌐 Όλα ({leads.length})</span>
             </button>
 
             <button
@@ -2719,13 +2662,7 @@ function safeEncodeBase64(data: any): string {
                 </div>
                 <div>
                   <h3 className="font-black text-white text-base tracking-wide uppercase flex items-center gap-2">
-                    ⚡ Live Σαρωση Γ.Ε.ΜΗ. — {
-                      scanIndustry === "tourism"
-                        ? `Εύρεση Τουρισμού (${scanLegalForm === "ike" ? "Μόνο ΙΚΕ" : scanLegalForm === "ae" ? "Μόνο ΑΕ" : scanLegalForm === "oe_ee" ? "ΟΕ / ΕΕ" : "Όλες οι μορφές"})`
-                        : scanIndustry === "operations_tech"
-                        ? `Εύρεση Operations (${scanLegalForm === "ike" ? "Μόνο ΙΚΕ" : scanLegalForm === "ae" ? "Μόνο ΑΕ" : scanLegalForm === "oe_ee" ? "ΟΕ / ΕΕ" : "Όλες οι μορφές"})`
-                        : (scanLegalForm === "ike" ? "Εύρεση Νέων Ι.Κ.Ε." : scanLegalForm === "ae" ? "Εύρεση Νέων Α.Ε." : scanLegalForm === "oe_ee" ? "Εύρεση Ο.Ε. & Ε.Ε." : "Εύρεση Επιχειρήσεων (Όλες οι μορφές)")
-                    }
+                    ⚡ Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε.
                     {isScanningGemi && (
                       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 animate-pulse">
                         <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
@@ -2739,14 +2676,7 @@ function safeEncodeBase64(data: any): string {
                       : scanMonth === "previous"
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
                       : `Ίδρυση εντός του ${now.getFullYear()}`}
-                    {" • "}
-                    {scanLegalForm === "ike"
-                      ? "Μόνο Ι.Κ.Ε."
-                      : scanLegalForm === "ae"
-                      ? "Μόνο Α.Ε."
-                      : scanLegalForm === "oe_ee"
-                      ? "Ο.Ε. & Ε.Ε."
-                      : "Όλες οι μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ)"}
+                    {" • Μόνο Ι.Κ.Ε."}
                   </p>
                 </div>
               </div>

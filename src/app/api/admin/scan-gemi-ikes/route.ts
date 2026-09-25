@@ -178,8 +178,8 @@ export async function POST(req: NextRequest) {
   }
 
   const maxResults = body.limit || 50;
-  const targetCategory = body.targetCategory || body.industry || "all"; // "all" | "tourism" | "operations_tech"
-  const targetLegalForm = body.targetLegalForm || body.legalForm || (body.targetCategory === "ike" ? "ike" : "all"); // "all" | "ike" | "ae" | "oe_ee"
+  const targetCategory = "all";
+  const targetLegalForm = "ike"; // Always strictly I.K.E. (legalTypes=19)
   
   // Dynamic Month Handling: automatically follows current month (e.g. 2026-09 in September, 2026-10 in October)
   const now = new Date();
@@ -234,27 +234,15 @@ export async function POST(req: NextRequest) {
         };
 
         try {
-          const industryLabels: Record<string, string> = {
-            all: "Όλοι οι Κλάδοι",
-            tourism: "✈️ Τουρισμός / Travel",
-            operations_tech: "⚡ Operations & Τεχνικές",
-          };
-          const legalLabels: Record<string, string> = {
-            all: "Όλες οι Μορφές",
-            ike: "Μόνο Ι.Κ.Ε.",
-            ae: "Μόνο Α.Ε.",
-            oe_ee: "Ο.Ε. & Ε.Ε.",
-          };
-
           const monthLabel = targetMonth ? `Μήνας: ${targetMonth}` : `Από ${minDate}`;
 
           emit({
             type: "init",
-            message: `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Κλάδος: ${industryLabels[targetCategory] || targetCategory} | Μορφή: ${legalLabels[targetLegalForm] || targetLegalForm} | 📅 ${monthLabel}]...`,
+            message: `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
             minDate,
             maxResults,
-            targetCategory,
-            targetLegalForm,
+            targetCategory: "all",
+            targetLegalForm: "ike",
             targetMonth
           });
 
@@ -287,26 +275,18 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = 0;
 
-          const maxOffset = (targetCategory === "tourism" || targetCategory === "operations_tech") ? 2500 : 800;
+          const maxOffset = 800;
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor(offset / pageSize) + 1;
             emit({
               type: "page",
-              message: `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (εταιρείες ${offset + 1} έως ${offset + pageSize})...`,
+              message: `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες Ι.Κ.Ε. ${offset + 1} έως ${offset + pageSize})...`,
               offset,
               page: pageNum
             });
 
-            // Handle legal types filtering
-            let legalTypeParam = "";
-            if (targetLegalForm === "ike") {
-              legalTypeParam = "&legalTypes=19";
-            } else if (targetLegalForm === "ae") {
-              legalTypeParam = "&legalTypes=1";
-            } else if (targetLegalForm === "oe_ee") {
-              legalTypeParam = "&legalTypes=2,4";
-            }
-
+            // Always target strictly ONLY I.K.E. (legalTypes=19)
+            const legalTypeParam = "&legalTypes=19";
             const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}&resultsSortBy=-arGemi`;
 
             let results: any[] = [];
@@ -448,21 +428,11 @@ export async function POST(req: NextRequest) {
 
               seenInBatch.add(email);
 
-              const industry = detectLeadIndustry(co);
-
-              // Filter by target category if specified
-              if (targetCategory === "tourism" && industry.type !== "tourism") {
-                continue;
-              }
-              if (targetCategory === "operations_tech" && industry.type !== "operations_tech") {
-                continue;
-              }
-
               const newLead = {
                 email: email,
                 company: companyTitle,
                 first_name: companyTitle,
-                last_name: legalForm,
+                last_name: "Ι.Κ.Ε.",
                 phone: phone,
                 afm: afm,
                 gemi_number: arGemi,
@@ -471,13 +441,12 @@ export async function POST(req: NextRequest) {
                 email_sequence_step: 0,
                 unsubscribed: false,
                 converted: false,
-                type: industry.type,
+                type: "new_ike",
                 created_at: new Date().toISOString()
               };
 
               newLeadsToInsert.push(newLead);
 
-              const formBadge = co.legalType?.descr ? `[${co.legalType.descr}] ` : "";
               emit({
                 type: "log",
                 category: "added",
@@ -486,7 +455,7 @@ export async function POST(req: NextRequest) {
                 afm,
                 phone,
                 date: incDate,
-                reason: `${industry.icon} ΝΕΑ ΕΠΙΧΕΙΡΗΣΗ ${formBadge}${industry.label} ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
+                reason: `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
 
@@ -511,7 +480,7 @@ export async function POST(req: NextRequest) {
           if (newLeadsToInsert.length > 0) {
             emit({
               type: "info",
-              message: `💾 Αποθήκευση ${newLeadsToInsert.length} νέων επιχειρήσεων στη βάση δεδομένων...`
+              message: `💾 Αποθήκευση ${newLeadsToInsert.length} νέων Ι.Κ.Ε. στη βάση δεδομένων...`
             });
 
             const { data: insertedData, error: insertErr } = await supabase
@@ -545,7 +514,7 @@ export async function POST(req: NextRequest) {
             totalNoEmail,
             totalOldDate,
             leads: newLeadsToInsert,
-            message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέα leads (${industryLabels[targetCategory] || "Κλάδος"} • ${legalLabels[targetLegalForm] || "Μορφή"}).`
+            message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
           });
 
         } catch (err: any) {
