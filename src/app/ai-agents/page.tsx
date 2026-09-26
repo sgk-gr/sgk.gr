@@ -6,19 +6,20 @@ import {
     ArrowRight, Bot, Workflow, MessageSquare, BarChart2, Layers, Cpu, 
     CheckCircle, Zap, ShieldCheck, Sparkles, Check, Database, Code2, 
     Phone, Video, Mic, Headphones, Users, TrendingUp, Clock, Settings2, 
-    Globe, FileText, CheckCircle2, ChevronRight, Activity, Award
+    Globe, FileText, CheckCircle2, ChevronRight, Activity, Award,
+    Mail, Files, Receipt, FolderCheck, Send, Play, SlidersHorizontal, Eye
 } from "lucide-react";
 
 export const metadata: Metadata = {
     title: "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | Voice, Chat & Video AI | SGK Digital",
-    description: "Η #1 AI Agency στην Ελλάδα. Κατασκευή custom AI agents & επιχειρηματικών αυτοματισμών που εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. 24/7 εξυπηρέτηση πελατών με Voice AI (τηλέφωνο), Smart Chat & AI Video Avatars.",
-    keywords: "κατασκευη ai agents, custom ai για επιχειρησεις, custom ai ελλαδα, ai agents χωρις υπαλληλους, αυτονομοι ai agents, voice ai agents ελλαδα, ai τηλεφωνικη εξυπηρετηση, ai chatbot ελλαδα, ai video avatars, εξυπηρετηση πελατων voice chat video, επιχειρηματικοι αυτοματισμοι ai, agentic ai greece, ai agency αθηνα, φωνητικοι πρακτορες ai, ai call center greece",
+    description: "Η #1 AI Agency στην Ελλάδα. Αυτόνομοι AI agents & επιχειρηματικοί αυτοματισμοί: ανάγνωση emails & χιλιάδων PDFs, καταχώριση τιμολογίων στο ERP, και 24/7 εξυπηρέτηση πελατών με Voice, Chat & Video AI Avatars.",
+    keywords: "κατασκευη ai agents, custom ai για επιχειρησεις, video ai customer support, ai avatars ελλαδα, αναγνωση emails ai, αναγνωση τιμολογιων ai, επεξεργασια pdf ai, ai agents χωρις υπαλληλους, αυτονομοι ai agents, voice ai agents ελλαδα, ai τηλεφωνικη εξυπηρετηση, ai chatbot ελλαδα, εξυπηρετηση πελατων voice chat video, επιχειρηματικοι αυτοματισμοι ai, softone entersoft ai, agentic ai greece",
     alternates: {
         canonical: "https://www.sgk.gr/ai-agents",
     },
     openGraph: {
         title: "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | Voice, Chat, Video | SGK Digital",
-        description: "Η κορυφαία AI Agency στην Ελλάδα. Ανάπτυξη Custom AI Agents & αυτοματισμών που εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. Εξυπηρέτηση με Voice AI, Smart Chat & Video.",
+        description: "Η κορυφαία AI Agency στην Ελλάδα. Αυτόνομοι AI Agents & αυτοματισμοί: διαχείριση emails, χιλιάδων PDFs, τιμολογίων ERP και εξυπηρέτηση με Voice, Chat & Video Avatars.",
         url: "https://www.sgk.gr/ai-agents",
         type: "website",
         images: ["https://www.sgk.gr/social-preview.png"],
@@ -60,21 +61,27 @@ const agencySchema = {
         "Voice AI Telephony",
         "VoIP PBX Customer Service",
         "Omnichannel Chat AI",
-        "AI Video Avatars",
+        "AI Video Avatars & Customer Support",
         "Greek Natural Language Processing (NLP)",
         "Business Automation without Employees",
-        "ERP Integration with AI"
+        "Mass PDF Document Intelligence",
+        "AI Invoice OCR and ERP Data Entry",
+        "Automated Email Ingestion and Dispatch",
+        "ERP Integration with AI (Softone, Entersoft)"
     ],
     "serviceType": [
         "Κατασκευή Custom AI Agents",
         "Voice AI Telephony & Phone Call Agents",
         "Omnichannel Chat AI Agents",
-        "AI Video Avatars & Customer Support",
+        "Interactive Video AI Customer Support & Avatars",
         "Αυτόνομοι Πράκτορες Χωρίς Υπαλλήλους",
+        "Μαζική Ανάλυση & Επεξεργασία Χιλιάδων PDFs",
+        "Αυτόματη Ανάγνωση & Καταχώριση Τιμολογίων ERP (OCR)",
+        "Αυτόματη Διαχείριση, Ανάγνωση & Αποστολή Emails",
         "Custom Business Automations (n8n & LangGraph)",
         "ERP & CRM AI Integrations (Softone, Entersoft)"
     ],
-    "description": "Ηγετική AI Agency στην Ελλάδα για σχεδιασμό και υλοποίηση αυτόνομων AI agents, φωνητικών πρακτόρων τηλεφωνίας (Voice AI), video avatars και επιχειρηματικών αυτοματισμών που αντικαθιστούν χειροκίνητες εργασίες."
+    "description": "Ηγετική AI Agency στην Ελλάδα για σχεδιασμό και υλοποίηση αυτόνομων AI agents, video avatars για εξυπηρέτηση πελατών, φωνητικών πρακτόρων τηλεφωνίας (Voice AI), ανάλυσης χιλιάδων PDFs, διαχείρισης emails και αυτοματισμών ERP τιμολόγησης."
 };
 
 const serviceSchema = {
@@ -117,8 +124,18 @@ const serviceSchema = {
                 "@type": "Offer",
                 "itemOffered": {
                     "@type": "Service",
-                    "name": "Autonomous Workforce & Video AI System",
-                    "description": "Ολοκληρωμένο Multi-Agent οικοσύστημα με Video Avatars, αυτόνομη εκτέλεση εργασιών γραφείου χωρίς υπαλλήλους και πλήρη διασύνδεση ERP/CRM."
+                    "name": "Interactive Video AI Avatar Customer Support",
+                    "description": "Φωτορεαλιστικά AI video avatars με ελληνικό lip-sync για διαδραστική πρόσωπο με πρόσωπο εξυπηρέτηση πελατών, product demos και visual onboarding."
+                },
+                "price": "4500",
+                "priceCurrency": "EUR"
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Enterprise Document & ERP Automation Suite",
+                    "description": "Αυτόνομο σύστημα διαχείρισης emails, μαζικής ανάλυσης χιλιάδων PDFs, AI OCR τιμολογίων και αυτόματης καταχώρισης στο ERP χωρίς υπαλλήλους."
                 },
                 "price": "8000",
                 "priceCurrency": "EUR"
@@ -137,6 +154,22 @@ const faqSchema = {
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Οι Αυτόνομοι AI Agents (Agentic AI) της SGK Digital δεν περιορίζονται στο να δίνουν απαντήσεις κειμένου. Διαθέτουν λειτουργία Tool Calling και Reasoning: μπορούν να συνδεθούν με τα λογισμικά της επιχείρησής σας (ERP Softone/Entersoft, CRM, databases, emails, courier APIs) και να εκτελέσουν αυτόνομα πολύπλοκα workflows — όπως ανάγνωση τιμολογίων PDF, καταχώρηση παραγγελιών, ενημέρωση αποθεμάτων, έκδοση voucher αποστολής και follow-up πωλήσεων 24 ώρες το 24ωρο χωρίς ανάγκη ανθρώπινης παρέμβασης."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Πώς λειτουργεί η εξυπηρέτηση πελατών με Video AI Avatars (πρόσωπο με πρόσωπο);",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Το Video AI Customer Support επιτρέπει στους επισκέπτες της ιστοσελίδας σας να συνομιλούν με ένα φωτορεαλιστικό ψηφιακό avatar που εμφανίζεται σε ζωντανό video. Το avatar μιλάει με άπταιστη φυσική ελληνική φωνή, έχει τέλειο συγχρονισμό χειλιών (lip-sync), κατανοεί τις ερωτήσεις του χρήστη μέσω της βάσης γνώσης της εταιρείας σας (RAG) και μπορεί να κάνει διαδραστική παρουσίαση προϊόντων, συγκρίσεις τιμών και visual καθοδήγηση 24/7."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Μπορεί ένας AI agent να διαβάζει emails, χιλιάδες PDFs και να καταχωρεί τιμολόγια στο ERP;",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ναι, απόλυτα. Αναπτύσσουμε εξειδικευμένους Back-Office AI Agents που συνδέονται με το inbox σας (Outlook, Gmail), διαβάζουν αυτόματα τα εισερχόμενα emails, αναλύουν μαζικά χιλιάδες πολυσέλιδα αρχεία PDF (συμβόλαια, προδιαγραφές, εγκυκλίους), αναγνωρίζουν τιμολόγια μέσω AI OCR (ποσά, ΦΠΑ, είδη, ΑΦΜ) και τα καταχωρούν απευθείας στο ERP σας (SoftOne, Entersoft κ.ά.) χωρίς κανένα ανθρώπινο λάθος."
             }
         },
         {
@@ -250,24 +283,40 @@ const modalities = [
 
 const autonomousTasks = [
     {
-        icon: <Database className="w-6 h-6 text-[#3b5bdb]" />,
-        title: "Αυτόματο Back-Office & Καταχώρηση ERP",
-        desc: "Ο AI agent διαβάζει τιμολόγια PDF από emails (OCR), ελέγχει γραμμές παραγγελίας και τα καταχωρεί απευθείας στο Softone/Entersoft χωρίς ανθρώπινο χέρι."
+        icon: <Mail className="w-6 h-6 text-[#3b5bdb]" />,
+        title: "Αυτόματη Ανάγνωση & Απάντηση Emails",
+        desc: "Διαβάζει όλα τα εισερχόμενα emails στο Outlook/Gmail, κατανοεί το αίτημα και το ύφος, εξάγει συνημμένα, συντάσσει αυτόματες απαντήσεις ή δρομολογεί αιτήματα.",
+        badge: "Zero-Touch Inbox"
     },
     {
-        icon: <TrendingUp className="w-6 h-6 text-emerald-600" />,
-        title: "Αυτόνομο Sales & Lead Qualification",
-        desc: "Συλλέγει επισκέπτες από web & social, κάνει screening αναγκών με βάση προκαθορισμένα κριτήρια και κλείνει αυτόματα ραντεβού στο calendar των πωλήσεών σας."
+        icon: <Files className="w-6 h-6 text-purple-600" />,
+        title: "Μαζική Ανάλυση Χιλιάδων PDFs σε 1s",
+        desc: "«Χωνεύει» και αναλύει άμεσα εκατοντάδες πολυσέλιδα αρχεία PDF, συμβάσεις, προκηρύξεις και τεχνικά εγχειρίδια. Απαντά σε οποιαδήποτε ερώτηση με ακριβείς παραπομπές.",
+        badge: "Deep Document Search"
     },
     {
-        icon: <Activity className="w-6 h-6 text-amber-600" />,
-        title: "E-Commerce Operations & Inventory AI",
-        desc: "Παρακολουθεί τιμές ανταγωνισμού στο Skroutz, συγχρονίζει αποθέματα, εντοπίζει ελλείψεις και συντάσσει αυτόματες παραγγελίες προς προμηθευτές."
+        icon: <Receipt className="w-6 h-6 text-emerald-600" />,
+        title: "AI OCR & Αυτόματη Καταχώριση Τιμολογίων",
+        desc: "«Βλέπει» το τιμολόγιο (PDF ή photo), διαβάζει γραμμή-γραμμή είδη, ποσά, ΦΠΑ και ΑΦΜ, κάνει διασταύρωση με δελτία αποστολής και τα καταχωρεί στο ERP (SoftOne/Entersoft).",
+        badge: "Softone / Entersoft ERP"
     },
     {
-        icon: <Users className="w-6 h-6 text-indigo-600" />,
-        title: "HR Screening & Συνεντεύξεις Υποψηφίων",
-        desc: "Αξιολογεί εκατοντάδες βιογραφικά σε δευτερόλεπτα, βαθμολογεί σύμφωνα με το job post και διεξάγει την πρώτη interactive συνέντευξη μέσω chat ή video."
+        icon: <FolderCheck className="w-6 h-6 text-amber-600" />,
+        title: "Έξυπνη Ταξινόμηση & Αρχειοθέτηση Εγγράφων",
+        desc: "Αυτόματη οργάνωση και tagging αρχείων σε Google Drive, OneDrive ή SharePoint ανά πελάτη, έτος και έργο, με αυτόματο routing στο αρμόδιο τμήμα.",
+        badge: "Cloud Auto-Filing"
+    },
+    {
+        icon: <Send className="w-6 h-6 text-cyan-600" />,
+        title: "Αυτόνομη Αποστολή Προσωποποιημένων Emails",
+        desc: "Συντάσσει και αποστέλλει προσωποποιημένες προσφορές, ενημερώσεις παραγγελιών με tracking links, follow-up πωλήσεων και ευγενικές υπενθυμίσεις οφειλών.",
+        badge: "Smart Outbound"
+    },
+    {
+        icon: <Workflow className="w-6 h-6 text-pink-600" />,
+        title: "End-to-End Workflows Χωρίς Υπαλλήλους",
+        desc: "Συνδέει όλα τα συστήματα: Email ➡️ PDF Extraction ➡️ Έλεγχος Αποθήκης ERP ➡️ Έκδοση Voucher ➡️ Ενημέρωση Πελάτη. Όλα αυτόνομα σε 3 δευτερόλεπτα!",
+        badge: "Multi-Agent Engine"
     }
 ];
 
@@ -421,58 +470,205 @@ export default function AIAgentsPage() {
                         </div>
                     </section>
 
-                    {/* AUTONOMOUS AGENTS WITHOUT EMPLOYEES (AUTONOMOUS DIGITAL WORKFORCE) */}
-                    <section className="bg-slate-950 text-white py-24 border-y border-slate-800">
-                        <div className="container mx-auto px-6 max-w-6xl">
-                            <div className="grid lg:grid-cols-12 gap-12 items-center">
+                    {/* DEDICATED SPOTLIGHT: VIDEO AI CUSTOMER SUPPORT & AVATARS */}
+                    <section className="container mx-auto px-6 py-16">
+                        <div className="max-w-6xl mx-auto bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white rounded-3xl p-8 sm:p-12 lg:p-16 border border-slate-800 shadow-2xl relative overflow-hidden">
+                            {/* Glow backdrop */}
+                            <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+                            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                            <div className="grid lg:grid-cols-12 gap-12 items-center relative z-10">
                                 <div className="lg:col-span-6 space-y-6">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs uppercase tracking-wider">
-                                        <Bot className="w-3.5 h-3.5" />
-                                        Autonomous Digital Workforce
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 font-bold text-xs uppercase tracking-wider">
+                                        <Video className="w-3.5 h-3.5" />
+                                        Interactive Video AI Customer Support
                                     </div>
-                                    
-                                    <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-tight italic">
-                                        Agents που κανουν εργασιες μονοι τους <br/>
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b5bdb] via-cyan-400 to-emerald-400">
-                                            Χωρις Υπαλληλους
+
+                                    <h3 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight leading-tight">
+                                        Εξυπηρέτηση Πελατών με <br />
+                                        <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
+                                            Ζωντανά AI Video Avatars
                                         </span>
-                                    </h2>
+                                    </h3>
 
                                     <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-                                        Γιατί να επιβαρύνετε την επιχείρησή σας με επαναλαμβανόμενες χειροκίνητες εργασίες, καθυστερήσεις και λάθη καταχώρησης; 
+                                        Δώστε ανθρώπινο πρόσωπο, φωνή και συναίσθημα στην ψηφιακή σας παρουσία. Οι επισκέπτες της ιστοσελίδας σας δεν διαβάζουν απλώς κείμενα — συνομιλούν <strong>πρόσωπο με πρόσωπο</strong> με φωτορεαλιστικά AI Avatars που απαντούν σε πραγματικό χρόνο με άπταιστα φυσικά Ελληνικά.
                                     </p>
 
-                                    <p className="text-slate-300 text-base leading-relaxed font-light">
-                                        Οι Custom AI Agents της <strong>SGK Digital</strong> λειτουργούν ως αυτόνομοι ψηφιακοί υπάλληλοι: διαβάζουν emails, αντλούν έγγραφα, συνομιλούν με πελάτες, ενημερώνουν το ERP σας, εκδίδουν vouchers και ολοκληρώνουν εργασίες <strong>σε δευτερόλεπτα αντί για ημέρες</strong>.
-                                    </p>
+                                    <div className="grid sm:grid-cols-2 gap-4 pt-2">
+                                        <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                                            <div className="flex items-center gap-2.5 text-purple-400 font-bold text-sm mb-1.5">
+                                                <Eye className="w-4 h-4" /> Face-to-Face Εμπειρία
+                                            </div>
+                                            <p className="text-xs text-slate-400 leading-relaxed font-light">
+                                                Ζωντανή επικοινωνία με οπτική επαφή, φυσικές εκφράσεις προσώπου και αυθεντική ανθρώπινη αίσθηση 24/7.
+                                            </p>
+                                        </div>
 
-                                    <div className="pt-4 flex flex-col sm:flex-row gap-4">
-                                        <Link 
-                                            href="/estimate" 
-                                            className="px-8 py-4 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold rounded-xl transition-all text-sm uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                                        <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                                            <div className="flex items-center gap-2.5 text-cyan-400 font-bold text-sm mb-1.5">
+                                                <Mic className="w-4 h-4" /> Ελληνικό Voice Lip-Sync
+                                            </div>
+                                            <p className="text-xs text-slate-400 leading-relaxed font-light">
+                                                Απόλυτος συγχρονισμός χειλιών και φωνής σε πραγματικό χρόνο χωρίς καμία καθυστέρηση (ultra-low latency).
+                                            </p>
+                                        </div>
+
+                                        <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                                            <div className="flex items-center gap-2.5 text-emerald-400 font-bold text-sm mb-1.5">
+                                                <SlidersHorizontal className="w-4 h-4" /> Visual Product Demos
+                                            </div>
+                                            <p className="text-xs text-slate-400 leading-relaxed font-light">
+                                                Το AI avatar δείχνει προϊόντα στην οθόνη, εξηγεί λειτουργίες και καθοδηγεί τον πελάτη μέχρι την ολοκλήρωση της αγοράς.
+                                            </p>
+                                        </div>
+
+                                        <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                                            <div className="flex items-center gap-2.5 text-amber-400 font-bold text-sm mb-1.5">
+                                                <ShieldCheck className="w-4 h-4" /> Zero-Hallucination RAG
+                                            </div>
+                                            <p className="text-xs text-slate-400 leading-relaxed font-light">
+                                                Αντλεί δεδομένα αποκλειστικά από την επίσημη βάση γνώσης της επιχείρησής σας με 100% ακρίβεια.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-2 flex flex-col sm:flex-row gap-4">
+                                        <Link
+                                            href="/estimate"
+                                            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-purple-500/25"
                                         >
-                                            <span>Σχεδιασμος Custom AI για την Εταιρεια σας</span>
+                                            <span>Ζητήστε Video AI Avatar Demo</span>
                                             <ArrowRight className="w-4 h-4" />
                                         </Link>
                                     </div>
                                 </div>
 
-                                <div className="lg:col-span-6 grid sm:grid-cols-2 gap-4">
-                                    {autonomousTasks.map((t, i) => (
-                                        <div key={i} className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between">
-                                            <div>
-                                                <div className="w-10 h-10 rounded-xl bg-slate-800/80 flex items-center justify-center mb-4">
-                                                    {t.icon}
-                                                </div>
-                                                <h3 className="text-base font-bold text-white mb-2">{t.title}</h3>
-                                                <p className="text-xs text-slate-400 leading-relaxed">{t.desc}</p>
+                                {/* Interactive Visual Simulation of Video Avatar */}
+                                <div className="lg:col-span-6">
+                                    <div className="relative mx-auto max-w-md bg-slate-900/90 rounded-2xl border border-slate-700/80 shadow-2xl overflow-hidden backdrop-blur-md">
+                                        {/* Header bar */}
+                                        <div className="px-4 py-3 bg-slate-800/80 border-b border-slate-700 flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                                                <span className="text-xs font-bold text-slate-200">SGK Digital • Live Video Assistant</span>
                                             </div>
-                                            <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center gap-1.5 text-[11px] font-bold text-emerald-400">
-                                                <CheckCircle2 className="w-3.5 h-3.5" /> 100% Αυτόνομη Εκτέλεση
+                                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                                                Ultra HD 1080p
+                                            </span>
+                                        </div>
+
+                                        {/* Avatar Video Canvas Representation */}
+                                        <div className="relative aspect-[4/3] bg-gradient-to-b from-slate-800 via-slate-850 to-slate-950 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+                                            {/* Radial Glow */}
+                                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-500/15 via-transparent to-transparent pointer-events-none" />
+
+                                            {/* Avatar Hologram Avatar Icon */}
+                                            <div className="relative mb-4">
+                                                <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 p-1 shadow-xl shadow-purple-500/20">
+                                                    <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center overflow-hidden relative">
+                                                        <Bot className="w-14 h-14 text-cyan-400" />
+                                                        {/* Speaking wave overlay */}
+                                                        <div className="absolute bottom-2 inset-x-0 flex items-center justify-center gap-1">
+                                                            <span className="w-1 h-3 bg-cyan-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                                            <span className="w-1 h-5 bg-purple-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                                            <span className="w-1 h-4 bg-pink-400 rounded-full animate-bounce" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span className="absolute bottom-0 right-0 p-1.5 bg-emerald-500 rounded-full ring-4 ring-slate-900 text-white">
+                                                    <Mic className="w-3 h-3" />
+                                                </span>
+                                            </div>
+
+                                            {/* Real-time speech transcription balloon */}
+                                            <div className="w-full bg-black/60 backdrop-blur-md rounded-xl p-3 border border-white/10 text-left mb-3">
+                                                <p className="text-[11px] text-cyan-300 font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                                                    <Sparkles className="w-3 h-3" /> Ζωντανη Απαντηση Avatar:
+                                                </p>
+                                                <p className="text-xs text-slate-100 font-light leading-relaxed">
+                                                    «Γεια σας! Είμαι η ψηφιακή εκπρόσωπος της SGK Digital. Έλεγξα την παραγγελία σας στο ERP και το voucher έχει ήδη εκδοθεί. Θέλετε να σας δείξω στην οθόνη την πορεία της παράδοσης;»
+                                                </p>
+                                            </div>
+
+                                            {/* Interactive action buttons */}
+                                            <div className="flex items-center gap-2 w-full">
+                                                <button className="flex-1 py-2 px-3 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-bold text-slate-200 border border-white/10 transition-colors flex items-center justify-center gap-1.5">
+                                                    <Play className="w-3 h-3 text-cyan-400" /> Live Demo
+                                                </button>
+                                                <button className="flex-1 py-2 px-3 rounded-lg bg-[#3b5bdb]/80 hover:bg-[#3b5bdb] text-[11px] font-bold text-white transition-colors flex items-center justify-center gap-1.5">
+                                                    <MessageSquare className="w-3 h-3" /> Ρωτήστε το Avatar
+                                                </button>
                                             </div>
                                         </div>
-                                    ))}
+
+                                        {/* Bottom Status info */}
+                                        <div className="px-4 py-2.5 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+                                            <span className="flex items-center gap-1.5">
+                                                <CheckCircle className="w-3 h-3 text-emerald-400" /> WebRTC Sub-second Stream
+                                            </span>
+                                            <span className="font-mono text-cyan-400">Greek Voice Model v4</span>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* AUTONOMOUS AGENTS WITHOUT EMPLOYEES (AUTONOMOUS DIGITAL WORKFORCE) */}
+                    <section className="bg-slate-950 text-white py-24 border-y border-slate-800 relative overflow-hidden">
+                        <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs uppercase tracking-wider">
+                                    <Bot className="w-3.5 h-3.5" />
+                                    Autonomous Digital Workforce • Enterprise AI Automations
+                                </div>
+                                
+                                <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-tight italic">
+                                    Agents που κανουν εργασιες μονοι τους <br/>
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b5bdb] via-cyan-400 to-emerald-400">
+                                        Χωρις Υπαλληλους & Χωρις Λαθη
+                                    </span>
+                                </h2>
+
+                                <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+                                    Αυτοματοποιήστε πλήρως την επιχείρησή σας: διαβάστε αυτόματα εισερχόμενα emails, αναλύστε χιλιάδες πολυσέλιδα PDFs, αναγνωρίστε τιμολόγια και περάστε τα στο ERP χωρίς ανθρώπινη παρέμβαση.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {autonomousTasks.map((t, i) => (
+                                    <div key={i} className="p-7 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/5">
+                                        <div>
+                                            <div className="flex items-center justify-between mb-5">
+                                                <div className="w-12 h-12 rounded-xl bg-slate-800/90 border border-slate-700 flex items-center justify-center">
+                                                    {t.icon}
+                                                </div>
+                                                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-800 text-cyan-300 border border-slate-700">
+                                                    {t.badge}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-lg font-bold text-white mb-2.5">{t.title}</h3>
+                                            <p className="text-xs text-slate-400 leading-relaxed font-light">{t.desc}</p>
+                                        </div>
+                                        <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-bold">
+                                            <span className="flex items-center gap-1.5 text-emerald-400">
+                                                <CheckCircle2 className="w-3.5 h-3.5" /> 100% Αυτόνομο
+                                            </span>
+                                            <span className="text-slate-500 font-mono">Real-time AI</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mt-12 text-center">
+                                <Link 
+                                    href="/estimate" 
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#3b5bdb] to-cyan-500 hover:from-[#2b4bba] hover:to-cyan-400 text-white font-bold rounded-xl transition-all text-sm uppercase tracking-wider shadow-lg shadow-blue-500/20"
+                                >
+                                    <span>Σχεδιασμος Αυτοματισμων για την Εταιρεια σας</span>
+                                    <ArrowRight className="w-4 h-4" />
+                                </Link>
                             </div>
                         </div>
                     </section>
