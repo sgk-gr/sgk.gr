@@ -55,6 +55,9 @@ function cleanGreekSTT(text: string): string {
     cleaned = cleaned.replace(/\bαφμ\b/gi, "Α.Φ.Μ.");
     cleaned = cleaned.replace(/\bάφουμου\b/gi, "Α.Φ.Μ.");
     cleaned = cleaned.replace(/\bαφου\s+μου\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bάφημή\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bάφημη\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bαφημη\b/gi, "Α.Φ.Μ.");
     cleaned = cleaned.replace(/\bέκανα\s+ένα\b/gi, "έκανα έναρξη");
 
     return cleaned;
