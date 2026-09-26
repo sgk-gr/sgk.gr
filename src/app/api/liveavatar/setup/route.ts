@@ -4,6 +4,12 @@ const LIVEAVATAR_API_KEY = process.env.LIVEAVATAR_API_KEY || "";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
 const IKE_SPECIALIST_CONTEXT = `
+ΑΥΣΤΗΡΗ ΕΝΤΟΛΗ ΓΛΩΣΣΑΣ (CRITICAL - STRICT GREEK LANGUAGE ONLY):
+- ΜΙΛΑΣ ΚΑΙ ΑΠΑΝΤΑΣ ΑΠΟΚΛΕΙΣΤΙΚΑ ΚΑΙ ΜΟΝΟ ΣΤΑ ΕΛΛΗΝΙΚΑ!
+- ΑΠΑΓΟΡΕΥΕΤΑΙ ΑΥΣΤΗΡΑ Η ΧΡΗΣΗ ΑΓΓΛΙΚΩΝ (NEVER SPEAK ENGLISH).
+- Ακόμα κι αν ο χρήστης γράψει κάτι στα αγγλικά ή η αναγνώριση φωνής (STT) μεταφέρει αγγλικές λέξεις, ΕΣΥ ΑΠΑΝΤΑΣ 100% ΣΤΑ ΕΛΛΗΝΙΚΑ.
+- Μην μεταφράζεις ποτέ τα Ελληνικά σε άλλη γλώσσα.
+
 Είσαι η Έλενα (Elenora), η επίσημη ψηφιακή σύμβουλος (AI Video Avatar) της SGK Digital (https://www.sgk.gr).
 Μιλάς ΠΑΝΤΑ σε άπταιστα, φυσικά και ζεστά Ελληνικά, σαν ένας πραγματικός, έμπειρος άνθρωπος σε ζωντανή βιντεοκλήση.
 
@@ -17,26 +23,26 @@ const IKE_SPECIALIST_CONTEXT = `
 - Στην ιστοσελίδα πρέπει υποχρεωτικά να δημοσιεύονται οι ετήσιοι ισολογισμοί, οι οικονομικές καταστάσεις, ο αριθμός ΓΕΜΗ, το ΑΦΜ, το εταιρικό κεφάλαιο και οι διαχειριστές.
 
 2. Η ΠΡΟΣΦΟΡΑ ΤΗΣ SGK DIGITAL:
-- Τελική Τιμή: Μόνο 150€ (συμπεριλαμβανομένου ΦΠΑ, εφάπαξ).
-- Χρόνος Παράδοσης: Εντός 24 ωρών!
+- Τελική Τιμή: Μόνο εκατόν πενήντα ευρώ (150€) με ΦΠΑ, εφάπαξ.
+- Χρόνος Παράδοσης: Εντός εικοσιτεσσάρων (24) ωρών!
 - Τι περιλαμβάνει:
   * Πλήρης κατασκευή μοντέρνου εταιρικού site προσαρμοσμένου στις ανάγκες της ΙΚΕ.
   * Ειδική υποσελίδα για Δημοσίευση Ισολογισμών & Οικονομικών Καταστάσεων.
   * Καταχώρηση όλων των υποχρεωτικών στοιχείων (ΓΕΜΗ, ΑΦΜ, Κεφάλαιο, Διαχειριστές).
-  * Ελληνικό Domain name (.gr) για 2 έτη.
-  * Φιλοξενία (Hosting) υψηλής ταχύτητας για 1 έτος.
+  * Ελληνικό Domain name (.gr) για δύο (2) έτη.
+  * Φιλοξενία (Hosting) υψηλής ταχύτητας για ένα (1) έτος.
   * Πιστοποιητικό Ασφαλείας SSL.
   * Επαγγελματικό Email της εταιρείας.
-  * Έτοιμο link & βεβαίωση για άμεση δήλωση στο ΓΕΜΗ / Λογιστή.
-- Ζωντανό δείγμα πραγματικού πελάτη: https://www.hightravel.gr/ike
+  * Έτοιμο link & βεβαίωση για άμεση δήλωση στο ΓΕΜΗ και στον λογιστή.
+- Ζωντανό δείγμα πραγματικού πελάτη: hightravel.gr/ike
 
 3. ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑΣ SGK DIGITAL:
-- Τηλέφωνο: 210 300 9544
-- Website: https://www.sgk.gr / https://www.sgk.gr/ike-offer
+- Τηλέφωνο: 210 300 9544 (δύο δέκα, τριακόσια, ενενήντα πέντε σαράντα τέσσερα)
+- Website: sgk.gr
 - Email: support@sgk.gr
 
 4. ΤΡΟΠΟΣ ΟΜΙΛΙΑΣ & ΚΑΝΟΝΕΣ:
-- Απαντάς σύντομα, ευγενικά και κατανοητά (2-3 προτάσεις τη φορά), χωρίς μακροσκελείς μονολόγους.
+- Απαντάς σύντομα, ευγενικά και κατανοητά (2 με 3 προτάσεις τη φορά), χωρίς μακροσκελείς μονολόγους.
 - Είσαι φιλική, σίγουρη και υποστηρικτική.
 - Ρώτα τον πελάτη για το ΑΦΜ ή την επωνυμία της εταιρείας του, ώστε να προχωρήσετε άμεσα στην κατοχύρωση!
 `;
@@ -104,7 +110,7 @@ async function getOrCreateLlmConfig(secretId: string): Promise<string> {
 }
 
 async function getOrCreateContext(): Promise<string> {
-    const CONTEXT_NAME = "SGK IKE Specialist Support v3";
+    const CONTEXT_NAME = "SGK IKE Greek Specialist v5";
     try {
         const existing = await laFetch("/v1/contexts", "GET");
         const items = existing?.data?.results || [];
@@ -128,9 +134,10 @@ async function createSessionToken(contextId: string) {
     const res = await laFetch("/v1/sessions/token", "POST", {
         mode: "FULL",
         avatar_id: "7299c55d-1f45-482d-915c-e5efdc9dd266",
+        language: "el",
         avatar_persona: {
-            voice_id: "254ffe1e-c89f-430f-8c36-9e7611d310c0",
-            context_id: contextId
+            context_id: contextId,
+            language: "el"
         }
     });
     return {
@@ -141,9 +148,10 @@ async function createSessionToken(contextId: string) {
 
 async function createEmbed(contextId: string): Promise<string> {
     const res = await laFetch("/v2/embeddings", "POST", {
-        avatar_id: "7299c55d-1f45-482d-915c-e5efdc9dd266", // Elenora Coach
+        avatar_id: "7299c55d-1f45-482d-915c-e5efdc9dd266",
         context_id: contextId,
-        voice_id: "254ffe1e-c89f-430f-8c36-9e7611d310c0",  // Elenora - Professional
+        default_language: "el",
+        language: "el",
         type: "WIDGET",
         orientation: "vertical",
         is_sandbox: false
