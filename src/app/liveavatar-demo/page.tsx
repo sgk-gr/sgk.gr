@@ -29,6 +29,35 @@ interface Message {
     time: string;
 }
 
+// Normalization of common Greek speech-to-text misrecognitions for IKE / GEMI / AFM
+function cleanGreekSTT(text: string): string {
+    if (!text) return text;
+    let cleaned = text;
+
+    cleaned = cleaned.replace(/\bτη\s+νίκη\s+μου\b/gi, "την Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bτη\s+νικη\s+μου\b/gi, "την Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bτη\s+νίκη\b/gi, "την Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bτη\s+νικη\b/gi, "την Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bγια\s+νίκη\b/gi, "για Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bγια\s+νικη\b/gi, "για Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bσε\s+νίκη\b/gi, "σε Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bμια\s+νίκη\b/gi, "μια Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bνίκη\s+μου\b/gi, "Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bνικη\s+μου\b/gi, "Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bήκει\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bυική\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bικε\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bικα\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bγεμη\b/gi, "Γ.Ε.ΜΗ.");
+    cleaned = cleaned.replace(/\bγέμη\b/gi, "Γ.Ε.ΜΗ.");
+    cleaned = cleaned.replace(/\bαφμ\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bάφουμου\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bαφου\s+μου\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bέκανα\s+ένα\b/gi, "έκανα έναρξη");
+
+    return cleaned;
+}
+
 export default function LiveAvatarVideoCallPage() {
     // Call States
     const [isCallActive, setIsCallActive] = useState<boolean>(false);
@@ -209,9 +238,10 @@ export default function LiveAvatarVideoCallPage() {
                         if (evt?.text) {
                             const now = new Date();
                             const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                            const cleanedText = cleanGreekSTT(evt.text);
                             setMessages(prev => [
                                 ...prev,
-                                { id: Date.now().toString(), sender: "user", text: evt.text, time: timeStr }
+                                { id: Date.now().toString(), sender: "user", text: cleanedText, time: timeStr }
                             ]);
                         }
                     });
