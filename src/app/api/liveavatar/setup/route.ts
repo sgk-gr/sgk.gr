@@ -11,7 +11,7 @@ const IKE_SPECIALIST_CONTEXT = `
 - Μην χρησιμοποιείς ξένες λέξεις. Μιλάς καθαρά, φυσικά και με τέλεια ελληνική ροή.
 
 ΠΟΙΟΣ ΕΙΣΑΙ:
-Είσαι ο Bryan (Μπράιαν), Senior Tech Expert και επικεφαλής τεχνικός σύμβουλος της SGK Digital (https://www.sgk.gr).
+Είσαι ο Wayne (Γουέιν), Senior Tech Expert και επικεφαλής τεχνικός σύμβουλος της SGK Digital (https://www.sgk.gr).
 Μιλάς με τη σιγουριά, την ευγένεια και την καθαρότητα ενός κορυφαίου Έλληνα τεχνικού συμβούλου σε ζωντανή βιντεοκλήση.
 
 Η ΑΠΟΣΤΟΛΗ ΣΟΥ:
@@ -51,9 +51,9 @@ const HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 };
 
-// Bryan Tech Expert Public Avatar & Voice IDs
-const BRYAN_AVATAR_ID = "64b526e4-741c-43b6-a918-4e40f3261c7a";
-const BRYAN_VOICE_ID = "9c8b542a-bf5c-4f4c-9011-75c79a274387";
+// Sandbox Avatar & Voice IDs (Fully supported under Free Tier Sandbox Credits)
+const WAYNE_AVATAR_ID = "dd73ea75-1218-4ef3-92ce-606d5f7fbc0a";
+const WAYNE_VOICE_ID = "c2527536-6d1f-4412-a643-53a3497dada9";
 
 async function laFetch(endpoint: string, method: "GET" | "POST", data?: any) {
     const res = await fetch(`https://api.liveavatar.com${endpoint}`, {
@@ -112,7 +112,7 @@ async function getOrCreateLlmConfig(secretId: string): Promise<string> {
 }
 
 async function getOrCreateContext(): Promise<string> {
-    const CONTEXT_NAME = "SGK Bryan Tech Expert Greek v6";
+    const CONTEXT_NAME = "SGK Wayne Tech Expert Greek v7";
     try {
         const existing = await laFetch("/v1/contexts", "GET");
         const items = existing?.data?.results || [];
@@ -127,7 +127,7 @@ async function getOrCreateContext(): Promise<string> {
     const created = await laFetch("/v1/contexts", "POST", {
         name: CONTEXT_NAME,
         prompt: IKE_SPECIALIST_CONTEXT,
-        opening_text: "Γεια σας! Είμαι ο Μπράιαν, Senior Tech Expert της SGK Digital. Είμαι εδώ για να σας ενημερώσω σχετικά με την υποχρεωτική ιστοσελίδα της Ι.Κ.Ε. σας για το Γ.Ε.ΜΗ., έτοιμη σε μόλις είκοσι τέσσερις ώρες με εκατόν πενήντα ευρώ. Πώς μπορώ να σας εξυπηρετήσω σήμερα;"
+        opening_text: "Γεια σας! Είμαι ο Wayne, Senior Tech Expert της SGK Digital. Είμαι εδώ για να σας ενημερώσω σχετικά με την υποχρεωτική ιστοσελίδα της Ι.Κ.Ε. σας για το Γ.Ε.ΜΗ., έτοιμη σε μόλις είκοσι τέσσερις ώρες με εκατόν πενήντα ευρώ. Πώς μπορώ να σας εξυπηρετήσω σήμερα;"
     });
     return created.data.id;
 }
@@ -135,11 +135,12 @@ async function getOrCreateContext(): Promise<string> {
 async function createSessionToken(contextId: string) {
     const res = await laFetch("/v1/sessions/token", "POST", {
         mode: "FULL",
-        avatar_id: BRYAN_AVATAR_ID,
+        avatar_id: WAYNE_AVATAR_ID,
+        is_sandbox: true,
         language: "el",
         avatar_persona: {
             context_id: contextId,
-            voice_id: BRYAN_VOICE_ID,
+            voice_id: WAYNE_VOICE_ID,
             language: "el"
         }
     });
@@ -151,13 +152,13 @@ async function createSessionToken(contextId: string) {
 
 async function createEmbed(contextId: string): Promise<string> {
     const res = await laFetch("/v2/embeddings", "POST", {
-        avatar_id: BRYAN_AVATAR_ID,
+        avatar_id: WAYNE_AVATAR_ID,
         context_id: contextId,
         default_language: "el",
         language: "el",
         type: "WIDGET",
         orientation: "vertical",
-        is_sandbox: false
+        is_sandbox: true
     });
     return res.data.url;
 }

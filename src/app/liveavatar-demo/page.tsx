@@ -61,13 +61,13 @@ export default function LiveAvatarVideoCallPage() {
         { 
             id: "1", 
             sender: "agent", 
-            text: "Γεια σας! Είμαι ο Bryan (Μπράιαν), Senior Tech Expert της SGK Digital. Είμαι εδώ για να σας ενημερώσω για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας για το ΓΕΜΗ.", 
+            text: "Γεια σας! Είμαι ο Wayne (Γουέιν), Senior Tech Expert της SGK Digital. Είμαι εδώ για να σας ενημερώσω για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας για το ΓΕΜΗ.", 
             time: "3:00 μμ" 
         },
         { 
             id: "2", 
             sender: "user", 
-            text: "Γεια σου Bryan! Τι ακριβώς προβλέπει ο νόμος για τις ΙΚΕ και ποιο είναι το κόστος;", 
+            text: "Γεια σου Wayne! Τι ακριβώς προβλέπει ο νόμος για τις ΙΚΕ και ποιο είναι το κόστος;", 
             time: "3:02 μμ" 
         },
         { 
@@ -326,7 +326,7 @@ export default function LiveAvatarVideoCallPage() {
                             </div>
                             <div>
                                 <h2 className="text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5">
-                                    Bryan (Tech Expert)
+                                    Wayne (Tech Expert)
                                     <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Consultant</span>
                                 </h2>
                                 <span className="text-[11px] text-white/80 font-normal">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (150€)</span>
@@ -396,7 +396,7 @@ export default function LiveAvatarVideoCallPage() {
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Ρωτήστε τον Bryan για την ΙΚΕ σας..."
+                            placeholder="Ρωτήστε τον Wayne για την ΙΚΕ σας..."
                             className="flex-1 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400 px-1"
                         />
                         
@@ -506,8 +506,8 @@ export default function LiveAvatarVideoCallPage() {
                             <div className="relative w-full h-full flex items-center justify-center">
                                 {/* Photorealistic Avatar Background Preview */}
                                 <img 
-                                    src="https://files2.heygen.ai/avatar/v3/33c9ac4aead44dfc8bc0082a35062a70_45580/preview_talk_3.webp" 
-                                    alt="Bryan - Tech Expert" 
+                                    src="https://files2.heygen.ai/avatar/v3/a3fdb0c652024f79984aaec11ebf2694_34350/preview_target.webp" 
+                                    alt="Wayne - Tech Expert" 
                                     className="w-full h-full object-cover filter brightness-[0.88]"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
@@ -518,7 +518,7 @@ export default function LiveAvatarVideoCallPage() {
                                         <Sparkles className="w-3.5 h-3.5" /> Ζωντανή AI Ενημέρωση Ι.Κ.Ε.
                                     </div>
                                     <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
-                                        Μιλήστε ζωντανά με τον Bryan
+                                        Μιλήστε ζωντανά με τον Wayne
                                     </h2>
                                     <p className="text-sm text-slate-300 font-light mb-6 leading-relaxed">
                                         Ενημερωθείτε άμεσα μέσω live video chat για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στο ΓΕΜΗ (150€, παράδοση σε μόλις 24 ώρες).
