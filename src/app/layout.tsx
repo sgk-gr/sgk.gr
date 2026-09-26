@@ -95,13 +95,27 @@ const localBusinessSchema = {
     "sameAs": ["https://github.com/sgk-developers/"],
     "priceRange": "€€",
     "areaServed": { "@type": "Country", "name": "Greece" },
+    "knowsAbout": [
+        "Artificial Intelligence",
+        "Autonomous AI Agents",
+        "Voice AI Telephony",
+        "Greek NLP & Chatbots",
+        "Custom Business Automation",
+        "ERP Integrations",
+        "Headless E-commerce Development",
+        "WooCommerce Development",
+        "Next.js and React Engineering"
+    ],
     "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Web Development Services",
+        "name": "Software & AI Solutions",
         "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Eshop" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Development" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Agents" } }
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents & Custom AI", "url": "https://www.sgk.gr/ai-agents" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Voice AI Telephony (Τηλεφωνικά Κέντρα)", "url": "https://www.sgk.gr/ai-agents" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Αυτόνομοι Πράκτορες Χωρίς Υπαλλήλους", "url": "https://www.sgk.gr/ai-agents" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Eshop (Pay As You Grow)", "url": "https://www.sgk.gr/pay-as-you-grow" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (150€)", "url": "https://www.sgk.gr/kataskevi-istoselidas-ike" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Web Applications & Software", "url": "https://www.sgk.gr/services" } }
         ]
     }
 };

@@ -50,7 +50,21 @@ const agencySchema = {
         "addressCountry": "GR"
     },
     "areaServed": "GR",
-    "priceRange": "€€€",
+    "sameAs": [
+        "https://github.com/sgk-developers/",
+        "https://www.sgk.gr"
+    ],
+    "knowsAbout": [
+        "Artificial Intelligence",
+        "Autonomous AI Agents",
+        "Voice AI Telephony",
+        "VoIP PBX Customer Service",
+        "Omnichannel Chat AI",
+        "AI Video Avatars",
+        "Greek Natural Language Processing (NLP)",
+        "Business Automation without Employees",
+        "ERP Integration with AI"
+    ],
     "serviceType": [
         "Κατασκευή Custom AI Agents",
         "Voice AI Telephony & Phone Call Agents",
@@ -177,6 +191,18 @@ const breadcrumbSchema = {
     ]
 };
 
+const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | SGK Digital",
+    "url": "https://www.sgk.gr/ai-agents",
+    "description": "Ηγετική AI Agency στην Ελλάδα για Voice AI, Smart Chat, Video Avatars και αυτόνομους πράκτορες ERP χωρίς υπαλλήλους.",
+    "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["h1", ".hero-speakable-desc", ".faq-speakable"]
+    }
+};
+
 const modalities = [
     {
         icon: <Phone className="w-9 h-9 text-[#3b5bdb]" />,
@@ -252,6 +278,7 @@ export default function AIAgentsPage() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
 
             <div className="min-h-screen bg-white flex flex-col font-sans text-black">
                 <Navbar />
@@ -281,7 +308,7 @@ export default function AIAgentsPage() {
                                 <span className="font-normal text-[#3b5bdb]">Που Εργάζονται Χωρίς Υπαλλήλους</span>
                             </h1>
 
-                            <p className="text-xl sm:text-2xl text-gray-700 leading-relaxed mb-6 max-w-3xl font-light">
+                            <p className="hero-speakable-desc text-xl sm:text-2xl text-gray-700 leading-relaxed mb-6 max-w-3xl font-light">
                                 Στην <strong>SGK Digital</strong> κατασκευάζουμε αυτόνομους <strong>AI Agents</strong> και custom συστήματα τεχνητής νοημοσύνης που εκτελούν εργασίες <strong>μόνοι τους</strong> — χωρίς ανθρώπινα λάθη, 24 ώρες το 24ωρο, 365 ημέρες τον χρόνο.
                             </p>
 

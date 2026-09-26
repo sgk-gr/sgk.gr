@@ -36,6 +36,7 @@ scratch/
 *.txt
 !llms.txt
 !public/llms.txt
+!public/llms-full.txt
 !public/robots.txt
 *.mjs
 *.csv

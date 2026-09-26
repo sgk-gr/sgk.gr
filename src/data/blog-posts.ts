@@ -536,7 +536,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li>Σαφώς ορισμένα goals για automation</li>
         <li>Ευελιξία να εκπαιδεύσετε τους agents με τα δεδομένα σας</li>
       </ul>
-      <p>Στην <strong>SGK Software Development</strong>, αναπτύσσουμε custom AI agents για ελληνικές επιχειρήσεις. Ξεκινήστε με μια δωρεάν συνάντηση 30 λεπτών όπου θα αναλύσουμε ποιες διαδικασίες σας μπορούν να αυτοματοποιηθούν.</p>
+      <p>Στην <strong>SGK Software Development</strong>, αναπτύσσουμε custom AI agents για ελληνικές επιχειρήσεις. Δείτε τις αναλυτικές λύσεις μας για <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">κατασκευή AI agents και Custom AI στην Ελλάδα</a> ή ξεκινήστε με μια δωρεάν συνάντηση 30 λεπτών όπου θα αναλύσουμε ποιες διαδικασίες σας μπορούν να αυτοματοποιηθούν.</p>
     `
   },
   {
@@ -594,7 +594,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h3>Γιατί να επιλέξετε AI λύσεις από την SGK;</h3>
       <p>Η εξειδίκευσή μας στο <strong>Agentic AI</strong> μας επιτρέπει να χτίζουμε συστήματα που δεν απαντούν απλά σε ερωτήσεις, αλλά <strong>εκτελούν εργασίες</strong>. Χρησιμοποιούμε frameworks όπως το LangChain και μοντέλα της OpenAI για να προσφέρουμε ασφαλείς και αποδοτικούς αυτοματισμούς.</p>
       
-      <p>Η επένδυση στο AI δεν είναι κόστος, είναι το μέλλον της παραγωγικότητάς σας.</p>
+      <p>Η επένδυση στο AI δεν είναι κόστος, είναι το μέλλον της παραγωγικότητάς σας. Ανακαλύψτε πώς μπορούμε να δημιουργήσουμε το δικό σας <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">αυτόνομο ψηφιακό προσωπικό με custom AI agents</a> για το ERP και τις διαδικασίες σας.</p>
     `
   },
   {
@@ -622,7 +622,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Πολυκαναλική Υποστήριξη:</strong> Ένας agent που λειτουργεί σε Website, WhatsApp και Messenger ταυτόχρονα.</li>
       </ul>
 
-      <p>Στην <strong>SGK Software Development</strong>, δημιουργούμε τον AI "υπάλληλο" που δεν κοιμάται ποτέ και προσφέρει πάντα την καλύτερη εξυπηρέτηση.</p>
+      <p>Στην <strong>SGK Software Development</strong>, δημιουργούμε τον AI "υπάλληλο" που δεν κοιμάται ποτέ και προσφέρει πάντα την καλύτερη εξυπηρέτηση. Δείτε τις δυνατότητες των <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Voice & Chat AI Agents της SGK</a> για τηλεφωνικά κέντρα και eshops.</p>
     `
   },
   {
