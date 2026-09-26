@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Environment variables (contains API keys - NEVER commit this!)
+.env
+.env.local
+.env.production
+
+# Local server logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel

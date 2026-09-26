@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTech E-shop - Live Customer Support</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0B0F19;
+            --card-bg: #151D30;
+            --accent-color: #00C3FF;
+            --accent-hover: #00A2D4;
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --gradient: linear-gradient(135deg, #00C3FF 0%, #D846EF 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Layout structure */
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* E-shop Area */
+        .shop-area {
+            flex: 1;
+            padding: 2.5rem;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 195, 255, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .product-img-placeholder {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .stock-badge {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Support Panel (Sidebar) */
+        .support-panel {
+            width: 480px;
+            min-width: 480px;
+            background: linear-gradient(180deg, #0A0F1E 0%, #0E1525 100%);
+            border-left: 1px solid var(--border-color);
+            padding: 1.75rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .support-header {
+            text-align: center;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10B981;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .live-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10B981;
+            display: inline-block;
+            animation: blink 1.2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .support-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .support-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Avatar container with gradient border */
+        .avatar-wrapper {
+            position: relative;
+            border-radius: 20px;
+            padding: 2px;
+            background: var(--gradient);
+            margin-bottom: 1.25rem;
+            box-shadow: 0 0 40px rgba(0, 195, 255, 0.15), 0 0 80px rgba(216, 70, 239, 0.08);
+            flex-shrink: 0;
+        }
+
+        .avatar-box {
+            width: 100%;
+            border-radius: 18px;
+            background-color: #0A0F1E;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Tall enough to show full avatar without zoom */
+            aspect-ratio: 3 / 4;
+            max-height: calc(100vh - 280px);
+        }
+
+        .avatar-box iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* Scale down to fit without cropping */
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            border: none;
+            display: block;
+        }
+
+        .avatar-placeholder {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .avatar-placeholder svg {
+            width: 56px;
+            height: 56px;
+            stroke: var(--accent-color);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .avatar-placeholder p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .control-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            letter-spacing: 0.02em;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 20px rgba(0, 195, 255, 0.35);
+            flex-shrink: 0;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 25px rgba(0, 195, 255, 0.5);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn:disabled {
+            background: #1E293B;
+            color: #475569;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .status-log {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            background-color: #060A12;
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+            color: #10B981;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            flex-shrink: 0;
+        }
+
+        .status-log::-webkit-scrollbar { width: 4px; }
+        .status-log::-webkit-scrollbar-track { background: transparent; }
+        .status-log::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.08); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.6; }
+        }
+
+        /* Responsive: stack on small screens */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .container { flex-direction: column; }
+            .support-panel {
+                width: 100%;
+                min-width: unset;
+                height: auto;
+                position: relative;
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+            .avatar-box {
+                max-height: 70vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- E-shop catalog -->
+    <div class="shop-area">
+        <div class="header">
+            <span class="logo">🚀 SmartTech E-shop</span>
+            <span style="font-size: 0.9rem; color: var(--text-muted);">Πιλοτικό Demo</span>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            <!-- Products will be generated here -->
+        </div>
+    </div>
+
+    <!-- Live Support Sidebar -->
+    <div class="support-panel">
+        <div class="support-header">
+            <div class="live-badge">AI Live</div>
+            <h2 class="support-title">Live AI Assistant</h2>
+            <p class="support-subtitle">Μίλησε με το Avatar για βοήθεια</p>
+        </div>
+
+        <div class="avatar-wrapper">
+            <div class="avatar-box" id="avatarBox">
+                <div class="avatar-placeholder" id="placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+                    </svg>
+                    <p>Πατήστε το κουμπί για εκκίνηση του Live Avatar</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="control-btn" id="startBtn">🎙️ &nbsp;Σύνδεση με AI Assistant</button>
+
+        <div class="status-log" id="statusLog">
+            [System] Έτοιμο για σύνδεση...<br>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 10 Mock Products
+    const products = [
+        { id: 1, name: "AeroSound Pro Wireless Earbuds", price: "149.00 €", stock: 15, desc: "Ασύρματα ακουστικά με Active Noise Cancellation (ANC), 30 ώρες αυτονομία και κορυφαία ποιότητα ήχου." },
+        { id: 2, name: "NovaWatch Series 5 Smartwatch", price: "299.00 €", stock: 8, desc: "Έξυπνο ρολόι με έγχρωμη οθόνη OLED, μέτρηση παλμών, οξυγόνου, GPS και αδιάβροχη προστασία." },
+        { id: 3, name: "LuminaDesk Smart LED Lamp", price: "89.00 €", stock: 24, desc: "Έξυπνο επιτραπέζιο φωτιστικό με ρύθμιση φωτεινότητας, ambient συγχρονισμό και ασύρματη φόρτιση κινητού." },
+        { id: 4, name: "ChargeGrid 4-in-1 Station", price: "59.00 €", stock: 12, desc: "Βάση γρήγορης ασύρματης φόρτισης για το κινητό, το ρολόι, τα ακουστικά σας και μία επιπλέον συσκευή USB." },
+        { id: 5, name: "KeyFlex Mechanical Keyboard", price: "179.00 €", stock: 5, desc: "Μηχανικό εργονομικό πληκτρολόγιο με hot-swappable διακόπτες, RGB φωτισμό και αθόρυβη πληκτρολόγηση." },
+        { id: 6, name: "ZenFlow Smart Water Bottle", price: "45.00 €", stock: 20, desc: "Έξυπνο θερμός 500ml με αυτόματο καθαρισμό UV-C, ψηφιακή ένδειξη θερμοκρασίας και υπενθύμιση ενυδάτωσης." },
+        { id: 7, name: "NeoGrip Wireless Mouse", price: "79.00 €", stock: 18, desc: "Εργονομικό ασύρματο ποντίκι υψηλής ακρίβειας με αθόρυβα κλικ και ρυθμιζόμενο αισθητήρα DPI." },
+        { id: 8, name: "SoundBarre Portable Speaker", price: "129.00 €", stock: 10, desc: "Αδιάβροχο φορητό ηχείο Bluetooth 5.3 με πλούσιο μπάσο, αυτονομία 15 ωρών και True Wireless Stereo." },
+        { id: 9, name: "VisionRig Dual Monitor Mount", price: "99.00 €", stock: 7, desc: "Ρυθμιζόμενος βραχίονας γραφείου για δύο οθόνες με ανάρτηση αερίου και ενσωματωμένες θύρες USB 3.0." },
+        { id: 10, name: "AeroBag Anti-Theft Backpack", price: "119.00 €", stock: 14, desc: "Αδιάβροχη τσάντα πλάτης με κρυφές τσέπες, υποδοχή USB για Powerbank και ειδική θήκη για laptop 16\"." }
+    ];
+
+    // Populate grid
+    const grid = document.getElementById("productGrid");
+    products.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+            <div>
+                <div class="product-img-placeholder">${p.name}</div>
+                <h3 class="product-title">${p.name}</h3>
+                <p class="product-desc">${p.desc}</p>
+            </div>
+            <div class="product-footer">
+                <span class="product-price">${p.price}</span>
+                <span class="stock-badge">Σε απόθεμα: ${p.stock}</span>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+    const startBtn = document.getElementById("startBtn");
+    const avatarBox = document.getElementById("avatarBox");
+    const placeholder = document.getElementById("placeholder");
+    const statusLog = document.getElementById("statusLog");
+
+    function log(message) {
+        statusLog.innerHTML += `[${new Date().toLocaleTimeString()}] ${message}<br>`;
+        statusLog.scrollTop = statusLog.scrollHeight;
+    }
+
+    startBtn.addEventListener("click", async () => {
+        startBtn.disabled = true;
+        log("Ξεκινάει η προετοιμασία του custom LLM (Gemini)...");
+
+        try {
+            const response = await fetch("/api/setup", {
+                method: "POST"
+            });
+            const result = await response.json();
+
+            if (result.success && result.url) {
+                log("Το LiveAvatar δημιουργήθηκε με επιτυχία!");
+                log("Φόρτωση iframe...");
+
+                // Insert the Iframe
+                avatarBox.innerHTML = `<iframe src="${result.url}" allow="microphone; camera; display-capture"></iframe>`;
+            } else {
+                log(`Σφάλμα: ${result.error || "Άγνωστο σφάλμα"}`);
+                startBtn.disabled = false;
+            }
+        } catch (err) {
+            log(`Σφάλμα δικτύου: ${err.message}`);
+            startBtn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>
