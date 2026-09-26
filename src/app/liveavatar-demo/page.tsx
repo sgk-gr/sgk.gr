@@ -268,27 +268,20 @@ export default function LiveAvatarVideoCallPage() {
                     // Live Speech-to-Text from Avatar
                     session.on(AgentEventsEnum.AVATAR_TRANSCRIPTION, (evt: any) => {
                         if (evt?.text) {
-                            let processedText = evt.text;
-
-                            // Trigger Forms based on natural phrases
-                            const textLower = evt.text.toLowerCase();
-                            
-                            // Check for AFM request
-                            if (textLower.includes("α.φ.μ. σας για να το ελέγξω") || textLower.includes("αφμ σας για να το ελέγξω") || (textLower.includes("α.φ.μ.") && textLower.includes("μου πείτε"))) {
-                                setActivePromptInput("afm");
-                            }
-                            
-                            // Check for Email request
-                            if (textLower.includes("email σας να σας στείλω") || textLower.includes("email σας για να") || (textLower.includes("email") && textLower.includes("συμφωνητικό"))) {
-                                setActivePromptInput("email");
-                            }
-
                             const now = new Date();
                             const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
                             setMessages(prev => [
                                 ...prev,
-                                { id: Date.now().toString(), sender: "agent", text: processedText, time: timeStr }
+                                { id: Date.now().toString(), sender: "agent", text: evt.text, time: timeStr }
                             ]);
+
+                            // Auto trigger specific compact input when Bryan asks for AFM or Email
+                            const textLower = evt.text.toLowerCase();
+                            if (textLower.includes("αφμ") || textLower.includes("α.φ.μ.") || textLower.includes("φορολογικ")) {
+                                setActivePromptInput("afm");
+                            } else if (textLower.includes("email") || textLower.includes("e-mail") || textLower.includes("ταχυδρομεί")) {
+                                setActivePromptInput("email");
+                            }
 
                         }
                     });
