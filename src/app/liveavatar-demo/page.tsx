@@ -138,6 +138,10 @@ export default function LiveAvatarVideoCallPage() {
     const avatarVideoRef = useRef<HTMLVideoElement | null>(null);
     const sessionRef = useRef<any>(null);
 
+    // AI Captions State
+    const [currentCaption, setCurrentCaption] = useState<string>("");
+    const captionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
     // User Camera Stream for PiP
     const userVideoRef = useRef<HTMLVideoElement | null>(null);
     const [hasUserMedia, setHasUserMedia] = useState<boolean>(false);
@@ -267,6 +271,13 @@ export default function LiveAvatarVideoCallPage() {
                                 ...prev,
                                 { id: Date.now().toString(), sender: "agent", text: evt.text, time: timeStr }
                             ]);
+
+                            // Show Live Captions for AI
+                            setCurrentCaption(evt.text);
+                            if (captionTimeoutRef.current) clearTimeout(captionTimeoutRef.current);
+                            captionTimeoutRef.current = setTimeout(() => {
+                                setCurrentCaption("");
+                            }, 5000);
 
                             // Auto trigger specific compact input when Bryan asks for AFM or Email
                             const textLower = evt.text.toLowerCase();
@@ -814,6 +825,15 @@ export default function LiveAvatarVideoCallPage() {
                             playsInline 
                             className={`w-full h-full avatar-video-responsive transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
                         />
+
+                        {/* AI Live Captions Overlay */}
+                        {isCallActive && currentCaption && (
+                            <div className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 z-30 w-[95%] max-w-3xl px-2 pointer-events-none flex justify-center">
+                                <div className="bg-black/60 backdrop-blur-md text-white/95 text-[15px] sm:text-[17px] font-medium px-5 py-2.5 rounded-2xl text-center shadow-xl border border-white/10 animate-in fade-in slide-in-from-bottom-2 drop-shadow-2xl">
+                                    {currentCaption}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Iframe Fallback */}
                         {isCallActive && !hasNativeStream && avatarUrl && (
