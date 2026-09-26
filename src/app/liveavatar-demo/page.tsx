@@ -106,6 +106,35 @@ function cleanGreekSTT(text: string): string {
     return cleaned;
 }
 
+const TypewriterCaption = ({ text }: { text: string }) => {
+    const [displayedText, setDisplayedText] = useState("");
+
+    useEffect(() => {
+        setDisplayedText("");
+        if (!text) return;
+
+        let i = 0;
+        const interval = setInterval(() => {
+            setDisplayedText(text.slice(0, i + 1));
+            i++;
+            if (i >= text.length) {
+                clearInterval(interval);
+            }
+        }, 35); // 35ms per character creates a natural speech cadence
+
+        return () => clearInterval(interval);
+    }, [text]);
+
+    if (!displayedText) return null;
+
+    return (
+        <div className="bg-black/65 backdrop-blur-md text-white/95 text-[15px] sm:text-[17px] font-medium px-5 py-2.5 rounded-2xl text-center shadow-xl border border-white/10 animate-in fade-in drop-shadow-2xl">
+            {displayedText}
+        </div>
+    );
+};
+
+
 export default function LiveAvatarVideoCallPage() {
     // Call States
     const [isCallActive, setIsCallActive] = useState<boolean>(false);
@@ -828,10 +857,8 @@ export default function LiveAvatarVideoCallPage() {
 
                         {/* AI Live Captions Overlay */}
                         {isCallActive && currentCaption && (
-                            <div className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 z-30 w-[95%] max-w-3xl px-2 pointer-events-none flex justify-center">
-                                <div className="bg-black/60 backdrop-blur-md text-white/95 text-[15px] sm:text-[17px] font-medium px-5 py-2.5 rounded-2xl text-center shadow-xl border border-white/10 animate-in fade-in slide-in-from-bottom-2 drop-shadow-2xl">
-                                    {currentCaption}
-                                </div>
+                            <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-3xl px-2 pointer-events-none flex justify-center">
+                                <TypewriterCaption text={currentCaption} />
                             </div>
                         )}
 
