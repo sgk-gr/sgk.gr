@@ -81,7 +81,7 @@ function IkeOfferContent() {
     try {
       await sendContactEmail({
         type: "ike_offer",
-        offerPrice: "124",
+        offerPrice: "150",
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -226,7 +226,7 @@ function IkeOfferContent() {
             {/* Yellow Card Behind */}
             <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[92%] bg-[#facc15] text-black font-extrabold text-[11px] sm:text-xs py-2.5 px-4 rounded-t-2xl shadow-lg flex items-center justify-center z-20 border border-black/5">
               <span className="text-center leading-tight tracking-wider">
-                Κατασκευή σε 24h με 124€ (συμπερ. ΦΠΑ) - Σε 1 μέρα
+                Κατασκευή σε 24h με 150€ (συμπερ. ΦΠΑ) - Σε 1 μέρα
               </span>
             </div>
 

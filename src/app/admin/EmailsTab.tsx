@@ -13,8 +13,8 @@ import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS }
 
 const templates = [
   {
-    name: "Istoselida ike 124 ευρω",
-    subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Εταιρική ιστοσελίδα & δημοσιότητα ΓΕΜΗ σε 24 ώρες",
+    name: "Istoselida ike 150 ευρω",
+    subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Επίσημη ιστοσελίδα ΓΕΜΗ έτοιμη σε 24 ώρες",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #f1f5f9; overflow: hidden;">
   <a href="https://sgk.gr/ike-offer" target="_blank" style="display: block; text-decoration: none;">
@@ -27,41 +27,47 @@ const templates = [
   </a>
 </div>
 
-<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Εταιρική Ιστοσελίδα Ι.Κ.Ε. & Πλήρης Δημοσιότητα ΓΕΜΗ σε 24 Ώρες</h2>
+<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Επίσημη Ιστοσελίδα Ι.Κ.Ε. & Πλήρης Συμμόρφωση ΓΕΜΗ σε 24 Ώρες</h2>
 
-<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Γεια σας,</p>
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ διαχειριστή,</p>
 
-<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Συγχαρητήρια για την ίδρυση της νέας σας εταιρείας και καλή αρχή στις επιχειρηματικές σας δραστηριότητες!</p>
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  <strong>Συγχαρητήρια για την ίδρυση της νέας σας Ι.Κ.Ε.</strong> και καλή επιτυχία στα νέα σας επιχειρηματικά βήματα!
+</p>
 
-<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">Γνωρίζοντας ότι η περίοδος έναρξης απαιτεί χρόνο σε γραφειοκρατία και λογιστικά, επικοινωνούμε μαζί σας για να σας διευκολύνουμε σε μια βασική εταιρική υποχρέωση: βάσει του <strong>Άρθρου 47 §2 του Ν. 4072/2012</strong> (και των ελέγχων της <strong>ΚΥΑ 46982/2025</strong>), κάθε νέα Ι.Κ.Ε. οφείλει να διαθέτει ενεργή εταιρική ιστοσελίδα εντός <strong>ενός (1) μηνός</strong> από τη σύστασή της.</p>
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Γνωρίζουμε καλά ότι τις πρώτες ημέρες τρέχετε με λογιστήρια, τράπεζες και γραφειοκρατία. Επικοινωνούμε για να σας <strong>απαλλάξουμε άμεσα από μία υποχρεωτική νομική εκκρεμότητα</strong>: βάσει του <strong>Άρθρου 47 §2 του Ν. 4072/2012</strong> και της <strong>ΚΥΑ 46982/2025</strong>, κάθε νέα Ι.Κ.Ε. οφείλει να διαθέτει ενεργή εταιρική ιστοσελίδα εντός <strong>ενός (1) μηνός</strong> από τη σύστασή της.
+</p>
 
-<!-- All-in-One Highlights Card -->
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #0f172a;">
-    Ολοκληρωμένη Λύση «Με το Κλειδί στο Χέρι» — Μόνο 124€
+<!-- The "Why Do It Now" Psychology Box -->
+<div style="background-color: #f0f7ff; border: 1px solid #bae6fd; border-left: 5px solid #0284c7; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: #0369a1;">
+    💡 Γιατί να ξεμπερδέψετε σήμερα, ακόμα κι αν έχετε 1 μήνα μπροστά σας;
   </p>
-  <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
-    Η ιστοσελίδα σας είναι <strong>live την επόμενη εργάσιμη ημέρα</strong>, πλήρως συμβατή με τις προδιαγραφές του ΓΕΜΗ, χωρίς να σπαταλήσετε χρόνο ή χρήμα σε περίπλοκες διαδικασίες.
+  <p style="margin: 0 0 6px 0; font-size: 13.5px; color: #0f172a; line-height: 1.55;">
+    1. <strong>Το ζητάει άμεσα ο λογιστής σας:</strong> Χρειάζεται το επίσημο URL της ιστοσελίδας για να ολοκληρώσει τη δήλωση στο ΓΕΜΗ και να μην καθυστερήσει καμία εταιρική σας διαδικασία.<br/>
+    2. <strong>Μηδενικός κόπος από εσάς:</strong> <u>Δεν χρειάζεται να γράψετε ούτε μία λέξη</u>. Αντλούμε εμείς αυτόματα τα στοιχεία της επιχείρησής σας απευθείας από το ΓΕΜΗ.<br/>
+    3. <strong>Έξοδο που εκπίπτει 100%:</strong> Λαμβάνετε νόμιμο τιμολόγιο παροχής υπηρεσιών και συμψηφίζετε άμεσα το ΦΠΑ στα πρώτα σας έξοδα.
   </p>
 </div>
 
-<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Τι περιλαμβάνει το πακέτο έναρξης (τελική τιμή 124€ με ΦΠΑ):</p>
+<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Τι περιλαμβάνει η ολοκληρωμένη λύση «Με το Κλειδί στο Χέρι» (Τελική τιμή 150€ με ΦΠΑ):</p>
 
 <div style="margin: 0 0 16px 0; padding-left: 4px;">
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    <strong>Παράδοση σε 24 Ώρες:</strong> Η ιστοσελίδα σας θα είναι live και έτοιμη την επόμενη εργάσιμη ημέρα για άμεση δήλωση στο ΓΕΜΗ.
+    ⏱️ <strong>Παράδοση σε 24 Ώρες:</strong> Η ιστοσελίδα σας θα είναι <strong>live και ενεργή αύριο το πρωί</strong>, έτοιμη να τη στείλετε απευθείας στο λογιστή σας.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    <strong>100% Συμβατότητα με Προδιαγραφές ΓΕΜΗ:</strong> Πλήρης ανάρτηση υποχρεωτικών στοιχείων (Αρ. ΓΕΜΗ, ΑΦΜ, Έδρα, Διαχειριστές, Κεφάλαιο) και ειδική ενότητα για δημοσίευση Ισολογισμών & Πρακτικών.
+    🏛️ <strong>100% Συμβατότητα με Προδιαγραφές ΓΕΜΗ:</strong> Πλήρης ανάρτηση όλων των νόμιμων στοιχείων (Αρ. ΓΕΜΗ, ΑΦΜ, Έδρα, Διαχειριστές, Εταιρικό Κεφάλαιο) και ειδική ενότητα για δημοσίευση Ισολογισμών & Πρακτικών.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    <strong>1 Εταιρικό Email (info@mydomain.gr):</strong> Επαγγελματική διεύθυνση με Webmail και εύκολη ρύθμιση σε κινητό και Outlook.
+    ✉️ <strong>Εταιρικό Email (info@etairia.gr):</strong> Επαγγελματική διεύθυνση ηλεκτρονικού ταχυδρομείου με πρόσβαση από κινητό, tablet και Outlook.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    <strong>Όλα Πληρωμένα για το Πρώτο Έτος:</strong> Σχεδιασμός Logo + Domain Name (.gr για 2 έτη) + Ταχύτατο Hosting (1 έτος) + Πιστοποιητικό SSL + Πλήρης Συμμόρφωση GDPR.
+    🌐 <strong>Όλα Πληρωμένα για το 1ο Έτος:</strong> Κατοχύρωση Domain Name <strong>.gr (για 2 ολόκληρα έτη)</strong> + Ταχύτατο Cloud Hosting (1 έτος) + Πιστοποιητικό Ασφαλείας SSL + Πλήρης Συμμόρφωση GDPR.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    <strong>Τελικό Κόστος 124€ (με ΦΠΑ 24%):</strong> Καμία κρυφή χρέωση — εκδίδεται άμεσα κανονικό τιμολόγιο εξόδων για την εταιρεία σας.
+    🧾 <strong>Τελικό Κόστος 150€ (συμπεριλαμβανομένου ΦΠΑ 24%):</strong> <u>Καμία κρυφή χρέωση</u>. Εκδίδεται άμεσα κανονικό τιμολόγιο παροχής υπηρεσιών.
   </p>
 </div>
 
@@ -71,7 +77,7 @@ const templates = [
     📞 Θέλετε να το αναλάβουμε άμεσα σήμερα;
   </p>
   <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> ή πατήστε στο παρακάτω κουμπί για να συμπληρώσετε τα στοιχεία σας online.
+    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> ή πατήστε στο παρακάτω κουμπί για άμεση εκδήλωση ενδιαφέροντος.
   </p>
 </div>
 
@@ -79,7 +85,7 @@ const templates = [
   <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
 </div>`,
-    defaultButtonText: "Έναρξη Κατασκευής Online (124€)",
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
     defaultButtonLink: "https://sgk.gr/ike-offer"
   },
   {
@@ -433,7 +439,7 @@ const templates = [
     <tbody>
       <tr>
         <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Ποσό:</td>
-        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; font-size: 16px; width: 65%;">124,00 €</td>
+        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; font-size: 16px; width: 65%;">150,00 €</td>
       </tr>
       <tr>
         <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Τράπεζα:</td>
@@ -573,7 +579,7 @@ function safeEncodeBase64(data: any): string {
     const docUrl = `https://sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
 
     const companyLabel = contract.tradeName || contract.companyName || singleLeadTarget?.company || "";
-    const amountLabel = contract.totalAmountNum ? `${contract.totalAmountNum.toFixed(2).replace('.', ',')} €` : (contract.totalAmountText || "124,00 €");
+    const amountLabel = contract.totalAmountNum ? `${contract.totalAmountNum.toFixed(2).replace('.', ',')} €` : (contract.totalAmountText || "150,00 €");
 
     // Cloud document sync
     try {
@@ -631,10 +637,10 @@ function safeEncodeBase64(data: any): string {
     const docId = customData?.id || ("invoice_" + Date.now());
     const invoicePayload = customData || {
       clientName: singleLeadTarget?.company || singleLeadTarget?.first_name || "Πελάτης",
-      net: 100,
-      vat: 24,
-      gross: 124,
-      payable: 124,
+      net: 120.97,
+      vat: 29.03,
+      gross: 150,
+      payable: 150,
     };
     const b64 = safeEncodeBase64(invoicePayload);
     const docUrl = `https://sgk.gr/doc/invoice?id=${docId}&data=${b64}&download=1`;
@@ -655,9 +661,9 @@ function safeEncodeBase64(data: any): string {
       }).catch(e => console.error(e));
     } catch(e) {}
 
-    const netVal = invoicePayload.net || 100;
-    const vatVal = invoicePayload.vat || 24;
-    const grossVal = invoicePayload.gross || 124;
+    const netVal = invoicePayload.net || 120.97;
+    const vatVal = invoicePayload.vat || 29.03;
+    const grossVal = invoicePayload.gross || 150;
 
     const body = `<h2>Εξοφλημένο Τιμολόγιο 🧾</h2>
 <p>Αγαπητέ συνεργάτη,</p>
@@ -1706,9 +1712,9 @@ function safeEncodeBase64(data: any): string {
                             companyName: comp,
                             tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp,
                             representativeName: name,
-                            totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                            totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
                             deliveryDaysText: "πέντε (5)",
-                            renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+                            renewalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
                             ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος"
                           });
                         }
@@ -1722,7 +1728,7 @@ function safeEncodeBase64(data: any): string {
                       )}
                       {savedContracts.map((c) => (
                         <option key={c.id} value={c.id}>
-                          {c.tradeName || c.companyName || "Συμφωνητικό"} ({c.totalAmountNum || 124}€)
+                          {c.tradeName || c.companyName || "Συμφωνητικό"} ({c.totalAmountNum || 150}€)
                         </option>
                       ))}
                     </select>

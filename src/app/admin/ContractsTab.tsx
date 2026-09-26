@@ -97,14 +97,14 @@ export const DEFAULT_CONTRACT: ContractData = {
   serviceTitle: "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ)",
   serviceDescription: "Σχεδίαση, ανάπτυξη και παράδοση απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ., καταχώριση domain name (.gr) και φιλοξενία (hosting) 1ου έτους.",
 
-  totalAmountNum: 124.00,
-  totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+  totalAmountNum: 150.00,
+  totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
   advanceAmountNum: 0.00,
   advanceAmountText: "μηδέν ευρώ (0,00 €)",
   remainingAmountNum: 0.00,
   remainingAmountText: "μηδέν ευρώ (0,00 €)",
-  renewalAmountNum: 124.00,
-  renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+  renewalAmountNum: 150.00,
+  renewalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
   deliveryDaysNum: 5,
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
@@ -218,7 +218,7 @@ export function ContractsTab({
 
   // Invoice Calculations based on contract state
   const getInvoiceCalculations = (c: ContractData) => {
-    const gross = c.totalAmountNum || 124;
+    const gross = c.totalAmountNum || 150;
     const net = Number((gross / 1.24).toFixed(2));
     const vat = Number((gross - net).toFixed(2));
     const withholding = gross >= 300 ? Number((net * 0.20).toFixed(2)) : 0;
@@ -285,18 +285,18 @@ export function ContractsTab({
         serviceType: "ike_gemi",
         serviceTitle: "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ)",
         serviceDescription: "Σχεδίαση, ανάπτυξη και παράδοση απλής ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ., καταχώριση domain name (.gr) και φιλοξενία (hosting) 1ου έτους.",
-        totalAmountNum: 124,
-        totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+        totalAmountNum: 150,
+        totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
         advanceAmountNum: 0,
         advanceAmountText: "μηδέν ευρώ (0,00 €)",
         remainingAmountNum: 0,
         remainingAmountText: "μηδέν ευρώ (0,00 €)",
-        renewalAmountNum: 124,
-        renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+        renewalAmountNum: 150,
+        renewalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
         deliveryDaysNum: 5,
         deliveryDaysText: "πέντε (5)",
       }));
-      toast.info("Επιλέχθηκε το πακέτο: Ι.Κ.Ε. ΓΕΜΗ (124€)");
+      toast.info("Επιλέχθηκε το πακέτο: Ι.Κ.Ε. ΓΕΜΗ (150€)");
     } else if (presetId === "eshop") {
       setCurrentContract(prev => ({
         ...prev,
@@ -790,13 +790,13 @@ export function ContractsTab({
     setCurrentContract(prev => ({
       ...prev,
       totalAmountNum: total,
-      totalAmountText: `${total === 124 ? "εκατόν είκοσι τεσσάρων" : total} ευρώ (${total.toFixed(2).replace(".", ",")} €)`,
+      totalAmountText: `${total === 150 ? "εκατόν πενήντα" : total === 124 ? "εκατόν είκοσι τεσσάρων" : total} ευρώ (${total.toFixed(2).replace(".", ",")} €)`,
       advanceAmountNum: advance,
       advanceAmountText: advance === 0 ? "μηδέν ευρώ (0,00 €)" : `${advance === 50 ? "πενήντα" : advance} ευρώ (${advance.toFixed(2).replace(".", ",")} €)`,
       remainingAmountNum: remaining,
       remainingAmountText: remaining === 0 ? "μηδέν ευρώ (0,00 €)" : `${remaining === 74 ? "εβδομήντα τεσσάρων" : remaining} ευρώ (${remaining.toFixed(2).replace(".", ",")} €)`,
       renewalAmountNum: total,
-      renewalAmountText: `${total === 124 ? "εκατόν είκοσι τεσσάρων" : total} ευρώ (${total.toFixed(2).replace(".", ",")} €)`
+      renewalAmountText: `${total === 150 ? "εκατόν πενήντα" : total === 124 ? "εκατόν είκοσι τεσσάρων" : total} ευρώ (${total.toFixed(2).replace(".", ",")} €)`
     }));
   };
 
@@ -862,7 +862,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
     const docUrl = `https://sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
 
     const companyLabel = toSave.tradeName || toSave.companyName || "";
-    const amountLabel = `${(toSave.totalAmountNum || 124).toFixed(2).replace(".", ",")} €`;
+    const amountLabel = `${(toSave.totalAmountNum || 150).toFixed(2).replace(".", ",")} €`;
 
     const draft = {
       subject: `Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — ${companyLabel || "SGK Digital"}`,
@@ -1340,7 +1340,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                     }`}
                   >
                     <span className="block text-xs font-black">🏢 Ι.Κ.Ε. ΓΕΜΗ</span>
-                    <span className="text-[10px] font-bold text-blue-600">124,00 € (Εφάπαξ)</span>
+                    <span className="text-[10px] font-bold text-blue-600">150,00 € (Εφάπαξ)</span>
                   </button>
 
                   <button

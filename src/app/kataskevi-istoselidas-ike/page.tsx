@@ -9,14 +9,14 @@ import {
 
 export const metadata: Metadata = {
   title: "Κατασκευή Ιστοσελίδας ΙΚΕ | 100% Συμβατή με ΓΕΜΗ σε 24 Ώρες | SGK Digital",
-  description: "Επαγγελματική κατασκευή ιστοσελίδας για νεοσύστατες & υπάρχουσες Ι.Κ.Ε. Πλήρης συμμόρφωση με το Άρθρο 47 §2 του Ν.4072/2012 και το ΓΕΜΗ. Παράδοση σε 24 ώρες με μόνο 124€ (με ΦΠΑ).",
+  description: "Επαγγελματική κατασκευή ιστοσελίδας για νεοσύστατες & υπάρχουσες Ι.Κ.Ε. Πλήρης συμμόρφωση με το Άρθρο 47 §2 του Ν.4072/2012 και το ΓΕΜΗ. Παράδοση σε 24 ώρες με μόνο 150€ (με ΦΠΑ).",
   keywords: "κατασκευή ιστοσελίδας ικε, ιστοσελιδα ικε γεμη, υποχρεωτικη ιστοσελιδα ικε, κατασκευη site ικε, κοστος ιστοσελιδας ικε, ιστοσελιδα γεμη ικε 24 ωρες, νεα ικε ιστοσελιδα",
   alternates: {
     canonical: "https://sgk.gr/kataskevi-istoselidas-ike",
   },
   openGraph: {
     title: "Κατασκευή Ιστοσελίδας ΙΚΕ σε 24 Ώρες | SGK Digital",
-    description: "Πλήρης νομική συμμόρφωση με ΓΕΜΗ (Ν.4072/2012). Domain .gr + Hosting + SSL + Email + Design όλα σε 24 ώρες με 124€ με ΦΠΑ.",
+    description: "Πλήρης νομική συμμόρφωση με ΓΕΜΗ (Ν.4072/2012). Domain .gr + Hosting + SSL + Email + Design όλα σε 24 ώρες με 150€ με ΦΠΑ.",
     url: "https://sgk.gr/kataskevi-istoselidas-ike",
     siteName: "SGK Digital",
     images: [{ url: "https://sgk.gr/social-preview.png", width: 1200, height: 630, alt: "Κατασκευή Ιστοσελίδας ΙΚΕ" }],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Κατασκευή Ιστοσελίδας ΙΚΕ σε 24 Ώρες | SGK Digital",
-    description: "Νόμιμη εταιρική ιστοσελίδα ΙΚΕ για το ΓΕΜΗ σε 24 ώρες μόνο με 124€.",
+    description: "Νόμιμη εταιρική ιστοσελίδα ΙΚΕ για το ΓΕΜΗ σε 24 ώρες μόνο με 150€.",
     images: ["https://sgk.gr/social-preview.png"],
   },
 };
@@ -48,7 +48,7 @@ const ikeFaqSchema = {
       "name": "Πόσο κοστίζει η κατασκευή ιστοσελίδας για ΙΚΕ;",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Το τελικό κόστος στην SGK Digital είναι μόλις 124€ (συμπεριλαμβανομένου ΦΠΑ 24%). Περιλαμβάνει τα πάντα: Domain Name .gr για 2 έτη, Φιλοξενία (Hosting) για 1 έτος, Πιστοποιητικό Ασφαλείας SSL, Εταιρικό Email και πλήρη σχεδιασμό."
+        "text": "Το τελικό κόστος στην SGK Digital είναι μόλις 150€ (συμπεριλαμβανομένου ΦΠΑ 24%). Περιλαμβάνει τα πάντα: Domain Name .gr για 2 έτη, Φιλοξενία (Hosting) για 1 έτος, Πιστοποιητικό Ασφαλείας SSL, Εταιρικό Email και πλήρη σχεδιασμό."
       }
     },
     {
@@ -82,7 +82,7 @@ const serviceSchema = {
   },
   "offers": {
     "@type": "Offer",
-    "price": "124.00",
+    "price": "150.00",
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock",
     "url": "https://sgk.gr/kataskevi-istoselidas-ike"
@@ -124,7 +124,7 @@ export default function KataskeviIstoselidasIkePage() {
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight uppercase italic">
               Κατασκευη Ιστοσελιδας Ι.Κ.Ε. <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b5bdb] via-blue-400 to-indigo-300">
-                Live σε 24 Ωρες με 124€
+                Live σε 24 Ωρες με 150€
               </span>
             </h1>
 
@@ -152,7 +152,7 @@ export default function KataskeviIstoselidasIkePage() {
                 <Sparkles className="w-5 h-5 text-[#3b5bdb] shrink-0 mt-0.5" />
                 <div>
                   <div className="font-bold text-sm text-white">Όλα σε 1 Τιμή</div>
-                  <div className="text-xs text-slate-400">124€ (με ΦΠΑ 24%)</div>
+                  <div className="text-xs text-slate-400">150€ (με ΦΠΑ 24%)</div>
                 </div>
               </div>
               <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-3">
@@ -170,7 +170,7 @@ export default function KataskeviIstoselidasIkePage() {
                 href="/ike-offer"
                 className="w-full sm:w-auto px-8 py-4 bg-[#3b5bdb] hover:bg-[#2b4bba] text-slate-950 font-black text-sm uppercase tracking-wider rounded-xl shadow-xl shadow-blue-500/20 hover:scale-105 transition-all flex items-center justify-center gap-2"
               >
-                <span>Παραγγελια Ιστοσελιδας ΙΚΕ (124€)</span>
+                <span>Παραγγελια Ιστοσελιδας ΙΚΕ (150€)</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
@@ -227,7 +227,7 @@ export default function KataskeviIstoselidasIkePage() {
                   <h3 className="text-2xl font-black text-white italic uppercase">Ιστοσελιδα ΙΚΕ All-Inclusive</h3>
                 </div>
                 <div className="text-right">
-                  <div className="text-3xl font-black text-[#3b5bdb] italic">124€</div>
+                  <div className="text-3xl font-black text-[#3b5bdb] italic">150€</div>
                   <span className="text-[10px] text-slate-400 font-bold uppercase">Τελικη Τιμη με ΦΠΑ 24%</span>
                 </div>
               </div>
@@ -324,12 +324,12 @@ export default function KataskeviIstoselidasIkePage() {
                 a: "Ναι, η μη ανάρτηση ιστοσελίδας στο ΓΕΜΗ μπορεί να οδηγήσει σε διοικητικές κυρώσεις, πρόστιμα από το Επιμελητήριο και κώλυμα στην έκδοση φορολογικών ή τραπεζικών πιστοποιητικών."
               },
               {
-                q: "Τι περιλαμβάνεται στα 124€ και υπάρχουν κρυφές χρεώσεις;",
-                a: "Καμία κρυφή χρέωση. Στα 124€ (με ΦΠΑ 24%) περιλαμβάνονται: Domain Name .gr (2 έτη), Hosting σε server (1 έτος), SSL, εταιρικό email, σχεδιασμός σελίδας και έκδοση νόμιμου τιμολογίου εξόδων."
+                q: "Τι περιλαμβάνεται στα 150€ και υπάρχουν κρυφές χρεώσεις;",
+                a: "Καμία κρυφή χρέωση. Στα 150€ (με ΦΠΑ 24%) περιλαμβάνονται: Domain Name .gr (2 έτη), Hosting σε server (1 έτος), SSL, εταιρικό email, σχεδιασμός σελίδας και έκδοση νόμιμου τιμολογίου εξόδων."
               },
               {
                 q: "Τι γίνεται μετά τον 1ο χρόνο;",
-                a: "Μετά το 1ο έτος, η ανανέωση του server και του domain κοστίζει μόλις 124€/έτος για πλήρη φιλοξενία, backups και τεχνική υποστήριξη, χωρίς καμία απολύτως δέσμευση συμβολαίου."
+                a: "Μετά το 1ο έτος, η ανανέωση του server και του domain κοστίζει μόλις 150€/έτος για πλήρη φιλοξενία, backups και τεχνική υποστήριξη, χωρίς καμία απολύτως δέσμευση συμβολαίου."
               },
               {
                 q: "Μπορώ αργότερα να προσθέσω περισσότερες σελίδες ή e-shop;",

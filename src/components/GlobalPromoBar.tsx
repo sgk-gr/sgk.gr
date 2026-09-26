@@ -22,7 +22,7 @@ export default function GlobalPromoBar() {
         href={targetHref} 
         className="underline underline-offset-2 hover:text-[#facc15] transition-colors font-bold"
       >
-        Επίσημη ιστοσελίδα ΓΕΜΗ σε 24 ώρες — Μόνο 124€
+        Επίσημη ιστοσελίδα ΓΕΜΗ σε 24 ώρες — Μόνο 150€
       </Link>
     </div>
   );

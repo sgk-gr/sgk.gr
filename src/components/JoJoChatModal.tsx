@@ -14,9 +14,9 @@ const slides = [
         Κατασκευή <br /> Ιστοσελίδας Ι.Κ.Ε. <br /> ΓΕΜΗ σε 24 Ώρες.
       </>
     ),
-    description: "Πλήρης εταιρική ιστοσελίδα Ι.Κ.Ε. για το ΓΕΜΗ σε 24 ώρες με domain .gr, hosting, email και SSL μόνο με 124€.",
+    description: "Πλήρης εταιρική ιστοσελίδα Ι.Κ.Ε. για το ΓΕΜΗ σε 24 ώρες με domain .gr, hosting, email και SSL μόνο με 150€.",
     image: "/hero_slide_4.png",
-    linkText: "Δες την προσφορά (124€)",
+    linkText: "Δες την προσφορά (150€)",
     linkUrl: "/ike-offer"
   },
   {

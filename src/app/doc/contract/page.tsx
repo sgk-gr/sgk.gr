@@ -54,14 +54,14 @@ const DEFAULT_CONTRACT: ContractData = {
   representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
   representativeAfm: "",
   clientAfm: "....................",
-  totalAmountNum: 124,
-  totalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+  totalAmountNum: 150,
+  totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
   advanceAmountNum: 0,
   advanceAmountText: "μηδέν ευρώ (0,00 €)",
   remainingAmountNum: 0,
   remainingAmountText: "μηδέν ευρώ (0,00 €)",
-  renewalAmountNum: 124,
-  renewalAmountText: "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)",
+  renewalAmountNum: 150,
+  renewalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
   deliveryDaysNum: 5,
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
@@ -284,7 +284,7 @@ function ContractViewer() {
               Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.
             </p>
             <p>
-              Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>{contract.renewalAmountText || "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)"}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
+              Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>{contract.renewalAmountText || "εκατόν πενήντα ευρώ (150,00 €)"}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
             </p>
           </div>
 
@@ -302,7 +302,7 @@ function ContractViewer() {
               Άρθρο 4 – Αμοιβή και τρόπος πληρωμής
             </h3>
             <p className="mb-1.5">
-              <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{contract.totalAmountText || "εκατόν είκοσι τεσσάρων ευρώ (124,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
+              <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{contract.totalAmountText || "εκατόν πενήντα ευρώ (150,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
             </p>
 
             {contract.advanceAmountNum && contract.advanceAmountNum > 0 ? (
