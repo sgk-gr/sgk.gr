@@ -79,8 +79,8 @@ const HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 };
 
-// Bryan Tech Expert Public Avatar & Voice IDs
-const BRYAN_AVATAR_ID = "64b526e4-741c-43b6-a918-4e40f3261c7a";
+// Bryan Tech Expert (Wayne in Sandbox Mode - allows 100% free test sessions up to 60s per call with zero credits charged!)
+const BRYAN_AVATAR_ID = "dd73ea75-1218-4ef3-92ce-606d5f7fbc0a";
 const BRYAN_VOICE_ID = "9c8b542a-bf5c-4f4c-9011-75c79a274387";
 
 async function laFetch(endpoint: string, method: "GET" | "POST" | "PATCH", data?: any) {
@@ -184,7 +184,7 @@ async function createSessionToken(contextId: string, llmId?: string) {
     const res = await laFetch("/v1/sessions/token", "POST", {
         mode: "FULL",
         avatar_id: BRYAN_AVATAR_ID,
-        is_sandbox: false,
+        is_sandbox: true,
         language: "el",
         avatar_persona: {
             context_id: contextId,
@@ -207,7 +207,7 @@ async function createEmbed(contextId: string): Promise<string> {
         language: "el",
         type: "WIDGET",
         orientation: "vertical",
-        is_sandbox: false
+        is_sandbox: true
     });
     return res.data.url;
 }

@@ -788,7 +788,7 @@ export default function LiveAvatarVideoCallPage() {
                             <div className="relative w-full h-full flex items-center justify-center">
                                 {/* Photorealistic Avatar Background Preview */}
                                 <img 
-                                    src="https://files2.heygen.ai/avatar/v3/33c9ac4aead44dfc8bc0082a35062a70_45580/preview_talk_3.webp" 
+                                    src="https://files2.heygen.ai/avatar/v3/a3fdb0c652024f79984aaec11ebf2694_34350/preview_target.webp" 
                                     alt="Bryan - Tech Expert" 
                                     className="w-full h-full avatar-video-responsive"
                                 />
