@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 const LIVEAVATAR_API_KEY = process.env.LIVEAVATAR_API_KEY || "";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
 const IKE_SPECIALIST_CONTEXT = `
@@ -97,7 +98,11 @@ async function laFetch(endpoint: string, method: "GET" | "POST" | "PATCH", data?
 }
 
 async function getOrCreateSecret(): Promise<string> {
-    const SECRET_NAME = "Gemini API Key for SGK Avatar";
+    const isUsingOpenAi = Boolean(process.env.OPENAI_API_KEY || OPENAI_API_KEY);
+    const SECRET_NAME = isUsingOpenAi ? "OpenAI API Key Bryan SGK" : "Gemini API Key for SGK Avatar";
+    const SECRET_TYPE = isUsingOpenAi ? "OPENAI_API_KEY" : "GEMINI_API_KEY";
+    const SECRET_VAL = isUsingOpenAi ? (process.env.OPENAI_API_KEY || OPENAI_API_KEY) : (process.env.GEMINI_API_KEY || GEMINI_API_KEY);
+
     try {
         const existing = await laFetch("/v1/secrets", "GET");
         const items = existing?.data || [];
@@ -110,20 +115,24 @@ async function getOrCreateSecret(): Promise<string> {
     }
 
     const created = await laFetch("/v1/secrets", "POST", {
-        secret_type: "GEMINI_API_KEY",
-        secret_value: GEMINI_API_KEY,
+        secret_type: SECRET_TYPE,
+        secret_value: SECRET_VAL,
         secret_name: SECRET_NAME
     });
     return created.data.id;
 }
 
 async function getOrCreateLlmConfig(secretId: string): Promise<string> {
-    const LLM_NAME = "Gemini SGK LLM";
+    const isUsingOpenAi = Boolean(process.env.OPENAI_API_KEY || OPENAI_API_KEY);
+    const LLM_NAME = isUsingOpenAi ? "OpenAI GPT-4o-mini Bryan" : "Gemini SGK LLM";
+    const MODEL_NAME = isUsingOpenAi ? "gpt-4o-mini" : "gemini-2.5-flash";
+    const BASE_URL = isUsingOpenAi ? "https://api.openai.com/v1" : "https://generativelanguage.googleapis.com/v1beta/openai";
+
     try {
         const existing = await laFetch("/v1/llm-configurations", "GET");
         const items = existing?.data || [];
         if (Array.isArray(items)) {
-            const found = items.find((item: any) => item.display_name === LLM_NAME && item.model_name === "gemini-2.5-flash");
+            const found = items.find((item: any) => item.display_name === LLM_NAME && item.model_name === MODEL_NAME);
             if (found) return found.id;
         }
     } catch (e) {
@@ -132,9 +141,9 @@ async function getOrCreateLlmConfig(secretId: string): Promise<string> {
 
     const created = await laFetch("/v1/llm-configurations", "POST", {
         display_name: LLM_NAME,
-        model_name: "gemini-2.5-flash",
+        model_name: MODEL_NAME,
         secret_id: secretId,
-        base_url: "https://generativelanguage.googleapis.com/v1beta/openai"
+        base_url: BASE_URL
     });
     return created.data.id;
 }
@@ -202,10 +211,10 @@ async function createEmbed(contextId: string): Promise<string> {
 
 export async function POST() {
     try {
-        if (!LIVEAVATAR_API_KEY || !GEMINI_API_KEY) {
+        if (!LIVEAVATAR_API_KEY || (!OPENAI_API_KEY && !GEMINI_API_KEY)) {
             return NextResponse.json({ 
                 success: false, 
-                error: "Missing LIVEAVATAR_API_KEY or GEMINI_API_KEY environment variables." 
+                error: "Missing LIVEAVATAR_API_KEY or OPENAI_API_KEY environment variables." 
             }, { status: 400 });
         }
 
