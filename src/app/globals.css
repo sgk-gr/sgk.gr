@@ -241,3 +241,17 @@
     margin: 0 !important;
   }
 }
+
+/* Responsive LiveAvatar Video Framing (Centers Bryan on mobile portrait) */
+.avatar-video-responsive {
+  object-fit: cover !important;
+  object-position: 65% center !important;
+}
+
+@media (min-width: 640px) {
+  .avatar-video-responsive {
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+

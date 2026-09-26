@@ -453,7 +453,7 @@ export default function LiveAvatarVideoCallPage() {
                             ref={avatarVideoRef}
                             autoPlay 
                             playsInline 
-                            className={`w-full h-full object-cover sm:object-contain transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
+                            className={`w-full h-full avatar-video-responsive transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
                         />
 
                         {/* Iframe Fallback */}
@@ -481,7 +481,7 @@ export default function LiveAvatarVideoCallPage() {
                                 <img 
                                     src="https://files2.heygen.ai/avatar/v3/33c9ac4aead44dfc8bc0082a35062a70_45580/preview_talk_3.webp" 
                                     alt="Bryan - Tech Expert" 
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full avatar-video-responsive"
                                 />
 
                                 {/* Center Clean Start Call Button */}
@@ -585,8 +585,8 @@ export default function LiveAvatarVideoCallPage() {
                         )}
                     </div>
 
-                    {/* ================= BOTTOM RIGHT PiP (User Camera) ================= */}
-                    <div className="absolute bottom-16 sm:bottom-6 right-3 sm:right-6 z-20 w-28 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-[#1e2029]">
+                    {/* ================= PiP (User Camera: top-left on mobile, bottom-right on desktop) ================= */}
+                    <div className="absolute top-3 left-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-[#1e2029]">
                         {hasUserMedia && !isVideoOff ? (
                             <video 
                                 ref={userVideoRef}
