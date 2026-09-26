@@ -1,35 +1,113 @@
 "use client";
 
-import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Bot, Sparkles, Mic, Play, CheckCircle2, ShieldCheck, ArrowRight, Loader2, Volume2 } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { 
+    Mic, 
+    MicOff, 
+    Video as VideoIcon, 
+    VideoOff, 
+    ScreenShare, 
+    PhoneOff, 
+    Phone,
+    MoreVertical, 
+    Settings, 
+    Maximize2, 
+    Paperclip, 
+    Smile, 
+    Send, 
+    X, 
+    Bot, 
+    Sparkles, 
+    ExternalLink, 
+    Loader2 
+} from "lucide-react";
 import Link from "next/link";
 
-const sampleProducts = [
-    { id: 1, name: "AeroSound Pro Wireless Earbuds", price: "149.00 €", stock: 15, desc: "Ασύρματα ακουστικά με Active Noise Cancellation (ANC), 30 ώρες αυτονομία και κορυφαία ποιότητα ήχου." },
-    { id: 2, name: "NovaWatch Series 5 Smartwatch", price: "299.00 €", stock: 8, desc: "Έξυπνο ρολόι με έγχρωμη οθόνη OLED, μέτρηση παλμών, οξυγόνου, GPS και αδιάβροχη προστασία." },
-    { id: 3, name: "LuminaDesk Smart LED Lamp", price: "89.00 €", stock: 24, desc: "Έξυπνο επιτραπέζιο φωτιστικό με ρύθμιση φωτεινότητας, ambient συγχρονισμό και ασύρματη φόρτιση κινητού." },
-    { id: 4, name: "ChargeGrid 4-in-1 Station", price: "59.00 €", stock: 12, desc: "Βάση γρήγορης ασύρματης φόρτισης για το κινητό, το ρολόι, τα ακουστικά σας και μία επιπλέον συσκευή USB." },
-    { id: 5, name: "KeyFlex Mechanical Keyboard", price: "179.00 €", stock: 5, desc: "Μηχανικό εργονομικό πληκτρολόγιο με hot-swappable διακόπτες, RGB φωτισμό και αθόρυβη πληκτρολόγηση." },
-    { id: 6, name: "ZenFlow Smart Water Bottle", price: "45.00 €", stock: 20, desc: "Έξυπνο θερμός 500ml με αυτόματο καθαρισμό UV-C, ψηφιακή ένδειξη θερμοκρασίας και υπενθύμιση ενυδάτωσης." }
-];
+interface Message {
+    id: string;
+    sender: "agent" | "user";
+    text: string;
+    time: string;
+}
 
-export default function LiveAvatarDemoPage() {
-    const [isLoading, setIsLoading] = useState(false);
+export default function LiveAvatarVideoCallPage() {
+    // Call States
+    const [isCallActive, setIsCallActive] = useState<boolean>(true);
+    const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-    const [statusLogs, setStatusLogs] = useState<string[]>([
-        "[System] Έτοιμο για σύνδεση με το Live Avatar..."
-    ]);
+    const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
+    const [isVideoOff, setIsVideoOff] = useState<boolean>(false);
+    const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
 
-    const addLog = (msg: string) => {
-        const time = new Date().toLocaleTimeString();
-        setStatusLogs(prev => [...prev, `[${time}] ${msg}`]);
+    // Call Timer (starts at 00:52 like the screenshot or counts when active)
+    const [callSeconds, setCallSeconds] = useState<number>(52);
+
+    // User Camera Stream for PiP
+    const userVideoRef = useRef<HTMLVideoElement | null>(null);
+    const [hasUserMedia, setHasUserMedia] = useState<boolean>(false);
+
+    // Chat Messages
+    const [messages, setMessages] = useState<Message[]>([
+        { id: "1", sender: "agent", text: "Hi, how can we help?", time: "3:00 pm" },
+        { id: "2", sender: "user", text: "How do I change my credit card payment limit?", time: "3:06 pm" },
+        { id: "3", sender: "agent", text: "Happy to help out with this. Do you mind to have video call?", time: "3:06 pm" },
+        { id: "4", sender: "user", text: "Sure", time: "3:06 pm" }
+    ]);
+    const [inputText, setInputText] = useState("");
+    const chatEndRef = useRef<HTMLDivElement | null>(null);
+
+    // Auto-scroll chat
+    useEffect(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
+    // Timer effect
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (isCallActive) {
+            interval = setInterval(() => {
+                setCallSeconds(prev => prev + 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [isCallActive]);
+
+    const formatTimer = (totalSeconds: number) => {
+        const m = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+        const s = (totalSeconds % 60).toString().padStart(2, "0");
+        return `${m}:${s}`;
     };
 
-    const handleStartAvatar = async () => {
-        setIsLoading(true);
-        addLog("Ξεκινάει η προετοιμασία σύνδεσης με LiveAvatar API & Gemini...");
+    // Initialize User Webcam for PiP (if available)
+    useEffect(() => {
+        let stream: MediaStream | null = null;
+        async function setupCamera() {
+            try {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    if (userVideoRef.current) {
+                        userVideoRef.current.srcObject = stream;
+                        setHasUserMedia(true);
+                    }
+                }
+            } catch (err) {
+                // User denied or no camera, fallback gracefully
+                setHasUserMedia(false);
+            }
+        }
+        setupCamera();
+
+        return () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        };
+    }, []);
+
+    // Connect to LiveAvatar API
+    const handleStartCall = async () => {
+        setIsLoadingAvatar(true);
+        setIsCallActive(true);
 
         try {
             const res = await fetch("/api/liveavatar/setup", {
@@ -38,145 +116,370 @@ export default function LiveAvatarDemoPage() {
             const data = await res.json();
 
             if (data.success && data.url) {
-                addLog("Το LiveAvatar δημιουργήθηκε με επιτυχία!");
-                addLog("Φόρτωση WebRTC Iframe...");
                 setAvatarUrl(data.url);
             } else {
-                addLog(`Σφάλμα: ${data.error || "Αποτυχία εκκίνησης"}`);
+                console.warn("LiveAvatar setup returned:", data.error);
             }
-        } catch (err: any) {
-            addLog(`Σφάλμα δικτύου: ${err?.message || "Error"}`);
+        } catch (err) {
+            console.error("Failed to connect to LiveAvatar:", err);
         } finally {
-            setIsLoading(false);
+            setIsLoadingAvatar(false);
         }
     };
 
-    return (
-        <div className="min-h-screen bg-[#070b14] text-white flex flex-col font-sans">
-            <Navbar />
+    const handleEndCall = () => {
+        setIsCallActive(false);
+        setAvatarUrl(null);
+        setCallSeconds(0);
+        setMessages(prev => [
+            ...prev,
+            { id: Date.now().toString(), sender: "agent", text: "Η κλήση τερματίστηκε. Μπορώ να βοηθήσω σε κάτι άλλο;", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+        ]);
+    };
 
-            <main className="flex-grow pt-24 pb-20 container mx-auto px-6">
-                {/* Header */}
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between pb-8 mb-10 border-b border-slate-800 gap-4">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold text-xs uppercase tracking-wider mb-2">
-                            <Sparkles className="w-3.5 h-3.5" /> LiveAvatar + Google Gemini Demo
+    const handleSendMessage = (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
+        if (!inputText.trim()) return;
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        const userMsg: Message = {
+            id: Date.now().toString(),
+            sender: "user",
+            text: inputText.trim(),
+            time: timeStr
+        };
+
+        setMessages(prev => [...prev, userMsg]);
+        setInputText("");
+
+        // Auto-reply simulation from Andy / Agent if call is active
+        setTimeout(() => {
+            setMessages(prev => [
+                ...prev,
+                {
+                    id: (Date.now() + 1).toString(),
+                    sender: "agent",
+                    text: "Σας ακούω! Μπορείτε να μου μιλήσετε απευθείας στο μικρόφωνο ή να συνεχίσουμε μέσω chat.",
+                    time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                }
+            ]);
+        }, 1200);
+    };
+
+    return (
+        <div className="w-full h-screen bg-[#0e0f12] flex items-center justify-center p-2 sm:p-4 md:p-6 select-none font-sans overflow-hidden">
+            {/* Main Window Frame Container */}
+            <div className="w-full max-w-[1400px] h-[96vh] max-h-[860px] bg-[#1a1b20] rounded-[28px] overflow-hidden shadow-2xl border-4 border-[#272831] flex flex-col md:flex-row relative">
+                
+                {/* ================= LEFT PANEL: CHAT ================= */}
+                <div className="w-full md:w-[350px] lg:w-[380px] xl:w-[410px] flex-shrink-0 flex flex-col bg-white h-full border-r border-[#26272e] z-10">
+                    {/* Header */}
+                    <div className="h-16 px-5 bg-[#5b36f5] flex items-center justify-between text-white shadow-md">
+                        <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#5b36f5] shadow-sm">
+                                <Bot className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h2 className="text-base font-semibold leading-tight tracking-wide">Andy Lane</h2>
+                                <span className="text-[11px] text-white/80 font-normal">AI Support Agent</span>
+                            </div>
                         </div>
-                        <h1 className="text-3xl sm:text-4xl font-light text-white">
-                            Interactive Video AI Customer Support
-                        </h1>
-                        <p className="text-slate-400 text-sm font-light mt-1">
-                            Ζωντανή επίδειξη ψηφιακού εκπροσώπου (AI Video Avatar) με φωνητική διαδραστικότητα σε φυσικά Ελληνικά.
-                        </p>
+
+                        <Link 
+                            href="/ai-agents" 
+                            className="p-1.5 rounded-full hover:bg-white/10 transition-colors text-white/90 hover:text-white"
+                            title="Κλείσιμο & Επιστροφή"
+                        >
+                            <X className="w-5 h-5" />
+                        </Link>
                     </div>
 
-                    <Link 
-                        href="/ai-agents" 
-                        className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs uppercase tracking-wider border border-slate-700 transition-colors flex items-center gap-2"
+                    {/* Chat Messages Body */}
+                    <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-white">
+                        {messages.map((m) => (
+                            <div 
+                                key={m.id} 
+                                className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
+                            >
+                                <span className="text-[11px] text-gray-400 font-medium mb-1 px-1">
+                                    {m.time}
+                                </span>
+                                <div 
+                                    className={`max-w-[85%] px-4 py-3 rounded-2xl text-[13.5px] leading-relaxed shadow-sm ${
+                                        m.sender === "user"
+                                            ? "bg-[#5b36f5] text-white rounded-tr-xs"
+                                            : "bg-[#f1f3f6] text-[#1f2937] rounded-tl-xs"
+                                    }`}
+                                >
+                                    {m.text}
+                                </div>
+                            </div>
+                        ))}
+
+                        {/* Call Started System Pill */}
+                        {isCallActive && (
+                            <div className="text-center py-2 my-2">
+                                <span className="text-[11px] text-gray-400 font-medium block">
+                                    3:09 pm
+                                </span>
+                                <span className="inline-block mt-0.5 text-xs font-bold text-gray-900 tracking-wide">
+                                    Call started
+                                </span>
+                            </div>
+                        )}
+
+                        <div ref={chatEndRef} />
+                    </div>
+
+                    {/* Chat Input Bar */}
+                    <form 
+                        onSubmit={handleSendMessage}
+                        className="px-4 py-3 bg-white border-t border-gray-100 flex items-center gap-2"
                     >
-                        <span>Επιστροφή στους AI Agents</span>
-                        <ArrowRight className="w-4 h-4" />
-                    </Link>
+                        <input 
+                            type="text"
+                            value={inputText}
+                            onChange={(e) => setInputText(e.target.value)}
+                            placeholder="Enter your message"
+                            className="flex-1 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400 px-1"
+                        />
+                        
+                        <div className="flex items-center gap-1.5 text-gray-400">
+                            <button 
+                                type="button" 
+                                className="p-1.5 hover:text-gray-600 transition-colors"
+                                title="Attach file"
+                            >
+                                <Paperclip className="w-4 h-4" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className="p-1.5 hover:text-gray-600 transition-colors"
+                                title="Insert emoji"
+                            >
+                                <Smile className="w-4 h-4" />
+                            </button>
+                            <button 
+                                type="submit" 
+                                disabled={!inputText.trim()}
+                                className="p-1.5 text-[#5b36f5] hover:text-[#4927d6] disabled:text-gray-300 transition-colors"
+                                title="Send"
+                            >
+                                <Send className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
-                {/* Main 2-column layout: E-shop products + Avatar Sidebar */}
-                <div className="grid lg:grid-cols-12 gap-10 items-start">
-                    {/* Left: Products Showcase */}
-                    <div className="lg:col-span-7 space-y-6">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-bold text-slate-200">Προϊόντα Καταστήματος (E-Shop Catalog)</h2>
-                            <span className="text-xs text-slate-500 font-mono">6 Ενδεικτικά Προϊόντα</span>
-                        </div>
-
-                        <div className="grid sm:grid-cols-2 gap-4">
-                            {sampleProducts.map(p => (
-                                <div key={p.id} className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between">
-                                    <div>
-                                        <div className="w-full h-32 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-800 flex items-center justify-center text-xs font-mono text-slate-500 mb-3">
-                                            {p.name}
-                                        </div>
-                                        <h3 className="text-sm font-bold text-white mb-1">{p.name}</h3>
-                                        <p className="text-xs text-slate-400 font-light leading-relaxed mb-4">{p.desc}</p>
-                                    </div>
-                                    <div className="flex items-center justify-between pt-3 border-t border-slate-800/80">
-                                        <span className="text-base font-bold text-cyan-400">{p.price}</span>
-                                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                                            Απόθεμα: {p.stock}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                {/* ================= RIGHT PANEL: VIDEO CALL ================= */}
+                <div className="flex-1 h-full relative bg-[#18191f] overflow-hidden flex items-center justify-center">
+                    
+                    {/* Top Right Header Floating Bar */}
+                    <div className="absolute top-4 right-5 z-30 flex items-center gap-3.5 text-white/90">
+                        {isCallActive && (
+                            <div className="text-sm font-medium tracking-wider text-white/80 font-mono bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-md">
+                                {formatTimer(callSeconds)}
+                            </div>
+                        )}
+                        <button 
+                            className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+                            title="Picture in picture"
+                        >
+                            <Maximize2 className="w-4 h-4" />
+                        </button>
+                        <button 
+                            className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+                            title="Call Settings"
+                        >
+                            <Settings className="w-4 h-4" />
+                        </button>
+                        <button 
+                            className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+                            title="More options"
+                        >
+                            <MoreVertical className="w-4 h-4" />
+                        </button>
                     </div>
 
-                    {/* Right: Live Avatar Support Panel */}
-                    <div className="lg:col-span-5 bg-gradient-to-b from-slate-900 to-slate-950 rounded-3xl border border-slate-800 p-6 shadow-2xl relative">
-                        <div className="flex items-center justify-between mb-4">
-                            <div>
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-[10px] uppercase tracking-wider mb-1">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                    AI Live Assistant
-                                </span>
-                                <h3 className="text-lg font-bold text-white">Live Customer Support</h3>
-                            </div>
-                            <span className="text-xs text-slate-400 font-mono">WebRTC HD</span>
+                    {/* AdBlocker / Direct Link Notice (if avatar active) */}
+                    {avatarUrl && (
+                        <div className="absolute top-4 left-5 z-30">
+                            <a 
+                                href={avatarUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-[11px] text-white/80 hover:text-white hover:border-white/30 transition-all"
+                            >
+                                <span>Απευθείας σε Fullscreen</span>
+                                <ExternalLink className="w-3 h-3" />
+                            </a>
                         </div>
+                    )}
 
-                        {/* Avatar Display Box */}
-                        <div className="relative aspect-[3/4] w-full rounded-2xl bg-black border border-slate-800 overflow-hidden flex items-center justify-center mb-5">
-                            {avatarUrl ? (
+                    {/* Main Video Stream Container */}
+                    <div className="w-full h-full relative flex items-center justify-center bg-black">
+                        {isCallActive ? (
+                            avatarUrl ? (
                                 <iframe 
                                     src={avatarUrl}
-                                    allow="microphone; camera; display-capture"
-                                    className="w-full h-full border-none"
+                                    allow="microphone; camera; display-capture; autoplay"
+                                    className="w-full h-full border-none object-cover"
                                 />
                             ) : (
-                                <div className="text-center p-6 space-y-4">
-                                    <div className="w-20 h-20 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-cyan-400 shadow-lg shadow-cyan-500/10">
-                                        <Bot className="w-10 h-10" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-slate-200">Το Avatar είναι σε αναμονή</p>
-                                        <p className="text-xs text-slate-500 font-light mt-1">
-                                            Πατήστε το κουμπί παρακάτω για να συνδεθείτε ζωντανά με το AI Avatar.
+                                <div className="relative w-full h-full flex items-center justify-center">
+                                    {/* High fidelity agent video / photo background */}
+                                    <img 
+                                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1600&auto=format&fit=crop" 
+                                        alt="AI Avatar" 
+                                        className="w-full h-full object-cover filter brightness-[0.92]"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+
+                                    {/* Center Connect Button if not auto connected */}
+                                    <div className="absolute z-20 flex flex-col items-center">
+                                        <button
+                                            onClick={handleStartCall}
+                                            disabled={isLoadingAvatar}
+                                            className="px-6 py-3.5 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-medium text-sm flex items-center gap-2.5 shadow-2xl shadow-indigo-500/50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                                        >
+                                            {isLoadingAvatar ? (
+                                                <>
+                                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                                    <span>Σύνδεση με LiveAvatar...</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Sparkles className="w-4 h-4" />
+                                                    <span>Σύνδεση Φωνής & Live WebRTC</span>
+                                                </>
+                                            )}
+                                        </button>
+                                        <p className="text-[11px] text-white/70 mt-2 font-light">
+                                            Μιλήστε απευθείας με το AI Avatar στα Ελληνικά
                                         </p>
                                     </div>
                                 </div>
-                            )}
-                        </div>
+                            )
+                        ) : (
+                            /* Call Inactive Standby Screen */
+                            <div className="text-center p-8 space-y-4">
+                                <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto text-white/60">
+                                    <PhoneOff className="w-8 h-8" />
+                                </div>
+                                <h3 className="text-xl font-light text-white">Η κλήση έχει τερματιστεί</h3>
+                                <p className="text-xs text-white/50 max-w-sm mx-auto">
+                                    Μπορείτε να ξεκινήσετε ξανά την κλήση όποτε επιθυμείτε για να συνομιλήσετε με το AI Avatar.
+                                </p>
+                                <button
+                                    onClick={handleStartCall}
+                                    className="px-6 py-2.5 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-medium text-xs tracking-wider uppercase transition-all"
+                                >
+                                    Επανασυνδεση
+                                </button>
+                            </div>
+                        )}
+                    </div>
 
-                        {/* Connect Button */}
-                        {!avatarUrl && (
-                            <button
-                                onClick={handleStartAvatar}
-                                disabled={isLoading}
-                                className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 mb-4 disabled:opacity-50"
+                    {/* ================= BOTTOM FLOATING ACTION BAR ================= */}
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-black/40 backdrop-blur-md px-4 py-2.5 rounded-full border border-white/10 shadow-2xl">
+                        {/* Mic Button */}
+                        <button 
+                            onClick={() => setIsMicMuted(!isMicMuted)}
+                            className={`p-3 rounded-full transition-all ${
+                                isMicMuted 
+                                    ? "bg-red-500/80 hover:bg-red-600 text-white" 
+                                    : "bg-white/15 hover:bg-white/25 text-white"
+                            }`}
+                            title={isMicMuted ? "Unmute microphone" : "Mute microphone"}
+                        >
+                            {isMicMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                        </button>
+
+                        {/* Camera Button */}
+                        <button 
+                            onClick={() => setIsVideoOff(!isVideoOff)}
+                            className={`p-3 rounded-full transition-all ${
+                                isVideoOff 
+                                    ? "bg-red-500/80 hover:bg-red-600 text-white" 
+                                    : "bg-white/15 hover:bg-white/25 text-white"
+                            }`}
+                            title={isVideoOff ? "Turn on camera" : "Turn off camera"}
+                        >
+                            {isVideoOff ? <VideoOff className="w-5 h-5" /> : <VideoIcon className="w-5 h-5" />}
+                        </button>
+
+                        {/* Screen Share Button */}
+                        <button 
+                            onClick={() => setIsScreenSharing(!isScreenSharing)}
+                            className={`p-3 rounded-full transition-all ${
+                                isScreenSharing 
+                                    ? "bg-cyan-500/80 hover:bg-cyan-600 text-white" 
+                                    : "bg-white/15 hover:bg-white/25 text-white"
+                            }`}
+                            title="Share screen"
+                        >
+                            <ScreenShare className="w-5 h-5" />
+                        </button>
+
+                        {/* Red Hangup Button */}
+                        {isCallActive ? (
+                            <button 
+                                onClick={handleEndCall}
+                                className="p-3.5 rounded-full bg-[#eb4335] hover:bg-[#d63b2f] text-white shadow-lg shadow-red-500/40 hover:scale-105 active:scale-95 transition-all"
+                                title="End call"
                             >
-                                {isLoading ? (
-                                    <>
-                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                        <span>Προετοιμασία Avatar (Gemini)...</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Mic className="w-5 h-5" />
-                                        <span>Σύνδεση με Live AI Avatar</span>
-                                    </>
-                                )}
+                                <PhoneOff className="w-5 h-5" />
+                            </button>
+                        ) : (
+                            <button 
+                                onClick={handleStartCall}
+                                className="p-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all"
+                                title="Start call"
+                            >
+                                <Phone className="w-5 h-5" />
                             </button>
                         )}
+                    </div>
 
-                        {/* Status Logs */}
-                        <div className="p-3 bg-black/60 rounded-xl border border-slate-800/80 font-mono text-[11px] text-emerald-400 max-h-32 overflow-y-auto space-y-1">
-                            {statusLogs.map((log, idx) => (
-                                <p key={idx} className="leading-tight">{log}</p>
-                            ))}
+                    {/* ================= BOTTOM RIGHT PiP (User Camera) ================= */}
+                    <div className="absolute bottom-6 right-6 z-20 w-40 sm:w-48 aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-2 border-white/20 bg-[#1e2029]">
+                        {/* Real Camera Feed or Fallback */}
+                        {hasUserMedia && !isVideoOff ? (
+                            <video 
+                                ref={userVideoRef}
+                                autoPlay
+                                playsInline
+                                muted
+                                className="w-full h-full object-cover -scale-x-100"
+                            />
+                        ) : (
+                            <img 
+                                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop" 
+                                alt="You" 
+                                className="w-full h-full object-cover"
+                            />
+                        )}
+
+                        {/* Bottom Overlay Label */}
+                        <div className="absolute bottom-2 left-2 flex items-center gap-1.5 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
+                            {/* Animated Audio Wave Bars */}
+                            {!isMicMuted && (
+                                <div className="flex items-center gap-0.5">
+                                    <span className="w-0.5 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                                    <span className="w-0.5 h-3 bg-cyan-400 rounded-full animate-pulse delay-75" />
+                                    <span className="w-0.5 h-1.5 bg-cyan-400 rounded-full animate-pulse delay-150" />
+                                </div>
+                            )}
+                            <span className="text-[11px] font-medium text-white/90">
+                                Lola Jordan
+                            </span>
                         </div>
                     </div>
-                </div>
-            </main>
 
-            <Footer />
+                </div>
+            </div>
         </div>
     );
 }

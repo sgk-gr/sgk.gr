@@ -3,453 +3,641 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartTech E-shop - Live Customer Support</title>
+    <title>AI Video Call - Live Customer Support</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #0B0F19;
-            --card-bg: #151D30;
-            --accent-color: #00C3FF;
-            --accent-hover: #00A2D4;
-            --text-main: #FFFFFF;
-            --text-muted: #94A3B8;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --gradient: linear-gradient(135deg, #00C3FF 0%, #D846EF 100%);
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
-            display: flex;
+            background-color: #0e0f12;
+            color: #ffffff;
             min-height: 100vh;
-        }
-
-        /* Layout structure */
-        .container {
-            display: flex;
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        /* E-shop Area */
-        .shop-area {
-            flex: 1;
-            padding: 2.5rem;
-            max-height: 100vh;
-            overflow-y: auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .product-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 195, 255, 0.1);
-            border-color: var(--accent-color);
-        }
-
-        .product-img-placeholder {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-            border-radius: 8px;
-            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            overflow: hidden;
         }
 
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            margin-bottom: 1rem;
-            flex-grow: 1;
-        }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-        }
-
-        .product-price {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-
-        .stock-badge {
-            background-color: rgba(16, 185, 129, 0.15);
-            color: #10B981;
-            padding: 0.25rem 0.5rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Support Panel (Sidebar) */
-        .support-panel {
-            width: 480px;
-            min-width: 480px;
-            background: linear-gradient(180deg, #0A0F1E 0%, #0E1525 100%);
-            border-left: 1px solid var(--border-color);
-            padding: 1.75rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            height: 100vh;
-            position: sticky;
-            top: 0;
-            overflow-y: auto;
-        }
-
-        .support-header {
-            text-align: center;
-            margin-bottom: 1.25rem;
-            position: relative;
-        }
-
-        .live-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10B981;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .live-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #10B981;
-            display: inline-block;
-            animation: blink 1.2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .support-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.2rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .support-subtitle {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* Avatar container with gradient border */
-        .avatar-wrapper {
-            position: relative;
-            border-radius: 20px;
-            padding: 2px;
-            background: var(--gradient);
-            margin-bottom: 1.25rem;
-            box-shadow: 0 0 40px rgba(0, 195, 255, 0.15), 0 0 80px rgba(216, 70, 239, 0.08);
-            flex-shrink: 0;
-        }
-
-        .avatar-box {
+        /* Outer Frame Container */
+        .window-container {
             width: 100%;
-            border-radius: 18px;
-            background-color: #0A0F1E;
-            position: relative;
+            max-width: 1400px;
+            height: 94vh;
+            max-height: 860px;
+            background-color: #1a1b20;
+            border-radius: 28px;
             overflow: hidden;
             display: flex;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border: 4px solid #272831;
+            position: relative;
+        }
+
+        /* LEFT PANEL: CHAT */
+        .chat-panel {
+            width: 380px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #26272e;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .chat-header {
+            height: 64px;
+            background-color: #5b36f5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.25rem;
+            color: #ffffff;
+        }
+
+        .chat-header-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-header-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
             align-items: center;
             justify-content: center;
-            /* Tall enough to show full avatar without zoom */
-            aspect-ratio: 3 / 4;
-            max-height: calc(100vh - 280px);
+            color: #5b36f5;
+            font-weight: bold;
         }
 
-        .avatar-box iframe {
+        .chat-header-title {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .chat-header-close {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            opacity: 0.8;
+            font-size: 1.2rem;
+            transition: opacity 0.2s;
+        }
+        .chat-header-close:hover {
+            opacity: 1;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background-color: #ffffff;
+        }
+
+        .msg-time {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .msg-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .msg-group.user {
+            align-items: flex-end;
+        }
+        .msg-group.agent {
+            align-items: flex-start;
+        }
+
+        .msg-bubble {
+            max-width: 85%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 13.5px;
+            line-height: 1.45;
+        }
+
+        .msg-bubble.user {
+            background-color: #5b36f5;
+            color: #ffffff;
+            border-top-right-radius: 4px;
+        }
+
+        .msg-bubble.agent {
+            background-color: #f1f3f6;
+            color: #1f2937;
+            border-top-left-radius: 4px;
+        }
+
+        .system-pill {
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+        .system-pill-time {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        .system-pill-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: #111827;
+            margin-top: 2px;
+        }
+
+        .chat-input-bar {
+            padding: 10px 16px;
+            background-color: #ffffff;
+            border-top: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 13.5px;
+            color: #1f2937;
+            padding: 6px 4px;
+        }
+        .chat-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .chat-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #9ca3af;
+        }
+
+        .chat-btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+        .chat-btn-icon:hover {
+            color: #4b5563;
+        }
+        .chat-send-btn {
+            color: #5b36f5;
+        }
+        .chat-send-btn:hover {
+            color: #4726d6;
+        }
+
+        /* RIGHT PANEL: VIDEO CALL */
+        .video-stage {
+            flex: 1;
+            height: 100%;
+            position: relative;
+            background-color: #18191f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .video-top-bar {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            /* Scale down to fit without cropping */
+            top: 16px;
+            right: 20px;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .call-timer {
+            font-size: 14px;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .top-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        .top-btn:hover {
+            opacity: 1;
+        }
+
+        .main-video-feed {
             width: 100%;
             height: 100%;
-            transform: translate(-50%, -50%);
-            border: none;
-            display: block;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
         }
 
-        .avatar-placeholder {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-        }
-
-        .avatar-placeholder svg {
-            width: 56px;
-            height: 56px;
-            stroke: var(--accent-color);
-            margin-bottom: 1rem;
-            animation: pulse 2s infinite;
-        }
-
-        .avatar-placeholder p {
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
-
-        .control-btn {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 0.9rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
+        .main-video-img {
             width: 100%;
-            letter-spacing: 0.02em;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 20px rgba(0, 195, 255, 0.35);
-            flex-shrink: 0;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.92);
         }
 
-        .control-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 25px rgba(0, 195, 255, 0.5);
+        .video-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: cover;
         }
 
-        .control-btn:active {
-            transform: translateY(0);
+        /* Floating Bottom Controls */
+        .bottom-controls {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .control-btn:disabled {
-            background: #1E293B;
-            color: #475569;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
+        .ctrl-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .ctrl-btn:hover {
+            background: rgba(255, 255, 255, 0.26);
+            transform: scale(1.05);
+        }
+        .ctrl-btn.active-red {
+            background: rgba(239, 68, 68, 0.85);
         }
 
-        .status-log {
-            margin-top: 1rem;
-            font-size: 0.75rem;
-            background-color: #060A12;
-            border: 1px solid var(--border-color);
-            padding: 0.75rem 1rem;
-            border-radius: 10px;
-            max-height: 120px;
-            overflow-y: auto;
-            color: #10B981;
-            font-family: 'Courier New', monospace;
-            line-height: 1.6;
-            flex-shrink: 0;
+        .ctrl-btn.hangup {
+            background: #eb4335;
+            box-shadow: 0 4px 15px rgba(235, 67, 53, 0.4);
+        }
+        .ctrl-btn.hangup:hover {
+            background: #d6382b;
+            transform: scale(1.08);
         }
 
-        .status-log::-webkit-scrollbar { width: 4px; }
-        .status-log::-webkit-scrollbar-track { background: transparent; }
-        .status-log::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+        /* Bottom Right PiP */
+        .pip-container {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            z-index: 20;
+            width: 190px;
+            aspect-ratio: 16 / 10;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            background: #1e2029;
+        }
+
+        .pip-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pip-label {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .wave-bars {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .wave-bar {
+            width: 2px;
+            background-color: #00e5ff;
+            border-radius: 2px;
+            animation: pulse 1s infinite alternate;
+        }
+        .wave-bar:nth-child(1) { height: 8px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(2) { height: 12px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(3) { height: 6px; animation-delay: 0.3s; }
 
         @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.08); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.6; }
+            0% { transform: scaleY(0.4); }
+            100% { transform: scaleY(1.2); }
         }
 
-        /* Responsive: stack on small screens */
         @media (max-width: 900px) {
-            body { flex-direction: column; }
-            .container { flex-direction: column; }
-            .support-panel {
-                width: 100%;
-                min-width: unset;
-                height: auto;
-                position: relative;
-                border-left: none;
-                border-top: 1px solid var(--border-color);
+            .window-container {
+                flex-direction: column;
+                height: 98vh;
             }
-            .avatar-box {
-                max-height: 70vw;
+            .chat-panel {
+                width: 100%;
+                height: 40%;
+            }
+            .video-stage {
+                height: 60%;
+            }
+            .pip-container {
+                width: 130px;
+                bottom: 12px;
+                right: 12px;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- E-shop catalog -->
-    <div class="shop-area">
-        <div class="header">
-            <span class="logo">🚀 SmartTech E-shop</span>
-            <span style="font-size: 0.9rem; color: var(--text-muted);">Πιλοτικό Demo</span>
+    <div class="window-container">
+        
+        <!-- ================= LEFT PANEL: CHAT ================= -->
+        <div class="chat-panel">
+            <div class="chat-header">
+                <div class="chat-header-user">
+                    <div class="chat-header-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="12" x="3" y="8" rx="2"></rect>
+                            <path d="M12 2v6"></path>
+                            <path d="m9 14 2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="chat-header-title">Andy Lane</div>
+                    </div>
+                </div>
+                <button class="chat-header-close" onclick="alert('Close window')">✕</button>
+            </div>
+
+            <!-- Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg-group agent">
+                    <span class="msg-time">3:00 pm</span>
+                    <div class="msg-bubble agent">Hi, how can we help?</div>
+                </div>
+
+                <div class="msg-group user">
+                    <span class="msg-time">3:06 pm</span>
+                    <div class="msg-bubble user">How do I change my credit card payment limit?</div>
+                </div>
+
+                <div class="msg-group agent">
+                    <span class="msg-time">3:06 pm</span>
+                    <div class="msg-bubble agent">Happy to help out with this. Do you mind to have video call?</div>
+                </div>
+
+                <div class="msg-group user">
+                    <span class="msg-time">3:06 pm</span>
+                    <div class="msg-bubble user">Sure</div>
+                </div>
+
+                <div class="system-pill">
+                    <div class="system-pill-time">3:09 pm</div>
+                    <div class="system-pill-text">Call started</div>
+                </div>
+            </div>
+
+            <!-- Input Bar -->
+            <form class="chat-input-bar" onsubmit="event.preventDefault(); sendMessage();">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Enter your message">
+                <div class="chat-icons">
+                    <button type="button" class="chat-btn-icon" title="Attachment">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="chat-btn-icon" title="Emoji">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                            <line x1="9" x2="9.01" y1="9" y2="9"></line>
+                            <line x1="15" x2="15.01" y1="9" y2="9"></line>
+                        </svg>
+                    </button>
+                    <button type="submit" class="chat-btn-icon chat-send-btn" title="Send">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m22 2-7 20-4-9-9-4Z"></path>
+                            <path d="M22 2 11 13"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <div class="product-grid" id="productGrid">
-            <!-- Products will be generated here -->
-        </div>
-    </div>
-
-    <!-- Live Support Sidebar -->
-    <div class="support-panel">
-        <div class="support-header">
-            <div class="live-badge">AI Live</div>
-            <h2 class="support-title">Live AI Assistant</h2>
-            <p class="support-subtitle">Μίλησε με το Avatar για βοήθεια</p>
-        </div>
-
-        <div class="avatar-wrapper">
-            <div class="avatar-box" id="avatarBox">
-                <div class="avatar-placeholder" id="placeholder">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+        <!-- ================= RIGHT PANEL: VIDEO CALL ================= -->
+        <div class="video-stage">
+            <!-- Top Controls -->
+            <div class="video-top-bar">
+                <div class="call-timer" id="callTimer">00:52</div>
+                <button class="top-btn" title="Picture in Picture">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14 21 3"></path>
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                     </svg>
-                    <p>Πατήστε το κουμπί για εκκίνηση του Live Avatar</p>
+                </button>
+                <button class="top-btn" title="Settings">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+                <button class="top-btn" title="Options">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="12" cy="5" r="1"></circle>
+                        <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Video Feed Canvas -->
+            <div class="main-video-feed" id="mainVideoContainer">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1600&auto=format&fit=crop" class="main-video-img" id="avatarImg" alt="Avatar Video Feed">
+            </div>
+
+            <!-- Bottom Floating Action Bar -->
+            <div class="bottom-controls">
+                <button class="ctrl-btn" id="micBtn" onclick="toggleMic()" title="Mute/Unmute Mic">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" x2="12" y1="19" y2="22"></line>
+                    </svg>
+                </button>
+
+                <button class="ctrl-btn" id="camBtn" onclick="toggleCam()" title="Camera On/Off">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m22 8-6 4 6 4V8Z"></path>
+                        <rect width="14" height="12" x="2" y="6" rx="2" ry="2"></rect>
+                    </svg>
+                </button>
+
+                <button class="ctrl-btn" id="shareBtn" onclick="toggleShare()" title="Share Screen">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+                        <line x1="8" x2="16" y1="21" y2="21"></line>
+                        <line x1="12" x2="12" y1="17" y2="21"></line>
+                    </svg>
+                </button>
+
+                <button class="ctrl-btn hangup" onclick="endCall()" title="End Call">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-6-6 19.8 19.8 0 0 1-3.11-8.69A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path>
+                        <line x1="22" x2="2" y1="2" y2="22"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Bottom Right PiP (Lola Jordan / You) -->
+            <div class="pip-container">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop" class="pip-img" alt="Lola Jordan">
+                <div class="pip-label">
+                    <div class="wave-bars">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <span>Lola Jordan</span>
                 </div>
             </div>
         </div>
 
-        <button class="control-btn" id="startBtn">🎙️ &nbsp;Σύνδεση με AI Assistant</button>
-
-        <div class="status-log" id="statusLog">
-            [System] Έτοιμο για σύνδεση...<br>
-        </div>
     </div>
-</div>
 
-<script>
-    // 10 Mock Products
-    const products = [
-        { id: 1, name: "AeroSound Pro Wireless Earbuds", price: "149.00 €", stock: 15, desc: "Ασύρματα ακουστικά με Active Noise Cancellation (ANC), 30 ώρες αυτονομία και κορυφαία ποιότητα ήχου." },
-        { id: 2, name: "NovaWatch Series 5 Smartwatch", price: "299.00 €", stock: 8, desc: "Έξυπνο ρολόι με έγχρωμη οθόνη OLED, μέτρηση παλμών, οξυγόνου, GPS και αδιάβροχη προστασία." },
-        { id: 3, name: "LuminaDesk Smart LED Lamp", price: "89.00 €", stock: 24, desc: "Έξυπνο επιτραπέζιο φωτιστικό με ρύθμιση φωτεινότητας, ambient συγχρονισμό και ασύρματη φόρτιση κινητού." },
-        { id: 4, name: "ChargeGrid 4-in-1 Station", price: "59.00 €", stock: 12, desc: "Βάση γρήγορης ασύρματης φόρτισης για το κινητό, το ρολόι, τα ακουστικά σας και μία επιπλέον συσκευή USB." },
-        { id: 5, name: "KeyFlex Mechanical Keyboard", price: "179.00 €", stock: 5, desc: "Μηχανικό εργονομικό πληκτρολόγιο με hot-swappable διακόπτες, RGB φωτισμό και αθόρυβη πληκτρολόγηση." },
-        { id: 6, name: "ZenFlow Smart Water Bottle", price: "45.00 €", stock: 20, desc: "Έξυπνο θερμός 500ml με αυτόματο καθαρισμό UV-C, ψηφιακή ένδειξη θερμοκρασίας και υπενθύμιση ενυδάτωσης." },
-        { id: 7, name: "NeoGrip Wireless Mouse", price: "79.00 €", stock: 18, desc: "Εργονομικό ασύρματο ποντίκι υψηλής ακρίβειας με αθόρυβα κλικ και ρυθμιζόμενο αισθητήρα DPI." },
-        { id: 8, name: "SoundBarre Portable Speaker", price: "129.00 €", stock: 10, desc: "Αδιάβροχο φορητό ηχείο Bluetooth 5.3 με πλούσιο μπάσο, αυτονομία 15 ωρών και True Wireless Stereo." },
-        { id: 9, name: "VisionRig Dual Monitor Mount", price: "99.00 €", stock: 7, desc: "Ρυθμιζόμενος βραχίονας γραφείου για δύο οθόνες με ανάρτηση αερίου και ενσωματωμένες θύρες USB 3.0." },
-        { id: 10, name: "AeroBag Anti-Theft Backpack", price: "119.00 €", stock: 14, desc: "Αδιάβροχη τσάντα πλάτης με κρυφές τσέπες, υποδοχή USB για Powerbank και ειδική θήκη για laptop 16\"." }
-    ];
+    <script>
+        // Call Timer
+        let seconds = 52;
+        let isCallRunning = true;
+        const timerEl = document.getElementById("callTimer");
 
-    // Populate grid
-    const grid = document.getElementById("productGrid");
-    products.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-            <div>
-                <div class="product-img-placeholder">${p.name}</div>
-                <h3 class="product-title">${p.name}</h3>
-                <p class="product-desc">${p.desc}</p>
-            </div>
-            <div class="product-footer">
-                <span class="product-price">${p.price}</span>
-                <span class="stock-badge">Σε απόθεμα: ${p.stock}</span>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-
-    const startBtn = document.getElementById("startBtn");
-    const avatarBox = document.getElementById("avatarBox");
-    const placeholder = document.getElementById("placeholder");
-    const statusLog = document.getElementById("statusLog");
-
-    function log(message) {
-        statusLog.innerHTML += `[${new Date().toLocaleTimeString()}] ${message}<br>`;
-        statusLog.scrollTop = statusLog.scrollHeight;
-    }
-
-    startBtn.addEventListener("click", async () => {
-        startBtn.disabled = true;
-        log("Ξεκινάει η προετοιμασία του custom LLM (Gemini)...");
-
-        try {
-            const response = await fetch("/api/setup", {
-                method: "POST"
-            });
-            const result = await response.json();
-
-            if (result.success && result.url) {
-                log("Το LiveAvatar δημιουργήθηκε με επιτυχία!");
-                log("Φόρτωση iframe...");
-
-                // Insert the Iframe
-                avatarBox.innerHTML = `<iframe src="${result.url}" allow="microphone; camera; display-capture"></iframe>`;
-            } else {
-                log(`Σφάλμα: ${result.error || "Άγνωστο σφάλμα"}`);
-                startBtn.disabled = false;
+        setInterval(() => {
+            if (isCallRunning) {
+                seconds++;
+                const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+                const s = String(seconds % 60).padStart(2, '0');
+                timerEl.textContent = `${m}:${s}`;
             }
-        } catch (err) {
-            log(`Σφάλμα δικτύου: ${err.message}`);
-            startBtn.disabled = false;
-        }
-    });
-</script>
+        }, 1000);
 
+        function toggleMic() {
+            const btn = document.getElementById("micBtn");
+            btn.classList.toggle("active-red");
+        }
+
+        function toggleCam() {
+            const btn = document.getElementById("camBtn");
+            btn.classList.toggle("active-red");
+        }
+
+        function toggleShare() {
+            const btn = document.getElementById("shareBtn");
+            btn.classList.toggle("active-red");
+        }
+
+        function endCall() {
+            isCallRunning = false;
+            alert("Η κλήση τερματίστηκε.");
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("chatInput");
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatMessages = document.getElementById("chatMessages");
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const userGroup = document.createElement("div");
+            userGroup.className = "msg-group user";
+            userGroup.innerHTML = `
+                <span class="msg-time">${timeStr}</span>
+                <div class="msg-bubble user">${escapeHtml(text)}</div>
+            `;
+            chatMessages.appendChild(userGroup);
+            input.value = "";
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Auto reply
+            setTimeout(() => {
+                const agentGroup = document.createElement("div");
+                agentGroup.className = "msg-group agent";
+                agentGroup.innerHTML = `
+                    <span class="msg-time">${timeStr}</span>
+                    <div class="msg-bubble agent">Σας ακούω κανονικά στη βιντεοκλήση! Μπορείτε να μου μιλήσετε και φωνητικά.</div>
+                `;
+                chatMessages.appendChild(agentGroup);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
 </body>
 </html>

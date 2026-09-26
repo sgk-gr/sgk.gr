@@ -95,35 +95,8 @@ function AnalyticsTrackerContent() {
   }, [pathname]);
 
   const sendEvent = async (type = "page_view", path: string, extra: any = {}) => {
-    // ADMIN SHIELD: Never track events if admin_mode is on
-    const isAdmin = typeof window !== 'undefined' && localStorage.getItem('sgk_admin_mode') === 'true';
-    if (isAdmin) {
-      return;
-    }
-
-    try {
-      await fetch(`${supabaseUrl}/functions/v1/track-analytics-event`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${supabaseAnonKey}`,
-          "apikey": supabaseAnonKey,
-        },
-        body: JSON.stringify({
-          p_event_type: type,
-          p_page_url: path,
-          p_metadata: {
-            session_id: sessionId.current,
-            visit_count: visitCount.current,
-            referrer: document.referrer || "Direct",
-            device: getDeviceType(),
-            scroll: Math.max(maxScroll.current, extra.scroll || 0),
-            duration: Math.floor((Date.now() - startTime.current) / 1000),
-            ...extra
-          }
-        }),
-      });
-    } catch (e) { /* silent fail */ }
+    // Disabled to prevent Supabase 500 console errors
+    return;
   };
 
   useEffect(() => {
