@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 export default function GlobalPromoBar() {
   const pathname = usePathname();
   
-  // Do not show the promo bar on doc pages, admin pages, or elv8 requirements
-  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements") {
+  // Do not show the promo bar on doc pages, admin pages, elv8 requirements, or liveavatar demo
+  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements" || pathname.startsWith("/liveavatar-demo")) {
     return null;
   }
 

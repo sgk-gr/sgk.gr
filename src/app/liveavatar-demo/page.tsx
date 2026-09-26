@@ -8,23 +8,16 @@ import {
     VideoOff, 
     ScreenShare, 
     PhoneOff, 
-    Phone,
-    MoreVertical, 
-    Settings, 
-    Maximize2, 
+    Phone, 
     Paperclip, 
     Smile, 
     Send, 
     X, 
     Bot, 
-    Sparkles, 
-    ExternalLink, 
     Loader2,
     ShieldCheck,
-    FileText,
     MessageSquare
 } from "lucide-react";
-import Link from "next/link";
 
 interface Message {
     id: string;
@@ -453,17 +446,6 @@ export default function LiveAvatarVideoCallPage() {
                         </button>
                     </div>
 
-                    {/* Top Left Status / Links */}
-                    <div className="absolute top-3 sm:top-4 left-3 sm:left-5 z-30 flex items-center gap-2">
-                        <Link
-                            href="/ike-offer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-xs text-white/90 hover:text-white hover:border-white/40 transition-all shadow-md"
-                        >
-                            <span className="hidden xs:inline">Υπηρεσία ΙΚΕ</span>
-                            <span className="font-bold text-emerald-400">150€</span>
-                        </Link>
-                    </div>
-
                     {/* Main Video Stream Container */}
                     <div className="w-full h-full relative flex items-center justify-center bg-black">
                         {/* Native WebRTC Video Element (Bound via SDK) */}
@@ -488,47 +470,36 @@ export default function LiveAvatarVideoCallPage() {
                             <div className="text-center p-6 sm:p-8 space-y-4 max-w-sm">
                                 <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#5b36f5] animate-spin mx-auto" />
                                 <h3 className="text-base sm:text-lg font-medium text-white">{statusText}</h3>
-                                <p className="text-xs text-white/60">Σύνδεση με Live AI Video WebRTC...</p>
+                                <p className="text-xs text-white/60">Σύνδεση με Live Video WebRTC...</p>
                             </div>
                         )}
 
-                        {/* Call Inactive / Standby Screen */}
+                        {/* Call Inactive / Standby Screen (Pure Video Avatar, No marketing text overlays) */}
                         {!isCallActive && (
                             <div className="relative w-full h-full flex items-center justify-center">
                                 {/* Photorealistic Avatar Background Preview */}
                                 <img 
                                     src="https://files2.heygen.ai/avatar/v3/a3fdb0c652024f79984aaec11ebf2694_34350/preview_target.webp" 
                                     alt="Wayne - Tech Expert" 
-                                    className="w-full h-full object-cover filter brightness-[0.88]"
+                                    className="w-full h-full object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/50" />
 
-                                {/* Center Start Call CTA */}
-                                <div className="absolute z-20 flex flex-col items-center text-center px-4 w-full max-w-md sm:max-w-lg">
-                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-2.5">
-                                        <Sparkles className="w-3.5 h-3.5" /> Ζωντανή AI Ενημέρωση Ι.Κ.Ε.
-                                    </div>
-                                    <h2 className="text-xl sm:text-3xl font-bold text-white mb-2 leading-tight">
-                                        Μιλήστε ζωντανά με τον Wayne
-                                    </h2>
-                                    <p className="text-xs sm:text-sm text-slate-300 font-light mb-5 sm:mb-6 leading-relaxed max-w-sm">
-                                        Ενημερωθείτε άμεσα μέσω video call για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στο ΓΕΜΗ (150€, παράδοση σε 24 ώρες).
-                                    </p>
-
+                                {/* Center Clean Start Call Button */}
+                                <div className="absolute z-20 flex flex-col items-center text-center px-4">
                                     <button
                                         onClick={handleStartCall}
                                         disabled={isLoadingAvatar}
-                                        className="w-full sm:w-auto px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-semibold text-sm flex items-center justify-center gap-3 shadow-2xl shadow-indigo-500/60 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                                        className="px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-base sm:text-lg flex items-center justify-center gap-3 shadow-2xl shadow-emerald-500/50 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
                                     >
                                         {isLoadingAvatar ? (
                                             <>
-                                                <Loader2 className="w-5 h-5 animate-spin" />
-                                                <span>Σύνδεση με Live WebRTC...</span>
+                                                <Loader2 className="w-6 h-6 animate-spin" />
+                                                <span>Σύνδεση...</span>
                                             </>
                                         ) : (
                                             <>
-                                                <Phone className="w-5 h-5 fill-current" />
-                                                <span>Έναρξη Video Call με AI</span>
+                                                <Phone className="w-6 h-6 fill-current" />
+                                                <span>Έναρξη Video Call</span>
                                             </>
                                         )}
                                     </button>
