@@ -304,10 +304,10 @@ export default function LiveVideoAgentSection() {
                             Δοκιμάστε το Demo
                         </Link>
                         <a 
-                            href="tel:2103009544"
+                            href="tel:2111140013"
                             className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-sm border border-white/20 transition-all"
                         >
-                            210 300 9544
+                            211 114 0013
                         </a>
                     </div>
                 </div>

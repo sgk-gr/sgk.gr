@@ -44,7 +44,8 @@ const IKE_SPECIALIST_CONTEXT = `
 - «Περιλαμβάνει σύγχρονο site, domain για δύο χρόνια, hosting για ένα έτος και επίσημη βεβαίωση για το ΓΕΜΗ. Να προχωρήσουμε με το ΑΦΜ σας;»
 
 ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑΣ:
-- Τηλέφωνο: 210 300 9544 (δύο δέκα, τριακόσια, ενενήντα πέντε, σαράντα τέσσερα).
+- Τηλέφωνο: 211 114 0013 (δύο έντεκα, εκατόν δεκατέσσερα, μηδέν μηδέν δεκατρία) και κινητό 6999 524 389.
+- Email: info@sgk.gr | Website: sgk.gr
 `;
 
 const OPENING_TEXT = "Γεια σας! Είμαι ο Bryan, Senior Tech Expert της SGK Digital. Πώς μπορώ να βοηθήσω;";
@@ -128,7 +129,7 @@ async function getOrCreateLlmConfig(secretId: string): Promise<string> {
 }
 
 async function getOrCreateContext(): Promise<string> {
-    const CONTEXT_NAME = "SGK Bryan Tech Expert Greek v11";
+    const CONTEXT_NAME = "SGK Bryan Tech Expert Greek v12";
     try {
         const existing = await laFetch("/v1/contexts", "GET");
         const items = existing?.data?.results || [];
