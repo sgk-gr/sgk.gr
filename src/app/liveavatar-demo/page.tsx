@@ -899,7 +899,7 @@ export default function LiveAvatarVideoCallPage() {
                     </div>
 
                     {/* ================= PiP (User Camera: top-left on mobile, bottom-right on desktop) ================= */}
-                    <div className="absolute top-3 left-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-[#1e2029]">
+                    <div className="absolute top-3 left-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black">
                         {hasUserMedia && !isVideoOff ? (
                             <video 
                                 ref={userVideoRef}
@@ -909,16 +909,26 @@ export default function LiveAvatarVideoCallPage() {
                                 className="w-full h-full object-cover -scale-x-100"
                             />
                         ) : (
-                            <img 
-                                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" 
-                                alt="Εσείς" 
-                                className="w-full h-full object-cover"
-                            />
+                            <div className="w-full h-full bg-black flex flex-col items-center justify-center text-center p-2 select-none">
+                                <VideoOff className="w-4 h-4 sm:w-6 sm:h-6 text-white/30 mb-1" />
+                                <span className="text-[8px] sm:text-[10px] font-bold tracking-widest text-white/50 uppercase">
+                                    No Camera
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Top-Right Muted Badge */}
+                        {isMicMuted && (
+                            <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 p-1 rounded-full bg-red-500/90 text-white shadow-md">
+                                <MicOff className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                            </div>
                         )}
 
                         {/* Bottom Overlay Label */}
-                        <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 flex items-center gap-1 bg-black/60 backdrop-blur-xs px-1.5 py-0.5 rounded-md">
-                            {!isMicMuted && (
+                        <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 flex items-center gap-1 bg-black/75 backdrop-blur-xs px-1.5 sm:px-2 py-0.5 rounded-md border border-white/10">
+                            {isMicMuted ? (
+                                <MicOff className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-400" />
+                            ) : (
                                 <div className="flex items-center gap-0.5">
                                     <span className="w-0.5 h-1.5 sm:h-2 bg-cyan-400 rounded-full animate-pulse" />
                                     <span className="w-0.5 h-2.5 sm:h-3 bg-cyan-400 rounded-full animate-pulse delay-75" />
@@ -928,6 +938,11 @@ export default function LiveAvatarVideoCallPage() {
                             <span className="text-[9px] sm:text-[10px] font-medium text-white/90">
                                 Εσείς
                             </span>
+                            {isMicMuted && (
+                                <span className="text-[8px] text-red-400 font-semibold ml-0.5 hidden xs:inline">
+                                    (Σίγαση)
+                                </span>
+                            )}
                         </div>
                     </div>
 
