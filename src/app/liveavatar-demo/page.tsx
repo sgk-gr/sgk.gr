@@ -202,8 +202,13 @@ export default function LiveAvatarVideoCallPage() {
                     } catch (vcErr) {
                         console.warn("Voice chat auto-start:", vcErr);
                     }
-                } catch (sdkErr) {
-                    console.warn("Native WebRTC SDK fallback to iframe:", sdkErr);
+                } catch (sdkErr: any) {
+                    console.warn("Native WebRTC SDK session error:", sdkErr);
+                    const errMsg = sdkErr?.message || String(sdkErr);
+                    sessionRef.current = null;
+                    if (errMsg.toLowerCase().includes("credit") || errMsg.includes("403")) {
+                        throw new Error("Εξαντλήθηκαν τα credits στο λογαριασμό σας στο LiveAvatar (No credits available). Χρειάζεται προσθήκη credits στο LiveAvatar Dashboard (app.liveavatar.com) για να εκκινήσει νέα ζωντανή κλήση.");
+                    }
                 }
             }
 
@@ -211,7 +216,8 @@ export default function LiveAvatarVideoCallPage() {
             setCallSeconds(1);
         } catch (err: any) {
             console.error("Failed to start LiveAvatar call:", err);
-            alert(`Σφάλμα εκκίνησης: ${err?.message || "Ελέγξτε τη σύνδεσή σας"}`);
+            setStatusText(err?.message || "Σφάλμα εκκίνησης");
+            alert(err?.message || "Ελέγξτε τη σύνδεσή σας ή τα credits του LiveAvatar API.");
         } finally {
             setIsLoadingAvatar(false);
         }
@@ -224,12 +230,13 @@ export default function LiveAvatarVideoCallPage() {
         setCallSeconds(0);
 
         if (sessionRef.current) {
-            try {
-                await sessionRef.current.stop();
-            } catch (e) {
-                console.error("Error stopping session:", e);
-            }
+            const activeSession = sessionRef.current;
             sessionRef.current = null;
+            try {
+                await activeSession.stop();
+            } catch (e) {
+                // Ignore session stop error if it was already closed or expired
+            }
         }
 
         const now = new Date();
