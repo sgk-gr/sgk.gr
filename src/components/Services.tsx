@@ -20,8 +20,8 @@ const services = [
     color: "bg-[#4ade80]"
   },
   {
-    title: "AI Agents",
-    description: "Αυτοματισμοί με AI agents που αναλαμβάνουν tasks, αποφάσεις και workflows — η επιχείρησή σας στον αυτόματο πιλότο.",
+    title: "AI Agents & Custom AI",
+    description: "Αυτόνομοι AI πράκτορες που εκτελούν εργασίες χωρίς υπαλλήλους. Εξυπηρέτηση πελατών 24/7 με Voice AI (τηλέφωνο), Smart Chat & Video Avatars.",
     href: "/ai-agents",
     icon: <Bot size={28} className="text-black" />,
     color: "bg-[#facc15]"

@@ -1331,6 +1331,99 @@ export const BLOG_POSTS: BlogPost[] = [
       
       <p>Επισκεφθείτε την επίσημη σελίδα μας για <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">AI Agents & Επιχειρηματικούς Αυτοματισμούς</a> ή <a href="/estimate" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">ζητήστε ένα δωρεάν Custom AI Demo σήμερα</a>.</p>
     `
+  },
+  {
+    id: "kataskevi-custom-ai-agents-voice-chat-video-2026",
+    slug: "kataskevi-ai-agents-custom-ai-epicheiriseis-voice-chat-video",
+    title: "Κατασκευή Custom AI Agents για Επιχειρήσεις: Πώς Αυτόνομοι Πράκτορες με Voice, Chat & Video Αυτοματοποιούν Εργασίες Χωρίς Υπαλλήλους (Οδηγός 2026)",
+    excerpt: "Ο απόλυτος οδηγός για την κατασκευή Custom AI Agents στην Ελλάδα. Πώς οι αυτόνομοι πράκτορες αναλαμβάνουν εργασίες χωρίς υπαλλήλους και πώς η εξυπηρέτηση πελατών με Voice AI (τηλέφωνο), Smart Chat και Video Avatars μεταμορφώνει τα επιχειρηματικά αποτελέσματα.",
+    date: "26 Σεπτεμβρίου 2026",
+    author: "sgk.gr",
+    category: "AI & Business Automation",
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200",
+    metaTitle: "Κατασκευή Custom AI Agents: Voice, Chat, Video & Αυτοματισμοί Χωρίς Υπαλλήλους | SGK",
+    metaDescription: "Πώς η κατασκευή custom AI agents επιτρέπει σε επιχειρήσεις να εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. Εξυπηρέτηση πελατών με Voice AI (τηλεφωνία), Chat και Video Avatars.",
+    content: `
+      <h2>Η Επανάσταση του Agentic AI: Γιατί οι Επιχειρήσεις Επενδύουν σε Αυτόνομους AI Agents</h2>
+      <p>Το 2026 σηματοδοτεί τη μεγαλύτερη αλλαγή στην οργάνωση των επιχειρήσεων από την εμφάνιση του διαδικτύου. Ενώ τα προηγούμενα χρόνια όλοι μιλούσαν για απλά generative AI εργαλεία (όπως το ChatGPT), σήμερα η πραγματική επιχειρηματική αξία παράγεται από την <strong>κατασκευή Custom AI Agents (πρακτόρων τεχνητής νοημοσύνης)</strong>.</p>
+
+      <p>Ένας AI agent δεν περιμένει απλώς έναν άνθρωπο να του πληκτρολογήσει ερωτήσεις. <strong>Αναλαμβάνει στόχους (goals) και εκτελεί εργασίες εντελώς μόνος του, χωρίς να χρειάζεται υπάλληλος για κάθε βήμα.</strong> Μπορεί να διαχειριστεί ένα ολόκληρο τηλεφωνικό κέντρο, να επεξεργαστεί τιμολόγια, να κάνει qualification σε leads και να εξυπηρετήσει χιλιάδες πελάτες ταυτόχρονα με απόλυτη ακρίβεια.</p>
+
+      <h3>Τι Σημαίνει «AI Agents που Κάνουν Εργασίες Μόνοι τους Χωρίς Υπαλλήλους»;</h3>
+      <p>Σε κάθε ελληνική επιχείρηση, ένα τεράστιο ποσοστό του μισθολογικού κόστους και των εργατοωρών καταναλώνεται σε <strong>επαναλαμβανόμενες, τυποποιημένες εργασίες</strong>:</p>
+      <ul>
+        <li>Απάντηση στις ίδιες 20 ερωτήσεις πελατών στο τηλέφωνο και στο WhatsApp («Πού είναι το δέμα μου;», «Ποιο είναι το ωράριο;», «Έχετε διαθεσιμότητα;»).</li>
+        <li>Χειροκίνητη καταχώρηση τιμολογίων, παραστατικών και παραγγελιών στο ERP (Softone, Entersoft).</li>
+        <li>Έκδοση φορτωτικών (vouchers) σε courier APIs (ACS, BoxNow, Speedex).</li>
+        <li>Αναζήτηση τιμών ανταγωνισμού στο Skroutz και τροποποίηση αποθεμάτων.</li>
+        <li>Τηλεφωνικές κλήσεις για υπενθύμιση ραντεβού ή ανεξόφλητων υπολοίπων.</li>
+      </ul>
+      <p>Ένας <strong>Custom AI Agent της SGK Digital</strong> μπορεί να αναλάβει το 100% αυτών των εργασιών. Λειτουργεί ως ένας αφοσιωμένος ψηφιακός συνεργάτης που εργάζεται 24 ώρες το 24ωρο, 365 ημέρες τον χρόνο, χωρίς άδειες, χωρίς κούραση και με μηδενικό ανθρώπινο σφάλμα.</p>
+
+      <h3>Τριπλή Εξυπηρέτηση Πελατών: Voice (Φωνή), Chat & Video AI</h3>
+      <p>Η εξυπηρέτηση πελατών δεν μπορεί πλέον να περιορίζεται σε ένα απλό text widget. Οι σύγχρονες επιχειρήσεις χρειάζονται ένα <strong>ολοκληρωμένο Omnichannel Tri-Modal σύστημα</strong>:</p>
+
+      <h4>1. Voice AI Agents (Φωνητική Τηλεφωνική Εξυπηρέτηση)</h4>
+      <p>Ο φωνητικός πράκτορας συνδέεται κατευθείαν με το τηλεφωνικό κέντρο της εταιρείας σας (Cloud PBX, Asterisk, 3CX, VoIP ή GSM). Όταν καλεί ένας πελάτης:</p>
+      <ul>
+        <li>Ο AI agent απαντά σε <strong>λιγότερο από 0.5 δευτερόλεπτο</strong> — καμία αναμονή στην τηλεφωνική γραμμή.</li>
+        <li>Μιλάει <strong>άπταιστα φυσικά Ελληνικά</strong> με ανθρώπινο τόνο, σωστές αναπνοές και προφορά, χωρίς κανέναν ρομποτικό τόνο.</li>
+        <li>Ταυτοποιεί τον πελάτη από το τηλέφωνό του, αναζητά το ιστορικό του στο ERP/CRM, του απαντά για την κατάσταση της παραγγελίας του ή του κλείνει ραντεβού σε πραγματικό χρόνο.</li>
+        <li>Πραγματοποιεί και <strong>εξερχόμενες κλήσεις (Outbound Voice AI)</strong> για επιβεβαιώσεις παραγγελιών ή υπενθυμίσεις ραντεβού.</li>
+      </ul>
+
+      <h4>2. Smart Chat AI Agents (Web, WhatsApp, Messenger, Instagram)</h4>
+      <p>Ένας ενιαίος εγκέφαλος τεχνητής νοημοσύνης διαχειρίζεται ταυτόχρονα όλα τα εισερχόμενα μηνύματα από Website Chat, WhatsApp Business API, Instagram DM και Facebook Messenger. Ο πράκτορας δεν στέλνει απλά συνδέσμους: <strong>εκτελεί ενέργειες (Action Taking)</strong>, όπως έκδοση voucher, ακύρωση παραγγελίας ή αποστολή τεχνικών προδιαγραφών.</p>
+
+      <h4>3. Interactive AI Video Avatars</h4>
+      <p>Για επιχειρήσεις που θέλουν να προσφέρουν premium, προσωποποιημένη εμπειρία, αναπτύσσουμε <strong>διαδραστικά AI Video Avatars</strong>. Φωτορεαλιστικοί ψηφιακοί εκπρόσωποι καλωσορίζουν τους επισκέπτες στην ιστοσελίδα, απαντούν με ζωντανό video και φωνή, και κάνουν διαδραστική visual επίδειξη προϊόντων.</p>
+
+      <h3>Συγκριτικός Πίνακας: Παραδοσιακό Chatbot vs Αυτόνομος AI Agent (SGK Digital)</h3>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+        <thead>
+          <tr style="background: #0f172a; text-align: left; color: #ffffff;">
+            <th style="padding: 12px; border: 1px solid #334155; color: #ffffff !important;">Χαρακτηριστικό</th>
+            <th style="padding: 12px; border: 1px solid #334155; color: #cbd5e1 !important;">Παραδοσιακό Chatbot</th>
+            <th style="padding: 12px; border: 1px solid #334155; color: #60a5fa !important; font-weight: bold;">Custom AI Agent (SGK)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Κανάλια Επικοινωνίας</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Μόνο κείμενο στο site</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Voice (Τηλεφωνία) + Chat + Video Avatars</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Κατανόηση Ελληνικών</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Μόνο ακριβείς προκαθορισμένες λέξεις</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">Άπταιστα φυσικά Ελληνικά & Greeklish (Greek NLP)</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Εκτέλεση Εργασιών (Actions)</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Καμία (μόνο εμφάνιση προκάτ κειμένου)</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Αυτόνομη καταχώρηση στο ERP, έκδοση vouchers, κλείσιμο ραντεβού</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ανάγκη Ανθρώπινης Επίβλεψης</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Συνεχής παραπομπή σε υπάλληλο</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">75% - 90% πλήρης αυτόνομη επίλυση</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Πώς Υλοποιεί η SGK Digital ένα Custom AI Project σε 4 Βήματα</h3>
+      <ol>
+        <li><strong>1. Ανάλυση Διαδικασιών & ROI Audit:</strong> Εντοπίζουμε τις 3 έως 5 εργασίες που καταναλώνουν τις περισσότερες ώρες της ομάδας σας και σχεδιάζουμε το αρχιτεκτονικό flow.</li>
+        <li><strong>2. Εκπαίδευση σε Εταιρικά Δεδομένα (Private RAG):</strong> Εισάγουμε τα εγχειρίδια, καταλόγους, τιμοκαταλόγους και FAQs σε ασφαλή vector database με πλήρη συμμόρφωση GDPR.</li>
+        <li><strong>3. Διασύνδεση με ERP, CRM & Τηλεφωνία:</strong> Συνδέουμε τον πράκτορα με το Softone/Entersoft, το τηλεφωνικό σας κέντρο και τα courier APIs.</li>
+        <li><strong>4. Fine-Tuning & Live Deployment:</strong> Δοκιμάζουμε εκατοντάδες πραγματικά σενάρια διαλόγων και θέτουμε τον πράκτορα σε παραγωγή με συνεχή παρακολούθηση (telemetry & logging).</li>
+      </ol>
+
+      <h3>Συμπέρασμα: Αποκτήστε το Δικό σας Αυτόνομο Ψηφιακό Προσωπικό</h3>
+      <p>Οι επιχειρήσεις που υιοθετούν Custom AI Agents σήμερα αποκτούν συντριπτικό ανταγωνιστικό πλεονέκτημα σε ταχύτητα, ποιότητα εξυπηρέτησης και μείωση λειτουργικού κόστους.</p>
+      
+      <p>Μιλήστε σήμερα με τους AI Engineers της <strong>SGK Digital</strong> για να σχεδιάσουμε τον δικό σας αυτόνομο πράκτορα. <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Επισκεφθείτε τη σελίδα AI Agents & Αυτοματισμών</a> ή <a href="/estimate" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">ζητήστε ένα δωρεάν Custom AI Demo τώρα</a>.</p>
+    `
   }
 ];
 

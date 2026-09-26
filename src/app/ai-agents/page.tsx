@@ -2,18 +2,23 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { ArrowRight, Bot, Workflow, MessageSquare, BarChart2, Layers, Cpu, CheckCircle, Zap, ShieldCheck, Sparkles, Check, Database, Code2 } from "lucide-react";
+import { 
+    ArrowRight, Bot, Workflow, MessageSquare, BarChart2, Layers, Cpu, 
+    CheckCircle, Zap, ShieldCheck, Sparkles, Check, Database, Code2, 
+    Phone, Video, Mic, Headphones, Users, TrendingUp, Clock, Settings2, 
+    Globe, FileText, CheckCircle2, ChevronRight, Activity, Award
+} from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "AI Agency Ελλάδα | AI Agents για Επιχειρήσεις & Custom Αυτοματισμοί | SGK Digital",
-    description: "Η κορυφαία AI Agency στην Ελλάδα. Ανάπτυξη Custom AI Agents (πράκτορες τεχνητής νοημοσύνης) & επιχειρηματικοί αυτοματισμοί. Customer service 24/7, ERP integration, GPT-4o, Claude & Gemini.",
-    keywords: "ai agency, ai agency ελλαδα, ai agents ελλαδα, ai agent τι ειναι, custom αυτοματισμοι ελλαδα, ε αγεντσ, e agents, agents, τεχνητη νοημοσυνη επιχειρησεις, agentic ai greece, ai automation greece, generative ai solutions, ai chatbot ελλαδα",
+    title: "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | Voice, Chat & Video AI | SGK Digital",
+    description: "Η #1 AI Agency στην Ελλάδα. Κατασκευή custom AI agents & επιχειρηματικών αυτοματισμών που εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. 24/7 εξυπηρέτηση πελατών με Voice AI (τηλέφωνο), Smart Chat & AI Video Avatars.",
+    keywords: "κατασκευη ai agents, custom ai για επιχειρησεις, custom ai ελλαδα, ai agents χωρις υπαλληλους, αυτονομοι ai agents, voice ai agents ελλαδα, ai τηλεφωνικη εξυπηρετηση, ai chatbot ελλαδα, ai video avatars, εξυπηρετηση πελατων voice chat video, επιχειρηματικοι αυτοματισμοι ai, agentic ai greece, ai agency αθηνα, φωνητικοι πρακτορες ai, ai call center greece",
     alternates: {
         canonical: "https://sgk.gr/ai-agents",
     },
     openGraph: {
-        title: "AI Agency Ελλάδα | AI Agents για Επιχειρήσεις & Custom Αυτοματισμοί | SGK Digital",
-        description: "Η κορυφαία AI Agency στην Ελλάδα. Ανάπτυξη Custom AI Agents & αυτοματισμοί επιχειρήσεων. Customer service 24/7, ERP integration, GPT-4o, Claude & Gemini.",
+        title: "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | Voice, Chat, Video | SGK Digital",
+        description: "Η κορυφαία AI Agency στην Ελλάδα. Ανάπτυξη Custom AI Agents & αυτοματισμών που εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. Εξυπηρέτηση με Voice AI, Smart Chat & Video.",
         url: "https://sgk.gr/ai-agents",
         type: "website",
         images: ["https://sgk.gr/social-preview.png"],
@@ -21,8 +26,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "AI Agency Ελλάδα | AI Agents & Custom Αυτοματισμοί | SGK Digital",
-        description: "Custom AI agents για ελληνικές επιχειρήσεις. Αυτοματισμοί διαδικασιών, chatbots, ERP & e-commerce integrations.",
+        title: "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | SGK Digital",
+        description: "Custom AI agents & αυτοματισμοί για ελληνικές επιχειρήσεις. Αυτόνομη εκτέλεση εργασιών, Voice AI τηλεφωνία, Smart Chat & Video Avatars.",
         images: ["https://sgk.gr/social-preview.png"],
     },
 };
@@ -30,7 +35,7 @@ export const metadata: Metadata = {
 const agencySchema = {
     "@context": "https://schema.org",
     "@type": ["ProfessionalService", "Organization"],
-    "name": "SGK Digital - AI Agency & AI Agents Greece",
+    "name": "SGK Digital - AI Agency & Custom AI Agents Greece",
     "url": "https://sgk.gr/ai-agents",
     "logo": "https://sgk.gr/logo.png",
     "image": "https://sgk.gr/social-preview.png",
@@ -47,20 +52,21 @@ const agencySchema = {
     "areaServed": "GR",
     "priceRange": "€€€",
     "serviceType": [
-        "AI Agency",
-        "AI Agents Development",
-        "Custom Business Automations",
-        "Agentic AI Workflows",
-        "AI Customer Service Chatbots",
-        "Generative AI Consulting"
+        "Κατασκευή Custom AI Agents",
+        "Voice AI Telephony & Phone Call Agents",
+        "Omnichannel Chat AI Agents",
+        "AI Video Avatars & Customer Support",
+        "Αυτόνομοι Πράκτορες Χωρίς Υπαλλήλους",
+        "Custom Business Automations (n8n & LangGraph)",
+        "ERP & CRM AI Integrations (Softone, Entersoft)"
     ],
-    "description": "Εξειδικευμένη AI Agency στην Ελλάδα για σχεδιασμό και υλοποίηση αυτόνομων AI agents, επιχειρηματικών αυτοματισμών και λύσεων τεχνητής νοημοσύνης."
+    "description": "Ηγετική AI Agency στην Ελλάδα για σχεδιασμό και υλοποίηση αυτόνομων AI agents, φωνητικών πρακτόρων τηλεφωνίας (Voice AI), video avatars και επιχειρηματικών αυτοματισμών που αντικαθιστούν χειροκίνητες εργασίες."
 };
 
 const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "serviceType": "AI Agents & Business Automation Development",
+    "serviceType": "Custom AI Agents Development & Business Automation",
     "provider": {
         "@type": "Organization",
         "name": "SGK Software Development"
@@ -71,13 +77,14 @@ const serviceSchema = {
     },
     "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "AI Agent Solutions",
+        "name": "AI Agent Solutions & Automation",
         "itemListElement": [
             {
                 "@type": "Offer",
                 "itemOffered": {
                     "@type": "Service",
-                    "name": "Starter AI Agent"
+                    "name": "Smart Chat AI Agent (Web & Social)",
+                    "description": "Αυτόνομος chat agent για WhatsApp, Instagram, Messenger & Website με διασύνδεση ERP και tracking courier."
                 },
                 "price": "1000",
                 "priceCurrency": "EUR"
@@ -86,7 +93,8 @@ const serviceSchema = {
                 "@type": "Offer",
                 "itemOffered": {
                     "@type": "Service",
-                    "name": "Business AI Agent"
+                    "name": "Voice AI Telephony Agent (Τηλεφωνικό Κέντρο)",
+                    "description": "Φωνητικός AI πράκτορας για τηλεφωνικά κέντρα PBX/VoIP με άπταιστα φυσικά Ελληνικά, διαχείριση εισερχόμενων/εξερχόμενων κλήσεων και κλείσιμο ραντεβού."
                 },
                 "price": "2500",
                 "priceCurrency": "EUR"
@@ -95,7 +103,8 @@ const serviceSchema = {
                 "@type": "Offer",
                 "itemOffered": {
                     "@type": "Service",
-                    "name": "Enterprise Multi-Agent System"
+                    "name": "Autonomous Workforce & Video AI System",
+                    "description": "Ολοκληρωμένο Multi-Agent οικοσύστημα με Video Avatars, αυτόνομη εκτέλεση εργασιών γραφείου χωρίς υπαλλήλους και πλήρη διασύνδεση ERP/CRM."
                 },
                 "price": "8000",
                 "priceCurrency": "EUR"
@@ -110,50 +119,50 @@ const faqSchema = {
     "mainEntity": [
         {
             "@type": "Question",
-            "name": "Τι είναι ένας AI Agent (AI Agent τι είναι);",
+            "name": "Πώς μπορούν οι AI agents να εκτελούν εργασίες μόνοι τους χωρίς υπαλλήλους;",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Ένας AI Agent (πράκτορας τεχνητής νοημοσύνης) είναι ένα αυτόνομο λογισμικό που αξιοποιεί Μεγάλα Γλωσσικά Μοντέλα (LLMs) για να κατανοεί στόχους, να σχεδιάζει βήματα, να εκτελεί εργασίες και να αλληλεπιδρά με εξωτερικά εργαλεία (APIs, CRM, ERP, databases) χωρίς ανθρώπινη παρέμβαση. Σε αντίθεση με ένα απλό chatbot που δίνει μόνο τυποποιημένες απαντήσεις, ο AI agent αναλαμβάνει δράση αυτόνομα."
+                "text": "Οι Αυτόνομοι AI Agents (Agentic AI) της SGK Digital δεν περιορίζονται στο να δίνουν απαντήσεις κειμένου. Διαθέτουν λειτουργία Tool Calling και Reasoning: μπορούν να συνδεθούν με τα λογισμικά της επιχείρησής σας (ERP Softone/Entersoft, CRM, databases, emails, courier APIs) και να εκτελέσουν αυτόνομα πολύπλοκα workflows — όπως ανάγνωση τιμολογίων PDF, καταχώρηση παραγγελιών, ενημέρωση αποθεμάτων, έκδοση voucher αποστολής και follow-up πωλήσεων 24 ώρες το 24ωρο χωρίς ανάγκη ανθρώπινης παρέμβασης."
             }
         },
         {
             "@type": "Question",
-            "name": "Τι είναι μια AI Agency και τι υπηρεσίες προσφέρει στην Ελλάδα;",
+            "name": "Πώς λειτουργεί η εξυπηρέτηση πελατών με Voice AI (φωνή), Chat και Video;",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Μια AI Agency (όπως η SGK Digital στην Αθήνα) είναι εξειδικευμένη εταιρεία τεχνολογίας που βοηθά επιχειρήσεις να ενσωματώσουν παραγωγική τεχνητή νοημοσύνη (Generative AI) και αυτόνομους πράκτορες στις καθημερινές τους διαδικασίες. Οι υπηρεσίες περιλαμβάνουν σχεδιασμό AI agents για 24/7 εξυπηρέτηση πελατών, διασύνδεση με ERP (Softone, Entersoft κ.α.), custom αυτοματισμούς workflows, data extraction, και στρατηγική AI συμβουλευτική."
+                "text": "Προσφέρουμε μια πλήρη τριπλή προσέγγιση (Tri-Modal Customer Experience): 1) Voice AI Agent: Συνδέεται απευθείας με το τηλεφωνικό κέντρο (PBX/VoIP) της εταιρείας σας, απαντά σε τηλεφωνικές κλήσεις σε 0.5s με απόλυτα φυσική ελληνική φωνή, κλείνει ραντεβού και επιλύει απορίες. 2) Smart Chat Agent: Ενοποιεί WhatsApp, Instagram DM, Facebook Messenger και Web Chat σε έναν ενιαίο εγκέφαλο με πρόσβαση στα δεδομένα των πελατών σας. 3) Interactive Video AI: Φωτορεαλιστικά AI avatars που υποδέχονται τους επισκέπτες στο site, παρουσιάζουν προϊόντα και κάνουν διαδραστικό video onboarding."
             }
         },
         {
             "@type": "Question",
-            "name": "Πώς βοηθούν οι custom αυτοματισμοί μια ελληνική επιχείρηση;",
+            "name": "Γιατί να επιλέξω την SGK Digital ως AI Agency στην Ελλάδα;",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Οι custom αυτοματισμοί εξαλείφουν τη χειροκίνητη εργασία και τα ανθρώπινα λάθη. Ενδεικτικά παραδείγματα: αυτόματη ενημέρωση αποθεμάτων σε eshop και marketplaces (Skroutz), αυτόματη έκδοση voucher courier (ACS, BoxNow, Speedex), αυτόματη καταχώρηση τιμολογίων και παραγγελιών στο ERP, και άμεση παρακολούθηση leads από social media και ιστοσελίδα."
+                "text": "Η SGK Digital είναι η πρώτη εξειδικευμένη AI Agency στην Ελλάδα που αναπτύσσει proprietary Custom AI pipelines και Voice Agents ειδικά βελτιστοποιημένους για την ελληνική γλώσσα (Greek NLP). Δεν πουλάμε έτοιμα wrappers τρίτων. Χτίζουμε custom αρχιτεκτονικές με LangGraph, n8n, OpenAI Realtime, ElevenLabs, Claude 3.5 Sonnet και διασύνδεση με ελληνικά ERP (Softone, Entersoft), τράπεζες και ελληνικές εταιρείες ταχυμεταφορών."
             }
         },
         {
             "@type": "Question",
-            "name": "Ποια είναι η διαφορά μεταξύ ενός απλού Chatbot και ενός Αυτόνομου AI Agent;",
+            "name": "Πόσο κοστίζει η κατασκευή Custom AI Agent και ποιο είναι το κέρδος (ROI);",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Το παραδοσιακό chatbot ακολουθεί προκαθορισμένα κουμπιά και σενάρια (if-then logic) και κολλάει σε οτιδήποτε απρόβλεπτο. Ο Αυτόνομος AI Agent διαθέτει συλλογιστική ικανότητα (reasoning), κατανοεί τη φυσική γλώσσα (Greek NLP), έχει πρόσβαση στα εταιρικά σας αρχεία και βάσεις δεδομένων (RAG), και μπορεί να ολοκληρώσει ενέργειες (π.χ. να ακυρώσει παραγγελία, να εκδώσει voucher ή να κλείσει ραντεβού)."
+                "text": "Το κόστος ξεκινά από 1.000€ για Chat AI Agents, 2.500€ για Voice AI Τηλεφωνικούς Πράκτορες και από 8.000€ για πλήρη συστήματα Autonomous Multi-Agent & Video. Το Return on Investment (ROI) είναι άμεσο (εντός 2-4 μηνών), καθώς ένας και μόνο AI agent αντικαθιστά ή εξοικονομεί το κόστος 2 έως 4 θέσεων εργασίας σε τηλεφωνική υποστήριξη, back-office καταχώρηση και lead generation."
             }
         },
         {
             "@type": "Question",
-            "name": "Πόσο κοστίζει η ανάπτυξη AI agent και ποιο είναι το ROI;",
+            "name": "Είναι ασφαλή τα εταιρικά δεδομένα της επιχείρησής μου (GDPR);",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Στην SGK Digital, ένα βασικό Starter AI Agent ξεκινά από 1.000€, ένας ολοκληρωμένος Business Agent με ERP/CRM integrations κυμαίνεται από 2.500€, ενώ enterprise λύσεις multi-agent ξεκινούν από 8.000€. Το Return on Investment (ROI) επιτυγχάνεται συνήθως εντός 3-6 μηνών, καθώς μειώνει το κόστος εξυπηρέτησης και διαχείρισης έως και 70%."
+                "text": "Απολύτως. Όλες οι λύσεις της SGK Digital συμμορφώνονται 100% με τον ευρωπαϊκό κανονισμό GDPR. Τα εταιρικά σας δεδομένα κρυπτογραφούνται σε ευρωπαϊκούς servers, δεν χρησιμοποιούνται ποτέ για εκπαίδευση δημόσιων μοντέλων, ενώ παρέχεται και δυνατότητα εγκατάστασης On-Premise / Private Cloud με open-source μοντέλα (Llama 3, DeepSeek)."
             }
         },
         {
             "@type": "Question",
-            "name": "Με ποιες τεχνολογίες αναπτύσσει AI agents η SGK Digital;",
+            "name": "Μπορεί ο Voice AI Agent να καλεί και εξερχόμενες κλήσεις (Outbound Calls);",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Χρησιμοποιούμε τα κορυφαία μοντέλα της αγοράς: OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, Google Gemini Pro, καθώς και open-source μοντέλα (Llama 3, DeepSeek) για on-premise ανάγκες. Για orchestration και ροές εργασίας χρησιμοποιούμε LangGraph, LangChain, n8n και Supabase Vector με πλήρη ασφάλεια και συμμόρφωση GDPR."
+                "text": "Ναι! Ο Voice AI πράκτορας μπορεί να πραγματοποιεί μαζικές εξερχόμενες τηλεφωνικές κλήσεις για επιβεβαίωση παραγγελιών, υπενθύμιση ραντεβού (π.χ. σε ιατρεία, συνεργεία, ινστιτούτα), ενημέρωση για προσφορές και follow-up ανεκτέλεστων καλαθιών, μιλώντας όπως ένας άριστα εκπαιδευμένος υπάλληλος."
             }
         }
     ]
@@ -164,53 +173,76 @@ const breadcrumbSchema = {
     "@type": "BreadcrumbList",
     "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://sgk.gr" },
-        { "@type": "ListItem", "position": 2, "name": "AI Agency & AI Agents", "item": "https://sgk.gr/ai-agents" }
+        { "@type": "ListItem", "position": 2, "name": "Κατασκευή AI Agents & Custom AI", "item": "https://sgk.gr/ai-agents" }
     ]
 };
 
-const useCases = [
+const modalities = [
     {
-        icon: <MessageSquare className="w-8 h-8 text-[#3b5bdb]" />,
-        title: "AI Customer Service Agent",
-        desc: "24/7 εξυπηρέτηση στα ελληνικά. Απαντά σε απορίες, εντοπίζει παραγγελίες μέσω courier APIs (ACS, BoxNow, Speedex), διαχειρίζεται επιστροφές και συνδέεται με WhatsApp & Web Chat.",
-        stats: "Έως -70% κόστος support",
-        industries: ["eCommerce", "Ξενοδοχεία", "Υπηρεσίες", "Real Estate"],
+        icon: <Phone className="w-9 h-9 text-[#3b5bdb]" />,
+        badge: "Voice AI • Τηλεφωνία",
+        title: "Voice AI Agents (Τηλεφωνικό Κέντρο)",
+        desc: "Φωνητικοί πράκτορες που απαντούν αυτόνομα στο τηλέφωνο σε 0.5s με φυσική ελληνική ομιλία. Διαχειρίζονται εισερχόμενες & εξερχόμενες κλήσεις, κλείνουν ραντεβού και συνδέονται απευθείας με το PBX/VoIP σας.",
+        features: [
+            "Απόλυτα φυσική ελληνική φωνή (human prosody)",
+            "Σύνδεση με Asterisk, 3CX, VoIP & Cloud PBX",
+            "Inbound υποστήριξη & Outbound follow-up κλήσεις",
+            "Αυτόματη ταυτοποίηση πελάτη & άντληση στοιχείων"
+        ],
+        highlight: "Μηδέν χαμένες κλήσεις πελατών",
+        color: "border-blue-500/30 bg-blue-50/40"
     },
     {
-        icon: <Workflow className="w-8 h-8 text-[#3b5bdb]" />,
-        title: "AI Sales & Lead Qualification Agent",
-        desc: "Αξιολογεί leads σε πραγματικό χρόνο, συλλέγει απαιτήσεις πελατών, απαντά σε τεχνικές απορίες και κλείνει αυτόματα ραντεβού στο calendar της ομάδας πωλήσεων.",
-        stats: "+40% Conversion Rate",
-        industries: ["B2B", "SaaS", "Ασφάλειες", "Real Estate"],
+        icon: <MessageSquare className="w-9 h-9 text-emerald-600" />,
+        badge: "Smart Chat • Omnichannel",
+        title: "Smart Chat AI Agents (Web, WhatsApp, Social)",
+        desc: "Ένας ενιαίος AI εγκέφαλος που εξυπηρετεί πελάτες ταυτόχρονα σε Live Web Chat, WhatsApp Business, Instagram DM και Facebook Messenger με άμεση επίλυση και εκτέλεση ενεργειών.",
+        features: [
+            "Σύνδεση με Softone, Entersoft & ERPs",
+            "Courier API tracking (ACS, BoxNow, Speedex)",
+            "Αυτόματη έκδοση voucher και τροποποίηση παραγγελίας",
+            "Πλήρες εταιρικό RAG χωρίς ανακρίβειες"
+        ],
+        highlight: "Έως -75% φόρτος γραφείου υποστήριξης",
+        color: "border-emerald-500/30 bg-emerald-50/40"
     },
     {
-        icon: <BarChart2 className="w-8 h-8 text-[#3b5bdb]" />,
-        title: "AI E-Commerce Operations Agent",
-        desc: "Παρακολουθεί Skroutz & eshop, διαχειρίζεται αποθέματα, εντοπίζει έλλειψη κερδοφορίας και δημιουργεί αυτόματα reports management με φυσική γλώσσα.",
-        stats: "15+ ώρες εξοικονόμηση/εβδομάδα",
-        industries: ["eCommerce", "Χονδρική", "F&B", "Retail"],
+        icon: <Video className="w-9 h-9 text-purple-600" />,
+        badge: "Video AI • Avatars",
+        title: "Interactive Video AI Agents (Avatars)",
+        desc: "Φωτορεαλιστικά AI avatars που υποδέχονται επισκέπτες στην ιστοσελίδα σας με ζωντανό video. Παρουσιάζουν προϊόντα, καθοδηγούν visual on-boarding και απαντούν σε ερωτήσεις πρόσωπο με πρόσωπο.",
+        features: [
+            "Φωτορεαλιστικά ψηφιακά avatars υψηλής πιστότητας",
+            "Διαδραστική παρουσίαση προϊόντων & demos",
+            "Visual Step-by-step Onboarding πελατών",
+            "Αύξηση εμπιστοσύνης & Conversion Rate στο site"
+        ],
+        highlight: "+45% Αύξηση Engagement επισκεπτών",
+        color: "border-purple-500/30 bg-purple-50/40"
+    }
+];
+
+const autonomousTasks = [
+    {
+        icon: <Database className="w-6 h-6 text-[#3b5bdb]" />,
+        title: "Αυτόματο Back-Office & Καταχώρηση ERP",
+        desc: "Ο AI agent διαβάζει τιμολόγια PDF από emails (OCR), ελέγχει γραμμές παραγγελίας και τα καταχωρεί απευθείας στο Softone/Entersoft χωρίς ανθρώπινο χέρι."
     },
     {
-        icon: <Layers className="w-8 h-8 text-[#3b5bdb]" />,
-        title: "AI HR & Recruitment Agent",
-        desc: "Αυτόματη ανάλυση βιογραφικών (CV parsing), αξιολόγηση υποψηφίων βάσει job description και διεξαγωγή πρώτης AI συνέντευξης (όπως το project REKRUA).",
-        stats: "-60% χρόνος πρόσληψης",
-        industries: ["HR Agencies", "Μεγάλες Εταιρείες", "Startups"],
+        icon: <TrendingUp className="w-6 h-6 text-emerald-600" />,
+        title: "Αυτόνομο Sales & Lead Qualification",
+        desc: "Συλλέγει επισκέπτες από web & social, κάνει screening αναγκών με βάση προκαθορισμένα κριτήρια και κλείνει αυτόματα ραντεβού στο calendar των πωλήσεών σας."
     },
     {
-        icon: <Zap className="w-8 h-8 text-[#3b5bdb]" />,
-        title: "Custom Αυτοματισμοί Διαδικασιών (n8n / LangGraph)",
-        desc: "Αυτόματη εξαγωγή δεδομένων από τιμολόγια PDF, καταχώρηση στο ERP (Softone/Entersoft), ενημέρωση CRM και αυτόματη αποστολή ειδοποιήσεων σε πελάτες.",
-        stats: "Μηδενικά ανθρώπινα λάθη",
-        industries: ["Λογιστήρια", "Logistics", "Ναυτιλία", "Βιομηχανία"],
+        icon: <Activity className="w-6 h-6 text-amber-600" />,
+        title: "E-Commerce Operations & Inventory AI",
+        desc: "Παρακολουθεί τιμές ανταγωνισμού στο Skroutz, συγχρονίζει αποθέματα, εντοπίζει ελλείψεις και συντάσσει αυτόματες παραγγελίες προς προμηθευτές."
     },
     {
-        icon: <Cpu className="w-8 h-8 text-[#3b5bdb]" />,
-        title: "Computer Vision & Visual AI Agents",
-        desc: "Αναγνώριση εικόνων, πιστοποίηση εργασιών τεχνικών στο πεδίο (όπως το σύστημα KM-FIBER για συνεργάτες Cosmote) και αυτόματη ταξινόμηση εγγράφων.",
-        stats: "Real-time ποιοτικός έλεγχος",
-        industries: ["Τηλεπικοινωνίες", "Κατασκευές", "Ιατρικά", "Security"],
-    },
+        icon: <Users className="w-6 h-6 text-indigo-600" />,
+        title: "HR Screening & Συνεντεύξεις Υποψηφίων",
+        desc: "Αξιολογεί εκατοντάδες βιογραφικά σε δευτερόλεπτα, βαθμολογεί σύμφωνα με το job post και διεξάγει την πρώτη interactive συνέντευξη μέσω chat ή video."
+    }
 ];
 
 export default function AIAgentsPage() {
@@ -231,211 +263,294 @@ export default function AIAgentsPage() {
                             <ol className="flex items-center gap-2">
                                 <li><Link href="/" className="hover:text-black transition-colors">Αρχική</Link></li>
                                 <li className="text-gray-400">/</li>
-                                <li className="text-black font-medium">AI Agency & AI Agents</li>
+                                <li className="text-black font-medium">Κατασκευή AI Agents & Custom AI</li>
                             </ol>
                         </nav>
                     </div>
 
-                    {/* Hero */}
+                    {/* HERO SECTION */}
                     <section className="container mx-auto px-6 py-16 md:py-24">
                         <div className="max-w-4xl">
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#3b5bdb] font-semibold text-xs tracking-wider uppercase mb-6">
-                                <Sparkles className="w-3.5 h-3.5" />
-                                #1 AI Agency στην Ελλάδα • Agentic AI & Custom Αυτοματισμοί
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/70 border border-blue-300 text-[#2546b8] font-bold text-xs tracking-wider uppercase mb-6 shadow-sm">
+                                <Sparkles className="w-4 h-4 text-[#3b5bdb]" />
+                                #1 AI Agency στην Ελλάδα • Custom AI Agents & Αυτοματισμοί
                             </div>
-                            <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-tight text-black mb-6">
-                                AI Agency & Custom<br />
-                                <span className="font-normal text-[#3b5bdb]">AI Agents για Επιχειρήσεις</span>
+                            
+                            <h1 className="text-4xl sm:text-6xl md:text-7xl font-light tracking-tight leading-[1.1] text-black mb-6">
+                                Κατασκευή AI Agents & Custom AI <br />
+                                <span className="font-normal text-[#3b5bdb]">Που Εργάζονται Χωρίς Υπαλλήλους</span>
                             </h1>
-                            <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-3xl font-light">
-                                Στην <strong>SGK Digital</strong> αναπτύσσουμε αυτόνομους <strong className="font-medium text-black">AI Agents</strong> και προηγμένους <strong className="font-medium text-black">επιχειρηματικούς αυτοματισμούς</strong>. Όχι απλά chatbots — έξυπνους πράκτορες που εκτελούν εργασίες, συνδέονται με ERP/CRM, εξυπηρετούν πελάτες 24/7 και μειώνουν το κόστος λειτουργίας έως <strong>70%</strong>.
+
+                            <p className="text-xl sm:text-2xl text-gray-700 leading-relaxed mb-6 max-w-3xl font-light">
+                                Στην <strong>SGK Digital</strong> κατασκευάζουμε αυτόνομους <strong>AI Agents</strong> και custom συστήματα τεχνητής νοημοσύνης που εκτελούν εργασίες <strong>μόνοι τους</strong> — χωρίς ανθρώπινα λάθη, 24 ώρες το 24ωρο, 365 ημέρες τον χρόνο.
                             </p>
+
+                            <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-10 max-w-3xl">
+                                Πλήρης εξυπηρέτηση πελατών επόμενης γενιάς με <strong>Voice AI</strong> (τηλεφωνικές κλήσεις σε φυσικά ελληνικά), <strong>Smart Chat</strong> (WhatsApp & Web) και <strong>Video AI Avatars</strong>, με άμεση διασύνδεση στο ERP και τα εργαλεία σας.
+                            </p>
+
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Link href="/estimate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-medium rounded-lg transition-all duration-300 text-lg shadow-sm">
+                                <Link 
+                                    href="/estimate" 
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold rounded-xl transition-all duration-300 text-lg shadow-xl shadow-blue-500/20 hover:scale-105"
+                                >
                                     Ζητήστε Custom AI Demo <ArrowRight className="w-5 h-5" />
                                 </Link>
-                                <Link href="/blog/ti-einai-ai-agents-epicheiriseis" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-all duration-300 text-lg shadow-sm">
-                                    AI Agent: Τι είναι & πώς λειτουργεί;
-                                </Link>
+                                <a 
+                                    href="tel:2111140013" 
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-gray-300 hover:bg-gray-50 text-gray-900 font-bold rounded-xl transition-all duration-300 text-lg shadow-sm"
+                                >
+                                    <Phone className="w-5 h-5 text-[#3b5bdb]" /> 211 114 0013
+                                </a>
+                            </div>
+
+                            {/* Trust badges */}
+                            <div className="mt-10 flex flex-wrap items-center gap-6 text-xs text-gray-600 font-medium">
+                                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> 100% Φυσική Ελληνική Γλώσσα</span>
+                                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Διασύνδεση Softone / Entersoft / ERP</span>
+                                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> 100% GDPR & Private Data</span>
+                                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> 24/7/365 Αδιάλειπτη Λειτουργία</span>
                             </div>
                         </div>
                     </section>
 
-                    {/* Stats Bar */}
-                    <section className="border-y border-gray-250 py-12 bg-white/70">
+                    {/* STATS HIGHLIGHT */}
+                    <section className="border-y border-gray-250 py-10 bg-white/80">
                         <div className="container mx-auto px-6">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                {[
-                                    { value: "70%", label: "Μείωση κόστους εξυπηρέτησης" },
-                                    { value: "24/7", label: "Αδιάλειπτη λειτουργία σε WhatsApp & Web" },
-                                    { value: "0.8s", label: "Μέσος χρόνος απόκρισης AI" },
-                                    { value: "100%", label: "Ελληνική γλώσσα & GDPR Compliance" },
-                                ].map((stat) => (
-                                    <div key={stat.label} className="text-center">
-                                        <p className="text-4xl font-bold text-[#3b5bdb] mb-2">{stat.value}</p>
-                                        <p className="text-sm text-gray-600 font-medium">{stat.label}</p>
-                                    </div>
-                                ))}
+                                <div className="text-center">
+                                    <p className="text-4xl sm:text-5xl font-black text-[#3b5bdb] mb-1">0.3s</p>
+                                    <p className="text-xs sm:text-sm text-gray-700 font-bold">Ταχύτητα Απόκρισης Voice & Chat</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-4xl sm:text-5xl font-black text-[#3b5bdb] mb-1">-70%</p>
+                                    <p className="text-xs sm:text-sm text-gray-700 font-bold">Μείωση Κόστους Λειτουργίας</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-4xl sm:text-5xl font-black text-[#3b5bdb] mb-1">24/7</p>
+                                    <p className="text-xs sm:text-sm text-gray-700 font-bold">Εξυπηρέτηση Χωρίς Υπαλλήλους</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-4xl sm:text-5xl font-black text-[#3b5bdb] mb-1">100%</p>
+                                    <p className="text-xs sm:text-sm text-gray-700 font-bold">Αυτοματοποιημένες Διαδικασίες</p>
+                                </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* Definitive Guide / Knowledge Block for SEO & LLM Queries */}
+                    {/* THE 3 MODALITIES OF NEXT-GEN CUSTOMER SERVICE (VOICE, CHAT, VIDEO) */}
                     <section className="container mx-auto px-6 py-20">
-                        <div className="max-w-4xl mx-auto space-y-12">
-                            
-                            {/* What is AI Agent Card */}
-                            <div className="bg-white border border-gray-250 p-8 md:p-12 rounded-xl shadow-sm">
-                                <div className="flex items-center gap-3 mb-4 text-[#3b5bdb]">
-                                    <Bot className="w-8 h-8" />
-                                    <span className="text-xs font-bold uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded">Εκπαιδευτικός Οδηγός</span>
-                                </div>
-                                <h2 className="text-3xl md:text-4xl font-light text-black mb-6">
-                                    AI Agent: Τι είναι και πώς λειτουργεί;
-                                </h2>
-                                <div className="prose prose-lg max-w-none text-gray-600 space-y-4 font-light leading-relaxed">
-                                    <p>
-                                        Ο όρος <strong>AI Agent (πράκτορας τεχνητής νοημοσύνης)</strong> περιγράφει ένα αυτόνομο σύστημα λογισμικού που χρησιμοποιεί Μεγάλα Γλωσσικά Μοντέλα (Large Language Models όπως GPT-4o, Claude 3.5 Sonnet, Gemini Pro) ώστε να αναλαμβάνει <strong>στόχους (goals)</strong> αντί για απλές εντολές.
-                                    </p>
-                                    <p>
-                                        Σε αντίθεση με τα παραδοσιακά chatbots που εμφανίζουν προκαθορισμένα κείμενα, ένας σύγχρονος <strong>AI Agent</strong> διαθέτει:
-                                    </p>
-                                    <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                                        <li><strong>Συλλογιστική Ικανότητα (Reasoning):</strong> Αναλύει το αίτημα του χρήστη και σχεδιάζει ποια βήματα απαιτούνται για να το εκτελέσει.</li>
-                                        <li><strong>Εργαλεία & APIs (Tool Calling):</strong> Μπορεί να καλέσει εξωτερικές υπηρεσίες — να αναζητήσει ένα tracking number στην ACS ή στο BoxNow, να ελέγξει απόθεμα στο ERP, ή να δημιουργήσει παραγγελία.</li>
-                                        <li><strong>Μνήμη & Εταιρικό RAG (Retrieval-Augmented Generation):</strong> Διαβάζει τα δικά σας εταιρικά έγγραφα, PDFs και βάσεις δεδομένων, απαντώντας με ακρίβεια 100% χωρίς "παραισθήσεις" (hallucinations).</li>
+                        <div className="text-center max-w-3xl mx-auto mb-16">
+                            <span className="text-xs font-black uppercase tracking-widest text-[#3b5bdb] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                                Τριπλη Υπεροχη AI Εξυπηρετησης
+                            </span>
+                            <h2 className="text-3xl sm:text-5xl font-light text-black mt-3 mb-4">
+                                Εξυπηρέτηση Πελατών με <br />
+                                <span className="font-normal text-[#3b5bdb]">Voice (Φωνή), Chat & Video AI</span>
+                            </h2>
+                            <p className="text-gray-600 font-light text-base sm:text-lg">
+                                Οι πελάτες σας επιλέγουν πώς θέλουν να επικοινωνήσουν. Οι AI Agents της SGK Digital απαντούν παντού με ενιαία νοημοσύνη, ταχύτητα φωτός και μηδενική αναμονή.
+                            </p>
+                        </div>
+
+                        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                            {modalities.map((m, i) => (
+                                <div 
+                                    key={i} 
+                                    className={`p-8 sm:p-10 rounded-2xl border ${m.color} bg-white shadow-lg shadow-slate-200/50 flex flex-col relative transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
+                                >
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100">{m.icon}</div>
+                                        <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-slate-900 text-white">
+                                            {m.badge}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-black mb-3">{m.title}</h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed mb-6">{m.desc}</p>
+                                    
+                                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 mb-6 flex items-center gap-2">
+                                        <Sparkles className="w-4 h-4 text-[#3b5bdb] shrink-0" />
+                                        <span>{m.highlight}</span>
+                                    </div>
+
+                                    <ul className="space-y-2.5 mb-8 flex-1 border-t border-gray-100 pt-4">
+                                        {m.features.map((feat, fIdx) => (
+                                            <li key={fIdx} className="text-xs text-gray-700 flex items-start gap-2">
+                                                <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                                <span>{feat}</span>
+                                            </li>
+                                        ))}
                                     </ul>
+
+                                    <Link 
+                                        href="/estimate" 
+                                        className="w-full py-3.5 bg-slate-900 hover:bg-[#3b5bdb] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all text-center flex items-center justify-center gap-2"
+                                    >
+                                        <span>Δοκιμαστε το σε Demo</span>
+                                        <ArrowRight className="w-4 h-4" />
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* AUTONOMOUS AGENTS WITHOUT EMPLOYEES (AUTONOMOUS DIGITAL WORKFORCE) */}
+                    <section className="bg-slate-950 text-white py-24 border-y border-slate-800">
+                        <div className="container mx-auto px-6 max-w-6xl">
+                            <div className="grid lg:grid-cols-12 gap-12 items-center">
+                                <div className="lg:col-span-6 space-y-6">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs uppercase tracking-wider">
+                                        <Bot className="w-3.5 h-3.5" />
+                                        Autonomous Digital Workforce
+                                    </div>
+                                    
+                                    <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-tight italic">
+                                        Agents που κανουν εργασιες μονοι τους <br/>
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3b5bdb] via-cyan-400 to-emerald-400">
+                                            Χωρις Υπαλληλους
+                                        </span>
+                                    </h2>
+
+                                    <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+                                        Γιατί να επιβαρύνετε την επιχείρησή σας με επαναλαμβανόμενες χειροκίνητες εργασίες, καθυστερήσεις και λάθη καταχώρησης; 
+                                    </p>
+
+                                    <p className="text-slate-300 text-base leading-relaxed font-light">
+                                        Οι Custom AI Agents της <strong>SGK Digital</strong> λειτουργούν ως αυτόνομοι ψηφιακοί υπάλληλοι: διαβάζουν emails, αντλούν έγγραφα, συνομιλούν με πελάτες, ενημερώνουν το ERP σας, εκδίδουν vouchers και ολοκληρώνουν εργασίες <strong>σε δευτερόλεπτα αντί για ημέρες</strong>.
+                                    </p>
+
+                                    <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                                        <Link 
+                                            href="/estimate" 
+                                            className="px-8 py-4 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold rounded-xl transition-all text-sm uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                                        >
+                                            <span>Σχεδιασμος Custom AI για την Εταιρεια σας</span>
+                                            <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                    </div>
+                                </div>
+
+                                <div className="lg:col-span-6 grid sm:grid-cols-2 gap-4">
+                                    {autonomousTasks.map((t, i) => (
+                                        <div key={i} className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between">
+                                            <div>
+                                                <div className="w-10 h-10 rounded-xl bg-slate-800/80 flex items-center justify-center mb-4">
+                                                    {t.icon}
+                                                </div>
+                                                <h3 className="text-base font-bold text-white mb-2">{t.title}</h3>
+                                                <p className="text-xs text-slate-400 leading-relaxed">{t.desc}</p>
+                                            </div>
+                                            <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center gap-1.5 text-[11px] font-bold text-emerald-400">
+                                                <CheckCircle2 className="w-3.5 h-3.5" /> 100% Αυτόνομη Εκτέλεση
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
+                        </div>
+                    </section>
 
-                            {/* Comparison Table: Chatbot vs AI Agent */}
-                            <div className="bg-white border border-gray-250 p-8 md:p-12 rounded-xl shadow-sm">
-                                <h2 className="text-3xl font-light text-black mb-4">
-                                    Σύγκριση: Παραδοσιακό Chatbot vs Αυτόνομος AI Agent
+                    {/* COMPARISON TABLE: TRADITIONAL EMPLOYEE VS SGK AI AGENT */}
+                    <section className="container mx-auto px-6 py-20">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="text-center mb-12">
+                                <span className="text-xs font-black uppercase tracking-widest text-[#3b5bdb] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                                    Μετρησιμο Αποτελεσμα & ROI
+                                </span>
+                                <h2 className="text-3xl sm:text-4xl font-light text-black mt-3 mb-3">
+                                    Παραδοσιακός Υπάλληλος vs Αυτόνομος AI Agent (SGK)
                                 </h2>
-                                <p className="text-gray-500 mb-8 font-light">
-                                    Γιατί οι επιχειρήσεις εγκαταλείπουν τα απλά chatbots και στρέφονται στο <strong>Agentic AI</strong> της SGK Digital:
+                                <p className="text-gray-600 font-light text-sm sm:text-base">
+                                    Δείτε γιατί οι πιο κερδοφόρες επιχειρήσεις αυτοματοποιούν τα operations τους με Custom AI:
                                 </p>
-                                
+                            </div>
+
+                            <div className="bg-white border border-gray-250 rounded-2xl shadow-xl overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left text-sm border-collapse">
                                         <thead>
-                                            <tr className="border-b border-gray-300 bg-gray-50">
-                                                <th className="py-3 px-4 font-semibold text-gray-700">Χαρακτηριστικό</th>
-                                                <th className="py-3 px-4 font-semibold text-gray-500">Παραδοσιακό Chatbot</th>
-                                                <th className="py-3 px-4 font-semibold text-[#3b5bdb]">Αυτόνομος AI Agent (SGK)</th>
+                                            <tr className="border-b border-gray-200 bg-gray-50/80">
+                                                <th className="py-4 px-5 font-bold text-gray-700">Παράμετρος</th>
+                                                <th className="py-4 px-5 font-bold text-gray-500">Παραδοσιακός Υπάλληλος</th>
+                                                <th className="py-4 px-5 font-bold text-[#3b5bdb] bg-blue-50/50">Custom AI Agent SGK Digital</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             <tr>
-                                                <td className="py-3 px-4 font-medium text-black">Τρόπος Λειτουργίας</td>
-                                                <td className="py-3 px-4 text-gray-500">Προκαθορισμένα κουμπιά & if/else scripts</td>
-                                                <td className="py-3 px-4 text-black font-medium">Αυτόνομη συλλογιστική (LLM Reasoning)</td>
+                                                <td className="py-3.5 px-5 font-medium text-black">Ωράριο & Διαθεσιμότητα</td>
+                                                <td className="py-3.5 px-5 text-gray-500">8 ώρες / ημέρα (Άδειες, ασθένειες)</td>
+                                                <td className="py-3.5 px-5 text-emerald-700 font-bold bg-blue-50/30">24/7/365 Αδιάλειπτα Χωρίς Διακοπή</td>
                                             </tr>
-                                            <tr className="bg-gray-50/50">
-                                                <td className="py-3 px-4 font-medium text-black">Κατανόηση Ελληνικών</td>
-                                                <td className="py-3 px-4 text-gray-500">Περιορισμένη σε ακριβείς λέξεις-κλειδιά</td>
-                                                <td className="py-3 px-4 text-black font-medium">Άπταιστα φυσικά Ελληνικά & Greeklish</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="py-3 px-4 font-medium text-black">Εκτέλεση Ενεργειών (Actions)</td>
-                                                <td className="py-3 px-4 text-gray-500">Καμία (μόνο εμφάνιση κειμένου)</td>
-                                                <td className="py-3 px-4 text-black font-medium">Πλήρης (έκδοση voucher, CRM updates, APIs)</td>
-                                            </tr>
-                                            <tr className="bg-gray-50/50">
-                                                <td className="py-3 px-4 font-medium text-black">Διασύνδεση με ERP / E-shop</td>
-                                                <td className="py-3 px-4 text-gray-500">Δύσκολη ή αδύνατη</td>
-                                                <td className="py-3 px-4 text-black font-medium">Real-time sync με Softone, WooCommerce κ.α.</td>
+                                            <tr className="bg-gray-50/40">
+                                                <td className="py-3.5 px-5 font-medium text-black">Χρόνος Απόκρισης σε Πελάτες</td>
+                                                <td className="py-3.5 px-5 text-gray-500">5 έως 45 λεπτά αναμονή</td>
+                                                <td className="py-3.5 px-5 text-emerald-700 font-bold bg-blue-50/30">&lt; 0.5 δευτερόλεπτο (Ακαριαία)</td>
                                             </tr>
                                             <tr>
-                                                <td className="py-3 px-4 font-medium text-black">Επίλυση Αιτημάτων</td>
-                                                <td className="py-3 px-4 text-gray-500">Κάτω από 25%</td>
-                                                <td className="py-3 px-4 text-black font-medium">Έως και 75% αυτόνομη ολοκλήρωση</td>
+                                                <td className="py-3.5 px-5 font-medium text-black">Ταυτόχρονες Συνομιλίες / Κλήσεις</td>
+                                                <td className="py-3.5 px-5 text-gray-500">1 κλήση ή chat τη φορά</td>
+                                                <td className="py-3.5 px-5 text-emerald-700 font-bold bg-blue-50/30">Απεριόριστες ταυτόχρονες κλήσεις & chats</td>
+                                            </tr>
+                                            <tr className="bg-gray-50/40">
+                                                <td className="py-3.5 px-5 font-medium text-black">Σφάλματα Καταχώρησης (Data Entry)</td>
+                                                <td className="py-3.5 px-5 text-gray-500">Ανθρώπινα λάθη, κόπωση</td>
+                                                <td className="py-3.5 px-5 text-emerald-700 font-bold bg-blue-50/30">0% Σφάλματα (Απευθείας API validation)</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="py-3.5 px-5 font-medium text-black">Κόστος / Μήνα</td>
+                                                <td className="py-3.5 px-5 text-gray-500">Μισθός + Ασφαλιστικές Εισφορές</td>
+                                                <td className="py-3.5 px-5 text-emerald-700 font-bold bg-blue-50/30">Εφάπαξ επένδυση & ελάχιστο κόστος API</td>
+                                            </tr>
+                                            <tr className="bg-gray-50/40">
+                                                <td className="py-3.5 px-5 font-medium text-black">Εκπαίδευση σε Νέα Δεδομένα</td>
+                                                <td className="py-3.5 px-5 text-gray-500">Εβδομάδες σεμιναρίων</td>
+                                                <td className="py-3.5 px-5 text-emerald-700 font-bold bg-blue-50/30">Άμεση ενημέρωση RAG σε 5 λεπτά</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-
-                            {/* Custom Automations Section */}
-                            <div className="bg-white border border-gray-250 p-8 md:p-12 rounded-xl shadow-sm">
-                                <div className="flex items-center gap-3 mb-4 text-[#3b5bdb]">
-                                    <Workflow className="w-8 h-8" />
-                                    <span className="text-xs font-bold uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded">Business Automations</span>
-                                </div>
-                                <h2 className="text-3xl font-light text-black mb-6">
-                                    Custom Αυτοματισμοί Επιχειρήσεων στην Ελλάδα
-                                </h2>
-                                <p className="text-gray-600 mb-6 leading-relaxed font-light">
-                                    Κάθε επιχείρηση σπαταλά εκατοντάδες ώρες κάθε μήνα σε επαναλαμβανόμενες χειροκίνητες εργασίες: αντιγραφή στοιχείων από emails σε Excel, καταχώρηση παραγγελιών, αναζήτηση τιμολογίων, επικοινωνία με προμηθευτές.
-                                </p>
-                                <div className="grid sm:grid-cols-2 gap-6">
-                                    <div className="p-5 rounded-lg border border-gray-200 bg-gray-50/60">
-                                        <h3 className="font-bold text-black mb-2 flex items-center gap-2">
-                                            <Database className="w-4 h-4 text-[#3b5bdb]" /> Αυτοματοποίηση ERP & Τιμολόγησης
-                                        </h3>
-                                        <p className="text-sm text-gray-600">
-                                            Αυτόματη ανάγνωση τιμολογίων προμηθευτών (PDF OCR), έλεγχος συμφωνίας και καταχώρηση στο Softone/Entersoft χωρίς ανθρώπινο λάθος.
-                                        </p>
-                                    </div>
-                                    <div className="p-5 rounded-lg border border-gray-200 bg-gray-50/60">
-                                        <h3 className="font-bold text-black mb-2 flex items-center gap-2">
-                                            <Bot className="w-4 h-4 text-[#3b5bdb]" /> Omnichannel WhatsApp & Social AI
-                                        </h3>
-                                        <p className="text-sm text-gray-600">
-                                            Ενοποίηση μηνυμάτων από WhatsApp Business, Instagram DM και Facebook Messenger με έναν ενιαίο AI agent που απαντά ακαριαία.
-                                        </p>
-                                    </div>
-                                    <div className="p-5 rounded-lg border border-gray-200 bg-gray-50/60">
-                                        <h3 className="font-bold text-black mb-2 flex items-center gap-2">
-                                            <Code2 className="w-4 h-4 text-[#3b5bdb]" /> LangGraph & n8n Workflows
-                                        </h3>
-                                        <p className="text-sm text-gray-600">
-                                            Σύνθετα multi-agent pipelines όπου ένας πράκτορας ερευνά, ο δεύτερος συντάσσει και ο τρίτος ελέγχει τα δεδομένα πριν την αποστολή.
-                                        </p>
-                                    </div>
-                                    <div className="p-5 rounded-lg border border-gray-200 bg-gray-50/60">
-                                        <h3 className="font-bold text-black mb-2 flex items-center gap-2">
-                                            <ShieldCheck className="w-4 h-4 text-[#3b5bdb]" /> 100% GDPR & Data Privacy
-                                        </h3>
-                                        <p className="text-sm text-gray-600">
-                                            Τα εταιρικά σας δεδομένα παραμένουν απόλυτα ασφαλή και δεν χρησιμοποιούνται ποτέ για εκπαίδευση δημόσιων μοντέλων. Δυνατότητα On-Premise AI.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </section>
 
-                    {/* Use Cases */}
-                    <section className="bg-white/50 border-y border-gray-250 py-20">
-                        <div className="container mx-auto px-6">
-                            <div className="text-center max-w-3xl mx-auto mb-16">
-                                <h2 className="text-3xl md:text-5xl font-light text-black mb-4">Εφαρμογές AI Agents (Use Cases)</h2>
-                                <p className="text-gray-500 font-light text-lg">
-                                    Πραγματικές λύσεις που λειτουργούν σήμερα και παράγουν μετρήσιμα αποτελέσματα
-                                </p>
-                            </div>
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {useCases.map((uc) => (
-                                    <div key={uc.title} className="p-8 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/40 hover:shadow-md transition-all duration-300 shadow-sm flex flex-col">
-                                        <div className="w-12 h-12 mb-6 flex items-center justify-center bg-blue-50 rounded-lg">{uc.icon}</div>
-                                        <div className="text-xs font-bold text-[#3b5bdb] uppercase tracking-wider mb-2">{uc.stats}</div>
-                                        <h3 className="text-xl font-bold text-black mb-3">{uc.title}</h3>
-                                        <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-1">{uc.desc}</p>
-                                        <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-gray-100">
-                                            {uc.industries.map((ind) => (
-                                                <span key={ind} className="text-[10px] px-2.5 py-0.5 rounded-full bg-gray-100 border border-gray-200 text-gray-600 font-medium">{ind}</span>
-                                            ))}
-                                        </div>
+                    {/* ERP, CRM & TELEPHONY INTEGRATIONS */}
+                    <section className="container mx-auto px-6 py-16 bg-white/70 border-y border-gray-250">
+                        <div className="max-w-5xl mx-auto text-center space-y-6">
+                            <span className="text-xs font-black uppercase tracking-widest text-[#3b5bdb]">
+                                Απροσκοπτη Διασυνδεση με τα Συστηματα σας
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl font-light text-black">
+                                Σύνδεση με Ελληνικά ERP, CRM, Τηλεφωνία & Courier APIs
+                            </h2>
+                            <p className="text-gray-600 font-light max-w-3xl mx-auto text-sm sm:text-base">
+                                Οι AI agents δεν λειτουργούν απομονωμένοι. Συνδέονται απευθείας με τις υπάρχουσες υποδομές της επιχείρησής σας:
+                            </p>
+
+                            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 pt-6">
+                                {[
+                                    { name: "Softone ERP", type: "ERP & Billing" },
+                                    { name: "Entersoft", type: "Enterprise ERP" },
+                                    { name: "WooCommerce", type: "E-Commerce" },
+                                    { name: "Shopify", type: "E-Commerce" },
+                                    { name: "Asterisk / 3CX", type: "PBX Telephony" },
+                                    { name: "Twilio / SIP", type: "Voice Infrastructure" },
+                                    { name: "WhatsApp API", type: "Messaging" },
+                                    { name: "ACS Courier", type: "Voucher Tracking" },
+                                    { name: "BoxNow API", type: "Locker Tracking" },
+                                    { name: "Speedex", type: "Courier API" },
+                                    { name: "HubSpot / Zoho", type: "CRM Systems" },
+                                    { name: "LangGraph / n8n", type: "Automation Core" }
+                                ].map((sys, idx) => (
+                                    <div key={idx} className="p-3.5 rounded-xl border border-gray-200 bg-white shadow-sm text-center">
+                                        <div className="font-bold text-xs text-black">{sys.name}</div>
+                                        <div className="text-[10px] text-gray-500">{sys.type}</div>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* Real Case Studies Section */}
+                    {/* CASE STUDIES */}
                     <section className="container mx-auto px-6 py-20">
                         <div className="max-w-4xl mx-auto">
                             <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">
@@ -446,7 +561,7 @@ export default function AIAgentsPage() {
                             </p>
                             <div className="grid md:grid-cols-2 gap-6">
                                 <Link href="/case-study/sigmalabs-ai" className="p-8 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
-                                    <span className="text-xs font-bold text-[#3b5bdb] uppercase tracking-wider">eCommerce AI Agent</span>
+                                    <span className="text-xs font-bold text-[#3b5bdb] uppercase tracking-wider">eCommerce AI Operations</span>
                                     <h3 className="text-2xl font-bold text-black mt-2 mb-3 group-hover:text-[#3b5bdb] transition-colors">Sigmalabs AI</h3>
                                     <p className="text-sm text-gray-600 leading-relaxed mb-4">
                                         Αυτόνομος AI πράκτορας που διαχειρίζεται παραγγελίες Skroutz & WooCommerce, αναλύει πωλήσεις και εντοπίζει anomalies. Εξοικονόμηση 15+ ωρών/εβδομάδα.
@@ -481,31 +596,68 @@ export default function AIAgentsPage() {
                         </div>
                     </section>
 
-                    {/* Pricing */}
+                    {/* PRICING & TIERS */}
                     <section className="container mx-auto px-6 py-20 bg-white/40 border-t border-gray-250">
-                        <div className="max-w-4xl mx-auto">
-                            <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">Πακέτα Ανάπτυξης AI Agents & Αυτοματισμών</h2>
+                        <div className="max-w-5xl mx-auto">
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">Πακέτα Custom AI Agents & Αυτοματισμών</h2>
                             <p className="text-gray-500 text-center mb-16 font-light">Επιλέξτε τη λύση που ανταποκρίνεται στο μέγεθος της επιχείρησής σας</p>
+                            
                             <div className="grid md:grid-cols-3 gap-8">
                                 {[
-                                    { name: "Starter AI Agent", price: "από 1.000€", features: ["1 Εξειδικευμένος AI Agent", "Εκπαίδευση σε δικά σας αρχεία (RAG)", "Ενσωμάτωση σε Website Widget", "Αποστολή email ειδοποιήσεων", "3 μήνες τεχνική υποστήριξη"], highlight: false },
-                                    { name: "Business AI Agent", price: "από 2.500€", features: ["Multi-step Αυτόνομος Agent", "Διασύνδεση με CRM / ERP / E-shop", "Σύνδεση με WhatsApp & Social", "Courier API tracking (ACS, BoxNow)", "Analytics Dashboard & Reports", "6 μήνες υποστήριξη & tuning"], highlight: true },
-                                    { name: "Enterprise Multi-Agent", price: "από 8.000€", features: ["Multi-Agent Architecture (LangGraph)", "Πλήρεις Custom Αυτοματισμοί n8n", "Δυνατότητα On-Premise / Private Cloud", "Fine-Tuning σε ιδιωτικά μοντέλα", "Αυστηρό SLA & 12 μήνες υποστήριξη"], highlight: false },
+                                    { 
+                                        name: "Smart Chat AI Agent", 
+                                        price: "από 1.000€", 
+                                        features: [
+                                            "1 Omnichannel AI Chat Agent", 
+                                            "Εκπαίδευση σε εταιρικά αρχεία (RAG)", 
+                                            "Ενσωμάτωση σε Web Widget & WhatsApp", 
+                                            "Αποστολή email ειδοποιήσεων", 
+                                            "3 μήνες τεχνική υποστήριξη"
+                                        ], 
+                                        highlight: false 
+                                    },
+                                    { 
+                                        name: "Voice AI & Telephony", 
+                                        price: "από 2.500€", 
+                                        features: [
+                                            "Πλήρης Voice AI Agent (Φωνητικό Κέντρο)", 
+                                            "Σύνδεση με PBX / VoIP / Τηλεφωνία", 
+                                            "Διασύνδεση με CRM / ERP / E-shop", 
+                                            "Inbound & Outbound Calling", 
+                                            "Courier API tracking (ACS, BoxNow)", 
+                                            "Analytics Dashboard & Voice Recording", 
+                                            "6 μήνες υποστήριξη & prompt tuning"
+                                        ], 
+                                        highlight: true 
+                                    },
+                                    { 
+                                        name: "Autonomous Workforce & Video", 
+                                        price: "από 8.000€", 
+                                        features: [
+                                            "Multi-Agent Architecture (LangGraph)", 
+                                            "Interactive Video AI Avatars", 
+                                            "Αυτόνομη εκτέλεση χωρίς υπαλλήλους", 
+                                            "Πλήρεις Custom Αυτοματισμοί n8n & ERP", 
+                                            "Δυνατότητα On-Premise / Private Cloud", 
+                                            "Αυστηρό SLA & 12 μήνες υποστήριξη"
+                                        ], 
+                                        highlight: false 
+                                    },
                                 ].map((pkg) => (
-                                    <div key={pkg.name} className={`p-8 rounded-xl border ${pkg.highlight ? 'border-[#3b5bdb] bg-[#3b5bdb] text-white shadow-xl shadow-blue-100 scale-105' : 'border-gray-250 bg-white text-black shadow-sm'} flex flex-col`}>
-                                        {pkg.highlight && <span className="text-[10px] font-bold uppercase tracking-wider text-white mb-2 self-start bg-blue-700 px-2 py-0.5 rounded-full">Δημοφιλέστερο</span>}
+                                    <div key={pkg.name} className={`p-8 rounded-2xl border ${pkg.highlight ? 'border-[#3b5bdb] bg-[#3b5bdb] text-white shadow-xl shadow-blue-200 scale-105' : 'border-gray-250 bg-white text-black shadow-sm'} flex flex-col`}>
+                                        {pkg.highlight && <span className="text-[10px] font-bold uppercase tracking-wider text-white mb-2 self-start bg-blue-700 px-2.5 py-0.5 rounded-full">Κορυφαια Επιλογη</span>}
                                         <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
-                                        <p className={`text-3xl font-bold mb-8 ${pkg.highlight ? 'text-white' : 'text-[#3b5bdb]'}`}>{pkg.price}</p>
+                                        <p className={`text-3xl font-black mb-8 ${pkg.highlight ? 'text-white' : 'text-[#3b5bdb]'}`}>{pkg.price}</p>
                                         <ul className="space-y-3 mb-8 flex-1">
                                             {pkg.features.map((f) => (
-                                                <li key={f} className={`flex items-center gap-3 text-sm ${pkg.highlight ? 'text-white/95' : 'text-gray-600'}`}>
-                                                    <CheckCircle className={`w-4 h-4 flex-shrink-0 ${pkg.highlight ? 'text-[#4ade80]' : 'text-[#3b5bdb]'}`} />
-                                                    {f}
+                                                <li key={f} className={`flex items-start gap-3 text-xs sm:text-sm ${pkg.highlight ? 'text-white/95' : 'text-gray-600'}`}>
+                                                    <CheckCircle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${pkg.highlight ? 'text-[#4ade80]' : 'text-[#3b5bdb]'}`} />
+                                                    <span>{f}</span>
                                                 </li>
                                             ))}
                                         </ul>
-                                        <Link href="/estimate" className={`w-full text-center py-3 px-6 font-medium rounded-lg transition-all duration-300 text-sm ${pkg.highlight ? 'bg-[#4ade80] text-black hover:bg-[#22c55e] font-bold shadow-md' : 'bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 shadow-sm'}`}>
-                                            Ζητήστε Προσφορά
+                                        <Link href="/estimate" className={`w-full text-center py-3.5 px-6 font-bold rounded-xl transition-all duration-300 text-sm ${pkg.highlight ? 'bg-[#4ade80] text-black hover:bg-[#22c55e] shadow-md' : 'bg-slate-900 hover:bg-[#3b5bdb] text-white shadow-sm'}`}>
+                                            Ζητήστε Custom Προσφορά
                                         </Link>
                                     </div>
                                 ))}
@@ -516,11 +668,12 @@ export default function AIAgentsPage() {
                     {/* FAQ */}
                     <section className="bg-white border-y border-gray-250 py-20">
                         <div className="container mx-auto px-6 max-w-4xl">
-                            <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">Συχνές Ερωτήσεις (FAQ) — AI Agency & Agents</h2>
-                            <p className="text-gray-500 text-center mb-16 font-light">Όλα όσα πρέπει να γνωρίζετε πριν ξεκινήσετε με το AI στην επιχείρησή σας</p>
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">Συχνές Ερωτήσεις (FAQ) — Κατασκευή AI Agents</h2>
+                            <p className="text-gray-500 text-center mb-16 font-light">Όλα όσα πρέπει να γνωρίζετε για τους φωνητικούς, chat και αυτόνομους AI agents</p>
+                            
                             <div className="space-y-6">
                                 {faqSchema.mainEntity.map((faq, idx) => (
-                                    <div key={idx} className="p-8 rounded-xl border border-gray-250 bg-[#faf9f5] shadow-sm">
+                                    <div key={idx} className="p-8 rounded-2xl border border-gray-250 bg-[#faf9f5] shadow-sm">
                                         <h3 className="text-lg font-bold text-black mb-3">{faq.name}</h3>
                                         <p className="text-gray-600 text-sm leading-relaxed">{faq.acceptedAnswer.text}</p>
                                     </div>
@@ -529,9 +682,9 @@ export default function AIAgentsPage() {
                         </div>
                     </section>
 
-                    {/* Internal Links */}
+                    {/* INTERNAL LINKS & GUIDES */}
                     <section className="container mx-auto px-6 py-16">
-                        <h2 className="text-xl font-light text-gray-800 mb-8 text-center">Σχετικές Υπηρεσίες & Οδηγοί</h2>
+                        <h2 className="text-xl font-light text-gray-800 mb-8 text-center">Σχετικές Υπηρεσίες & AI Guides</h2>
                         <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                             <Link href="/blog/ti-einai-ai-agents-epicheiriseis" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
                                 <h3 className="font-bold text-base text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">AI Agent: Τι είναι; →</h3>
@@ -550,14 +703,16 @@ export default function AIAgentsPage() {
 
                     {/* CTA */}
                     <section className="container mx-auto px-6">
-                        <div className="rounded-2xl bg-[#3b5bdb] p-12 md:p-20 text-center text-white shadow-xl max-w-4xl mx-auto">
-                            <h2 className="text-3xl md:text-5xl font-light mb-6 tracking-tight">
-                                Έτοιμοι να Αυτοματοποιήσετε την Επιχείρησή σας;
+                        <div className="rounded-3xl bg-[#3b5bdb] p-12 md:p-20 text-center text-white shadow-2xl max-w-4xl mx-auto relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+                            
+                            <h2 className="text-3xl md:text-5xl font-light mb-6 tracking-tight relative z-10">
+                                Έτοιμοι να Αναπτύξετε τον Δικό σας AI Agent;
                             </h2>
-                            <p className="text-white/85 text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-                                Κλείστε μια δωρεάν συνάντηση 30 λεπτών με τους AI Engineers της SGK Digital. Θα αναλύσουμε τις διαδικασίες σας και θα σχεδιάσουμε το ιδανικό AI pipeline για την εταιρεία σας.
+                            <p className="text-white/90 text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed relative z-10">
+                                Κλείστε μια δωρεάν συνάντηση 30 λεπτών με τους AI Engineers της SGK Digital. Θα αναλύσουμε τις διαδικασίες σας και θα σχεδιάσουμε ζωντανά το Voice, Chat ή Autonomous AI pipeline της επιχείρησής σας.
                             </p>
-                            <Link href="/estimate" className="inline-flex items-center gap-3 px-10 py-5 bg-[#4ade80] hover:bg-[#22c55e] text-black font-bold text-lg rounded-lg transition-all duration-300 shadow-lg">
+                            <Link href="/estimate" className="inline-flex items-center gap-3 px-10 py-5 bg-[#4ade80] hover:bg-[#22c55e] text-black font-black text-lg rounded-xl transition-all duration-300 shadow-xl hover:scale-105 relative z-10">
                                 Κλείστε Δωρεάν AI Demo <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>

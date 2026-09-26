@@ -181,21 +181,21 @@ export default function ServicesClient() {
               className="w-full md:w-[45%] bg-[#facc15] p-8 md:p-14 relative z-10 md:-mr-[10%] mt-[-40px] md:mt-0 shadow-2xl"
             >
               <h2 className="text-black text-3xl md:text-5xl font-light mb-8 leading-tight">
-                <span className="font-bold">AI Agentic</span> Systems
+                <span className="font-bold">Custom AI</span> & Agents
               </h2>
               
               <ul className="space-y-6 mb-12">
                 <li className="flex items-start text-black/80 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-black mr-4 shrink-0 mt-2"></span>
-                  <span><strong>AI Support Agents:</strong> Αυτοματοποιημένη εξυπηρέτηση 24/7 που εκπαιδεύεται στα δεδομένα της επιχείρησής σας.</span>
+                  <span><strong>Voice, Chat & Video AI:</strong> 24/7 εξυπηρέτηση πελατών με τηλεφωνικό Voice AI, WhatsApp chat και διαδραστικά video avatars.</span>
                 </li>
                 <li className="flex items-start text-black/80 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-black mr-4 shrink-0 mt-2"></span>
-                  <span><strong>Workflow Automation:</strong> AI που συνδέει εφαρμογές, ελέγχει email, εκδίδει παραστατικά και ενημερώνει CRM αυτόματα.</span>
+                  <span><strong>Αυτόνομη Εργασία Χωρίς Υπαλλήλους:</strong> Πράκτορες που εκτελούν data entry, τιμολόγηση, courier vouchers και ERP updates αυτόνομα.</span>
                 </li>
                 <li className="flex items-start text-black/80 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-black mr-4 shrink-0 mt-2"></span>
-                  <span><strong>HR & Analytics:</strong> Αυτοματοποιημένο screening υποψηφίων, Onboarding και ανάλυση δεδομένων με φυσική γλώσσα.</span>
+                  <span><strong>Softone, Entersoft & CRM Sync:</strong> Άμεση διασύνδεση με ελληνικά ERPs, τράπεζες, τηλεφωνικά κέντρα PBX και e-commerce.</span>
                 </li>
               </ul>
               
@@ -203,7 +203,7 @@ export default function ServicesClient() {
                 href="/ai-agents"
                 className="inline-block bg-black text-[#facc15] hover:bg-gray-900 transition-colors duration-300 font-bold py-4 px-10 rounded-sm shadow-lg w-full sm:w-auto text-lg text-center"
               >
-                Γνώρισε τους AI Agents
+                Ανακαλύψτε τους Custom AI Agents
               </Link>
             </motion.div>
 
