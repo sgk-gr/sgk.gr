@@ -19,7 +19,9 @@ import {
     Bot, 
     Sparkles, 
     ExternalLink, 
-    Loader2 
+    Loader2,
+    ShieldCheck,
+    FileText
 } from "lucide-react";
 import Link from "next/link";
 
@@ -32,15 +34,23 @@ interface Message {
 
 export default function LiveAvatarVideoCallPage() {
     // Call States
-    const [isCallActive, setIsCallActive] = useState<boolean>(true);
+    const [isCallActive, setIsCallActive] = useState<boolean>(false);
     const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false);
+    const [statusText, setStatusText] = useState<string>("Έτοιμο για εκκίνηση");
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const [hasNativeStream, setHasNativeStream] = useState<boolean>(false);
+    
+    // Controls States
     const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
     const [isVideoOff, setIsVideoOff] = useState<boolean>(false);
     const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
 
-    // Call Timer (starts at 00:52 like the screenshot or counts when active)
-    const [callSeconds, setCallSeconds] = useState<number>(52);
+    // Call Timer
+    const [callSeconds, setCallSeconds] = useState<number>(0);
+
+    // Refs for Audio / Video
+    const avatarVideoRef = useRef<HTMLVideoElement | null>(null);
+    const sessionRef = useRef<any>(null);
 
     // User Camera Stream for PiP
     const userVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -48,10 +58,30 @@ export default function LiveAvatarVideoCallPage() {
 
     // Chat Messages
     const [messages, setMessages] = useState<Message[]>([
-        { id: "1", sender: "agent", text: "Hi, how can we help?", time: "3:00 pm" },
-        { id: "2", sender: "user", text: "How do I change my credit card payment limit?", time: "3:06 pm" },
-        { id: "3", sender: "agent", text: "Happy to help out with this. Do you mind to have video call?", time: "3:06 pm" },
-        { id: "4", sender: "user", text: "Sure", time: "3:06 pm" }
+        { 
+            id: "1", 
+            sender: "agent", 
+            text: "Γεια σας! Είμαι η Έλενα από την SGK Digital. Είμαι εδώ για να σας ενημερώσω για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας για το ΓΕΜΗ.", 
+            time: "3:00 μμ" 
+        },
+        { 
+            id: "2", 
+            sender: "user", 
+            text: "Γεια σου Έλενα! Τι ακριβώς προβλέπει ο νόμος για τις ΙΚΕ και ποιο είναι το κόστος;", 
+            time: "3:02 μμ" 
+        },
+        { 
+            id: "3", 
+            sender: "agent", 
+            text: "Βάσει του Ν.4072/2012, κάθε ΙΚΕ υποχρεούται εντός 30 ημερών να έχει ιστοσελίδα για δημοσίευση ισολογισμών. Στην SGK Digital την παραδίδουμε σε 24 ώρες με μόνο 150€ τελική τιμή με ΦΠΑ!", 
+            time: "3:02 μμ" 
+        },
+        { 
+            id: "4", 
+            sender: "user", 
+            text: "Τέλεια, θέλω να ξεκινήσουμε τη βιντεοκλήση να τα πούμε ζωντανά!", 
+            time: "3:03 μμ" 
+        }
     ]);
     const [inputText, setInputText] = useState("");
     const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -78,7 +108,7 @@ export default function LiveAvatarVideoCallPage() {
         return `${m}:${s}`;
     };
 
-    // Initialize User Webcam for PiP (if available)
+    // Initialize User Webcam for PiP (if permitted)
     useEffect(() => {
         let stream: MediaStream | null = null;
         async function setupCamera() {
@@ -91,7 +121,6 @@ export default function LiveAvatarVideoCallPage() {
                     }
                 }
             } catch (err) {
-                // User denied or no camera, fallback gracefully
                 setHasUserMedia(false);
             }
         }
@@ -104,37 +133,133 @@ export default function LiveAvatarVideoCallPage() {
         };
     }, []);
 
-    // Connect to LiveAvatar API
+    // Connect to LiveAvatar API & Initialize SDK WebRTC Session
     const handleStartCall = async () => {
         setIsLoadingAvatar(true);
-        setIsCallActive(true);
+        setStatusText("Προετοιμασία συνεδρίας & σύνδεση με Gemini...");
 
         try {
+            // 1. Fetch Session Token & Embed Fallback
             const res = await fetch("/api/liveavatar/setup", {
                 method: "POST"
             });
             const data = await res.json();
 
-            if (data.success && data.url) {
-                setAvatarUrl(data.url);
-            } else {
-                console.warn("LiveAvatar setup returned:", data.error);
+            if (!data.success) {
+                throw new Error(data.error || "Αποτυχία εκκίνησης LiveAvatar");
             }
-        } catch (err) {
-            console.error("Failed to connect to LiveAvatar:", err);
+
+            if (data.url) {
+                setAvatarUrl(data.url);
+            }
+
+            // 2. Try native WebRTC connection via @heygen/liveavatar-web-sdk
+            if (data.sessionToken && typeof window !== "undefined") {
+                try {
+                    setStatusText("Σύνδεση Native WebRTC Stream...");
+                    const { LiveAvatarSession, SessionEvent, AgentEventsEnum } = await import("@heygen/liveavatar-web-sdk");
+
+                    const session = new LiveAvatarSession(data.sessionToken, {
+                        autoKeepAlive: true
+                    });
+                    sessionRef.current = session;
+
+                    // Stream Ready Event: Attach to native video tag
+                    session.on(SessionEvent.SESSION_STREAM_READY, () => {
+                        if (avatarVideoRef.current) {
+                            session.attach(avatarVideoRef.current);
+                            setHasNativeStream(true);
+                        }
+                    });
+
+                    // Live Speech-to-Text from Avatar
+                    session.on(AgentEventsEnum.AVATAR_TRANSCRIPTION, (evt: any) => {
+                        if (evt?.text) {
+                            const now = new Date();
+                            const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                            setMessages(prev => [
+                                ...prev,
+                                { id: Date.now().toString(), sender: "agent", text: evt.text, time: timeStr }
+                            ]);
+                        }
+                    });
+
+                    // Live Speech-to-Text from User's Voice
+                    session.on(AgentEventsEnum.USER_TRANSCRIPTION, (evt: any) => {
+                        if (evt?.text) {
+                            const now = new Date();
+                            const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                            setMessages(prev => [
+                                ...prev,
+                                { id: Date.now().toString(), sender: "user", text: evt.text, time: timeStr }
+                            ]);
+                        }
+                    });
+
+                    await session.start();
+                    try {
+                        await session.voiceChat.start();
+                    } catch (vcErr) {
+                        console.warn("Voice chat auto-start:", vcErr);
+                    }
+                } catch (sdkErr) {
+                    console.warn("Native WebRTC SDK fallback to iframe:", sdkErr);
+                }
+            }
+
+            setIsCallActive(true);
+            setCallSeconds(1);
+        } catch (err: any) {
+            console.error("Failed to start LiveAvatar call:", err);
+            alert(`Σφάλμα εκκίνησης: ${err?.message || "Ελέγξτε τη σύνδεσή σας"}`);
         } finally {
             setIsLoadingAvatar(false);
         }
     };
 
-    const handleEndCall = () => {
+    const handleEndCall = async () => {
         setIsCallActive(false);
+        setHasNativeStream(false);
         setAvatarUrl(null);
         setCallSeconds(0);
+
+        if (sessionRef.current) {
+            try {
+                await sessionRef.current.stop();
+            } catch (e) {
+                console.error("Error stopping session:", e);
+            }
+            sessionRef.current = null;
+        }
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         setMessages(prev => [
             ...prev,
-            { id: Date.now().toString(), sender: "agent", text: "Η κλήση τερματίστηκε. Μπορώ να βοηθήσω σε κάτι άλλο;", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+            { 
+                id: Date.now().toString(), 
+                sender: "agent", 
+                text: "Η κλήση τερματίστηκε. Μπορείτε να μου γράψετε στο chat αν χρειάζεστε κάποια άλλη πληροφορία για την ΙΚΕ σας!", 
+                time: timeStr 
+            }
         ]);
+    };
+
+    const handleToggleMic = async () => {
+        const nextState = !isMicMuted;
+        setIsMicMuted(nextState);
+
+        if (sessionRef.current?.voiceChat) {
+            try {
+                if (nextState) {
+                    await sessionRef.current.voiceChat.mute();
+                } else {
+                    await sessionRef.current.voiceChat.unmute();
+                }
+            } catch (err) {
+                console.warn("Failed to toggle voiceChat mic:", err);
+            }
+        }
     };
 
     const handleSendMessage = (e?: React.FormEvent) => {
@@ -143,57 +268,79 @@ export default function LiveAvatarVideoCallPage() {
 
         const now = new Date();
         const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const userText = inputText.trim();
 
         const userMsg: Message = {
             id: Date.now().toString(),
             sender: "user",
-            text: inputText.trim(),
+            text: userText,
             time: timeStr
         };
 
         setMessages(prev => [...prev, userMsg]);
         setInputText("");
 
-        // Auto-reply simulation from Andy / Agent if call is active
-        setTimeout(() => {
-            setMessages(prev => [
-                ...prev,
-                {
-                    id: (Date.now() + 1).toString(),
-                    sender: "agent",
-                    text: "Σας ακούω! Μπορείτε να μου μιλήσετε απευθείας στο μικρόφωνο ή να συνεχίσουμε μέσω chat.",
-                    time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-                }
-            ]);
-        }, 1200);
+        // If SDK session is active, send text message to avatar so it speaks the reply
+        if (sessionRef.current && typeof sessionRef.current.message === "function") {
+            try {
+                sessionRef.current.message(userText);
+            } catch (err) {
+                console.warn("Error sending message to avatar session:", err);
+            }
+        } else {
+            // Simulated fallback response if avatar session isn't live
+            setTimeout(() => {
+                setMessages(prev => [
+                    ...prev,
+                    {
+                        id: (Date.now() + 1).toString(),
+                        sender: "agent",
+                        text: "Σας ακούω! Για την κατασκευή ιστοσελίδας της ΙΚΕ σας (150€ με ΦΠΑ), χρειαζόμαστε μόνο το ΑΦΜ σας και παραδίδεται σε 24 ώρες.",
+                        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                    }
+                ]);
+            }, 1200);
+        }
     };
 
     return (
-        <div className="w-full h-screen bg-[#0e0f12] flex items-center justify-center p-2 sm:p-4 md:p-6 select-none font-sans overflow-hidden">
+        <div className="w-full h-screen bg-[#0a0b0e] flex items-center justify-center p-2 sm:p-4 select-none font-sans overflow-hidden">
             {/* Main Window Frame Container */}
-            <div className="w-full max-w-[1400px] h-[96vh] max-h-[860px] bg-[#1a1b20] rounded-[28px] overflow-hidden shadow-2xl border-4 border-[#272831] flex flex-col md:flex-row relative">
+            <div className="w-full max-w-[1440px] h-[96vh] max-h-[880px] bg-[#14151b] rounded-[28px] overflow-hidden shadow-2xl border-4 border-[#252630] flex flex-col md:flex-row relative">
                 
                 {/* ================= LEFT PANEL: CHAT ================= */}
-                <div className="w-full md:w-[350px] lg:w-[380px] xl:w-[410px] flex-shrink-0 flex flex-col bg-white h-full border-r border-[#26272e] z-10">
+                <div className="w-full md:w-[360px] lg:w-[400px] xl:w-[420px] flex-shrink-0 flex flex-col bg-white h-full border-r border-[#26272e] z-10">
                     {/* Header */}
                     <div className="h-16 px-5 bg-[#5b36f5] flex items-center justify-between text-white shadow-md">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#5b36f5] shadow-sm">
-                                <Bot className="w-5 h-5" />
+                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#5b36f5] shadow-sm relative">
+                                <Bot className="w-6 h-6" />
+                                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" />
                             </div>
                             <div>
-                                <h2 className="text-base font-semibold leading-tight tracking-wide">Andy Lane</h2>
-                                <span className="text-[11px] text-white/80 font-normal">AI Support Agent</span>
+                                <h2 className="text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5">
+                                    Έλενα (Elenora)
+                                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Specialist</span>
+                                </h2>
+                                <span className="text-[11px] text-white/80 font-normal">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (150€)</span>
                             </div>
                         </div>
 
                         <Link 
-                            href="/ai-agents" 
+                            href="/ike-offer" 
                             className="p-1.5 rounded-full hover:bg-white/10 transition-colors text-white/90 hover:text-white"
-                            title="Κλείσιμο & Επιστροφή"
+                            title="Προσφορά ΙΚΕ 150€"
                         >
                             <X className="w-5 h-5" />
                         </Link>
+                    </div>
+
+                    {/* Quick Badge info */}
+                    <div className="bg-slate-50 px-4 py-2 border-b border-gray-100 flex items-center justify-between text-[11px] text-gray-600">
+                        <span className="flex items-center gap-1 text-emerald-600 font-semibold">
+                            <ShieldCheck className="w-3.5 h-3.5" /> Νόμος 4072/2012 Γ.Ε.ΜΗ.
+                        </span>
+                        <span className="font-bold text-[#5b36f5]">150€ Τελική Τιμή • 24 Ώρες</span>
                     </div>
 
                     {/* Chat Messages Body */}
@@ -203,11 +350,11 @@ export default function LiveAvatarVideoCallPage() {
                                 key={m.id} 
                                 className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
                             >
-                                <span className="text-[11px] text-gray-400 font-medium mb-1 px-1">
+                                <span className="text-[10px] text-gray-400 font-medium mb-1 px-1">
                                     {m.time}
                                 </span>
                                 <div 
-                                    className={`max-w-[85%] px-4 py-3 rounded-2xl text-[13.5px] leading-relaxed shadow-sm ${
+                                    className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-[13.5px] leading-relaxed shadow-sm ${
                                         m.sender === "user"
                                             ? "bg-[#5b36f5] text-white rounded-tr-xs"
                                             : "bg-[#f1f3f6] text-[#1f2937] rounded-tl-xs"
@@ -221,11 +368,11 @@ export default function LiveAvatarVideoCallPage() {
                         {/* Call Started System Pill */}
                         {isCallActive && (
                             <div className="text-center py-2 my-2">
-                                <span className="text-[11px] text-gray-400 font-medium block">
-                                    3:09 pm
+                                <span className="text-[10px] text-gray-400 font-medium block">
+                                    3:04 μμ
                                 </span>
-                                <span className="inline-block mt-0.5 text-xs font-bold text-gray-900 tracking-wide">
-                                    Call started
+                                <span className="inline-block mt-0.5 text-xs font-bold text-gray-900 tracking-wide bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">
+                                    ● Ζωντανή Βιντεοκλήση σε εξέλιξη
                                 </span>
                             </div>
                         )}
@@ -242,7 +389,7 @@ export default function LiveAvatarVideoCallPage() {
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Enter your message"
+                            placeholder="Ρωτήστε την Έλενα για την ΙΚΕ σας..."
                             className="flex-1 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400 px-1"
                         />
                         
@@ -250,14 +397,14 @@ export default function LiveAvatarVideoCallPage() {
                             <button 
                                 type="button" 
                                 className="p-1.5 hover:text-gray-600 transition-colors"
-                                title="Attach file"
+                                title="Επισύναψη αρχείου / ισολογισμού"
                             >
                                 <Paperclip className="w-4 h-4" />
                             </button>
                             <button 
                                 type="button" 
                                 className="p-1.5 hover:text-gray-600 transition-colors"
-                                title="Insert emoji"
+                                title="Emoji"
                             >
                                 <Smile className="w-4 h-4" />
                             </button>
@@ -265,7 +412,7 @@ export default function LiveAvatarVideoCallPage() {
                                 type="submit" 
                                 disabled={!inputText.trim()}
                                 className="p-1.5 text-[#5b36f5] hover:text-[#4927d6] disabled:text-gray-300 transition-colors"
-                                title="Send"
+                                title="Αποστολή"
                             >
                                 <Send className="w-4 h-4" />
                             </button>
@@ -274,12 +421,13 @@ export default function LiveAvatarVideoCallPage() {
                 </div>
 
                 {/* ================= RIGHT PANEL: VIDEO CALL ================= */}
-                <div className="flex-1 h-full relative bg-[#18191f] overflow-hidden flex items-center justify-center">
+                <div className="flex-1 h-full relative bg-[#13141a] overflow-hidden flex items-center justify-center">
                     
-                    {/* Top Right Header Floating Bar */}
+                    {/* Top Right Header Controls Overlay */}
                     <div className="absolute top-4 right-5 z-30 flex items-center gap-3.5 text-white/90">
                         {isCallActive && (
-                            <div className="text-sm font-medium tracking-wider text-white/80 font-mono bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-md">
+                            <div className="text-sm font-medium tracking-wider text-emerald-400 font-mono bg-black/40 backdrop-blur-sm px-3 py-1 rounded-md border border-emerald-500/30 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                                 {formatTimer(callSeconds)}
                             </div>
                         )}
@@ -291,108 +439,117 @@ export default function LiveAvatarVideoCallPage() {
                         </button>
                         <button 
                             className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
-                            title="Call Settings"
+                            title="Ρυθμίσεις"
                         >
                             <Settings className="w-4 h-4" />
                         </button>
                         <button 
                             className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
-                            title="More options"
+                            title="Επιλογές"
                         >
                             <MoreVertical className="w-4 h-4" />
                         </button>
                     </div>
 
-                    {/* AdBlocker / Direct Link Notice (if avatar active) */}
-                    {avatarUrl && (
-                        <div className="absolute top-4 left-5 z-30">
+                    {/* Top Left Status / Direct fullscreen button */}
+                    <div className="absolute top-4 left-5 z-30 flex items-center gap-2">
+                        {avatarUrl && (
                             <a 
                                 href={avatarUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-[11px] text-white/80 hover:text-white hover:border-white/30 transition-all"
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-[11px] text-white/90 hover:text-white hover:border-white/40 transition-all shadow-md"
                             >
-                                <span>Απευθείας σε Fullscreen</span>
+                                <span>Άνοιγμα σε Fullscreen</span>
                                 <ExternalLink className="w-3 h-3" />
                             </a>
-                        </div>
-                    )}
+                        )}
+                    </div>
 
                     {/* Main Video Stream Container */}
                     <div className="w-full h-full relative flex items-center justify-center bg-black">
-                        {isCallActive ? (
-                            avatarUrl ? (
-                                <iframe 
-                                    src={avatarUrl}
-                                    allow="microphone; camera; display-capture; autoplay"
-                                    className="w-full h-full border-none object-cover"
-                                />
-                            ) : (
-                                <div className="relative w-full h-full flex items-center justify-center">
-                                    {/* High fidelity agent video / photo background */}
-                                    <img 
-                                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1600&auto=format&fit=crop" 
-                                        alt="AI Avatar" 
-                                        className="w-full h-full object-cover filter brightness-[0.92]"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+                        {/* Native WebRTC Video Element (Bound via SDK) */}
+                        <video 
+                            ref={avatarVideoRef}
+                            autoPlay 
+                            playsInline 
+                            className={`w-full h-full object-cover transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
+                        />
 
-                                    {/* Center Connect Button if not auto connected */}
-                                    <div className="absolute z-20 flex flex-col items-center">
-                                        <button
-                                            onClick={handleStartCall}
-                                            disabled={isLoadingAvatar}
-                                            className="px-6 py-3.5 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-medium text-sm flex items-center gap-2.5 shadow-2xl shadow-indigo-500/50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                                        >
-                                            {isLoadingAvatar ? (
-                                                <>
-                                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                                    <span>Σύνδεση με LiveAvatar...</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Sparkles className="w-4 h-4" />
-                                                    <span>Σύνδεση Φωνής & Live WebRTC</span>
-                                                </>
-                                            )}
-                                        </button>
-                                        <p className="text-[11px] text-white/70 mt-2 font-light">
-                                            Μιλήστε απευθείας με το AI Avatar στα Ελληνικά
-                                        </p>
-                                    </div>
-                                </div>
-                            )
-                        ) : (
-                            /* Call Inactive Standby Screen */
+                        {/* Iframe Fallback (if native stream not ready yet but avatarUrl available) */}
+                        {isCallActive && !hasNativeStream && avatarUrl && (
+                            <iframe 
+                                src={avatarUrl}
+                                allow="microphone; camera; display-capture; autoplay"
+                                className="w-full h-full border-none object-cover"
+                            />
+                        )}
+
+                        {/* Call Active but connecting state */}
+                        {isCallActive && !hasNativeStream && !avatarUrl && (
                             <div className="text-center p-8 space-y-4">
-                                <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto text-white/60">
-                                    <PhoneOff className="w-8 h-8" />
+                                <Loader2 className="w-12 h-12 text-[#5b36f5] animate-spin mx-auto" />
+                                <h3 className="text-lg font-medium text-white">{statusText}</h3>
+                                <p className="text-xs text-white/60">Σύνδεση με AI Video WebRTC...</p>
+                            </div>
+                        )}
+
+                        {/* Call Inactive / Standby Screen */}
+                        {!isCallActive && (
+                            <div className="relative w-full h-full flex items-center justify-center">
+                                {/* Photorealistic Avatar Background Preview */}
+                                <img 
+                                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1600&auto=format&fit=crop" 
+                                    alt="Elena - IKE AI Specialist" 
+                                    className="w-full h-full object-cover filter brightness-[0.88]"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
+
+                                {/* Center Start Call CTA */}
+                                <div className="absolute z-20 flex flex-col items-center text-center px-4 max-w-lg">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider mb-3">
+                                        <Sparkles className="w-3.5 h-3.5" /> Ζωντανή AI Ενημέρωση Ι.Κ.Ε.
+                                    </div>
+                                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
+                                        Μιλήστε ζωντανά με την Έλενα
+                                    </h2>
+                                    <p className="text-sm text-slate-300 font-light mb-6 leading-relaxed">
+                                        Ενημερωθείτε άμεσα μέσω video chat για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στο ΓΕΜΗ (150€, παράδοση σε 24 ώρες).
+                                    </p>
+
+                                    <button
+                                        onClick={handleStartCall}
+                                        disabled={isLoadingAvatar}
+                                        className="px-8 py-4 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-semibold text-sm flex items-center gap-3 shadow-2xl shadow-indigo-500/60 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                                    >
+                                        {isLoadingAvatar ? (
+                                            <>
+                                                <Loader2 className="w-5 h-5 animate-spin" />
+                                                <span>Σύνδεση με Live WebRTC...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Phone className="w-5 h-5 fill-current" />
+                                                <span>Έναρξη Video Call με AI</span>
+                                            </>
+                                        )}
+                                    </button>
                                 </div>
-                                <h3 className="text-xl font-light text-white">Η κλήση έχει τερματιστεί</h3>
-                                <p className="text-xs text-white/50 max-w-sm mx-auto">
-                                    Μπορείτε να ξεκινήσετε ξανά την κλήση όποτε επιθυμείτε για να συνομιλήσετε με το AI Avatar.
-                                </p>
-                                <button
-                                    onClick={handleStartCall}
-                                    className="px-6 py-2.5 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-medium text-xs tracking-wider uppercase transition-all"
-                                >
-                                    Επανασυνδεση
-                                </button>
                             </div>
                         )}
                     </div>
 
                     {/* ================= BOTTOM FLOATING ACTION BAR ================= */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-black/40 backdrop-blur-md px-4 py-2.5 rounded-full border border-white/10 shadow-2xl">
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-black/50 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10 shadow-2xl">
                         {/* Mic Button */}
                         <button 
-                            onClick={() => setIsMicMuted(!isMicMuted)}
+                            onClick={handleToggleMic}
                             className={`p-3 rounded-full transition-all ${
                                 isMicMuted 
                                     ? "bg-red-500/80 hover:bg-red-600 text-white" 
                                     : "bg-white/15 hover:bg-white/25 text-white"
                             }`}
-                            title={isMicMuted ? "Unmute microphone" : "Mute microphone"}
+                            title={isMicMuted ? "Ενεργοποίηση μικροφώνου" : "Σίγαση μικροφώνου"}
                         >
                             {isMicMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
                         </button>
@@ -405,7 +562,7 @@ export default function LiveAvatarVideoCallPage() {
                                     ? "bg-red-500/80 hover:bg-red-600 text-white" 
                                     : "bg-white/15 hover:bg-white/25 text-white"
                             }`}
-                            title={isVideoOff ? "Turn on camera" : "Turn off camera"}
+                            title={isVideoOff ? "Ενεργοποίηση κάμερας" : "Απενεργοποίηση κάμερας"}
                         >
                             {isVideoOff ? <VideoOff className="w-5 h-5" /> : <VideoIcon className="w-5 h-5" />}
                         </button>
@@ -418,17 +575,17 @@ export default function LiveAvatarVideoCallPage() {
                                     ? "bg-cyan-500/80 hover:bg-cyan-600 text-white" 
                                     : "bg-white/15 hover:bg-white/25 text-white"
                             }`}
-                            title="Share screen"
+                            title="Διαμοιρασμός οθόνης"
                         >
                             <ScreenShare className="w-5 h-5" />
                         </button>
 
-                        {/* Red Hangup Button */}
+                        {/* Red Hangup / Green Start Button */}
                         {isCallActive ? (
                             <button 
                                 onClick={handleEndCall}
                                 className="p-3.5 rounded-full bg-[#eb4335] hover:bg-[#d63b2f] text-white shadow-lg shadow-red-500/40 hover:scale-105 active:scale-95 transition-all"
-                                title="End call"
+                                title="Τερματισμός κλήσης"
                             >
                                 <PhoneOff className="w-5 h-5" />
                             </button>
@@ -436,7 +593,7 @@ export default function LiveAvatarVideoCallPage() {
                             <button 
                                 onClick={handleStartCall}
                                 className="p-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all"
-                                title="Start call"
+                                title="Έναρξη κλήσης"
                             >
                                 <Phone className="w-5 h-5" />
                             </button>
@@ -445,7 +602,6 @@ export default function LiveAvatarVideoCallPage() {
 
                     {/* ================= BOTTOM RIGHT PiP (User Camera) ================= */}
                     <div className="absolute bottom-6 right-6 z-20 w-40 sm:w-48 aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-2 border-white/20 bg-[#1e2029]">
-                        {/* Real Camera Feed or Fallback */}
                         {hasUserMedia && !isVideoOff ? (
                             <video 
                                 ref={userVideoRef}
@@ -456,15 +612,14 @@ export default function LiveAvatarVideoCallPage() {
                             />
                         ) : (
                             <img 
-                                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop" 
-                                alt="You" 
+                                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" 
+                                alt="Εσείς" 
                                 className="w-full h-full object-cover"
                             />
                         )}
 
                         {/* Bottom Overlay Label */}
                         <div className="absolute bottom-2 left-2 flex items-center gap-1.5 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
-                            {/* Animated Audio Wave Bars */}
                             {!isMicMuted && (
                                 <div className="flex items-center gap-0.5">
                                     <span className="w-0.5 h-2 bg-cyan-400 rounded-full animate-pulse" />
@@ -472,8 +627,8 @@ export default function LiveAvatarVideoCallPage() {
                                     <span className="w-0.5 h-1.5 bg-cyan-400 rounded-full animate-pulse delay-150" />
                                 </div>
                             )}
-                            <span className="text-[11px] font-medium text-white/90">
-                                Lola Jordan
+                            <span className="text-[10px] font-medium text-white/90">
+                                Εσείς (Επισκέπτης)
                             </span>
                         </div>
                     </div>
