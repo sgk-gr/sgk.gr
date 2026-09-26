@@ -246,8 +246,9 @@ export async function GET(req: NextRequest) {
 
     const company = parseGemiCompany(data.searchResults[0]);
 
-    // Automatically inspect GEMI documents for YMS announcement certificate
-    if (company.gemiNo) {
+    // Automatically inspect GEMI documents for YMS announcement certificate (skip if quick=true for instant live chat response)
+    const isQuick = searchParams.get("quick") === "true" || searchParams.get("fast") === "true";
+    if (!isQuick && company.gemiNo) {
       try {
         const ymsData = await extractFromYmsDocument(company.gemiNo);
         if (ymsData) {

@@ -76,6 +76,8 @@ export default function LiveAvatarVideoCallPage() {
     const [emailInput, setEmailInput] = useState<string>("");
     const [isSubmittingInput, setIsSubmittingInput] = useState<boolean>(false);
     const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+    const [gemiStatus, setGemiStatus] = useState<"idle" | "searching" | "found" | "not_found">("idle");
+    const [foundCompanyName, setFoundCompanyName] = useState<string>("");
     
     // Controls States
     const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
@@ -356,38 +358,92 @@ export default function LiveAvatarVideoCallPage() {
         }
     };
 
-    const handleSubmitSingleInput = (e: React.FormEvent) => {
+    const handleSubmitSingleInput = async (e: React.FormEvent) => {
         e.preventDefault();
         const now = new Date();
         const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
         if (activePromptInput === "afm") {
             const trimmedAfm = afmInput.trim();
-            if (!trimmedAfm) return;
+            if (!trimmedAfm || trimmedAfm.length < 9) return;
 
             setIsSubmittingInput(true);
-            setSubmitSuccess(true);
+            setGemiStatus("searching");
 
-            const userMsg = `Ορίστε το ΑΦΜ της εταιρείας μου: ${trimmedAfm}. Παρακαλώ επαναλάβετε και επιβεβαιώστε το.`;
+            let resolvedCompanyName = "";
 
-            setMessages(prev => [
-                ...prev,
-                { id: Date.now().toString(), sender: "user", text: userMsg, time: timeStr }
-            ]);
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                const res = await fetch(`/api/gemi-lookup?query=${encodeURIComponent(trimmedAfm)}&quick=true`, {
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
 
-            if (sessionRef.current && typeof sessionRef.current.message === "function") {
-                try {
-                    sessionRef.current.message(userMsg);
-                } catch (err) {
-                    console.warn("Error sending AFM message:", err);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success && data.company) {
+                        resolvedCompanyName = (data.company.companyName || data.company.tradeName || "").trim();
+                    }
                 }
+            } catch (err) {
+                console.warn("GEMI lookup error or timeout:", err);
             }
 
-            setTimeout(() => {
-                setActivePromptInput(null);
-                setIsSubmittingInput(false);
-                setSubmitSuccess(false);
-            }, 1800);
+            if (resolvedCompanyName) {
+                setFoundCompanyName(resolvedCompanyName);
+                setGemiStatus("found");
+                setSubmitSuccess(true);
+
+                const userDisplayMsg = `Βρέθηκε στο ΓΕΜΗ: ${resolvedCompanyName} (ΑΦΜ: ${trimmedAfm})`;
+                setMessages(prev => [
+                    ...prev,
+                    { id: Date.now().toString(), sender: "user", text: userDisplayMsg, time: timeStr }
+                ]);
+
+                // Prompt Bryan to say: «Ωραία, βρήκα την εταιρεία [Όνομα Εταιρείας]!...»
+                const avatarMsg = `Βρήκα την εταιρεία μου στο ΓΕΜΗ: ${resolvedCompanyName} με ΑΦΜ ${trimmedAfm}. Παρακαλώ επιβεβαιώστε την.`;
+                if (sessionRef.current && typeof sessionRef.current.message === "function") {
+                    try {
+                        sessionRef.current.message(avatarMsg);
+                    } catch (err) {
+                        console.warn("Error sending AFM/GEMI message to avatar:", err);
+                    }
+                }
+
+                // Seamlessly transition to email input after 2.2 seconds
+                setTimeout(() => {
+                    setActivePromptInput("email");
+                    setIsSubmittingInput(false);
+                    setSubmitSuccess(false);
+                    setGemiStatus("idle");
+                }, 2200);
+
+            } else {
+                setGemiStatus("not_found");
+                setSubmitSuccess(true);
+
+                const userMsg = `Ορίστε το ΑΦΜ της εταιρείας μου: ${trimmedAfm}. Παρακαλώ επιβεβαιώστε το.`;
+                setMessages(prev => [
+                    ...prev,
+                    { id: Date.now().toString(), sender: "user", text: userMsg, time: timeStr }
+                ]);
+
+                if (sessionRef.current && typeof sessionRef.current.message === "function") {
+                    try {
+                        sessionRef.current.message(userMsg);
+                    } catch (err) {
+                        console.warn("Error sending AFM message:", err);
+                    }
+                }
+
+                setTimeout(() => {
+                    setActivePromptInput("email");
+                    setIsSubmittingInput(false);
+                    setSubmitSuccess(false);
+                    setGemiStatus("idle");
+                }, 1800);
+            }
         } else if (activePromptInput === "email") {
             const trimmedEmail = emailInput.trim();
             if (!trimmedEmail) return;
@@ -611,7 +667,8 @@ export default function LiveAvatarVideoCallPage() {
                                     value={afmInput}
                                     onChange={(e) => setAfmInput(e.target.value.replace(/\D/g, ""))}
                                     placeholder="π.χ. 998877665"
-                                    className="flex-1 min-w-0 text-sm font-mono tracking-wider bg-slate-50 border border-gray-200 rounded-xl px-3 py-2 outline-none text-gray-900 placeholder-gray-400 focus:bg-white focus:border-[#5b36f5] focus:ring-2 focus:ring-[#5b36f5]/20"
+                                    disabled={isSubmittingInput}
+                                    className="flex-1 min-w-0 text-sm font-mono tracking-wider bg-slate-50 border border-gray-200 rounded-xl px-3 py-2 outline-none text-gray-900 placeholder-gray-400 focus:bg-white focus:border-[#5b36f5] focus:ring-2 focus:ring-[#5b36f5]/20 disabled:opacity-60"
                                     autoFocus
                                 />
                                 <button
@@ -623,13 +680,29 @@ export default function LiveAvatarVideoCallPage() {
                                             : "bg-[#5b36f5] hover:bg-[#4927d6] text-white shadow-sm"
                                     }`}
                                 >
-                                    {submitSuccess ? (
+                                    {gemiStatus === "searching" ? (
+                                        <Loader2 className="w-4 h-4 animate-spin text-white" />
+                                    ) : submitSuccess ? (
                                         <CheckCircle2 className="w-4 h-4 text-white" />
                                     ) : (
                                         <span>ΟΚ</span>
                                     )}
                                 </button>
                             </form>
+
+                            {/* Live GEMI Lookup State Indicator */}
+                            {gemiStatus === "searching" && (
+                                <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#5b36f5] font-medium px-1">
+                                    <Loader2 className="w-3 h-3 animate-spin flex-shrink-0" />
+                                    <span>Αναζήτηση εταιρείας στο Γ.Ε.ΜΗ...</span>
+                                </div>
+                            )}
+                            {gemiStatus === "found" && foundCompanyName && (
+                                <div className="mt-2 p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-1.5 animate-in fade-in">
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                                    <span className="font-semibold truncate">{foundCompanyName}</span>
+                                </div>
+                            )}
                         </div>
                     )}
 
