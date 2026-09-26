@@ -95,9 +95,12 @@ This document provides complete, authoritative technical specifications and serv
 - **Early Buyout Option**: Clients may buy out the remaining value of the eshop at any time without fees or penalties.
 
 ### 4.3 Statutory IKE Corporate Website (GEMI Compliance)
+- **Πιστοποίηση**: Επίσημα **Πιστοποιημένοι Πάροχοι στο ΓΕΜΗ** με live data σύνδεση σε πραγματικό χρόνο ανάμεσα στο ΓΕΜΗ και την ιστοσελίδα.
 - **Legal Compliance**: Article 47 §2 of Law 4072/2012 and JMD 46982/2025. Mandatory for all Greek I.K.E. companies within 30 days of registration.
-- **Price**: 150€ (VAT 24% included).
-- **Turnaround Time**: Live and verified on GEMI within 24 hours.
+- **Αρχικό Κόστος 1ου Έτους**: 150€ (συμπεριλαμβάνει ΦΠΑ 24%). Παράδοση σε 24 ώρες (περιλαμβάνει domain 2 ετών, hosting 1 έτους, SSL, email & βεβαίωση ΓΕΜΗ).
+- **Κόστος Ανανέωσης μετά από 1 Χρόνο**: 150€/χρόνο (καλύπτει hosting, ανανέωση domain, SSL και live data συγχρονισμό με το ΓΕΜΗ).
+- **Μηδενική Δέσμευση**: Ο πελάτης μπορεί να διακόψει όποτε θέλει τη συνδρομή χωρίς καμία ενημέρωση ή δέσμευση.
+- **Δικό σας Domain**: Το κόστος παραμένει 150€ (ενιαίο πακέτο). Απαιτείται τηλεφωνικός έλεγχος συμβατότητας παρόχου με τους τεχνικούς της SGK (211 114 0013 / 6999 524 389) πριν την έκδοση συμφωνητικού.
 
 ---
 
