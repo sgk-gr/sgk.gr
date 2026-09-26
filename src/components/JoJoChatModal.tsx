@@ -262,7 +262,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
       }
       
       let href = rawUrl;
-      const isSgkLink = rawUrl.startsWith("https://sgk.gr") || rawUrl.startsWith("http://sgk.gr");
+      const isSgkLink = rawUrl.startsWith("https://www.sgk.gr") || rawUrl.startsWith("http://sgk.gr");
       
       if (isSgkLink) {
         try {

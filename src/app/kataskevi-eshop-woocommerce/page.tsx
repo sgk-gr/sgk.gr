@@ -9,21 +9,21 @@ export const metadata: Metadata = {
     description: "Εξειδικευμένη κατασκευή eshop WooCommerce στην Ελλάδα. Custom themes, Greek payment gateways, ERP integrations, SEO. 18 χρόνια εμπειρία. Ζητήστε προσφορά.",
     keywords: "κατασκευή eshop woocommerce, woocommerce ελλάδα, wordpress eshop, κατασκευή woocommerce eshop, woocommerce κατασκευή",
     alternates: {
-        canonical: "https://sgk.gr/kataskevi-eshop-woocommerce",
+        canonical: "https://www.sgk.gr/kataskevi-eshop-woocommerce",
     },
     openGraph: {
         title: "Κατασκευή eshop WooCommerce | SGK Software Development",
         description: "Custom WooCommerce eshop ανάπτυξη στην Ελλάδα. Greek payment gateways, ERP integrations, SEO-optimized.",
-        url: "https://sgk.gr/kataskevi-eshop-woocommerce",
+        url: "https://www.sgk.gr/kataskevi-eshop-woocommerce",
         type: "website",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
         siteName: "SGK Software Development",
     },
     twitter: {
         card: "summary_large_image",
         title: "Κατασκευή eshop WooCommerce | SGK",
         description: "Custom WooCommerce eshop ανάπτυξη. Greek payment gateways, ERP integrations.",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
     },
 };
 
@@ -86,9 +86,9 @@ const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://sgk.gr" },
-        { "@type": "ListItem", "position": 2, "name": "Κατασκευή Eshop", "item": "https://sgk.gr/kataskevi-eshop" },
-        { "@type": "ListItem", "position": 3, "name": "WooCommerce", "item": "https://sgk.gr/kataskevi-eshop-woocommerce" }
+        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://www.sgk.gr" },
+        { "@type": "ListItem", "position": 2, "name": "Κατασκευή Eshop", "item": "https://www.sgk.gr/kataskevi-eshop" },
+        { "@type": "ListItem", "position": 3, "name": "WooCommerce", "item": "https://www.sgk.gr/kataskevi-eshop-woocommerce" }
     ]
 };
 

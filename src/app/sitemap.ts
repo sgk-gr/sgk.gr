@@ -2,25 +2,27 @@ import { MetadataRoute } from 'next';
 import { BLOG_POSTS } from '@/data/blog-posts';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://sgk.gr';
+  const baseUrl = 'https://www.sgk.gr';
   const now = new Date();
 
   const corePages = [
     { url: `${baseUrl}/`, priority: 1.0, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/ai-agents`, priority: 0.98, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/kataskevi-eshop`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/kataskevi-istoselidas-ike`, priority: 0.95, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/ike-offer`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/pay-as-you-grow`, priority: 0.95, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/eshop-offer`, priority: 0.90, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/kataskevi-eshop-woocommerce`, priority: 0.90, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/kataskevi-istoselidon`, priority: 0.90, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/web-development`, priority: 0.85, changeFrequency: 'monthly' as const },
-    { url: `${baseUrl}/ai-agents`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/portfolio`, priority: 0.85, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/services`, priority: 0.80, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/solutions`, priority: 0.80, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/about`, priority: 0.80, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/innovation`, priority: 0.80, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/estimate`, priority: 0.85, changeFrequency: 'monthly' as const },
-    { url: `${baseUrl}/blog`, priority: 0.85, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/blog`, priority: 0.90, changeFrequency: 'weekly' as const },
   ];
 
   const caseStudies = [

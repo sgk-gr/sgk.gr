@@ -9,21 +9,21 @@ export const metadata: Metadata = {
     description: "Επαγγελματική κατασκευή ιστοσελίδων στην Ελλάδα. Custom design, SEO-optimized, mobile-first. Εταιρικά websites, landing pages, WordPress. Ζητήστε προσφορά.",
     keywords: "κατασκευή ιστοσελίδων, κατασκευή ιστοσελίδας ελλάδα, κατασκευή website, επαγγελματική ιστοσελίδα, εταιρικό website, wordpress κατασκευή",
     alternates: {
-        canonical: "https://sgk.gr/kataskevi-istoselidon",
+        canonical: "https://www.sgk.gr/kataskevi-istoselidon",
     },
     openGraph: {
         title: "Κατασκευή ιστοσελίδων | SGK Software Development",
         description: "Επαγγελματική κατασκευή ιστοσελίδων. Custom design, SEO, mobile-first. 18 χρόνια εμπειρία.",
-        url: "https://sgk.gr/kataskevi-istoselidon",
+        url: "https://www.sgk.gr/kataskevi-istoselidon",
         type: "website",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
         siteName: "SGK Software Development",
     },
     twitter: {
         card: "summary_large_image",
         title: "Κατασκευή ιστοσελίδων | SGK",
         description: "Επαγγελματική κατασκευή ιστοσελίδων. Custom design, SEO, mobile-first.",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
     },
 };
 
@@ -78,8 +78,8 @@ const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://sgk.gr" },
-        { "@type": "ListItem", "position": 2, "name": "Κατασκευή Ιστοσελίδων", "item": "https://sgk.gr/kataskevi-istoselidon" }
+        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://www.sgk.gr" },
+        { "@type": "ListItem", "position": 2, "name": "Κατασκευή Ιστοσελίδων", "item": "https://www.sgk.gr/kataskevi-istoselidon" }
     ]
 };
 

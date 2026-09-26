@@ -18,6 +18,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       }
     ],
-    sitemap: 'https://sgk.gr/sitemap.xml',
+    sitemap: 'https://www.sgk.gr/sitemap.xml',
   };
 }

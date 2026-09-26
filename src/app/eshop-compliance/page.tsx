@@ -7,16 +7,16 @@ export const metadata: Metadata = {
   title: "Νέα Νομοθεσία Ε.Ε. για E-shop | Δωρεάν Έλεγχος Υπαναχώρησης",
   description: "Μάθετε αν το e-shop σας κινδυνεύει από τον νέο νόμο (Οδηγία Ε.Ε. 2023/2673) και το νέο Κουμπί Υπαναχώρησης. Δωρεάν έλεγχος συμμόρφωσης.",
   alternates: {
-    canonical: "https://sgk.gr/eshop-compliance",
+    canonical: "https://www.sgk.gr/eshop-compliance",
   },
   openGraph: {
     title: "Νέα Νομοθεσία Ε.Ε. για E-shop | Δωρεάν Έλεγχος Υπαναχώρησης",
     description: "Μάθετε αν το e-shop σας κινδυνεύει από τον νέο νόμο (Οδηγία Ε.Ε. 2023/2673) και το νέο Κουμπί Υπαναχώρησης. Δωρεάν έλεγχος συμμόρφωσης.",
-    url: "https://sgk.gr/eshop-compliance",
+    url: "https://www.sgk.gr/eshop-compliance",
     siteName: "SGK Digital",
     images: [
       {
-        url: "https://sgk.gr/social-preview.png",
+        url: "https://www.sgk.gr/social-preview.png",
         width: 1200,
         height: 630,
         alt: "Νέα Νομοθεσία Ε.Ε. για E-shop - SGK Digital",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Νέα Νομοθεσία Ε.Ε. για E-shop | Δωρεάν Έλεγχος",
     description: "Μάθετε αν το e-shop σας κινδυνεύει από τον νέο νόμο.",
-    images: ["https://sgk.gr/social-preview.png"],
+    images: ["https://www.sgk.gr/social-preview.png"],
   },
 };
 

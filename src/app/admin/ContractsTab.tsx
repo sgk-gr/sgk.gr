@@ -859,7 +859,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
     const toSave = handleSaveContract();
     const docId = toSave.id;
     const b64 = safeEncodeBase64(toSave);
-    const docUrl = `https://sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
+    const docUrl = `https://www.sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
 
     const companyLabel = toSave.tradeName || toSave.companyName || "";
     const amountLabel = `${(toSave.totalAmountNum || 150).toFixed(2).replace(".", ",")} €`;

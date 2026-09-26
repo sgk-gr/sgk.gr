@@ -13,11 +13,11 @@ const teamSchema = {
       "worksFor": {
         "@type": "Organization",
         "name": "SGK Software Development",
-        "url": "https://sgk.gr"
+        "url": "https://www.sgk.gr"
       },
       "description": "Ο Σπύρος είναι ο άνθρωπος πίσω από την τεχνολογική κατεύθυνση της εταιρείας. Με πολυετή εμπειρία στο full-stack development και πάθος για την καινοτομία, εξειδικεύεται στη δημιουργία high-end e-shop και στην ενσωμάτωση προηγμένων AI Chat Agents.",
-      "image": "https://sgk.gr/tsavos.png",
-      "url": "https://sgk.gr/#team"
+      "image": "https://www.sgk.gr/tsavos.png",
+      "url": "https://www.sgk.gr/#team"
     }
   ]
 };

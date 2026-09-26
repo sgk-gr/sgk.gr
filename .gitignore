@@ -38,5 +38,7 @@ scratch/
 !public/llms.txt
 !public/robots.txt
 *.mjs
+*.csv
+public/*26-9*
 public/*_screenshot*.png
 

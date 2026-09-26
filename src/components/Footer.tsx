@@ -144,7 +144,7 @@ const Footer = () => {
             <Link href="/kataskevi-eshop-woocommerce" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Eshop WooCommerce</Link>
             <Link href="/kataskevi-istoselidon" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Ιστοσελίδων</Link>
             <Link href="/web-development" className="text-sm text-white hover:text-primary transition-colors">Web Development</Link>
-            <Link href="/ai-agents" className="text-sm text-white hover:text-primary transition-colors">AI Agents</Link>
+            <Link href="/ai-agents" className="text-sm text-cyan-400 font-bold hover:text-white transition-colors">🤖 Κατασκευή AI Agents & Custom AI</Link>
             <Link href="/estimate" className="text-sm text-primary hover:underline font-bold transition-colors mt-2">→ Δωρεάν Εκτίμηση</Link>
           </nav>
 

@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       console.warn("Storage upload notice (pdf_uploads):", uploadError.message);
     }
 
-    const publicUrl = `https://sgk.gr/doc/${docType}?id=${docId}`;
+    const publicUrl = `https://www.sgk.gr/doc/${docType}?id=${docId}`;
 
     return NextResponse.json({
       success: true,

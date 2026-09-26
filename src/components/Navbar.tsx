@@ -9,7 +9,17 @@ import JoJoChatModal from "./JoJoChatModal";
 
 const navItems = [
   { label: "Υπηρεσίες", href: "/services", color: "bg-[#4ade80]" },
-  { label: "AI Agents", href: "/ai-agents", color: "bg-[#3b5bdb]" },
+  { 
+    label: "AI Agents", 
+    href: "/ai-agents", 
+    color: "bg-[#3b5bdb]",
+    submenu: [
+      { label: "Κατασκευή AI Agents & Custom AI", href: "/ai-agents" },
+      { label: "Voice AI & Τηλεφωνία (PBX)", href: "/ai-agents" },
+      { label: "Case Study: Sigmalabs AI", href: "/case-study/sigmalabs-ai" },
+      { label: "Case Study: Rekrua HR AI", href: "/case-study/rekrua" }
+    ]
+  },
   { label: "Λύσεις", href: "/solutions", color: "bg-[#facc15]" },
   { label: "Πελάτες", href: "/portfolio", color: "bg-[#3b5bdb]" },
   { 

@@ -173,13 +173,13 @@ function IkeOfferContent() {
       {/* Header */}
       <header className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 h-16 flex items-center justify-between px-6 md:px-12">
         <div className="flex items-center gap-8">
-          <a href="https://sgk.gr" className="flex items-center gap-2">
+          <a href="https://www.sgk.gr" className="flex items-center gap-2">
             <span className="font-heading font-bold text-2xl tracking-tighter text-black">
               sgk<span className="text-[#3b5bdb]">.</span>
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
-            <a href="https://sgk.gr" className="hover:text-black transition-colors">Η Εταιρεία</a>
+            <a href="https://www.sgk.gr" className="hover:text-black transition-colors">Η Εταιρεία</a>
           </nav>
         </div>
         <button 

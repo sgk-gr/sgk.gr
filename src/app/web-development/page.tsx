@@ -9,21 +9,21 @@ export const metadata: Metadata = {
     description: "Επαγγελματικό web development στην Ελλάδα. Custom web εφαρμογές, React/Next.js, Node.js, APIs. 18 χρόνια εμπειρία, 100+ projects. Ζητήστε προσφορά.",
     keywords: "web development ελλάδα, κατασκευή web εφαρμογών, react next.js ελλάδα, custom web development, software development αθήνα, web app development",
     alternates: {
-        canonical: "https://sgk.gr/web-development",
+        canonical: "https://www.sgk.gr/web-development",
     },
     openGraph: {
         title: "Web development Ελλάδα | SGK Software Development",
         description: "Custom web εφαρμογές με React/Next.js. 18 χρόνια εμπειρία, 100+ projects στην Ελλάδα.",
-        url: "https://sgk.gr/web-development",
+        url: "https://www.sgk.gr/web-development",
         type: "website",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
         siteName: "SGK Software Development",
     },
     twitter: {
         card: "summary_large_image",
         title: "Web development Ελλάδα | SGK",
         description: "Custom web εφαρμογές, React/Next.js. 18 χρόνια εμπειρία.",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
     },
 };
 
@@ -78,8 +78,8 @@ const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://sgk.gr" },
-        { "@type": "ListItem", "position": 2, "name": "Web Development", "item": "https://sgk.gr/web-development" }
+        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://www.sgk.gr" },
+        { "@type": "ListItem", "position": 2, "name": "Web Development", "item": "https://www.sgk.gr/web-development" }
     ]
 };
 

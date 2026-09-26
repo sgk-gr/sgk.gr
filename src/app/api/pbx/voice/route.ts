@@ -21,7 +21,7 @@ export async function GET(req: Request) {
         Δυστυχώς δεν είναι δυνατή η απάντηση της κλήσης αυτή τη στιγμή. Παρακαλώ αφήστε το μήνυμά σας μετά τον χαρακτηριστικό ήχο.
     </Say>
     <Record 
-        action="https://sgk.gr/api/pbx/voicemail-callback" 
+        action="https://www.sgk.gr/api/pbx/voicemail-callback" 
         maxLength="120" 
         playBeep="true" 
         finishOnKey="*"
@@ -41,7 +41,7 @@ export async function GET(req: Request) {
     <Say language="el-GR" voice="Polly.Gwineth">
         Καλώς ήρθατε. Η κλήση σας προωθείται, παρακαλώ περιμένετε.
     </Say>
-    <Dial timeout="20" action="https://sgk.gr/api/pbx/voice?action=voicemail">
+    <Dial timeout="20" action="https://www.sgk.gr/api/pbx/voice?action=voicemail">
         <Number>+306999524389</Number>
     </Dial>
 </Response>`;

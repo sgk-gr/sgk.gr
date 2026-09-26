@@ -43,4 +43,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://sgk.gr/sitemap.xml
+Sitemap: https://www.sgk.gr/sitemap.xml

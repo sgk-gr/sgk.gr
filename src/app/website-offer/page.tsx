@@ -5,16 +5,16 @@ export const metadata: Metadata = {
   title: "Κατασκευή Ιστοσελίδας | Προσφορά SGK Digital",
   description: "Επαγγελματική κατασκευή ιστοσελίδας με Next.js & React, μόνο με 300€. Υψηλές επιδόσεις PageSpeed και κορυφαίο SEO εγγυημένα.",
   alternates: {
-    canonical: "https://sgk.gr/website-offer",
+    canonical: "https://www.sgk.gr/website-offer",
   },
   openGraph: {
     title: "Κατασκευή Ιστοσελίδας | Προσφορά SGK Digital",
     description: "Επαγγελματική κατασκευή ιστοσελίδας με Next.js & React, μόνο με 300€. Υψηλές επιδόσεις PageSpeed και κορυφαίο SEO εγγυημένα.",
-    url: "https://sgk.gr/website-offer",
+    url: "https://www.sgk.gr/website-offer",
     siteName: "SGK Digital",
     images: [
       {
-        url: "https://sgk.gr/social-preview.png",
+        url: "https://www.sgk.gr/social-preview.png",
         width: 1200,
         height: 630,
         alt: "Προσφορά Κατασκευής Ιστοσελίδας - SGK Digital",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Κατασκευή Ιστοσελίδας | Προσφορά SGK Digital",
     description: "Επαγγελματική κατασκευή ιστοσελίδας με Next.js & React, μόνο με 300€. Υψηλές επιδόσεις PageSpeed και κορυφαίο SEO εγγυημένα.",
-    images: ["https://sgk.gr/social-preview.png"],
+    images: ["https://www.sgk.gr/social-preview.png"],
   },
 };
 
@@ -39,14 +39,14 @@ const serviceSchema = {
   "provider": {
     "@type": "LocalBusiness",
     "name": "SGK Software Development",
-    "url": "https://sgk.gr"
+    "url": "https://www.sgk.gr"
   },
   "offers": {
     "@type": "Offer",
     "price": "300.00",
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock",
-    "url": "https://sgk.gr/website-offer"
+    "url": "https://www.sgk.gr/website-offer"
   },
   "areaServed": {
     "@type": "Country",

@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     title: "Sitemap | SGK Software Development",
     description: "Περιηγηθείτε σε όλες τις σελίδες και τα case studies της SGK Software Development.",
     alternates: {
-        canonical: "https://sgk.gr/sitemap",
+        canonical: "https://www.sgk.gr/sitemap",
     },
 };
 

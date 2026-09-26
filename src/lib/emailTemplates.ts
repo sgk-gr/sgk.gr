@@ -8,7 +8,7 @@ export function buildProfessionalEmailHtml(opts: {
   industry?: string;
 }): string {
   const { bodyHtml, buttonText, buttonLink, unsubscribeToken } = opts;
-  const unsubLink = `https://sgk.gr/unsubscribe?token=${unsubscribeToken}`;
+  const unsubLink = `https://www.sgk.gr/unsubscribe?token=${unsubscribeToken}`;
   
   const ctaButton = buttonText && buttonLink ? `
   <div style="text-align: center; margin: 20px 0 10px;">
@@ -35,7 +35,7 @@ export function buildProfessionalEmailHtml(opts: {
 <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
     <!-- Top Link -->
     <div style="text-align: right; padding: 8px 20px;">
-        <a href="https://sgk.gr" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">sgk.gr</a>
+        <a href="https://www.sgk.gr" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">sgk.gr</a>
     </div>
 
     <!-- Logo -->
@@ -80,8 +80,8 @@ export function buildProfessionalEmailHtml(opts: {
             </div>
 
             <p style="font-size: 11px; margin: 15px 0 0 0; color: #ffffff;">
-                <a href="https://sgk.gr/terms" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
-                <a href="https://sgk.gr/privacy" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
+                <a href="https://www.sgk.gr/terms" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
+                <a href="https://www.sgk.gr/privacy" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
             </p>
             <p style="font-size: 11px; margin: 5px 0 0 0; color: #ffffff;">
                 Copyright ${new Date().getFullYear()}. All rights reserved.

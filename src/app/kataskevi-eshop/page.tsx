@@ -9,21 +9,21 @@ export const metadata: Metadata = {
     description: "Κατασκευή eshop από εξειδικευμένους developers. WooCommerce, custom React eshops με Core Web Vitals 95+. Γρήγορη παράδοση, SEO-ready, mobile-first. Ζητήστε προσφορά σήμερα.",
     keywords: "κατασκευή eshop, κατασκευή ηλεκτρονικού καταστήματος, eshop ελλάδα, woocommerce ελλάδα, custom eshop, κατασκευή online shop",
     alternates: {
-        canonical: "https://sgk.gr/kataskevi-eshop",
+        canonical: "https://www.sgk.gr/kataskevi-eshop",
     },
     openGraph: {
         title: "Κατασκευή eshop | SGK Software Development",
         description: "Επαγγελματική κατασκευή eshop με WooCommerce & custom React. Core Web Vitals 95+, mobile-first, SEO-ready.",
-        url: "https://sgk.gr/kataskevi-eshop",
+        url: "https://www.sgk.gr/kataskevi-eshop",
         type: "website",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
         siteName: "SGK Software Development",
     },
     twitter: {
         card: "summary_large_image",
         title: "Κατασκευή eshop | SGK Software Development",
         description: "Επαγγελματική κατασκευή eshop με WooCommerce & custom React. Core Web Vitals 95+.",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
     },
 };
 
@@ -86,8 +86,8 @@ const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://sgk.gr" },
-        { "@type": "ListItem", "position": 2, "name": "Κατασκευή Eshop", "item": "https://sgk.gr/kataskevi-eshop" }
+        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://www.sgk.gr" },
+        { "@type": "ListItem", "position": 2, "name": "Κατασκευή Eshop", "item": "https://www.sgk.gr/kataskevi-eshop" }
     ]
 };
 

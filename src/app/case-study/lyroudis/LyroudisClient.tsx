@@ -89,13 +89,13 @@ export default function LyroudisClient() {
                         "author": {
                             "@type": "Organization",
                             "name": "SGK Software Development",
-                            "url": "https://sgk.gr"
+                            "url": "https://www.sgk.gr"
                         },
                         "publisher": {
                             "@type": "Organization",
                             "name": "SGK Software Development"
                         },
-                        "mainEntityOfPage": "https://sgk.gr/case-study/lyroudis"
+                        "mainEntityOfPage": "https://www.sgk.gr/case-study/lyroudis"
                     })
                 }}
             />

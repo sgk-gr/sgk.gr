@@ -5,17 +5,17 @@ export const metadata: Metadata = {
   title: "Πελάτες | SGK Digital",
   description: "Δείτε τα κορυφαία έργα μας: από headless e-shops και AI platforms μέχρι custom web portals και mobile apps.",
   alternates: {
-    canonical: "https://sgk.gr/portfolio",
+    canonical: "https://www.sgk.gr/portfolio",
   },
   openGraph: {
     title: "Τα Έργα & Οι Πελάτες Μας | SGK Digital",
     description: "Δείτε τα κορυφαία έργα μας: από headless e-shops και AI platforms μέχρι custom web portals και mobile apps.",
-    url: "https://sgk.gr/portfolio",
+    url: "https://www.sgk.gr/portfolio",
     type: "website",
     siteName: "SGK Digital Agency",
     images: [
       {
-        url: "https://sgk.gr/social-preview.png",
+        url: "https://www.sgk.gr/social-preview.png",
         width: 1200,
         height: 630,
         alt: "SGK Digital Agency Portfolio Preview",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Τα Έργα & Οι Πελάτες Μας | SGK Digital",
     description: "Δείτε τα κορυφαία έργα μας: από headless e-shops και AI platforms μέχρι custom web portals και mobile apps.",
-    images: ["https://sgk.gr/social-preview.png"],
+    images: ["https://www.sgk.gr/social-preview.png"],
   },
 };
 

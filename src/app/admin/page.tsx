@@ -393,7 +393,7 @@ export default function AdminVatDashboard() {
   // Send AADE Invoice & Technical Offer to Email tab / leads
   const handleSendInvoiceOfferByEmail = () => {
     const docId = "invoice_" + Date.now();
-    const docUrl = `https://sgk.gr/doc/invoice?id=${docId}`;
+    const docUrl = `https://www.sgk.gr/doc/invoice?id=${docId}`;
 
     const invoicePayload = {
       id: docId,

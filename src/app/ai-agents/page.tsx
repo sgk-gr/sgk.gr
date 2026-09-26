@@ -14,21 +14,21 @@ export const metadata: Metadata = {
     description: "Η #1 AI Agency στην Ελλάδα. Κατασκευή custom AI agents & επιχειρηματικών αυτοματισμών που εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. 24/7 εξυπηρέτηση πελατών με Voice AI (τηλέφωνο), Smart Chat & AI Video Avatars.",
     keywords: "κατασκευη ai agents, custom ai για επιχειρησεις, custom ai ελλαδα, ai agents χωρις υπαλληλους, αυτονομοι ai agents, voice ai agents ελλαδα, ai τηλεφωνικη εξυπηρετηση, ai chatbot ελλαδα, ai video avatars, εξυπηρετηση πελατων voice chat video, επιχειρηματικοι αυτοματισμοι ai, agentic ai greece, ai agency αθηνα, φωνητικοι πρακτορες ai, ai call center greece",
     alternates: {
-        canonical: "https://sgk.gr/ai-agents",
+        canonical: "https://www.sgk.gr/ai-agents",
     },
     openGraph: {
         title: "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | Voice, Chat, Video | SGK Digital",
         description: "Η κορυφαία AI Agency στην Ελλάδα. Ανάπτυξη Custom AI Agents & αυτοματισμών που εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. Εξυπηρέτηση με Voice AI, Smart Chat & Video.",
-        url: "https://sgk.gr/ai-agents",
+        url: "https://www.sgk.gr/ai-agents",
         type: "website",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
         siteName: "SGK Software Development",
     },
     twitter: {
         card: "summary_large_image",
         title: "Κατασκευή AI Agents & Custom AI για Επιχειρήσεις | SGK Digital",
         description: "Custom AI agents & αυτοματισμοί για ελληνικές επιχειρήσεις. Αυτόνομη εκτέλεση εργασιών, Voice AI τηλεφωνία, Smart Chat & Video Avatars.",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
     },
 };
 
@@ -36,9 +36,9 @@ const agencySchema = {
     "@context": "https://schema.org",
     "@type": ["ProfessionalService", "Organization"],
     "name": "SGK Digital - AI Agency & Custom AI Agents Greece",
-    "url": "https://sgk.gr/ai-agents",
-    "logo": "https://sgk.gr/logo.png",
-    "image": "https://sgk.gr/social-preview.png",
+    "url": "https://www.sgk.gr/ai-agents",
+    "logo": "https://www.sgk.gr/logo.png",
+    "image": "https://www.sgk.gr/social-preview.png",
     "telephone": "+302111140013",
     "email": "info@sgk.gr",
     "address": {
@@ -172,8 +172,8 @@ const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://sgk.gr" },
-        { "@type": "ListItem", "position": 2, "name": "Κατασκευή AI Agents & Custom AI", "item": "https://sgk.gr/ai-agents" }
+        { "@type": "ListItem", "position": 1, "name": "Αρχική", "item": "https://www.sgk.gr" },
+        { "@type": "ListItem", "position": 2, "name": "Κατασκευή AI Agents & Custom AI", "item": "https://www.sgk.gr/ai-agents" }
     ]
 };
 

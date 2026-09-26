@@ -17,9 +17,9 @@ const templates = [
     subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Επίσημη ιστοσελίδα ΓΕΜΗ έτοιμη σε 24 ώρες",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #f1f5f9; overflow: hidden;">
-  <a href="https://sgk.gr/ike-offer" target="_blank" style="display: block; text-decoration: none;">
+  <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display: block; text-decoration: none;">
     <img 
-      src="https://sgk.gr/ike-banner.jpg" 
+      src="https://www.sgk.gr/ike-banner.jpg" 
       alt="Εταιρική Ιστοσελίδα ΙΚΕ ΓΕΜΗ σε 24 ώρες - SGK Digital" 
       width="600" 
       style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
@@ -86,7 +86,7 @@ const templates = [
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
 </div>`,
     defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
-    defaultButtonLink: "https://sgk.gr/ike-offer"
+    defaultButtonLink: "https://www.sgk.gr/ike-offer"
   },
   {
     name: "Τουρισμός: Πλατφόρμα & Κρατήσεις (High Travel Style)",
@@ -95,7 +95,7 @@ const templates = [
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b192e; overflow: hidden;">
   <a href="https://www.hightravel.gr/" target="_blank" style="display: block; text-decoration: none;">
     <img 
-      src="https://sgk.gr/tourism-banner.jpg" 
+      src="https://www.sgk.gr/tourism-banner.jpg" 
       alt="Τουριστική Πλατφόρμα & Σύστημα Κρατήσεων High Travel - SGK Digital" 
       width="600" 
       style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
@@ -190,7 +190,7 @@ const templates = [
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νέας σας εταιρείας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
 </div>`,
     defaultButtonText: "Δείτε το Case Study της KM-Fiber",
-    defaultButtonLink: "https://sgk.gr/case-study/km-fiber"
+    defaultButtonLink: "https://www.sgk.gr/case-study/km-fiber"
   },
   {
     name: "Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)",
@@ -367,7 +367,7 @@ const templates = [
 </div>
 <p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`,
     defaultButtonText: "🧾 Λήψη Εξοφλημένου Τιμολογίου (PDF)",
-    defaultButtonLink: "https://sgk.gr/doc/invoice"
+    defaultButtonLink: "https://www.sgk.gr/doc/invoice"
   },
   {
     name: "✉️ Τιμολόγιο προς Εξόφληση",
@@ -424,7 +424,7 @@ const templates = [
 </div>
 <p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>`,
     defaultButtonText: "Online Εξόφληση",
-    defaultButtonLink: "https://sgk.gr/pay-invoice?ref=[ΑΡΙΘΜΟΣ_ΤΙΜΟΛΟΓΙΟΥ]"
+    defaultButtonLink: "https://www.sgk.gr/pay-invoice?ref=[ΑΡΙΘΜΟΣ_ΤΙΜΟΛΟΓΙΟΥ]"
   },
   {
     name: "📜 Ιδιωτικό Συμφωνητικό (ΓΕΜΗ)",
@@ -464,7 +464,7 @@ const templates = [
 <p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
 <p style="margin-top: 30px !important; border-top: 1px solid #f0f0f0; padding-top: 20px;">Με εκτίμηση,<br /><strong>Η ομάδα της SGK Software Development</strong></p>`,
     defaultButtonText: "📄 Προβολή & Λήψη Συμφωνητικού (PDF)",
-    defaultButtonLink: "https://sgk.gr/doc/contract"
+    defaultButtonLink: "https://www.sgk.gr/doc/contract"
   }
 ];
 
@@ -576,7 +576,7 @@ function safeEncodeBase64(data: any): string {
     if (!contract) return;
     const docId = contract.id || ("contract_" + (contract.clientAfm || contract.gemiNo || Date.now()));
     const b64 = safeEncodeBase64(contract);
-    const docUrl = `https://sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
+    const docUrl = `https://www.sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
 
     const companyLabel = contract.tradeName || contract.companyName || singleLeadTarget?.company || "";
     const amountLabel = contract.totalAmountNum ? `${contract.totalAmountNum.toFixed(2).replace('.', ',')} €` : (contract.totalAmountText || "150,00 €");
@@ -643,7 +643,7 @@ function safeEncodeBase64(data: any): string {
       payable: 150,
     };
     const b64 = safeEncodeBase64(invoicePayload);
-    const docUrl = `https://sgk.gr/doc/invoice?id=${docId}&data=${b64}&download=1`;
+    const docUrl = `https://www.sgk.gr/doc/invoice?id=${docId}&data=${b64}&download=1`;
 
     const clientTitle = customData?.clientName || singleLeadTarget?.company || singleLeadTarget?.first_name || "";
 

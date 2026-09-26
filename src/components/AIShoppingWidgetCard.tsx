@@ -173,7 +173,7 @@ export const AIShoppingWidgetCard: React.FC<AIShoppingWidgetCardProps> = ({
           <Label className="text-neutral-400 text-xs">{isEl ? 'Κώδικας Ενσωμάτωσης' : 'Embed Code'}</Label>
           <div className="flex items-center gap-2">
             <Input
-              value={`<script src="https://sgk.gr/sigmalabs-chat.js?v=2.2" data-shop="${eshopUrl || 'your-store.com'}" data-token="${userId}" data-name="${widgetName || 'Βοηθός AI'}" data-welcome="${widgetWelcome || 'Γεια σας! Πώς μπορώ να βοηθήσω;'}" defer></script>`}
+              value={`<script src="https://www.sgk.gr/sigmalabs-chat.js?v=2.2" data-shop="${eshopUrl || 'your-store.com'}" data-token="${userId}" data-name="${widgetName || 'Βοηθός AI'}" data-welcome="${widgetWelcome || 'Γεια σας! Πώς μπορώ να βοηθήσω;'}" defer></script>`}
               readOnly
               className="font-mono text-xs bg-neutral-900 border-neutral-800 text-white select-all h-10"
             />
@@ -182,7 +182,7 @@ export const AIShoppingWidgetCard: React.FC<AIShoppingWidgetCardProps> = ({
               size="sm" 
               className="border-neutral-800 hover:bg-neutral-800 text-white h-10 px-3" 
               onClick={() => {
-                const finalCode = `<script src="https://sgk.gr/sigmalabs-chat.js?v=2.2" data-shop="${eshopUrl || 'your-store.com'}" data-token="${userId}" data-name="${widgetName || 'Βοηθός AI'}" data-welcome="${widgetWelcome || 'Γεια σας! Πώς μπορώ να βοηθήσω;'}" defer></script>`;
+                const finalCode = `<script src="https://www.sgk.gr/sigmalabs-chat.js?v=2.2" data-shop="${eshopUrl || 'your-store.com'}" data-token="${userId}" data-name="${widgetName || 'Βοηθός AI'}" data-welcome="${widgetWelcome || 'Γεια σας! Πώς μπορώ να βοηθήσω;'}" defer></script>`;
                 navigator.clipboard.writeText(finalCode);
                 toast({
                   title: isEl ? 'Αντιγράφηκε!' : 'Copied!',

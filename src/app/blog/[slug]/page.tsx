@@ -20,7 +20,7 @@ export async function generateMetadata(
         };
     }
 
-    const url = `https://sgk.gr/blog/${slug}`;
+    const url = `https://www.sgk.gr/blog/${slug}`;
 
     return {
         title: post.metaTitle,

@@ -12,14 +12,14 @@ export const metadata: Metadata = {
   description: "Επαγγελματική κατασκευή ιστοσελίδας για νεοσύστατες & υπάρχουσες Ι.Κ.Ε. Πλήρης συμμόρφωση με το Άρθρο 47 §2 του Ν.4072/2012 και το ΓΕΜΗ. Παράδοση σε 24 ώρες με μόνο 150€ (με ΦΠΑ).",
   keywords: "κατασκευή ιστοσελίδας ικε, ιστοσελιδα ικε γεμη, υποχρεωτικη ιστοσελιδα ικε, κατασκευη site ικε, κοστος ιστοσελιδας ικε, ιστοσελιδα γεμη ικε 24 ωρες, νεα ικε ιστοσελιδα",
   alternates: {
-    canonical: "https://sgk.gr/kataskevi-istoselidas-ike",
+    canonical: "https://www.sgk.gr/kataskevi-istoselidas-ike",
   },
   openGraph: {
     title: "Κατασκευή Ιστοσελίδας ΙΚΕ σε 24 Ώρες | SGK Digital",
     description: "Πλήρης νομική συμμόρφωση με ΓΕΜΗ (Ν.4072/2012). Domain .gr + Hosting + SSL + Email + Design όλα σε 24 ώρες με 150€ με ΦΠΑ.",
-    url: "https://sgk.gr/kataskevi-istoselidas-ike",
+    url: "https://www.sgk.gr/kataskevi-istoselidas-ike",
     siteName: "SGK Digital",
-    images: [{ url: "https://sgk.gr/social-preview.png", width: 1200, height: 630, alt: "Κατασκευή Ιστοσελίδας ΙΚΕ" }],
+    images: [{ url: "https://www.sgk.gr/social-preview.png", width: 1200, height: 630, alt: "Κατασκευή Ιστοσελίδας ΙΚΕ" }],
     locale: "el_GR",
     type: "website",
   },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Κατασκευή Ιστοσελίδας ΙΚΕ σε 24 Ώρες | SGK Digital",
     description: "Νόμιμη εταιρική ιστοσελίδα ΙΚΕ για το ΓΕΜΗ σε 24 ώρες μόνο με 150€.",
-    images: ["https://sgk.gr/social-preview.png"],
+    images: ["https://www.sgk.gr/social-preview.png"],
   },
 };
 
@@ -77,7 +77,7 @@ const serviceSchema = {
   "provider": {
     "@type": "LocalBusiness",
     "name": "SGK Software Development",
-    "url": "https://sgk.gr",
+    "url": "https://www.sgk.gr",
     "telephone": "+302111140013"
   },
   "offers": {
@@ -85,7 +85,7 @@ const serviceSchema = {
     "price": "150.00",
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock",
-    "url": "https://sgk.gr/kataskevi-istoselidas-ike"
+    "url": "https://www.sgk.gr/kataskevi-istoselidas-ike"
   },
   "areaServed": {
     "@type": "Country",

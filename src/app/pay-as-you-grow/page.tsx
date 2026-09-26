@@ -15,21 +15,21 @@ export const metadata: Metadata = {
         "κατασκευη eshop με το μηνα"
     ],
     alternates: {
-        canonical: "https://sgk.gr/pay-as-you-grow",
+        canonical: "https://www.sgk.gr/pay-as-you-grow",
     },
     openGraph: {
         title: "SGK Pay as you grow | Κατασκευή Eshop με Ποσοστό vs Shopify",
         description: "Κατασκευή Eshop με setup fee 250€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
-        url: "https://sgk.gr/pay-as-you-grow",
+        url: "https://www.sgk.gr/pay-as-you-grow",
         type: "website",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
         siteName: "SGK Software Development",
     },
     twitter: {
         card: "summary_large_image",
         title: "SGK Pay as you grow | Κατασκευή Eshop με Ποσοστό vs Shopify",
         description: "Κατασκευή Eshop με setup fee 250€ και 5% προμήθεια επί των πωλήσεων. Σύγκριση με Shopify και Isocommerce. Μηδενικό ρίσκο, 100% δικό σας σε 12 μήνες.",
-        images: ["https://sgk.gr/social-preview.png"],
+        images: ["https://www.sgk.gr/social-preview.png"],
     },
 };
 
@@ -39,13 +39,13 @@ export default function PayAsYouGrowPage() {
         "@graph": [
             {
                 "@type": "Service",
-                "@id": "https://sgk.gr/pay-as-you-grow#service",
+                "@id": "https://www.sgk.gr/pay-as-you-grow#service",
                 "name": "SGK Pay As You Grow E-shop Development",
                 "description": "Κατασκευή επαγγελματικού E-shop με προκαταβολή 250€ και το υπόλοιπο με 5% προμήθεια επί των πωλήσεων για 12 μήνες μόνο. Χωρίς μηνιαία πάγια, 100% ιδιοκτησία μετά τους 12 μήνες.",
                 "provider": {
                     "@type": "LocalBusiness",
                     "name": "SGK Software Development",
-                    "image": "https://sgk.gr/public/logo.png",
+                    "image": "https://www.sgk.gr/public/logo.png",
                     "telephone": "+306999524389",
                     "email": "info@sgk.gr",
                     "address": {
@@ -66,7 +66,7 @@ export default function PayAsYouGrowPage() {
             },
             {
                 "@type": "FAQPage",
-                "@id": "https://sgk.gr/pay-as-you-grow#faq",
+                "@id": "https://www.sgk.gr/pay-as-you-grow#faq",
                 "mainEntity": [
                     {
                         "@type": "Question",

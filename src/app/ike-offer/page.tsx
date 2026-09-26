@@ -5,16 +5,16 @@ export const metadata: Metadata = {
   title: "Υποχρεωτική Ιστοσελίδα ΙΚΕ σε 24 Ώρες | SGK Digital",
   description: "Επαγγελματική κατασκευή ιστοσελίδας για την ΙΚΕ σας εντός 24 ωρών, πλήρως συμβατή με τις απαιτήσεις του ΓΕΜΗ (Άρθρο 47 §2 Ν.4072/2012, ΚΥΑ 46982/2025). Κόστος μόνο 150€ συμπεριλαμβανομένου ΦΠΑ.",
   alternates: {
-    canonical: "https://sgk.gr/ike-offer",
+    canonical: "https://www.sgk.gr/ike-offer",
   },
   openGraph: {
     title: "Υποχρεωτική Ιστοσελίδα ΙΚΕ σε 24 Ώρες | SGK Digital",
     description: "Επαγγελματική κατασκευή ιστοσελίδας για την ΙΚΕ σας εντός 24 ωρών, πλήρως συμβατή με τις απαιτήσεις του ΓΕΜΗ (Άρθρο 47 §2 Ν.4072/2012, ΚΥΑ 46982/2025). Κόστος μόνο 150€ συμπεριλαμβανομένου ΦΠΑ.",
-    url: "https://sgk.gr/ike-offer",
+    url: "https://www.sgk.gr/ike-offer",
     siteName: "SGK Digital",
     images: [
       {
-        url: "https://sgk.gr/social-preview.png",
+        url: "https://www.sgk.gr/social-preview.png",
         width: 1200,
         height: 630,
         alt: "Προσφορά Κατασκευής Ιστοσελίδας ΙΚΕ - SGK Digital",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Υποχρεωτική Ιστοσελίδα ΙΚΕ σε 24 Ώρες | SGK Digital",
     description: "Επαγγελματική κατασκευή ιστοσελίδας για την ΙΚΕ σας εντός 24 ωρών, πλήρως συμβατή με τις απαιτήσεις του ΓΕΜΗ (Άρθρο 47 §2 Ν.4072/2012, ΚΥΑ 46982/2025). Κόστος μόνο 150€ συμπεριλαμβανομένου ΦΠΑ.",
-    images: ["https://sgk.gr/social-preview.png"],
+    images: ["https://www.sgk.gr/social-preview.png"],
   },
 };
 
@@ -39,14 +39,14 @@ const serviceSchema = {
   "provider": {
     "@type": "LocalBusiness",
     "name": "SGK Software Development",
-    "url": "https://sgk.gr"
+    "url": "https://www.sgk.gr"
   },
   "offers": {
     "@type": "Offer",
     "price": "150.00",
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock",
-    "url": "https://sgk.gr/ike-offer"
+    "url": "https://www.sgk.gr/ike-offer"
   },
   "areaServed": {
     "@type": "Country",
