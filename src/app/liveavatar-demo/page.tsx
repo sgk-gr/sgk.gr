@@ -21,7 +21,8 @@ import {
     ExternalLink, 
     Loader2,
     ShieldCheck,
-    FileText
+    FileText,
+    MessageSquare
 } from "lucide-react";
 import Link from "next/link";
 
@@ -39,6 +40,9 @@ export default function LiveAvatarVideoCallPage() {
     const [statusText, setStatusText] = useState<string>("Έτοιμο για εκκίνηση");
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [hasNativeStream, setHasNativeStream] = useState<boolean>(false);
+    
+    // Chat visibility (hidden by default as requested)
+    const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
     
     // Controls States
     const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
@@ -311,47 +315,59 @@ export default function LiveAvatarVideoCallPage() {
     };
 
     return (
-        <div className="w-full h-screen bg-[#0a0b0e] flex items-center justify-center p-2 sm:p-4 select-none font-sans overflow-hidden">
-            {/* Main Window Frame Container */}
-            <div className="w-full max-w-[1440px] h-[96vh] max-h-[880px] bg-[#14151b] rounded-[28px] overflow-hidden shadow-2xl border-4 border-[#252630] flex flex-col md:flex-row relative">
+        <div className="w-full h-[100dvh] bg-[#0a0b0e] flex items-center justify-center p-0 sm:p-4 select-none font-sans overflow-hidden">
+            {/* Main Window Frame Container (Full-screen on mobile, elegant window on desktop) */}
+            <div className="w-full sm:max-w-[1440px] h-full sm:h-[96vh] sm:max-h-[880px] bg-[#14151b] rounded-none sm:rounded-[28px] overflow-hidden shadow-2xl border-0 sm:border-4 border-[#252630] flex relative">
                 
-                {/* ================= LEFT PANEL: CHAT ================= */}
-                <div className="w-full md:w-[360px] lg:w-[400px] xl:w-[420px] flex-shrink-0 flex flex-col bg-white h-full border-r border-[#26272e] z-10">
+                {/* Mobile Backdrop when Chat Drawer is Open */}
+                {isChatOpen && (
+                    <div 
+                        onClick={() => setIsChatOpen(false)}
+                        className="fixed sm:hidden inset-0 bg-black/60 backdrop-blur-xs z-40 transition-opacity"
+                    />
+                )}
+
+                {/* ================= SLIDE-IN OVERLAY DRAWER: CHAT (Hidden by default) ================= */}
+                <div className={`fixed sm:absolute top-0 left-0 bottom-0 z-50 w-full sm:w-[380px] md:w-[400px] flex flex-col bg-white h-full border-r border-[#26272e] shadow-2xl transition-transform duration-300 ease-in-out ${
+                    isChatOpen ? "translate-x-0" : "-translate-x-full pointer-events-none"
+                }`}>
                     {/* Header */}
-                    <div className="h-16 px-5 bg-[#5b36f5] flex items-center justify-between text-white shadow-md">
+                    <div className="h-16 px-4 sm:px-5 bg-[#5b36f5] flex items-center justify-between text-white shadow-md flex-shrink-0">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#5b36f5] shadow-sm relative">
-                                <Bot className="w-6 h-6" />
+                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center text-[#5b36f5] shadow-sm relative flex-shrink-0">
+                                <Bot className="w-5 h-5 sm:w-6 sm:h-6" />
                                 <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" />
                             </div>
-                            <div>
-                                <h2 className="text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5">
+                            <div className="min-w-0">
+                                <h2 className="text-sm sm:text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5 truncate">
                                     Wayne (Tech Expert)
                                     <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Consultant</span>
                                 </h2>
-                                <span className="text-[11px] text-white/80 font-normal">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (150€)</span>
+                                <span className="text-[11px] text-white/80 font-normal truncate block">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (150€)</span>
                             </div>
                         </div>
 
-                        <Link 
-                            href="/ike-offer" 
-                            className="p-1.5 rounded-full hover:bg-white/10 transition-colors text-white/90 hover:text-white"
-                            title="Προσφορά ΙΚΕ 150€"
+                        {/* Close Chat Button */}
+                        <button 
+                            type="button"
+                            onClick={() => setIsChatOpen(false)}
+                            className="p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors text-white"
+                            title="Απόκρυψη Chat"
                         >
                             <X className="w-5 h-5" />
-                        </Link>
+                        </button>
                     </div>
 
                     {/* Quick Badge info */}
-                    <div className="bg-slate-50 px-4 py-2 border-b border-gray-100 flex items-center justify-between text-[11px] text-gray-600">
-                        <span className="flex items-center gap-1 text-emerald-600 font-semibold">
-                            <ShieldCheck className="w-3.5 h-3.5" /> Νόμος 4072/2012 Γ.Ε.ΜΗ.
+                    <div className="bg-slate-50 px-4 py-2 border-b border-gray-100 flex items-center justify-between text-[11px] text-gray-600 flex-shrink-0">
+                        <span className="flex items-center gap-1 text-emerald-600 font-semibold truncate">
+                            <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" /> Νόμος 4072/2012 Γ.Ε.ΜΗ.
                         </span>
-                        <span className="font-bold text-[#5b36f5]">150€ Τελική Τιμή • 24 Ώρες</span>
+                        <span className="font-bold text-[#5b36f5] flex-shrink-0">150€ • 24 Ώρες</span>
                     </div>
 
                     {/* Chat Messages Body */}
-                    <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-white">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-white">
                         {messages.map((m) => (
                             <div 
                                 key={m.id} 
@@ -361,7 +377,7 @@ export default function LiveAvatarVideoCallPage() {
                                     {m.time}
                                 </span>
                                 <div 
-                                    className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-[13.5px] leading-relaxed shadow-sm ${
+                                    className={`max-w-[85%] px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl text-[13px] sm:text-[13.5px] leading-relaxed shadow-xs ${
                                         m.sender === "user"
                                             ? "bg-[#5b36f5] text-white rounded-tr-xs"
                                             : "bg-[#f1f3f6] text-[#1f2937] rounded-tl-xs"
@@ -376,7 +392,7 @@ export default function LiveAvatarVideoCallPage() {
                         {isCallActive && (
                             <div className="text-center py-2 my-2">
                                 <span className="text-[10px] text-gray-400 font-medium block">
-                                    3:04 μμ
+                                    {formatTimer(callSeconds)}
                                 </span>
                                 <span className="inline-block mt-0.5 text-xs font-bold text-gray-900 tracking-wide bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">
                                     ● Ζωντανή Βιντεοκλήση σε εξέλιξη
@@ -390,87 +406,62 @@ export default function LiveAvatarVideoCallPage() {
                     {/* Chat Input Bar */}
                     <form 
                         onSubmit={handleSendMessage}
-                        className="px-4 py-3 bg-white border-t border-gray-100 flex items-center gap-2"
+                        className="p-3 bg-white border-t border-gray-100 flex items-center gap-2 flex-shrink-0"
                     >
                         <input 
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
                             placeholder="Ρωτήστε τον Wayne για την ΙΚΕ σας..."
-                            className="flex-1 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400 px-1"
+                            className="flex-1 text-sm bg-gray-50 rounded-full py-2 px-3.5 outline-none text-gray-800 placeholder-gray-400 focus:bg-gray-100"
                         />
                         
-                        <div className="flex items-center gap-1.5 text-gray-400">
-                            <button 
-                                type="button" 
-                                className="p-1.5 hover:text-gray-600 transition-colors"
-                                title="Επισύναψη αρχείου / ισολογισμού"
-                            >
-                                <Paperclip className="w-4 h-4" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className="p-1.5 hover:text-gray-600 transition-colors"
-                                title="Emoji"
-                            >
-                                <Smile className="w-4 h-4" />
-                            </button>
-                            <button 
-                                type="submit" 
-                                disabled={!inputText.trim()}
-                                className="p-1.5 text-[#5b36f5] hover:text-[#4927d6] disabled:text-gray-300 transition-colors"
-                                title="Αποστολή"
-                            >
-                                <Send className="w-4 h-4" />
-                            </button>
-                        </div>
+                        <button 
+                            type="submit" 
+                            disabled={!inputText.trim()}
+                            className="p-2 rounded-full bg-[#5b36f5] text-white hover:bg-[#4927d6] disabled:bg-gray-200 disabled:text-gray-400 transition-colors flex-shrink-0"
+                            title="Αποστολή"
+                        >
+                            <Send className="w-4 h-4" />
+                        </button>
                     </form>
                 </div>
 
-                {/* ================= RIGHT PANEL: VIDEO CALL ================= */}
-                <div className="flex-1 h-full relative bg-[#13141a] overflow-hidden flex items-center justify-center">
+                {/* ================= MAIN VIDEO CALL STAGE (Full screen / Responsive) ================= */}
+                <div className="flex-1 w-full h-full relative bg-[#13141a] overflow-hidden flex items-center justify-center">
                     
                     {/* Top Right Header Controls Overlay */}
-                    <div className="absolute top-4 right-5 z-30 flex items-center gap-3.5 text-white/90">
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-5 z-30 flex items-center gap-2 sm:gap-3 text-white/90">
                         {isCallActive && (
-                            <div className="text-sm font-medium tracking-wider text-emerald-400 font-mono bg-black/40 backdrop-blur-sm px-3 py-1 rounded-md border border-emerald-500/30 flex items-center gap-2">
+                            <div className="text-xs sm:text-sm font-medium tracking-wider text-emerald-400 font-mono bg-black/50 backdrop-blur-sm px-2.5 sm:px-3 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1.5 sm:gap-2">
                                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                                 {formatTimer(callSeconds)}
                             </div>
                         )}
+
                         <button 
-                            className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
-                            title="Picture in picture"
+                            onClick={() => setIsChatOpen(!isChatOpen)}
+                            className={`px-3 py-1.5 rounded-full border text-xs font-medium flex items-center gap-1.5 transition-all shadow-md ${
+                                isChatOpen 
+                                    ? "bg-[#5b36f5] border-[#5b36f5] text-white" 
+                                    : "bg-black/50 backdrop-blur-md border-white/20 text-white/90 hover:text-white hover:border-white/40"
+                            }`}
+                            title="Συνομιλία / Chat"
                         >
-                            <Maximize2 className="w-4 h-4" />
-                        </button>
-                        <button 
-                            className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
-                            title="Ρυθμίσεις"
-                        >
-                            <Settings className="w-4 h-4" />
-                        </button>
-                        <button 
-                            className="p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
-                            title="Επιλογές"
-                        >
-                            <MoreVertical className="w-4 h-4" />
+                            <MessageSquare className="w-3.5 h-3.5" />
+                            <span className="hidden xs:inline">Chat</span>
                         </button>
                     </div>
 
-                    {/* Top Left Status / Direct fullscreen button */}
-                    <div className="absolute top-4 left-5 z-30 flex items-center gap-2">
-                        {avatarUrl && (
-                            <a 
-                                href={avatarUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-[11px] text-white/90 hover:text-white hover:border-white/40 transition-all shadow-md"
-                            >
-                                <span>Άνοιγμα σε Fullscreen</span>
-                                <ExternalLink className="w-3 h-3" />
-                            </a>
-                        )}
+                    {/* Top Left Status / Links */}
+                    <div className="absolute top-3 sm:top-4 left-3 sm:left-5 z-30 flex items-center gap-2">
+                        <Link
+                            href="/ike-offer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-xs text-white/90 hover:text-white hover:border-white/40 transition-all shadow-md"
+                        >
+                            <span className="hidden xs:inline">Υπηρεσία ΙΚΕ</span>
+                            <span className="font-bold text-emerald-400">150€</span>
+                        </Link>
                     </div>
 
                     {/* Main Video Stream Container */}
@@ -480,10 +471,10 @@ export default function LiveAvatarVideoCallPage() {
                             ref={avatarVideoRef}
                             autoPlay 
                             playsInline 
-                            className={`w-full h-full object-cover transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
+                            className={`w-full h-full object-cover sm:object-contain transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
                         />
 
-                        {/* Iframe Fallback (if native stream not ready yet but avatarUrl available) */}
+                        {/* Iframe Fallback */}
                         {isCallActive && !hasNativeStream && avatarUrl && (
                             <iframe 
                                 src={avatarUrl}
@@ -494,10 +485,10 @@ export default function LiveAvatarVideoCallPage() {
 
                         {/* Call Active but connecting state */}
                         {isCallActive && !hasNativeStream && !avatarUrl && (
-                            <div className="text-center p-8 space-y-4">
-                                <Loader2 className="w-12 h-12 text-[#5b36f5] animate-spin mx-auto" />
-                                <h3 className="text-lg font-medium text-white">{statusText}</h3>
-                                <p className="text-xs text-white/60">Σύνδεση με AI Video WebRTC...</p>
+                            <div className="text-center p-6 sm:p-8 space-y-4 max-w-sm">
+                                <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#5b36f5] animate-spin mx-auto" />
+                                <h3 className="text-base sm:text-lg font-medium text-white">{statusText}</h3>
+                                <p className="text-xs text-white/60">Σύνδεση με Live AI Video WebRTC...</p>
                             </div>
                         )}
 
@@ -510,24 +501,24 @@ export default function LiveAvatarVideoCallPage() {
                                     alt="Wayne - Tech Expert" 
                                     className="w-full h-full object-cover filter brightness-[0.88]"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/50" />
 
                                 {/* Center Start Call CTA */}
-                                <div className="absolute z-20 flex flex-col items-center text-center px-4 max-w-lg">
-                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider mb-3">
+                                <div className="absolute z-20 flex flex-col items-center text-center px-4 w-full max-w-md sm:max-w-lg">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-2.5">
                                         <Sparkles className="w-3.5 h-3.5" /> Ζωντανή AI Ενημέρωση Ι.Κ.Ε.
                                     </div>
-                                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
+                                    <h2 className="text-xl sm:text-3xl font-bold text-white mb-2 leading-tight">
                                         Μιλήστε ζωντανά με τον Wayne
                                     </h2>
-                                    <p className="text-sm text-slate-300 font-light mb-6 leading-relaxed">
-                                        Ενημερωθείτε άμεσα μέσω live video chat για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στο ΓΕΜΗ (150€, παράδοση σε μόλις 24 ώρες).
+                                    <p className="text-xs sm:text-sm text-slate-300 font-light mb-5 sm:mb-6 leading-relaxed max-w-sm">
+                                        Ενημερωθείτε άμεσα μέσω video call για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στο ΓΕΜΗ (150€, παράδοση σε 24 ώρες).
                                     </p>
 
                                     <button
                                         onClick={handleStartCall}
                                         disabled={isLoadingAvatar}
-                                        className="px-8 py-4 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-semibold text-sm flex items-center gap-3 shadow-2xl shadow-indigo-500/60 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                                        className="w-full sm:w-auto px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#5b36f5] hover:bg-[#4d2bd9] text-white font-semibold text-sm flex items-center justify-center gap-3 shadow-2xl shadow-indigo-500/60 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
                                     >
                                         {isLoadingAvatar ? (
                                             <>
@@ -547,68 +538,84 @@ export default function LiveAvatarVideoCallPage() {
                     </div>
 
                     {/* ================= BOTTOM FLOATING ACTION BAR ================= */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-black/50 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10 shadow-2xl">
+                    <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-3 bg-black/60 backdrop-blur-md px-3 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/10 shadow-2xl">
                         {/* Mic Button */}
                         <button 
                             onClick={handleToggleMic}
-                            className={`p-3 rounded-full transition-all ${
+                            className={`p-2.5 sm:p-3 rounded-full transition-all ${
                                 isMicMuted 
                                     ? "bg-red-500/80 hover:bg-red-600 text-white" 
                                     : "bg-white/15 hover:bg-white/25 text-white"
                             }`}
                             title={isMicMuted ? "Ενεργοποίηση μικροφώνου" : "Σίγαση μικροφώνου"}
                         >
-                            {isMicMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                            {isMicMuted ? <MicOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Mic className="w-4 h-4 sm:w-5 sm:h-5" />}
                         </button>
 
                         {/* Camera Button */}
                         <button 
                             onClick={() => setIsVideoOff(!isVideoOff)}
-                            className={`p-3 rounded-full transition-all ${
+                            className={`p-2.5 sm:p-3 rounded-full transition-all ${
                                 isVideoOff 
                                     ? "bg-red-500/80 hover:bg-red-600 text-white" 
                                     : "bg-white/15 hover:bg-white/25 text-white"
                             }`}
                             title={isVideoOff ? "Ενεργοποίηση κάμερας" : "Απενεργοποίηση κάμερας"}
                         >
-                            {isVideoOff ? <VideoOff className="w-5 h-5" /> : <VideoIcon className="w-5 h-5" />}
+                            {isVideoOff ? <VideoOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <VideoIcon className="w-4 h-4 sm:w-5 sm:h-5" />}
                         </button>
 
-                        {/* Screen Share Button */}
+                        {/* Screen Share Button (Desktop only) */}
                         <button 
                             onClick={() => setIsScreenSharing(!isScreenSharing)}
-                            className={`p-3 rounded-full transition-all ${
+                            className={`hidden sm:flex p-2.5 sm:p-3 rounded-full transition-all ${
                                 isScreenSharing 
                                     ? "bg-cyan-500/80 hover:bg-cyan-600 text-white" 
                                     : "bg-white/15 hover:bg-white/25 text-white"
                             }`}
                             title="Διαμοιρασμός οθόνης"
                         >
-                            <ScreenShare className="w-5 h-5" />
+                            <ScreenShare className="w-4 h-4 sm:w-5 sm:h-5" />
+                        </button>
+
+                        {/* Chat Toggle Button */}
+                        <button 
+                            onClick={() => setIsChatOpen(!isChatOpen)}
+                            className={`p-2.5 sm:p-3 rounded-full transition-all relative ${
+                                isChatOpen 
+                                    ? "bg-[#5b36f5] text-white shadow-lg shadow-indigo-500/40" 
+                                    : "bg-white/15 hover:bg-white/25 text-white"
+                            }`}
+                            title={isChatOpen ? "Απόκρυψη Chat" : "Εμφάνιση Chat"}
+                        >
+                            <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
+                            {!isChatOpen && messages.length > 0 && (
+                                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400" />
+                            )}
                         </button>
 
                         {/* Red Hangup / Green Start Button */}
                         {isCallActive ? (
                             <button 
                                 onClick={handleEndCall}
-                                className="p-3.5 rounded-full bg-[#eb4335] hover:bg-[#d63b2f] text-white shadow-lg shadow-red-500/40 hover:scale-105 active:scale-95 transition-all"
+                                className="p-3 sm:p-3.5 rounded-full bg-[#eb4335] hover:bg-[#d63b2f] text-white shadow-lg shadow-red-500/40 hover:scale-105 active:scale-95 transition-all"
                                 title="Τερματισμός κλήσης"
                             >
-                                <PhoneOff className="w-5 h-5" />
+                                <PhoneOff className="w-4 h-4 sm:w-5 sm:h-5" />
                             </button>
                         ) : (
                             <button 
                                 onClick={handleStartCall}
-                                className="p-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all"
+                                className="p-3 sm:p-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all"
                                 title="Έναρξη κλήσης"
                             >
-                                <Phone className="w-5 h-5" />
+                                <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                             </button>
                         )}
                     </div>
 
                     {/* ================= BOTTOM RIGHT PiP (User Camera) ================= */}
-                    <div className="absolute bottom-6 right-6 z-20 w-40 sm:w-48 aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-2 border-white/20 bg-[#1e2029]">
+                    <div className="absolute bottom-16 sm:bottom-6 right-3 sm:right-6 z-20 w-28 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-[#1e2029]">
                         {hasUserMedia && !isVideoOff ? (
                             <video 
                                 ref={userVideoRef}
@@ -626,16 +633,16 @@ export default function LiveAvatarVideoCallPage() {
                         )}
 
                         {/* Bottom Overlay Label */}
-                        <div className="absolute bottom-2 left-2 flex items-center gap-1.5 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
+                        <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 flex items-center gap-1 bg-black/60 backdrop-blur-xs px-1.5 py-0.5 rounded-md">
                             {!isMicMuted && (
                                 <div className="flex items-center gap-0.5">
-                                    <span className="w-0.5 h-2 bg-cyan-400 rounded-full animate-pulse" />
-                                    <span className="w-0.5 h-3 bg-cyan-400 rounded-full animate-pulse delay-75" />
-                                    <span className="w-0.5 h-1.5 bg-cyan-400 rounded-full animate-pulse delay-150" />
+                                    <span className="w-0.5 h-1.5 sm:h-2 bg-cyan-400 rounded-full animate-pulse" />
+                                    <span className="w-0.5 h-2.5 sm:h-3 bg-cyan-400 rounded-full animate-pulse delay-75" />
+                                    <span className="w-0.5 h-1 sm:h-1.5 bg-cyan-400 rounded-full animate-pulse delay-150" />
                                 </div>
                             )}
-                            <span className="text-[10px] font-medium text-white/90">
-                                Εσείς (Επισκέπτης)
+                            <span className="text-[9px] sm:text-[10px] font-medium text-white/90">
+                                Εσείς
                             </span>
                         </div>
                     </div>
