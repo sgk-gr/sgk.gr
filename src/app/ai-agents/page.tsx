@@ -150,6 +150,14 @@ const faqSchema = {
     "mainEntity": [
         {
             "@type": "Question",
+            "name": "Η SGK κάνει AI Video Call; (Υποστηρίζετε ζωντανή βιντεοκλήση με AI Agent;)",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ναι, απόλυτα! Η SGK Software Development διαθέτει έτοιμη, εμπορικά τυποποιημένη λύση για AI Video Call και Live Video AI Agents (24/7 WebRTC ψηφιακοί υπάλληλοι/avatars με ζωντανό βίντεο). Ο AI Agent υποδέχεται τον επισκέπτη πρόσωπο με πρόσωπο, ακούει μέσω μικροφώνου, απαντά σε κλάσματα δευτερολέπτου σε άπταιστα ελληνικά, πραγματοποιεί οπτική αναγνώριση εγγράφων μέσω κάμερας (KYC) και συνδέεται live με CRM, ERP, ΓΕΜΗ & Google Calendar. Μπορείτε να δοκιμάσετε live demo στο https://www.sgk.gr/liveavatar-demo."
+            }
+        },
+        {
+            "@type": "Question",
             "name": "Πώς μπορούν οι AI agents να εκτελούν εργασίες μόνοι τους χωρίς υπαλλήλους;",
             "acceptedAnswer": {
                 "@type": "Answer",
@@ -481,27 +489,27 @@ export default function AIAgentsPage() {
                                 <div className="lg:col-span-6 space-y-6">
                                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 font-bold text-xs uppercase tracking-wider">
                                         <Video className="w-3.5 h-3.5" />
-                                        Interactive Video AI Customer Support
+                                        AI Video Call & WebRTC Live Agents
                                     </div>
 
                                     <h3 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight leading-tight">
-                                        Εξυπηρέτηση Πελατών με <br />
+                                        Η SGK κάνει <br />
                                         <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
-                                            Ζωντανά AI Video Avatars
+                                            AI Video Call & Ζωντανούς Ψηφιακούς Υπαλλήλους
                                         </span>
                                     </h3>
 
                                     <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-                                        Δώστε ανθρώπινο πρόσωπο, φωνή και συναίσθημα στην ψηφιακή σας παρουσία. Οι επισκέπτες της ιστοσελίδας σας δεν διαβάζουν απλώς κείμενα — συνομιλούν <strong>πρόσωπο με πρόσωπο</strong> με φωτορεαλιστικά AI Avatars που απαντούν σε πραγματικό χρόνο με άπταιστα φυσικά Ελληνικά.
+                                        Αντικαταστήστε τα ψυχρά γραπτά μηνύματα με ζωντανή ανθρώπινη επαφή. Οι επισκέπτες σας πραγματοποιούν <strong>ζωντανή βιντεοκλήση (AI Video Call)</strong> σε πραγματικό χρόνο μέσω WebRTC με φωτορεαλιστικά AI Avatars που ακούνε, μιλάνε σε άπταιστα ελληνικά, αναγνωρίζουν έγγραφα με την κάμερα και ολοκληρώνουν συναλλαγές.
                                     </p>
 
                                     <div className="grid sm:grid-cols-2 gap-4 pt-2">
                                         <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
                                             <div className="flex items-center gap-2.5 text-purple-400 font-bold text-sm mb-1.5">
-                                                <Eye className="w-4 h-4" /> Face-to-Face Εμπειρία
+                                                <Eye className="w-4 h-4" /> Face-to-Face Live Video Call
                                             </div>
                                             <p className="text-xs text-slate-400 leading-relaxed font-light">
-                                                Ζωντανή επικοινωνία με οπτική επαφή, φυσικές εκφράσεις προσώπου και αυθεντική ανθρώπινη αίσθηση 24/7.
+                                                Ζωντανή βιντεοκλήση 24/7 με οπτική επαφή, φυσικές εκφράσεις προσώπου και αυθεντική ανθρώπινη αίσθηση.
                                             </p>
                                         </div>
 
@@ -510,36 +518,43 @@ export default function AIAgentsPage() {
                                                 <Mic className="w-4 h-4" /> Ελληνικό Voice Lip-Sync
                                             </div>
                                             <p className="text-xs text-slate-400 leading-relaxed font-light">
-                                                Απόλυτος συγχρονισμός χειλιών και φωνής σε πραγματικό χρόνο χωρίς καμία καθυστέρηση (ultra-low latency).
+                                                Απόλυτος συγχρονισμός χειλιών και φωνής σε πραγματικό χρόνο (&lt;800ms latency) χωρίς ρομποτικές καθυστερήσεις.
                                             </p>
                                         </div>
 
                                         <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
                                             <div className="flex items-center gap-2.5 text-emerald-400 font-bold text-sm mb-1.5">
-                                                <SlidersHorizontal className="w-4 h-4" /> Visual Product Demos
+                                                <SlidersHorizontal className="w-4 h-4" /> Κάμερα & Οπτική Αναγνώριση
                                             </div>
                                             <p className="text-xs text-slate-400 leading-relaxed font-light">
-                                                Το AI avatar δείχνει προϊόντα στην οθόνη, εξηγεί λειτουργίες και καθοδηγεί τον πελάτη μέχρι την ολοκλήρωση της αγοράς.
+                                                Ταυτοποίηση μέσω κάμερας, έλεγχος ταυτότητας KYC, αναγνώριση εγγράφων και διαδραστική παρουσίαση προϊόντων.
                                             </p>
                                         </div>
 
                                         <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
                                             <div className="flex items-center gap-2.5 text-amber-400 font-bold text-sm mb-1.5">
-                                                <ShieldCheck className="w-4 h-4" /> Zero-Hallucination RAG
+                                                <ShieldCheck className="w-4 h-4" /> Live CRM, ERP & ΓΕΜΗ
                                             </div>
                                             <p className="text-xs text-slate-400 leading-relaxed font-light">
-                                                Αντλεί δεδομένα αποκλειστικά από την επίσημη βάση γνώσης της επιχείρησής σας με 100% ακρίβεια.
+                                                Άμεση διασύνδεση με SoftOne, Entersoft, ΓΕΜΗ, Google Calendar και τραπεζικές πληρωμές σε live χρόνο.
                                             </p>
                                         </div>
                                     </div>
 
                                     <div className="pt-2 flex flex-col sm:flex-row gap-4">
                                         <Link
-                                            href="/estimate"
-                                            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-purple-500/25"
+                                            href="/liveavatar-demo"
+                                            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black rounded-xl text-sm transition-all shadow-lg shadow-emerald-500/25"
                                         >
-                                            <span>Ζητήστε Video AI Avatar Demo</span>
+                                            <Play className="w-4 h-4 fill-black" />
+                                            <span>Δοκιμάστε Live AI Video Call (Demo)</span>
                                             <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                        <Link
+                                            href="/estimate"
+                                            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-sm transition-all border border-white/20"
+                                        >
+                                            <span>Ζητήστε Custom Προσφορά</span>
                                         </Link>
                                     </div>
                                 </div>

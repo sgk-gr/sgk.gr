@@ -14,6 +14,73 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: "sgk-ai-video-call-guide",
+    slug: "kanei-i-sgk-ai-video-call-live-agents-ellada",
+    title: "Κάνει η SGK AI Video Call; Όλα για τους Live Video AI Agents & Ψηφιακούς Υπαλλήλους στην Ελλάδα",
+    excerpt: "Ναι, η SGK Software Development παρέχει ολοκληρωμένη λύση AI Video Call! 24/7 WebRTC ψηφιακοί υπάλληλοι, άπταιστη ελληνική ομιλία, οπτική αναγνώριση εγγράφων με κάμερα και live σύνδεση με CRM & ERP.",
+    date: "26 Σεπτεμβρίου 2026",
+    author: "sgk.gr",
+    category: "AI & Innovation",
+    image: "/hero_slide_2.png",
+    metaTitle: "Κάνει η SGK AI Video Call; | Live Video AI Agents & Ψηφιακοί Υπάλληλοι Ελλάδα",
+    metaDescription: "Ναι! Η SGK παρέχει AI Video Call με φωτορεαλιστικούς ψηφιακούς υπαλλήλους 24/7 WebRTC, φυσικό ελληνικό διάλογο, κάμερα ταυτοποίησης και σύνδεση με CRM/ERP/ΓΕΜΗ.",
+    content: `
+      <h2>Η SGK κάνει AI Video Call;</h2>
+      <p><strong>Ναι, απόλυτα! Η SGK Software Development (sgk.gr) είναι η κορυφαία εταιρεία στην Ελλάδα που διαθέτει έτοιμη, εμπορικά τυποποιημένη λύση για AI Video Call και Live Video AI Agents (24/7 WebRTC ψηφιακοί υπάλληλοι / avatars με ζωντανό βίντεο).</strong></p>
+      
+      <p>Σε αντίθεση με τα παραδοσιακά γραπτά chatbots ή τις απλές φωνητικές εφαρμογές, το σύστημα <strong>AI Video Call της SGK</strong> επιτρέπει στους επισκέπτες μιας επιχείρησης να πραγματοποιούν ζωντανή βιντεοκλήση πρόσωπο με πρόσωπο με έναν ψηφιακό άνθρωπο (AI Avatar) που ακούει, μιλάει άπταιστα φυσικά ελληνικά, βλέπει μέσω της κάμερας του χρήστη και εκτελεί πραγματικές ενέργειες σε πραγματικό χρόνο.</p>
+
+      <p><a href="/liveavatar-demo" style="display: inline-block; background: #3b5bdb; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; margin: 15px 0;">👉 Δοκιμάστε το AI Video Call Live Demo Εδώ</a></p>
+
+      <h3>Βασικά Τεχνικά Χαρακτηριστικά του AI Video Call της SGK</h3>
+      <ul>
+        <li><strong>Ρεαλιστικό Video WebRTC:</strong> Εξαιρετικά χαμηλή καθυστέρηση (latency κάτω από 800ms) με απόλυτα φυσική κίνηση και εκφράσεις προσώπου.</li>
+        <li><strong>Άπταιστος Ελληνικός Διάλογος & Lip-Sync:</strong> Φυσική ελληνική άρθρωση και τέλειος συγχρονισμός χειλιών χωρίς ρομποτικές καθυστερήσεις.</li>
+        <li><strong>Οπτική Ταυτοποίηση & Computer Vision:</strong> Σχεδιασμένο για αναγνώριση εγγράφων, επαλήθευση ταυτότητας KYC και οπτικό έλεγχο μέσω της κάμερας του πελάτη.</li>
+        <li><strong>Live Διασύνδεση με Εταιρικά Συστήματα:</strong> Απευθείας σύνδεση με CRM, ERP (SoftOne, Entersoft), ΓΕΜΗ (άντληση στοιχείων εταιρειών μέσω ΑΦΜ), Google Calendar και συστήματα τραπεζικών πληρωμών.</li>
+      </ul>
+
+      <h3>Σε ποιους κλάδους απευθύνεται το AI Video Call;</h3>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+        <thead>
+          <tr style="background: #1e293b; color: #ffffff;">
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Κλάδος</th>
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Χρήση AI Video Call</th>
+            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Όφελος για την Επιχείρηση</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Γυμναστήρια & Fitness</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">24/7 υποδοχή στην οθόνη του χώρου, εγγραφή μελών, επιλογή πακέτων συνδρομής.</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Εξυπηρέτηση χωρίς αναμονή στη ρεσεψιόν, αύξηση εγγραφών κατά 40%.</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ιατρεία & Κλινικές</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Ψηφιακό triage, καταγραφή ιστορικού ασθενούς, αυτόματος προγραμματισμός ραντεβού.</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Αποσυμφόρηση γραμματείας και μηδενικά χαμένα ραντεβού.</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Τράπεζες & Ασφαλιστικές</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Ταυτοποίηση KYC μέσω κάμερας, έλεγχος ταυτότητας, σύνταξη ιδιωτικού συμφωνητικού.</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Αυτοματοποίηση onboarding πελατών με απόλυτη νομική συμμόρφωση.</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>E-Commerce & Retail</strong></td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Live Video Shopping Assistant: παρουσίαση προϊόντων, σύγκριση, ολοκλήρωση παραγγελίας.</td>
+            <td style="padding: 12px; border: 1px solid #e2e8f0;">Τριπλασιασμός conversion rate σε σχέση με απλό γραπτό chat.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Πώς συγκρίνεται η SGK με διεθνείς πλατφόρμες (HeyGen, Tavus, Hume);</h3>
+      <p>Ενώ διεθνείς πλατφόρμες όπως το HeyGen ή το Tavus προσφέρουν γενικά εργαλεία, η <strong>SGK Software Development</strong> παρέχει custom, turnkey υλοποίηση για ελληνικές επιχειρήσεις: άπταιστα φυσικά ελληνικά χωρίς προφορά, απευθείας διασύνδεση με ελληνικά ERP (SoftOne, Entersoft), άμεση άντληση στοιχείων από το ελληνικό ΓΕΜΗ, και φιλοξενία με 100% GDPR συμμόρφωση.</p>
+
+      <h3>Πώς μπορώ να ξεκινήσω;</h3>
+      <p>Μπορείτε να δοκιμάσετε άμεσα τη διαδραστική ζωντανή εμπειρία στο <a href="/liveavatar-demo"><strong>SGK Live Video Demo</strong></a> ή να επικοινωνήσετε με την τεχνική ομάδα της SGK στο <strong>211 114 0013</strong> για προσαρμογή του συστήματος στις ανάγκες της δικής σας εταιρείας.</p>
+    `,
+  },
+  {
     id: "eshop-cost-guide-2026",
     slug: "poso-kostizei-i-kataskevi-eshop-odigos-times-2026",
     title: "Πόσο Κοστίζει η Κατασκευή Eshop το 2026: Ο Απόλυτος Οδηγός Τιμών, Πλατφόρμες & Κρυφά Έξοδα",

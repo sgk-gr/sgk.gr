@@ -98,6 +98,9 @@ const localBusinessSchema = {
     "knowsAbout": [
         "Artificial Intelligence",
         "Autonomous AI Agents",
+        "Interactive AI Video Agents",
+        "WebRTC Video Streaming",
+        "Computer Vision & Camera Identification",
         "Voice AI Telephony",
         "Greek NLP & Chatbots",
         "Custom Business Automation",
@@ -110,6 +113,7 @@ const localBusinessSchema = {
         "@type": "OfferCatalog",
         "name": "Software & AI Solutions",
         "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Live Video AI Agents & Ψηφιακοί Υπάλληλοι (24/7 WebRTC)", "description": "Ρεαλιστικό Video WebRTC, φυσικός ελληνικός διάλογος, live σύνδεση με CRM/ERP/ΓΕΜΗ και οπτική ταυτοποίηση μέσω κάμερας.", "url": "https://www.sgk.gr/liveavatar-demo" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents & Custom AI", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Voice AI Telephony (Τηλεφωνικά Κέντρα)", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Αυτόνομοι Πράκτορες Χωρίς Υπαλλήλους", "url": "https://www.sgk.gr/ai-agents" } },

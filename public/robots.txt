@@ -44,3 +44,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.sgk.gr/sitemap.xml
+
+# LLM & AI Agents Knowledge Endpoints
+# https://www.sgk.gr/llms.txt
+# https://www.sgk.gr/llms-full.txt
