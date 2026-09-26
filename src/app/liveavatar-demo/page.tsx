@@ -19,7 +19,8 @@ import {
     MessageSquare,
     Building2,
     CheckCircle2,
-    FileText
+    FileText,
+    Mail
 } from "lucide-react";
 
 interface Message {
@@ -69,12 +70,12 @@ export default function LiveAvatarVideoCallPage() {
     // Chat visibility (hidden by default as requested)
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
-    // Interactive White Container for AFM / Email Entry
-    const [isAfmModalOpen, setIsAfmModalOpen] = useState<boolean>(false);
+    // Compact single-purpose input: null | "afm" | "email"
+    const [activePromptInput, setActivePromptInput] = useState<"afm" | "email" | null>(null);
     const [afmInput, setAfmInput] = useState<string>("");
     const [emailInput, setEmailInput] = useState<string>("");
-    const [isSubmittingAfm, setIsSubmittingAfm] = useState<boolean>(false);
-    const [afmSuccess, setAfmSuccess] = useState<boolean>(false);
+    const [isSubmittingInput, setIsSubmittingInput] = useState<boolean>(false);
+    const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
     
     // Controls States
     const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
@@ -218,17 +219,12 @@ export default function LiveAvatarVideoCallPage() {
                                 { id: Date.now().toString(), sender: "agent", text: evt.text, time: timeStr }
                             ]);
 
-                            // Auto trigger white modal when Bryan asks for AFM, email or mentions the box
+                            // Auto trigger specific compact input when Bryan asks for AFM or Email
                             const textLower = evt.text.toLowerCase();
-                            if (
-                                textLower.includes("αφμ") || 
-                                textLower.includes("α.φ.μ.") || 
-                                textLower.includes("email") || 
-                                textLower.includes("κουτάκι") || 
-                                textLower.includes("κουτι") || 
-                                textLower.includes("στοιχεία")
-                            ) {
-                                setIsAfmModalOpen(true);
+                            if (textLower.includes("αφμ") || textLower.includes("α.φ.μ.") || textLower.includes("φορολογικ")) {
+                                setActivePromptInput("afm");
+                            } else if (textLower.includes("email") || textLower.includes("e-mail") || textLower.includes("ταχυδρομεί")) {
+                                setActivePromptInput("email");
                             }
                         }
                     });
@@ -360,45 +356,66 @@ export default function LiveAvatarVideoCallPage() {
         }
     };
 
-    const handleSubmitAfmModal = (e: React.FormEvent) => {
+    const handleSubmitSingleInput = (e: React.FormEvent) => {
         e.preventDefault();
-        const trimmedAfm = afmInput.trim();
-        const trimmedEmail = emailInput.trim();
-        if (!trimmedAfm && !trimmedEmail) return;
-
-        setIsSubmittingAfm(true);
-        setAfmSuccess(true);
-
-        const promptSummary = [
-            trimmedAfm ? `Το ΑΦΜ της εταιρείας μου είναι ${trimmedAfm}` : "",
-            trimmedEmail ? `το email επικοινωνίας μου είναι ${trimmedEmail}` : ""
-        ].filter(Boolean).join(" και ");
-
-        const fullUserMessage = `Ορίστε τα στοιχεία μου: ${promptSummary}. Παρακαλώ επαναλάβετε και επιβεβαιώστε τα.`;
-
-        // Add to transcript
         const now = new Date();
         const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        setMessages(prev => [
-            ...prev,
-            { id: Date.now().toString(), sender: "user", text: fullUserMessage, time: timeStr }
-        ]);
 
-        // Send to Bryan session so he speaks it for verbal confirmation
-        if (sessionRef.current && typeof sessionRef.current.message === "function") {
-            try {
-                sessionRef.current.message(fullUserMessage);
-            } catch (err) {
-                console.warn("Error sending AFM message to session:", err);
+        if (activePromptInput === "afm") {
+            const trimmedAfm = afmInput.trim();
+            if (!trimmedAfm) return;
+
+            setIsSubmittingInput(true);
+            setSubmitSuccess(true);
+
+            const userMsg = `Ορίστε το ΑΦΜ της εταιρείας μου: ${trimmedAfm}. Παρακαλώ επαναλάβετε και επιβεβαιώστε το.`;
+
+            setMessages(prev => [
+                ...prev,
+                { id: Date.now().toString(), sender: "user", text: userMsg, time: timeStr }
+            ]);
+
+            if (sessionRef.current && typeof sessionRef.current.message === "function") {
+                try {
+                    sessionRef.current.message(userMsg);
+                } catch (err) {
+                    console.warn("Error sending AFM message:", err);
+                }
             }
-        }
 
-        // Auto close after 2.5s
-        setTimeout(() => {
-            setIsAfmModalOpen(false);
-            setIsSubmittingAfm(false);
-            setAfmSuccess(false);
-        }, 2200);
+            setTimeout(() => {
+                setActivePromptInput(null);
+                setIsSubmittingInput(false);
+                setSubmitSuccess(false);
+            }, 1800);
+        } else if (activePromptInput === "email") {
+            const trimmedEmail = emailInput.trim();
+            if (!trimmedEmail) return;
+
+            setIsSubmittingInput(true);
+            setSubmitSuccess(true);
+
+            const userMsg = `Ορίστε το email επικοινωνίας μου: ${trimmedEmail}. Παρακαλώ επιβεβαιώστε το.`;
+
+            setMessages(prev => [
+                ...prev,
+                { id: Date.now().toString(), sender: "user", text: userMsg, time: timeStr }
+            ]);
+
+            if (sessionRef.current && typeof sessionRef.current.message === "function") {
+                try {
+                    sessionRef.current.message(userMsg);
+                } catch (err) {
+                    console.warn("Error sending Email message:", err);
+                }
+            }
+
+            setTimeout(() => {
+                setActivePromptInput(null);
+                setIsSubmittingInput(false);
+                setSubmitSuccess(false);
+            }, 1800);
+        }
     };
 
     return (
@@ -527,18 +544,32 @@ export default function LiveAvatarVideoCallPage() {
                         )}
 
                         {isCallActive && (
-                            <button 
-                                onClick={() => setIsAfmModalOpen(!isAfmModalOpen)}
-                                className={`px-3 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md ${
-                                    isAfmModalOpen 
-                                        ? "bg-white text-[#5b36f5] border-white shadow-white/20" 
-                                        : "bg-white/90 hover:bg-white text-gray-900 border-white/60 hover:scale-105 active:scale-95"
-                                }`}
-                                title="Συμπλήρωση ΑΦΜ ή Email"
-                            >
-                                <Building2 className="w-3.5 h-3.5 text-[#5b36f5]" />
-                                <span>ΑΦΜ / Email</span>
-                            </button>
+                            <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md p-1 rounded-full border border-white/10">
+                                <button 
+                                    onClick={() => setActivePromptInput(activePromptInput === "afm" ? null : "afm")}
+                                    className={`px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 transition-all ${
+                                        activePromptInput === "afm" 
+                                            ? "bg-[#5b36f5] text-white shadow-md shadow-indigo-500/40" 
+                                            : "text-white/80 hover:text-white hover:bg-white/10"
+                                    }`}
+                                    title="Συμπλήρωση ΑΦΜ"
+                                >
+                                    <Building2 className="w-3 h-3 text-cyan-400" />
+                                    <span>ΑΦΜ</span>
+                                </button>
+                                <button 
+                                    onClick={() => setActivePromptInput(activePromptInput === "email" ? null : "email")}
+                                    className={`px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 transition-all ${
+                                        activePromptInput === "email" 
+                                            ? "bg-[#5b36f5] text-white shadow-md shadow-indigo-500/40" 
+                                            : "text-white/80 hover:text-white hover:bg-white/10"
+                                    }`}
+                                    title="Συμπλήρωση Email"
+                                >
+                                    <Mail className="w-3 h-3 text-amber-400" />
+                                    <span>Email</span>
+                                </button>
+                            </div>
                         )}
 
                         <button 
@@ -555,105 +586,95 @@ export default function LiveAvatarVideoCallPage() {
                         </button>
                     </div>
 
-                    {/* ================= WHITE INTERACTIVE CONTAINER (AFM / EMAIL) ================= */}
-                    {isAfmModalOpen && (
-                        <div className="absolute inset-0 z-40 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
-                            <div className="w-full max-w-[420px] bg-white rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 relative animate-in zoom-in-95 duration-200">
-                                {/* Close Button */}
+                    {/* ================= COMPACT MINI-INPUT: AFM ONLY ================= */}
+                    {activePromptInput === "afm" && (
+                        <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-[340px] sm:max-w-[360px] bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 shadow-2xl border border-slate-200/80 animate-in fade-in slide-in-from-bottom-3 duration-200">
+                            <div className="flex items-center justify-between mb-2 px-0.5">
+                                <span className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
+                                    <Building2 className="w-3.5 h-3.5 text-[#5b36f5]" />
+                                    Α.Φ.Μ. Εταιρείας (9 ψηφία)
+                                </span>
                                 <button
                                     type="button"
-                                    onClick={() => setIsAfmModalOpen(false)}
-                                    className="absolute top-4 right-4 p-2 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                                    onClick={() => setActivePromptInput(null)}
+                                    className="p-1 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                                     title="Κλείσιμο"
                                 >
-                                    <X className="w-5 h-5" />
+                                    <X className="w-3.5 h-3.5" />
                                 </button>
-
-                                {/* Header */}
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="w-11 h-11 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-[#5b36f5] flex-shrink-0">
-                                        <Building2 className="w-6 h-6" />
-                                    </div>
-                                    <div className="pr-6">
-                                        <h3 className="text-base font-bold text-gray-900 leading-tight">
-                                            Στοιχεία Ι.Κ.Ε. για το Γ.Ε.ΜΗ.
-                                        </h3>
-                                        <p className="text-xs text-gray-500 mt-0.5">
-                                            Γράψτε το ΑΦΜ ή το Email σας και ο Bryan θα τα επιβεβαιώσει ζωντανά
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Form */}
-                                <form onSubmit={handleSubmitAfmModal} className="space-y-3.5">
-                                    <div>
-                                        <label className="block text-xs font-semibold text-gray-700 mb-1">
-                                            Α.Φ.Μ. Εταιρείας (9 ψηφία)
-                                        </label>
-                                        <div className="relative">
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                maxLength={9}
-                                                value={afmInput}
-                                                onChange={(e) => setAfmInput(e.target.value.replace(/\D/g, ""))}
-                                                placeholder="π.χ. 998877665"
-                                                className="w-full text-base font-mono tracking-wider bg-slate-50 border border-gray-200 rounded-xl px-3.5 py-2.5 outline-none text-gray-900 placeholder-gray-400 focus:bg-white focus:border-[#5b36f5] focus:ring-2 focus:ring-[#5b36f5]/20 transition-all"
-                                                autoFocus
-                                            />
-                                            {afmInput.length === 9 && (
-                                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
-                                                    ✓ 9 ψηφία
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs font-semibold text-gray-700 mb-1">
-                                            Email Επικοινωνίας
-                                        </label>
-                                        <input
-                                            type="email"
-                                            value={emailInput}
-                                            onChange={(e) => setEmailInput(e.target.value)}
-                                            placeholder="π.χ. info@mycompany.gr"
-                                            className="w-full text-sm bg-slate-50 border border-gray-200 rounded-xl px-3.5 py-2.5 outline-none text-gray-900 placeholder-gray-400 focus:bg-white focus:border-[#5b36f5] focus:ring-2 focus:ring-[#5b36f5]/20 transition-all"
-                                        />
-                                    </div>
-
-                                    <div className="pt-1">
-                                        <button
-                                            type="submit"
-                                            disabled={(!afmInput.trim() && !emailInput.trim()) || isSubmittingAfm}
-                                            className={`w-full py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
-                                                afmSuccess
-                                                    ? "bg-emerald-600 text-white shadow-emerald-500/20"
-                                                    : "bg-[#5b36f5] hover:bg-[#4927d6] text-white shadow-indigo-500/30"
-                                            }`}
-                                        >
-                                            {afmSuccess ? (
-                                                <>
-                                                    <CheckCircle2 className="w-4 h-4 text-white" />
-                                                    <span>Εστάλη στον Bryan! Επιβεβαιώνει...</span>
-                                                </>
-                                            ) : isSubmittingAfm ? (
-                                                <>
-                                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                                    <span>Αποστολή...</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <span>Επιβεβαίωση & Αποστολή</span>
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                    <p className="text-[11px] text-gray-400 text-center">
-                                        🔒 Ασφαλής καταχώρηση για δήλωση στο Γ.Ε.ΜΗ. και παράδοση σε 24 ώρες.
-                                    </p>
-                                </form>
                             </div>
+                            <form onSubmit={handleSubmitSingleInput} className="flex items-center gap-1.5">
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    maxLength={9}
+                                    value={afmInput}
+                                    onChange={(e) => setAfmInput(e.target.value.replace(/\D/g, ""))}
+                                    placeholder="π.χ. 998877665"
+                                    className="flex-1 min-w-0 text-sm font-mono tracking-wider bg-slate-50 border border-gray-200 rounded-xl px-3 py-2 outline-none text-gray-900 placeholder-gray-400 focus:bg-white focus:border-[#5b36f5] focus:ring-2 focus:ring-[#5b36f5]/20"
+                                    autoFocus
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={afmInput.trim().length < 9 || isSubmittingInput}
+                                    className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                                        submitSuccess
+                                            ? "bg-emerald-600 text-white"
+                                            : "bg-[#5b36f5] hover:bg-[#4927d6] text-white shadow-sm"
+                                    }`}
+                                >
+                                    {submitSuccess ? (
+                                        <CheckCircle2 className="w-4 h-4 text-white" />
+                                    ) : (
+                                        <span>ΟΚ</span>
+                                    )}
+                                </button>
+                            </form>
+                        </div>
+                    )}
+
+                    {/* ================= COMPACT MINI-INPUT: EMAIL ONLY ================= */}
+                    {activePromptInput === "email" && (
+                        <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-[340px] sm:max-w-[360px] bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 shadow-2xl border border-slate-200/80 animate-in fade-in slide-in-from-bottom-3 duration-200">
+                            <div className="flex items-center justify-between mb-2 px-0.5">
+                                <span className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
+                                    <Mail className="w-3.5 h-3.5 text-[#5b36f5]" />
+                                    Email Επικοινωνίας
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={() => setActivePromptInput(null)}
+                                    className="p-1 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                                    title="Κλείσιμο"
+                                >
+                                    <X className="w-3.5 h-3.5" />
+                                </button>
+                            </div>
+                            <form onSubmit={handleSubmitSingleInput} className="flex items-center gap-1.5">
+                                <input
+                                    type="email"
+                                    value={emailInput}
+                                    onChange={(e) => setEmailInput(e.target.value)}
+                                    placeholder="info@company.gr"
+                                    className="flex-1 min-w-0 text-sm bg-slate-50 border border-gray-200 rounded-xl px-3 py-2 outline-none text-gray-900 placeholder-gray-400 focus:bg-white focus:border-[#5b36f5] focus:ring-2 focus:ring-[#5b36f5]/20"
+                                    autoFocus
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={!emailInput.trim().includes("@") || isSubmittingInput}
+                                    className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                                        submitSuccess
+                                            ? "bg-emerald-600 text-white"
+                                            : "bg-[#5b36f5] hover:bg-[#4927d6] text-white shadow-sm"
+                                    }`}
+                                >
+                                    {submitSuccess ? (
+                                        <CheckCircle2 className="w-4 h-4 text-white" />
+                                    ) : (
+                                        <span>ΟΚ</span>
+                                    )}
+                                </button>
+                            </form>
                         </div>
                     )}
 
