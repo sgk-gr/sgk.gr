@@ -14,6 +14,7 @@ const navItems = [
     href: "/ai-agents", 
     color: "bg-[#3b5bdb]",
     submenu: [
+      { label: "✨ Live Video AI Agents (Demo)", href: "/liveavatar-demo" },
       { label: "Κατασκευή AI Agents & Custom AI", href: "/ai-agents" },
       { label: "Voice AI & Τηλεφωνία (PBX)", href: "/ai-agents" },
       { label: "Case Study: Sigmalabs AI", href: "/case-study/sigmalabs-ai" },

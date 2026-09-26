@@ -10,6 +10,8 @@ import AboutSection from "@/components/AboutSection";
 import BlogSection from "@/components/BlogSection";
 import SectionDivider from "@/components/SectionDivider";
 
+import LiveVideoAgentSection from "@/components/LiveVideoAgentSection";
+
 const WordPressShowcase = dynamic(() => import("@/components/WordPressShowcase"), { ssr: true });
 const WebAppsShowcase = dynamic(() => import("@/components/WebAppsShowcase"), { ssr: false });
 const AIAgentsShowcase = dynamic(() => import("@/components/AIAgentsShowcase"), { ssr: false });
@@ -28,7 +30,10 @@ export default function IndexClient() {
             <Hero />
             <WelcomeDiscount />
             
-            <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-pink-500" />
+            <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-[#4ade80]" />
+            <LiveVideoAgentSection />
+            
+            <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-pink-500" />
             <ServicesSection />
             
             <SectionDivider leftColor="bg-pink-500" rightColor="bg-white" />

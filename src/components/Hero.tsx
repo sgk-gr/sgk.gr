@@ -32,6 +32,17 @@ const slides = [
   {
     title: (
       <>
+        Live Video AI Agents <br /> 24/7 Εξυπηρέτηση <br /> Με Πρόσωπο & Φωνή.
+      </>
+    ),
+    description: "Η νέα εποχή στην εξυπηρέτηση πελατών: Ψηφιακοί συνεργάτες με ζωντανό ανθρώπινο video call, φυσική ομιλία και διασύνδεση με τα συστήματά σας. Ιδανικό για ιατρεία, γυμναστήρια, τράπεζες και e-shops.",
+    buttonText: "Δοκίμασε το Live Demo",
+    buttonLink: "/liveavatar-demo",
+    image: "/hero_slide_2.png"
+  },
+  {
+    title: (
+      <>
         Agentic AI <br /> Που Σου Λύνει <br /> Τα Χέρια.
       </>
     ),
