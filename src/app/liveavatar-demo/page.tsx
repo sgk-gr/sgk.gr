@@ -254,9 +254,13 @@ export default function LiveAvatarVideoCallPage() {
                     console.warn("Native WebRTC SDK session error:", sdkErr);
                     const errMsg = sdkErr?.message || String(sdkErr);
                     sessionRef.current = null;
+                    try {
+                        await session.stop().catch(() => {});
+                    } catch (_) {}
                     if (errMsg.toLowerCase().includes("credit") || errMsg.includes("403")) {
-                        throw new Error("Εξαντλήθηκαν τα credits στο λογαριασμό σας στο LiveAvatar (No credits available). Χρειάζεται προσθήκη credits στο LiveAvatar Dashboard (app.liveavatar.com) για να εκκινήσει νέα ζωντανή κλήση.");
+                        throw new Error("Εξαντλήθηκαν τα credits στο λογαριασμό σας στο LiveAvatar (Insufficient credits). Χρειάζεται προσθήκη/ανανέωση credits στο LiveAvatar Dashboard (app.liveavatar.com) για να ξεκινήσει νέα ζωντανή κλήση.");
                     }
+                    throw new Error(errMsg);
                 }
             }
 
