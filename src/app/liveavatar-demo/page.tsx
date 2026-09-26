@@ -270,14 +270,17 @@ export default function LiveAvatarVideoCallPage() {
                         if (evt?.text) {
                             let processedText = evt.text;
 
-                            // Intercept Function Calling Actions
-                            if (processedText.includes("[ACTION: REQUEST_AFM]")) {
+                            // Trigger Forms based on natural phrases
+                            const textLower = evt.text.toLowerCase();
+                            
+                            // Check for AFM request
+                            if (textLower.includes("α.φ.μ. σας για να το ελέγξω") || textLower.includes("αφμ σας για να το ελέγξω") || (textLower.includes("α.φ.μ.") && textLower.includes("μου πείτε"))) {
                                 setActivePromptInput("afm");
-                                processedText = processedText.replace("[ACTION: REQUEST_AFM]", "").trim();
                             }
-                            if (processedText.includes("[ACTION: REQUEST_EMAIL]")) {
+                            
+                            // Check for Email request
+                            if (textLower.includes("email σας να σας στείλω") || textLower.includes("email σας για να") || (textLower.includes("email") && textLower.includes("συμφωνητικό"))) {
                                 setActivePromptInput("email");
-                                processedText = processedText.replace("[ACTION: REQUEST_EMAIL]", "").trim();
                             }
 
                             const now = new Date();
