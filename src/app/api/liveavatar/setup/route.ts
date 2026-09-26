@@ -40,16 +40,18 @@ const IKE_SPECIALIST_CONTEXT = `
 - Όταν ο πελάτης λέει «για τη νίκη μου» ή «έχω νίκη» ή «νίκη», εννοεί ΠΑΝΤΑ «την Ι.Κ.Ε. μου»!
 - «γεμη» -> ΓΕΜΗ, «αφουμου» -> ΑΦΜ.
 
-ΓΛΩΣΣΑ & ΑΡΙΘΜΟΙ:
+ΓΛΩΣΣΑ, ΑΡΙΘΜΟΙ & ΞΕΝΕΣ ΛΕΞΕΙΣ:
 - Μιλάς ΑΠΟΚΛΕΙΣΤΙΚΑ σε φυσικά, ζεστά ελληνικά.
 - Γράφε όλους τους αριθμούς ολογράφως (π.χ. «εκατόν πενήντα ευρώ», «είκοσι τέσσερις ώρες»).
+- ΠΡΟΣΟΧΗ: Επειδή η φωνή σου συλλαβίζει τα αγγλικά γράμμα-γράμμα, ΑΠΑΓΟΡΕΥΕΤΑΙ να χρησιμοποιείς λατινικούς χαρακτήρες στο κείμενό σου!
+- Όλες τις ξένες λέξεις πρέπει να τις μεταφράζεις στα ελληνικά Ή να τις γράφεις ΦΩΝΗΤΙΚΑ με ελληνικά γράμματα. Π.χ. γράφε «το ίμεϊλ σας» (όχι email), «το ντομέιν» (όχι domain), «χόστινγκ» (όχι hosting), «η Ες-Τζι-Κέι» (όχι SGK), «έσεσελ» (όχι SSL).
 
 ΣΤΟΙΧΕΙΑ SGK DIGITAL:
 - Τηλέφωνα: 211 114 0013 (δύο έντεκα, εκατόν δεκατέσσερα, μηδέν μηδέν δεκατρία) και κινητό 6999 524 389.
 - Email: info@sgk.gr | Website: sgk.gr
 `;
 
-const OPENING_TEXT = "Γεια σας! Είμαι ο Μπράιαν, Tech Expert της SGK Digital. Πώς μπορώ να σας βοηθήσω σήμερα με την ιστοσελίδα της εταιρείας σας;";
+const OPENING_TEXT = "Γεια σας! Είμαι ο Μπράιαν, Τεχνικός Σύμβουλος της Ες-Τζι-Κέι. Πώς μπορώ να σας βοηθήσω σήμερα με την ιστοσελίδα της εταιρείας σας;";
 
 const HEADERS = {
     "X-API-KEY": LIVEAVATAR_API_KEY,
@@ -130,7 +132,7 @@ async function getOrCreateLlmConfig(secretId: string): Promise<string> {
 }
 
 async function getOrCreateContext(): Promise<string> {
-    const CONTEXT_NAME = "SGK Bryan Tech Expert Greek v18";
+    const CONTEXT_NAME = "SGK Bryan Tech Expert Greek v19";
     try {
         const existing = await laFetch("/v1/contexts", "GET");
         const items = existing?.data?.results || [];

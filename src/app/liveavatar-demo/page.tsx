@@ -279,7 +279,7 @@ export default function LiveAvatarVideoCallPage() {
                             const textLower = evt.text.toLowerCase();
                             if (textLower.includes("αφμ") || textLower.includes("α.φ.μ.") || textLower.includes("φορολογικ")) {
                                 setActivePromptInput("afm");
-                            } else if (textLower.includes("email") || textLower.includes("e-mail") || textLower.includes("ταχυδρομεί")) {
+                            } else if (textLower.includes("email") || textLower.includes("e-mail") || textLower.includes("ταχυδρομεί") || textLower.includes("ίμεϊλ") || textLower.includes("ιμειλ")) {
                                 setActivePromptInput("email");
                             }
 
