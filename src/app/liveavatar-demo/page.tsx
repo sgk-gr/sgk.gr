@@ -58,13 +58,13 @@ export default function LiveAvatarVideoCallPage() {
         { 
             id: "1", 
             sender: "agent", 
-            text: "Γεια σας! Είμαι ο Wayne (Γουέιν), Senior Tech Expert της SGK Digital. Είμαι εδώ για να σας ενημερώσω για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας για το ΓΕΜΗ.", 
+            text: "Γεια σας! Είμαι ο Bryan (Μπράιαν), Senior Tech Expert της SGK Digital. Είμαι εδώ για να σας ενημερώσω για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας για το ΓΕΜΗ.", 
             time: "3:00 μμ" 
         },
         { 
             id: "2", 
             sender: "user", 
-            text: "Γεια σου Wayne! Τι ακριβώς προβλέπει ο νόμος για τις ΙΚΕ και ποιο είναι το κόστος;", 
+            text: "Γεια σου Bryan! Τι ακριβώς προβλέπει ο νόμος για τις ΙΚΕ και ποιο είναι το κόστος;", 
             time: "3:02 μμ" 
         },
         { 
@@ -333,7 +333,7 @@ export default function LiveAvatarVideoCallPage() {
                             </div>
                             <div className="min-w-0">
                                 <h2 className="text-sm sm:text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5 truncate">
-                                    Wayne (Tech Expert)
+                                    Bryan (Tech Expert)
                                     <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Consultant</span>
                                 </h2>
                                 <span className="text-[11px] text-white/80 font-normal truncate block">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (150€)</span>
@@ -405,7 +405,7 @@ export default function LiveAvatarVideoCallPage() {
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Ρωτήστε τον Wayne για την ΙΚΕ σας..."
+                            placeholder="Ρωτήστε τον Bryan για την ΙΚΕ σας..."
                             className="flex-1 text-sm bg-gray-50 rounded-full py-2 px-3.5 outline-none text-gray-800 placeholder-gray-400 focus:bg-gray-100"
                         />
                         
@@ -479,8 +479,8 @@ export default function LiveAvatarVideoCallPage() {
                             <div className="relative w-full h-full flex items-center justify-center">
                                 {/* Photorealistic Avatar Background Preview */}
                                 <img 
-                                    src="https://files2.heygen.ai/avatar/v3/a3fdb0c652024f79984aaec11ebf2694_34350/preview_target.webp" 
-                                    alt="Wayne - Tech Expert" 
+                                    src="https://files2.heygen.ai/avatar/v3/33c9ac4aead44dfc8bc0082a35062a70_45580/preview_talk_3.webp" 
+                                    alt="Bryan - Tech Expert" 
                                     className="w-full h-full object-cover"
                                 />
 
