@@ -106,33 +106,7 @@ function cleanGreekSTT(text: string): string {
     return cleaned;
 }
 
-const TypewriterCaption = ({ text }: { text: string }) => {
-    const [displayedText, setDisplayedText] = useState("");
 
-    useEffect(() => {
-        setDisplayedText("");
-        if (!text) return;
-
-        let i = 0;
-        const interval = setInterval(() => {
-            setDisplayedText(text.slice(0, i + 1));
-            i++;
-            if (i >= text.length) {
-                clearInterval(interval);
-            }
-        }, 35); // 35ms per character creates a natural speech cadence
-
-        return () => clearInterval(interval);
-    }, [text]);
-
-    if (!displayedText) return null;
-
-    return (
-        <div className="bg-black/65 backdrop-blur-md text-white/95 text-[15px] sm:text-[17px] font-medium px-5 py-2.5 rounded-2xl text-center shadow-xl border border-white/10 animate-in fade-in drop-shadow-2xl">
-            {displayedText}
-        </div>
-    );
-};
 
 
 export default function LiveAvatarVideoCallPage() {
@@ -313,14 +287,6 @@ export default function LiveAvatarVideoCallPage() {
                                 { id: Date.now().toString(), sender: "agent", text: processedText, time: timeStr }
                             ]);
 
-                            // Show Live Captions for AI (only if there's text left after stripping commands)
-                            if (processedText) {
-                                setCurrentCaption(processedText);
-                                if (captionTimeoutRef.current) clearTimeout(captionTimeoutRef.current);
-                                captionTimeoutRef.current = setTimeout(() => {
-                                    setCurrentCaption("");
-                                }, 5000);
-                            }
                         }
                     });
 
@@ -861,12 +827,7 @@ export default function LiveAvatarVideoCallPage() {
                             className={`w-full h-full avatar-video-responsive transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
                         />
 
-                        {/* AI Live Captions Overlay */}
-                        {isCallActive && currentCaption && (
-                            <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-3xl px-2 pointer-events-none flex justify-center">
-                                <TypewriterCaption text={currentCaption} />
-                            </div>
-                        )}
+
 
                         {/* Iframe Fallback */}
                         {isCallActive && !hasNativeStream && avatarUrl && (
