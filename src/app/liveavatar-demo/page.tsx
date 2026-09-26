@@ -36,6 +36,7 @@ function cleanGreekSTT(text: string): string {
     if (!text) return text;
     let cleaned = text;
 
+    // 1. Common misrecognitions
     cleaned = cleaned.replace(/\bτη\s+νίκη\s+μου\b/gi, "την Ι.Κ.Ε. μου");
     cleaned = cleaned.replace(/\bτη\s+νικη\s+μου\b/gi, "την Ι.Κ.Ε. μου");
     cleaned = cleaned.replace(/\bτη\s+νίκη\b/gi, "την Ι.Κ.Ε.");
@@ -59,6 +60,48 @@ function cleanGreekSTT(text: string): string {
     cleaned = cleaned.replace(/\bάφημη\b/gi, "Α.Φ.Μ.");
     cleaned = cleaned.replace(/\bαφημη\b/gi, "Α.Φ.Μ.");
     cleaned = cleaned.replace(/\bέκανα\s+ένα\b/gi, "έκανα έναρξη");
+
+    // 2. Greek Numbers to Digits Mapper
+    const numberMap: Record<string, string> = {
+        'μηδέν': '0', 'μηδεν': '0',
+        'ένα': '1', 'ενα': '1', 'μία': '1', 'μια': '1', 'έναν': '1', 'εναν': '1',
+        'δύο': '2', 'δυο': '2',
+        'τρία': '3', 'τρια': '3',
+        'τέσσερα': '4', 'τεσσερα': '4',
+        'πέντε': '5', 'πεντε': '5',
+        'έξι': '6', 'εξι': '6',
+        'επτά': '7', 'εφτά': '7', 'επτα': '7', 'εφτα': '7',
+        'οκτώ': '8', 'οχτώ': '8', 'οκτω': '8', 'οχτω': '8',
+        'εννέα': '9', 'εννιά': '9', 'εννεα': '9', 'εννια': '9',
+        'δέκα': '10', 'δεκα': '10',
+        'έντεκα': '11', 'εντεκα': '11',
+        'δώδεκα': '12', 'δωδεκα': '12',
+        'δεκατρία': '13', 'δεκατρια': '13',
+        'δεκατέσσερα': '14', 'δεκατεσσερα': '14',
+        'δεκαπέντε': '15', 'δεκαπεντε': '15',
+        'δεκάξι': '16', 'δεκαέξι': '16', 'δεκαεξι': '16',
+        'δεκαεπτά': '17', 'δεκαεφτά': '17',
+        'δεκαοκτώ': '18', 'δεκαοχτώ': '18',
+        'δεκαεννέα': '19', 'δεκαεννιά': '19',
+        'είκοσι': '20', 'εικοσι': '20',
+        'τριάντα': '30', 'τριαντα': '30',
+        'σαράντα': '40', 'σαραντα': '40',
+        'πενήντα': '50', 'πενηντα': '50',
+        'εξήντα': '60', 'εξηντα': '60',
+        'εβδομήντα': '70', 'εβδομηντα': '70',
+        'ογδόντα': '80', 'ογδοντα': '80',
+        'ενενήντα': '90', 'ενενηντα': '90'
+    };
+
+    // Replace written numbers with digits
+    const words = Object.keys(numberMap).sort((a, b) => b.length - a.length);
+    const regex = new RegExp(`\\b(${words.join('|')})\\b`, 'gi');
+    cleaned = cleaned.replace(regex, (match) => {
+        return numberMap[match.toLowerCase()] || match;
+    });
+
+    // 3. Squash consecutive digits (e.g. "13 13 90" -> "131390") to fix AFM dictation
+    cleaned = cleaned.replace(/(\d+)\s+(?=\d+)/g, '$1');
 
     return cleaned;
 }
