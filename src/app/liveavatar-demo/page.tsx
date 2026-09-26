@@ -19,6 +19,7 @@ import {
     MessageSquare,
     Building2,
     CheckCircle2,
+    AlertCircle,
     FileText,
     Mail
 } from "lucide-react";
@@ -425,9 +426,10 @@ export default function LiveAvatarVideoCallPage() {
 
             } else {
                 setGemiStatus("not_found");
-                setSubmitSuccess(true);
+                setIsSubmittingInput(false);
+                setSubmitSuccess(false);
 
-                const userMsg = `Ορίστε το ΑΦΜ της εταιρείας μου: ${trimmedAfm}. Παρακαλώ επιβεβαιώστε το.`;
+                const userMsg = `Πληκτρολόγησα το ΑΦΜ ${trimmedAfm}, αλλά δεν βρέθηκε εταιρεία στο ΓΕΜΗ.`;
                 setMessages(prev => [
                     ...prev,
                     { id: Date.now().toString(), sender: "user", text: userMsg, time: timeStr }
@@ -437,16 +439,9 @@ export default function LiveAvatarVideoCallPage() {
                     try {
                         sessionRef.current.message(userMsg);
                     } catch (err) {
-                        console.warn("Error sending AFM message:", err);
+                        console.warn("Error sending AFM not-found message:", err);
                     }
                 }
-
-                setTimeout(() => {
-                    setActivePromptInput("email");
-                    setIsSubmittingInput(false);
-                    setSubmitSuccess(false);
-                    setGemiStatus("idle");
-                }, 1800);
             }
         } else if (activePromptInput === "email") {
             const trimmedEmail = emailInput.trim();
@@ -669,7 +664,10 @@ export default function LiveAvatarVideoCallPage() {
                                     inputMode="numeric"
                                     maxLength={9}
                                     value={afmInput}
-                                    onChange={(e) => setAfmInput(e.target.value.replace(/\D/g, ""))}
+                                    onChange={(e) => {
+                                        setAfmInput(e.target.value.replace(/\D/g, ""));
+                                        if (gemiStatus === "not_found") setGemiStatus("idle");
+                                    }}
                                     placeholder="π.χ. 998877665"
                                     disabled={isSubmittingInput}
                                     className="flex-1 min-w-0 text-sm font-mono tracking-wider bg-slate-50 border border-gray-200 rounded-xl px-3 py-2 outline-none text-gray-900 placeholder-gray-400 focus:bg-white focus:border-[#5b36f5] focus:ring-2 focus:ring-[#5b36f5]/20 disabled:opacity-60"
@@ -705,6 +703,12 @@ export default function LiveAvatarVideoCallPage() {
                                 <div className="mt-2 p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-1.5 animate-in fade-in">
                                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
                                     <span className="font-semibold truncate">{foundCompanyName}</span>
+                                </div>
+                            )}
+                            {gemiStatus === "not_found" && (
+                                <div className="mt-2 p-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center gap-1.5 animate-in fade-in">
+                                    <AlertCircle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
+                                    <span>Δεν βρέθηκε στο Γ.Ε.ΜΗ. Ελέγξτε αν κάνατε λάθος.</span>
                                 </div>
                             )}
                         </div>
