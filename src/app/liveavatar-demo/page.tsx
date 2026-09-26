@@ -61,19 +61,19 @@ export default function LiveAvatarVideoCallPage() {
         { 
             id: "1", 
             sender: "agent", 
-            text: "Γεια σας! Είμαι η Έλενα από την SGK Digital. Είμαι εδώ για να σας ενημερώσω για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας για το ΓΕΜΗ.", 
+            text: "Γεια σας! Είμαι ο Bryan (Μπράιαν), Senior Tech Expert της SGK Digital. Είμαι εδώ για να σας ενημερώσω για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας για το ΓΕΜΗ.", 
             time: "3:00 μμ" 
         },
         { 
             id: "2", 
             sender: "user", 
-            text: "Γεια σου Έλενα! Τι ακριβώς προβλέπει ο νόμος για τις ΙΚΕ και ποιο είναι το κόστος;", 
+            text: "Γεια σου Bryan! Τι ακριβώς προβλέπει ο νόμος για τις ΙΚΕ και ποιο είναι το κόστος;", 
             time: "3:02 μμ" 
         },
         { 
             id: "3", 
             sender: "agent", 
-            text: "Βάσει του Ν.4072/2012, κάθε ΙΚΕ υποχρεούται εντός 30 ημερών να έχει ιστοσελίδα για δημοσίευση ισολογισμών. Στην SGK Digital την παραδίδουμε σε 24 ώρες με μόνο 150€ τελική τιμή με ΦΠΑ!", 
+            text: "Βάσει του Ν.4072/2012, κάθε ΙΚΕ υποχρεούται εντός 30 ημερών να έχει ιστοσελίδα για δημοσίευση ισολογισμών. Στην SGK Digital την παραδίδουμε σε μόλις 24 ώρες με μόνο 150€ τελική τιμή με ΦΠΑ!", 
             time: "3:02 μμ" 
         },
         { 
@@ -319,8 +319,8 @@ export default function LiveAvatarVideoCallPage() {
                             </div>
                             <div>
                                 <h2 className="text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5">
-                                    Έλενα (Elenora)
-                                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Specialist</span>
+                                    Bryan (Tech Expert)
+                                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Consultant</span>
                                 </h2>
                                 <span className="text-[11px] text-white/80 font-normal">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (150€)</span>
                             </div>
@@ -389,7 +389,7 @@ export default function LiveAvatarVideoCallPage() {
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Ρωτήστε την Έλενα για την ΙΚΕ σας..."
+                            placeholder="Ρωτήστε τον Bryan για την ΙΚΕ σας..."
                             className="flex-1 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400 px-1"
                         />
                         
@@ -499,8 +499,8 @@ export default function LiveAvatarVideoCallPage() {
                             <div className="relative w-full h-full flex items-center justify-center">
                                 {/* Photorealistic Avatar Background Preview */}
                                 <img 
-                                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1600&auto=format&fit=crop" 
-                                    alt="Elena - IKE AI Specialist" 
+                                    src="https://files2.heygen.ai/avatar/v3/33c9ac4aead44dfc8bc0082a35062a70_45580/preview_talk_3.webp" 
+                                    alt="Bryan - Tech Expert" 
                                     className="w-full h-full object-cover filter brightness-[0.88]"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
@@ -511,10 +511,10 @@ export default function LiveAvatarVideoCallPage() {
                                         <Sparkles className="w-3.5 h-3.5" /> Ζωντανή AI Ενημέρωση Ι.Κ.Ε.
                                     </div>
                                     <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
-                                        Μιλήστε ζωντανά με την Έλενα
+                                        Μιλήστε ζωντανά με τον Bryan
                                     </h2>
                                     <p className="text-sm text-slate-300 font-light mb-6 leading-relaxed">
-                                        Ενημερωθείτε άμεσα μέσω video chat για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στο ΓΕΜΗ (150€, παράδοση σε 24 ώρες).
+                                        Ενημερωθείτε άμεσα μέσω live video chat για την υποχρεωτική ιστοσελίδα της ΙΚΕ σας στο ΓΕΜΗ (150€, παράδοση σε μόλις 24 ώρες).
                                     </p>
 
                                     <button
