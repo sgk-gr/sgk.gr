@@ -294,26 +294,32 @@ export default function LiveAvatarVideoCallPage() {
                     // Live Speech-to-Text from Avatar
                     session.on(AgentEventsEnum.AVATAR_TRANSCRIPTION, (evt: any) => {
                         if (evt?.text) {
+                            let processedText = evt.text;
+
+                            // Intercept Function Calling Actions
+                            if (processedText.includes("[ACTION: REQUEST_AFM]")) {
+                                setActivePromptInput("afm");
+                                processedText = processedText.replace("[ACTION: REQUEST_AFM]", "").trim();
+                            }
+                            if (processedText.includes("[ACTION: REQUEST_EMAIL]")) {
+                                setActivePromptInput("email");
+                                processedText = processedText.replace("[ACTION: REQUEST_EMAIL]", "").trim();
+                            }
+
                             const now = new Date();
                             const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
                             setMessages(prev => [
                                 ...prev,
-                                { id: Date.now().toString(), sender: "agent", text: evt.text, time: timeStr }
+                                { id: Date.now().toString(), sender: "agent", text: processedText, time: timeStr }
                             ]);
 
-                            // Show Live Captions for AI
-                            setCurrentCaption(evt.text);
-                            if (captionTimeoutRef.current) clearTimeout(captionTimeoutRef.current);
-                            captionTimeoutRef.current = setTimeout(() => {
-                                setCurrentCaption("");
-                            }, 5000);
-
-                            // Auto trigger specific compact input when Bryan asks for AFM or Email
-                            const textLower = evt.text.toLowerCase();
-                            if (textLower.includes("αφμ") || textLower.includes("α.φ.μ.") || textLower.includes("φορολογικ")) {
-                                setActivePromptInput("afm");
-                            } else if (textLower.includes("email") || textLower.includes("e-mail") || textLower.includes("ταχυδρομεί")) {
-                                setActivePromptInput("email");
+                            // Show Live Captions for AI (only if there's text left after stripping commands)
+                            if (processedText) {
+                                setCurrentCaption(processedText);
+                                if (captionTimeoutRef.current) clearTimeout(captionTimeoutRef.current);
+                                captionTimeoutRef.current = setTimeout(() => {
+                                    setCurrentCaption("");
+                                }, 5000);
                             }
                         }
                     });
