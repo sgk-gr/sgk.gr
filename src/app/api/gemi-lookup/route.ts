@@ -188,6 +188,27 @@ export async function GET(req: NextRequest) {
 
   const cleanDigits = query.replace(/[^0-9]/g, "");
 
+  // --- DEMO INTERCEPT FOR YOUTUBE ---
+  if (cleanDigits === "800465738") {
+    return NextResponse.json({
+      success: true,
+      company: {
+        companyName: "SGK Software Development Ι.Κ.Ε.",
+        tradeName: "SGK Software Development",
+        gemiNo: "123456789101",
+        city: "Αθήνα",
+        fullAddress: "Μεταμόρφωση 14452",
+        clientAfm: "800465738",
+        representativeName: "ΣΠΥΡΙΔΩΝ ΤΣΑΒΟΣ",
+        representativeFatherName: "ΧΡΗΣΤΟΣ",
+        representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
+        representativeAfm: "131398972",
+        ymsFound: true
+      }
+    });
+  }
+  // ----------------------------------
+
   try {
     let url = "";
 
