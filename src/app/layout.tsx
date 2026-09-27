@@ -77,6 +77,8 @@ const localBusinessSchema = {
     "description": "Κατασκευή Eshop, Web Development, AI Agents για επιχειρήσεις στην Ελλάδα. 18 χρόνια εμπειρίας.",
     "telephone": "+302111140013",
     "email": "info@sgk.gr",
+    "vatID": "EL131398972",
+    "taxID": "131398972",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "Ερμού 1 & Λυκοβρύσεως 14",
