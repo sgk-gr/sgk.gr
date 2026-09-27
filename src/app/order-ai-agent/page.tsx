@@ -1,8 +1,8 @@
 "use client";
-
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function OrderAIAgentPage() {
     const [formData, setFormData] = useState({
@@ -87,6 +87,13 @@ export default function OrderAIAgentPage() {
             answer: "Το AI μπορεί να κατανοήσει και να μιλήσει σε περισσότερες από 160 γλώσσες σε πραγματικό χρόνο. Ανιχνεύει αυτόματα τη γλώσσα του πελάτη σας και προσαρμόζεται άμεσα."
         }
     ];
+
+    useEffect(() => {
+        if (widgetVideoRef.current && isWidgetOpen) {
+            // Force play on mount to fix React autoplay issues
+            widgetVideoRef.current.play().catch(e => console.error("Autoplay prevented:", e));
+        }
+    }, [isWidgetOpen]);
 
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-[#0a0b10] selection:text-white pb-24 lg:pb-0">
@@ -442,43 +449,7 @@ export default function OrderAIAgentPage() {
                 </div>
             </section>
 
-            <footer className="py-12 text-center text-slate-500 text-sm bg-[#0a0b10] text-white/60">
-                <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-left mb-12">
-                    <div>
-                        <h4 className="font-bold text-white mb-4">Δυνατότητες</h4>
-                        <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">Δημιουργία AI Avatar</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">160+ Γλώσσες</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Προσαρμοσμένα Avatars</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className="font-bold text-white mb-4">Χρήσεις</h4>
-                        <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">Εξυπηρέτηση Πελατών</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Ενίσχυση Πωλήσεων</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Μάρκετινγκ</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className="font-bold text-white mb-4">Πόροι</h4>
-                        <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">Τιμολόγηση</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Μελέτες Περίπτωσης</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className="font-bold text-white mb-4">Εταιρεία</h4>
-                        <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">Σχετικά με εμάς</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Επικοινωνία</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="border-t border-white/10 pt-8">
-                    &copy; {new Date().getFullYear()} SGK Digital. Με επιφύλαξη παντός δικαιώματος.
-                </div>
-            </footer>
+            <Footer />
 
             {/* FLOATING INTERACTIVE AVATAR WIDGET (Video Background) */}
             {isWidgetOpen && (
@@ -487,13 +458,15 @@ export default function OrderAIAgentPage() {
                     {/* Background Video */}
                     <video 
                         ref={widgetVideoRef}
-                        src="/gemini_generated_video_5c95b80d.mp4" 
-                        autoPlay 
-                        loop 
+                        autoPlay={true}
+                        loop={true}
                         muted={isWidgetMuted}
-                        playsInline
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
+                        playsInline={true}
+                        preload="auto"
+                        className="absolute inset-0 w-full h-full object-cover bg-slate-900"
+                    >
+                        <source src="/gemini_generated_video_5c95b80d.mp4" type="video/mp4" />
+                    </video>
 
                     {/* Bottom Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#101015]/95 via-[#101015]/40 to-transparent pointer-events-none" />
