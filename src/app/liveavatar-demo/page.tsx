@@ -275,12 +275,13 @@ export default function LiveAvatarVideoCallPage() {
                                 { id: Date.now().toString(), sender: "agent", text: evt.text, time: timeStr }
                             ]);
 
-                            // Auto trigger specific compact input when Bryan asks for AFM or Email
+                            // Auto trigger specific compact input
+                            // We check for "email" FIRST because if he says "Βρήκα την εταιρεία σας με ΑΦΜ 123... Πείτε μου το email", we want the email box, not the AFM box again.
                             const textLower = evt.text.toLowerCase();
-                            if (textLower.includes("αφμ") || textLower.includes("α.φ.μ.") || textLower.includes("φορολογικ")) {
-                                setActivePromptInput("afm");
-                            } else if (textLower.includes("email") || textLower.includes("e-mail") || textLower.includes("ταχυδρομεί") || textLower.includes("ίμεϊλ") || textLower.includes("ιμειλ")) {
+                            if (textLower.includes("email") || textLower.includes("e-mail") || textLower.includes("ταχυδρομεί") || textLower.includes("ίμεϊλ") || textLower.includes("ιμειλ")) {
                                 setActivePromptInput("email");
+                            } else if (textLower.includes("αφμ") || textLower.includes("α.φ.μ.") || textLower.includes("φορολογικ")) {
+                                setActivePromptInput("afm");
                             }
 
                         }
