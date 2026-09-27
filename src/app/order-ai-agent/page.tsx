@@ -104,12 +104,8 @@ export default function OrderAIAgentPage() {
             <main>
                 {/* HERO SECTION - Synthesia Style */}
                 <section className="pt-40 pb-20 px-6 sm:pt-48 sm:pb-24 flex flex-col items-center text-center max-w-5xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-xs tracking-wide mb-8">
-                        <span className="text-[#ff5c5c]">G</span> ΠΑΝΩ ΑΠΟ 2.000 ΚΡΙΤΙΚΕΣ 5 ΑΣΤΕΡΩΝ ΣΤΟ G2 ⓘ
-                    </div>
-                    
                     <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-[#0a0b10] mb-8 leading-[1.1]">
-                        Η All-in-one AI Video <br className="hidden sm:block"/>
+                        Η κορυφαία AI Video <br className="hidden sm:block"/>
                         πλατφόρμα για την επιχείρησή σας
                     </h1>
                     
@@ -123,13 +119,8 @@ export default function OrderAIAgentPage() {
                             onClick={scrollToForm}
                             className="px-8 py-4 rounded-full bg-[#0a0b10] hover:bg-slate-800 text-white font-semibold text-lg transition-all"
                         >
-                            Ξεκινήστε ΔΩΡΕΑΝ &rarr;
+                            Ζητήστε Προσφορά &rarr;
                         </button>
-                        <div className="flex items-center gap-4 text-sm text-slate-500 font-medium">
-                            <span>Δεν απαιτείται πιστωτική κάρτα</span>
-                            <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                            <span>Βαθμολογία 4.7/5 στο G2</span>
-                        </div>
                     </div>
                 </section>
 
@@ -436,15 +427,8 @@ export default function OrderAIAgentPage() {
                         onClick={scrollToForm}
                         className="px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-[#0a0b10] font-bold text-lg transition-all"
                     >
-                        Ξεκινήστε δωρεάν &rarr;
+                        Ζητήστε Προσφορά &rarr;
                     </button>
-                    <Link 
-                        href="/liveavatar-demo" 
-                        target="_blank"
-                        className="px-8 py-4 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-lg transition-colors border border-white/30"
-                    >
-                        Κλείστε demo
-                    </Link>
                 </div>
             </section>
 
