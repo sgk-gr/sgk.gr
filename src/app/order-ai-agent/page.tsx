@@ -114,7 +114,7 @@ export default function OrderAIAgentPage() {
                         SGK<span className="text-[#5b36f5]">.</span>
                     </Link>
                     <div className="flex items-center gap-6">
-                        <Link href="/liveavatar-demo" target="_blank" className="hidden md:block text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                        <Link href="/liveavatar-demo2" target="_blank" className="hidden md:block text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             Live Demo
                         </Link>
                         <button 
@@ -454,22 +454,6 @@ export default function OrderAIAgentPage() {
                     </div>
                 </section>
             </main>
-            
-            {/* LARGE GRADIENT CTA FOOTER */}
-            <section className="py-32 px-6 bg-gradient-to-br from-indigo-400 via-purple-500 to-indigo-600 text-center">
-                <h2 className="text-5xl font-bold tracking-tight text-white mb-4">Έτοιμοι να δοκιμάσετε το Live Avatar;</h2>
-                <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-                    Γίνετε μέλος των καινοτόμων επιχειρήσεων σήμερα και ξεκινήστε να δημιουργείτε AI βίντεο σε 160+ γλώσσες.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <button 
-                        onClick={scrollToForm}
-                        className="px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-[#0a0b10] font-bold text-lg transition-all"
-                    >
-                        Ζητήστε Προσφορά &rarr;
-                    </button>
-                </div>
-            </section>
 
             <Footer />
 
