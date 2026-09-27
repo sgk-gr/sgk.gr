@@ -8,11 +8,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const corePages = [
     { url: `${baseUrl}/`, priority: 1.0, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/ai-agents`, priority: 0.98, changeFrequency: 'weekly' as const },
-    { url: `${baseUrl}/ai-video-call`, priority: 0.99, changeFrequency: 'weekly' as const },
-    { url: `${baseUrl}/liveavatar-demo`, priority: 0.95, changeFrequency: 'weekly' as const },
-    { url: `${baseUrl}/liveavatar-demo2`, priority: 0.99, changeFrequency: 'weekly' as const },
-    { url: `${baseUrl}/kataskevi-eshop`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/order-ai-agent`, priority: 0.99, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/kataskevi-eshop`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/ike-offer`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/pay-as-you-grow`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/eshop-offer`, priority: 0.90, changeFrequency: 'weekly' as const },

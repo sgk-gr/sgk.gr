@@ -12,9 +12,15 @@ import {
 export const metadata: Metadata = {
     title: "AI Video Call & Live Video AI Agents | Ψηφιακοί Υπάλληλοι WebRTC | SGK Digital",
     description: "Ναι, η SGK κάνει AI Video Call! 24/7 διαδραστικοί ψηφιακοί υπάλληλοι (AI Avatars) μέσω WebRTC. Άπταιστος ελληνικός διάλογος, οπτική αναγνώριση εγγράφων με κάμερα, live διασύνδεση με CRM, ERP, ΓΕΜΗ & Google Calendar.",
-    keywords: "ai video call, ai video calls ελλαδα, live video ai agents, ψηφιακοι υπαλληλοι βιντεο, webrtc ai avatars, video call με ai, sgk ai video call, ai video customer service, liveavatar demo, αυτονομοι video agents",
-    alternates: {
-        canonical: "https://www.sgk.gr/ai-video-call",
+    robots: {
+        index: false,
+        follow: false,
+        nocache: true,
+        googleBot: {
+            index: false,
+            follow: false,
+            noimageindex: true,
+        },
     },
     openGraph: {
         title: "AI Video Call & Live Video AI Agents 24/7 | SGK Digital",

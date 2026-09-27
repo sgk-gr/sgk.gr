@@ -144,7 +144,7 @@ export default function OrderAIAgentClient() {
                     </h1>
                     
                     <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-                        Ξεχάστε τα ψυχρά chatbots και τα απρόσωπα τηλεφωνικά μενού. 
+                        Ξεχάστε τα απρόσωπα τηλέφωνα και chats. 
                         Υλοποιούμε έναν ορατό AI Agent που μιλάει <strong>πρόσωπο με πρόσωπο</strong> με τους πελάτες σας μέσω βίντεο, 
                         εμπνέει απόλυτη ανθρώπινη εμπιστοσύνη και <strong>εκτελεί πραγματικές εργασίες</strong>, συνδεδεμένος ζωντανά με την επιχείρησή σας.
                     </p>
