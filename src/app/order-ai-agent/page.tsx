@@ -532,11 +532,11 @@ export default function OrderAIAgentPage() {
                     {/* Bottom CTA */}
                     <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-5 sm:left-5 sm:right-5 z-10">
                         <Link 
-                            href="/liveavatar-demo" 
+                            href="/liveavatar-demo2" 
                             target="_blank"
-                            className="flex items-center justify-center w-full bg-white text-center text-[#002b5c] font-bold text-[10px] sm:text-[13px] leading-tight py-2 sm:py-3 px-1.5 sm:px-2 rounded-lg sm:rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
+                            className="flex items-center justify-center w-full bg-white text-center text-[#002b5c] font-bold text-xs sm:text-base leading-tight py-2.5 sm:py-3.5 px-3 rounded-lg sm:rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
                         >
-                            Μιλήστε μαζί μου να σας <br className="hidden sm:inline" /> εξηγήσω περισσότερα
+                            Μιλήστε μαζί μου
                         </Link>
                     </div>
                 </div>
