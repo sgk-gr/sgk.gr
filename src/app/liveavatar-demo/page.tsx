@@ -844,7 +844,7 @@ export default function LiveAvatarVideoCallPage() {
                             ref={avatarVideoRef}
                             autoPlay 
                             playsInline 
-                            className={`w-full h-full avatar-video-responsive transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
+                            className={`w-full h-full object-cover transition-opacity duration-500 ${hasNativeStream ? "opacity-100" : "hidden opacity-0"}`}
                         />
 
 
@@ -874,7 +874,7 @@ export default function LiveAvatarVideoCallPage() {
                                 <img 
                                     src="https://files2.heygen.ai/avatar/v3/a3fdb0c652024f79984aaec11ebf2694_34350/preview_target.webp" 
                                     alt="Bryan - Tech Expert" 
-                                    className="w-full h-full avatar-video-responsive"
+                                    className="w-full h-full object-cover"
                                 />
 
                                 {/* Center Clean Start Call Button */}
