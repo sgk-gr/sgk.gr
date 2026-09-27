@@ -512,8 +512,26 @@ export default function LiveAvatarVideoCallPage() {
                 { id: Date.now().toString(), sender: "user", text: userMsg, time: timeStr }
             ]);
 
+            // Auto-generate and send the contract in the background
+            try {
+                fetch("/api/liveavatar/send-contract", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ afm: afmInput.trim(), email: trimmedEmail })
+                }).then(res => {
+                    if (res.ok) {
+                        console.log("Contract auto-generated and sent successfully!");
+                    } else {
+                        console.error("Failed to auto-send contract");
+                    }
+                });
+            } catch (err) {
+                console.error("Error triggering contract email:", err);
+            }
+
             if (sessionRef.current && typeof sessionRef.current.message === "function") {
                 try {
+                    // Tell the AI we gave the email so it says something nice
                     sessionRef.current.message(userMsg);
                 } catch (err) {
                     console.warn("Error sending Email message:", err);
