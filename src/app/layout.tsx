@@ -92,7 +92,13 @@ const localBusinessSchema = {
         "opens": "09:00",
         "closes": "18:00"
     },
-    "sameAs": ["https://github.com/sgk-developers/"],
+    "sameAs": [
+        "https://github.com/sgk-developers/",
+        "https://www.linkedin.com/in/sgkgr/",
+        "https://www.youtube.com/@SGK-gr",
+        "https://www.google.com/maps/place/SGK+Software+Development/",
+        "https://clutch.co/profile/sgk-software-development"
+    ],
     "priceRange": "€€",
     "areaServed": { "@type": "Country", "name": "Greece" },
     "knowsAbout": [

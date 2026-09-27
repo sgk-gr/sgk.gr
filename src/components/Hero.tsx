@@ -143,12 +143,14 @@ const Hero = () => {
         <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-20 hidden md:flex">
           <button 
             onClick={prevSlide}
+            aria-label="Προηγούμενο slide"
             className="w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors border border-white/40 shadow-sm"
           >
             <ChevronLeft size={20} />
           </button>
           <button 
             onClick={nextSlide}
+            aria-label="Επόμενο slide"
             className="w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors border border-white/40 shadow-sm"
           >
             <ChevronRight size={20} />
@@ -164,6 +166,7 @@ const Hero = () => {
                 setDirection(index > currentSlide ? 1 : -1);
                 setCurrentSlide(index);
               }}
+              aria-label={`Slide ${index + 1}`}
               className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/80"}`}
             />
           ))}

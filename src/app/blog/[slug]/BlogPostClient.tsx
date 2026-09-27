@@ -21,7 +21,21 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
 
     if (!post) return null;
 
-    // Structured Data for SEO (can be added via script tag in return or better via Next.js metadata as LD+JSON)
+    // Parse Greek date string to ISO format
+    const greekMonths: Record<string, string> = {
+        'Ιανουαρίου': '01', 'Φεβρουαρίου': '02', 'Μαρτίου': '03', 'Απριλίου': '04',
+        'Μαΐου': '05', 'Ιουνίου': '06', 'Ιουλίου': '07', 'Αυγούστου': '08',
+        'Σεπτεμβρίου': '09', 'Οκτωβρίου': '10', 'Νοεμβρίου': '11', 'Δεκεμβρίου': '12',
+        'January': '01', 'February': '02', 'March': '03', 'April': '04',
+        'May': '05', 'June': '06', 'July': '07', 'August': '08',
+        'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    };
+    const dateParts = post.date.match(/(\d+)\s+(\S+)\s+(\d{4})/);
+    const isoDate = dateParts
+        ? `${dateParts[3]}-${greekMonths[dateParts[2]] || '01'}-${dateParts[1].padStart(2, '0')}`
+        : '2026-01-01';
+
+    // Structured Data for SEO
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -30,17 +44,27 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
         "image": post.image,
         "author": {
             "@type": "Person",
-            "name": post.author
+            "@id": "https://www.sgk.gr/#founder",
+            "name": post.author,
+            "url": "https://www.sgk.gr/about",
+            "worksFor": { "@id": "https://www.sgk.gr/#organization" }
         },
-        "datePublished": "2026-02-23", // Simplified for schema
+        "datePublished": isoDate,
+        "dateModified": isoDate,
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://www.sgk.gr/blog/${slug}`
+        },
         "publisher": {
             "@type": "Organization",
+            "@id": "https://www.sgk.gr/#organization",
             "name": "SGK Software Development",
             "logo": {
                 "@type": "ImageObject",
                 "url": "https://www.sgk.gr/sgk-logo.png"
             }
-        }
+        },
+        "inLanguage": "el-GR"
     };
 
     return (
