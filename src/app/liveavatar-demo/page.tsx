@@ -471,9 +471,9 @@ export default function LiveAvatarVideoCallPage() {
                     }
                 }
 
-                // Seamlessly transition to email input after 2.2 seconds
+                // Close the AFM prompt and let the system wait for the Avatar to ask for the email
                 setTimeout(() => {
-                    setActivePromptInput("email");
+                    setActivePromptInput(null);
                     setIsSubmittingInput(false);
                     setSubmitSuccess(false);
                     setGemiStatus("idle");
