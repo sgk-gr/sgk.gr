@@ -208,6 +208,63 @@ export default function OrderAIAgentPage() {
                     </div>
                 </section>
 
+                {/* COMPANY USAGE SECTION - WE PRACTICE WHAT WE PREACH */}
+                <section className="py-20 px-6 bg-[#f7f7f9] border-t border-b border-slate-200/80">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200/90 shadow-sm flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+                            <div className="flex-1 space-y-6">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[#5b36f5] text-xs font-bold tracking-wide uppercase">
+                                    • ΕΜΠΙΣΤΟΣΥΝΗ ΣΤΗΝ ΠΡΑΞΗ
+                                </div>
+                                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0a0b10] leading-tight">
+                                    Το χρησιμοποιούμε πρώτοι εμείς σε ολόκληρη την εταιρεία μας.
+                                </h2>
+                                <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+                                    Στην SGK Digital δεν προσφέρουμε απλώς μία τεχνολογία — τη λειτουργούμε ζωντανά στις δικές μας καθημερινές ροές. Οι διαδραστικοί μας AI Agents αναλαμβάνουν την πρώτη γραμμή εξυπηρέτησης των πελατών μας 24/7, απαντούν σε ερωτήσεις, συνδέονται με τα συστήματά μας και εκτελούν εργασίες σε πραγματικό χρόνο.
+                                </p>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+                                    <div className="border-l-2 border-[#5b36f5] pl-4">
+                                        <div className="text-2xl font-black text-[#0a0b10]">24/7</div>
+                                        <div className="text-xs text-slate-500 font-medium mt-1">Ζωντανή εξυπηρέτηση πελατών</div>
+                                    </div>
+                                    <div className="border-l-2 border-[#5b36f5] pl-4">
+                                        <div className="text-2xl font-black text-[#0a0b10]">&lt; 1 sec</div>
+                                        <div className="text-xs text-slate-500 font-medium mt-1">Άμεση απόκριση σε κάθε ερώτημα</div>
+                                    </div>
+                                    <div className="border-l-2 border-[#5b36f5] pl-4">
+                                        <div className="text-2xl font-black text-[#0a0b10]">100%</div>
+                                        <div className="text-xs text-slate-500 font-medium mt-1">Δοκιμασμένο σε πραγματικές συνθήκες</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full lg:w-[420px] flex-shrink-0">
+                                <div className="bg-gradient-to-br from-slate-900 to-[#101018] rounded-2xl p-6 sm:p-7 text-white shadow-xl relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#5b36f5]/20 rounded-full blur-2xl pointer-events-none" />
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                                            <span className="text-emerald-400 font-bold text-lg">●</span>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold text-sm text-white">SGK Operations AI</div>
+                                            <div className="text-[11px] text-slate-400">Εσωτερική χρήση & Εξυπηρέτηση</div>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-slate-300 leading-relaxed italic mb-6">
+                                        «Από τη στιγμή που ενσωματώσαμε τον AI Agent στην υποδοχή και την εξυπηρέτηση πελατών της SGK Digital, μηδενίσαμε τους χρόνους αναμονής και αυτοματοποιήσαμε πάνω από το 70% των επαναλαμβανόμενων διαδικασιών.»
+                                    </p>
+                                    <Link 
+                                        href="/liveavatar-demo2"
+                                        target="_blank"
+                                        className="w-full py-3 px-4 rounded-xl bg-white text-[#0a0b10] font-bold text-xs text-center block hover:bg-slate-100 transition-colors shadow-sm"
+                                    >
+                                        Δείτε τον Agent μας σε Δράση &rarr;
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* PRICING SECTION - Light Mode */}
                 <section id="pricing" className="py-24 px-6 relative bg-white border-t border-slate-100">
                     <div className="max-w-6xl mx-auto">
