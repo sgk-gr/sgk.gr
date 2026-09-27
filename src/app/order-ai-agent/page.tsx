@@ -83,6 +83,10 @@ export default function OrderAIAgentPage() {
             answer: "Η ανθρώπινη οπτική επαφή, οι εκφράσεις και η ζωντανή ομιλία δημιουργούν άμεση εμπιστοσύνη που τα απρόσωπα chatbots δεν μπορούν να προσφέρουν. Οι πελάτες αισθάνονται ότι μιλούν με πραγματικό σύμβουλο, ενώ ο Agent εκτελεί πραγματικές εργασίες (παραγγελίες, emails, έλεγχο αποθεμάτων) ζωντανά."
         },
         {
+            question: "Είναι τα εταιρικά και πελατειακά δεδομένα μου ασφαλή;",
+            answer: "Απόλυτα. Σε αντίθεση με κοινόχρηστα δημόσια εργαλεία (όπως το δημόσιο ChatGPT ή Claude), τα μοντέλα που αναπτύσσουμε εκπαιδεύονται αποκλειστικά για τη δική σας επιχείρηση και τρέχουν σε αυτόνομους, ιδιωτικούς servers. Τα δεδομένα σας είναι 100% δικά σας, δεν διαμοιράζονται ποτέ με κανέναν τρίτο και δεν χρησιμοποιούνται για την εκπαίδευση άλλων συστημάτων."
+        },
+        {
             question: "Τι ακριβώς περιλαμβάνει το εφάπαξ κόστος εγκατάστασης των 500€;",
             answer: "Το αρχικό Setup Fee καταβάλλεται μία φορά και καλύπτει: πλήρη μελέτη των αναγκών σας, σχεδιασμό και παραμετροποίηση του avatar, εκπαίδευση του AI με τα εταιρικά σας έγγραφα και δεδομένα, σύνδεση μέσω API με τα συστήματά σας (ERP, E-shop) και τεστ λειτουργίας."
         },
@@ -134,19 +138,15 @@ export default function OrderAIAgentPage() {
             <main>
                 {/* HERO SECTION - Outcome & Turnkey Focused */}
                 <section className="pt-40 pb-20 px-6 sm:pt-48 sm:pb-24 flex flex-col items-center text-center max-w-5xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-[#5b36f5] text-xs font-bold tracking-wide uppercase mb-8">
-                        • TURNKEY ΨΗΦΙΑΚΟΙ ΥΠΑΛΛΗΛΟΙ ΑΠΟ ΤΗΝ SGK DIGITAL
-                    </div>
-
-                    <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-[#0a0b10] mb-8 leading-[1.1]">
-                        Δημιουργούμε για εσάς έναν <br className="hidden sm:block"/>
+                    <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-[#0a0b10] mb-8 leading-[1.15]">
+                        Δημιουργούμε για εσάς έναν <br />
                         πραγματικό Ψηφιακό Υπάλληλο.
                     </h1>
                     
                     <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
                         Ξεχάστε τα ψυχρά chatbots και τα απρόσωπα τηλεφωνικά μενού. 
                         Υλοποιούμε έναν ορατό AI Agent που μιλάει <strong>πρόσωπο με πρόσωπο</strong> με τους πελάτες σας μέσω βίντεο, 
-                        εμπνέει απόλυτη ανθρώπινη εμπιστοσύνη και <strong>εκτελεί πραγματικές εργασίες</strong> — συνδεδεμένος ζωντανά με το E-shop και το ERP σας.
+                        εμπνέει απόλυτη ανθρώπινη εμπιστοσύνη και <strong>εκτελεί πραγματικές εργασίες</strong> — συνδεδεμένος ζωντανά με την επιχείρησή σας.
                     </p>
 
                     <div className="flex flex-col items-center gap-4">
@@ -156,13 +156,6 @@ export default function OrderAIAgentPage() {
                         >
                             Ζητήστε Προσφορά &rarr;
                         </button>
-                        <div className="flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm text-slate-500 font-medium pt-2">
-                            <span>✓ Πρόσωπο με πρόσωπο εμπιστοσύνη</span>
-                            <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                            <span>✓ Αναλαμβάνουμε όλη την υλοποίηση</span>
-                            <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                            <span>✓ 24/7 σε 160+ Γλώσσες</span>
-                        </div>
                     </div>
                 </section>
 
@@ -170,9 +163,6 @@ export default function OrderAIAgentPage() {
                 <section className="py-24 px-6 bg-slate-50 border-b border-slate-100">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center max-w-3xl mx-auto mb-16">
-                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-3 block">
-                                • Η ΨΥΧΟΛΟΓΙΑ ΤΗΣ ΑΝΘΡΩΠΙΝΗΣ ΕΠΑΦΗΣ
-                            </span>
                             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0a0b10] mb-6 leading-tight">
                                 Γιατί το ζωντανό Βίντεο κερδίζει κάθε Chatbot και Τηλεφωνικό Κέντρο;
                             </h2>
@@ -235,7 +225,6 @@ export default function OrderAIAgentPage() {
                         {/* Box 1 - Automations & Tasks */}
                         <div className="bg-[#f7f7f9] rounded-3xl p-8 sm:p-10 flex flex-col justify-between hover:shadow-lg transition-shadow">
                             <div>
-                                <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4 block">• ΣΥΝΔΕΣΗ ΜΕ E-SHOPS & ERP</span>
                                 <h3 className="text-2xl sm:text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Αυτόματη Εκτέλεση Εργασιών & Σύνδεση API</h3>
                                 <p className="text-slate-600 mb-8 text-base sm:text-lg leading-relaxed">Ο ψηφιακός σας υπάλληλος δεν μένει στα λόγια. Στέλνει emails στους πελάτες, διαβάζει καταλόγους και αρχεία, ελέγχει τιμές και συνδέεται με ERP συστήματα, APIs και E-shops για να καταχωρεί παραγγελίες ζωντανά.</p>
                             </div>
@@ -251,7 +240,6 @@ export default function OrderAIAgentPage() {
                         {/* Box 2 - Languages */}
                         <div className="bg-[#f7f7f9] rounded-3xl p-8 sm:p-10 flex flex-col justify-between hover:shadow-lg transition-shadow">
                             <div>
-                                <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4 block">• ΕΚΦΡΑΣΤΙΚΑ AVATARS</span>
                                 <h3 className="text-2xl sm:text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Εξυπηρέτηση σε 160+ Γλώσσες με το Δικό σας Πρόσωπο</h3>
                                 <p className="text-slate-600 mb-8 text-base sm:text-lg leading-relaxed">Δημιουργούμε ψηφιακό κλώνο βασισμένο σε εσάς ή επιλέγουμε εξειδικευμένο παρουσιαστή. Μιλάει 160+ γλώσσες με φυσικότητα και ανθρώπινη εκφραστικότητα, αναγνωρίζει αυτόματα τη γλώσσα και δίνει παγκόσμια εμβέλεια στην εταιρεία σας.</p>
                             </div>
@@ -271,9 +259,6 @@ export default function OrderAIAgentPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200/90 shadow-sm flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
                             <div className="flex-1 space-y-6">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[#5b36f5] text-xs font-bold tracking-wide uppercase">
-                                    • ΕΜΠΙΣΤΟΣΥΝΗ ΣΤΗΝ ΠΡΑΞΗ
-                                </div>
                                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0a0b10] leading-tight">
                                     Το χρησιμοποιούμε πρώτοι εμείς σε ολόκληρη την εταιρεία μας.
                                 </h2>
