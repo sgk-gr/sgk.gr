@@ -137,31 +137,32 @@ export default function OrderAIAgentPage() {
                 </section>
 
                 {/* FEATURE BLOCKS - 2 Column Style */}
+                {/* FEATURE BLOCKS - 2 Column Style */}
                 <section className="py-32 px-6 max-w-7xl mx-auto">
                     <div className="text-center mb-20">
                         <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0b10] mb-6">
-                            Μία πλατφόρμα για δημιουργία, μετάφραση, <br className="hidden md:block"/>
-                            διαχείριση και δημοσίευση AI Avatars
+                            Περισσότερο από ένα Avatar. <br className="hidden md:block"/>
+                            Ένας ψηφιακός υπάλληλος.
                         </h2>
-                        <p className="text-slate-600">Ένα εργαλείο για ολόκληρη τη ροή εργασίας σας. Από το προσχέδιο μέχρι την παγκόσμια διανομή.</p>
+                        <p className="text-slate-600">Δεν εξυπηρετεί απλά τους πελάτες σας. Αναλαμβάνει σύνθετες εργασίες, εκτελεί διορθώσεις και διαχειρίζεται λειτουργίες της επιχείρησής σας.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Box 1 */}
+                        {/* Box 1 - Automations & Tasks */}
                         <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
-                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• AI VIDEO ASSISTANT</span>
-                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Μετατρέψτε κάθε περιεχόμενο σε βίντεο, άμεσα</h3>
-                            <p className="text-slate-600 mb-10 text-lg">Μεταμορφώστε αυτόματα έγγραφα, συνδέσμους ή ιδέες σε συναρπαστικά avatars που ταιριάζουν στο στυλ της επωνυμίας σας.</p>
+                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• ΣΥΝΔΕΣΗ ΜΕ E-SHOPS & ERP</span>
+                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Εκτέλεση εργασιών και διασύνδεση API</h3>
+                            <p className="text-slate-600 mb-10 text-lg">Ο AI Agent δεν μιλάει απλά. Στέλνει emails, διαβάζει αρχεία, κάνει αλλαγές και συνδέεται με ERP συστήματα, APIs και E-shops για να αντλεί δεδομένα ή να καταχωρεί παραγγελίες ζωντανά.</p>
                             <div className="mt-auto h-64 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-indigo-900/20 font-bold text-4xl">
-                                AI Βοηθός
+                                AI Αυτοματισμοί
                             </div>
                         </div>
 
-                        {/* Box 2 */}
+                        {/* Box 2 - Languages */}
                         <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
                             <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• ΕΚΦΡΑΣΤΙΚΑ AVATARS</span>
-                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Δημιουργήστε το δικό σας εκφραστικό AI Avatar</h3>
-                            <p className="text-slate-600 mb-10 text-lg">Το AI Avatar σας μιλάει 160+ γλώσσες, με ευφράδεια και απίστευτη εκφραστικότητα. Και ναι, εσείς διατηρείτε τον πλήρη έλεγχο.</p>
+                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Άψογη εξυπηρέτηση σε 160+ Γλώσσες</h3>
+                            <p className="text-slate-600 mb-10 text-lg">Το AI Avatar σας κατανοεί και μιλάει σε πάνω από 160 γλώσσες με φυσικότητα και απίστευτη εκφραστικότητα. Αναγνωρίζει αυτόματα τη γλώσσα και προσαρμόζεται, ενώ εσείς διατηρείτε τον πλήρη έλεγχο.</p>
                             <div className="mt-auto h-64 bg-gradient-to-br from-[#0a0b10] to-slate-800 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-white/20 font-bold text-4xl">
                                 Custom Avatar
                             </div>
