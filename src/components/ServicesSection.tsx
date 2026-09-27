@@ -94,9 +94,10 @@ export default function ServicesSection() {
           {/* Left Image */}
           <div className="w-full md:w-[60%] relative h-[400px] md:h-[550px] z-0">
             <Image 
-              src="/et.jpg" 
+              src="/et.webp" 
               alt="AI for Business" 
               fill
+              sizes="(max-width: 768px) 100vw, 60vw"
               className="object-cover shadow-xl"
             />
           </div>

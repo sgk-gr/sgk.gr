@@ -87,9 +87,10 @@ export default function BlogSection() {
                     {/* Image Container */}
                     <div className="w-full aspect-square relative mb-0 overflow-hidden bg-gray-100">
                       <Image 
-                        src={post.image || "/hero_slide_1.png"}
+                        src={post.image || "/hero_slide_1.webp"}
                         alt={post.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 25vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>

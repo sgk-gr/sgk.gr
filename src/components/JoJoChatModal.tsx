@@ -15,7 +15,7 @@ const slides = [
       </>
     ),
     description: "Πλήρης εταιρική ιστοσελίδα Ι.Κ.Ε. για το ΓΕΜΗ σε 24 ώρες με domain .gr, hosting, email και SSL μόνο με 150€.",
-    image: "/hero_slide_4.png",
+    image: "/hero_slide_4.webp",
     linkText: "Δες την προσφορά (150€)",
     linkUrl: "/ike-offer"
   },
@@ -26,7 +26,7 @@ const slides = [
       </>
     ),
     description: "Δημιουργούμε e-shops και web εφαρμογές που κάνουν τη ζωή του πελάτη σου πιο εύκολη.",
-    image: "/hero_slide_1.png"
+    image: "/hero_slide_1.webp"
   },
   {
     title: (
@@ -35,7 +35,7 @@ const slides = [
       </>
     ),
     description: "Οι έξυπνοι AI agents αναλαμβάνουν τις χρονοβόρες εργασίες και την 24/7 εξυπηρέτηση.",
-    image: "/hero_slide_2.png"
+    image: "/hero_slide_2.webp"
   },
   {
     title: (
@@ -44,7 +44,7 @@ const slides = [
       </>
     ),
     description: "Χτίζουμε Headless E-shops που μετατρέποντας τους απλούς επισκέπτες σε αληθινούς, πιστούς πελάτες.",
-    image: "/hero_slide_3.png"
+    image: "/hero_slide_3.webp"
   }
 ];
 
