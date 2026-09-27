@@ -89,6 +89,74 @@ const templates = [
     defaultButtonLink: "https://www.sgk.gr/ike-offer"
   },
   {
+    name: "AI Video Call & Ψηφιακοί Υπάλληλοι (order-ai-agent)",
+    subject: "Ο πρώτος σας AI Ψηφιακός Υπάλληλος σε Ζωντανή Κλήση Πρόσωπο-με-Πρόσωπο (24/7)",
+    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
+<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b0f19; overflow: hidden;">
+  <a href="https://www.sgk.gr/order-ai-agent" target="_blank" style="display: block; text-decoration: none;">
+    <img 
+      src="https://www.sgk.gr/images/hero_ai_video_agent.webp" 
+      alt="Live Video AI Agents 24/7 - SGK Digital" 
+      width="600" 
+      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
+    />
+  </a>
+</div>
+
+<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Η Νέα Εποχή στην Εξυπηρέτηση: Ζωντανός Ψηφιακός Βοηθός με Video Call 24/7</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ συνεργάτη,</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Το 2026, οι πελάτες έχουν κουραστεί από τα απρόσωπα τηλέφωνα, τις αναμονές και τα ψυχρά γραπτά chatbots. <strong>Η ζωντανή επαφή πρόσωπο-με-πρόσωπο είναι αυτή που κλείνει πωλήσεις και χτίζει εμπιστοσύνη.</strong>
+</p>
+
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στην <strong>SGK Digital</strong> αναπτύξαμε την πιο εξελιγμένη τεχνολογία στην Ελλάδα: <strong>Live Video AI Agents (Ψηφιακούς Υπαλλήλους)</strong>. Ένας φωτορεαλιστικός εκπρόσωπος της εταιρείας σας που υποδέχεται τους επισκέπτες στην ιστοσελίδα σας με <strong>ζωντανή βιντεοκλήση</strong>, μιλάει άπταιστα φυσικά ελληνικά και ολοκληρώνει εργασίες 24 ώρες το 24ωρο.
+</p>
+
+<!-- The B2B Psychology Box -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #2563eb; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: #1e40af;">
+    💡 Πώς ο Ψηφιακός Υπάλληλος αυξάνει τις πωλήσεις σας;
+  </p>
+  <p style="margin: 0 0 6px 0; font-size: 13.5px; color: #0f172a; line-height: 1.55;">
+    1. <strong>Άμεση Προσωπική Εξυπηρέτηση (WebRTC &lt;800ms):</strong> Ο επισκέπτης δεν διαβάζει κείμενα — μιλάει ζωντανά με τον εκπρόσωπό σας που του λύνει απορίες σε πραγματικό χρόνο.<br/>
+    2. <strong>Οπτική Ταυτοποίηση με Κάμερα (KYC):</strong> Το AI αναγνωρίζει ταυτότητες, έγγραφα και αποδείξεις μέσω της κάμερας του χρήστη για αυτόματο onboarding.<br/>
+    3. <strong>Ζωντανή Σύνδεση με τα Συστήματά σας:</strong> Συνδέεται απευθείας με το CRM, το ERP (SoftOne, Entersoft), το Google Calendar και το E-shop σας για άμεσο κλείσιμο ραντεβού και καταχώρηση παραγγελιών.<br/>
+    4. <strong>100% Data Privacy (GDPR):</strong> Μπορεί να φιλοξενηθεί σε ιδιωτικό dedicated server χωρίς κανένα διαμοιρασμό δεδομένων σε δημόσια AI.
+  </p>
+</div>
+
+<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Ξεκάθαρη Τιμολόγηση με το Κλειδί στο Χέρι (Turnkey):</p>
+
+<div style="margin: 0 0 16px 0; padding-left: 4px;">
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    🚀 <strong>Εφάπαξ Setup (500€):</strong> Πλήρης σχεδιασμός avatar, εκπαίδευση με τα δεδομένα της επιχείρησής σας και διασύνδεση με τα συστήματά σας.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    💼 <strong>Μηνιαία Πλάνα (από 150€/μήνα):</strong> Basic (150€), Pro (250€) και Enterprise (450€) με 24/7 υποστήριξη — λιγότερο από το εβδομαδιαίο κόστος ενός φυσικού υπαλλήλου!
+  </p>
+</div>
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
+    📞 Θέλετε να δείτε ζωντανά πώς λειτουργεί;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
+    Πατήστε στο παρακάτω κουμπί για να δείτε τα πλάνα και να δοκιμάσετε το <strong>Live Video Demo</strong>, ή καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
+  </p>
+</div>
+
+<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  <strong>SGK Software Development — AI Innovation Greece:</strong><br />
+  Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
+</div>`,
+    defaultButtonText: "Δείτε τα Πλάνα & το Live Demo",
+    defaultButtonLink: "https://www.sgk.gr/order-ai-agent"
+  },
+  {
     name: "Τουρισμός: Πλατφόρμα & Κρατήσεις (High Travel Style)",
     subject: "Απευθείας Online Κρατήσεις για τη νέα σας τουριστική εταιρεία (0% Προμήθειες)",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
