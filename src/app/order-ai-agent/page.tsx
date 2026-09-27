@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function OrderAIAgentPage() {
     const [formData, setFormData] = useState({
@@ -54,384 +55,334 @@ export default function OrderAIAgentPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0b0e] text-slate-200 font-sans selection:bg-[#5b36f5] selection:text-white">
-            {/* Minimal Header */}
-            <header className="fixed top-0 left-0 w-full z-50 bg-[#0a0b0e]/80 backdrop-blur-md border-b border-white/5">
-                <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link href="/" className="text-2xl font-black tracking-tighter text-white">
+        <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-[#0a0b10] selection:text-white pb-24 lg:pb-0">
+            {/* Minimal Light Header */}
+            <header className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+                <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                    <Link href="/" className="text-2xl font-black tracking-tight text-[#0a0b10]">
                         SGK<span className="text-[#5b36f5]">.</span>
                     </Link>
-                    <button 
-                        onClick={scrollToForm}
-                        className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-colors border border-white/10"
-                    >
-                        Επικοινωνία
-                    </button>
+                    <div className="flex items-center gap-6">
+                        <Link href="/liveavatar-demo" target="_blank" className="hidden md:block text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                            Live Demo
+                        </Link>
+                        <button 
+                            onClick={scrollToForm}
+                            className="px-5 py-2.5 rounded-full bg-[#0a0b10] hover:bg-slate-800 text-white text-sm font-semibold transition-colors"
+                        >
+                            Get started &rarr;
+                        </button>
+                    </div>
                 </div>
             </header>
 
             <main>
-                {/* HERO SECTION */}
-                <section className="relative pt-40 pb-20 px-6 sm:pt-48 sm:pb-32 overflow-hidden flex flex-col items-center text-center">
-                    {/* Background glow effects */}
-                    <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#5b36f5]/20 rounded-full blur-[120px] pointer-events-none" />
+                {/* HERO SECTION - Synthesia Style */}
+                <section className="pt-40 pb-20 px-6 sm:pt-48 sm:pb-24 flex flex-col items-center text-center max-w-5xl mx-auto">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-xs tracking-wide mb-8">
+                        <span className="text-[#ff5c5c]">G</span> OVER 2,000 FIVE-STAR REVIEWS ON G2 ⓘ
+                    </div>
                     
-                    <div className="max-w-4xl mx-auto relative z-10">
-                        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#5b36f5] font-medium text-sm mb-8">
-                            <span className="w-2 h-2 rounded-full bg-[#5b36f5] animate-pulse" />
-                            Η Νέα Εποχή στην Εξυπηρέτηση Πελατών
-                        </div>
-                        
-                        <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-white mb-8 leading-tight">
-                            Ο Επόμενος Υπάλληλός σας <br className="hidden sm:block"/>
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5b36f5] to-cyan-400">Δεν Κοιμάται Ποτέ.</span>
-                        </h1>
-                        
-                        <p className="text-lg sm:text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                            Αυξήστε τις πωλήσεις σας και εξυπηρετήστε τους πελάτες σας 24/7 με έναν φωτορεαλιστικό 
-                            AI Υπάλληλο, εκπαιδευμένο αποκλειστικά για τη δική σας επιχείρηση.
-                        </p>
+                    <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-[#0a0b10] mb-8 leading-[1.1]">
+                        All-in-one AI Video <br className="hidden sm:block"/>
+                        platform for business
+                    </h1>
+                    
+                    <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                        Create studio-quality interactive avatars in 160+ languages. 
+                        Save up to 90% of time and cost on customer service and sales.
+                    </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <button 
-                                onClick={scrollToForm}
-                                className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#5b36f5] hover:bg-[#4927d6] text-white font-semibold text-lg transition-all hover:scale-105 shadow-2xl shadow-[#5b36f5]/40"
-                            >
-                                Ζητήστε Προσφορά
-                            </button>
-                            <Link 
-                                href="/liveavatar-demo" 
-                                target="_blank"
-                                className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 text-white font-semibold text-lg transition-colors border border-white/10"
-                            >
-                                Δείτε το Live Demo
-                            </Link>
+                    <div className="flex flex-col items-center gap-4">
+                        <button 
+                            onClick={scrollToForm}
+                            className="px-8 py-4 rounded-full bg-[#0a0b10] hover:bg-slate-800 text-white font-semibold text-lg transition-all"
+                        >
+                            Get started for FREE &rarr;
+                        </button>
+                        <div className="flex items-center gap-4 text-sm text-slate-500 font-medium">
+                            <span>No credit card required</span>
+                            <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                            <span>Rated 4.7/5 on G2</span>
                         </div>
                     </div>
                 </section>
 
-                {/* AGITATION / PROBLEM SECTION */}
-                <section className="py-24 px-6 bg-[#14151b] border-y border-white/5 relative">
-                    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                                Χάνετε πελάτες μετά τις 17:00;
-                            </h2>
-                            <p className="text-lg text-slate-400 leading-relaxed mb-6">
-                                Η παραδοσιακή εξυπηρέτηση πελατών κοστίζει, απαιτεί συνεχή εκπαίδευση και 
-                                δεν μπορεί να διαχειριστεί δεκάδες πελάτες ταυτόχρονα. Το αποτέλεσμα; 
-                            </p>
-                            <ul className="space-y-4 text-slate-300">
-                                <li className="flex items-start gap-3">
-                                    <span className="text-red-400 font-bold mt-1">✕</span>
-                                    Μεγάλη αναμονή στο τηλέφωνο.
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="text-red-400 font-bold mt-1">✕</span>
-                                    Αναπάντητα emails το Σαββατοκύριακο.
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="text-red-400 font-bold mt-1">✕</span>
-                                    Χαμένες πωλήσεις από πελάτες που ήθελαν άμεση απάντηση.
-                                </li>
-                            </ul>
+                {/* TRUST LOGOS */}
+                <section className="py-12 border-t border-b border-slate-100 bg-white">
+                    <p className="text-center text-sm font-medium text-slate-500 mb-8">Trusted by over 50,000 companies of all sizes</p>
+                    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale px-6">
+                        <span className="text-xl font-bold font-serif tracking-tighter">REUTERS</span>
+                        <span className="text-xl font-bold tracking-tighter">zoom</span>
+                        <span className="text-xl font-bold">SAP</span>
+                        <span className="text-xl font-bold">MERCK</span>
+                        <span className="text-xl font-bold">Heineken</span>
+                    </div>
+                </section>
+
+                {/* FEATURE BLOCKS - 2 Column Style */}
+                <section className="py-32 px-6 max-w-7xl mx-auto">
+                    <div className="text-center mb-20">
+                        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0b10] mb-6">
+                            One platform to create, localize, <br className="hidden md:block"/>
+                            manage, and publish AI avatars
+                        </h2>
+                        <p className="text-slate-600">One tool for your entire workflow. From first draft to global distribution.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Box 1 */}
+                        <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
+                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• AI VIDEO ASSISTANT</span>
+                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Turn any content into video, instantly</h3>
+                            <p className="text-slate-600 mb-10 text-lg">Automatically transform documents, links, or ideas into engaging avatars that match your brand style.</p>
+                            <div className="mt-auto h-64 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-indigo-900/20 font-bold text-4xl">
+                                AI Assistant
+                            </div>
                         </div>
-                        
-                        <div className="relative">
-                            {/* Abstract visual representation of missing leads */}
-                            <div className="aspect-square sm:aspect-video md:aspect-square bg-gradient-to-br from-[#1e1f2b] to-[#14151b] rounded-3xl border border-white/10 p-8 flex flex-col justify-center relative overflow-hidden shadow-2xl">
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-red-500/10 via-transparent to-transparent" />
-                                <div className="space-y-4 relative z-10 opacity-70">
-                                    <div className="w-3/4 h-4 bg-white/5 rounded-full" />
-                                    <div className="w-1/2 h-4 bg-white/5 rounded-full" />
-                                    <div className="w-5/6 h-4 bg-white/5 rounded-full" />
-                                    <div className="w-full h-12 bg-red-500/10 border border-red-500/20 rounded-xl mt-8 flex items-center justify-center">
-                                        <span className="text-red-400/80 text-sm font-mono tracking-widest uppercase">Missed Opportunity</span>
-                                    </div>
-                                </div>
+
+                        {/* Box 2 */}
+                        <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
+                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• EXPRESSIVE AVATARS</span>
+                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Create your own expressive AI Avatar</h3>
+                            <p className="text-slate-600 mb-10 text-lg">Your AI Avatar speaks 160+ languages, fluently and with uncanny expressiveness. And yes, you stay in full control.</p>
+                            <div className="mt-auto h-64 bg-gradient-to-br from-[#0a0b10] to-slate-800 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-white/20 font-bold text-4xl">
+                                Custom Avatar
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* SOLUTION / FEATURES SECTION */}
-                <section className="py-24 px-6 relative">
+                {/* PRICING SECTION - Light Mode */}
+                <section id="pricing" className="py-24 px-6 relative bg-white border-t border-slate-100">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">Η Λύση: Ο Τέλειος Ψηφιακός Υπάλληλος</h2>
-                            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                                Αξιοποιούμε τεχνολογία αιχμής (WebRTC & LLMs) για να δημιουργήσουμε έναν 
-                                φωτορεαλιστικό εκπρόσωπο για την επιχείρησή σας.
+                            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0b10] mb-6">Choose your plan</h2>
+                            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                                Transparent pricing. No hidden fees. <br/>
+                                One-time setup, design, and AI training cost: <span className="text-[#0a0b10] font-bold">3.000€</span>.
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Feature 1 */}
-                            <div className="bg-[#14151b] border border-white/5 p-10 rounded-3xl hover:border-white/10 transition-colors">
-                                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-6 opacity-80">01</div>
-                                <h3 className="text-xl font-bold text-white mb-4">Άμεση Απόκριση, Μηδενική Αναμονή</h3>
-                                <p className="text-slate-400 leading-relaxed">
-                                    Μπορεί να εξυπηρετήσει ταυτόχρονα 1 ή 1.000 πελάτες σε πραγματικό χρόνο. Χωρίς "παρακαλώ περιμένετε στη γραμμή", χωρίς εκνευρισμό.
-                                </p>
-                            </div>
-
-                            {/* Feature 2 */}
-                            <div className="bg-[#14151b] border border-white/5 p-10 rounded-3xl hover:border-white/10 transition-colors">
-                                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[#5b36f5] mb-6 opacity-80">02</div>
-                                <h3 className="text-xl font-bold text-white mb-4">Μιλάει Άπταιστα 50+ Γλώσσες</h3>
-                                <p className="text-slate-400 leading-relaxed">
-                                    Εξυπηρετήστε πελάτες από όλο τον κόσμο στη μητρική τους γλώσσα. Το AI αναγνωρίζει αυτόματα τη γλώσσα και προσαρμόζεται άμεσα.
-                                </p>
-                            </div>
-
-                            {/* Feature 3 */}
-                            <div className="bg-[#14151b] border border-white/5 p-10 rounded-3xl hover:border-white/10 transition-colors">
-                                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 mb-6 opacity-80">03</div>
-                                <h3 className="text-xl font-bold text-white mb-4">Γνωρίζει Τέλεια την Επιχείρησή σας</h3>
-                                <p className="text-slate-400 leading-relaxed">
-                                    Δεν δίνει γενικές απαντήσεις. Τροφοδοτούμε το AI με τα δικά σας δεδομένα, τα προϊόντα σας, τις τιμές σας και τις πολιτικές σας.
-                                </p>
-                            </div>
-
-                            {/* Feature 4 */}
-                            <div className="bg-[#14151b] border border-white/5 p-10 rounded-3xl hover:border-white/10 transition-colors">
-                                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500 mb-6 opacity-80">04</div>
-                                <h3 className="text-xl font-bold text-white mb-4">Δραστική Μείωση Κόστους</h3>
-                                <p className="text-slate-400 leading-relaxed">
-                                    Αντικαταστήστε τα τεράστια λειτουργικά κόστη με μια μικρή μηνιαία επένδυση, πολλαπλασιάζοντας την απόδοση και τις πωλήσεις σας.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* PRICING SECTION */}
-                <section id="pricing" className="py-24 px-6 relative bg-[#0a0b0e]">
-                    <div className="max-w-6xl mx-auto">
-                        <div className="text-center mb-16">
-                            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">Επιλέξτε το Πλάνο σας</h2>
-                            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                                Διαφανής τιμολόγηση, χωρίς κρυφές χρεώσεις. <br/>
-                                Εφάπαξ κόστος σχεδιασμού, εκπαίδευσης και εγκατάστασης AI: <span className="text-white font-bold">3.000€</span>.
-                            </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                             {/* Basic Plan */}
-                            <div className="bg-[#14151b] border border-white/10 rounded-3xl p-8 flex flex-col hover:border-[#5b36f5]/50 transition-all relative">
-                                <h3 className="text-2xl font-bold text-white mb-2">Basic</h3>
-                                <p className="text-slate-400 text-sm mb-6">Ιδανικό για μικρές επιχειρήσεις.</p>
+                            <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col hover:border-slate-300 transition-all shadow-sm">
+                                <h3 className="text-2xl font-bold text-[#0a0b10] mb-2">Basic</h3>
+                                <p className="text-slate-500 text-sm mb-6">Ideal for small businesses.</p>
                                 <div className="mb-6">
-                                    <span className="text-4xl font-black text-white">150€</span>
-                                    <span className="text-slate-400"> / μήνα</span>
+                                    <span className="text-4xl font-black text-[#0a0b10]">150€</span>
+                                    <span className="text-slate-500"> / mo</span>
                                 </div>
-                                <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
+                                <ul className="space-y-4 mb-8 flex-1 text-slate-600 text-sm">
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 300 λεπτά συνομιλίας
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Up to 300 minutes
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.50€ / λεπτό ομιλίας
+                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.50€ / minute
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Γλώσσες
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> Cloud Hosting
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Languages
                                     </li>
                                 </ul>
-                                <button onClick={() => selectPackageAndScroll("Basic")} className="w-full py-3 rounded-xl border border-white/20 text-white font-medium hover:bg-white/5 transition-colors">
-                                    Επιλογή Basic
+                                <button onClick={() => selectPackageAndScroll("Basic")} className="w-full py-3 rounded-xl border border-slate-200 text-[#0a0b10] font-semibold hover:bg-slate-50 transition-colors">
+                                    Select Basic
                                 </button>
                             </div>
 
-                            {/* Pro Plan (Highlighted) */}
-                            <div className="bg-gradient-to-b from-[#1c1d29] to-[#14151b] border border-[#5b36f5] rounded-3xl p-8 flex flex-col relative transform md:-translate-y-4 shadow-2xl shadow-[#5b36f5]/20">
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#5b36f5] text-white text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full">
-                                    Προτεινομενο
+                            {/* Pro Plan */}
+                            <div className="bg-[#0a0b10] border border-[#0a0b10] rounded-3xl p-8 flex flex-col shadow-2xl relative transform md:-translate-y-4 text-white">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#5b36f5] text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3 rounded-full">
+                                    Most Popular
                                 </div>
                                 <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
-                                <p className="text-slate-400 text-sm mb-6">Για αναπτυσσόμενες επιχειρήσεις.</p>
+                                <p className="text-slate-400 text-sm mb-6">For growing companies.</p>
                                 <div className="mb-6">
                                     <span className="text-4xl font-black text-white">250€</span>
-                                    <span className="text-slate-400"> / μήνα</span>
+                                    <span className="text-slate-400"> / mo</span>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 600 λεπτά συνομιλίας
+                                        <span className="text-white font-bold">✓</span> Up to 600 minutes
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.41€ / λεπτό ομιλίας
+                                        <span className="text-white font-bold">✓</span> ~0.41€ / minute
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Γλώσσες
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> Priority Support
+                                        <span className="text-white font-bold">✓</span> Priority Support
                                     </li>
                                 </ul>
-                                <button onClick={() => selectPackageAndScroll("Pro")} className="w-full py-3 rounded-xl bg-[#5b36f5] hover:bg-[#4927d6] text-white font-medium shadow-lg shadow-[#5b36f5]/30 transition-colors">
-                                    Επιλογή Pro
+                                <button onClick={() => selectPackageAndScroll("Pro")} className="w-full py-3 rounded-xl bg-white text-[#0a0b10] font-semibold hover:bg-slate-100 transition-colors">
+                                    Select Pro
                                 </button>
                             </div>
 
                             {/* Enterprise Plan */}
-                            <div className="bg-[#14151b] border border-white/10 rounded-3xl p-8 flex flex-col hover:border-[#5b36f5]/50 transition-all relative">
-                                <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
-                                <p className="text-slate-400 text-sm mb-6">Για μέγιστη κάλυψη πελατολογίου.</p>
+                            <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col hover:border-slate-300 transition-all shadow-sm">
+                                <h3 className="text-2xl font-bold text-[#0a0b10] mb-2">Enterprise</h3>
+                                <p className="text-slate-500 text-sm mb-6">For maximum coverage.</p>
                                 <div className="mb-6">
-                                    <span className="text-4xl font-black text-white">450€</span>
-                                    <span className="text-slate-400"> / μήνα</span>
+                                    <span className="text-4xl font-black text-[#0a0b10]">450€</span>
+                                    <span className="text-slate-500"> / mo</span>
                                 </div>
-                                <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
+                                <ul className="space-y-4 mb-8 flex-1 text-slate-600 text-sm">
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 1.200 λεπτά συνομιλίας
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Up to 1.200 minutes
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.37€ / λεπτό ομιλίας (Καλύτερη τιμή)
+                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.37€ / min (Best value)
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Γλώσσες
-                                    </li>
-                                    <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> 24/7 Priority Support
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 24/7 Dedicated Support
                                     </li>
                                 </ul>
-                                <button onClick={() => selectPackageAndScroll("Enterprise")} className="w-full py-3 rounded-xl border border-white/20 text-white font-medium hover:bg-white/5 transition-colors">
-                                    Επιλογή Enterprise
+                                <button onClick={() => selectPackageAndScroll("Enterprise")} className="w-full py-3 rounded-xl border border-slate-200 text-[#0a0b10] font-semibold hover:bg-slate-50 transition-colors">
+                                    Select Enterprise
                                 </button>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* CONTACT FORM SECTION */}
-                <section id="contact-form" className="py-24 px-6 bg-[#14151b] border-t border-white/5 relative">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-[#5b36f5]/10 blur-[150px] pointer-events-none" />
-                    
-                    <div className="max-w-3xl mx-auto relative z-10">
+                {/* FAQ SECTION */}
+                <section className="py-24 px-6 max-w-5xl mx-auto border-t border-slate-100">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <div className="md:col-span-1">
+                            <h2 className="text-4xl font-bold tracking-tight text-[#0a0b10] sticky top-32">
+                                You've likely got a few questions
+                            </h2>
+                        </div>
+                        <div className="md:col-span-2 space-y-6">
+                            {[
+                                "Is the setup fee one-time?",
+                                "Can I customize the AI avatar to look like my team?",
+                                "Does the AI integrate with my existing CRM?",
+                                "How does the AI handle multiple languages?"
+                            ].map((question, i) => (
+                                <div key={i} className="border-b border-slate-200 pb-6">
+                                    <h3 className="text-lg font-bold text-[#0a0b10] flex justify-between items-center cursor-pointer hover:text-slate-700">
+                                        {question}
+                                        <span className="text-slate-400 text-2xl font-light">+</span>
+                                    </h3>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* CONTACT FORM SECTION (Light mode styling) */}
+                <section id="contact-form" className="py-32 px-6 bg-[#f7f7f9] border-t border-slate-200">
+                    <div className="max-w-3xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Κάντε το Επόμενο Βήμα</h2>
-                            <p className="text-slate-400 text-lg">
-                                Συμπληρώστε τη φόρμα για να συζητήσουμε πώς ένας AI Agent μπορεί να μεταμορφώσει 
-                                τη δική σας επιχείρηση.
+                            <h2 className="text-4xl font-bold tracking-tight text-[#0a0b10] mb-4">Ready to try?</h2>
+                            <p className="text-slate-600 text-lg">
+                                Fill out the form and our team will get in touch to discuss your custom AI Agent.
                             </p>
                         </div>
 
-                        <div className="bg-[#0a0b0e] p-8 sm:p-12 rounded-[2rem] border border-white/10 shadow-2xl">
+                        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50">
                             {isSuccess ? (
                                 <div className="text-center py-12">
-                                    <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                                        <div className="text-emerald-400 text-3xl font-bold">✓</div>
+                                    <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                        <div className="text-emerald-600 text-3xl font-bold">✓</div>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white mb-4">Η Αίτησή σας Εστάλη!</h3>
-                                    <p className="text-slate-400">
-                                        Ευχαριστούμε για το ενδιαφέρον σας. Ένας εκπρόσωπος της SGK Digital θα 
-                                        επικοινωνήσει μαζί σας πολύ σύντομα.
+                                    <h3 className="text-2xl font-bold text-[#0a0b10] mb-4">Request Sent Successfully!</h3>
+                                    <p className="text-slate-600">
+                                        Thank you for your interest. An SGK Digital representative will contact you shortly.
                                     </p>
                                 </div>
                             ) : (
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-slate-300 ml-1">Ονοματεπώνυμο *</label>
+                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Full Name *</label>
                                             <input 
                                                 type="text" 
                                                 name="name"
                                                 required
                                                 value={formData.name}
                                                 onChange={handleChange}
-                                                className="w-full bg-[#14151b] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#5b36f5] focus:ring-1 focus:ring-[#5b36f5] transition-all"
-                                                placeholder="π.χ. Γιάννης Παπαδόπουλος"
+                                                className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
+                                                placeholder="e.g. John Doe"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-slate-300 ml-1">Εταιρεία</label>
+                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Company</label>
                                             <input 
                                                 type="text" 
                                                 name="company"
                                                 value={formData.company}
                                                 onChange={handleChange}
-                                                className="w-full bg-[#14151b] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#5b36f5] focus:ring-1 focus:ring-[#5b36f5] transition-all"
-                                                placeholder="Η επιχείρησή σας"
+                                                className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
+                                                placeholder="Your Company Ltd"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-slate-300 ml-1">Email *</label>
+                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Email *</label>
                                             <input 
                                                 type="email" 
                                                 name="email"
                                                 required
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                className="w-full bg-[#14151b] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#5b36f5] focus:ring-1 focus:ring-[#5b36f5] transition-all"
-                                                placeholder="info@company.gr"
+                                                className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
+                                                placeholder="info@company.com"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-slate-300 ml-1">Τηλέφωνο</label>
+                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Phone</label>
                                             <input 
                                                 type="tel" 
                                                 name="phone"
                                                 value={formData.phone}
                                                 onChange={handleChange}
-                                                className="w-full bg-[#14151b] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#5b36f5] focus:ring-1 focus:ring-[#5b36f5] transition-all"
-                                                placeholder="π.χ. 210..."
+                                                className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
+                                                placeholder="e.g. +30 210..."
                                             />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-slate-300 ml-1">Επιλεγμένο Πακέτο</label>
+                                        <label className="text-sm font-semibold text-[#0a0b10] ml-1">Selected Plan</label>
                                         <select 
                                             name="packageType"
                                             value={formData.packageType}
                                             onChange={handleChange}
-                                            className="w-full bg-[#14151b] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#5b36f5] focus:ring-1 focus:ring-[#5b36f5] transition-all appearance-none"
+                                            className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
                                         >
-                                            <option value="">Επιλέξτε πακέτο (Προαιρετικό)</option>
-                                            <option value="Basic">Basic - 150€ / μήνα (300 λεπτά)</option>
-                                            <option value="Pro">Pro - 250€ / μήνα (600 λεπτά)</option>
-                                            <option value="Enterprise">Enterprise - 450€ / μήνα (1.200 λεπτά)</option>
+                                            <option value="">Select a plan (Optional)</option>
+                                            <option value="Basic">Basic - 150€ / mo (300 mins)</option>
+                                            <option value="Pro">Pro - 250€ / mo (600 mins)</option>
+                                            <option value="Enterprise">Enterprise - 450€ / mo (1.200 mins)</option>
                                         </select>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-slate-300 ml-1">Λίγα λόγια για τις ανάγκες σας</label>
+                                        <label className="text-sm font-semibold text-[#0a0b10] ml-1">Project Details</label>
                                         <textarea 
                                             name="details"
                                             value={formData.details}
                                             onChange={handleChange}
                                             rows={4}
-                                            className="w-full bg-[#14151b] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#5b36f5] focus:ring-1 focus:ring-[#5b36f5] transition-all resize-y"
-                                            placeholder="Πώς πιστεύετε ότι θα μπορούσε το AI να βοηθήσει την επιχείρησή σας;"
+                                            className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all resize-y"
+                                            placeholder="How do you plan to use the AI avatar?"
                                         />
                                     </div>
-
-                                    {errorMsg && (
-                                        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
-                                            {errorMsg}
-                                        </div>
-                                    )}
 
                                     <button 
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="w-full py-4 rounded-xl bg-[#5b36f5] hover:bg-[#4927d6] text-white font-bold text-lg transition-all disabled:opacity-70 flex items-center justify-center"
+                                        className="w-full py-4 rounded-xl bg-[#0a0b10] hover:bg-slate-800 text-white font-bold text-lg transition-all disabled:opacity-70 flex items-center justify-center"
                                     >
                                         {isSubmitting ? (
                                             <span className="flex items-center gap-2">
-                                                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                Αποστολή...
+                                                <span className="w-5 h-5 border-2 border-slate-400 border-t-white rounded-full animate-spin" />
+                                                Sending...
                                             </span>
-                                        ) : "Εκδήλωση Ενδιαφέροντος"}
+                                        ) : "Request Quote"}
                                     </button>
-                                    
-                                    <p className="text-center text-xs text-slate-500 mt-4">
-                                        Τα δεδομένα σας είναι ασφαλή. Δεν θα χρησιμοποιηθούν για spam.
-                                    </p>
                                 </form>
                             )}
                         </div>
@@ -439,9 +390,100 @@ export default function OrderAIAgentPage() {
                 </section>
             </main>
             
-            <footer className="py-8 text-center text-slate-500 text-sm border-t border-white/5 bg-[#0a0b0e]">
-                &copy; {new Date().getFullYear()} SGK Digital. Με επιφύλαξη παντός δικαιώματος.
+            {/* LARGE GRADIENT CTA FOOTER */}
+            <section className="py-32 px-6 bg-gradient-to-br from-indigo-400 via-purple-500 to-indigo-600 text-center">
+                <h2 className="text-5xl font-bold tracking-tight text-white mb-4">Ready to try Live Avatar?</h2>
+                <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+                    Join innovative businesses today and start making AI videos in 160+ languages.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button 
+                        onClick={scrollToForm}
+                        className="px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-[#0a0b10] font-bold text-lg transition-all"
+                    >
+                        Get started for free &rarr;
+                    </button>
+                    <Link 
+                        href="/liveavatar-demo" 
+                        target="_blank"
+                        className="px-8 py-4 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-lg transition-colors border border-white/30"
+                    >
+                        Book demo
+                    </Link>
+                </div>
+            </section>
+
+            <footer className="py-12 text-center text-slate-500 text-sm bg-[#0a0b10] text-white/60">
+                <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-left mb-12">
+                    <div>
+                        <h4 className="font-bold text-white mb-4">Features</h4>
+                        <ul className="space-y-2">
+                            <li><a href="#" className="hover:text-white transition-colors">AI Avatar Generator</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">160+ Languages</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Custom Avatars</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-white mb-4">Use Cases</h4>
+                        <ul className="space-y-2">
+                            <li><a href="#" className="hover:text-white transition-colors">Customer Service</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Sales Enablement</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Marketing</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-white mb-4">Resources</h4>
+                        <ul className="space-y-2">
+                            <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Case Studies</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-white mb-4">Company</h4>
+                        <ul className="space-y-2">
+                            <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div className="border-t border-white/10 pt-8">
+                    &copy; {new Date().getFullYear()} SGK Digital. All rights reserved.
+                </div>
             </footer>
+
+            {/* FLOATING INTERACTIVE AVATAR WIDGET (Synthesia clone) */}
+            <div className="fixed bottom-6 right-6 w-[280px] bg-slate-200 rounded-xl shadow-2xl z-[100] border border-slate-300 overflow-hidden hidden sm:block shadow-black/20">
+                {/* Header Controls */}
+                <div className="absolute top-3 left-3 right-3 flex justify-between items-center z-10">
+                    <button className="bg-white/80 backdrop-blur text-slate-800 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-white transition-colors">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                        Unmute
+                    </button>
+                    <button className="bg-white/80 backdrop-blur w-7 h-7 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                        <span className="text-slate-800 text-sm">×</span>
+                    </button>
+                </div>
+                
+                {/* Avatar Placeholder / Video Area */}
+                <div className="h-[340px] w-full relative overflow-hidden bg-gradient-to-b from-[#e5e7eb] to-[#d1d5db]">
+                    {/* Simulated avatar image placeholder */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 opacity-30">
+                        <div className="w-32 h-40 bg-slate-400 rounded-t-full"></div>
+                        <div className="w-full h-24 bg-slate-500 rounded-t-[3rem]"></div>
+                    </div>
+                </div>
+
+                {/* Bottom CTA */}
+                <div className="absolute bottom-4 left-4 right-4">
+                    <Link 
+                        href="/liveavatar-demo" 
+                        target="_blank"
+                        className="block w-full bg-white text-center text-[#0a0b10] font-bold py-3 rounded-xl shadow-sm hover:bg-slate-50 transition-colors"
+                    >
+                        Get Started
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }
