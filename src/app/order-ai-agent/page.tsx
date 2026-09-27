@@ -423,36 +423,46 @@ export default function OrderAIAgentPage() {
                 </div>
             </footer>
 
-            {/* FLOATING INTERACTIVE AVATAR WIDGET (Dark Theme) */}
+            {/* FLOATING INTERACTIVE AVATAR WIDGET (Synthesia Exact Clone) */}
             {isWidgetOpen && (
-                <div className="fixed bottom-6 right-6 w-[280px] bg-[#14151b] rounded-xl shadow-2xl z-[100] border border-white/10 overflow-hidden hidden sm:block shadow-black/50">
+                <div className="fixed bottom-6 right-6 w-[280px] h-[360px] rounded-2xl shadow-2xl z-[100] border border-white/20 overflow-hidden hidden sm:block shadow-black/60 group">
+                    
+                    {/* Background Image */}
+                    <img 
+                        src="/avatar-preview-man.png" 
+                        alt="AI Avatar Preview" 
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+
+                    {/* Bottom Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#101015]/95 via-[#101015]/40 to-transparent pointer-events-none" />
+
                     {/* Header Controls */}
-                    <div className="absolute top-3 left-3 right-3 flex justify-between items-center z-10">
-                        <button className="bg-black/60 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-black transition-colors border border-white/10">
-                            <span className="text-cyan-400">🔊</span> Unmute
+                    <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
+                        {/* Unmute Button */}
+                        <button className="w-[38px] h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            </svg>
                         </button>
-                        <button onClick={() => setIsWidgetOpen(false)} className="bg-black/60 backdrop-blur w-7 h-7 rounded-full flex items-center justify-center hover:bg-black transition-colors border border-white/10">
-                            <span className="text-white text-sm">×</span>
+                        
+                        {/* Close Button */}
+                        <button onClick={() => setIsWidgetOpen(false)} className="w-[38px] h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors">
+                            <div className="w-5 h-5 bg-[#0a0b10] rounded-full flex items-center justify-center">
+                                <span className="text-white text-sm font-bold leading-none mb-0.5">×</span>
+                            </div>
                         </button>
                     </div>
                     
-                    {/* Avatar Placeholder / Video Area */}
-                    <div className="h-[340px] w-full relative overflow-hidden bg-gradient-to-b from-[#1e1f2b] to-[#0a0b0e]">
-                        {/* Simulated avatar image placeholder */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 opacity-30">
-                            <div className="w-32 h-40 bg-slate-700 rounded-t-full"></div>
-                            <div className="w-full h-24 bg-slate-800 rounded-t-[3rem]"></div>
-                        </div>
-                    </div>
-
                     {/* Bottom CTA */}
-                    <div className="absolute bottom-4 left-4 right-4">
+                    <div className="absolute bottom-5 left-5 right-5 z-10">
                         <Link 
                             href="/liveavatar-demo" 
                             target="_blank"
-                            className="block w-full bg-[#5b36f5] text-center text-white font-bold py-3 rounded-xl shadow-lg hover:bg-[#4927d6] transition-colors"
+                            className="block w-full bg-white text-center text-[#002b5c] font-bold text-lg py-3.5 rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
                         >
-                            Μιλήστε στο AI
+                            Get Started
                         </Link>
                     </div>
                 </div>
