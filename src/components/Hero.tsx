@@ -16,7 +16,7 @@ const slides = [
     description: "Ολοκληρωμένη εταιρική ιστοσελίδα για τη νέα σας Ι.Κ.Ε. με 100% συμμόρφωση στις προδιαγραφές ΓΕΜΗ. Περιλαμβάνει .gr domain για 2 έτη, ταχύτατο hosting, εταιρικό email, SSL και δημοσίευση ισολογισμών μόνο με 150€.",
     buttonText: "Δες την προσφορά (150€)",
     buttonLink: "/ike-offer",
-    image: "/hero_slide_4.png"
+    image: "/hero_slide_4.webp"
   },
   {
     title: (
@@ -27,7 +27,7 @@ const slides = [
     description: "Σε έναν κόσμο γεμάτο ψηφιακό θόρυβο, η απλότητα είναι αυτή που κερδίζει. Δημιουργούμε e-shops και web εφαρμογές που κάνουν τη ζωή του πελάτη σου πιο εύκολη—και την αγορά, μια φυσική επιλογή.",
     buttonText: "Ας χτίσουμε κάτι αληθινό",
     buttonLink: "/estimate",
-    image: "/hero_slide_1.png"
+    image: "/hero_slide_1.webp"
   },
   {
     title: (
@@ -38,7 +38,7 @@ const slides = [
     description: "Η νέα εποχή στην εξυπηρέτηση: Διαδραστικός AI βοηθός με ζωντανό video call πρόσωπο με πρόσωπο και φυσική ομιλία. Απαντάει άμεσα στις ερωτήσεις των πελατών σας και ολοκληρώνει εργασίες 24/7.",
     buttonText: "Δοκιμάστε το Live Demo",
     buttonLink: "/order-ai-agent",
-    image: "/images/hero_ai_video_agent.jpg"
+    image: "/images/hero_ai_video_agent.webp"
   },
   {
     title: (
@@ -49,7 +49,7 @@ const slides = [
     description: "Διώξε το άγχος της καθημερινότητας. Οι έξυπνοι AI agents αναλαμβάνουν τις χρονοβόρες εργασίες και την 24/7 εξυπηρέτηση, χαρίζοντάς σου τον πιο πολύτιμο πόρο για την επιχείρησή σου: ελεύθερο χρόνο.",
     buttonText: "Δες πώς λειτουργεί",
     buttonLink: "/innovation",
-    image: "/hero_slide_2.png"
+    image: "/hero_slide_2.webp"
   },
   {
     title: (
@@ -60,7 +60,7 @@ const slides = [
     description: "Οι απρόσωπες πωλήσεις ανήκουν στο παρελθόν. Χτίζουμε Headless E-shops και στρατηγικές marketing που επικοινωνούν ανθρώπινα, μετατρέποντας τους απλούς επισκέπτες σε αληθινούς, πιστούς πελάτες.",
     buttonText: "Ανακάλυψε τις λύσεις μας",
     buttonLink: "/portfolio",
-    image: "/hero_slide_3.png"
+    image: "/hero_slide_3.webp"
   }
 ];
 
@@ -131,6 +131,7 @@ const Hero = () => {
               src={slides[currentSlide].image}
               alt="SGK Digital Hero"
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 800px"
               className="object-cover object-center"
               priority={currentSlide === 0}
             />

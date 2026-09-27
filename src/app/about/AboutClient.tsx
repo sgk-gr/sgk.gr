@@ -201,10 +201,12 @@ export default function AboutClient() {
                 className="w-full md:w-1/2 relative min-h-[320px] md:min-h-0"
               >
                 <Image
-                  src="/sgk-team.png"
+                  src="/sgk-team.webp"
                   alt="Η ομάδα της SGK"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover object-center"
+                  loading="lazy"
                 />
               </motion.div>
             </div>

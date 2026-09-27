@@ -377,7 +377,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
         <div className="bg-white px-6 py-5 flex items-center justify-between border-b border-gray-200 shadow-sm z-10">
           <div className="flex items-center gap-4">
             <div className="relative w-14 h-14 rounded-full border-2 border-[#b482ff] p-0.5 shadow-sm">
-              <img src="/tzitzi.png" alt="Jo-Jo" className="w-full h-full object-cover rounded-full" />
+              <img src="/tzitzi.webp" alt="Jo-Jo" className="w-full h-full object-cover rounded-full" />
               <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#4ade80] rounded-full border-2 border-white z-10" />
             </div>
             <div>
@@ -390,6 +390,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
           </div>
           <button 
             onClick={onClose} 
+            aria-label="Κλείσιμο παραθύρου συνομιλίας"
             className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors"
           >
             <X size={20} />
@@ -402,7 +403,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
             <div key={m.id} className={`flex gap-3 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
               {m.role === "assistant" && (
                 <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden shrink-0 shadow-sm mt-1">
-                  <img src="/tzitzi.png" alt="Jo-Jo" className="w-full h-full object-cover" />
+                  <img src="/tzitzi.webp" alt="Jo-Jo" className="w-full h-full object-cover" />
                 </div>
               )}
               <div className={`px-5 py-4 max-w-[85%] text-[15px] leading-relaxed shadow-sm ${
@@ -423,7 +424,7 @@ export default function JoJoChatModal({ isOpen, onClose }: JoJoChatModalProps) {
           {isLoading && (
             <div className="flex justify-start gap-3">
               <div className="w-10 h-10 rounded-full border border-gray-200 overflow-hidden shrink-0 shadow-sm">
-                <img src="/tzitzi.png" alt="Jo-Jo" className="w-full h-full object-cover grayscale-[20%]" />
+                <img src="/tzitzi.webp" alt="Jo-Jo" className="w-full h-full object-cover grayscale-[20%]" />
               </div>
               <div className="px-5 py-4 rounded-2xl bg-white border border-gray-100 rounded-tl-sm flex items-center gap-2">
                 <div className="flex gap-1.5">

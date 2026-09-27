@@ -68,9 +68,10 @@ export default function ServicesSection() {
           {/* Right Image */}
           <div className="w-full md:w-[60%] relative h-[400px] md:h-[650px] z-0">
             <Image 
-              src="/cool.jpg" 
+              src="/cool.webp" 
               alt="Happy Client with their Digital Project" 
               fill
+              sizes="(max-width: 768px) 100vw, 60vw"
               className="object-cover shadow-xl"
             />
           </div>

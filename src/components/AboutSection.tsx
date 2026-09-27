@@ -15,11 +15,12 @@ export default function AboutSection() {
           <div className="w-full md:w-[60%] relative h-[350px] md:h-[600px] z-0">
             {/* We use an existing image as placeholder. User can change later. */}
             <Image 
-              src="/sgk-team.png" 
+              src="/sgk-team.webp" 
               alt="SGK Software Development Team" 
               fill
+              sizes="(max-width: 768px) 100vw, 60vw"
               className="object-cover shadow-2xl"
-              priority
+              loading="lazy"
             />
           </div>
 

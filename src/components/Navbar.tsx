@@ -130,7 +130,7 @@ const Navbar = () => {
               className="flex items-center gap-2 bg-[#b482ff] hover:bg-[#a068f7] text-white font-bold text-[12px] tracking-wider px-4 py-2 rounded-l-md transition-all duration-300 border border-r-0 border-white/20 relative z-10 shadow-sm"
             >
               <img
-                src="/tzitzi.png"
+                src="/tzitzi.webp"
                 alt="Jo-Jo"
                 className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
               />
@@ -199,7 +199,7 @@ const Navbar = () => {
                 className="py-3 text-base font-bold bg-[#b482ff] text-white rounded-xl text-center shadow-sm flex items-center justify-center gap-2"
               >
                 <img
-                  src="/tzitzi.png"
+                  src="/tzitzi.webp"
                   alt="Jo-Jo"
                   className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
                 />
@@ -220,7 +220,7 @@ const Navbar = () => {
           aria-label="Μίλα με τον Jo-Jo"
         >
           <img
-            src="/tzitzi.png"
+            src="/tzitzi.webp"
             alt="Jo-Jo"
             className="w-10 h-10 rounded-full object-cover border border-white/60 shrink-0"
           />
@@ -253,6 +253,7 @@ const Navbar = () => {
               {/* Close Button */}
               <button
                 onClick={() => setIsAppModalOpen(false)}
+                aria-label="Κλείσιμο παραθύρου εφαρμογής"
                 className="absolute top-4 right-4 text-black hover:opacity-70 transition-opacity"
               >
                 <X size={20} />

@@ -9,8 +9,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    // Στατικά sites χρειάζονται αυτό για τις εικόνες
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
   async rewrites() {
     return [
