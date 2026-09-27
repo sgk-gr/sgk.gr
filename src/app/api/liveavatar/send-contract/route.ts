@@ -104,7 +104,8 @@ export async function POST(req: Request) {
     // 3. Build HTML Body
     const customHtml = `<p>Καλημέρα σας,</p>
 <p>Σας στέλνουμε αυτό το μήνυμα σε συνέχεια της συνομιλίας σας με τον AI Tech Expert μας σχετικά με το νέο σας <strong>Website ${companyLabel}</strong></p>
-<p>Στο παρόν email <strong>επισυνάπτουμε το ιδιωτικό συμφωνητικό συνεργασίας μας</strong>. Παρακαλούμε να το διαβάσετε και να το υπογράψετε.</p>
+<p>Στο παρόν email <strong>επισυνάπτουμε το ιδιωτικό συμφωνητικό συνεργασίας μας</strong>. Παρακαλούμε να το διαβάσετε, να το υπογράψετε και να μας το στείλετε πίσω.</p>
+<p><em>Σημείωση:</em> Αν επιθυμείτε, <strong>μπορείτε να το υπογράψετε ψηφιακά μέσω του gov.gr</strong> (το συμφωνητικό είναι ήδη ανεβασμένο και εκεί). Επομένως, μπορείτε είτε να υπογράψετε αυτό που σας στείλαμε, είτε αυτό που βρίσκεται στο gov.gr.</p>
 
 <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 25px 0;">
   <h3 style="margin-top: 0; color: #3b5bdb; font-size: 16px; font-weight: bold; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">💸 Στοιχεία Κατάθεσης</h3>
