@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { name, company, email, phone, details } = body;
+        const { name, company, email, phone, details, packageType } = body;
 
         if (!name || !email) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -21,6 +21,7 @@ export async function POST(req: Request) {
                 <li><strong>Εταιρεία:</strong> ${company || "Δεν δηλώθηκε"}</li>
                 <li><strong>Email:</strong> ${email}</li>
                 <li><strong>Τηλέφωνο:</strong> ${phone || "Δεν δηλώθηκε"}</li>
+                <li><strong>Επιλεγμένο Πακέτο:</strong> ${packageType || "Δεν επέλεξε συγκεκριμένο"}</li>
             </ul>
             <h3>Περιγραφή Project:</h3>
             <p>${details ? details.replace(/\n/g, '<br/>') : "Δεν συμπληρώθηκε"}</p>

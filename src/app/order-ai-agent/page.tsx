@@ -9,14 +9,20 @@ export default function OrderAIAgentPage() {
         company: "",
         email: "",
         phone: "",
-        details: ""
+        details: "",
+        packageType: ""
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const selectPackageAndScroll = (pkg: string) => {
+        setFormData({ ...formData, packageType: pkg });
+        scrollToForm();
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -199,6 +205,105 @@ export default function OrderAIAgentPage() {
                     </div>
                 </section>
 
+                {/* PRICING SECTION */}
+                <section id="pricing" className="py-24 px-6 relative bg-[#0a0b0e]">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">Επιλέξτε το Πλάνο σας</h2>
+                            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+                                Διαφανής τιμολόγηση, χωρίς κρυφές χρεώσεις. <br/>
+                                Εφάπαξ κόστος σχεδιασμού, εκπαίδευσης και εγκατάστασης AI: <span className="text-white font-bold">3.000€</span>.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                            {/* Basic Plan */}
+                            <div className="bg-[#14151b] border border-white/10 rounded-3xl p-8 flex flex-col hover:border-[#5b36f5]/50 transition-all relative">
+                                <h3 className="text-2xl font-bold text-white mb-2">Basic</h3>
+                                <p className="text-slate-400 text-sm mb-6">Ιδανικό για μικρές επιχειρήσεις.</p>
+                                <div className="mb-6">
+                                    <span className="text-4xl font-black text-white">150€</span>
+                                    <span className="text-slate-400"> / μήνα</span>
+                                </div>
+                                <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 300 λεπτά συνομιλίας
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.50€ / λεπτό ομιλίας
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Γλώσσες
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Cloud Hosting
+                                    </li>
+                                </ul>
+                                <button onClick={() => selectPackageAndScroll("Basic")} className="w-full py-3 rounded-xl border border-white/20 text-white font-medium hover:bg-white/5 transition-colors">
+                                    Επιλογή Basic
+                                </button>
+                            </div>
+
+                            {/* Pro Plan (Highlighted) */}
+                            <div className="bg-gradient-to-b from-[#1c1d29] to-[#14151b] border border-[#5b36f5] rounded-3xl p-8 flex flex-col relative transform md:-translate-y-4 shadow-2xl shadow-[#5b36f5]/20">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#5b36f5] text-white text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full">
+                                    Προτεινομενο
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
+                                <p className="text-slate-400 text-sm mb-6">Για αναπτυσσόμενες επιχειρήσεις.</p>
+                                <div className="mb-6">
+                                    <span className="text-4xl font-black text-white">250€</span>
+                                    <span className="text-slate-400"> / μήνα</span>
+                                </div>
+                                <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 600 λεπτά συνομιλίας
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.41€ / λεπτό ομιλίας
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Γλώσσες
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Priority Support
+                                    </li>
+                                </ul>
+                                <button onClick={() => selectPackageAndScroll("Pro")} className="w-full py-3 rounded-xl bg-[#5b36f5] hover:bg-[#4927d6] text-white font-medium shadow-lg shadow-[#5b36f5]/30 transition-colors">
+                                    Επιλογή Pro
+                                </button>
+                            </div>
+
+                            {/* Enterprise Plan */}
+                            <div className="bg-[#14151b] border border-white/10 rounded-3xl p-8 flex flex-col hover:border-[#5b36f5]/50 transition-all relative">
+                                <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
+                                <p className="text-slate-400 text-sm mb-6">Για μέγιστη κάλυψη πελατολογίου.</p>
+                                <div className="mb-6">
+                                    <span className="text-4xl font-black text-white">450€</span>
+                                    <span className="text-slate-400"> / μήνα</span>
+                                </div>
+                                <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 1.200 λεπτά συνομιλίας
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.37€ / λεπτό ομιλίας (Καλύτερη τιμή)
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Γλώσσες
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 24/7 Priority Support
+                                    </li>
+                                </ul>
+                                <button onClick={() => selectPackageAndScroll("Enterprise")} className="w-full py-3 rounded-xl border border-white/20 text-white font-medium hover:bg-white/5 transition-colors">
+                                    Επιλογή Enterprise
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* CONTACT FORM SECTION */}
                 <section id="contact-form" className="py-24 px-6 bg-[#14151b] border-t border-white/5 relative">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-[#5b36f5]/10 blur-[150px] pointer-events-none" />
@@ -276,6 +381,21 @@ export default function OrderAIAgentPage() {
                                                 placeholder="π.χ. 210..."
                                             />
                                         </div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-slate-300 ml-1">Επιλεγμένο Πακέτο</label>
+                                        <select 
+                                            name="packageType"
+                                            value={formData.packageType}
+                                            onChange={handleChange}
+                                            className="w-full bg-[#14151b] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#5b36f5] focus:ring-1 focus:ring-[#5b36f5] transition-all appearance-none"
+                                        >
+                                            <option value="">Επιλέξτε πακέτο (Προαιρετικό)</option>
+                                            <option value="Basic">Basic - 150€ / μήνα (300 λεπτά)</option>
+                                            <option value="Pro">Pro - 250€ / μήνα (600 λεπτά)</option>
+                                            <option value="Enterprise">Enterprise - 450€ / μήνα (1.200 λεπτά)</option>
+                                        </select>
                                     </div>
 
                                     <div className="space-y-2">
