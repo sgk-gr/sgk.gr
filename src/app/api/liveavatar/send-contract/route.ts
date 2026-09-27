@@ -165,6 +165,37 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
     }
 
+    // 5. Send Notification to info@sgk.gr
+    const summaryHtml = `<h3>Νέο Κλείσιμο από Live Avatar!</h3>
+<p>Μόλις μπήκε πελάτης μέσω του AI Avatar, έδωσε τα στοιχεία του και το σύστημα του έστειλε αυτόματα το συμφωνητικό για να καταθέσει τα 150€.</p>
+<hr/>
+<ul>
+<li><strong>Εταιρεία:</strong> ${companyLabel}</li>
+<li><strong>ΑΦΜ:</strong> ${cleanDigits}</li>
+<li><strong>Εκπρόσωπος:</strong> ${representativeName || "Άγνωστος"}</li>
+<li><strong>Email Πελάτη:</strong> ${email}</li>
+</ul>
+<p>Το <b>150€</b> συμφωνητικό έχει αποσταλεί επιτυχώς και είναι έτοιμος για κατάθεση.</p>`;
+
+    try {
+        await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": supabaseServiceKey,
+              "Authorization": `Bearer ${supabaseServiceKey}`,
+            },
+            body: JSON.stringify({
+              email: "info@sgk.gr",
+              customSubject: `🚀 ΝΕΟΣ ΠΕΛΑΤΗΣ (AI) - Έτοιμος για 150€ - ${companyLabel}`,
+              customHtml: summaryHtml,
+              step: 1,
+            }),
+        });
+    } catch (notifyErr) {
+        console.warn("Failed to notify info@sgk.gr:", notifyErr);
+    }
+
     return NextResponse.json({ success: true, contractData });
 
   } catch (err: any) {

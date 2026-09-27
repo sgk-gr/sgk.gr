@@ -505,7 +505,8 @@ export default function LiveAvatarVideoCallPage() {
             setIsSubmittingInput(true);
             setSubmitSuccess(true);
 
-            const userMsg = `Ορίστε το email επικοινωνίας μου: ${trimmedEmail}. Παρακαλώ επιβεβαιώστε το.`;
+            const userMsg = `Το email μου είναι ${trimmedEmail}. Στείλτε το συμφωνητικό.`;
+            const systemPrompt = `Ο χρήστης μόλις έδωσε το email του. Πες του ΑΚΡΙΒΩΣ: "Τέλεια! Σας έστειλα μόλις το συμφωνητικό στο email σας. Ευχαριστούμε πολύ και καλή συνέχεια!" (ΜΗΝ πεις τίποτα άλλο, ΜΗΝ κάνεις ερωτήσεις).`;
 
             setMessages(prev => [
                 ...prev,
@@ -521,8 +522,6 @@ export default function LiveAvatarVideoCallPage() {
                 }).then(res => {
                     if (res.ok) {
                         console.log("Contract auto-generated and sent successfully!");
-                    } else {
-                        console.error("Failed to auto-send contract");
                     }
                 });
             } catch (err) {
@@ -531,18 +530,24 @@ export default function LiveAvatarVideoCallPage() {
 
             if (sessionRef.current && typeof sessionRef.current.message === "function") {
                 try {
-                    // Tell the AI we gave the email so it says something nice
-                    sessionRef.current.message(userMsg);
+                    // Force the avatar to say the closing statement
+                    sessionRef.current.message(systemPrompt);
                 } catch (err) {
                     console.warn("Error sending Email message:", err);
                 }
             }
 
+            // Close the UI prompt box
             setTimeout(() => {
                 setActivePromptInput(null);
                 setIsSubmittingInput(false);
                 setSubmitSuccess(false);
             }, 1800);
+
+            // Automatically end the call after 7 seconds (giving time for the Avatar to finish speaking)
+            setTimeout(() => {
+                handleEndCall();
+            }, 7000);
         }
     };
 
