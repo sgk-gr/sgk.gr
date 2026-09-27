@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -18,6 +18,15 @@ export default function OrderAIAgentPage() {
     const [errorMsg, setErrorMsg] = useState("");
     const [isWidgetOpen, setIsWidgetOpen] = useState(true);
     const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+    const [isWidgetMuted, setIsWidgetMuted] = useState(true);
+    const widgetVideoRef = useRef<HTMLVideoElement>(null);
+
+    const toggleWidgetMute = () => {
+        if (widgetVideoRef.current) {
+            widgetVideoRef.current.muted = !isWidgetMuted;
+            setIsWidgetMuted(!isWidgetMuted);
+        }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -471,14 +480,18 @@ export default function OrderAIAgentPage() {
                 </div>
             </footer>
 
-            {/* FLOATING INTERACTIVE AVATAR WIDGET (Synthesia Exact Clone) */}
+            {/* FLOATING INTERACTIVE AVATAR WIDGET (Video Background) */}
             {isWidgetOpen && (
                 <div className="fixed bottom-6 right-6 w-[280px] h-[360px] rounded-2xl shadow-2xl z-[100] border border-white/20 overflow-hidden hidden sm:block shadow-black/60 group">
                     
-                    {/* Background Image */}
-                    <img 
-                        src="/avatar-preview-man.png" 
-                        alt="AI Avatar Preview" 
+                    {/* Background Video */}
+                    <video 
+                        ref={widgetVideoRef}
+                        src="/gemini_generated_video_5c95b80d.mp4" 
+                        autoPlay 
+                        loop 
+                        muted={isWidgetMuted}
+                        playsInline
                         className="absolute inset-0 w-full h-full object-cover"
                     />
 
@@ -487,12 +500,24 @@ export default function OrderAIAgentPage() {
 
                     {/* Header Controls */}
                     <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
-                        {/* Unmute Button */}
-                        <button className="w-[38px] h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                            </svg>
+                        {/* Unmute/Mute Toggle Button */}
+                        <button 
+                            onClick={toggleWidgetMute} 
+                            className="w-[38px] h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors"
+                        >
+                            {isWidgetMuted ? (
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                                </svg>
+                            ) : (
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                                </svg>
+                            )}
                         </button>
                         
                         {/* Close Button */}
@@ -508,9 +533,9 @@ export default function OrderAIAgentPage() {
                         <Link 
                             href="/liveavatar-demo" 
                             target="_blank"
-                            className="block w-full bg-white text-center text-[#002b5c] font-bold text-lg py-3.5 rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
+                            className="flex items-center justify-center w-full bg-white text-center text-[#002b5c] font-bold text-[13px] leading-tight py-3 px-2 rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
                         >
-                            Ξεκινήστε
+                            Μιλήστε μαζί μου να σας <br/> εξηγήσω περισσότερα
                         </Link>
                     </div>
                 </div>
