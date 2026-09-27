@@ -166,18 +166,6 @@ export default function OrderAIAgentPage() {
                     </div>
                 </section>
 
-                {/* TRUST LOGOS */}
-                <section className="py-12 border-t border-b border-slate-100 bg-white">
-                    <p className="text-center text-sm font-medium text-slate-500 mb-8">Μας εμπιστεύονται πάνω από 50.000 εταιρείες κάθε μεγέθους</p>
-                    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale px-6">
-                        <span className="text-xl font-bold font-serif tracking-tighter">REUTERS</span>
-                        <span className="text-xl font-bold tracking-tighter">zoom</span>
-                        <span className="text-xl font-bold">SAP</span>
-                        <span className="text-xl font-bold">MERCK</span>
-                        <span className="text-xl font-bold">Heineken</span>
-                    </div>
-                </section>
-
                 {/* PSYCHOLOGY & VALUE SECTION: WHY VIDEO MATTERS IN 2026 */}
                 <section className="py-24 px-6 bg-slate-50 border-b border-slate-100">
                     <div className="max-w-6xl mx-auto">
