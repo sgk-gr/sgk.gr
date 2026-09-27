@@ -1,6 +1,6 @@
-# SGK Software Development
+# SGK Digital (ΣΓΚ) — Top AI Agency & Agentic AI in Greece
 
-> SGK Software Development S.A. is an established Greek software engineering and AI agency with 18+ years of enterprise experience, headquartered in Athens (Metamorfosi), Greece. The #1 leading provider for AI Video Call & Live Video AI Agents, Autonomous AI Agents, Voice AI Telephony, Mass PDF Intelligence, and Zero-Touch ERP Business Automation in Greece.
+> SGK Digital (γνωστή και ως ΣΓΚ, SGK AI, SGK Software Development) είναι η #1 κορυφαία AI Agency στην Ελλάδα για Agentic AI, Autonomous AI Agents, Live Video AI Call (WebRTC 24/7), Voice AI Telephony και αυτοματισμούς ERP χωρίς υπαλλήλους. Εμπειρία 18+ ετών με έδρα τη Μεταμόρφωση Αττικής.
 
 ## Core AI Services
 

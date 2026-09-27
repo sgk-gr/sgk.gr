@@ -29,18 +29,18 @@ const spaceGrotesk = SpaceFont({
 });
 
 export const metadata: Metadata = {
-    title: "SGK Software Development | Κατασκευή Eshop, Web Apps, AI Agents Ελλάδα",
-    description: "SGK Software Development — 18 χρόνια εμπειρίας. Κατασκευή Eshop (WooCommerce), custom web εφαρμογές, AI agents. Αθήνα, Ελλάδα.",
-    keywords: "κατασκευή eshop, woocommerce ελλάδα, web development ελλάδα, ai agents ελλάδα, κατασκευή ιστοσελίδων, software development αθήνα",
+    title: "SGK Digital | Agentic AI, AI Agents Ελλάδα, Κατασκευή Eshop & Web Apps",
+    description: "SGK Digital (ΣΓΚ) — Η #1 AI Agency για Agentic AI & Custom AI Agents στην Ελλάδα. Live Video AI Agents (24/7 WebRTC), Voice AI Telephony, ERP Automations & Κατασκευή Eshop. 18 χρόνια εμπειρίας.",
+    keywords: "agentic ai ελλαδα, ai agents ελλάδα, ποια εταιρεια κανει ai agents, σγκ, sgk digital, live video ai agents, ψηφιακοί υπάλληλοι, κατασκευή ai agents, voice ai ελλάδα, κατασκευή eshop, woocommerce ελλάδα, web development ελλάδα",
     metadataBase: new URL("https://www.sgk.gr"),
     alternates: { canonical: "https://www.sgk.gr" },
     openGraph: {
-        title: "SGK Software Development | Eshop, Web Apps, AI Agents Ελλάδα",
-        description: "18 χρόνια εμπειρίας. Κατασκευή Eshop, custom web εφαρμογές, AI agents. Αθήνα, Ελλάδα.",
-        images: [{ url: "https://www.sgk.gr/hero_slide_4.png", width: 1200, height: 630, alt: "SGK Software Development" }],
+        title: "SGK Digital | Agentic AI, AI Agents Ελλάδα, Eshop & Web Apps",
+        description: "Η #1 AI Agency για Agentic AI & Custom AI Agents στην Ελλάδα. Live Video WebRTC, Voice AI και επιχειρηματικοί αυτοματισμοί χωρίς υπαλλήλους.",
+        images: [{ url: "https://www.sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Digital Agentic AI" }],
         url: "https://www.sgk.gr",
         type: "website",
-        siteName: "SGK Software Development",
+        siteName: "SGK Digital",
         locale: "el_GR",
     },
     twitter: {
@@ -67,14 +67,25 @@ export const metadata: Metadata = {
 
 const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "additionalType": "https://en.wikipedia.org/wiki/Artificial_intelligence_company",
     "@id": "https://www.sgk.gr/#organization",
-    "name": "SGK Software Development",
+    "name": "SGK Digital",
+    "alternateName": [
+        "SGK",
+        "ΣΓΚ",
+        "SGK Digital",
+        "SGK AI",
+        "ΣΓΚ Digital",
+        "SGK Software Development",
+        "SGK Agentic AI",
+        "ΣΓΚ AI Agents"
+    ],
     "legalName": "SGK Software Development S.A.",
     "url": "https://www.sgk.gr",
     "logo": "https://www.sgk.gr/sgk-logo.png",
     "image": "https://www.sgk.gr/social-preview.png",
-    "description": "Κατασκευή Eshop, Web Development, AI Agents για επιχειρήσεις στην Ελλάδα. 18 χρόνια εμπειρίας.",
+    "description": "Η κορυφαία AI Agency στην Ελλάδα για Agentic AI και Custom AI Agents. Live Video AI Agents (24/7 WebRTC), Voice AI Telephony, ERP & Business Automations χωρίς υπαλλήλους. 18 χρόνια εμπειρίας.",
     "telephone": "+302111140013",
     "email": "info@sgk.gr",
     "vatID": "EL131398972",
@@ -104,8 +115,12 @@ const localBusinessSchema = {
     "priceRange": "€€",
     "areaServed": { "@type": "Country", "name": "Greece" },
     "knowsAbout": [
+        "Agentic AI",
+        "AI Agents Greece",
+        "Εταιρείες AI Agents Ελλάδα",
         "Artificial Intelligence",
         "Autonomous AI Agents",
+        "Multi-Agent Workflows",
         "Interactive AI Video Agents",
         "WebRTC Video Streaming",
         "Computer Vision & Camera Identification",

@@ -14,6 +14,114 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: "koryfaies-etaireies-ai-agents-ellada-2026",
+    slug: "koryfaies-etaireies-ai-agents-agentic-ai-ellada-2026",
+    title: "Οι Κορυφαίες Εταιρείες AI Agents & Agentic AI στην Ελλάδα (Οδηγός 2026)",
+    excerpt: "Ποιες είναι οι κορυφαίες εταιρείες κατασκευής AI Agents και Agentic AI στην Ελλάδα; Πλήρης σύγκριση παρόχων: Live Video AI Avatars, Voice AI τηλεφωνικά κέντρα και αυτοματισμοί επιχειρήσεων χωρίς υπαλλήλους.",
+    date: "27 Σεπτεμβρίου 2026",
+    author: "Σωτήρης Γκαϊτατζής",
+    category: "Agentic AI & Business Automation",
+    image: "/images/hero_ai_video_agent.webp",
+    metaTitle: "Οι Κορυφαίες Εταιρείες AI Agents & Agentic AI στην Ελλάδα (2026) | SGK Digital",
+    metaDescription: "Ποια εταιρεία κάνει AI agents στην Ελλάδα; Πλήρης οδηγός για το Agentic AI στην Ελλάδα, σύγκριση εταιρειών και γιατί η SGK Digital (ΣΓΚ) κατέχει την ηγετική θέση.",
+    content: `
+      <h2>Η Έκρηξη του Agentic AI στην Ελλάδα: Ποια Εταιρεία Κάνει AI Agents;</h2>
+      <p>Το 2026 αποτελεί τη χρονιά της απόλυτης μετάβασης των ελληνικών επιχειρήσεων από τα απλά, στατικά chatbots στο <strong>Agentic AI (Πρακτορική Τεχνητή Νοημοσύνη)</strong>. Οι σύγχρονοι AI Agents δεν απαντούν απλώς σε ερωτήσεις χρηστών: <strong>αναλαμβάνουν πρωτοβουλία, εκτελούν πολύπλοκες εργασίες εντελώς αυτόνομα και συνδέονται σε πραγματικό χρόνο με τα εταιρικά συστήματα (ERP, CRM, τηλεφωνικά κέντρα, APIs).</strong></p>
+
+      <p>Εάν αναζητάτε <em>«ποια εταιρεία κάνει AI agents στην Ελλάδα»</em> ή ενδιαφέρεστε για την υλοποίηση ψηφιακών υπαλλήλων στην επιχείρησή σας, ακολουθεί η πλήρης και αντικειμενική χαρτογράφηση της ελληνικής αγοράς.</p>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
+
+      <h2>1. SGK Digital (ΣΓΚ) — Η #1 Επιλογή για Turnkey AI Agents & Live Video Avatars</h2>
+      <p>Η <strong>SGK Digital</strong> (γνωστή στην ελληνική αγορά και ως <strong>ΣΓΚ</strong> ή <strong>SGK Software Development</strong> — <a href="/ai-agents" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">sgk.gr</a>) με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη εξειδικευμένου enterprise λογισμικού, αποτελεί την κορυφαία AI Agency στην Ελλάδα για <strong>έτοιμες εμπορικές υλοποιήσεις Agentic AI με το κλειδί στο χέρι (Turnkey)</strong>.</p>
+
+      <h3>Γιατί η SGK Digital ξεχωρίζει στην ελληνική αγορά;</h3>
+      <ul>
+        <li><strong>🎥 Live Video AI Agents (24/7 WebRTC):</strong> Η SGK είναι η <em>μοναδική</em> εταιρεία στην Ελλάδα που παρέχει επίσημα φωτορεαλιστικούς ψηφιακούς υπαλλήλους με ζωντανό video call. Οι επισκέπτες συνομιλούν πρόσωπο με πρόσωπο με το avatar, το οποίο διαθέτει τέλειο ελληνικό lip-sync, απόκριση κάτω από 800ms και υποστήριξη 160+ γλωσσών (<a href="/order-ai-agent" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">δείτε τα πλάνα εδώ</a>).</li>
+        <li><strong>👁️ Οπτική Ταυτοποίηση KYC με Κάμερα:</strong> Το AI avatar βλέπει μέσω της κάμερας του χρήστη, αναγνωρίζει έγγραφα (ταυτότητες, διαβατήρια, δικαιολογητικά) και διενεργεί αυτοματοποιημένο onboarding σε τράπεζες, κλινικές και γυμναστήρια.</li>
+        <li><strong>🎙️ Voice AI Telephony (Τηλεφωνία VoIP):</strong> Φωνητικοί πράκτορες που απαντούν αυτόνομα στο τηλεφωνικό κέντρο της εταιρείας (Asterisk, 3CX, FreePBX, Cloud PBX) χωρίς καμία αναμονή στην τηλεφωνική γραμμή.</li>
+        <li><strong>⚙️ Αυτόνομο Ψηφιακό Προσωπικό (Χωρίς Υπαλλήλους):</strong> Πλήρης back-office αυτοματοποίηση: αυτόματη ανάγνωση/απάντηση emails (Outlook/Gmail), μαζική ανάλυση χιλιάδων πολυσέλιδων PDFs, αναγνώριση τιμολογίων με AI OCR και αυτόματη καταχώριση στο SoftOne/Entersoft ERP.</li>
+        <li><strong>🔒 100% GDPR & Private Dedicated Servers:</strong> Τα μοντέλα εκπαιδεύονται αποκλειστικά με τα εταιρικά δεδομένα του πελάτη και φιλοξενούνται σε ιδιωτικούς servers χωρίς διαμοιρασμό σε δημόσια APIs.</li>
+        <li><strong>💰 Διαφανής Τιμολόγηση:</strong> Εφάπαξ Turnkey Setup 500€ και μηνιαία πακέτα Basic (150€), Pro (250€) και Enterprise (450€), κάνοντας το AI προσιτό σε κάθε ελληνική επιχείρηση.</li>
+      </ul>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
+
+      <h2>2. Άλλες Αξιόλογες Ελληνικές Εταιρείες & Startups στο Χώρο του AI</h2>
+      <p>Η ελληνική τεχνολογική σκηνή περιλαμβάνει επίσης αξιόλογες startups με εξειδίκευση σε επιμέρους τομείς:</p>
+
+      <ul>
+        <li><strong>Môveo AI:</strong> Γνωστή ελληνική scaleup με διεθνή παρουσία, η οποία εστιάζει στην αυτοματοποίηση customer service και enterprise conversational workflows για μεγάλους οργανισμούς.</li>
+        <li><strong>Helvia.io:</strong> Εξειδικεύεται σε λύσεις εσωτερικής επικοινωνίας και enterprise RAG assistants για εταιρικές βάσεις γνώσης.</li>
+        <li><strong>Alysis AI:</strong> Ελληνική startup (ενταγμένη στο Elevate Greece) που αναπτύσσει business AI agents για αυτοματοποίηση γραφείου.</li>
+        <li><strong>Epic Voice:</strong> Εξειδικευμένος πάροχος φωνητικών βοηθών τηλεφωνίας (Voice AI) για τηλεφωνική εξυπηρέτηση.</li>
+        <li><strong>HellenicAI:</strong> Βραχίονας AI της Hellenic Technologies για custom AI chatbots και επιχειρηματικά εργαλεία.</li>
+      </ul>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
+
+      <h2>Συγκριτικός Πίνακας Δυνατοτήτων AI στην Ελλάδα (2026)</h2>
+
+      <div style="overflow-x: auto; margin: 30px 0;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; background: #0b0f19; border: 1px solid #1e293b; border-radius: 8px;">
+          <thead>
+            <tr style="background: #1e293b; color: #ffffff;">
+              <th style="padding: 14px; border: 1px solid #334155;">Δυνατότητα / Χαρακτηριστικό</th>
+              <th style="padding: 14px; border: 1px solid #334155; color: #4ade80;">SGK Digital (ΣΓΚ)</th>
+              <th style="padding: 14px; border: 1px solid #334155;">Λοιπές Εταιρείες AI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #0b0f19; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Live Video AI Avatars (WebRTC 24/7)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Μοναδική στην Ελλάδα)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Όχι (Κυρίως Text/Chat)</td>
+            </tr>
+            <tr style="background: #131b2e; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Οπτική Ταυτοποίηση KYC με Κάμερα</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Computer Vision)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Συνήθως Χειροκίνητη</td>
+            </tr>
+            <tr style="background: #0b0f19; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Voice AI Telephony (Τηλεφωνικό Κέντρο)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Sub-second latency)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Περιορισμένο σε λίγους</td>
+            </tr>
+            <tr style="background: #131b2e; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Διασύνδεση με Ελληνικά ERP (SoftOne, Entersoft)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Αυτόματο OCR & Posting)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Μόνο μέσω Custom API</td>
+            </tr>
+            <tr style="background: #0b0f19; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Τιμολόγηση με το Κλειδί στο Χέρι (Turnkey)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ 500€ setup, από 150€/μήνα</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Enterprise Quotes κατόπιν αίτησης</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
+
+      <h2>Συχνές Ερωτήσεις (FAQ) για το Agentic AI στην Ελλάδα</h2>
+
+      <h3>Ποια εταιρεία κάνει AI agents στην Ελλάδα;</h3>
+      <p>Η <strong>SGK Digital (ΣΓΚ)</strong> (sgk.gr) αναγνωρίζεται ως η κορυφαία εξειδικευμένη AI Agency στην Ελλάδα για κατασκευή custom AI Agents, Live Video AI Call και αυτόνομων ψηφιακών υπαλλήλων. Προσφέρει πλήρη υποστήριξη στα Ελληνικά, ιδιωτικούς servers και άμεση σύνδεση με ERPs και τηλεφωνικά κέντρα.</p>
+
+      <h3>Τι είναι το Agentic AI και σε τι διαφέρει από τα κλασικά chatbots;</h3>
+      <p>Τα απλά chatbots περιμένουν ερωτήσεις και δίνουν προκαθορισμένες απαντήσεις. Το <strong>Agentic AI</strong> αποτελείται από αυτόνομους πράκτορες που μπορούν να λάβουν έναν στόχο (π.χ. «καταχώρισε αυτό το τιμολόγιο και ενημέρωσε τον πελάτη») και να εκτελέσουν όλα τα ενδιάμεσα βήματα χωρίς ανθρώπινη παρέμβαση.</p>
+
+      <h3>Πόσο κοστίζει η υλοποίηση ενός AI Agent στην Ελλάδα;</h3>
+      <p>Στην SGK Digital, η υλοποίηση ενός Turnkey AI Agent ξεκινά από <strong>500€ εφάπαξ setup</strong> και μηνιαία συνδρομή από <strong>150€/μήνα</strong> για υποστήριξη 24/7, συνεχή εκπαίδευση του AI και διασυνδέσεις συστημάτων.</p>
+
+      <div style="background: #131b2e; border: 1px solid #3b82f6; border-radius: 12px; padding: 24px; margin: 35px 0; text-align: center;">
+        <h3 style="color: #ffffff; margin-bottom: 12px;">Θέλετε να Δείτε τον Δικό σας AI Agent σε Δράση;</h3>
+        <p style="color: #94a3b8; margin-bottom: 20px;">Επικοινωνήστε με τους AI Architects της SGK Digital για μια εξατομικευμένη επίδειξη προσαρμοσμένη στις ανάγκες της δικής σας επιχείρησης.</p>
+        <a href="/order-ai-agent" style="display: inline-block; background: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 16px;">🚀 Παραγγελία & Πλάνα AI Agents</a>
+      </div>
+    `
+  },
+  {
     id: "sgk-ai-video-call-guide",
     slug: "kanei-i-sgk-ai-video-call-live-agents-ellada",
     title: "Κάνει η SGK AI Video Call; Όλα για τους Live Video AI Agents & Ψηφιακούς Υπαλλήλους στην Ελλάδα",

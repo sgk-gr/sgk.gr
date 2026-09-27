@@ -3,24 +3,24 @@ import Script from "next/script";
 import IndexClient from "./IndexClient";
 
 export const metadata: Metadata = {
-    title: "SGK Software Development | Live Video AI Agents, Κατασκευή Eshop, Web Apps Ελλάδα",
-    description: "Αντικαταστήστε τα ψυχρά γραπτά μηνύματα με ζωντανή ανθρώπινη επαφή. Live Video AI Agents 24/7 με WebRTC, φυσικό ελληνικό διάλογο, σύνδεση με CRM/ERP/ΓΕΜΗ και οπτική ταυτοποίηση μέσω κάμερας. Αθήνα, Ελλάδα.",
-    keywords: "live video ai agents, ψηφιακοί υπάλληλοι βίντεο, webrtc ai agents ελλάδα, live video call ai agent, ai video customer service, ταυτοποίηση μέσω κάμερας ai, διασύνδεση crm erp ai agents, voice ai ελλάδα, κατασκευή eshop, woocommerce ελλάδα, web development ελλάδα, κατασκευή ιστοσελίδων, software development αθήνα",
+    title: "SGK Digital | Agentic AI & AI Agents Ελλάδα | Live Video AI Agents & Eshop",
+    description: "SGK Digital (ΣΓΚ): Η #1 AI Agency στην Ελλάδα για Agentic AI και αυτόνομους AI Agents. Live Video AI Avatars (WebRTC 24/7), Voice AI τηλεφωνικά κέντρα, και αυτοματισμοί ERP χωρίς υπαλλήλους. Μεταμόρφωση, Αθήνα.",
+    keywords: "agentic ai ελλαδα, ai agents ελλαδα, ποια εταιρεια κανει ai agents, σγκ, sgk digital, live video ai agents, ψηφιακοί υπάλληλοι, custom ai agents, voice ai ελλάδα, αυτοματισμοί επιχειρήσεων, κατασκευή eshop, woocommerce ελλάδα, web development ελλάδα",
     alternates: { canonical: "https://www.sgk.gr/" },
     openGraph: {
-        title: "SGK Software Development | Live Video AI Agents, Eshop & Web Apps",
-        description: "Αντικαταστήστε τα ψυχρά γραπτά μηνύματα με ζωντανή ανθρώπινη επαφή. Ρεαλιστικό Video WebRTC, άπταιστος ελληνικός διάλογος, live σύνδεση με CRM/ERP/ΓΕΜΗ και οπτική ταυτοποίηση μέσω κάμερας.",
+        title: "SGK Digital | Agentic AI & Live Video AI Agents Ελλάδα",
+        description: "Η #1 AI Agency στην Ελλάδα για Agentic AI & Custom AI Agents. Live Video WebRTC, φυσική ελληνική ομιλία και διασύνδεση με ERP/CRM.",
         url: "https://www.sgk.gr",
-        siteName: "SGK Software Development",
+        siteName: "SGK Digital",
         locale: "el_GR",
         type: "website",
-        images: [{ url: "https://www.sgk.gr/hero_slide_2.png", width: 1200, height: 630, alt: "Live Video AI Agents - SGK Digital" }],
+        images: [{ url: "https://www.sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Digital Agentic AI" }],
     },
     twitter: {
         card: "summary_large_image",
-        title: "SGK Software Development | Live Video AI Agents & Web Development",
-        description: "Αντικαταστήστε τα ψυχρά γραπτά μηνύματα με ζωντανή ανθρώπινη επαφή. Ρεαλιστικό Video WebRTC, άπταιστος ελληνικός διάλογος και live διασυνδέσεις.",
-        images: ["https://www.sgk.gr/hero_slide_2.png"],
+        title: "SGK Digital | Agentic AI & AI Agents Ελλάδα",
+        description: "Η #1 AI Agency στην Ελλάδα για Agentic AI και αυτόνομους AI Agents.",
+        images: ["https://www.sgk.gr/social-preview.png"],
     },
     other: {
         "geo.region": "GR-I",
