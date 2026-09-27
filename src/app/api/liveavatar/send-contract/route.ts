@@ -97,7 +97,7 @@ export async function POST(req: Request) {
     };
 
     const b64 = safeEncodeBase64(contractData);
-    const docUrl = `https://www.sgk.gr/doc/contract?id=${contractData.id}&data=${b64}&download=1`;
+    const docUrl = `https://www.sgk.gr/doc/contract?id=${contractData.id}&data=${encodeURIComponent(b64)}&download=1`;
     const companyLabel = contractData.tradeName || contractData.companyName || "";
     const amountLabel = "150,00 €";
 

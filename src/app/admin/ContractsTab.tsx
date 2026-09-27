@@ -859,7 +859,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
     const toSave = handleSaveContract();
     const docId = toSave.id;
     const b64 = safeEncodeBase64(toSave);
-    const docUrl = `https://www.sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
+    const docUrl = `https://www.sgk.gr/doc/contract?id=${docId}&data=${encodeURIComponent(b64)}&download=1`;
 
     const companyLabel = toSave.tradeName || toSave.companyName || "";
     const amountLabel = `${(toSave.totalAmountNum || 150).toFixed(2).replace(".", ",")} €`;
@@ -979,8 +979,8 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
               const toSave = handleSaveContract();
               const b64 = safeEncodeBase64(toSave);
               const targetUrl = previewDocType === "contract"
-                ? `/doc/contract?id=${toSave.id}&data=${b64}`
-                : `/doc/invoice?id=${toSave.id}&data=${b64}`;
+                ? `/doc/contract?id=${toSave.id}&data=${encodeURIComponent(b64)}`
+                : `/doc/invoice?id=${toSave.id}&data=${encodeURIComponent(b64)}`;
               window.open(targetUrl, '_blank');
             }}
             className="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
