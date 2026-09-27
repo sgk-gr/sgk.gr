@@ -35,7 +35,7 @@ export default function LiveAvatarAgentDemoPage() {
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [hasNativeStream, setHasNativeStream] = useState<boolean>(false);
     
-    // Chat visibility
+    // Chat visibility (hidden by default as in liveavatar-demo)
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState<string>("");
@@ -103,7 +103,7 @@ export default function LiveAvatarAgentDemoPage() {
     // Connect to LiveAvatar setup-agent API & Initialize SDK WebRTC Session
     const handleStartCall = async () => {
         setIsLoadingAvatar(true);
-        setStatusText("Προετοιμασία συνεδρίας με τον AI Agent...");
+        setStatusText("Προετοιμασία συνεδρίας & σύνδεση...");
 
         try {
             // 1. Fetch Session Token & Embed Fallback
@@ -113,7 +113,7 @@ export default function LiveAvatarAgentDemoPage() {
             const data = await res.json();
 
             if (!data.success) {
-                throw new Error(data.error || "Αποτυχία εκκίνησης AI Agent");
+                throw new Error(data.error || "Αποτυχία εκκίνησης LiveAvatar");
             }
 
             if (data.url) {
@@ -177,7 +177,7 @@ export default function LiveAvatarAgentDemoPage() {
                         await session.stop().catch(() => {});
                     } catch (_) {}
                     if (errMsg.toLowerCase().includes("credit") || errMsg.includes("403")) {
-                        throw new Error("Εξαντλήθηκαν τα credits στο λογαριασμό LiveAvatar API. Προσθέστε credits στο app.liveavatar.com.");
+                        throw new Error("Εξαντλήθηκαν τα credits στο λογαριασμό σας στο LiveAvatar. Προσθέστε credits στο app.liveavatar.com για νέα ζωντανή κλήση.");
                     }
                     throw new Error(errMsg);
                 }
@@ -214,7 +214,6 @@ export default function LiveAvatarAgentDemoPage() {
         const nextState = !isMicMuted;
         setIsMicMuted(nextState);
 
-        // Mute user audio track
         if (userVideoRef.current && userVideoRef.current.srcObject) {
             const stream = userVideoRef.current.srcObject as MediaStream;
             stream.getAudioTracks().forEach(track => {
@@ -222,7 +221,6 @@ export default function LiveAvatarAgentDemoPage() {
             });
         }
 
-        // Also mute LiveAvatar SDK mic if connected
         if (sessionRef.current?.voiceChat) {
             try {
                 if (nextState) {
@@ -269,96 +267,72 @@ export default function LiveAvatarAgentDemoPage() {
     };
 
     return (
-        <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-100 font-sans select-none">
-            
-            {/* Top Minimal Navigation Bar */}
-            <div className="h-14 sm:h-16 bg-white border-b border-gray-200 px-4 sm:px-6 flex items-center justify-between z-30 flex-shrink-0 shadow-xs">
-                <div className="flex items-center gap-3">
-                    <Link 
-                        href="/order-ai-agent"
-                        className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200 transition-colors"
-                    >
-                        <ArrowLeft className="w-3.5 h-3.5" />
-                        <span>Επιστροφή</span>
-                    </Link>
-                    <div className="h-4 w-[1px] bg-slate-200 hidden sm:block" />
-                    <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <h1 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
-                            SGK Interactive AI Agent <span className="text-[#5b36f5] hidden sm:inline">• Live Demo</span>
-                        </h1>
-                    </div>
-                </div>
+        <div className="w-full h-[100dvh] bg-slate-100 flex items-center justify-center p-0 sm:p-4 select-none font-sans overflow-hidden">
+            {/* Main Window Frame Container (Exact same design as liveavatar-demo) */}
+            <div className="w-full sm:max-w-[1440px] h-full sm:h-[96vh] sm:max-h-[880px] bg-white rounded-none sm:rounded-[28px] overflow-hidden shadow-2xl border-0 sm:border-4 border-gray-200 flex relative">
+                
+                {/* Mobile Backdrop when Chat Drawer is Open */}
+                {isChatOpen && (
+                    <div 
+                        onClick={() => setIsChatOpen(false)}
+                        className="fixed sm:hidden inset-0 bg-black/60 backdrop-blur-xs z-40 transition-opacity"
+                    />
+                )}
 
-                <div className="flex items-center gap-3">
-                    <Link
-                        href="/order-ai-agent#contact-form"
-                        className="px-3.5 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[#0a0b10] hover:bg-slate-800 text-white font-semibold text-xs sm:text-sm transition-all shadow-sm flex items-center gap-1.5"
-                    >
-                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                        <span>Παραγγελία AI Agent</span>
-                    </Link>
-                </div>
-            </div>
-
-            {/* Video Call Workspace */}
-            <div className="flex-1 flex overflow-hidden relative">
-
-                {/* Left Side: Interactive Chat Panel */}
-                <div className={`
-                    absolute sm:relative top-0 bottom-0 left-0 z-40 w-full sm:w-[360px] md:w-[400px] bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out shadow-xl sm:shadow-none
-                    ${isChatOpen ? "translate-x-0" : "-translate-x-full sm:translate-x-0 sm:w-0 sm:border-r-0 overflow-hidden opacity-0 pointer-events-none"}
-                `}>
-                    {/* Chat Header */}
-                    <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white flex-shrink-0">
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-[#5b36f5]">
-                                <Bot className="w-4 h-4" />
+                {/* ================= SLIDE-IN OVERLAY DRAWER: CHAT (Hidden by default) ================= */}
+                <div className={`fixed sm:absolute top-0 left-0 bottom-0 z-50 w-full sm:w-[380px] md:w-[400px] flex flex-col bg-white h-full border-r border-[#26272e] shadow-2xl transition-transform duration-300 ease-in-out ${
+                    isChatOpen ? "translate-x-0" : "-translate-x-full pointer-events-none"
+                }`}>
+                    {/* Header */}
+                    <div className="h-16 px-4 sm:px-5 bg-[#5b36f5] flex items-center justify-between text-white shadow-md flex-shrink-0">
+                        <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center text-[#5b36f5] shadow-sm relative flex-shrink-0">
+                                <Bot className="w-5 h-5 sm:w-6 sm:h-6" />
+                                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" />
                             </div>
-                            <div>
-                                <h2 className="text-sm font-bold text-gray-900 leading-tight">AI Agent Assistant</h2>
-                                <p className="text-[11px] text-emerald-600 font-medium flex items-center gap-1">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                    Online • Εξηγεί τη νέα υπηρεσία
-                                </p>
+                            <div className="min-w-0">
+                                <h2 className="text-sm sm:text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5 truncate">
+                                    Bryan (Tech Expert)
+                                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Consultant</span>
+                                </h2>
+                                <span className="text-[11px] text-white/80 font-normal truncate block">Interactive AI Agent Service</span>
                             </div>
                         </div>
+
+                        {/* Close Chat Button */}
                         <button 
+                            type="button"
                             onClick={() => setIsChatOpen(false)}
-                            className="p-1.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                            className="p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors text-white"
+                            title="Απόκρυψη Chat"
                         >
-                            <X className="w-4 h-4" />
+                            <X className="w-5 h-5" />
                         </button>
                     </div>
 
-                    {/* Messages Body */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50/60">
-                        <div className="bg-white border border-slate-200/80 rounded-2xl p-3.5 text-xs text-slate-700 shadow-xs leading-relaxed space-y-1">
-                            <p className="font-bold text-slate-900 flex items-center gap-1">
-                                <Sparkles className="w-3.5 h-3.5 text-[#5b36f5]" />
-                                Τι μπορείτε να ρωτήσετε:
-                            </p>
-                            <ul className="list-disc list-inside space-y-0.5 text-slate-600 pl-1">
-                                <li>Πώς συνδέεται ο AI Agent με το E-shop ή ERP μου;</li>
-                                <li>Πόσο κοστίζει το setup (500€) και ποια είναι τα μηνιαία πλάνα;</li>
-                                <li>Σε ποιες γλώσσες μιλάει (160+);</li>
-                                <li>Μπορώ να φτιάξω avatar με το δικό μου πρόσωπο;</li>
-                            </ul>
-                        </div>
+                    {/* Quick Badge info */}
+                    <div className="bg-slate-50 px-4 py-2 border-b border-gray-100 flex items-center justify-between text-[11px] text-gray-600 flex-shrink-0">
+                        <span className="flex items-center gap-1 text-emerald-600 font-semibold truncate">
+                            <Sparkles className="w-3.5 h-3.5 flex-shrink-0" /> AI Agents • ERP & APIs
+                        </span>
+                        <span className="font-bold text-[#5b36f5] flex-shrink-0">500€ Setup • 160+ Γλώσσες</span>
+                    </div>
 
+                    {/* Chat Messages Body */}
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-white">
                         {messages.map((m) => (
                             <div 
                                 key={m.id} 
                                 className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
                             >
-                                <span className="text-[10px] text-gray-400 mb-1 px-1">
-                                    {m.sender === "user" ? "Εσείς" : "AI Agent"} • {m.time}
+                                <span className="text-[10px] text-gray-400 font-medium mb-1 px-1">
+                                    {m.time}
                                 </span>
                                 <div 
-                                    className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-xs ${
-                                        m.sender === "user" 
-                                            ? "bg-[#5b36f5] text-white rounded-tr-xs" 
-                                            : "bg-white border border-slate-200 text-slate-800 rounded-tl-xs"
+                                    className={`max-w-[85%] px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl text-[13px] sm:text-[13.5px] leading-relaxed shadow-xs ${
+                                        m.sender === "user"
+                                            ? "bg-[#5b36f5] text-white rounded-tr-xs"
+                                            : "bg-[#f1f3f6] text-[#1f2937] rounded-tl-xs"
                                     }`}
                                 >
                                     {m.text}
@@ -366,13 +340,14 @@ export default function LiveAvatarAgentDemoPage() {
                             </div>
                         ))}
 
+                        {/* Call Started System Pill */}
                         {isCallActive && (
-                            <div className="text-center py-2">
+                            <div className="text-center py-2 my-2">
                                 <span className="text-[10px] text-gray-400 font-medium block">
                                     {formatTimer(callSeconds)}
                                 </span>
-                                <span className="inline-block mt-0.5 text-xs font-bold bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">
-                                    ● Ζωντανή Κλήση σε εξέλιξη
+                                <span className="inline-block mt-0.5 text-xs font-bold text-gray-900 tracking-wide bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">
+                                    ● Ζωντανή Βιντεοκλήση σε εξέλιξη
                                 </span>
                             </div>
                         )}
@@ -389,9 +364,10 @@ export default function LiveAvatarAgentDemoPage() {
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Ρωτήστε για τιμές, ERP, λειτουργίες..."
+                            placeholder="Ρωτήστε τον Bryan για τους AI Agents..."
                             className="flex-1 text-sm bg-gray-50 rounded-full py-2 px-3.5 outline-none text-gray-800 placeholder-gray-400 focus:bg-gray-100"
                         />
+                        
                         <button 
                             type="submit" 
                             disabled={!inputText.trim()}
@@ -403,10 +379,20 @@ export default function LiveAvatarAgentDemoPage() {
                     </form>
                 </div>
 
-                {/* Main Video Call Stage */}
-                <div className="flex-1 w-full h-full relative bg-slate-900 overflow-hidden flex items-center justify-center">
+                {/* ================= MAIN VIDEO CALL STAGE (Full screen / Responsive) ================= */}
+                <div className="flex-1 w-full h-full relative bg-slate-50 overflow-hidden flex items-center justify-center">
                     
-                    {/* Top Right Header Controls Overlay */}
+                    {/* Top Controls Overlay */}
+                    <div className="absolute top-3 sm:top-4 left-3 sm:left-5 z-30 flex items-center gap-2 text-slate-700">
+                        <Link
+                            href="/order-ai-agent"
+                            className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-white shadow-sm flex items-center gap-1.5 transition-colors"
+                        >
+                            <ArrowLeft className="w-3.5 h-3.5" />
+                            <span>Επιστροφή</span>
+                        </Link>
+                    </div>
+
                     <div className="absolute top-3 sm:top-4 right-3 sm:right-5 z-30 flex items-center gap-2 sm:gap-3 text-slate-700">
                         {isCallActive && (
                             <div className="text-xs sm:text-sm font-medium tracking-wider text-emerald-600 font-mono bg-white/90 backdrop-blur-sm px-2.5 sm:px-3 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5 sm:gap-2 shadow-sm">
@@ -430,8 +416,8 @@ export default function LiveAvatarAgentDemoPage() {
                     </div>
 
                     {/* Main Video Stream Container */}
-                    <div className="w-full h-full relative flex items-center justify-center bg-slate-900">
-                        {/* Native WebRTC Video Element */}
+                    <div className="w-full h-full relative flex items-center justify-center bg-slate-50">
+                        {/* Native WebRTC Video Element (Bound via SDK) */}
                         <video 
                             ref={avatarVideoRef}
                             autoPlay 
@@ -448,43 +434,31 @@ export default function LiveAvatarAgentDemoPage() {
                             />
                         )}
 
-                        {/* Connecting State */}
+                        {/* Call Active but connecting state */}
                         {isCallActive && !hasNativeStream && !avatarUrl && (
-                            <div className="text-center p-6 sm:p-8 space-y-4 max-w-sm text-white">
+                            <div className="text-center p-6 sm:p-8 space-y-4 max-w-sm">
                                 <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#5b36f5] animate-spin mx-auto" />
-                                <h3 className="text-base sm:text-lg font-medium">{statusText}</h3>
-                                <p className="text-xs text-slate-400">Σύνδεση με Live Video WebRTC...</p>
+                                <h3 className="text-base sm:text-lg font-medium text-slate-800">{statusText}</h3>
+                                <p className="text-xs text-slate-500">Σύνδεση με Live Video WebRTC...</p>
                             </div>
                         )}
 
-                        {/* Standby Screen */}
+                        {/* Call Inactive / Standby Screen (EXACT SAME AS liveavatar-demo: Pure Video Avatar, NO marketing text overlays) */}
                         {!isCallActive && (
-                            <div className="relative w-full h-full flex items-center justify-center bg-slate-900">
-                                {/* Background Image */}
+                            <div className="relative w-full h-full flex items-center justify-center">
+                                {/* Photorealistic Avatar Background Preview */}
                                 <img 
-                                    src="/avatar-preview-man.png" 
-                                    alt="SGK AI Agent Specialist" 
-                                    className="w-full h-full object-cover opacity-80"
+                                    src="https://files2.heygen.ai/avatar/v3/a3fdb0c652024f79984aaec11ebf2694_34350/preview_target.webp" 
+                                    alt="Bryan - Tech Expert" 
+                                    className="w-full h-full object-cover"
                                 />
 
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 pointer-events-none" />
-
-                                {/* Center Clean Start Call Button */}
-                                <div className="absolute z-20 flex flex-col items-center text-center px-4 max-w-md">
-                                    <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold">
-                                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                                        <span>Ζωντανή Παρουσίαση Υπηρεσίας AI Agent</span>
-                                    </div>
-                                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                                        Μιλήστε ζωντανά με τον AI Agent
-                                    </h2>
-                                    <p className="text-xs sm:text-sm text-white/80 mb-6 leading-relaxed">
-                                        Ρωτήστε τα πάντα για κόστη (500€ setup), μηνιαία πλάνα, διασύνδεση με ERP / E-shops και αυτοματισμούς.
-                                    </p>
+                                {/* Center Clean Start Call Button (Pure & Clean) */}
+                                <div className="absolute z-20 flex flex-col items-center text-center px-4">
                                     <button
                                         onClick={handleStartCall}
                                         disabled={isLoadingAvatar}
-                                        className="px-8 py-4 sm:px-10 sm:py-4 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-base sm:text-lg flex items-center justify-center gap-3 shadow-2xl shadow-emerald-500/50 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                                        className="px-8 py-4 sm:px-10 sm:py-4.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-base sm:text-lg flex items-center justify-center gap-3 shadow-2xl shadow-emerald-500/50 hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
                                     >
                                         {isLoadingAvatar ? (
                                             <>
@@ -503,7 +477,7 @@ export default function LiveAvatarAgentDemoPage() {
                         )}
                     </div>
 
-                    {/* Bottom Floating Action Bar */}
+                    {/* ================= BOTTOM FLOATING ACTION BAR ================= */}
                     <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-3 bg-white/90 backdrop-blur-md px-3 sm:px-5 py-2 sm:py-2.5 rounded-full border border-gray-200 shadow-2xl">
                         {/* Mic Button */}
                         <button 
@@ -529,6 +503,19 @@ export default function LiveAvatarAgentDemoPage() {
                             title={isVideoOff ? "Ενεργοποίηση κάμερας" : "Απενεργοποίηση κάμερας"}
                         >
                             {isVideoOff ? <VideoOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <VideoIcon className="w-4 h-4 sm:w-5 sm:h-5" />}
+                        </button>
+
+                        {/* Screen Share Button (Desktop only) */}
+                        <button 
+                            onClick={() => setIsScreenSharing(!isScreenSharing)}
+                            className={`hidden sm:flex p-2.5 sm:p-3 rounded-full transition-all ${
+                                isScreenSharing 
+                                    ? "bg-cyan-500 hover:bg-cyan-600 text-white shadow-md" 
+                                    : "bg-gray-100 hover:bg-gray-200 text-slate-700"
+                            }`}
+                            title="Διαμοιρασμός οθόνης"
+                        >
+                            <ScreenShare className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
 
                         {/* Chat Toggle Button */}
@@ -567,8 +554,8 @@ export default function LiveAvatarAgentDemoPage() {
                         )}
                     </div>
 
-                    {/* PiP (User Camera: top-left on mobile, bottom-right on desktop) */}
-                    <div className="absolute top-3 left-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+                    {/* ================= PiP (User Camera: top-left on mobile, bottom-right on desktop) ================= */}
+                    <div className="absolute top-3 right-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
                         {hasUserMedia && !isVideoOff ? (
                             <video 
                                 ref={userVideoRef}
@@ -607,6 +594,11 @@ export default function LiveAvatarAgentDemoPage() {
                             <span className="text-[9px] sm:text-[10px] font-medium text-slate-700">
                                 Εσείς
                             </span>
+                            {isMicMuted && (
+                                <span className="text-[8px] text-red-500 font-semibold ml-0.5 hidden xs:inline">
+                                    (Σίγαση)
+                                </span>
+                            )}
                         </div>
                     </div>
 
