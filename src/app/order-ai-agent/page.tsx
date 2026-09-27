@@ -475,7 +475,7 @@ export default function OrderAIAgentPage() {
 
             {/* FLOATING INTERACTIVE AVATAR WIDGET (Video Background) */}
             {isWidgetOpen && (
-                <div className="fixed bottom-6 right-6 w-[280px] h-[360px] rounded-2xl shadow-2xl z-[100] border border-white/20 overflow-hidden hidden sm:block shadow-black/60 group">
+                <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-[170px] h-[230px] sm:w-[280px] sm:h-[360px] rounded-2xl shadow-2xl z-[100] border border-white/20 overflow-hidden shadow-black/60 group transition-all">
                     
                     {/* Background Video */}
                     <video 
@@ -495,20 +495,21 @@ export default function OrderAIAgentPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#101015]/95 via-[#101015]/40 to-transparent pointer-events-none" />
 
                     {/* Header Controls */}
-                    <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
+                    <div className="absolute top-2.5 left-2.5 right-2.5 sm:top-4 sm:left-4 sm:right-4 flex justify-between items-center z-10">
                         {/* Unmute/Mute Toggle Button */}
                         <button 
                             onClick={toggleWidgetMute} 
-                            className="w-[38px] h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors"
+                            className="w-7 h-7 sm:w-[38px] sm:h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors"
+                            aria-label={isWidgetMuted ? "Ενεργοποίηση ήχου" : "Σίγαση"}
                         >
                             {isWidgetMuted ? (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                <svg className="w-3.5 h-3.5 sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                                     <line x1="23" y1="9" x2="17" y2="15"></line>
                                     <line x1="17" y1="9" x2="23" y2="15"></line>
                                 </svg>
                             ) : (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                <svg className="w-3.5 h-3.5 sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                                     <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
@@ -517,21 +518,25 @@ export default function OrderAIAgentPage() {
                         </button>
                         
                         {/* Close Button */}
-                        <button onClick={() => setIsWidgetOpen(false)} className="w-[38px] h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors">
-                            <div className="w-5 h-5 bg-[#0a0b10] rounded-full flex items-center justify-center">
-                                <span className="text-white text-sm font-bold leading-none mb-0.5">×</span>
+                        <button 
+                            onClick={() => setIsWidgetOpen(false)} 
+                            className="w-7 h-7 sm:w-[38px] sm:h-[38px] rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center hover:bg-white/40 transition-colors"
+                            aria-label="Κλείσιμο"
+                        >
+                            <div className="w-4 h-4 sm:w-5 sm:h-5 bg-[#0a0b10] rounded-full flex items-center justify-center">
+                                <span className="text-white text-xs sm:text-sm font-bold leading-none mb-0.5">×</span>
                             </div>
                         </button>
                     </div>
                     
                     {/* Bottom CTA */}
-                    <div className="absolute bottom-5 left-5 right-5 z-10">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-5 sm:left-5 sm:right-5 z-10">
                         <Link 
                             href="/liveavatar-demo" 
                             target="_blank"
-                            className="flex items-center justify-center w-full bg-white text-center text-[#002b5c] font-bold text-[13px] leading-tight py-3 px-2 rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
+                            className="flex items-center justify-center w-full bg-white text-center text-[#002b5c] font-bold text-[10px] sm:text-[13px] leading-tight py-2 sm:py-3 px-1.5 sm:px-2 rounded-lg sm:rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
                         >
-                            Μιλήστε μαζί μου να σας <br/> εξηγήσω περισσότερα
+                            Μιλήστε μαζί μου να σας <br className="hidden sm:inline" /> εξηγήσω περισσότερα
                         </Link>
                     </div>
                 </div>
