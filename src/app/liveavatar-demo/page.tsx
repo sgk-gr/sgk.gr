@@ -552,9 +552,9 @@ export default function LiveAvatarVideoCallPage() {
     };
 
     return (
-        <div className="w-full h-[100dvh] bg-[#0a0b0e] flex items-center justify-center p-0 sm:p-4 select-none font-sans overflow-hidden">
+        <div className="w-full h-[100dvh] bg-slate-100 flex items-center justify-center p-0 sm:p-4 select-none font-sans overflow-hidden">
             {/* Main Window Frame Container (Full-screen on mobile, elegant window on desktop) */}
-            <div className="w-full sm:max-w-[1440px] h-full sm:h-[96vh] sm:max-h-[880px] bg-[#14151b] rounded-none sm:rounded-[28px] overflow-hidden shadow-2xl border-0 sm:border-4 border-[#252630] flex relative">
+            <div className="w-full sm:max-w-[1440px] h-full sm:h-[96vh] sm:max-h-[880px] bg-white rounded-none sm:rounded-[28px] overflow-hidden shadow-2xl border-0 sm:border-4 border-gray-200 flex relative">
                 
                 {/* Mobile Backdrop when Chat Drawer is Open */}
                 {isChatOpen && (
@@ -665,25 +665,25 @@ export default function LiveAvatarVideoCallPage() {
                 </div>
 
                 {/* ================= MAIN VIDEO CALL STAGE (Full screen / Responsive) ================= */}
-                <div className="flex-1 w-full h-full relative bg-[#13141a] overflow-hidden flex items-center justify-center">
+                <div className="flex-1 w-full h-full relative bg-slate-50 overflow-hidden flex items-center justify-center">
                     
                     {/* Top Right Header Controls Overlay */}
-                    <div className="absolute top-3 sm:top-4 right-3 sm:right-5 z-30 flex items-center gap-2 sm:gap-3 text-white/90">
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-5 z-30 flex items-center gap-2 sm:gap-3 text-slate-700">
                         {isCallActive && (
-                            <div className="text-xs sm:text-sm font-medium tracking-wider text-emerald-400 font-mono bg-black/50 backdrop-blur-sm px-2.5 sm:px-3 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1.5 sm:gap-2">
-                                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                            <div className="text-xs sm:text-sm font-medium tracking-wider text-emerald-600 font-mono bg-white/90 backdrop-blur-sm px-2.5 sm:px-3 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5 sm:gap-2 shadow-sm">
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                                 {formatTimer(callSeconds)}
                             </div>
                         )}
 
                         {isCallActive && (
-                            <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md p-1 rounded-full border border-white/10">
+                            <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md p-1 rounded-full border border-gray-200 shadow-sm text-slate-600">
                                 <button 
                                     onClick={() => setActivePromptInput(activePromptInput === "afm" ? null : "afm")}
                                     className={`px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 transition-all ${
                                         activePromptInput === "afm" 
                                             ? "bg-[#5b36f5] text-white shadow-md shadow-indigo-500/40" 
-                                            : "text-white/80 hover:text-white hover:bg-white/10"
+                                            : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                                     }`}
                                     title="Συμπλήρωση ΑΦΜ"
                                 >
@@ -695,11 +695,11 @@ export default function LiveAvatarVideoCallPage() {
                                     className={`px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 transition-all ${
                                         activePromptInput === "email" 
                                             ? "bg-[#5b36f5] text-white shadow-md shadow-indigo-500/40" 
-                                            : "text-white/80 hover:text-white hover:bg-white/10"
+                                            : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                                     }`}
                                     title="Συμπλήρωση Email"
                                 >
-                                    <Mail className="w-3 h-3 text-amber-400" />
+                                    <Mail className="w-3 h-3 text-amber-500" />
                                     <span>Email</span>
                                 </button>
                             </div>
@@ -710,7 +710,7 @@ export default function LiveAvatarVideoCallPage() {
                             className={`px-3 py-1.5 rounded-full border text-xs font-medium flex items-center gap-1.5 transition-all shadow-md ${
                                 isChatOpen 
                                     ? "bg-[#5b36f5] border-[#5b36f5] text-white" 
-                                    : "bg-black/50 backdrop-blur-md border-white/20 text-white/90 hover:text-white hover:border-white/40"
+                                    : "bg-white/90 backdrop-blur-md border-gray-200 text-slate-700 hover:text-slate-900 hover:bg-white"
                             }`}
                             title="Συνομιλία / Chat"
                         >
@@ -838,7 +838,7 @@ export default function LiveAvatarVideoCallPage() {
                     )}
 
                     {/* Main Video Stream Container */}
-                    <div className="w-full h-full relative flex items-center justify-center bg-black">
+                    <div className="w-full h-full relative flex items-center justify-center bg-slate-50">
                         {/* Native WebRTC Video Element (Bound via SDK) */}
                         <video 
                             ref={avatarVideoRef}
@@ -862,8 +862,8 @@ export default function LiveAvatarVideoCallPage() {
                         {isCallActive && !hasNativeStream && !avatarUrl && (
                             <div className="text-center p-6 sm:p-8 space-y-4 max-w-sm">
                                 <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-[#5b36f5] animate-spin mx-auto" />
-                                <h3 className="text-base sm:text-lg font-medium text-white">{statusText}</h3>
-                                <p className="text-xs text-white/60">Σύνδεση με Live Video WebRTC...</p>
+                                <h3 className="text-base sm:text-lg font-medium text-slate-800">{statusText}</h3>
+                                <p className="text-xs text-slate-500">Σύνδεση με Live Video WebRTC...</p>
                             </div>
                         )}
 
@@ -902,14 +902,14 @@ export default function LiveAvatarVideoCallPage() {
                     </div>
 
                     {/* ================= BOTTOM FLOATING ACTION BAR ================= */}
-                    <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-3 bg-black/60 backdrop-blur-md px-3 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/10 shadow-2xl">
+                    <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-3 bg-white/90 backdrop-blur-md px-3 sm:px-5 py-2 sm:py-2.5 rounded-full border border-gray-200 shadow-2xl">
                         {/* Mic Button */}
                         <button 
                             onClick={handleToggleMic}
                             className={`p-2.5 sm:p-3 rounded-full transition-all ${
                                 isMicMuted 
-                                    ? "bg-red-500/80 hover:bg-red-600 text-white" 
-                                    : "bg-white/15 hover:bg-white/25 text-white"
+                                    ? "bg-red-500 hover:bg-red-600 text-white shadow-md" 
+                                    : "bg-gray-100 hover:bg-gray-200 text-slate-700"
                             }`}
                             title={isMicMuted ? "Ενεργοποίηση μικροφώνου" : "Σίγαση μικροφώνου"}
                         >
@@ -921,8 +921,8 @@ export default function LiveAvatarVideoCallPage() {
                             onClick={() => setIsVideoOff(!isVideoOff)}
                             className={`p-2.5 sm:p-3 rounded-full transition-all ${
                                 isVideoOff 
-                                    ? "bg-red-500/80 hover:bg-red-600 text-white" 
-                                    : "bg-white/15 hover:bg-white/25 text-white"
+                                    ? "bg-red-500 hover:bg-red-600 text-white shadow-md" 
+                                    : "bg-gray-100 hover:bg-gray-200 text-slate-700"
                             }`}
                             title={isVideoOff ? "Ενεργοποίηση κάμερας" : "Απενεργοποίηση κάμερας"}
                         >
@@ -934,8 +934,8 @@ export default function LiveAvatarVideoCallPage() {
                             onClick={() => setIsScreenSharing(!isScreenSharing)}
                             className={`hidden sm:flex p-2.5 sm:p-3 rounded-full transition-all ${
                                 isScreenSharing 
-                                    ? "bg-cyan-500/80 hover:bg-cyan-600 text-white" 
-                                    : "bg-white/15 hover:bg-white/25 text-white"
+                                    ? "bg-cyan-500 hover:bg-cyan-600 text-white shadow-md" 
+                                    : "bg-gray-100 hover:bg-gray-200 text-slate-700"
                             }`}
                             title="Διαμοιρασμός οθόνης"
                         >
@@ -948,7 +948,7 @@ export default function LiveAvatarVideoCallPage() {
                             className={`p-2.5 sm:p-3 rounded-full transition-all relative ${
                                 isChatOpen 
                                     ? "bg-[#5b36f5] text-white shadow-lg shadow-indigo-500/40" 
-                                    : "bg-white/15 hover:bg-white/25 text-white"
+                                    : "bg-gray-100 hover:bg-gray-200 text-slate-700"
                             }`}
                             title={isChatOpen ? "Απόκρυψη Chat" : "Εμφάνιση Chat"}
                         >
@@ -979,7 +979,7 @@ export default function LiveAvatarVideoCallPage() {
                     </div>
 
                     {/* ================= PiP (User Camera: top-left on mobile, bottom-right on desktop) ================= */}
-                    <div className="absolute top-3 left-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black">
+                    <div className="absolute top-3 left-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
                         {hasUserMedia && !isVideoOff ? (
                             <video 
                                 ref={userVideoRef}
@@ -989,9 +989,9 @@ export default function LiveAvatarVideoCallPage() {
                                 className="w-full h-full object-cover -scale-x-100"
                             />
                         ) : (
-                            <div className="w-full h-full bg-black flex flex-col items-center justify-center text-center p-2 select-none">
-                                <VideoOff className="w-4 h-4 sm:w-6 sm:h-6 text-white/30 mb-1" />
-                                <span className="text-[8px] sm:text-[10px] font-bold tracking-widest text-white/50 uppercase">
+                            <div className="w-full h-full bg-slate-50 flex flex-col items-center justify-center text-center p-2 select-none">
+                                <VideoOff className="w-4 h-4 sm:w-6 sm:h-6 text-slate-400 mb-1" />
+                                <span className="text-[8px] sm:text-[10px] font-bold tracking-widest text-slate-500 uppercase">
                                     No Camera
                                 </span>
                             </div>
@@ -1005,21 +1005,21 @@ export default function LiveAvatarVideoCallPage() {
                         )}
 
                         {/* Bottom Overlay Label */}
-                        <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 flex items-center gap-1 bg-black/75 backdrop-blur-xs px-1.5 sm:px-2 py-0.5 rounded-md border border-white/10">
+                        <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 flex items-center gap-1 bg-white/90 backdrop-blur-xs px-1.5 sm:px-2 py-0.5 rounded-md border border-gray-200">
                             {isMicMuted ? (
-                                <MicOff className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-400" />
+                                <MicOff className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-500" />
                             ) : (
                                 <div className="flex items-center gap-0.5">
-                                    <span className="w-0.5 h-1.5 sm:h-2 bg-cyan-400 rounded-full animate-pulse" />
-                                    <span className="w-0.5 h-2.5 sm:h-3 bg-cyan-400 rounded-full animate-pulse delay-75" />
-                                    <span className="w-0.5 h-1 sm:h-1.5 bg-cyan-400 rounded-full animate-pulse delay-150" />
+                                    <span className="w-0.5 h-1.5 sm:h-2 bg-emerald-500 rounded-full animate-pulse" />
+                                    <span className="w-0.5 h-2.5 sm:h-3 bg-emerald-500 rounded-full animate-pulse delay-75" />
+                                    <span className="w-0.5 h-1 sm:h-1.5 bg-emerald-500 rounded-full animate-pulse delay-150" />
                                 </div>
                             )}
-                            <span className="text-[9px] sm:text-[10px] font-medium text-white/90">
+                            <span className="text-[9px] sm:text-[10px] font-medium text-slate-700">
                                 Εσείς
                             </span>
                             {isMicMuted && (
-                                <span className="text-[8px] text-red-400 font-semibold ml-0.5 hidden xs:inline">
+                                <span className="text-[8px] text-red-500 font-semibold ml-0.5 hidden xs:inline">
                                     (Σίγαση)
                                 </span>
                             )}
