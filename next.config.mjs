@@ -12,6 +12,15 @@ const nextConfig = {
     // Στατικά sites χρειάζονται αυτό για τις εικόνες
     unoptimized: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/kataskevi-istoselidas-ike',
+        destination: '/ike-offer',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

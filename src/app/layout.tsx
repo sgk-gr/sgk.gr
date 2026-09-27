@@ -113,12 +113,12 @@ const localBusinessSchema = {
         "@type": "OfferCatalog",
         "name": "Software & AI Solutions",
         "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Live Video AI Agents & Ψηφιακοί Υπάλληλοι (24/7 WebRTC)", "description": "Ρεαλιστικό Video WebRTC, φυσικός ελληνικός διάλογος, live σύνδεση με CRM/ERP/ΓΕΜΗ και οπτική ταυτοποίηση μέσω κάμερας.", "url": "https://www.sgk.gr/liveavatar-demo" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Live Video AI Agents & Ψηφιακοί Υπάλληλοι (24/7 WebRTC)", "description": "Ρεαλιστικό Video WebRTC, φυσικός ελληνικός διάλογος, live σύνδεση με CRM/ERP/ΓΕΜΗ και οπτική ταυτοποίηση μέσω κάμερας.", "url": "https://www.sgk.gr/order-ai-agent" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents & Custom AI", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Voice AI Telephony (Τηλεφωνικά Κέντρα)", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Αυτόνομοι Πράκτορες Χωρίς Υπαλλήλους", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Eshop (Pay As You Grow)", "url": "https://www.sgk.gr/pay-as-you-grow" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (150€)", "url": "https://www.sgk.gr/kataskevi-istoselidas-ike" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (150€)", "url": "https://www.sgk.gr/ike-offer" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Web Applications & Software", "url": "https://www.sgk.gr/services" } }
         ]
     }

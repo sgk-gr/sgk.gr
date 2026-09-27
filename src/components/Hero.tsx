@@ -32,13 +32,13 @@ const slides = [
   {
     title: (
       <>
-        Live Video AI Agents <br /> 24/7 Εξυπηρέτηση <br /> Με Πρόσωπο & Φωνή.
+        Live Video AI Avatars <br /> 24/7 Ψηφιακός Βοηθός <br /> Σε Ζωντανή Κλήση.
       </>
     ),
-    description: "Η νέα εποχή στην εξυπηρέτηση πελατών: Ψηφιακοί συνεργάτες με ζωντανό ανθρώπινο video call, φυσική ομιλία και διασύνδεση με τα συστήματά σας. Ιδανικό για ιατρεία, γυμναστήρια, τράπεζες και e-shops.",
-    buttonText: "Δοκίμασε το Live Demo",
-    buttonLink: "/liveavatar-demo",
-    image: "/hero_slide_2.png"
+    description: "Η νέα εποχή στην εξυπηρέτηση: Διαδραστικός AI βοηθός με ζωντανό video call πρόσωπο με πρόσωπο και φυσική ομιλία. Απαντάει άμεσα στις ερωτήσεις των πελατών σας και ολοκληρώνει εργασίες 24/7.",
+    buttonText: "Δοκιμάστε το Live Demo",
+    buttonLink: "/order-ai-agent",
+    image: "/images/hero_ai_video_agent.jpg"
   },
   {
     title: (

@@ -96,7 +96,7 @@ export default function LiveVideoAgentSection() {
 
                         <div className="flex flex-col sm:flex-row gap-3">
                             <Link 
-                                href="/liveavatar-demo"
+                                href="/order-ai-agent"
                                 className="inline-flex items-center justify-center gap-2 bg-[#4ade80] text-black hover:bg-[#22c55e] transition-all font-bold py-3.5 px-8 rounded-sm shadow-lg text-center text-sm"
                             >
                                 <Video className="w-4 h-4" />
@@ -104,7 +104,7 @@ export default function LiveVideoAgentSection() {
                             </Link>
 
                             <Link 
-                                href="/estimate"
+                                href="/order-ai-agent"
                                 className="inline-flex items-center justify-center gap-2 bg-white/10 text-white hover:bg-white/20 transition-all font-medium py-3.5 px-6 rounded-sm text-center text-sm border border-white/20"
                             >
                                 <span>Ζητήστε Προσφορά</span>
@@ -172,7 +172,7 @@ export default function LiveVideoAgentSection() {
 
                     <div className="flex items-center gap-3 shrink-0">
                         <Link 
-                            href="/liveavatar-demo"
+                            href="/order-ai-agent"
                             className="px-7 py-3.5 bg-[#3b5bdb] hover:bg-[#2f49b0] text-white font-bold text-sm shadow-md transition-colors"
                         >
                             Δοκιμάστε το Demo

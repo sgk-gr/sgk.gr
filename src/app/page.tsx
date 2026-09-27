@@ -63,7 +63,7 @@ const liveVideoAgentSchema = {
         { "@type": "AdministrativeArea", "name": "Attica, Athens" },
         { "@type": "AdministrativeArea", "name": "Thessaloniki" }
     ],
-    "url": "https://www.sgk.gr/liveavatar-demo"
+    "url": "https://www.sgk.gr/order-ai-agent"
 };
 
 export default function Home() {

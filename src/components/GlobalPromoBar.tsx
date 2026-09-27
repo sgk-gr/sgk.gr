@@ -6,14 +6,12 @@ import { usePathname } from "next/navigation";
 export default function GlobalPromoBar() {
   const pathname = usePathname();
   
-  // Do not show the promo bar on doc pages, admin pages, elv8 requirements, liveavatar demo, or order-ai-agent
-  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements" || pathname.startsWith("/liveavatar-demo") || pathname.startsWith("/order-ai-agent")) {
+  // Do not show the promo bar on doc pages, admin pages, elv8 requirements, liveavatar demo, order-ai-agent, or ike-offer
+  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements" || pathname.startsWith("/liveavatar-demo") || pathname.startsWith("/order-ai-agent") || pathname === "/ike-offer") {
     return null;
   }
 
-  const targetHref = pathname === "/ike-offer" 
-    ? "/kataskevi-istoselidas-ike" 
-    : "/ike-offer";
+  const targetHref = "/ike-offer";
 
   return (
     <div className="global-promo-bar fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20 shadow-[0_-4px_10px_rgba(0,0,0,0.15)] whitespace-nowrap overflow-hidden text-ellipsis px-2 print:hidden no-print">
