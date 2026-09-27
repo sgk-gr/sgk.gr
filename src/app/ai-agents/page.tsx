@@ -153,7 +153,7 @@ const faqSchema = {
             "name": "Η SGK κάνει AI Video Call; (Υποστηρίζετε ζωντανή βιντεοκλήση με AI Agent;)",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Ναι, απόλυτα! Η SGK Software Development διαθέτει έτοιμη, εμπορικά τυποποιημένη λύση για AI Video Call και Live Video AI Agents (24/7 WebRTC ψηφιακοί υπάλληλοι/avatars με ζωντανό βίντεο). Ο AI Agent υποδέχεται τον επισκέπτη πρόσωπο με πρόσωπο, ακούει μέσω μικροφώνου, απαντά σε κλάσματα δευτερολέπτου σε άπταιστα ελληνικά, πραγματοποιεί οπτική αναγνώριση εγγράφων μέσω κάμερας (KYC) και συνδέεται live με CRM, ERP, ΓΕΜΗ & Google Calendar. Μπορείτε να δοκιμάσετε live demo στο https://www.sgk.gr/liveavatar-demo."
+                "text": "Ναι, απόλυτα! Η SGK Software Development διαθέτει έτοιμη, εμπορικά τυποποιημένη λύση για AI Video Call και Live Video AI Agents (24/7 WebRTC ψηφιακοί υπάλληλοι/avatars με ζωντανό βίντεο). Ο AI Agent υποδέχεται τον επισκέπτη πρόσωπο με πρόσωπο, ακούει μέσω μικροφώνου, απαντά σε κλάσματα δευτερολέπτου σε άπταιστα ελληνικά, πραγματοποιεί οπτική αναγνώριση εγγράφων μέσω κάμερας (KYC) και συνδέεται live με CRM, ERP, ΓΕΜΗ & Google Calendar. Μπορείτε να δοκιμάσετε live demo στο https://www.sgk.gr/liveavatar-demo2."
             }
         },
         {
@@ -543,7 +543,7 @@ export default function AIAgentsPage() {
 
                                     <div className="pt-2 flex flex-col sm:flex-row gap-4">
                                         <Link
-                                            href="/liveavatar-demo"
+                                            href="/liveavatar-demo2"
                                             className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black rounded-xl text-sm transition-all shadow-lg shadow-emerald-500/25"
                                         >
                                             <Play className="w-4 h-4 fill-black" />
@@ -608,12 +608,18 @@ export default function AIAgentsPage() {
 
                                             {/* Interactive action buttons */}
                                             <div className="flex items-center gap-2 w-full">
-                                                <button className="flex-1 py-2 px-3 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-bold text-slate-200 border border-white/10 transition-colors flex items-center justify-center gap-1.5">
+                                                <Link 
+                                                    href="/liveavatar-demo2"
+                                                    className="flex-1 py-2 px-3 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-bold text-slate-200 border border-white/10 transition-colors flex items-center justify-center gap-1.5"
+                                                >
                                                     <Play className="w-3 h-3 text-cyan-400" /> Live Demo
-                                                </button>
-                                                <button className="flex-1 py-2 px-3 rounded-lg bg-[#3b5bdb]/80 hover:bg-[#3b5bdb] text-[11px] font-bold text-white transition-colors flex items-center justify-center gap-1.5">
+                                                </Link>
+                                                <Link 
+                                                    href="/liveavatar-demo2"
+                                                    className="flex-1 py-2 px-3 rounded-lg bg-[#3b5bdb]/80 hover:bg-[#3b5bdb] text-[11px] font-bold text-white transition-colors flex items-center justify-center gap-1.5"
+                                                >
                                                     <MessageSquare className="w-3 h-3" /> Ρωτήστε το Avatar
-                                                </button>
+                                                </Link>
                                             </div>
                                         </div>
 

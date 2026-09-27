@@ -132,7 +132,11 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
                 prose-headings:font-heading prose-headings:font-bold prose-headings:text-white
                 prose-p:text-muted-foreground prose-p:leading-relaxed
                 prose-strong:text-white prose-strong:font-bold
-                prose-blockquote:border-primary prose-blockquote:bg-white/5 prose-blockquote:p-6 prose-blockquote:rounded-r-xl"
+                prose-blockquote:border-primary prose-blockquote:bg-white/5 prose-blockquote:p-6 prose-blockquote:rounded-r-xl
+                [&_table]:border-collapse [&_table]:border [&_table]:border-slate-700/80 [&_table]:w-full [&_table]:my-6 [&_table]:rounded-xl [&_table]:overflow-hidden
+                [&_th]:bg-slate-900 [&_th]:text-white [&_th]:border [&_th]:border-slate-700/80 [&_th]:p-3.5
+                [&_td]:border [&_td]:border-slate-700/80 [&_td]:p-3.5 [&_td]:text-slate-200
+                [&_tr[style*='#f8fafc']]:!bg-slate-900/80"
                             dangerouslySetInnerHTML={{ __html: post.content }}
                         />
 

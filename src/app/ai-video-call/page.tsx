@@ -90,7 +90,7 @@ const faqSchema = {
             "name": "Πώς μπορώ να δοκιμάσω το AI Video Call της SGK;",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Μπορείτε να δοκιμάσετε ζωντανά το AI Video Call demo απευθείας στη διεύθυνση https://www.sgk.gr/liveavatar-demo χωρίς καμία εγκατάσταση, χρησιμοποιώντας απλά το μικρόφωνο και την κάμερα του υπολογιστή ή του κινητού σας."
+                "text": "Μπορείτε να δοκιμάσετε ζωντανά το AI Video Call demo απευθείας στη διεύθυνση https://www.sgk.gr/liveavatar-demo2 χωρίς καμία εγκατάσταση, χρησιμοποιώντας απλά το μικρόφωνο και την κάμερα του υπολογιστή ή του κινητού σας."
             }
         },
         {
@@ -151,7 +151,7 @@ export default function AiVideoCallPage() {
 
                             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <Link
-                                    href="/liveavatar-demo"
+                                    href="/liveavatar-demo2"
                                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#3b5bdb] hover:bg-[#324ec7] text-white font-bold rounded-xl text-base transition-all shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5"
                                 >
                                     <Play className="w-5 h-5 fill-white" />
@@ -288,7 +288,7 @@ export default function AiVideoCallPage() {
                                 Συνδεθείτε απευθείας με τον AI Video Agent της SGK Digital. Μιλήστε του στα ελληνικά μέσω του μικροφώνου σας και δείτε την άμεση ανθρώπινη απόκριση σε πραγματικό χρόνο.
                             </p>
                             <Link
-                                href="/liveavatar-demo"
+                                href="/liveavatar-demo2"
                                 className="inline-flex items-center gap-3 px-8 py-4 bg-[#4ade80] hover:bg-[#22c55e] text-black font-black text-base rounded-xl transition-all shadow-lg hover:scale-105"
                             >
                                 <Play className="w-5 h-5 fill-black" />

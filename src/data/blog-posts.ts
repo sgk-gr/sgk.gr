@@ -45,37 +45,39 @@ export const BLOG_POSTS: BlogPost[] = [
       </ul>
 
       <h3>Σε ποιους κλάδους απευθύνεται το AI Video Call;</h3>
-      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
-        <thead>
-          <tr style="background: #1e293b; color: #ffffff;">
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Κλάδος</th>
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Χρήση AI Video Call</th>
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Όφελος για την Επιχείρηση</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Γυμναστήρια & Fitness</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">24/7 υποδοχή στην οθόνη του χώρου, εγγραφή μελών, επιλογή πακέτων συνδρομής.</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Εξυπηρέτηση χωρίς αναμονή στη ρεσεψιόν, αύξηση εγγραφών κατά 40%.</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ιατρεία & Κλινικές</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Ψηφιακό triage, καταγραφή ιστορικού ασθενούς, αυτόματος προγραμματισμός ραντεβού.</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Αποσυμφόρηση γραμματείας και μηδενικά χαμένα ραντεβού.</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Τράπεζες & Ασφαλιστικές</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Ταυτοποίηση KYC μέσω κάμερας, έλεγχος ταυτότητας, σύνταξη ιδιωτικού συμφωνητικού.</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Αυτοματοποίηση onboarding πελατών με απόλυτη νομική συμμόρφωση.</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>E-Commerce & Retail</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Live Video Shopping Assistant: παρουσίαση προϊόντων, σύγκριση, ολοκλήρωση παραγγελίας.</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Τριπλασιασμός conversion rate σε σχέση με απλό γραπτό chat.</td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid #334155; border-radius: 12px; overflow: hidden; background: #0b0f19;">
+          <thead>
+            <tr style="background: #1e293b;">
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Κλάδος</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Χρήση AI Video Call</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Όφελος για την Επιχείρηση</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Γυμναστήρια & Fitness</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">24/7 υποδοχή στην οθόνη του χώρου, εγγραφή μελών, επιλογή πακέτων συνδρομής.</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Εξυπηρέτηση χωρίς αναμονή στη ρεσεψιόν, αύξηση εγγραφών κατά 40%.</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Ιατρεία & Κλινικές</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Ψηφιακό triage, καταγραφή ιστορικού ασθενούς, αυτόματος προγραμματισμός ραντεβού.</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Αποσυμφόρηση γραμματείας και μηδενικά χαμένα ραντεβού.</td>
+            </tr>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Τράπεζες & Ασφαλιστικές</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Ταυτοποίηση KYC μέσω κάμερας, έλεγχος ταυτότητας, σύνταξη ιδιωτικού συμφωνητικού.</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Αυτοματοποίηση onboarding πελατών με απόλυτη νομική συμμόρφωση.</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">E-Commerce & Retail</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Live Video Shopping Assistant: παρουσίαση προϊόντων, σύγκριση, ολοκλήρωση παραγγελίας.</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Τριπλασιασμός conversion rate σε σχέση με απλό γραπτό chat.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3>Πόσο κοστίζει ένας Ψηφιακός Υπάλληλος με Video AI;</h3>
       <p>Στην SGK Digital η τιμολόγηση είναι απόλυτα διαφανής και «με το κλειδί στο χέρι» (Turnkey):</p>
@@ -144,42 +146,44 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Το <strong>κόστος κατασκευής ενός επαγγελματικού eshop στην Ελλάδα το 2026 κυμαίνεται από 600€ έως 3.500€+</strong> για παραδοσιακή ανάπτυξη (ανάλογα με την πλατφόρμα, τον αριθμό προϊόντων και τις διασυνδέσεις ERP/Τραπεζών). Ταυτόχρονα, σύγχρονες τεχνολογικές εταιρείες όπως η <strong>SGK Digital</strong> προσφέρουν το μοντέλο <strong>Pay As You Grow</strong> με αρχικό κόστος <strong>μόλις 250€ εφάπαξ</strong> και 5% προμήθεια επί των πωλήσεων για 12 μήνες, εκμηδενίζοντας το αρχικό οικονομικό ρίσκο.</p>
 
       <h3>Συγκριτικός Πίνακας Κόστους & Πλατφορμών Eshop (2026)</h3>
-      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
-        <thead>
-          <tr style="background: #1e293b; color: #ffffff;">
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Μοντέλο / Πλατφόρμα</th>
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Αρχικό Κόστος Κατασκευής</th>
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Μηνιαία / Ετήσια Πάγια</th>
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Ιδιοκτησία & Ελευθερία</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Pay As You Grow (SGK Digital)</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #16a34a; font-weight: bold;">250€ (Εφάπαξ Setup)</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">5% στις πωλήσεις για 12 μήνες (0€ αν 0 πωλήσεις)</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>100% Δικό σας</strong> μετά τους 12 μήνες χωρίς πάγια</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>WooCommerce (Custom)</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">1.500€ — 3.500€</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Hosting + Domain + SSL (~150€ - 300€/έτος)</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">100% Δικό σας, Open Source</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Shopify</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">800€ — 2.000€ (Setup)</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">36€ - 300€/μήνα + 2% transaction fee + plugins</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Ενοικίαση (κλειδωμένη πλατφόρμα)</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Headless React / Next.js</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">3.500€ — 6.000€+</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Cloud Server VPS (~300€ - 600€/έτος)</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Απόλυτος έλεγχος & ακαριαία ταχύτητα (<0.5s)</td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid #334155; border-radius: 12px; overflow: hidden; background: #0b0f19;">
+          <thead>
+            <tr style="background: #1e293b;">
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Μοντέλο / Πλατφόρμα</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Αρχικό Κόστος Κατασκευής</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Μηνιαία / Ετήσια Πάγια</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Ιδιοκτησία & Ελευθερία</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Pay As You Grow (SGK Digital)</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #4ade80; font-weight: bold;">250€ (Εφάπαξ Setup)</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">5% στις πωλήσεις για 12 μήνες (0€ αν 0 πωλήσεις)</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #ffffff;"><strong style="color: #ffffff;">100% Δικό σας</strong> μετά τους 12 μήνες χωρίς πάγια</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">WooCommerce (Custom)</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">1.500€ — 3.500€</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Hosting + Domain + SSL (~150€ - 300€/έτος)</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">100% Δικό σας, Open Source</td>
+            </tr>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Shopify</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">800€ — 2.000€ (Setup)</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">36€ - 300€/μήνα + 2% transaction fee + plugins</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Ενοικίαση (κλειδωμένη πλατφόρμα)</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Headless React / Next.js</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">3.500€ — 6.000€+</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Cloud Server VPS (~300€ - 600€/έτος)</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Απόλυτος έλεγχος & ακαριαία ταχύτητα (&lt;0.5s)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3>1. Ποια είναι τα βασικά στάδια κατασκευής ενός eshop;</h3>
       <p>Για να είναι ένα ηλεκτρονικό κατάστημα αποδοτικό και κερδοφόρο, η διαδικασία ανάπτυξης περιλαμβάνει 5 κρίσιμα βήματα:</p>
@@ -1386,42 +1390,44 @@ export const BLOG_POSTS: BlogPost[] = [
       </ol>
 
       <h3>Συγκριτικός Πίνακας: Παραδοσιακό Chatbot vs AI Agent της SGK Digital</h3>
-      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
-        <thead>
-          <tr style="background: #1e293b; color: #ffffff;">
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Χαρακτηριστικό</th>
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Κλασικό Chatbot</th>
-            <th style="padding: 12px; border: 1px solid #334155; text-align: left;">Αυτόνομος AI Agent (SGK)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ευφυΐα & Συλλογιστική</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Στατικά if/then δέντρα επιλογών</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">LLM Reasoning (GPT-4o, Claude 3.5, Gemini Pro)</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ελληνική Γλώσσα & Αργκό</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Συχνά αποτυγχάνει σε άγνωστες λέξεις</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Άριστη κατανόηση Ελληνικών & Greeklish</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Διασύνδεση με ERP / CRM / Courier</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Σχεδόν ανύπαρκτη</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">Real-time Two-Way API Integration</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Εκτέλεση Ενεργειών (Actions)</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Μόνο εμφάνιση προκαθορισμένου κειμένου</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Ακύρωση παραγγελίας, έκδοση voucher, κράτηση ραντεβού</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ποσοστό Αυτόνομης Επίλυσης</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">15% - 25%</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">65% - 85% των περιπτώσεων</td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid #334155; border-radius: 12px; overflow: hidden; background: #0b0f19;">
+          <thead>
+            <tr style="background: #1e293b;">
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Χαρακτηριστικό</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Κλασικό Chatbot</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Αυτόνομος AI Agent (SGK)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Ευφυΐα & Συλλογιστική</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Στατικά if/then δέντρα επιλογών</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #4ade80;">LLM Reasoning (GPT-4o, Claude 3.5, Gemini Pro)</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Ελληνική Γλώσσα & Αργκό</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Συχνά αποτυγχάνει σε άγνωστες λέξεις</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #60a5fa;">Άριστη κατανόηση Ελληνικών & Greeklish</td>
+            </tr>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Διασύνδεση με ERP / CRM / Courier</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Σχεδόν ανύπαρκτη</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #4ade80;">Real-time Two-Way API Integration</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Εκτέλεση Ενεργειών (Actions)</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Μόνο εμφάνιση προκαθορισμένου κειμένου</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #60a5fa;">Ακύρωση παραγγελίας, έκδοση voucher, κράτηση ραντεβού</td>
+            </tr>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Ποσοστό Αυτόνομης Επίλυσης</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">15% - 25%</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #4ade80;">65% - 85% των περιπτώσεων</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3>5 Κορυφαίοι Custom Αυτοματισμοί για Ελληνικές Επιχειρήσεις</h3>
       <p>Στην SGK Digital, υλοποιούμε custom αυτοματισμούς που δίνουν άμεση υπεραξία:</p>
@@ -1494,37 +1500,39 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Για επιχειρήσεις που θέλουν να προσφέρουν premium, προσωποποιημένη εμπειρία, αναπτύσσουμε <strong>διαδραστικά AI Video Avatars</strong>. Φωτορεαλιστικοί ψηφιακοί εκπρόσωποι καλωσορίζουν τους επισκέπτες στην ιστοσελίδα, απαντούν με ζωντανό video και φωνή, και κάνουν διαδραστική visual επίδειξη προϊόντων.</p>
 
       <h3>Συγκριτικός Πίνακας: Παραδοσιακό Chatbot vs Αυτόνομος AI Agent (SGK Digital)</h3>
-      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
-        <thead>
-          <tr style="background: #0f172a; text-align: left; color: #ffffff;">
-            <th style="padding: 12px; border: 1px solid #334155; color: #ffffff !important;">Χαρακτηριστικό</th>
-            <th style="padding: 12px; border: 1px solid #334155; color: #cbd5e1 !important;">Παραδοσιακό Chatbot</th>
-            <th style="padding: 12px; border: 1px solid #334155; color: #60a5fa !important; font-weight: bold;">Custom AI Agent (SGK)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Κανάλια Επικοινωνίας</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Μόνο κείμενο στο site</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Voice (Τηλεφωνία) + Chat + Video Avatars</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Κατανόηση Ελληνικών</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Μόνο ακριβείς προκαθορισμένες λέξεις</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">Άπταιστα φυσικά Ελληνικά & Greeklish (Greek NLP)</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Εκτέλεση Εργασιών (Actions)</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Καμία (μόνο εμφάνιση προκάτ κειμένου)</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Αυτόνομη καταχώρηση στο ERP, έκδοση vouchers, κλείσιμο ραντεβού</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 12px; border: 1px solid #e2e8f0;"><strong>Ανάγκη Ανθρώπινης Επίβλεψης</strong></td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0;">Συνεχής παραπομπή σε υπάλληλο</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold; color: #16a34a;">75% - 90% πλήρης αυτόνομη επίλυση</td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid #334155; border-radius: 12px; overflow: hidden; background: #0b0f19;">
+          <thead>
+            <tr style="background: #1e293b;">
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Χαρακτηριστικό</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Παραδοσιακό Chatbot</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #60a5fa; font-weight: bold;">Custom AI Agent (SGK)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Κανάλια Επικοινωνίας</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Μόνο κείμενο στο site</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #60a5fa;">Voice (Τηλεφωνία) + Chat + Video Avatars</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Κατανόηση Ελληνικών</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Μόνο ακριβείς προκαθορισμένες λέξεις</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #4ade80;">Άπταιστα φυσικά Ελληνικά & Greeklish (Greek NLP)</td>
+            </tr>
+            <tr style="background: #131b2e;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Εκτέλεση Εργασιών (Actions)</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Καμία (μόνο εμφάνιση προκάτ κειμένου)</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #60a5fa;">Αυτόνομη καταχώρηση στο ERP, έκδοση vouchers, κλείσιμο ραντεβού</td>
+            </tr>
+            <tr style="background: #0b0f19;">
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Ανάγκη Ανθρώπινης Επίβλεψης</strong></td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Συνεχής παραπομπή σε υπάλληλο</td>
+              <td style="padding: 14px 16px; border: 1px solid #334155; font-weight: bold; color: #4ade80;">75% - 90% πλήρης αυτόνομη επίλυση</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3>Πώς Υλοποιεί η SGK Digital ένα Custom AI Project σε 4 Βήματα</h3>
       <ol>
