@@ -23,8 +23,12 @@ export default function OrderAIAgentPage() {
 
     const toggleWidgetMute = () => {
         if (widgetVideoRef.current) {
-            widgetVideoRef.current.muted = !isWidgetMuted;
-            setIsWidgetMuted(!isWidgetMuted);
+            const nextMuted = !isWidgetMuted;
+            widgetVideoRef.current.muted = nextMuted;
+            setIsWidgetMuted(nextMuted);
+            if (widgetVideoRef.current.paused) {
+                widgetVideoRef.current.play().catch(console.error);
+            }
         }
     };
 
@@ -90,8 +94,14 @@ export default function OrderAIAgentPage() {
 
     useEffect(() => {
         if (widgetVideoRef.current && isWidgetOpen) {
-            // Force play on mount to fix React autoplay issues
-            widgetVideoRef.current.play().catch(e => console.error("Autoplay prevented:", e));
+            widgetVideoRef.current.defaultMuted = true;
+            widgetVideoRef.current.muted = true;
+            const playPromise = widgetVideoRef.current.play();
+            if (playPromise !== undefined) {
+                playPromise.catch((err) => {
+                    console.log("Auto-play prevented by browser:", err);
+                });
+            }
         }
     }, [isWidgetOpen]);
 
@@ -165,22 +175,34 @@ export default function OrderAIAgentPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Box 1 - Automations & Tasks */}
-                        <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
-                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• ΣΥΝΔΕΣΗ ΜΕ E-SHOPS & ERP</span>
-                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Εκτέλεση εργασιών και διασύνδεση API</h3>
-                            <p className="text-slate-600 mb-10 text-lg">Ο AI Agent δεν μιλάει απλά. Στέλνει emails, διαβάζει αρχεία, κάνει αλλαγές και συνδέεται με ERP συστήματα, APIs και E-shops για να αντλεί δεδομένα ή να καταχωρεί παραγγελίες ζωντανά.</p>
-                            <div className="mt-auto h-64 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-indigo-900/20 font-bold text-4xl">
-                                AI Αυτοματισμοί
+                        <div className="bg-[#f7f7f9] rounded-3xl p-8 sm:p-10 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                            <div>
+                                <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4 block">• ΣΥΝΔΕΣΗ ΜΕ E-SHOPS & ERP</span>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Εκτέλεση εργασιών και διασύνδεση API</h3>
+                                <p className="text-slate-600 mb-8 text-base sm:text-lg leading-relaxed">Ο AI Agent δεν μιλάει απλά. Στέλνει emails, διαβάζει αρχεία, κάνει αλλαγές και συνδέεται με ERP συστήματα, APIs και E-shops για να αντλεί δεδομένα ή να καταχωρεί παραγγελίες ζωντανά.</p>
+                            </div>
+                            <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-md aspect-video relative group bg-slate-100">
+                                <img 
+                                    src="/ai-erp-integration.jpg" 
+                                    alt="AI ERP και E-shop Αυτοματισμοί" 
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
                             </div>
                         </div>
 
                         {/* Box 2 - Languages */}
-                        <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
-                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• ΕΚΦΡΑΣΤΙΚΑ AVATARS</span>
-                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Άψογη εξυπηρέτηση σε 160+ Γλώσσες</h3>
-                            <p className="text-slate-600 mb-10 text-lg">Το AI Avatar σας κατανοεί και μιλάει σε πάνω από 160 γλώσσες με φυσικότητα και απίστευτη εκφραστικότητα. Αναγνωρίζει αυτόματα τη γλώσσα και προσαρμόζεται, ενώ εσείς διατηρείτε τον πλήρη έλεγχο.</p>
-                            <div className="mt-auto h-64 bg-gradient-to-br from-[#0a0b10] to-slate-800 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-white/20 font-bold text-4xl">
-                                Custom Avatar
+                        <div className="bg-[#f7f7f9] rounded-3xl p-8 sm:p-10 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                            <div>
+                                <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4 block">• ΕΚΦΡΑΣΤΙΚΑ AVATARS</span>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Άψογη εξυπηρέτηση σε 160+ Γλώσσες</h3>
+                                <p className="text-slate-600 mb-8 text-base sm:text-lg leading-relaxed">Το AI Avatar σας κατανοεί και μιλάει σε πάνω από 160 γλώσσες με φυσικότητα και απίστευτη εκφραστικότητα. Αναγνωρίζει αυτόματα τη γλώσσα και προσαρμόζεται, ενώ εσείς διατηρείτε τον πλήρη έλεγχο.</p>
+                            </div>
+                            <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-md aspect-video relative group bg-slate-900">
+                                <img 
+                                    src="/ai-avatars-languages.jpg" 
+                                    alt="Εκφραστικά AI Avatars σε 160+ Γλώσσες" 
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
                             </div>
                         </div>
                     </div>
@@ -458,12 +480,13 @@ export default function OrderAIAgentPage() {
                     {/* Background Video */}
                     <video 
                         ref={widgetVideoRef}
-                        autoPlay={true}
-                        loop={true}
-                        muted={isWidgetMuted}
-                        playsInline={true}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        poster="/avatar-preview-man.png"
                         preload="auto"
-                        className="absolute inset-0 w-full h-full object-cover bg-slate-900"
+                        className="absolute inset-0 w-full h-full object-cover"
                     >
                         <source src="/gemini_generated_video_5c95b80d.mp4" type="video/mp4" />
                     </video>
