@@ -17,6 +17,7 @@ export default function OrderAIAgentPage() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [isWidgetOpen, setIsWidgetOpen] = useState(true);
+    const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,6 +26,10 @@ export default function OrderAIAgentPage() {
     const selectPackageAndScroll = (pkg: string) => {
         setFormData({ ...formData, packageType: pkg });
         scrollToForm();
+    };
+
+    const toggleFaq = (index: number) => {
+        setOpenFaqIndex(openFaqIndex === index ? null : index);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -55,6 +60,25 @@ export default function OrderAIAgentPage() {
         document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
     };
 
+    const faqs = [
+        {
+            question: "Είναι εφάπαξ το κόστος εγκατάστασης (Setup Fee);",
+            answer: "Ναι. Το αρχικό κόστος των 500€ καταβάλλεται μία φορά και αφορά την παραμετροποίηση, το στήσιμο και την ενσωμάτωση του AI συστήματος στην επιχείρησή σας."
+        },
+        {
+            question: "Μπορώ να φτιάξω AI Avatar με το δικό μου πρόσωπο;",
+            answer: "Φυσικά! Μπορούμε να δημιουργήσουμε έναν απόλυτα ρεαλιστικό ψηφιακό κλώνο βασισμένο σε εσάς ή σε οποιοδήποτε μέλος της ομάδας σας, αρκεί ένα μικρό βίντεο καλής ποιότητας."
+        },
+        {
+            question: "Το AI ενσωματώνεται με το δικό μου E-shop ή CRM;",
+            answer: "Ναι. Ο AI Agent μπορεί να εκπαιδευτεί πάνω στα δικά σας δεδομένα (κατάλογος προϊόντων, οδηγίες, FAQ) και να αντλεί δεδομένα για να απαντά στους πελάτες σας."
+        },
+        {
+            question: "Πώς λειτουργεί με πολλαπλές γλώσσες;",
+            answer: "Το AI μπορεί να κατανοήσει και να μιλήσει σε περισσότερες από 160 γλώσσες σε πραγματικό χρόνο. Ανιχνεύει αυτόματα τη γλώσσα του πελάτη σας και προσαρμόζεται άμεσα."
+        }
+    ];
+
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-[#0a0b10] selection:text-white pb-24 lg:pb-0">
             {/* Minimal Light Header */}
@@ -71,7 +95,7 @@ export default function OrderAIAgentPage() {
                             onClick={scrollToForm}
                             className="px-5 py-2.5 rounded-full bg-[#0a0b10] hover:bg-slate-800 text-white text-sm font-semibold transition-colors"
                         >
-                            Get started &rarr;
+                            Ξεκινήστε &rarr;
                         </button>
                     </div>
                 </div>
@@ -81,17 +105,17 @@ export default function OrderAIAgentPage() {
                 {/* HERO SECTION - Synthesia Style */}
                 <section className="pt-40 pb-20 px-6 sm:pt-48 sm:pb-24 flex flex-col items-center text-center max-w-5xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-xs tracking-wide mb-8">
-                        <span className="text-[#ff5c5c]">G</span> OVER 2,000 FIVE-STAR REVIEWS ON G2 ⓘ
+                        <span className="text-[#ff5c5c]">G</span> ΠΑΝΩ ΑΠΟ 2.000 ΚΡΙΤΙΚΕΣ 5 ΑΣΤΕΡΩΝ ΣΤΟ G2 ⓘ
                     </div>
                     
                     <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-[#0a0b10] mb-8 leading-[1.1]">
-                        All-in-one AI Video <br className="hidden sm:block"/>
-                        platform for business
+                        Η All-in-one AI Video <br className="hidden sm:block"/>
+                        πλατφόρμα για την επιχείρησή σας
                     </h1>
                     
                     <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                        Create studio-quality interactive avatars in 160+ languages. 
-                        Save up to 90% of time and cost on customer service and sales.
+                        Δημιουργήστε διαδραστικά avatars ποιότητας studio σε 160+ γλώσσες. 
+                        Εξοικονομήστε έως και 90% σε χρόνο και κόστος εξυπηρέτησης πελατών και πωλήσεων.
                     </p>
 
                     <div className="flex flex-col items-center gap-4">
@@ -99,19 +123,19 @@ export default function OrderAIAgentPage() {
                             onClick={scrollToForm}
                             className="px-8 py-4 rounded-full bg-[#0a0b10] hover:bg-slate-800 text-white font-semibold text-lg transition-all"
                         >
-                            Get started for FREE &rarr;
+                            Ξεκινήστε ΔΩΡΕΑΝ &rarr;
                         </button>
                         <div className="flex items-center gap-4 text-sm text-slate-500 font-medium">
-                            <span>No credit card required</span>
+                            <span>Δεν απαιτείται πιστωτική κάρτα</span>
                             <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                            <span>Rated 4.7/5 on G2</span>
+                            <span>Βαθμολογία 4.7/5 στο G2</span>
                         </div>
                     </div>
                 </section>
 
                 {/* TRUST LOGOS */}
                 <section className="py-12 border-t border-b border-slate-100 bg-white">
-                    <p className="text-center text-sm font-medium text-slate-500 mb-8">Trusted by over 50,000 companies of all sizes</p>
+                    <p className="text-center text-sm font-medium text-slate-500 mb-8">Μας εμπιστεύονται πάνω από 50.000 εταιρείες κάθε μεγέθους</p>
                     <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale px-6">
                         <span className="text-xl font-bold font-serif tracking-tighter">REUTERS</span>
                         <span className="text-xl font-bold tracking-tighter">zoom</span>
@@ -125,28 +149,28 @@ export default function OrderAIAgentPage() {
                 <section className="py-32 px-6 max-w-7xl mx-auto">
                     <div className="text-center mb-20">
                         <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0b10] mb-6">
-                            One platform to create, localize, <br className="hidden md:block"/>
-                            manage, and publish AI avatars
+                            Μία πλατφόρμα για δημιουργία, μετάφραση, <br className="hidden md:block"/>
+                            διαχείριση και δημοσίευση AI Avatars
                         </h2>
-                        <p className="text-slate-600">One tool for your entire workflow. From first draft to global distribution.</p>
+                        <p className="text-slate-600">Ένα εργαλείο για ολόκληρη τη ροή εργασίας σας. Από το προσχέδιο μέχρι την παγκόσμια διανομή.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Box 1 */}
                         <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
                             <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• AI VIDEO ASSISTANT</span>
-                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Turn any content into video, instantly</h3>
-                            <p className="text-slate-600 mb-10 text-lg">Automatically transform documents, links, or ideas into engaging avatars that match your brand style.</p>
+                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Μετατρέψτε κάθε περιεχόμενο σε βίντεο, άμεσα</h3>
+                            <p className="text-slate-600 mb-10 text-lg">Μεταμορφώστε αυτόματα έγγραφα, συνδέσμους ή ιδέες σε συναρπαστικά avatars που ταιριάζουν στο στυλ της επωνυμίας σας.</p>
                             <div className="mt-auto h-64 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-indigo-900/20 font-bold text-4xl">
-                                AI Assistant
+                                AI Βοηθός
                             </div>
                         </div>
 
                         {/* Box 2 */}
                         <div className="bg-[#f7f7f9] rounded-3xl p-10 flex flex-col">
-                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• EXPRESSIVE AVATARS</span>
-                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Create your own expressive AI Avatar</h3>
-                            <p className="text-slate-600 mb-10 text-lg">Your AI Avatar speaks 160+ languages, fluently and with uncanny expressiveness. And yes, you stay in full control.</p>
+                            <span className="text-[#5b36f5] text-xs font-bold uppercase tracking-wider mb-4">• ΕΚΦΡΑΣΤΙΚΑ AVATARS</span>
+                            <h3 className="text-3xl font-bold text-[#0a0b10] mb-4 tracking-tight">Δημιουργήστε το δικό σας εκφραστικό AI Avatar</h3>
+                            <p className="text-slate-600 mb-10 text-lg">Το AI Avatar σας μιλάει 160+ γλώσσες, με ευφράδεια και απίστευτη εκφραστικότητα. Και ναι, εσείς διατηρείτε τον πλήρη έλεγχο.</p>
                             <div className="mt-auto h-64 bg-gradient-to-br from-[#0a0b10] to-slate-800 rounded-2xl border border-white/50 shadow-inner flex items-center justify-center text-white/20 font-bold text-4xl">
                                 Custom Avatar
                             </div>
@@ -158,10 +182,10 @@ export default function OrderAIAgentPage() {
                 <section id="pricing" className="py-24 px-6 relative bg-white border-t border-slate-100">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0b10] mb-6">Choose your plan</h2>
+                            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0b10] mb-6">Επιλέξτε το πλάνο σας</h2>
                             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                                Transparent pricing. No hidden fees. <br/>
-                                One-time setup, design, and AI training cost: <span className="text-[#0a0b10] font-bold">3.000€</span>.
+                                Διαφανής τιμολόγηση. Καμία κρυφή χρέωση. <br/>
+                                Εφάπαξ κόστος σχεδιασμού, setup και εκπαίδευσης: <span className="text-[#0a0b10] font-bold">500€</span>.
                             </p>
                         </div>
 
@@ -169,75 +193,75 @@ export default function OrderAIAgentPage() {
                             {/* Basic Plan */}
                             <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col hover:border-slate-300 transition-all shadow-sm">
                                 <h3 className="text-2xl font-bold text-[#0a0b10] mb-2">Basic</h3>
-                                <p className="text-slate-500 text-sm mb-6">Ideal for small businesses.</p>
+                                <p className="text-slate-500 text-sm mb-6">Ιδανικό για μικρές επιχειρήσεις.</p>
                                 <div className="mb-6">
                                     <span className="text-4xl font-black text-[#0a0b10]">150€</span>
-                                    <span className="text-slate-500"> / mo</span>
+                                    <span className="text-slate-500"> / μήνα</span>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-1 text-slate-600 text-sm">
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> Up to 300 minutes
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 300 λεπτά
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.50€ / minute
+                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.50€ / λεπτό
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Languages
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 50+ Γλώσσες
                                     </li>
                                 </ul>
                                 <button onClick={() => selectPackageAndScroll("Basic")} className="w-full py-3 rounded-xl border border-slate-200 text-[#0a0b10] font-semibold hover:bg-slate-50 transition-colors">
-                                    Select Basic
+                                    Επιλογή Basic
                                 </button>
                             </div>
 
                             {/* Pro Plan */}
                             <div className="bg-[#0a0b10] border border-[#0a0b10] rounded-3xl p-8 flex flex-col shadow-2xl relative transform md:-translate-y-4 text-white">
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#5b36f5] text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3 rounded-full">
-                                    Most Popular
+                                    Δημοφιλέστερο
                                 </div>
                                 <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
-                                <p className="text-slate-400 text-sm mb-6">For growing companies.</p>
+                                <p className="text-slate-400 text-sm mb-6">Για αναπτυσσόμενες εταιρείες.</p>
                                 <div className="mb-6">
                                     <span className="text-4xl font-black text-white">250€</span>
-                                    <span className="text-slate-400"> / mo</span>
+                                    <span className="text-slate-400"> / μήνα</span>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-1 text-slate-300 text-sm">
                                     <li className="flex items-center gap-3">
-                                        <span className="text-white font-bold">✓</span> Up to 600 minutes
+                                        <span className="text-white font-bold">✓</span> Έως 600 λεπτά
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-white font-bold">✓</span> ~0.41€ / minute
+                                        <span className="text-white font-bold">✓</span> ~0.41€ / λεπτό
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-white font-bold">✓</span> Priority Support
+                                        <span className="text-white font-bold">✓</span> Προτεραιότητα Υποστήριξης
                                     </li>
                                 </ul>
                                 <button onClick={() => selectPackageAndScroll("Pro")} className="w-full py-3 rounded-xl bg-white text-[#0a0b10] font-semibold hover:bg-slate-100 transition-colors">
-                                    Select Pro
+                                    Επιλογή Pro
                                 </button>
                             </div>
 
                             {/* Enterprise Plan */}
                             <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col hover:border-slate-300 transition-all shadow-sm">
                                 <h3 className="text-2xl font-bold text-[#0a0b10] mb-2">Enterprise</h3>
-                                <p className="text-slate-500 text-sm mb-6">For maximum coverage.</p>
+                                <p className="text-slate-500 text-sm mb-6">Για μέγιστη κάλυψη.</p>
                                 <div className="mb-6">
                                     <span className="text-4xl font-black text-[#0a0b10]">450€</span>
-                                    <span className="text-slate-500"> / mo</span>
+                                    <span className="text-slate-500"> / μήνα</span>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-1 text-slate-600 text-sm">
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> Up to 1.200 minutes
+                                        <span className="text-[#5b36f5] font-bold">✓</span> Έως 1.200 λεπτά
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.37€ / min (Best value)
+                                        <span className="text-[#5b36f5] font-bold">✓</span> ~0.37€ / λεπτό (Καλύτερη αξία)
                                     </li>
                                     <li className="flex items-center gap-3">
-                                        <span className="text-[#5b36f5] font-bold">✓</span> 24/7 Dedicated Support
+                                        <span className="text-[#5b36f5] font-bold">✓</span> 24/7 Αποκλειστική Υποστήριξη
                                     </li>
                                 </ul>
                                 <button onClick={() => selectPackageAndScroll("Enterprise")} className="w-full py-3 rounded-xl border border-slate-200 text-[#0a0b10] font-semibold hover:bg-slate-50 transition-colors">
-                                    Select Enterprise
+                                    Επιλογή Enterprise
                                 </button>
                             </div>
                         </div>
@@ -248,35 +272,45 @@ export default function OrderAIAgentPage() {
                 <section className="py-24 px-6 max-w-5xl mx-auto border-t border-slate-100">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         <div className="md:col-span-1">
-                            <h2 className="text-4xl font-bold tracking-tight text-[#0a0b10] sticky top-32">
-                                You've likely got a few questions
+                            <h2 className="text-4xl font-bold tracking-tight text-[#0a0b10] sticky top-32 leading-[1.1]">
+                                Σίγουρα έχετε κάποιες ερωτήσεις
                             </h2>
                         </div>
-                        <div className="md:col-span-2 space-y-6">
-                            {[
-                                "Is the setup fee one-time?",
-                                "Can I customize the AI avatar to look like my team?",
-                                "Does the AI integrate with my existing CRM?",
-                                "How does the AI handle multiple languages?"
-                            ].map((question, i) => (
-                                <div key={i} className="border-b border-slate-200 pb-6">
-                                    <h3 className="text-lg font-bold text-[#0a0b10] flex justify-between items-center cursor-pointer hover:text-slate-700">
-                                        {question}
-                                        <span className="text-slate-400 text-2xl font-light">+</span>
-                                    </h3>
+                        <div className="md:col-span-2 space-y-2">
+                            {faqs.map((faq, i) => (
+                                <div key={i} className="border-b border-slate-200">
+                                    <button 
+                                        onClick={() => toggleFaq(i)}
+                                        className="w-full py-6 flex justify-between items-center text-left hover:text-slate-600 transition-colors group"
+                                    >
+                                        <h3 className="text-lg font-bold text-[#0a0b10] group-hover:text-slate-700 pr-8">
+                                            {faq.question}
+                                        </h3>
+                                        <span className="text-slate-400 text-3xl font-light transform transition-transform duration-200 flex-shrink-0" style={{ transform: openFaqIndex === i ? 'rotate(45deg)' : 'none' }}>
+                                            +
+                                        </span>
+                                    </button>
+                                    
+                                    <div 
+                                        className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaqIndex === i ? 'max-h-96 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}
+                                    >
+                                        <p className="text-slate-600 text-lg leading-relaxed">
+                                            {faq.answer}
+                                        </p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </section>
 
-                {/* CONTACT FORM SECTION (Light mode styling) */}
+                {/* CONTACT FORM SECTION */}
                 <section id="contact-form" className="py-32 px-6 bg-[#f7f7f9] border-t border-slate-200">
                     <div className="max-w-3xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold tracking-tight text-[#0a0b10] mb-4">Ready to try?</h2>
+                            <h2 className="text-4xl font-bold tracking-tight text-[#0a0b10] mb-4">Είστε έτοιμοι;</h2>
                             <p className="text-slate-600 text-lg">
-                                Fill out the form and our team will get in touch to discuss your custom AI Agent.
+                                Συμπληρώστε τη φόρμα και η ομάδα μας θα επικοινωνήσει μαζί σας για να συζητήσουμε τον δικό σας προσαρμοσμένο AI Agent.
                             </p>
                         </div>
 
@@ -286,16 +320,16 @@ export default function OrderAIAgentPage() {
                                     <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
                                         <div className="text-emerald-600 text-3xl font-bold">✓</div>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-[#0a0b10] mb-4">Request Sent Successfully!</h3>
+                                    <h3 className="text-2xl font-bold text-[#0a0b10] mb-4">Το αίτημά σας εστάλη με επιτυχία!</h3>
                                     <p className="text-slate-600">
-                                        Thank you for your interest. An SGK Digital representative will contact you shortly.
+                                        Ευχαριστούμε για το ενδιαφέρον σας. Ένας εκπρόσωπος της SGK Digital θα επικοινωνήσει μαζί σας σύντομα.
                                     </p>
                                 </div>
                             ) : (
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Full Name *</label>
+                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Ονοματεπώνυμο *</label>
                                             <input 
                                                 type="text" 
                                                 name="name"
@@ -303,18 +337,18 @@ export default function OrderAIAgentPage() {
                                                 value={formData.name}
                                                 onChange={handleChange}
                                                 className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
-                                                placeholder="e.g. John Doe"
+                                                placeholder="π.χ. Ιωάννης Παπαδόπουλος"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Company</label>
+                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Εταιρεία</label>
                                             <input 
                                                 type="text" 
                                                 name="company"
                                                 value={formData.company}
                                                 onChange={handleChange}
                                                 className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
-                                                placeholder="Your Company Ltd"
+                                                placeholder="Η εταιρεία σας"
                                             />
                                         </div>
                                     </div>
@@ -333,57 +367,42 @@ export default function OrderAIAgentPage() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Phone</label>
+                                            <label className="text-sm font-semibold text-[#0a0b10] ml-1">Τηλέφωνο</label>
                                             <input 
                                                 type="tel" 
                                                 name="phone"
                                                 value={formData.phone}
                                                 onChange={handleChange}
                                                 className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
-                                                placeholder="e.g. +30 210..."
+                                                placeholder="π.χ. +30 210..."
                                             />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-semibold text-[#0a0b10] ml-1">Selected Plan</label>
+                                        <label className="text-sm font-semibold text-[#0a0b10] ml-1">Επιλεγμένο Πλάνο</label>
                                         <select 
                                             name="packageType"
                                             value={formData.packageType}
                                             onChange={handleChange}
                                             className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
                                         >
-                                            <option value="">Select a plan (Optional)</option>
-                                            <option value="Basic">Basic - 150€ / mo (300 mins)</option>
-                                            <option value="Pro">Pro - 250€ / mo (600 mins)</option>
-                                            <option value="Enterprise">Enterprise - 450€ / mo (1.200 mins)</option>
+                                            <option value="">Επιλέξτε πλάνο (Προαιρετικό)</option>
+                                            <option value="Basic">Basic - 150€ / μήνα (300 λεπτά)</option>
+                                            <option value="Pro">Pro - 250€ / μήνα (600 λεπτά)</option>
+                                            <option value="Enterprise">Enterprise - 450€ / μήνα (1.200 λεπτά)</option>
                                         </select>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-semibold text-[#0a0b10] ml-1">Selected Plan</label>
-                                        <select 
-                                            name="packageType"
-                                            value={formData.packageType}
-                                            onChange={handleChange}
-                                            className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all"
-                                        >
-                                            <option value="">Select a plan (Optional)</option>
-                                            <option value="Basic">Basic - 150€ / mo (300 mins)</option>
-                                            <option value="Pro">Pro - 250€ / mo (600 mins)</option>
-                                            <option value="Enterprise">Enterprise - 450€ / mo (1.200 mins)</option>
-                                        </select>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-semibold text-[#0a0b10] ml-1">Project Details</label>
+                                        <label className="text-sm font-semibold text-[#0a0b10] ml-1">Λεπτομέρειες Έργου</label>
                                         <textarea 
                                             name="details"
                                             value={formData.details}
                                             onChange={handleChange}
                                             rows={4}
                                             className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a0b10] focus:ring-1 focus:ring-[#0a0b10] transition-all resize-y"
-                                            placeholder="How do you plan to use the AI avatar?"
+                                            placeholder="Πώς σχεδιάζετε να χρησιμοποιήσετε το AI avatar;"
                                         />
                                     </div>
 
@@ -395,9 +414,9 @@ export default function OrderAIAgentPage() {
                                         {isSubmitting ? (
                                             <span className="flex items-center gap-2">
                                                 <span className="w-5 h-5 border-2 border-slate-400 border-t-white rounded-full animate-spin" />
-                                                Sending...
+                                                Αποστολή...
                                             </span>
-                                        ) : "Request Quote"}
+                                        ) : "Ζητήστε Προσφορά"}
                                     </button>
                                 </form>
                             )}
@@ -408,23 +427,23 @@ export default function OrderAIAgentPage() {
             
             {/* LARGE GRADIENT CTA FOOTER */}
             <section className="py-32 px-6 bg-gradient-to-br from-indigo-400 via-purple-500 to-indigo-600 text-center">
-                <h2 className="text-5xl font-bold tracking-tight text-white mb-4">Ready to try Live Avatar?</h2>
+                <h2 className="text-5xl font-bold tracking-tight text-white mb-4">Έτοιμοι να δοκιμάσετε το Live Avatar;</h2>
                 <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-                    Join innovative businesses today and start making AI videos in 160+ languages.
+                    Γίνετε μέλος των καινοτόμων επιχειρήσεων σήμερα και ξεκινήστε να δημιουργείτε AI βίντεο σε 160+ γλώσσες.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <button 
                         onClick={scrollToForm}
                         className="px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-[#0a0b10] font-bold text-lg transition-all"
                     >
-                        Get started for free &rarr;
+                        Ξεκινήστε δωρεάν &rarr;
                     </button>
                     <Link 
                         href="/liveavatar-demo" 
                         target="_blank"
                         className="px-8 py-4 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-lg transition-colors border border-white/30"
                     >
-                        Book demo
+                        Κλείστε demo
                     </Link>
                 </div>
             </section>
@@ -432,38 +451,38 @@ export default function OrderAIAgentPage() {
             <footer className="py-12 text-center text-slate-500 text-sm bg-[#0a0b10] text-white/60">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-left mb-12">
                     <div>
-                        <h4 className="font-bold text-white mb-4">Features</h4>
+                        <h4 className="font-bold text-white mb-4">Δυνατότητες</h4>
                         <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">AI Avatar Generator</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">160+ Languages</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Custom Avatars</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Δημιουργία AI Avatar</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">160+ Γλώσσες</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Προσαρμοσμένα Avatars</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-bold text-white mb-4">Use Cases</h4>
+                        <h4 className="font-bold text-white mb-4">Χρήσεις</h4>
                         <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">Customer Service</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Sales Enablement</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Marketing</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Εξυπηρέτηση Πελατών</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Ενίσχυση Πωλήσεων</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Μάρκετινγκ</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-bold text-white mb-4">Resources</h4>
+                        <h4 className="font-bold text-white mb-4">Πόροι</h4>
                         <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Case Studies</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Τιμολόγηση</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Μελέτες Περίπτωσης</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-bold text-white mb-4">Company</h4>
+                        <h4 className="font-bold text-white mb-4">Εταιρεία</h4>
                         <ul className="space-y-2">
-                            <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Σχετικά με εμάς</a></li>
+                            <li><a href="#" className="hover:text-white transition-colors">Επικοινωνία</a></li>
                         </ul>
                     </div>
                 </div>
                 <div className="border-t border-white/10 pt-8">
-                    &copy; {new Date().getFullYear()} SGK Digital. All rights reserved.
+                    &copy; {new Date().getFullYear()} SGK Digital. Με επιφύλαξη παντός δικαιώματος.
                 </div>
             </footer>
 
@@ -506,7 +525,7 @@ export default function OrderAIAgentPage() {
                             target="_blank"
                             className="block w-full bg-white text-center text-[#002b5c] font-bold text-lg py-3.5 rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.2)] hover:bg-slate-50 transition-colors"
                         >
-                            Get Started
+                            Ξεκινήστε
                         </Link>
                     </div>
                 </div>
