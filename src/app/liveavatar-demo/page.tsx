@@ -544,10 +544,10 @@ export default function LiveAvatarVideoCallPage() {
                 setSubmitSuccess(false);
             }, 1800);
 
-            // Automatically end the call after 18 seconds (giving time for the Avatar to fully finish speaking + 10s pause)
+            // Automatically end the call after 12 seconds (giving time for the Avatar to fully finish speaking + 4s pause)
             setTimeout(() => {
                 handleEndCall();
-            }, 18000);
+            }, 12000);
         }
     };
 
