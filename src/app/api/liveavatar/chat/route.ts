@@ -120,7 +120,7 @@ export async function POST(req: Request) {
         let audioBase64 = "";
         let audioUrl = "";
         const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY || "sk_fde0dd5fb6b8061f62c2c2ed871d9731bebd722d54c40c09";
-        const ELEVENLABS_VOICE_ID = "pNInz6obpgDQGcFmaJcg"; // Adam (male, premium) - multilingual handles Greek
+        const ELEVENLABS_VOICE_ID = "nPczCjzI2devNBz1zQrb"; // Brian (Deep, Resonant)
         let ttsError = "";
 
         if (reply) {
