@@ -119,7 +119,7 @@ export async function POST(req: Request) {
         // 3. Synthesize Speech Audio via ElevenLabs TTS for real-time voice playback & avatar lipsync
         let audioBase64 = "";
         let audioUrl = "";
-        const ELEVENLABS_API_KEY = "065ba337f38d17c16730ad31ec07ef78c4337e2ac9ca55ed41e3da3adb4ae059";
+        const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY || "sk_fde0dd5fb6b8061f62c2c2ed871d9731bebd722d54c40c09";
         const ELEVENLABS_VOICE_ID = "pNInz6obpgDQGcFmaJcg"; // Adam (male, premium) - multilingual handles Greek
         let ttsError = "";
 
