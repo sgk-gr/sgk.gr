@@ -56,6 +56,7 @@ export default function LiveAvatarAgentDemoPage() {
 
     // Refs
     const userVideoRef = useRef<HTMLVideoElement | null>(null);
+    const userStreamRef = useRef<MediaStream | null>(null);
     const avatarVideoRef = useRef<HTMLVideoElement | null>(null);
     const chatEndRef = useRef<HTMLDivElement | null>(null);
     const sessionRef = useRef<any>(null);
@@ -79,29 +80,46 @@ export default function LiveAvatarAgentDemoPage() {
         return () => clearInterval(interval);
     }, [isCallActive]);
 
-    // Initialize user camera
-    useEffect(() => {
-        let stream: MediaStream | null = null;
-        async function setupCamera() {
+    // Initialize user camera (Video-only for preview, audio is handled by LiveKit SDK to avoid device collision)
+    const setupCamera = async () => {
+        try {
+            if (typeof window === "undefined" || !navigator?.mediaDevices?.getUserMedia) return;
+            let stream: MediaStream | null = null;
             try {
+                // Mobile-friendly constraints: facingMode user, standard dimensions, NO audio collision
                 stream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
-                    audio: true
+                    video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } },
+                    audio: false
                 });
+            } catch (firstErr) {
+                console.warn("Retrying with simple video constraint:", firstErr);
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                });
+            }
+
+            if (stream) {
+                userStreamRef.current = stream;
                 if (userVideoRef.current) {
                     userVideoRef.current.srcObject = stream;
+                    userVideoRef.current.play().catch(() => {});
                 }
                 setHasUserMedia(true);
-            } catch (err) {
-                console.warn("Camera/mic permission denied or unavailable:", err);
-                setHasUserMedia(false);
+                setIsVideoOff(false);
             }
+        } catch (err: any) {
+            console.warn("Camera permission denied or unavailable:", err);
+            setHasUserMedia(false);
         }
-        setupCamera();
+    };
 
+    useEffect(() => {
+        setupCamera();
         return () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
+            if (userStreamRef.current) {
+                userStreamRef.current.getTracks().forEach(track => track.stop());
+                userStreamRef.current = null;
             }
         };
     }, []);
@@ -110,6 +128,11 @@ export default function LiveAvatarAgentDemoPage() {
     const handleStartCall = async () => {
         setIsLoadingAvatar(true);
         setStatusText("Προετοιμασία συνεδρίας & σύνδεση...");
+
+        // Ensure camera is active upon user interaction (critical for mobile browser permission policy)
+        if (!hasUserMedia || !userStreamRef.current) {
+            await setupCamera();
+        }
 
         try {
             // 1. Fetch Session Token & Embed Fallback
@@ -247,12 +270,30 @@ export default function LiveAvatarAgentDemoPage() {
         }
     };
 
+    // Toggle Camera (Handles Mobile Permissions on user gesture)
+    const handleToggleCamera = async () => {
+        if (!hasUserMedia || !userStreamRef.current) {
+            await setupCamera();
+            return;
+        }
+        const nextState = !isVideoOff;
+        setIsVideoOff(nextState);
+        if (userStreamRef.current) {
+            userStreamRef.current.getVideoTracks().forEach(track => {
+                track.enabled = !nextState;
+            });
+        }
+    };
+
     // Helper: Capture Frame Snapshot from user's active camera (Τρόπος 2)
     const captureCameraSnapshot = (): string | null => {
         try {
             const video = userVideoRef.current;
-            if (!video || isVideoOff || video.readyState < 2) return null;
-            if (video.videoWidth === 0 || video.videoHeight === 0) return null;
+            if (!video || isVideoOff) return null;
+            if (video.videoWidth === 0 || video.videoHeight === 0) {
+                console.warn("Video element not ready yet or 0 dimensions");
+                return null;
+            }
 
             const canvas = document.createElement("canvas");
             const maxDim = 640;
@@ -282,6 +323,12 @@ export default function LiveAvatarAgentDemoPage() {
     // AI Vision Analysis & Speech Trigger
     const handleVisionSnapshot = async (customPrompt?: string) => {
         if (isVisionAnalyzing) return;
+
+        // Auto-reconnect camera on tap if not already active
+        if (!hasUserMedia || !userStreamRef.current) {
+            await setupCamera();
+        }
+
         setIsVisionAnalyzing(true);
 
         const snapshot = captureCameraSnapshot();
@@ -310,13 +357,18 @@ export default function LiveAvatarAgentDemoPage() {
                     { id: Date.now().toString(), sender: "agent", text: data.reply, time: timeStr }
                 ]);
 
-                // Live Avatar speaks this response with lip-sync!
+                // Live Avatar speaks this response with lip-sync if session is active!
                 if (sessionRef.current) {
                     try {
-                        if (typeof sessionRef.current.interrupt === "function") {
-                            sessionRef.current.interrupt();
+                        const sState = sessionRef.current.state;
+                        if (sState === "CONNECTED" || sState === "active") {
+                            if (typeof sessionRef.current.interrupt === "function") {
+                                sessionRef.current.interrupt();
+                            }
+                            sessionRef.current.repeat(data.reply);
+                        } else {
+                            console.log("LiveAvatar session not in connected state yet:", sState);
                         }
-                        sessionRef.current.repeat(data.reply);
                     } catch (err) {
                         console.warn("Avatar speech repeat error:", err);
                     }
@@ -602,15 +654,15 @@ export default function LiveAvatarAgentDemoPage() {
 
                         {/* Camera Button */}
                         <button 
-                            onClick={() => setIsVideoOff(!isVideoOff)}
+                            onClick={handleToggleCamera}
                             className={`p-2.5 sm:p-3 rounded-full transition-all ${
-                                isVideoOff 
+                                isVideoOff || !hasUserMedia
                                     ? "bg-red-500 hover:bg-red-600 text-white shadow-md" 
                                     : "bg-gray-100 hover:bg-gray-200 text-slate-700"
                             }`}
-                            title={isVideoOff ? "Ενεργοποίηση κάμερας" : "Απενεργοποίηση κάμερας"}
+                            title={isVideoOff || !hasUserMedia ? "Ενεργοποίηση κάμερας" : "Απενεργοποίηση κάμερας"}
                         >
-                            {isVideoOff ? <VideoOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <VideoIcon className="w-4 h-4 sm:w-5 sm:h-5" />}
+                            {isVideoOff || !hasUserMedia ? <VideoOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <VideoIcon className="w-4 h-4 sm:w-5 sm:h-5" />}
                         </button>
 
                         {/* Screen Share Button (Desktop only) */}
@@ -713,12 +765,17 @@ export default function LiveAvatarAgentDemoPage() {
                                 )}
                             </>
                         ) : (
-                            <div className="w-full h-full bg-slate-50 flex flex-col items-center justify-center text-center p-2 select-none">
+                            <button
+                                type="button"
+                                onClick={handleToggleCamera}
+                                className="w-full h-full bg-slate-50 flex flex-col items-center justify-center text-center p-2 select-none cursor-pointer hover:bg-slate-100 active:bg-slate-200 transition-colors"
+                                title="Πατήστε για άνοιγμα κάμερας"
+                            >
                                 <VideoOff className="w-4 h-4 sm:w-6 sm:h-6 text-slate-400 mb-1" />
                                 <span className="text-[8px] sm:text-[10px] font-bold tracking-widest text-slate-500 uppercase">
-                                    No Camera
+                                    {isVideoOff ? "Camera Off" : "Άνοιγμα Κάμερας"}
                                 </span>
-                            </div>
+                            </button>
                         )}
 
                         {/* Top-Right Muted Badge */}
