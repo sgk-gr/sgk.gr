@@ -200,10 +200,24 @@ export default function LiveAvatarAgentDemoPage() {
 
                 showCaption(`🤖 Bryan: "${aiReply}"`, 8000);
 
-                // Send speech text to avatar for real-time lipsync rendering via repeat()
-                if (sessionRef.current && typeof sessionRef.current.repeat === "function") {
+                // Play synthesized Greek audio through browser so the user hears Bryan loud and clear
+                if (data.audioUrl) {
                     try {
-                        sessionRef.current.repeat(aiReply);
+                        const audio = new Audio(data.audioUrl);
+                        audio.play().catch(e => console.warn("Audio element play warning:", e));
+                    } catch (playErr) {
+                        console.warn("Failed to play audio:", playErr);
+                    }
+                }
+
+                // Send audio / text to avatar for real-time lipsync rendering
+                if (sessionRef.current) {
+                    try {
+                        if (data.audioBase64 && typeof sessionRef.current.repeatAudio === "function") {
+                            sessionRef.current.repeatAudio(data.audioBase64);
+                        } else if (typeof sessionRef.current.repeat === "function") {
+                            sessionRef.current.repeat(aiReply);
+                        }
                     } catch (repeatErr) {
                         console.warn("Avatar repeat command error:", repeatErr);
                     }
@@ -399,23 +413,45 @@ export default function LiveAvatarAgentDemoPage() {
                         }
                     }
 
-                    // Welcome speech in LITE mode
+                    // Welcome speech in LITE mode with audio
                     if (sessionMode === "LITE") {
-                        setTimeout(() => {
-                            const welcome = "Γεια σας! Είμαι ο Bryan, Senior AI Agent της SGK Digital. Πώς μπορώ να σας βοηθήσω σήμερα;";
-                            showCaption(`🤖 Bryan: "${welcome}"`, 7000);
-                            setMessages(prev => [
-                                ...prev,
-                                {
-                                    id: Date.now().toString(),
-                                    sender: "agent",
-                                    text: welcome,
-                                    time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-                                }
-                            ]);
+                        setTimeout(async () => {
                             try {
-                                session.repeat(welcome);
-                            } catch (_) {}
+                                const chatRes = await fetch("/api/liveavatar/chat", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                        message: "Χαιρέτησε τον επισκέπτη θερμά σε 1 σύντομη πρόταση ως Bryan της SGK Digital.",
+                                        history: []
+                                    })
+                                });
+                                const chatData = await chatRes.json();
+                                const welcome = chatData?.reply || "Γεια σας! Είμαι ο Bryan, Senior AI Agent της SGK Digital. Πώς μπορώ να σας βοηθήσω σήμερα;";
+                                
+                                showCaption(`🤖 Bryan: "${welcome}"`, 7000);
+                                setMessages(prev => [
+                                    ...prev,
+                                    {
+                                        id: Date.now().toString(),
+                                        sender: "agent",
+                                        text: welcome,
+                                        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                                    }
+                                ]);
+
+                                if (chatData?.audioUrl) {
+                                    const audio = new Audio(chatData.audioUrl);
+                                    audio.play().catch(e => console.warn("Welcome audio play error:", e));
+                                }
+
+                                if (chatData?.audioBase64 && typeof session.repeatAudio === "function") {
+                                    session.repeatAudio(chatData.audioBase64);
+                                } else if (typeof session.repeat === "function") {
+                                    session.repeat(welcome);
+                                }
+                            } catch (err) {
+                                console.warn("Welcome speech error:", err);
+                            }
                         }, 1200);
                     }
                 } catch (sdkErr: any) {

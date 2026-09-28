@@ -116,7 +116,43 @@ export async function POST(req: Request) {
             reply = "Σας ακούω απόλυτα! Είμαι ο AI Agent της SGK Digital. Πώς θα θέλατε να σας βοηθήσω με τους αυτόνομους AI πράκτορες για την επιχείρησή σας;";
         }
 
-        return NextResponse.json({ success: true, reply });
+        // 3. Synthesize Speech Audio via OpenAI TTS for real-time voice playback & avatar lipsync
+        let audioBase64 = "";
+        let audioUrl = "";
+
+        if (OPENAI_API_KEY && reply) {
+            try {
+                const ttsRes = await fetch("https://api.openai.com/v1/audio/speech", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${OPENAI_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "tts-1",
+                        input: reply,
+                        voice: "onyx",
+                        response_format: "mp3"
+                    })
+                });
+
+                if (ttsRes.ok) {
+                    const audioBuffer = await ttsRes.arrayBuffer();
+                    const b64 = Buffer.from(audioBuffer).toString("base64");
+                    audioBase64 = b64;
+                    audioUrl = `data:audio/mp3;base64,${b64}`;
+                }
+            } catch (ttsErr) {
+                console.warn("TTS generation error:", ttsErr);
+            }
+        }
+
+        return NextResponse.json({ 
+            success: true, 
+            reply,
+            audioBase64,
+            audioUrl
+        });
     } catch (err: any) {
         console.error("LiveAvatar chat route error:", err);
         return NextResponse.json({ error: err.message || "Chat server error" }, { status: 500 });
