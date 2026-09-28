@@ -10,17 +10,6 @@ const slides = [
   {
     title: (
       <>
-        Live Video AI Avatars <br /> 24/7 Ψηφιακός Βοηθός <br /> Σε Ζωντανή Κλήση.
-      </>
-    ),
-    description: "Η νέα εποχή στην εξυπηρέτηση: Διαδραστικός AI βοηθός με ζωντανό video call πρόσωπο με πρόσωπο και φυσική ομιλία. Απαντάει άμεσα στις ερωτήσεις των πελατών σας και ολοκληρώνει εργασίες 24/7.",
-    buttonText: "Δοκιμάστε το Live Demo",
-    buttonLink: "/order-ai-agent",
-    image: "/images/hero_ai_video_agent.webp"
-  },
-  {
-    title: (
-      <>
         Κατασκευή Ιστοσελίδας <br /> Για Ι.Κ.Ε. & ΓΕΜΗ <br /> Σε 24 Ώρες.
       </>
     ),
@@ -28,6 +17,17 @@ const slides = [
     buttonText: "Δες την προσφορά (150€)",
     buttonLink: "/ike-offer",
     image: "/hero_slide_4.webp"
+  },
+  {
+    title: (
+      <>
+        Live Video AI Avatars <br /> 24/7 Ψηφιακός Βοηθός <br /> Σε Ζωντανή Κλήση.
+      </>
+    ),
+    description: "Η νέα εποχή στην εξυπηρέτηση: Διαδραστικός AI βοηθός με ζωντανό video call πρόσωπο με πρόσωπο και φυσική ομιλία. Απαντάει άμεσα στις ερωτήσεις των πελατών σας και ολοκληρώνει εργασίες 24/7.",
+    buttonText: "Δοκιμάστε το Live Demo",
+    buttonLink: "/order-ai-agent",
+    image: "/images/hero_ai_video_agent.webp"
   },
   {
     title: (
