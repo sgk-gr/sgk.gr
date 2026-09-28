@@ -17,7 +17,9 @@ import {
     ShieldCheck,
     MessageSquare,
     Sparkles,
-    ArrowLeft
+    ArrowLeft,
+    Eye,
+    Camera
 } from "lucide-react";
 
 interface Message {
@@ -46,6 +48,9 @@ export default function LiveAvatarAgentDemoPage() {
     const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
     const [hasUserMedia, setHasUserMedia] = useState<boolean>(false);
 
+    // AI Vision State (Τρόπος 2: Snapshot Context Injection)
+    const [isVisionAnalyzing, setIsVisionAnalyzing] = useState<boolean>(false);
+
     // Call duration timer
     const [callSeconds, setCallSeconds] = useState<number>(0);
 
@@ -54,6 +59,7 @@ export default function LiveAvatarAgentDemoPage() {
     const avatarVideoRef = useRef<HTMLVideoElement | null>(null);
     const chatEndRef = useRef<HTMLDivElement | null>(null);
     const sessionRef = useRef<any>(null);
+    const handleVisionSnapshotRef = useRef<((prompt?: string) => Promise<void>) | null>(null);
 
     // Auto-scroll chat
     useEffect(() => {
@@ -154,12 +160,19 @@ export default function LiveAvatarAgentDemoPage() {
                     // Live Speech-to-Text from User's Voice
                     session.on(AgentEventsEnum.USER_TRANSCRIPTION, (evt: any) => {
                         if (evt?.text) {
+                            const userText = evt.text.trim();
                             const now = new Date();
                             const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
                             setMessages(prev => [
                                 ...prev,
-                                { id: Date.now().toString(), sender: "user", text: evt.text, time: timeStr }
+                                { id: Date.now().toString(), sender: "user", text: userText, time: timeStr }
                             ]);
+
+                            // Auto-trigger AI Vision if user asks something visual (e.g. "δες", "τι βλέπεις", "φαίνομαι", "κρατάω")
+                            const isVisualIntent = /δες|βλέπεις|κοίτα|φαίνομαι|κρατάω|αυτό|κάμερα|χέρι|ρούχα|κινητό|προϊόν|look|see|watch|holding|wearing/i.test(userText);
+                            if (isVisualIntent && handleVisionSnapshotRef.current) {
+                                handleVisionSnapshotRef.current(userText);
+                            }
                         }
                     });
 
@@ -234,10 +247,97 @@ export default function LiveAvatarAgentDemoPage() {
         }
     };
 
-    // Send Text Message to AI Agent
+    // Helper: Capture Frame Snapshot from user's active camera (Τρόπος 2)
+    const captureCameraSnapshot = (): string | null => {
+        try {
+            const video = userVideoRef.current;
+            if (!video || isVideoOff || video.readyState < 2) return null;
+            if (video.videoWidth === 0 || video.videoHeight === 0) return null;
+
+            const canvas = document.createElement("canvas");
+            const maxDim = 640;
+            let width = video.videoWidth;
+            let height = video.videoHeight;
+            if (width > maxDim || height > maxDim) {
+                if (width > height) {
+                    height = Math.round((height * maxDim) / width);
+                    width = maxDim;
+                } else {
+                    width = Math.round((width * maxDim) / height);
+                    height = maxDim;
+                }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return null;
+            ctx.drawImage(video, 0, 0, width, height);
+            return canvas.toDataURL("image/jpeg", 0.7);
+        } catch (err) {
+            console.warn("Could not capture camera frame:", err);
+            return null;
+        }
+    };
+
+    // AI Vision Analysis & Speech Trigger
+    const handleVisionSnapshot = async (customPrompt?: string) => {
+        if (isVisionAnalyzing) return;
+        setIsVisionAnalyzing(true);
+
+        const snapshot = captureCameraSnapshot();
+        const prompt = customPrompt || (snapshot 
+            ? "Τι βλέπεις στην κάμερά μου αυτή τη στιγμή; Κάνε μια σύντομη παρατήρηση και σύνδεσέ την με τους AI Agents της SGK Digital."
+            : "Γεια σου Bryan, είμαι έτοιμος να μιλήσουμε για τους AI Agents!");
+
+        try {
+            const res = await fetch("/api/liveavatar/vision-chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    message: prompt,
+                    image: snapshot,
+                    history: messages.slice(-4)
+                })
+            });
+
+            const data = await res.json();
+            if (data.success && data.reply) {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+                setMessages(prev => [
+                    ...prev,
+                    { id: Date.now().toString(), sender: "agent", text: data.reply, time: timeStr }
+                ]);
+
+                // Live Avatar speaks this response with lip-sync!
+                if (sessionRef.current) {
+                    try {
+                        if (typeof sessionRef.current.interrupt === "function") {
+                            sessionRef.current.interrupt();
+                        }
+                        sessionRef.current.repeat(data.reply);
+                    } catch (err) {
+                        console.warn("Avatar speech repeat error:", err);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Vision snapshot analysis failed:", err);
+        } finally {
+            setIsVisionAnalyzing(false);
+        }
+    };
+
+    // Keep ref updated for voice transcription callback
+    useEffect(() => {
+        handleVisionSnapshotRef.current = handleVisionSnapshot;
+    });
+
+    // Send Text Message to AI Agent (Captures Camera Snapshot & injects context)
     const handleSendMessage = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
-        if (!inputText.trim()) return;
+        if (!inputText.trim() || isVisionAnalyzing) return;
 
         const textToSend = inputText.trim();
         setInputText("");
@@ -250,13 +350,7 @@ export default function LiveAvatarAgentDemoPage() {
             { id: Date.now().toString(), sender: "user", text: textToSend, time: timeStr }
         ]);
 
-        if (sessionRef.current) {
-            try {
-                await sessionRef.current.sendMessage(textToSend);
-            } catch (err) {
-                console.error("Failed to send message via SDK:", err);
-            }
-        }
+        await handleVisionSnapshot(textToSend);
     };
 
     // Helper format timer
@@ -360,18 +454,32 @@ export default function LiveAvatarAgentDemoPage() {
                         onSubmit={handleSendMessage}
                         className="p-3 bg-white border-t border-gray-100 flex items-center gap-2 flex-shrink-0"
                     >
+                        <button
+                            type="button"
+                            onClick={() => handleVisionSnapshot("Τι βλέπεις στην κάμερά μου αυτή τη στιγμή; Περιέγραψέ το σύντομα.")}
+                            disabled={isVideoOff || isVisionAnalyzing}
+                            className={`p-2 rounded-full transition-colors flex-shrink-0 cursor-pointer ${
+                                isVisionAnalyzing
+                                    ? "bg-amber-100 text-amber-600 animate-pulse"
+                                    : "text-slate-500 hover:text-[#5b36f5] hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                            }`}
+                            title="AI Vision: Ανάλυση κάμερας (Snapshot)"
+                        >
+                            <Camera className="w-4 h-4" />
+                        </button>
+
                         <input 
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Ρωτήστε τον Bryan για τους AI Agents..."
+                            placeholder={isVisionAnalyzing ? "Ανάλυση εικόνας Vision..." : "Ρωτήστε ή δείξτε κάτι στην κάμερα..."}
                             className="flex-1 text-sm bg-gray-50 rounded-full py-2 px-3.5 outline-none text-gray-800 placeholder-gray-400 focus:bg-gray-100"
                         />
                         
                         <button 
                             type="submit" 
-                            disabled={!inputText.trim()}
-                            className="p-2 rounded-full bg-[#5b36f5] text-white hover:bg-[#4927d6] disabled:bg-gray-200 disabled:text-gray-400 transition-colors flex-shrink-0"
+                            disabled={!inputText.trim() || isVisionAnalyzing}
+                            className="p-2 rounded-full bg-[#5b36f5] text-white hover:bg-[#4927d6] disabled:bg-gray-200 disabled:text-gray-400 transition-colors flex-shrink-0 cursor-pointer"
                             title="Αποστολή"
                         >
                             <Send className="w-4 h-4" />
@@ -518,6 +626,23 @@ export default function LiveAvatarAgentDemoPage() {
                             <ScreenShare className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
 
+                        {/* AI Vision Snapshot Button */}
+                        <button 
+                            onClick={() => handleVisionSnapshot("Τι βλέπεις στην κάμερά μου αυτή τη στιγμή; Περιέγραψέ το σύντομα και σύνδεσέ το με τις υπηρεσίες της SGK.")}
+                            disabled={isVideoOff || isVisionAnalyzing}
+                            className={`p-2.5 sm:p-3 rounded-full transition-all relative cursor-pointer ${
+                                isVisionAnalyzing 
+                                    ? "bg-amber-500 text-white shadow-lg shadow-amber-500/50 animate-pulse" 
+                                    : "bg-gray-100 hover:bg-gray-200 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                            }`}
+                            title={isVideoOff ? "Ενεργοποιήστε την κάμερα για AI Vision" : "AI Vision: Ανάλυση κάμερας (Snapshot)"}
+                        >
+                            <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-[#5b36f5]" />
+                            {isVisionAnalyzing && (
+                                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+                            )}
+                        </button>
+
                         {/* Chat Toggle Button */}
                         <button 
                             onClick={() => setIsChatOpen(!isChatOpen)}
@@ -557,13 +682,36 @@ export default function LiveAvatarAgentDemoPage() {
                     {/* ================= PiP (User Camera: top-left on mobile, bottom-right on desktop) ================= */}
                     <div className="absolute top-3 right-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
                         {hasUserMedia && !isVideoOff ? (
-                            <video 
-                                ref={userVideoRef}
-                                autoPlay
-                                playsInline
-                                muted
-                                className="w-full h-full object-cover -scale-x-100"
-                            />
+                            <>
+                                <video 
+                                    ref={userVideoRef}
+                                    autoPlay
+                                    playsInline
+                                    muted
+                                    className="w-full h-full object-cover -scale-x-100"
+                                />
+
+                                {/* Top-Left AI Vision Badge Button */}
+                                <button
+                                    type="button"
+                                    onClick={() => handleVisionSnapshot("Τι βλέπεις στην κάμερά μου αυτή τη στιγμή; Περιέγραψέ το σύντομα.")}
+                                    disabled={isVisionAnalyzing}
+                                    className={`absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-10 flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-semibold transition-all cursor-pointer shadow-md ${
+                                        isVisionAnalyzing
+                                            ? "bg-amber-500 text-white animate-pulse"
+                                            : "bg-black/60 hover:bg-black/80 text-white border border-white/20 backdrop-blur-xs"
+                                    }`}
+                                    title="Κλικ για άμεση οπτική ανάλυση κάμερας (AI Vision Snapshot)"
+                                >
+                                    <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-cyan-300" />
+                                    <span className="hidden xs:inline">{isVisionAnalyzing ? "Ανάλυση..." : "AI Vision"}</span>
+                                </button>
+
+                                {/* Snapshot analyzing visual flash effect */}
+                                {isVisionAnalyzing && (
+                                    <div className="absolute inset-0 border-2 border-amber-400 bg-amber-400/10 pointer-events-none animate-pulse rounded-xl sm:rounded-2xl z-20" />
+                                )}
+                            </>
                         ) : (
                             <div className="w-full h-full bg-slate-50 flex flex-col items-center justify-center text-center p-2 select-none">
                                 <VideoOff className="w-4 h-4 sm:w-6 sm:h-6 text-slate-400 mb-1" />
