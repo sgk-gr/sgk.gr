@@ -121,6 +121,7 @@ export async function POST(req: Request) {
         let audioUrl = "";
         const ELEVENLABS_API_KEY = "065ba337f38d17c16730ad31ec07ef78c4337e2ac9ca55ed41e3da3adb4ae059";
         const ELEVENLABS_VOICE_ID = "pNInz6obpgDQGcFmaJcg"; // Adam (male, premium) - multilingual handles Greek
+        let ttsError = "";
 
         if (reply) {
             try {
@@ -148,9 +149,11 @@ export async function POST(req: Request) {
                 } else {
                     const errTxt = await ttsRes.text();
                     console.warn("ElevenLabs TTS error response:", errTxt);
+                    ttsError = errTxt;
                 }
-            } catch (ttsErr) {
+            } catch (ttsErr: any) {
                 console.warn("TTS generation error:", ttsErr);
+                ttsError = String(ttsErr.message || ttsErr);
             }
         }
 
@@ -158,7 +161,8 @@ export async function POST(req: Request) {
             success: true, 
             reply,
             audioBase64,
-            audioUrl
+            audioUrl,
+            ttsError
         });
     } catch (err: any) {
         console.error("LiveAvatar chat route error:", err);

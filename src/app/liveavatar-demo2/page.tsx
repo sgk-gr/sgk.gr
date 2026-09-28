@@ -235,16 +235,24 @@ export default function LiveAvatarAgentDemoPage() {
                     }
                 }
 
+                if (data.ttsError) {
+                    addLog("ElevenLabs Error: " + data.ttsError);
+                }
+
                 // Send audio / text to avatar for real-time lipsync rendering
                 if (sessionRef.current) {
                     try {
-                        if (data.audioBase64 && typeof sessionRef.current.repeatAudio === "function") {
-                            sessionRef.current.repeatAudio(data.audioBase64);
-                        } else if (typeof sessionRef.current.repeat === "function") {
-                            sessionRef.current.repeat(aiReply);
+                        if (data.audioBase64) {
+                            if (typeof sessionRef.current.repeatAudio === "function") {
+                                sessionRef.current.repeatAudio(data.audioBase64);
+                            } else {
+                                addLog("repeatAudio function not found in session");
+                            }
+                        } else {
+                            addLog("Warning: No audioBase64 returned, skipping avatar lipsync.");
                         }
-                    } catch (repeatErr) {
-                        console.warn("Avatar repeat command error:", repeatErr);
+                    } catch (repeatErr: any) {
+                        addLog("Avatar repeat command error: " + (repeatErr.message || String(repeatErr)));
                     }
                 }
             } else {
@@ -485,13 +493,21 @@ export default function LiveAvatarAgentDemoPage() {
                                     }
                                 }
 
-                                if (chatData?.audioBase64 && typeof session.repeatAudio === "function") {
-                                    session.repeatAudio(chatData.audioBase64);
-                                } else if (typeof session.repeat === "function") {
-                                    session.repeat(welcome);
+                                if (chatData?.ttsError) {
+                                    addLog("ElevenLabs Welcome Error: " + chatData.ttsError);
                                 }
-                            } catch (err) {
-                                console.warn("Welcome speech error:", err);
+
+                                if (chatData?.audioBase64) {
+                                    if (typeof session.repeatAudio === "function") {
+                                        session.repeatAudio(chatData.audioBase64);
+                                    } else {
+                                        addLog("repeatAudio function not found in session");
+                                    }
+                                } else {
+                                    addLog("Warning: No audioBase64 returned for welcome, skipping avatar lipsync.");
+                                }
+                            } catch (err: any) {
+                                addLog("Welcome speech error: " + (err.message || String(err)));
                             }
                         }, 1200);
                     }
