@@ -625,18 +625,20 @@ export default function AIAgentsPage() {
 
                                     <div className="pt-2 flex flex-col sm:flex-row gap-4">
                                         <Link
-                                            href="/liveavatar-demo2"
+                                            href="/order-ai-agent"
                                             className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-black rounded-xl text-sm transition-all shadow-lg shadow-emerald-500/25"
                                         >
-                                            <Play className="w-4 h-4 fill-black" />
-                                            <span>Δοκιμάστε Live AI Video Call (Demo)</span>
+                                            <Video className="w-4 h-4 fill-black text-black" />
+                                            <span>Πλάνα & Παραγγελία AI Agent</span>
                                             <ArrowRight className="w-4 h-4" />
                                         </Link>
                                         <Link
-                                            href="/estimate"
+                                            href="/liveavatar-demo2"
+                                            target="_blank"
                                             className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-sm transition-all border border-white/20"
                                         >
-                                            <span>Ζητήστε Custom Προσφορά</span>
+                                            <Play className="w-4 h-4 fill-white" />
+                                            <span>Δοκιμάστε Live Demo</span>
                                         </Link>
                                     </div>
                                 </div>
@@ -1016,9 +1018,9 @@ export default function AIAgentsPage() {
                                 <h3 className="font-bold text-base text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">AI Agent: Τι είναι; →</h3>
                                 <p className="text-xs text-gray-500">Πλήρης οδηγός λειτουργίας και παραδείγματα για επιχειρήσεις.</p>
                             </Link>
-                            <Link href="/kataskevi-eshop" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
-                                <h3 className="font-bold text-base text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">AI & E-Shop Development →</h3>
-                                <p className="text-xs text-gray-500">Κατασκευή σύγχρονων e-shops με ενσωματωμένους AI αυτοματισμούς.</p>
+                            <Link href="/order-ai-agent" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
+                                <h3 className="font-bold text-base text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Ψηφιακοί Υπάλληλοι (Video) →</h3>
+                                <p className="text-xs text-gray-500">Live Video AI Avatars 24/7 με οπτική ταυτοποίηση και WebRTC.</p>
                             </Link>
                             <Link href="/web-development" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
                                 <h3 className="font-bold text-base text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Custom Web Development →</h3>
