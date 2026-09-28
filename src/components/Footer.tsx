@@ -8,7 +8,7 @@ import logo from "../assets/sgk-logo.png";
 import linkedinIcon from "../assets/linkedin.png";
 import githubIcon from "../assets/github.png";
 import behanceIcon from "../assets/behance.png";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Linkedin, Youtube } from "lucide-react";
 
 const Footer = () => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -127,9 +127,35 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-6 pt-6">
-                <a href="https://github.com/sgk-developers/" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-all duration-300" aria-label="GitHub">
-                  <img src="/github.png" alt="GitHub" className="w-5 h-5 brightness-0 invert" />
+              <div className="flex items-center gap-5 pt-6">
+                <a 
+                  href="https://github.com/sgk-developers/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/15 hover:border-white/20 transition-all duration-300 hover:scale-105" 
+                  aria-label="GitHub"
+                >
+                  <img src="/github.png" alt="GitHub" className="w-4 h-4 brightness-0 invert" />
+                </a>
+
+                <a 
+                  href="https://www.linkedin.com/in/sgkgr/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#0077b5] hover:bg-white/15 hover:border-white/20 transition-all duration-300 hover:scale-105" 
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+
+                <a 
+                  href="https://www.youtube.com/@SGK-gr" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-[#ff0000] hover:bg-white/15 hover:border-white/20 transition-all duration-300 hover:scale-105" 
+                  aria-label="YouTube"
+                >
+                  <Youtube className="w-4 h-4" />
                 </a>
               </div>
             </div>
