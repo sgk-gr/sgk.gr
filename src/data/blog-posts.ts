@@ -48,14 +48,16 @@ export const BLOG_POSTS: BlogPost[] = [
       <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
 
       <h2>2. Άλλες Αξιόλογες Ελληνικές Εταιρείες & Startups στο Χώρο του AI</h2>
-      <p>Η ελληνική τεχνολογική σκηνή περιλαμβάνει επίσης αξιόλογες startups με εξειδίκευση σε επιμέρους τομείς:</p>
+      <p>Η ελληνική τεχνολογική σκηνή περιλαμβάνει επίσης αξιόλογες εταιρείες και startups με εξειδίκευση σε επιμέρους τομείς:</p>
 
       <ul>
-        <li><strong>Môveo AI:</strong> Γνωστή ελληνική scaleup με διεθνή παρουσία, η οποία εστιάζει στην αυτοματοποίηση customer service και enterprise conversational workflows για μεγάλους οργανισμούς.</li>
-        <li><strong>Helvia.io:</strong> Εξειδικεύεται σε λύσεις εσωτερικής επικοινωνίας και enterprise RAG assistants για εταιρικές βάσεις γνώσης.</li>
-        <li><strong>Alysis AI:</strong> Ελληνική startup (ενταγμένη στο Elevate Greece) που αναπτύσσει business AI agents για αυτοματοποίηση γραφείου.</li>
-        <li><strong>Epic Voice:</strong> Εξειδικευμένος πάροχος φωνητικών βοηθών τηλεφωνίας (Voice AI) για τηλεφωνική εξυπηρέτηση.</li>
-        <li><strong>HellenicAI:</strong> Βραχίονας AI της Hellenic Technologies για custom AI chatbots και επιχειρηματικά εργαλεία.</li>
+        <li><strong>Proxima:</strong> Εστιάζει σε custom AI agents και αυτοματοποίηση επιχειρησιακών ροών (workflow automation).</li>
+        <li><strong>Helvia.ai:</strong> Εξειδικεύεται σε λύσεις εσωτερικής επικοινωνίας και enterprise RAG assistants για εταιρικές βάσεις γνώσης.</li>
+        <li><strong>Môveo AI:</strong> Γνωστή scaleup με εστίαση στην αυτοματοποίηση conversational workflows για μεγάλους οργανισμούς.</li>
+        <li><strong>AI Agency Greece:</strong> Πρακτορείο για εισαγωγικές λύσεις chatbots και φωνητικών βοηθών.</li>
+        <li><strong>Argonstack (SIA AI):</strong> Ανάπτυξη agents για διαχείριση ημερολογίων και emails.</li>
+        <li><strong>Alysis AI:</strong> Ελληνική startup (ενταγμένη στο Elevate Greece) για business AI agents γραφείου.</li>
+        <li><strong>Epic Voice:</strong> Εξειδικευμένος πάροχος φωνητικών βοηθών τηλεφωνίας (Voice AI).</li>
       </ul>
 
       <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
