@@ -99,14 +99,8 @@ export default function LiveAvatarAgentDemoPage() {
     const captionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const isProcessingReplyRef = useRef<boolean>(false);
 
-    // Helper to show transient captions on screen
-    const showCaption = (text: string, durationMs: number = 6000) => {
-        setLiveCaption(text);
-        if (captionTimeoutRef.current) clearTimeout(captionTimeoutRef.current);
-        captionTimeoutRef.current = setTimeout(() => {
-            setLiveCaption("");
-        }, durationMs);
-    };
+    // Subtitles disabled - pure clean video call experience
+    const showCaption = (_text: string, _durationMs?: number) => {};
 
     // Auto-scroll chat
     useEffect(() => {
@@ -688,21 +682,6 @@ export default function LiveAvatarAgentDemoPage() {
                             </div>
                         )}
 
-                        {/* STT Status Indicator */}
-                        {isCallActive && (
-                            <div 
-                                className={`text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 transition-all shadow-sm ${
-                                    isListeningSTT && !isMicMuted
-                                        ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
-                                        : "bg-amber-50 text-amber-700 border border-amber-300"
-                                }`}
-                                title={isListeningSTT && !isMicMuted ? "STT ενεργό: σας ακούει" : "STT σε αναμονή"}
-                            >
-                                <Volume2 className="w-3 h-3 animate-pulse" />
-                                <span className="hidden sm:inline">STT Greek</span>
-                            </div>
-                        )}
-
                         <button 
                             onClick={() => setIsChatOpen(!isChatOpen)}
                             className={`px-3 py-1.5 rounded-full border text-xs font-medium flex items-center gap-1.5 transition-all shadow-md cursor-pointer ${
@@ -812,16 +791,6 @@ export default function LiveAvatarAgentDemoPage() {
                                         🎙️ Υποστηρίζει φωνή με Ελληνικό STT & πληκτρολόγιο
                                     </p>
                                 </div>
-                            </div>
-                        )}
-
-                        {/* ================= LIVE CAPTION SUBTITLE OVERLAY ================= */}
-                        {isCallActive && liveCaption && (
-                            <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-30 max-w-[92%] sm:max-w-xl bg-slate-950/85 backdrop-blur-md px-4 sm:px-6 py-2.5 rounded-2xl border border-white/20 text-white shadow-2xl flex items-center gap-2.5 transition-all animate-in fade-in slide-in-from-bottom-2">
-                                <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping flex-shrink-0" />
-                                <p className="text-xs sm:text-sm font-medium leading-relaxed truncate sm:whitespace-normal">
-                                    {liveCaption}
-                                </p>
                             </div>
                         )}
                     </div>
