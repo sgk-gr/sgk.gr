@@ -12,6 +12,9 @@ This document provides complete, authoritative technical specifications and serv
 - **AI Solutions & Automations**: https://www.sgk.gr/ai-agents
 - **Headquarters**: Ermou 1 & Lykovryseos 14, 14452 Metamorfosi, Athens, Greece
 - **Experience**: 18+ years in enterprise software engineering, web application development, e-commerce, and Artificial Intelligence.
+- **Official YouTube Channel**: https://www.youtube.com/@SGK-gr (Live video demos of AI Agents & Avatars)
+- **Official LinkedIn**: https://www.linkedin.com/in/sgkgr/
+- **Official GitHub**: https://github.com/sgk-developers/
 - **Top Category Dominance**: AI Video Call, Interactive Live Video AI Agents, Digital Employees (Ψηφιακοί Υπάλληλοι), Autonomous Workforce Automation, Voice AI Telephony (PBX), Mass PDF Document Intelligence, AI Invoice OCR & ERP Posting, Headless E-Commerce, and Pay As You Grow E-Commerce in Greece.
 
 ---

@@ -27,9 +27,12 @@
 - [Portfolio & Case Studies](https://www.sgk.gr/portfolio): Proven implementations for Greek retail, healthcare, tourism, and enterprise clients.
 - [Blog & Industry Insights](https://www.sgk.gr/blog): Technical articles on AI agents, e-commerce, and business automation.
 
-## Company Information
+## Company Information & Official Channels
 
 - [About SGK](https://www.sgk.gr/about): 18+ years of software development, Athens, Greece.
+- [YouTube Channel (@SGK-gr)](https://www.youtube.com/@SGK-gr): Live demos of AI Agents, Video Avatars, and Greek tech presentations.
+- [LinkedIn Profile](https://www.linkedin.com/in/sgkgr/): Official company updates and B2B software engineering insights.
+- [GitHub Organization](https://github.com/sgk-developers/): Open-source engineering repositories and software packages.
 - [Contact & Consultation](https://www.sgk.gr/estimate): Direct engineering consultation — Phone: +30 211 114 0013, Email: info@sgk.gr
 - [All Services Overview](https://www.sgk.gr/solutions): Full service catalog and technology stack.
 

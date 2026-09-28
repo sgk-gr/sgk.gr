@@ -1428,6 +1428,9 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Μόνο 150€ (συμπεριλαμβανομένου ΦΠΑ):</strong> Μια εφάπαξ πληρωμή, χωρίς κρυφές χρεώσεις, με έκδοση κανονικού τιμολογίου εξόδων.</li>
       </ul>
       <p>Μην ρισκάρετε πρόστιμα και καθυστερήσεις. <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Δείτε το πλήρες πακέτο Κατασκευής Ιστοσελίδας ΙΚΕ (150€) και παραγγείλτε online σε 24 ώρες!</a></p>
+      <p style="margin-top: 16px; font-size: 14px; color: #64748b;">
+        💡 <em>Ενδιαφέρεστε για πλήρη αυτοματοποίηση της νέας σας επιχείρησης; Ανακαλύψτε τους αυτόνομους <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">AI Agents για επιχειρήσεις</a> και αποκτήστε 24/7 εξυπηρέτηση πελατών με <a href="/order-ai-agent" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Live Video AI Agents (Ψηφιακούς Υπαλλήλους)</a>.</em>
+      </p>
     `
   },
   {
