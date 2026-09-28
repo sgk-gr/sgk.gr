@@ -1148,6 +1148,20 @@ function safeEncodeBase64(data: any): string {
 
       targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false && !isEmailBlacklisted(l.email));
 
+      // Warn if sending to converted customers (ΠΕΛΑΤΕΣ)
+      const convertedTargets = targets.filter(l => l.converted);
+      if (convertedTargets.length > 0) {
+        const confirmSend = window.confirm(
+          `⚠️ ${convertedTargets.length} από τους παραλήπτες είναι ήδη ΠΕΛΑΤΕΣ 🎉:\n\n` +
+          convertedTargets.map(l => `• ${l.email} (${l.first_name || l.company || ''})`).join('\n') +
+          `\n\nΘέλετε να τους στείλετε email; (Η κατάσταση "ΠΕΛΑΤΗΣ" θα ΔΙΑΤΗΡΗΘΕΙ)`
+        );
+        if (!confirmSend) {
+          setIsSending(false);
+          return;
+        }
+      }
+
       if (rawTargets.length > targets.length) {
         toast.info(`Εξαιρέθηκαν ${rawTargets.length - targets.length} παραλήπτες (απεγγραφές / μαύρη λίστα).`);
       }
