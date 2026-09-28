@@ -60,6 +60,11 @@ const nextConfig = {
         destination: '/order-ai-agent',
         permanent: true,
       },
+      {
+        source: '/ai-video-call',
+        destination: '/order-ai-agent',
+        permanent: true,
+      },
     ];
   },
 };
