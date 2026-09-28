@@ -116,23 +116,27 @@ export async function POST(req: Request) {
             reply = "Σας ακούω απόλυτα! Είμαι ο AI Agent της SGK Digital. Πώς θα θέλατε να σας βοηθήσω με τους αυτόνομους AI πράκτορες για την επιχείρησή σας;";
         }
 
-        // 3. Synthesize Speech Audio via OpenAI TTS for real-time voice playback & avatar lipsync
+        // 3. Synthesize Speech Audio via ElevenLabs TTS for real-time voice playback & avatar lipsync
         let audioBase64 = "";
         let audioUrl = "";
+        const ELEVENLABS_API_KEY = "065ba337f38d17c16730ad31ec07ef78c4337e2ac9ca55ed41e3da3adb4ae059";
+        const ELEVENLABS_VOICE_ID = "pNInz6obpgDQGcFmaJcg"; // Adam (male, premium) - multilingual handles Greek
 
-        if (OPENAI_API_KEY && reply) {
+        if (reply) {
             try {
-                const ttsRes = await fetch("https://api.openai.com/v1/audio/speech", {
+                const ttsRes = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE_ID}?output_format=mp3_44100_128`, {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${OPENAI_API_KEY}`,
+                        "xi-api-key": ELEVENLABS_API_KEY,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: "tts-1",
-                        input: reply,
-                        voice: "onyx",
-                        response_format: "mp3"
+                        text: reply,
+                        model_id: "eleven_multilingual_v2",
+                        voice_settings: {
+                            stability: 0.5,
+                            similarity_boost: 0.75
+                        }
                     })
                 });
 
@@ -141,6 +145,9 @@ export async function POST(req: Request) {
                     const b64 = Buffer.from(audioBuffer).toString("base64");
                     audioBase64 = b64;
                     audioUrl = `data:audio/mp3;base64,${b64}`;
+                } else {
+                    const errTxt = await ttsRes.text();
+                    console.warn("ElevenLabs TTS error response:", errTxt);
                 }
             } catch (ttsErr) {
                 console.warn("TTS generation error:", ttsErr);

@@ -98,6 +98,26 @@ export default function LiveAvatarAgentDemoPage() {
     const recognitionRef = useRef<any>(null);
     const captionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const isProcessingReplyRef = useRef<boolean>(false);
+    
+    // Persistent Audio element to bypass autoplay restrictions
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    // Visible Debug Logs
+    const [showLogs, setShowLogs] = useState<boolean>(true);
+    const [debugLogs, setDebugLogs] = useState<string[]>([]);
+    const logsEndRef = useRef<HTMLDivElement | null>(null);
+
+    const addLog = (msg: string) => {
+        const timeStr = new Date().toLocaleTimeString([], { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        setDebugLogs(prev => [...prev.slice(-49), `[${timeStr}] ${msg}`]);
+        console.log(`[DEBUG] ${msg}`);
+    };
+
+    useEffect(() => {
+        if (showLogs && logsEndRef.current) {
+            logsEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [debugLogs, showLogs]);
 
     // Subtitles disabled - pure clean video call experience
     const showCaption = (_text: string, _durationMs?: number) => {};
@@ -133,8 +153,10 @@ export default function LiveAvatarAgentDemoPage() {
                     userVideoRef.current.srcObject = stream;
                 }
                 setHasUserMedia(true);
-            } catch (err) {
+                addLog("Camera/mic access granted.");
+            } catch (err: any) {
                 console.warn("Camera/mic permission denied or unavailable:", err);
+                addLog(`Camera error: ${err.message || err.name || String(err)}. Check permissions.`);
                 setHasUserMedia(false);
             }
         }
@@ -197,10 +219,19 @@ export default function LiveAvatarAgentDemoPage() {
                 // Play synthesized Greek audio through browser so the user hears Bryan loud and clear
                 if (data.audioUrl) {
                     try {
-                        const audio = new Audio(data.audioUrl);
-                        audio.play().catch(e => console.warn("Audio element play warning:", e));
-                    } catch (playErr) {
-                        console.warn("Failed to play audio:", playErr);
+                        addLog("TTS audio received, attempting to play via audioRef...");
+                        if (audioRef.current) {
+                            audioRef.current.src = data.audioUrl;
+                            audioRef.current.play().then(() => {
+                                addLog("TTS audio playing successfully.");
+                            }).catch(e => {
+                                addLog("Audio playback failed: " + e.message);
+                            });
+                        } else {
+                            addLog("audioRef is null, cannot play audio.");
+                        }
+                    } catch (playErr: any) {
+                        addLog("Exception playing audio: " + playErr.message);
                     }
                 }
 
@@ -330,11 +361,23 @@ export default function LiveAvatarAgentDemoPage() {
 
     // Connect to LiveAvatar setup-agent API & Initialize WebRTC Session
     const handleStartCall = async () => {
+        addLog(`Starting call in ${sessionMode} mode...`);
+        
+        // 0. Unlock browser audio during user interaction
+        if (!audioRef.current) {
+            audioRef.current = new Audio();
+        }
+        audioRef.current.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+        audioRef.current.play()
+            .then(() => addLog("Browser Audio API unlocked successfully."))
+            .catch(e => addLog("Browser Audio API unlock failed: " + e.message));
+
         setIsLoadingAvatar(true);
         setStatusText(`Προετοιμασία (${sessionMode === "LITE" ? "Avatar Only / BYO Voice" : "Full Mode"})...`);
 
         try {
             // 1. Fetch Session Token with requested mode
+            addLog("Fetching session token...");
             const res = await fetch("/api/liveavatar/setup-agent", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -346,6 +389,7 @@ export default function LiveAvatarAgentDemoPage() {
                 throw new Error(data.error || "Αποτυχία εκκίνησης LiveAvatar");
             }
 
+            addLog("Session token received.");
             if (data.url) {
                 setAvatarUrl(data.url);
             }
@@ -434,8 +478,11 @@ export default function LiveAvatarAgentDemoPage() {
                                 ]);
 
                                 if (chatData?.audioUrl) {
-                                    const audio = new Audio(chatData.audioUrl);
-                                    audio.play().catch(e => console.warn("Welcome audio play error:", e));
+                                    addLog("Welcome TTS received, playing via audioRef...");
+                                    if (audioRef.current) {
+                                        audioRef.current.src = chatData.audioUrl;
+                                        audioRef.current.play().then(() => addLog("Welcome audio playing successfully.")).catch(e => addLog("Welcome audio play error: " + e.message));
+                                    }
                                 }
 
                                 if (chatData?.audioBase64 && typeof session.repeatAudio === "function") {
@@ -664,7 +711,7 @@ export default function LiveAvatarAgentDemoPage() {
                 <div className="flex-1 w-full h-full relative bg-slate-50 overflow-hidden flex items-center justify-center">
                     
                     {/* Top Controls Overlay */}
-                    <div className="absolute top-3 sm:top-4 left-3 sm:left-5 z-30 flex items-center gap-2 text-slate-700">
+                    <div className="absolute top-3 sm:top-4 left-3 sm:left-5 z-40 flex flex-col items-start gap-2">
                         <Link
                             href="/order-ai-agent"
                             className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-white shadow-sm flex items-center gap-1.5 transition-colors"
@@ -672,6 +719,32 @@ export default function LiveAvatarAgentDemoPage() {
                             <ArrowLeft className="w-3.5 h-3.5" />
                             <span>Επιστροφή</span>
                         </Link>
+                        
+                        <button
+                            onClick={() => setShowLogs(!showLogs)}
+                            className="px-3 py-1.5 rounded-full bg-slate-800/80 backdrop-blur-md border border-slate-700 text-[10px] font-mono text-slate-200 hover:text-white shadow-sm flex items-center gap-1.5 transition-colors cursor-pointer mt-1"
+                        >
+                            {showLogs ? "Hide Logs" : "Show Logs"}
+                        </button>
+                        
+                        {/* Debug Logs Panel */}
+                        {showLogs && (
+                            <div className="w-64 sm:w-80 h-48 sm:h-64 bg-slate-900/90 backdrop-blur-md border border-slate-700 rounded-lg p-2.5 overflow-hidden flex flex-col shadow-2xl mt-1">
+                                <div className="text-[10px] text-emerald-400 font-mono mb-2 flex justify-between items-center pb-1 border-b border-slate-700">
+                                    <span>SYSTEM LOGS</span>
+                                    <span className="text-slate-500">{debugLogs.length} entries</span>
+                                </div>
+                                <div className="flex-1 overflow-y-auto space-y-1 font-mono text-[9px] sm:text-[10px] leading-tight text-slate-300">
+                                    {debugLogs.length === 0 && <div className="text-slate-500 italic">No logs yet...</div>}
+                                    {debugLogs.map((log, idx) => (
+                                        <div key={idx} className="break-words border-b border-slate-800/50 pb-0.5">
+                                            {log}
+                                        </div>
+                                    ))}
+                                    <div ref={logsEndRef} />
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="absolute top-3 sm:top-4 right-3 sm:right-5 z-30 flex items-center gap-2 sm:gap-3 text-slate-700">
