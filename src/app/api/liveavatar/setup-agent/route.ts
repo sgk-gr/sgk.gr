@@ -151,6 +151,18 @@ async function getOrCreateContext(): Promise<string> {
     return created.data.id;
 }
 
+async function createLiteSessionToken() {
+    const res = await laFetch("/v1/sessions/token", "POST", {
+        mode: "LITE",
+        avatar_id: BRYAN_AVATAR_ID,
+        is_sandbox: true
+    });
+    return {
+        sessionToken: res.data?.session_token,
+        sessionId: res.data?.session_id
+    };
+}
+
 async function createSessionToken(contextId: string, llmId?: string) {
     const res = await laFetch("/v1/sessions/token", "POST", {
         mode: "FULL",
@@ -183,12 +195,39 @@ async function createEmbed(contextId: string): Promise<string> {
     return res.data.url;
 }
 
-export async function POST() {
+export async function POST(req: Request) {
     try {
-        if (!LIVEAVATAR_API_KEY || (!OPENAI_API_KEY && !GEMINI_API_KEY)) {
+        if (!LIVEAVATAR_API_KEY) {
             return NextResponse.json({ 
                 success: false, 
-                error: "Missing LIVEAVATAR_API_KEY or OPENAI_API_KEY environment variables." 
+                error: "Missing LIVEAVATAR_API_KEY environment variable." 
+            }, { status: 400 });
+        }
+
+        let requestedMode = "LITE"; // Default to LITE (Avatar Only / Bring your own voice stack)
+        try {
+            const body = await req.json();
+            if (body?.mode) {
+                requestedMode = body.mode.toUpperCase();
+            }
+        } catch (_) {}
+
+        // Handle LITE Mode (Avatar Only - Bring Your Own Voice Stack)
+        if (requestedMode === "LITE") {
+            const sessionData = await createLiteSessionToken();
+            return NextResponse.json({
+                success: true,
+                mode: "LITE",
+                sessionToken: sessionData.sessionToken,
+                sessionId: sessionData.sessionId
+            });
+        }
+
+        // Handle FULL Mode (HeyGen all-in-one stack)
+        if (!OPENAI_API_KEY && !GEMINI_API_KEY) {
+            return NextResponse.json({ 
+                success: false, 
+                error: "Missing OPENAI_API_KEY or GEMINI_API_KEY for FULL mode." 
             }, { status: 400 });
         }
 
@@ -209,6 +248,7 @@ export async function POST() {
 
         return NextResponse.json({
             success: true,
+            mode: "FULL",
             sessionToken: sessionData.sessionToken,
             sessionId: sessionData.sessionId,
             url: embedUrl

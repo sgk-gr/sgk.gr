@@ -17,7 +17,10 @@ import {
     ShieldCheck,
     MessageSquare,
     Sparkles,
-    ArrowLeft
+    ArrowLeft,
+    Zap,
+    Cpu,
+    Volume2
 } from "lucide-react";
 
 interface Message {
@@ -27,7 +30,40 @@ interface Message {
     time: string;
 }
 
+// Normalization of common Greek speech-to-text misrecognitions
+function cleanGreekSTT(text: string): string {
+    if (!text) return text;
+    let cleaned = text;
+
+    cleaned = cleaned.replace(/\bτη\s+νίκη\s+μου\b/gi, "την Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bτη\s+νικη\s+μου\b/gi, "την Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bτη\s+νίκη\b/gi, "την Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bτη\s+νικη\b/gi, "την Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bγια\s+νίκη\b/gi, "για Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bγια\s+νικη\b/gi, "για Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bσε\s+νίκη\b/gi, "σε Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bμια\s+νίκη\b/gi, "μια Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bνίκη\s+μου\b/gi, "Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bνικη\s+μου\b/gi, "Ι.Κ.Ε. μου");
+    cleaned = cleaned.replace(/\bήκει\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bυική\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bικε\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bικα\b/gi, "Ι.Κ.Ε.");
+    cleaned = cleaned.replace(/\bγεμη\b/gi, "Γ.Ε.ΜΗ.");
+    cleaned = cleaned.replace(/\bγέμη\b/gi, "Γ.Ε.ΜΗ.");
+    cleaned = cleaned.replace(/\bαφμ\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bάφουμου\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bαφου\s+μου\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bάφημη\b/gi, "Α.Φ.Μ.");
+    cleaned = cleaned.replace(/\bαφημη\b/gi, "Α.Φ.Μ.");
+
+    return cleaned;
+}
+
 export default function LiveAvatarAgentDemoPage() {
+    // Mode State: LITE (Avatar Only / Bring Your Own Voice Stack) vs FULL (All-in-one HeyGen)
+    const [sessionMode, setSessionMode] = useState<"LITE" | "FULL">("LITE");
+
     // Call States
     const [isCallActive, setIsCallActive] = useState<boolean>(false);
     const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false);
@@ -35,7 +71,12 @@ export default function LiveAvatarAgentDemoPage() {
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [hasNativeStream, setHasNativeStream] = useState<boolean>(false);
     
-    // Chat visibility (hidden by default as in liveavatar-demo)
+    // Live STT & Captions State
+    const [liveCaption, setLiveCaption] = useState<string>("");
+    const [isAgentThinking, setIsAgentThinking] = useState<boolean>(false);
+    const [isListeningSTT, setIsListeningSTT] = useState<boolean>(false);
+
+    // Chat visibility
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState<string>("");
@@ -54,6 +95,18 @@ export default function LiveAvatarAgentDemoPage() {
     const avatarVideoRef = useRef<HTMLVideoElement | null>(null);
     const chatEndRef = useRef<HTMLDivElement | null>(null);
     const sessionRef = useRef<any>(null);
+    const recognitionRef = useRef<any>(null);
+    const captionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isProcessingReplyRef = useRef<boolean>(false);
+
+    // Helper to show transient captions on screen
+    const showCaption = (text: string, durationMs: number = 6000) => {
+        setLiveCaption(text);
+        if (captionTimeoutRef.current) clearTimeout(captionTimeoutRef.current);
+        captionTimeoutRef.current = setTimeout(() => {
+            setLiveCaption("");
+        }, durationMs);
+    };
 
     // Auto-scroll chat
     useEffect(() => {
@@ -100,15 +153,184 @@ export default function LiveAvatarAgentDemoPage() {
         };
     }, []);
 
-    // Connect to LiveAvatar setup-agent API & Initialize SDK WebRTC Session
-    const handleStartCall = async () => {
-        setIsLoadingAvatar(true);
-        setStatusText("Προετοιμασία συνεδρίας & σύνδεση...");
+    // Dispatch a user message (from STT or text input) to the AI Agent
+    const handleProcessUserMessage = async (userText: string) => {
+        if (!userText.trim() || isProcessingReplyRef.current) return;
+        isProcessingReplyRef.current = true;
+
+        const cleanedText = cleanGreekSTT(userText.trim());
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        // Add user message to state
+        setMessages(prev => [
+            ...prev,
+            { id: Date.now().toString(), sender: "user", text: cleanedText, time: timeStr }
+        ]);
+
+        showCaption(`🗣️ Εσείς: "${cleanedText}"`, 4000);
 
         try {
-            // 1. Fetch Session Token & Embed Fallback
+            if (sessionMode === "LITE") {
+                // ================= LITE MODE (AVATAR ONLY / BYO VOICE STACK) =================
+                setIsAgentThinking(true);
+                showCaption(`⚡ Bryan σκέφτεται...`, 3000);
+
+                // Call our local AI Agent Chat API
+                const res = await fetch("/api/liveavatar/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        message: cleanedText,
+                        history: messages
+                    })
+                });
+
+                const data = await res.json();
+                const aiReply = data?.reply || "Σας άκουσα! Πώς μπορώ να σας εξυπηρετήσω με τους AI Agents;";
+
+                setIsAgentThinking(false);
+
+                // Add agent reply to chat
+                const replyTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                setMessages(prev => [
+                    ...prev,
+                    { id: (Date.now() + 1).toString(), sender: "agent", text: aiReply, time: replyTime }
+                ]);
+
+                showCaption(`🤖 Bryan: "${aiReply}"`, 8000);
+
+                // Send speech text to avatar for real-time lipsync rendering via repeat()
+                if (sessionRef.current && typeof sessionRef.current.repeat === "function") {
+                    try {
+                        sessionRef.current.repeat(aiReply);
+                    } catch (repeatErr) {
+                        console.warn("Avatar repeat command error:", repeatErr);
+                    }
+                }
+            } else {
+                // ================= FULL MODE (HEYGEN MANAGED PIPELINE) =================
+                if (sessionRef.current) {
+                    try {
+                        if (typeof sessionRef.current.message === "function") {
+                            sessionRef.current.message(cleanedText);
+                        } else if (typeof sessionRef.current.sendMessage === "function") {
+                            sessionRef.current.sendMessage(cleanedText);
+                        }
+                    } catch (msgErr) {
+                        console.warn("FULL mode sendMessage error:", msgErr);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Error processing user message:", err);
+        } finally {
+            isProcessingReplyRef.current = false;
+        }
+    };
+
+    // ================= REAL-TIME SPEECH-TO-TEXT (STT) ENGINE =================
+    useEffect(() => {
+        if (!isCallActive || isMicMuted) {
+            if (recognitionRef.current) {
+                try {
+                    recognitionRef.current.stop();
+                } catch (_) {}
+                recognitionRef.current = null;
+            }
+            setIsListeningSTT(false);
+            return;
+        }
+
+        // Web Speech API check
+        const SpeechRecognition = (typeof window !== "undefined") && 
+            ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
+
+        if (!SpeechRecognition) {
+            console.warn("Web Speech API not supported in this browser.");
+            return;
+        }
+
+        try {
+            const recognition = new SpeechRecognition();
+            recognition.lang = "el-GR";
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+
+            recognition.onstart = () => {
+                setIsListeningSTT(true);
+            };
+
+            recognition.onresult = (event: any) => {
+                let interim = "";
+                let final = "";
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        final += transcript;
+                    } else {
+                        interim += transcript;
+                    }
+                }
+
+                const currentSpoken = cleanGreekSTT(final || interim);
+                if (currentSpoken) {
+                    showCaption(`🎙️ ${currentSpoken}`, 3000);
+                }
+
+                if (final.trim()) {
+                    handleProcessUserMessage(final.trim());
+                }
+            };
+
+            recognition.onerror = (err: any) => {
+                // Avoid logging normal silence aborts
+                if (err.error !== "no-speech" && err.error !== "aborted") {
+                    console.warn("STT Speech recognition notice:", err.error);
+                }
+            };
+
+            recognition.onend = () => {
+                // Keep-alive if call is still active and unmuted
+                if (isCallActive && !isMicMuted && recognitionRef.current) {
+                    try {
+                        recognition.start();
+                    } catch (_) {}
+                } else {
+                    setIsListeningSTT(false);
+                }
+            };
+
+            recognition.start();
+            recognitionRef.current = recognition;
+        } catch (initErr) {
+            console.warn("Failed to initialize STT:", initErr);
+        }
+
+        return () => {
+            if (recognitionRef.current) {
+                try {
+                    recognitionRef.current.stop();
+                } catch (_) {}
+                recognitionRef.current = null;
+            }
+            setIsListeningSTT(false);
+        };
+    }, [isCallActive, isMicMuted, sessionMode]);
+
+    // Connect to LiveAvatar setup-agent API & Initialize WebRTC Session
+    const handleStartCall = async () => {
+        setIsLoadingAvatar(true);
+        setStatusText(`Προετοιμασία (${sessionMode === "LITE" ? "Avatar Only / BYO Voice" : "Full Mode"})...`);
+
+        try {
+            // 1. Fetch Session Token with requested mode
             const res = await fetch("/api/liveavatar/setup-agent", {
-                method: "POST"
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ mode: sessionMode })
             });
             const data = await res.json();
 
@@ -148,26 +370,53 @@ export default function LiveAvatarAgentDemoPage() {
                                 ...prev,
                                 { id: Date.now().toString(), sender: "agent", text: evt.text, time: timeStr }
                             ]);
+                            showCaption(`🤖 Bryan: "${evt.text}"`, 7000);
                         }
                     });
 
-                    // Live Speech-to-Text from User's Voice
+                    // Live Speech-to-Text from User (Native LiveAvatar STT fallback)
                     session.on(AgentEventsEnum.USER_TRANSCRIPTION, (evt: any) => {
                         if (evt?.text) {
                             const now = new Date();
                             const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                            const cleaned = cleanGreekSTT(evt.text);
                             setMessages(prev => [
                                 ...prev,
-                                { id: Date.now().toString(), sender: "user", text: evt.text, time: timeStr }
+                                { id: Date.now().toString(), sender: "user", text: cleaned, time: timeStr }
                             ]);
+                            showCaption(`🗣️ Εσείς: "${cleaned}"`, 4000);
                         }
                     });
 
                     await session.start();
-                    try {
-                        await session.voiceChat.start();
-                    } catch (vcErr) {
-                        console.warn("Voice chat auto-start:", vcErr);
+
+                    // In FULL mode, start native voice chat
+                    if (sessionMode === "FULL" && session.voiceChat) {
+                        try {
+                            await session.voiceChat.start();
+                        } catch (vcErr) {
+                            console.warn("Voice chat auto-start:", vcErr);
+                        }
+                    }
+
+                    // Welcome speech in LITE mode
+                    if (sessionMode === "LITE") {
+                        setTimeout(() => {
+                            const welcome = "Γεια σας! Είμαι ο Bryan, Senior AI Agent της SGK Digital. Πώς μπορώ να σας βοηθήσω σήμερα;";
+                            showCaption(`🤖 Bryan: "${welcome}"`, 7000);
+                            setMessages(prev => [
+                                ...prev,
+                                {
+                                    id: Date.now().toString(),
+                                    sender: "agent",
+                                    text: welcome,
+                                    time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                                }
+                            ]);
+                            try {
+                                session.repeat(welcome);
+                            } catch (_) {}
+                        }, 1200);
                     }
                 } catch (sdkErr: any) {
                     console.warn("Native WebRTC SDK session error:", sdkErr);
@@ -198,6 +447,7 @@ export default function LiveAvatarAgentDemoPage() {
         setIsCallActive(false);
         setHasNativeStream(false);
         setAvatarUrl(null);
+        setLiveCaption("");
         if (sessionRef.current) {
             try {
                 await sessionRef.current.stop();
@@ -205,6 +455,12 @@ export default function LiveAvatarAgentDemoPage() {
                 console.warn("Error stopping LiveAvatar session:", err);
             }
             sessionRef.current = null;
+        }
+        if (recognitionRef.current) {
+            try {
+                recognitionRef.current.stop();
+            } catch (_) {}
+            recognitionRef.current = null;
         }
         setStatusText("Η κλήση τερματίστηκε");
     };
@@ -234,29 +490,14 @@ export default function LiveAvatarAgentDemoPage() {
         }
     };
 
-    // Send Text Message to AI Agent
+    // Send Text Message from chat drawer
     const handleSendMessage = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
         if (!inputText.trim()) return;
 
         const textToSend = inputText.trim();
         setInputText("");
-
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-        setMessages(prev => [
-            ...prev,
-            { id: Date.now().toString(), sender: "user", text: textToSend, time: timeStr }
-        ]);
-
-        if (sessionRef.current) {
-            try {
-                await sessionRef.current.sendMessage(textToSend);
-            } catch (err) {
-                console.error("Failed to send message via SDK:", err);
-            }
-        }
+        handleProcessUserMessage(textToSend);
     };
 
     // Helper format timer
@@ -268,7 +509,7 @@ export default function LiveAvatarAgentDemoPage() {
 
     return (
         <div className="w-full h-[100dvh] bg-slate-100 flex items-center justify-center p-0 sm:p-4 select-none font-sans overflow-hidden">
-            {/* Main Window Frame Container (Exact same design as liveavatar-demo) */}
+            {/* Main Window Frame Container */}
             <div className="w-full sm:max-w-[1440px] h-full sm:h-[96vh] sm:max-h-[880px] bg-white rounded-none sm:rounded-[28px] overflow-hidden shadow-2xl border-0 sm:border-4 border-gray-200 flex relative">
                 
                 {/* Mobile Backdrop when Chat Drawer is Open */}
@@ -279,7 +520,7 @@ export default function LiveAvatarAgentDemoPage() {
                     />
                 )}
 
-                {/* ================= SLIDE-IN OVERLAY DRAWER: CHAT (Hidden by default) ================= */}
+                {/* ================= SLIDE-IN OVERLAY DRAWER: CHAT ================= */}
                 <div className={`fixed sm:absolute top-0 left-0 bottom-0 z-50 w-full sm:w-[380px] md:w-[400px] flex flex-col bg-white h-full border-r border-[#26272e] shadow-2xl transition-transform duration-300 ease-in-out ${
                     isChatOpen ? "translate-x-0" : "-translate-x-full pointer-events-none"
                 }`}>
@@ -293,7 +534,9 @@ export default function LiveAvatarAgentDemoPage() {
                             <div className="min-w-0">
                                 <h2 className="text-sm sm:text-base font-semibold leading-tight tracking-wide flex items-center gap-1.5 truncate">
                                     Bryan (Tech Expert)
-                                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Consultant</span>
+                                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">
+                                        {sessionMode === "LITE" ? "BYO Voice Stack" : "Full Stack"}
+                                    </span>
                                 </h2>
                                 <span className="text-[11px] text-white/80 font-normal truncate block">Interactive AI Agent Service</span>
                             </div>
@@ -303,7 +546,7 @@ export default function LiveAvatarAgentDemoPage() {
                         <button 
                             type="button"
                             onClick={() => setIsChatOpen(false)}
-                            className="p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors text-white"
+                            className="p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors text-white cursor-pointer"
                             title="Απόκρυψη Chat"
                         >
                             <X className="w-5 h-5" />
@@ -315,7 +558,7 @@ export default function LiveAvatarAgentDemoPage() {
                         <span className="flex items-center gap-1 text-emerald-600 font-semibold truncate">
                             <Sparkles className="w-3.5 h-3.5 flex-shrink-0" /> AI Agents • ERP & APIs
                         </span>
-                        <span className="font-bold text-[#5b36f5] flex-shrink-0">500€ Setup • 160+ Γλώσσες</span>
+                        <span className="font-bold text-[#5b36f5] flex-shrink-0">500€ Setup • Real-time STT</span>
                     </div>
 
                     {/* Chat Messages Body */}
@@ -340,6 +583,14 @@ export default function LiveAvatarAgentDemoPage() {
                             </div>
                         ))}
 
+                        {/* Agent Thinking indicator */}
+                        {isAgentThinking && (
+                            <div className="flex items-center gap-2 text-xs text-slate-500 italic p-2 bg-slate-50 rounded-xl border border-slate-200 w-fit">
+                                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#5b36f5]" />
+                                <span>Ο Bryan ετοιμάζει την απάντηση...</span>
+                            </div>
+                        )}
+
                         {/* Call Started System Pill */}
                         {isCallActive && (
                             <div className="text-center py-2 my-2">
@@ -347,7 +598,7 @@ export default function LiveAvatarAgentDemoPage() {
                                     {formatTimer(callSeconds)}
                                 </span>
                                 <span className="inline-block mt-0.5 text-xs font-bold text-gray-900 tracking-wide bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">
-                                    ● Ζωντανή Βιντεοκλήση σε εξέλιξη
+                                    ● Ζωντανή Βιντεοκλήση ({sessionMode === "LITE" ? "Avatar Only" : "Full"})
                                 </span>
                             </div>
                         )}
@@ -364,14 +615,14 @@ export default function LiveAvatarAgentDemoPage() {
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Ρωτήστε τον Bryan για τους AI Agents..."
+                            placeholder="Πληκτρολογήστε ή μιλήστε στο μικρόφωνο..."
                             className="flex-1 text-sm bg-gray-50 rounded-full py-2 px-3.5 outline-none text-gray-800 placeholder-gray-400 focus:bg-gray-100"
                         />
                         
                         <button 
                             type="submit" 
                             disabled={!inputText.trim()}
-                            className="p-2 rounded-full bg-[#5b36f5] text-white hover:bg-[#4927d6] disabled:bg-gray-200 disabled:text-gray-400 transition-colors flex-shrink-0"
+                            className="p-2 rounded-full bg-[#5b36f5] text-white hover:bg-[#4927d6] disabled:bg-gray-200 disabled:text-gray-400 transition-colors flex-shrink-0 cursor-pointer"
                             title="Αποστολή"
                         >
                             <Send className="w-4 h-4" />
@@ -379,7 +630,7 @@ export default function LiveAvatarAgentDemoPage() {
                     </form>
                 </div>
 
-                {/* ================= MAIN VIDEO CALL STAGE (Full screen / Responsive) ================= */}
+                {/* ================= MAIN VIDEO CALL STAGE ================= */}
                 <div className="flex-1 w-full h-full relative bg-slate-50 overflow-hidden flex items-center justify-center">
                     
                     {/* Top Controls Overlay */}
@@ -401,9 +652,24 @@ export default function LiveAvatarAgentDemoPage() {
                             </div>
                         )}
 
+                        {/* STT Status Indicator */}
+                        {isCallActive && (
+                            <div 
+                                className={`text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 transition-all shadow-sm ${
+                                    isListeningSTT && !isMicMuted
+                                        ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
+                                        : "bg-amber-50 text-amber-700 border border-amber-300"
+                                }`}
+                                title={isListeningSTT && !isMicMuted ? "STT ενεργό: σας ακούει" : "STT σε αναμονή"}
+                            >
+                                <Volume2 className="w-3 h-3 animate-pulse" />
+                                <span className="hidden sm:inline">STT Greek</span>
+                            </div>
+                        )}
+
                         <button 
                             onClick={() => setIsChatOpen(!isChatOpen)}
-                            className={`px-3 py-1.5 rounded-full border text-xs font-medium flex items-center gap-1.5 transition-all shadow-md ${
+                            className={`px-3 py-1.5 rounded-full border text-xs font-medium flex items-center gap-1.5 transition-all shadow-md cursor-pointer ${
                                 isChatOpen 
                                     ? "bg-[#5b36f5] border-[#5b36f5] text-white" 
                                     : "bg-white/90 backdrop-blur-md border-gray-200 text-slate-700 hover:text-slate-900 hover:bg-white"
@@ -443,7 +709,7 @@ export default function LiveAvatarAgentDemoPage() {
                             </div>
                         )}
 
-                        {/* Call Inactive / Standby Screen (EXACT SAME AS liveavatar-demo: Pure Video Avatar, NO marketing text overlays) */}
+                        {/* Call Inactive / Standby Screen */}
                         {!isCallActive && (
                             <div className="relative w-full h-full flex items-center justify-center">
                                 {/* Photorealistic Avatar Background Preview */}
@@ -453,8 +719,41 @@ export default function LiveAvatarAgentDemoPage() {
                                     className="w-full h-full object-cover"
                                 />
 
-                                {/* Center Clean Start Call Button (Pure & Clean) */}
-                                <div className="absolute z-20 flex flex-col items-center text-center px-4">
+                                {/* Center Controls & Mode Switcher */}
+                                <div className="absolute z-20 flex flex-col items-center text-center px-4 max-w-lg">
+                                    
+                                    {/* Mode Selector Pill */}
+                                    <div className="mb-5 bg-slate-950/80 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl flex items-center gap-1">
+                                        <button
+                                            type="button"
+                                            onClick={() => setSessionMode("LITE")}
+                                            className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                                                sessionMode === "LITE"
+                                                    ? "bg-[#5b36f5] text-white shadow-md shadow-indigo-500/50"
+                                                    : "text-slate-300 hover:text-white"
+                                            }`}
+                                        >
+                                            <Zap className="w-3.5 h-3.5 text-amber-300" />
+                                            <span>Avatar Only (BYO Voice)</span>
+                                            <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full">1 credit/min</span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => setSessionMode("FULL")}
+                                            className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                                                sessionMode === "FULL"
+                                                    ? "bg-[#5b36f5] text-white shadow-md shadow-indigo-500/50"
+                                                    : "text-slate-300 hover:text-white"
+                                            }`}
+                                        >
+                                            <Cpu className="w-3.5 h-3.5 text-blue-300" />
+                                            <span>Full Mode</span>
+                                            <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full">2 credits/min</span>
+                                        </button>
+                                    </div>
+
+                                    {/* Start Call Button */}
                                     <button
                                         onClick={handleStartCall}
                                         disabled={isLoadingAvatar}
@@ -468,11 +767,25 @@ export default function LiveAvatarAgentDemoPage() {
                                         ) : (
                                             <>
                                                 <Phone className="w-6 h-6 fill-current" />
-                                                <span>Έναρξη Video Call</span>
+                                                <span>Έναρξη Video Call ({sessionMode === "LITE" ? "Avatar Only" : "Full"})</span>
                                             </>
                                         )}
                                     </button>
+
+                                    <p className="mt-3 text-xs text-white/90 font-medium bg-black/40 backdrop-blur-xs px-3 py-1 rounded-full border border-white/10">
+                                        🎙️ Υποστηρίζει φωνή με Ελληνικό STT & πληκτρολόγιο
+                                    </p>
                                 </div>
+                            </div>
+                        )}
+
+                        {/* ================= LIVE CAPTION SUBTITLE OVERLAY ================= */}
+                        {isCallActive && liveCaption && (
+                            <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-30 max-w-[92%] sm:max-w-xl bg-slate-950/85 backdrop-blur-md px-4 sm:px-6 py-2.5 rounded-2xl border border-white/20 text-white shadow-2xl flex items-center gap-2.5 transition-all animate-in fade-in slide-in-from-bottom-2">
+                                <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping flex-shrink-0" />
+                                <p className="text-xs sm:text-sm font-medium leading-relaxed truncate sm:whitespace-normal">
+                                    {liveCaption}
+                                </p>
                             </div>
                         )}
                     </div>
@@ -482,12 +795,12 @@ export default function LiveAvatarAgentDemoPage() {
                         {/* Mic Button */}
                         <button 
                             onClick={handleToggleMic}
-                            className={`p-2.5 sm:p-3 rounded-full transition-all ${
+                            className={`p-2.5 sm:p-3 rounded-full transition-all cursor-pointer ${
                                 isMicMuted 
                                     ? "bg-red-500 hover:bg-red-600 text-white shadow-md" 
                                     : "bg-gray-100 hover:bg-gray-200 text-slate-700"
                             }`}
-                            title={isMicMuted ? "Ενεργοποίηση μικροφώνου" : "Σίγαση μικροφώνου"}
+                            title={isMicMuted ? "Ενεργοποίηση μικροφώνου (STT)" : "Σίγαση μικροφώνου"}
                         >
                             {isMicMuted ? <MicOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Mic className="w-4 h-4 sm:w-5 sm:h-5" />}
                         </button>
@@ -495,7 +808,7 @@ export default function LiveAvatarAgentDemoPage() {
                         {/* Camera Button */}
                         <button 
                             onClick={() => setIsVideoOff(!isVideoOff)}
-                            className={`p-2.5 sm:p-3 rounded-full transition-all ${
+                            className={`p-2.5 sm:p-3 rounded-full transition-all cursor-pointer ${
                                 isVideoOff 
                                     ? "bg-red-500 hover:bg-red-600 text-white shadow-md" 
                                     : "bg-gray-100 hover:bg-gray-200 text-slate-700"
@@ -508,7 +821,7 @@ export default function LiveAvatarAgentDemoPage() {
                         {/* Screen Share Button (Desktop only) */}
                         <button 
                             onClick={() => setIsScreenSharing(!isScreenSharing)}
-                            className={`hidden sm:flex p-2.5 sm:p-3 rounded-full transition-all ${
+                            className={`hidden sm:flex p-2.5 sm:p-3 rounded-full transition-all cursor-pointer ${
                                 isScreenSharing 
                                     ? "bg-cyan-500 hover:bg-cyan-600 text-white shadow-md" 
                                     : "bg-gray-100 hover:bg-gray-200 text-slate-700"
@@ -521,7 +834,7 @@ export default function LiveAvatarAgentDemoPage() {
                         {/* Chat Toggle Button */}
                         <button 
                             onClick={() => setIsChatOpen(!isChatOpen)}
-                            className={`p-2.5 sm:p-3 rounded-full transition-all relative ${
+                            className={`p-2.5 sm:p-3 rounded-full transition-all relative cursor-pointer ${
                                 isChatOpen 
                                     ? "bg-[#5b36f5] text-white shadow-lg shadow-indigo-500/40" 
                                     : "bg-gray-100 hover:bg-gray-200 text-slate-700"
@@ -538,7 +851,7 @@ export default function LiveAvatarAgentDemoPage() {
                         {isCallActive ? (
                             <button 
                                 onClick={handleEndCall}
-                                className="p-3 sm:p-3.5 rounded-full bg-[#eb4335] hover:bg-[#d63b2f] text-white shadow-lg shadow-red-500/40 hover:scale-105 active:scale-95 transition-all"
+                                className="p-3 sm:p-3.5 rounded-full bg-[#eb4335] hover:bg-[#d63b2f] text-white shadow-lg shadow-red-500/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                                 title="Τερματισμός κλήσης"
                             >
                                 <PhoneOff className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -546,7 +859,7 @@ export default function LiveAvatarAgentDemoPage() {
                         ) : (
                             <button 
                                 onClick={handleStartCall}
-                                className="p-3 sm:p-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all"
+                                className="p-3 sm:p-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                                 title="Έναρξη κλήσης"
                             >
                                 <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -554,7 +867,7 @@ export default function LiveAvatarAgentDemoPage() {
                         )}
                     </div>
 
-                    {/* ================= PiP (User Camera: top-left on mobile, bottom-right on desktop) ================= */}
+                    {/* ================= PiP (User Camera) ================= */}
                     <div className="absolute top-3 right-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
                         {hasUserMedia && !isVideoOff ? (
                             <video 
