@@ -44,7 +44,7 @@ export function TrackingTab() {
 
   // Filters
   const [timeFilter, setTimeFilter] = useState<"24h" | "7d" | "all">("7d");
-  const [pageFilter, setPageFilter] = useState<"all" | "payg" | "offer">("all");
+  const [pageFilter, setPageFilter] = useState<"all" | "ike" | "ai">("all");
   const [bounceFilter, setBounceFilter] = useState<boolean>(true); // hide sessions under 5s by default
 
   // AI Analytics State
@@ -116,8 +116,8 @@ export function TrackingTab() {
     }
 
     // 2. Page Filter
-    if (pageFilter === "payg" && !session.page_path.includes("pay-as-you-grow")) return false;
-    if (pageFilter === "offer" && !session.page_path.includes("eshop-offer")) return false;
+    if (pageFilter === "ike" && !session.page_path.includes("ike-offer")) return false;
+    if (pageFilter === "ai" && !session.page_path.includes("ai-agent") && !session.page_path.includes("order-ai-agent")) return false;
 
     // 3. Bounce Filter (hide sessions under 5 seconds)
     if (bounceFilter && session.duration_seconds < 5) return false;
@@ -132,8 +132,8 @@ export function TrackingTab() {
     ? Math.round(filteredSessions.reduce((acc, s) => acc + s.duration_seconds, 0) / totalSessions)
     : 0;
 
-  const paygViews = filteredSessions.filter(s => s.page_path.includes("pay-as-you-grow")).length;
-  const offerViews = filteredSessions.filter(s => s.page_path.includes("eshop-offer")).length;
+  const ikeViews = filteredSessions.filter(s => s.page_path.includes("ike-offer")).length;
+  const aiViews = filteredSessions.filter(s => s.page_path.includes("ai-agent") || s.page_path.includes("order-ai-agent")).length;
   
   const totalClicks = filteredSessions.reduce((acc, s) => acc + (s.clicks?.length || 0), 0);
 
@@ -184,8 +184,8 @@ export function TrackingTab() {
 - Σύνολο Sessions: ${totalSessions}
 - Μοναδικοί Επισκέπτες: ${uniqueVisitors}
 - Μέσος Χρόνος Παραμονής: ${avgDuration} δευτερόλεπτα
-- Προβολές /pay-as-you-grow: ${paygViews}
-- Προβολές /eshop-offer: ${offerViews}
+- Προβολές /ike-offer: ${ikeViews}
+- Προβολές /ai-agents & /order-ai-agent: ${aiViews}
 - Σύνολο Clicks: ${totalClicks}
 
 ΔΕΔΟΜΕΝΑ ΣΥΝΕΔΡΙΩΝ (περιλαμβάνει click sequence, βάθος scroll και πεδία που πληκτρολογήθηκαν):
@@ -403,16 +403,16 @@ ${JSON.stringify(sessionSummary, null, 2)}
               Όλες
             </button>
             <button 
-              onClick={() => setPageFilter("payg")}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all ${pageFilter === "payg" ? "bg-white text-black" : "text-white/60 hover:text-white"}`}
+              onClick={() => setPageFilter("ike")}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all ${pageFilter === "ike" ? "bg-white text-black" : "text-white/60 hover:text-white"}`}
             >
-              PAYG
+              ΙΚΕ 150€
             </button>
             <button 
-              onClick={() => setPageFilter("offer")}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all ${pageFilter === "offer" ? "bg-white text-black" : "text-white/60 hover:text-white"}`}
+              onClick={() => setPageFilter("ai")}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all ${pageFilter === "ai" ? "bg-white text-black" : "text-white/60 hover:text-white"}`}
             >
-              Offer
+              AI Agents
             </button>
           </div>
         </div>

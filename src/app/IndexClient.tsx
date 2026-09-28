@@ -39,7 +39,10 @@ export default function IndexClient() {
             <SectionDivider leftColor="bg-pink-500" rightColor="bg-white" />
             <AboutSection />
             
-            <SectionDivider leftColor="bg-white" rightColor="bg-[#4ade80]" />
+            <SectionDivider leftColor="bg-white" rightColor="bg-[#facc15]" />
+            <WebAppsShowcase />
+            
+            <SectionDivider leftColor="bg-[#facc15]" rightColor="bg-[#4ade80]" />
             <SecuritySection />
             
             <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-[#facc15]" />
