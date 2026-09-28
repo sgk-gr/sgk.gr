@@ -3,6 +3,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Printer, Download, ShieldCheck, Loader2 } from "lucide-react";
+import { SIGNATURE_TSAVOS_BASE64 } from "@/lib/signatureTsavos";
 
 interface ContractData {
   id?: string;
@@ -36,6 +37,7 @@ interface ContractData {
   deliveryDaysNum?: number;
   deliveryDaysText?: string;
   ibanDetails?: string;
+  includeSignature?: boolean;
 }
 
 const DEFAULT_CONTRACT: ContractData = {
@@ -65,6 +67,7 @@ const DEFAULT_CONTRACT: ContractData = {
   deliveryDaysNum: 5,
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
+  includeSignature: true,
 };
 
 const formatDateGreek = (dateStr?: string) => {
@@ -346,18 +349,26 @@ function ContractViewer() {
         </div>
 
         {/* SIGNATURES SECTION */}
-        <div className="contract-signatures mt-12 pt-8 grid grid-cols-2 gap-8 text-center text-xs">
+        <div className="contract-signatures mt-10 pt-6 grid grid-cols-2 gap-8 text-center text-xs">
           <div>
-            <p className="font-bold text-sm mb-4">Οι Συμβαλλόμενοι:</p>
-            <p className="font-bold text-gray-900 mb-6">Ο Ανάδοχος</p>
-            <div className="h-16 border-b border-dashed border-gray-400 w-3/4 mx-auto mb-2" />
+            <p className="font-bold text-sm mb-3">Οι Συμβαλλόμενοι:</p>
+            <p className="font-bold text-gray-900 mb-2">Ο Ανάδοχος</p>
+            <div className="h-20 relative flex items-center justify-center border-b border-dashed border-gray-400 w-3/4 mx-auto mb-2">
+              {contract.includeSignature !== false && (
+                <img
+                  src={SIGNATURE_TSAVOS_BASE64}
+                  alt="Υπογραφή Αναδόχου"
+                  className="h-16 max-h-16 w-auto object-contain pointer-events-none select-none"
+                />
+              )}
+            </div>
             <p className="font-bold uppercase tracking-wider">{contract.contractorName}</p>
           </div>
 
           <div>
-            <p className="font-bold text-sm mb-4">&nbsp;</p>
-            <p className="font-bold text-gray-900 mb-6">Ο Εργοδότης / Πελάτης</p>
-            <div className="h-16 border-b border-dashed border-gray-400 w-3/4 mx-auto mb-2" />
+            <p className="font-bold text-sm mb-3">&nbsp;</p>
+            <p className="font-bold text-gray-900 mb-2">Ο Εργοδότης / Πελάτης</p>
+            <div className="h-20 border-b border-dashed border-gray-400 w-3/4 mx-auto mb-2" />
             <p className="font-bold uppercase tracking-wider">{contract.representativeName || "................................"}</p>
             <p className="text-[10px] text-gray-600 italic">
               (για λογαριασμό της {contract.tradeName || contract.companyName || "...................."})

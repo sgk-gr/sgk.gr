@@ -7,6 +7,7 @@ import {
   X, Check, Copy, Landmark, Mail, ExternalLink, Receipt
 } from "lucide-react";
 import { toast } from "sonner";
+import { SIGNATURE_TSAVOS_BASE64 } from "@/lib/signatureTsavos";
 
 // Safe UTF-8 Base64 encoder
 function safeEncodeBase64(data: any): string {
@@ -108,7 +109,7 @@ export const DEFAULT_CONTRACT: ContractData = {
   deliveryDaysNum: 5,
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
-  includeSignature: false,
+  includeSignature: true,
   contractorSignatureData: "",
   clientSignatureData: "",
 };
@@ -433,6 +434,7 @@ export function ContractsTab({
       representativeFatherName: "",
       representativeAfm: "",
       clientAfm: "",
+      includeSignature: true,
     };
     setCurrentContract(newContract);
     setYmsDetectedInfo(null);
@@ -498,14 +500,16 @@ export function ContractsTab({
         <div style="width: 45%; text-align: center; font-size: 12px;">
           <p style="font-weight: bold; margin-bottom: 2px;">Οι Συμβαλλόμενοι:</p>
           <p style="font-weight: bold; margin-bottom: 4px;">Ο Ανάδοχος</p>
-          <div style="height: 48px; border-bottom: 1px dashed #555; margin: 6px auto 8px auto; width: 75%;"></div>
+          <div style="height: 56px; border-bottom: 1px dashed #555; margin: 4px auto 8px auto; width: 75%; position: relative; display: flex; align-items: center; justify-content: center;">
+            ${c.includeSignature !== false ? `<img src="${SIGNATURE_TSAVOS_BASE64}" alt="Υπογραφή" style="height: 52px; max-width: 170px; object-fit: contain; display: block; margin: 0 auto;" />` : ''}
+          </div>
           <p style="font-weight: bold; text-transform: uppercase;">${c.contractorName}</p>
         </div>
 
         <div style="width: 45%; text-align: center; font-size: 12px;">
           <p style="font-weight: bold; margin-bottom: 2px;">&nbsp;</p>
           <p style="font-weight: bold; margin-bottom: 4px;">Ο Εργοδότης / Πελάτης</p>
-          <div style="height: 48px; border-bottom: 1px dashed #555; margin: 6px auto 8px auto; width: 75%;"></div>
+          <div style="height: 56px; border-bottom: 1px dashed #555; margin: 4px auto 8px auto; width: 75%;"></div>
           <p style="font-weight: bold; text-transform: uppercase;">${c.representativeName || '................................'}</p>
           <p style="font-size: 11px; font-style: italic; color: #444;">(για λογαριασμό της ${c.tradeName || c.companyName || '....................'})</p>
         </div>
@@ -1736,18 +1740,26 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                 </div>
 
                 {/* SIGNATURES SECTION */}
-                <div className="mt-12 pt-8 grid grid-cols-2 gap-8 text-center text-xs">
+                <div className="mt-10 pt-6 grid grid-cols-2 gap-8 text-center text-xs">
                   <div>
-                    <p className="font-bold text-sm mb-4">Οι Συμβαλλόμενοι:</p>
-                    <p className="font-bold text-gray-900 mb-6">Ο Ανάδοχος</p>
-                    <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
+                    <p className="font-bold text-sm mb-3">Οι Συμβαλλόμενοι:</p>
+                    <p className="font-bold text-gray-900 mb-2">Ο Ανάδοχος</p>
+                    <div className="h-20 relative flex items-center justify-center border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2">
+                      {currentContract.includeSignature !== false && (
+                        <img
+                          src={SIGNATURE_TSAVOS_BASE64}
+                          alt="Υπογραφή Αναδόχου"
+                          className="h-16 max-h-16 w-auto object-contain pointer-events-none select-none"
+                        />
+                      )}
+                    </div>
                     <p className="font-bold uppercase tracking-wider">{currentContract.contractorName}</p>
                   </div>
 
                   <div>
-                    <p className="font-bold text-sm mb-4">&nbsp;</p>
-                    <p className="font-bold text-gray-900 mb-6">Ο Εργοδότης / Πελάτης</p>
-                    <div className="h-16 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
+                    <p className="font-bold text-sm mb-3">&nbsp;</p>
+                    <p className="font-bold text-gray-900 mb-2">Ο Εργοδότης / Πελάτης</p>
+                    <div className="h-20 border-b border-dashed border-gray-300 w-3/4 mx-auto mb-2" />
                     <p className="font-bold uppercase tracking-wider">{currentContract.representativeName || "................................"}</p>
                     <p className="text-[10px] text-gray-600 italic">
                       (για λογαριασμό της {currentContract.tradeName || currentContract.companyName || "...................."})

@@ -1701,7 +1701,8 @@ function safeEncodeBase64(data: any): string {
                             totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
                             deliveryDaysText: "πέντε (5)",
                             renewalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
-                            ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος"
+                            ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
+                            includeSignature: true
                           });
                         }
                         e.target.value = "";

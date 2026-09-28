@@ -93,7 +93,7 @@ export async function POST(req: Request) {
       deliveryDaysNum: 5,
       deliveryDaysText: "πέντε (5)",
       ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
-      includeSignature: false,
+      includeSignature: true,
     };
 
     const b64 = safeEncodeBase64(contractData);
