@@ -5,8 +5,6 @@ import Link from "next/link";
 import { 
     Mic, 
     MicOff, 
-    Video as VideoIcon, 
-    VideoOff, 
     ScreenShare, 
     PhoneOff, 
     Phone, 
@@ -40,17 +38,14 @@ export default function LiveAvatarAgentDemoPage() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState<string>("");
 
-    // User Media (Camera & Mic)
+    // User Media (Mic & Screen)
     const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
-    const [isVideoOff, setIsVideoOff] = useState<boolean>(false);
     const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
-    const [hasUserMedia, setHasUserMedia] = useState<boolean>(false);
 
     // Call duration timer
     const [callSeconds, setCallSeconds] = useState<number>(0);
 
     // Refs
-    const userVideoRef = useRef<HTMLVideoElement | null>(null);
     const avatarVideoRef = useRef<HTMLVideoElement | null>(null);
     const chatEndRef = useRef<HTMLDivElement | null>(null);
     const sessionRef = useRef<any>(null);
@@ -72,33 +67,6 @@ export default function LiveAvatarAgentDemoPage() {
         }
         return () => clearInterval(interval);
     }, [isCallActive]);
-
-    // Initialize user camera
-    useEffect(() => {
-        let stream: MediaStream | null = null;
-        async function setupCamera() {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
-                    audio: true
-                });
-                if (userVideoRef.current) {
-                    userVideoRef.current.srcObject = stream;
-                }
-                setHasUserMedia(true);
-            } catch (err) {
-                console.warn("Camera/mic permission denied or unavailable:", err);
-                setHasUserMedia(false);
-            }
-        }
-        setupCamera();
-
-        return () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-            }
-        };
-    }, []);
 
     // Connect to LiveAvatar setup-agent API & Initialize SDK WebRTC Session
     const handleStartCall = async () => {
@@ -213,13 +181,6 @@ export default function LiveAvatarAgentDemoPage() {
     const handleToggleMic = () => {
         const nextState = !isMicMuted;
         setIsMicMuted(nextState);
-
-        if (userVideoRef.current && userVideoRef.current.srcObject) {
-            const stream = userVideoRef.current.srcObject as MediaStream;
-            stream.getAudioTracks().forEach(track => {
-                track.enabled = !nextState;
-            });
-        }
 
         if (sessionRef.current?.voiceChat) {
             try {
@@ -492,19 +453,6 @@ export default function LiveAvatarAgentDemoPage() {
                             {isMicMuted ? <MicOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Mic className="w-4 h-4 sm:w-5 sm:h-5" />}
                         </button>
 
-                        {/* Camera Button */}
-                        <button 
-                            onClick={() => setIsVideoOff(!isVideoOff)}
-                            className={`p-2.5 sm:p-3 rounded-full transition-all ${
-                                isVideoOff 
-                                    ? "bg-red-500 hover:bg-red-600 text-white shadow-md" 
-                                    : "bg-gray-100 hover:bg-gray-200 text-slate-700"
-                            }`}
-                            title={isVideoOff ? "Ενεργοποίηση κάμερας" : "Απενεργοποίηση κάμερας"}
-                        >
-                            {isVideoOff ? <VideoOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <VideoIcon className="w-4 h-4 sm:w-5 sm:h-5" />}
-                        </button>
-
                         {/* Screen Share Button (Desktop only) */}
                         <button 
                             onClick={() => setIsScreenSharing(!isScreenSharing)}
@@ -552,54 +500,6 @@ export default function LiveAvatarAgentDemoPage() {
                                 <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                             </button>
                         )}
-                    </div>
-
-                    {/* ================= PiP (User Camera: top-left on mobile, bottom-right on desktop) ================= */}
-                    <div className="absolute top-3 right-3 sm:top-auto sm:left-auto sm:bottom-6 sm:right-6 z-20 w-24 sm:w-44 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
-                        {hasUserMedia && !isVideoOff ? (
-                            <video 
-                                ref={userVideoRef}
-                                autoPlay
-                                playsInline
-                                muted
-                                className="w-full h-full object-cover -scale-x-100"
-                            />
-                        ) : (
-                            <div className="w-full h-full bg-slate-50 flex flex-col items-center justify-center text-center p-2 select-none">
-                                <VideoOff className="w-4 h-4 sm:w-6 sm:h-6 text-slate-400 mb-1" />
-                                <span className="text-[8px] sm:text-[10px] font-bold tracking-widest text-slate-500 uppercase">
-                                    No Camera
-                                </span>
-                            </div>
-                        )}
-
-                        {/* Top-Right Muted Badge */}
-                        {isMicMuted && (
-                            <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 p-1 rounded-full bg-red-500/90 text-white shadow-md">
-                                <MicOff className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                            </div>
-                        )}
-
-                        {/* Bottom Overlay Label */}
-                        <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 flex items-center gap-1 bg-white/90 backdrop-blur-xs px-1.5 sm:px-2 py-0.5 rounded-md border border-gray-200">
-                            {isMicMuted ? (
-                                <MicOff className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-500" />
-                            ) : (
-                                <div className="flex items-center gap-0.5">
-                                    <span className="w-0.5 h-1.5 sm:h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                    <span className="w-0.5 h-2.5 sm:h-3 bg-emerald-500 rounded-full animate-pulse delay-75" />
-                                    <span className="w-0.5 h-1 sm:h-1.5 bg-emerald-500 rounded-full animate-pulse delay-150" />
-                                </div>
-                            )}
-                            <span className="text-[9px] sm:text-[10px] font-medium text-slate-700">
-                                Εσείς
-                            </span>
-                            {isMicMuted && (
-                                <span className="text-[8px] text-red-500 font-semibold ml-0.5 hidden xs:inline">
-                                    (Σίγαση)
-                                </span>
-                            )}
-                        </div>
                     </div>
 
                 </div>
