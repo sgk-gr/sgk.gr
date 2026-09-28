@@ -58,6 +58,7 @@ export async function POST(req: Request) {
         messages.push({ role: "user", content: message });
 
         let reply = "";
+        let geminiError = "";
 
         // 1. Try OpenAI GPT-4o-mini
         if (OPENAI_API_KEY) {
@@ -106,9 +107,14 @@ export async function POST(req: Request) {
                 if (res.ok) {
                     const data = await res.json();
                     reply = data?.choices?.[0]?.message?.content?.trim() || "";
+                } else {
+                    const errText = await res.text();
+                    console.error("Gemini API Error:", errText);
+                    geminiError = errText;
                 }
-            } catch (geminiErr) {
-                console.warn("Gemini chat error:", geminiErr);
+            } catch (geminiErr: any) {
+                console.error("Gemini chat exception:", geminiErr);
+                geminiError = String(geminiErr.message || geminiErr);
             }
         }
 
@@ -162,7 +168,8 @@ export async function POST(req: Request) {
             reply,
             audioBase64,
             audioUrl,
-            ttsError
+            ttsError,
+            geminiError
         });
     } catch (err: any) {
         console.error("LiveAvatar chat route error:", err);

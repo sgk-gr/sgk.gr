@@ -80,6 +80,9 @@ export default function LiveAvatarAgentDemoPage() {
     const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState<string>("");
+    
+    // Echo prevention
+    const [isAgentTalking, setIsAgentTalking] = useState<boolean>(false);
 
     // User Media (Camera & Mic)
     const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
@@ -203,6 +206,9 @@ export default function LiveAvatarAgentDemoPage() {
                 });
 
                 const data = await res.json();
+                if (data.geminiError) {
+                    addLog("Gemini API Error: " + data.geminiError);
+                }
                 const aiReply = data?.reply || "Σας άκουσα! Πώς μπορώ να σας εξυπηρετήσω με τους AI Agents;";
 
                 setIsAgentThinking(false);
@@ -310,6 +316,11 @@ export default function LiveAvatarAgentDemoPage() {
             };
 
             recognition.onresult = (event: any) => {
+                if (isAgentTalking) {
+                    addLog("STT ignored due to agent talking (echo cancellation)");
+                    return;
+                }
+
                 let interim = "";
                 let final = "";
 
@@ -365,7 +376,7 @@ export default function LiveAvatarAgentDemoPage() {
             }
             setIsListeningSTT(false);
         };
-    }, [isCallActive, isMicMuted, sessionMode]);
+    }, [isCallActive, isMicMuted, sessionMode, isAgentTalking]);
 
     // Connect to LiveAvatar setup-agent API & Initialize WebRTC Session
     const handleStartCall = async () => {
@@ -374,6 +385,9 @@ export default function LiveAvatarAgentDemoPage() {
         // 0. Unlock browser audio during user interaction
         if (!audioRef.current) {
             audioRef.current = new Audio();
+            audioRef.current.onplay = () => setIsAgentTalking(true);
+            audioRef.current.onended = () => setIsAgentTalking(false);
+            audioRef.current.onpause = () => setIsAgentTalking(false);
         }
         audioRef.current.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
         audioRef.current.play()
