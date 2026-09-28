@@ -48,7 +48,7 @@ export interface ContractData {
   address?: string;
 
   // Service / Scope
-  serviceType: "ike_gemi" | "eshop" | "website" | "custom";
+  serviceType: "ike_gemi" | "ai_agent" | "website" | "custom";
   serviceTitle: string;
   serviceDescription: string;
 
@@ -238,16 +238,16 @@ export function ContractsTab({
           duration: "12 μήνες"
         }
       ];
-    } else if (c.serviceType === "eshop") {
+    } else if (c.serviceType === "ai_agent") {
       offerItems = [
         {
-          title: "Κατασκευή Eshop (WooCommerce & Custom Design)",
-          description: "Σχεδιασμός & ανάπτυξη custom ηλεκτρονικού καταστήματος. Περιλαμβάνει responsive σχεδίαση για κινητά/tablets, διασύνδεση με τράπεζες, Google PageSpeed 95+ και βασικό SEO.",
-          duration: `${c.deliveryDaysNum || 25} εργάσιμες ημέρες`
+          title: "Ανάπτυξη AI Agent & Live Video Avatar (WebRTC 24/7)",
+          description: "Σχεδιασμός φωτορεαλιστικού avatar, εκπαίδευση με εταιρικά δεδομένα (RAG), live WebRTC video call, φωνητική απόκριση σε φυσικά ελληνικά και διασύνδεση με CRM/ERP/Calendar.",
+          duration: `${c.deliveryDaysNum || 10} εργάσιμες ημέρες`
         },
         {
-          title: "Premium Hosting & Τεχνική Υποστήριξη (VPS & Cloudflare)",
-          description: "Φιλοξενία σε dedicated cloud server, διαμόρφωση Cloudflare CDN/WAF για μέγιστη ασφάλεια, αυτόματα daily backups και 12 μήνες συνεχή υποστήριξη.",
+          title: "Private Dedicated AI Hosting & Υποστήριξη",
+          description: "Φιλοξενία σε dedicated AI server, διασφάλιση απορρήτου δεδομένων (100% GDPR), μηνιαία συντήρηση και τεχνική υποστήριξη 24/7.",
           duration: "12 μήνες"
         }
       ];
@@ -278,7 +278,7 @@ export function ContractsTab({
   };
 
   // Helper to switch service preset
-  const handleApplyPreset = (presetId: "ike_gemi" | "eshop" | "website" | "custom") => {
+  const handleApplyPreset = (presetId: "ike_gemi" | "ai_agent" | "website" | "custom") => {
     if (presetId === "ike_gemi") {
       setCurrentContract(prev => ({
         ...prev,
@@ -297,24 +297,24 @@ export function ContractsTab({
         deliveryDaysText: "πέντε (5)",
       }));
       toast.info("Επιλέχθηκε το πακέτο: Ι.Κ.Ε. ΓΕΜΗ (150€)");
-    } else if (presetId === "eshop") {
+    } else if (presetId === "ai_agent") {
       setCurrentContract(prev => ({
         ...prev,
-        serviceType: "eshop",
-        serviceTitle: "Κατασκευή Ηλεκτρονικού Καταστήματος (E-Shop)",
-        serviceDescription: "Custom σχεδιασμός & ανάπτυξη e-shop, διασύνδεση με τράπεζα, σύστημα διαχείρισης παραγγελιών, responsive UI και SEO.",
-        totalAmountNum: 1240,
-        totalAmountText: "χιλίων διακοσίων σαράντα ευρώ (1.240,00 €)",
-        advanceAmountNum: 620,
-        advanceAmountText: "εξακοσίων είκοσι ευρώ (620,00 €)",
-        remainingAmountNum: 620,
-        remainingAmountText: "εξακοσίων είκοσι ευρώ (620,00 €)",
-        renewalAmountNum: 180,
-        renewalAmountText: "εκατόν ογδόντα ευρώ (180,00 €)",
-        deliveryDaysNum: 25,
-        deliveryDaysText: "είκοσι πέντε (25)",
+        serviceType: "ai_agent",
+        serviceTitle: "Ανάπτυξη AI Agent & Live Video Avatar (WebRTC 24/7)",
+        serviceDescription: "Σχεδιασμός φωτορεαλιστικού avatar, εκπαίδευση με εταιρικά δεδομένα (RAG), live WebRTC video call, φωνητική απόκριση σε φυσικά ελληνικά και διασύνδεση με CRM/ERP/Calendar.",
+        totalAmountNum: 1500,
+        totalAmountText: "χιλίων πεντακοσίων ευρώ (1.500,00 €)",
+        advanceAmountNum: 750,
+        advanceAmountText: "επτακοσίων πενήντα ευρώ (750,00 €)",
+        remainingAmountNum: 750,
+        remainingAmountText: "επτακοσίων πενήντα ευρώ (750,00 €)",
+        renewalAmountNum: 250,
+        renewalAmountText: "διακοσίων πενήντα ευρώ (250,00 €)",
+        deliveryDaysNum: 10,
+        deliveryDaysText: "δέκα (10)",
       }));
-      toast.info("Επιλέχθηκε το πακέτο: Κατασκευή Eshop (1.240€)");
+      toast.info("Επιλέχθηκε το πακέτο: AI Agent & Video Avatar (1.500€)");
     } else if (presetId === "website") {
       setCurrentContract(prev => ({
         ...prev,
@@ -1345,15 +1345,15 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
 
                   <button
                     type="button"
-                    onClick={() => handleApplyPreset("eshop")}
+                    onClick={() => handleApplyPreset("ai_agent")}
                     className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                      currentContract.serviceType === "eshop"
+                      currentContract.serviceType === "ai_agent"
                         ? "bg-blue-50 border-[#3b5bdb] ring-2 ring-[#3b5bdb]/30 text-blue-950 font-bold"
                         : "bg-slate-50 border-gray-200 hover:bg-slate-100 text-slate-700"
                     }`}
                   >
-                    <span className="block text-xs font-black">🛒 E-Shop</span>
-                    <span className="text-[10px] font-bold text-emerald-600">1.240,00 €</span>
+                    <span className="block text-xs font-black">🤖 AI Agent & Video</span>
+                    <span className="text-[10px] font-bold text-emerald-600">1.500,00 €</span>
                   </button>
 
                   <button

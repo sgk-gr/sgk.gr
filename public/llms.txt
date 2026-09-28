@@ -9,11 +9,11 @@
 - [Voice AI Telephony (Τηλεφωνικά Κέντρα)](https://www.sgk.gr/ai-agents): Sub-second latency Greek voice agents for inbound/outbound calls via Asterisk, FreePBX, 3CX, Twilio.
 - [Smart Chat AI Agents (Omnichannel)](https://www.sgk.gr/ai-agents): Website, WhatsApp, Instagram, Messenger, Email — zero-hallucination RAG with courier tracking (ACS, Speedex, BoxNow).
 
-## E-Commerce & Web Development
+## Web Development & Compliance
 
-- [Κατασκευή Eshop](https://www.sgk.gr/kataskevi-eshop): Custom WooCommerce & headless e-commerce development for Greek businesses.
 - [Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (150€)](https://www.sgk.gr/ike-offer): Statutory IKE website with live GEMI synchronization, delivered in 24 hours.
-- [Web Development & Custom Applications](https://www.sgk.gr/services): Full-stack Next.js, React, and scalable enterprise applications.
+- [Web Development & Custom Applications](https://www.sgk.gr/web-development): Full-stack Next.js, React, and scalable enterprise applications.
+- [Κατασκευή Ιστοσελίδων](https://www.sgk.gr/kataskevi-istoselidon): Custom business websites, landing pages and portals.
 
 ## AI Agent Pricing
 

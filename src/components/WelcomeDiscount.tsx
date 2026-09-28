@@ -37,7 +37,7 @@ export default function WelcomeDiscount() {
               Οι νέοι πελάτες μας κερδίζουν αμέσως 150€ έκπτωση!
             </h3>
             <p className="text-white/80 text-sm md:text-base">
-              Για όποιο project (E-shop, Web App, Portal) θέλουν να φτιάξουν. Ξεκινήστε σήμερα με πλεονέκτημα.
+              Για όποιο project (AI Agent, Web App, Portal, Ιστοσελίδα) θέλουν να φτιάξουν. Ξεκινήστε σήμερα με πλεονέκτημα.
             </p>
           </div>
 

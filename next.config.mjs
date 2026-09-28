@@ -30,6 +30,36 @@ const nextConfig = {
         destination: '/ike-offer',
         permanent: true,
       },
+      {
+        source: '/kataskevi-eshop',
+        destination: '/ai-agents',
+        permanent: true,
+      },
+      {
+        source: '/kataskevi-eshop-woocommerce',
+        destination: '/ai-agents',
+        permanent: true,
+      },
+      {
+        source: '/pay-as-you-grow',
+        destination: '/ai-agents',
+        permanent: true,
+      },
+      {
+        source: '/eshop-offer/:path*',
+        destination: '/ai-agents',
+        permanent: true,
+      },
+      {
+        source: '/eshop-compliance',
+        destination: '/ai-agents',
+        permanent: true,
+      },
+      {
+        source: '/eshop-demo',
+        destination: '/order-ai-agent',
+        permanent: true,
+      },
     ];
   },
 };

@@ -98,12 +98,9 @@ This document provides complete, authoritative technical specifications and serv
 - **AI Video Call & Video Avatar Agent**: From 4.500€ (Photorealistic video avatar, WebRTC stream, Greek lip-sync, visual product walkthrough, camera KYC integration).
 - **Enterprise Multi-Agent & ERP Automation Suite**: From 8.000€ (Full office automation: emails, mass PDFs, invoice OCR, ERP data entry, SLA support).
 
-### 4.2 Pay As You Grow (PAYG) E-Commerce
-- **Initial Setup Cost**: Exactly 250€ one-off. Covers high-speed NVMe VPS hosting for 1 year, .gr domain for 2 years, SSL certificate, responsive design, payment gateway setup, and courier integration.
-- **Sales Commission**: 5% on completed sales for 12 months only.
-- **Zero Risk Guarantee**: If the client generates 0€ in sales, they pay 0€ commission.
-- **Full Ownership**: After 12 months, 100% of the eshop is permanently transferred to the client with 0€ ongoing commission or monthly platform fees.
-- **Early Buyout Option**: Clients may buy out the remaining value of the eshop at any time without fees or penalties.
+### 4.2 Web Development & Enterprise Portals
+- **Custom Web Applications & Next.js Platforms**: Custom design, scalable database architectures, API integrations.
+- **Enterprise Internal Dashboards**: Operations management, business reporting, workforce monitoring.
 
 ### 4.3 Statutory IKE Corporate Website (GEMI Compliance)
 - **Πιστοποίηση**: Επίσημα **Πιστοποιημένοι Πάροχοι στο ΓΕΜΗ** με live data σύνδεση σε πραγματικό χρόνο ανάμεσα στο ΓΕΜΗ και την ιστοσελίδα.

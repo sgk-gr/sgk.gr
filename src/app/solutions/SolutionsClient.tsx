@@ -12,20 +12,20 @@ const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
 const solutions = [
   {
-    icon: <ShoppingCart className="w-6 h-6 text-[#3b5bdb]" />,
-    tag: "B2B & B2C Platforms",
-    title: "Ηλεκτρονικό εμπόριο νέας γενιάς",
-    desc: "Custom headless e-shops για απόλυτη ευελιξία και ταχύτητα. Αυτοματοποιημένες διασυνδέσεις με ERP, CRM και B2B portals με custom τιμοκαταλόγους.",
+    icon: <Bot className="w-6 h-6 text-[#3b5bdb]" />,
+    tag: "Live Video & Avatars",
+    title: "Ψηφιακοί Υπάλληλοι σε Video Call",
+    desc: "Φωτορεαλιστικοί AI Agents σε ζωντανή βιντεοκλήση WebRTC (<800ms) με φυσική ελληνική ομιλία, εξυπηρέτηση πελατών και οπτική ταυτοποίηση KYC 24/7.",
     bullets: [
-      "Custom headless e-shops (WooCommerce & Next.js)",
-      "Αυτοματοποιημένες διασυνδέσεις ERP / CRM",
-      "B2B portals με custom τιμοκαταλόγους",
-      "Core Web Vitals 95+ — speed σε < 1s",
+      "Live Video Call σε πραγματικό χρόνο (WebRTC)",
+      "Φυσική ανθρώπινη ελληνική ομιλία & χαμόγελο",
+      "Οπτική ταυτοποίηση KYC μέσω κάμερας χρήστη",
+      "Live σύνδεση με ERP, CRM, Calendar & e-Banking",
     ],
-    href: "/kataskevi-eshop",
-    cta: "Δες τα e-shop projects",
-    image: "/images/solutions/eshop_dashboard.png",
-    imageAlt: "E-commerce solutions",
+    href: "/order-ai-agent",
+    cta: "Δες τους AI Video Agents",
+    image: "/images/hero_ai_video_agent.webp",
+    imageAlt: "Live Video AI Agents and Avatars",
     reverse: false,
   },
   {

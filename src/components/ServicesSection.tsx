@@ -35,7 +35,7 @@ export default function ServicesSection() {
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>
-                <span>Custom εφαρμογές και E-shops 100% προσαρμοσμένα στις απαιτήσεις σου</span>
+                <span>Custom web εφαρμογές και AI Agents 100% προσαρμοσμένα στις απαιτήσεις σου</span>
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>
@@ -43,7 +43,7 @@ export default function ServicesSection() {
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>
-                <span>SGK Pay as you grow – Ξεκίνα το project σου τώρα & πλήρωσε καθώς μεγαλώνεις</span>
+                <span>SGK Turnkey Solutions – Ξεκίνα το project σου άμεσα & με ξεκάθαρο κόστος</span>
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>
@@ -85,7 +85,7 @@ export default function ServicesSection() {
             Όλα για την επιχείρησή σου
           </h2>
           <p className="text-black/70 text-sm md:text-base leading-relaxed">
-            Η SGK σου παρέχει ψηφιακές λύσεις που σε βοηθούν να προσπεράσεις κάθε εμπόδιο που συναντάς, ώστε να έχεις τον απόλυτο έλεγχο της επιχείρησής σου. Από αστραπιαία E-shops μέχρι έξυπνα συστήματα AI, ό,τι ψάχνεις για την επιχείρησή σου βρίσκεται εδώ.
+            Η SGK σου παρέχει ψηφιακές λύσεις που σε βοηθούν να προσπεράσεις κάθε εμπόδιο που συναντάς, ώστε να έχεις τον απόλυτο έλεγχο της επιχείρησής σου. Από σύγχρονες web εφαρμογές μέχρι αυτόνομα συστήματα AI, ό,τι ψάχνεις για την επιχείρησή σου βρίσκεται εδώ.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export default function ServicesSection() {
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>
-                <span>Αύξηση των παραγγελιών και της μέσης αξίας καλαθιού.</span>
+                <span>Αυτοματοποίηση καθημερινών λειτουργιών & μείωση κόστους.</span>
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>

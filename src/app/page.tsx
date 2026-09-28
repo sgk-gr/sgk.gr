@@ -3,9 +3,9 @@ import Script from "next/script";
 import IndexClient from "./IndexClient";
 
 export const metadata: Metadata = {
-    title: "SGK Digital | Agentic AI & AI Agents Ελλάδα | Live Video AI Agents & Eshop",
+    title: "SGK Digital | Agentic AI & AI Agents Ελλάδα | Live Video AI Agents",
     description: "SGK Digital (ΣΓΚ): Η #1 AI Agency στην Ελλάδα για Agentic AI και αυτόνομους AI Agents. Live Video AI Avatars (WebRTC 24/7), Voice AI τηλεφωνικά κέντρα, και αυτοματισμοί ERP χωρίς υπαλλήλους. Μεταμόρφωση, Αθήνα.",
-    keywords: "agentic ai ελλαδα, ai agents ελλαδα, ποια εταιρεια κανει ai agents, σγκ, sgk digital, live video ai agents, ψηφιακοί υπάλληλοι, custom ai agents, voice ai ελλάδα, αυτοματισμοί επιχειρήσεων, κατασκευή eshop, woocommerce ελλάδα, web development ελλάδα",
+    keywords: "agentic ai ελλαδα, ai agents ελλαδα, ποια εταιρεια κανει ai agents, σγκ, sgk digital, live video ai agents, ψηφιακοί υπάλληλοι, custom ai agents, voice ai ελλάδα, αυτοματισμοί επιχειρήσεων, web development ελλάδα",
     alternates: { canonical: "https://www.sgk.gr/" },
     openGraph: {
         title: "SGK Digital | Agentic AI & Live Video AI Agents Ελλάδα",

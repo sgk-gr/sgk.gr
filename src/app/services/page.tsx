@@ -3,13 +3,13 @@ import ServicesClient from './ServicesClient';
 
 export const metadata: Metadata = {
   title: 'Οι Υπηρεσίες Μας | SGK Digital',
-  description: 'Ανακαλύψτε τις ψηφιακές λύσεις της SGK. Κατασκευή E-shop, Custom Web Apps, AI Agents και Digital Marketing με τη φιλοσοφία Pay As You Grow.',
+  description: 'Ανακαλύψτε τις ψηφιακές λύσεις της SGK. AI Agents, Live Video Avatars 24/7, Custom Web Applications και επιχειρηματικοί αυτοματισμοί.',
   alternates: {
     canonical: "https://www.sgk.gr/services",
   },
   openGraph: {
     title: 'Οι Υπηρεσίες Μας | SGK Digital',
-    description: 'Ανακαλύψτε τις ψηφιακές λύσεις της SGK. Κατασκευή E-shop, Custom Web Apps, AI Agents και Digital Marketing με τη φιλοσοφία Pay As You Grow.',
+    description: 'Ανακαλύψτε τις ψηφιακές λύσεις της SGK. AI Agents, Live Video Avatars 24/7, Custom Web Applications και επιχειρηματικοί αυτοματισμοί.',
     url: "https://www.sgk.gr/services",
     type: "website",
     images: ["https://www.sgk.gr/social-preview.png"],
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: 'Οι Υπηρεσίες Μας | SGK Digital',
-    description: 'Κατασκευή E-shop, Custom Web Apps, AI Agents και Digital Marketing με τη φιλοσοφία Pay As You Grow.',
+    description: 'AI Agents, Live Video Avatars 24/7, Custom Web Applications και επιχειρηματικοί αυτοματισμοί.',
     images: ["https://www.sgk.gr/social-preview.png"],
   },
 };

@@ -29,13 +29,13 @@ const spaceGrotesk = SpaceFont({
 });
 
 export const metadata: Metadata = {
-    title: "SGK Digital | Agentic AI, AI Agents Ελλάδα, Κατασκευή Eshop & Web Apps",
-    description: "SGK Digital (ΣΓΚ) — Η #1 AI Agency για Agentic AI & Custom AI Agents στην Ελλάδα. Live Video AI Agents (24/7 WebRTC), Voice AI Telephony, ERP Automations & Κατασκευή Eshop. 18 χρόνια εμπειρίας.",
-    keywords: "agentic ai ελλαδα, ai agents ελλάδα, ποια εταιρεια κανει ai agents, σγκ, sgk digital, live video ai agents, ψηφιακοί υπάλληλοι, κατασκευή ai agents, voice ai ελλάδα, κατασκευή eshop, woocommerce ελλάδα, web development ελλάδα",
+    title: "SGK Digital | Agentic AI, AI Agents Ελλάδα, Web Development & Apps",
+    description: "SGK Digital (ΣΓΚ) — Η #1 AI Agency για Agentic AI & Custom AI Agents στην Ελλάδα. Live Video AI Agents (24/7 WebRTC), Voice AI Telephony, ERP Automations & Custom Web Apps. 18 χρόνια εμπειρίας.",
+    keywords: "agentic ai ελλαδα, ai agents ελλάδα, ποια εταιρεια κανει ai agents, σγκ, sgk digital, live video ai agents, ψηφιακοί υπάλληλοι, κατασκευή ai agents, voice ai ελλάδα, web development ελλάδα, custom web apps",
     metadataBase: new URL("https://www.sgk.gr"),
     alternates: { canonical: "https://www.sgk.gr" },
     openGraph: {
-        title: "SGK Digital | Agentic AI, AI Agents Ελλάδα, Eshop & Web Apps",
+        title: "SGK Digital | Agentic AI, AI Agents Ελλάδα & Custom Web Apps",
         description: "Η #1 AI Agency για Agentic AI & Custom AI Agents στην Ελλάδα. Live Video WebRTC, Voice AI και επιχειρηματικοί αυτοματισμοί χωρίς υπαλλήλους.",
         images: [{ url: "https://www.sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Digital Agentic AI" }],
         url: "https://www.sgk.gr",
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "SGK Software Development | Κατασκευή Eshop, AI Agents Ελλάδα",
-        description: "18 χρόνια εμπειρίας. Κατασκευή Eshop, Web Apps, AI Agents. Αθήνα, Ελλάδα.",
+        title: "SGK Software Development | AI Agents, Web Apps Ελλάδα",
+        description: "18 χρόνια εμπειρίας. Custom Web Apps, AI Agents. Αθήνα, Ελλάδα.",
         images: ["https://www.sgk.gr/hero_slide_4.png"],
     },
     robots: {
@@ -128,8 +128,7 @@ const localBusinessSchema = {
         "Greek NLP & Chatbots",
         "Custom Business Automation",
         "ERP Integrations",
-        "Headless E-commerce Development",
-        "WooCommerce Development",
+        "Web Application Development",
         "Next.js and React Engineering"
     ],
     "hasOfferCatalog": {
@@ -140,7 +139,6 @@ const localBusinessSchema = {
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents & Custom AI", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Voice AI Telephony (Τηλεφωνικά Κέντρα)", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Αυτόνομοι Πράκτορες Χωρίς Υπαλλήλους", "url": "https://www.sgk.gr/ai-agents" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Eshop (Pay As You Grow)", "url": "https://www.sgk.gr/pay-as-you-grow" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (150€)", "url": "https://www.sgk.gr/ike-offer" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Web Applications & Software", "url": "https://www.sgk.gr/services" } }
         ]
@@ -153,7 +151,7 @@ const websiteSchema = {
     "@id": "https://www.sgk.gr/#website",
     "url": "https://www.sgk.gr",
     "name": "SGK Software Development",
-    "description": "Κατασκευή Eshop, Web Development & AI Agents στην Ελλάδα",
+    "description": "Agentic AI, AI Agents & Web Development στην Ελλάδα",
     "publisher": { "@id": "https://www.sgk.gr/#organization" },
     "potentialAction": {
         "@type": "SearchAction",

@@ -36,7 +36,7 @@ export default function ServicesClient() {
 
       <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-[#4ade80]" />
 
-      {/* --- Service 1: E-shops (Image Right, Black Box Left) --- */}
+      {/* --- Service 1: Live Video AI Agents (Image Right, Black Box Left) --- */}
       <section className="w-full bg-[#fcfcfc] py-24 md:py-32">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col-reverse md:flex-row relative items-center">
@@ -50,33 +50,33 @@ export default function ServicesClient() {
               className="w-full md:w-[45%] bg-[#111111] p-8 md:p-14 relative z-10 md:-mr-[10%] mt-[-40px] md:mt-0 shadow-2xl"
             >
               <h2 className="text-white text-3xl md:text-5xl font-light mb-8 leading-tight">
-                Κατασκευή E-shop <br /> <span className="font-bold text-[#4ade80]">Νέας Γενιάς</span>
+                Live Video AI Agents <br /> <span className="font-bold text-[#4ade80]">Ψηφιακοί Υπάλληλοι</span>
               </h2>
               
               <ul className="space-y-6 mb-12">
                 <li className="flex items-start text-white/90 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-2"></span>
-                  <span>WooCommerce & Headless E-commerce για απόλυτη ευελιξία και ταχύτητα.</span>
+                  <span><strong>WebRTC Video Call σε Πραγματικό Χρόνο:</strong> Διαδραστικός AI βοηθός πρόσωπο με πρόσωπο (&lt;800ms latency).</span>
                 </li>
                 <li className="flex items-start text-white/90 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-2"></span>
-                  <span><strong>&lt; 1s Load Time:</strong> Optimized κώδικας, caching και CDN για instant page loads.</span>
+                  <span><strong>Φυσική Ελληνική Ομιλία:</strong> Άπταιστη κατανόηση και ομιλία χωρίς ρομποτικές καθυστερήσεις.</span>
                 </li>
                 <li className="flex items-start text-white/90 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-2"></span>
-                  <span><strong>100/100 PageSpeed:</strong> Core Web Vitals στο πράσινο κάθε φορά, χωρίς συμβιβασμούς.</span>
+                  <span><strong>Οπτική Ταυτοποίηση KYC:</strong> Αναγνώριση εγγράφων και ταυτοτήτων απευθείας μέσω κάμερας.</span>
                 </li>
                 <li className="flex items-start text-white/90 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-2"></span>
-                  <span>Custom Design & Checkouts βελτιστοποιημένα για Maximum Conversion.</span>
+                  <span><strong>Live Σύνδεση με ERP / CRM / Calendar:</strong> Κλείσιμο ραντεβού και αυτόματη καταχώρηση στο σύστημά σας 24/7.</span>
                 </li>
               </ul>
               
               <Link 
-                href="/kataskevi-eshop"
+                href="/order-ai-agent"
                 className="inline-block bg-[#4ade80] text-black hover:bg-[#22c55e] transition-colors duration-300 font-bold py-4 px-10 rounded-sm shadow-lg w-full sm:w-auto text-lg text-center"
               >
-                Μάθε περισσότερα
+                Δείτε Live Demo & Πλάνα
               </Link>
             </motion.div>
 
@@ -89,8 +89,8 @@ export default function ServicesClient() {
               className="w-full md:w-[60%] relative h-[450px] md:h-[700px] z-0"
             >
               <Image 
-                src="/images/services/eshop_greek_fixed_1782041166365.png" 
-                alt="Headless E-commerce Solutions" 
+                src="/images/hero_ai_video_agent.webp" 
+                alt="Live Video AI Agents & Avatars" 
                 fill
                 className="object-cover shadow-xl"
               />
