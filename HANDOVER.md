@@ -47,11 +47,11 @@ git pull origin main
 ```
 
 ### Step 2: Deploy Edge Functions to Supabase Cloud
-Project Reference: `xrmvingehhiymchoggka`
+Project Reference: `fgyecckvlbkgclsehcgf`
 
 ```bash
-npx supabase functions deploy send-nurture-email --project-ref xrmvingehhiymchoggka
-npx supabase functions deploy chat --project-ref xrmvingehhiymchoggka
+npx supabase functions deploy send-nurture-email --project-ref fgyecckvlbkgclsehcgf
+npx supabase functions deploy chat --project-ref fgyecckvlbkgclsehcgf
 ```
 
 ### Step 3: Verification
