@@ -4,8 +4,8 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const searchParams = url.searchParams;
   
-  // Forward query params to Supabase Edge Function
-  const supabaseUrl = `https://xrmvingehhiymchoggka.supabase.co/functions/v1/voice?${searchParams.toString()}`;
+  const baseSbUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://fgyecckvlbkgclsehcgf.supabase.co";
+  const supabaseUrl = `${baseSbUrl}/functions/v1/voice?${searchParams.toString()}`;
   
   try {
     const response = await fetch(supabaseUrl, {
@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
   const searchParams = url.searchParams;
   const reqBody = await request.text();
   
-  const supabaseUrl = `https://xrmvingehhiymchoggka.supabase.co/functions/v1/voice?${searchParams.toString()}`;
+  const baseSbUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://fgyecckvlbkgclsehcgf.supabase.co";
+  const supabaseUrl = `${baseSbUrl}/functions/v1/voice?${searchParams.toString()}`;
   
   try {
     const response = await fetch(supabaseUrl, {

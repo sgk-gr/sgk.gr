@@ -148,7 +148,7 @@ function InvoiceViewer() {
         // 4. Fallback direct public Supabase Storage CDN
         if (!fetchedData) {
           try {
-            const cdnRes = await fetch(`https://xrmvingehhiymchoggka.supabase.co/storage/v1/object/public/pdf_uploads/documents/invoice_${id}.json`);
+            const cdnRes = await fetch(`https://fgyecckvlbkgclsehcgf.supabase.co/storage/v1/object/public/pdf_uploads/documents/invoice_${id}.json`);
             if (cdnRes.ok) {
               const cdnJson = await cdnRes.json();
               if (cdnJson?.data) fetchedData = cdnJson.data;

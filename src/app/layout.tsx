@@ -175,7 +175,7 @@ export default function RootLayout({
     return (
         <html lang="el" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
             <head>
-                <link rel="preconnect" href="https://xrmvingehhiymchoggka.supabase.co" crossOrigin="anonymous" />
+                <link rel="preconnect" href="https://fgyecckvlbkgclsehcgf.supabase.co" crossOrigin="anonymous" />
                 <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
                 <link rel="dns-prefetch" href="https://stats.g.doubleclick.net" />
