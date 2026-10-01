@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getServiceSupabase, getSupabaseServiceRoleKey, SUPABASE_URL } from "@/lib/supabase";
 import { isEmailBlacklisted } from "@/lib/blacklist";
 
 export async function POST(req: Request) {
@@ -16,8 +16,8 @@ export async function POST(req: Request) {
       leadId,
     } = payload;
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabaseUrl = SUPABASE_URL;
+    const supabaseServiceKey = getSupabaseServiceRoleKey();
 
     // Send Single/Campaign Email (Manual only)
     if (!email) {
@@ -37,9 +37,7 @@ export async function POST(req: Request) {
     }
 
     // 2. HARD BLOCK: Check Supabase DB for Unsubscribed / Blacklisted status
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: { persistSession: false },
-    });
+    const supabase = getServiceSupabase();
 
     const { data: dbLead } = await supabase
       .from("sgk_mails")

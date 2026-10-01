@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getServiceSupabase } from "@/lib/supabase";
 import { isEmailBlacklisted, isCustomDomainEmail } from "@/lib/blacklist";
 
 export const dynamic = "force-dynamic";
@@ -216,9 +216,7 @@ export async function POST(req: NextRequest) {
   const isStream = body.stream !== false; // Default to streaming
   const pageSize = 50;
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = getServiceSupabase();
 
   // If streaming is requested, use ReadableStream for real-time live terminal updates
   if (isStream) {
@@ -477,6 +475,7 @@ export async function POST(req: NextRequest) {
 
           // Insert new leads into Supabase safely
           let insertedCount = 0;
+          let insertedRecords: any[] = [];
           if (newLeadsToInsert.length > 0) {
             emit({
               type: "info",
@@ -492,14 +491,21 @@ export async function POST(req: NextRequest) {
               console.error("Supabase upsert error:", insertErr);
               for (const lead of newLeadsToInsert) {
                 try {
-                  await supabase.from("sgk_mails").insert([lead]);
-                  insertedCount++;
+                  const { data: singleData, error: singleErr } = await supabase.from("sgk_mails").insert([lead]).select();
+                  if (!singleErr && singleData && singleData.length > 0) {
+                    insertedRecords.push(singleData[0]);
+                    insertedCount++;
+                  } else if (!singleErr) {
+                    insertedRecords.push(lead);
+                    insertedCount++;
+                  }
                 } catch (e) {
                   // Ignore single error
                 }
               }
             } else {
-              insertedCount = insertedData?.length || newLeadsToInsert.length;
+              insertedRecords = insertedData || newLeadsToInsert;
+              insertedCount = insertedRecords.length || newLeadsToInsert.length;
             }
           }
 
@@ -513,7 +519,7 @@ export async function POST(req: NextRequest) {
             totalCustomDomain,
             totalNoEmail,
             totalOldDate,
-            leads: newLeadsToInsert,
+            leads: insertedRecords.length > 0 ? insertedRecords : newLeadsToInsert,
             message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
           });
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseServiceRoleKey, SUPABASE_URL } from "@/lib/supabase";
 
 // Basic safe base64
 function safeEncodeBase64(data: any): string {
@@ -142,8 +142,8 @@ export async function POST(req: Request) {
 <p style="margin-top: 30px !important; border-top: 1px solid #f0f0f0; padding-top: 20px;">Με εκτίμηση,<br /><strong>Η ομάδα της SGK Software Development</strong></p>`;
 
     // 4. Send Email via Supabase Edge Function
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabaseUrl = SUPABASE_URL;
+    const supabaseServiceKey = getSupabaseServiceRoleKey();
 
     const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
         method: "POST",

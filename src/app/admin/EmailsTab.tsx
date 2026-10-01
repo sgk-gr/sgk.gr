@@ -485,6 +485,7 @@ export function EmailsTab() {
     totalNoEmail: 0,
     totalOldDate: 0,
   });
+  const [scannedNewLeads, setScannedNewLeads] = useState<any[]>([]);
   const [scanLogs, setScanLogs] = useState<Array<{
     id: string;
     time: string;
@@ -763,6 +764,7 @@ function safeEncodeBase64(data: any): string {
       setLeads(allLeads);
     }
     setLoading(false);
+    return allLeads;
   };
 
   useEffect(() => {
@@ -1047,7 +1049,7 @@ function safeEncodeBase64(data: any): string {
     } else {
       const uncontactedFiltered = filteredLeads.filter(l => !l.unsubscribed && !l.converted && !isEmailBlacklisted(l.email) && (l.email_sequence_step || 0) === 0);
       const rawTargets = selectedLeads.length > 0 
-        ? filteredLeads.filter(l => selectedLeads.includes(l.id)) 
+        ? leads.filter(l => selectedLeads.includes(l.id)) 
         : uncontactedFiltered;
 
       targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false && !isEmailBlacklisted(l.email));
@@ -1265,6 +1267,7 @@ function safeEncodeBase64(data: any): string {
 
     setIsScanModalOpen(true);
     setIsScanningGemi(true);
+    setScannedNewLeads([]);
     setScanStatusMessage(`⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`);
     setScanStats({
       totalExamined: 0,
@@ -1377,6 +1380,9 @@ function safeEncodeBase64(data: any): string {
                   totalNoEmail: event.totalNoEmail || prev.totalNoEmail,
                   totalOldDate: event.totalOldDate || prev.totalOldDate,
                 }));
+              }
+              if (event.leads && Array.isArray(event.leads)) {
+                setScannedNewLeads(event.leads);
               }
               setScanLogs(prev => [
                 ...prev,
@@ -2939,6 +2945,20 @@ function safeEncodeBase64(data: any): string {
                       setCampaignBody(templates[0].body);
                       setButtonText(templates[0].defaultButtonText || "");
                       setButtonLink(templates[0].defaultButtonLink || "");
+                      setSingleLeadTarget(null);
+
+                      const scannedEmails = new Set(scannedNewLeads.map((l: any) => (l.email || "").toLowerCase().trim()));
+                      let targetIds = leads
+                        .filter((l: any) => scannedEmails.has((l.email || "").toLowerCase().trim()))
+                        .map((l: any) => l.id);
+
+                      if (targetIds.length === 0) {
+                        targetIds = scannedNewLeads.map((l: any) => l.id).filter(Boolean);
+                      }
+
+                      setSelectedLeads(targetIds);
+                      setStatusFilter("all");
+                      setSearchTerm("");
                       setIsCampaignModalOpen(true);
                     }}
                     className="px-5 py-2 text-xs font-black uppercase tracking-wider text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-xl shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 transition-all cursor-pointer"

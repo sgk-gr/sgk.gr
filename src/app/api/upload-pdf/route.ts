@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getServiceSupabase, SUPABASE_URL } from "@/lib/supabase";
 
 export async function POST(req: Request) {
   try {
@@ -10,14 +10,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Δεν παρέχεται αρχείο" }, { status: 400 });
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybXZpbmdlaGhpeW1jaG9nZ2thIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM2OTMxMSwiZXhwIjoyMDkwOTQ1MzExfQ.vFPaC5t1zIX31GoPHCLP_3uqyMvZHonDVum3bLsyAlc";
-
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: {
-        persistSession: false,
-      },
-    });
+    const supabaseUrl = SUPABASE_URL;
+    const supabase = getServiceSupabase();
 
     const fileName = `${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
     const arrayBuffer = await file.arrayBuffer();

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getServiceSupabase } from "@/lib/supabase";
 
 export async function POST(req: Request) {
   try {
@@ -13,12 +13,7 @@ export async function POST(req: Request) {
     const docId = id || `${type}_${Date.now()}`;
     const docType = type === "invoice" ? "invoice" : "contract";
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: { persistSession: false },
-    });
+    const supabase = getServiceSupabase();
 
     const filePayload = JSON.stringify({
       id: docId,
@@ -70,12 +65,7 @@ export async function GET(req: Request) {
     }
 
     const docType = type === "invoice" ? "invoice" : "contract";
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: { persistSession: false },
-    });
+    const supabase = getServiceSupabase();
 
     const filePath = `documents/${docType}_${id}.json`;
     let { data, error } = await supabase.storage
