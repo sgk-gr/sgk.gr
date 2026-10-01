@@ -91,44 +91,44 @@ export function SpyrosTab() {
 
   const eurobankCard = {
     title: "Mastercard (Eurobank)",
-    accountNo: "5458 6508 8388 9519",
+    accountNo: "5458 65** **** 3400",
     limit: 2000.0,
-    currentBalance: 1895.10, // 1934.90 - 39.80 net principal reduction
-    statementBalance: 1895.10,
+    currentBalance: 1888.35, // Πραγματικό Live υπόλοιπο e-banking 01/10/2026
+    statementBalance: 1888.35,
     minPayment: 35.00,
     paymentDueDate: "21/10/2026",
     interestRate: 18.75, // 18.15% + 0.60% Ν.128
-    monthlyInterest: 29.60, // Τόκοι περιόδου πέφτουν κάτω από 30€!
+    monthlyInterest: 29.50, // Τόκοι περιόδου πέφτουν κάτω από 30€!
     shopflixInstallment: 13.66, // Δόση 28/36 (απομένουν 9 δόσεις)
     shopflixRemaining: 123.18,
     shopflixInstallmentsLeft: 9,
     isInterestFree: false,
-    utilization: (1895.10 / 2000.0) * 100, // 94.75%
+    utilization: (1888.35 / 2000.0) * 100, // 94.42%
   };
 
   // Aggregates (Live as of 01/10/2026)
   const totalLoanBalance = eurobankLoan.currentBalance + tbiLoan.currentBalance; // 3678.22
-  const totalCardBalance = nbgCard.currentBalance + eurobankCard.currentBalance; // 2545.64
-  const totalDebt = totalLoanBalance + totalCardBalance; // 6223.86 (-201.72€)
+  const totalCardBalance = nbgCard.currentBalance + eurobankCard.currentBalance; // 2538.89
+  const totalDebt = totalLoanBalance + totalCardBalance; // 6217.11 (-208.47€)
   const totalCreditLimit = nbgCard.limit + eurobankCard.limit; // 2900
-  const overallCardUtilization = (totalCardBalance / totalCreditLimit) * 100; // 87.78%
+  const overallCardUtilization = (totalCardBalance / totalCreditLimit) * 100; // 87.55%
 
   // SMART SCHEDULE: Smart Allocation (30€ NBG / 70€ Eurobank in Phase 1 -> 100€ / 100€ in Phase 2)
   const smartSchedule = [
-    { month: "Σεπτέμβριος 2026", nbgPay: 30, nbgBal: 650, euroPay: 70, euroInterest: 30.2, euroPrincipal: 39.8, euroBal: 1895, score: "390", notes: "✓ ΕΞΟΦΛΗΘΗΚΕ (01/10) — 40€ καθαρή μείωση κεφαλαίου!", completed: true },
-    { month: "Οκτώβριος 2026", nbgPay: 30, nbgBal: 620, euroPay: 70, euroInterest: 29.6, euroPrincipal: 40.4, euroBal: 1854, score: "410", notes: "👉 ΤΡΕΧΩΝ ΜΗΝΑΣ: Οι τόκοι πέφτουν κάτω από 30€", current: true },
-    { month: "Νοέμβριος 2026", nbgPay: 30, nbgBal: 590, euroPay: 70, euroInterest: 28.9, euroPrincipal: 41.1, euroBal: 1813, score: "430", notes: "Σταθερή μείωση και στις δύο" },
-    { month: "Δεκέμβριος 2026", nbgPay: 30, nbgBal: 560, euroPay: 70, euroInterest: 28.3, euroPrincipal: 41.7, euroBal: 1772, score: "450", notes: "Κλείσιμο έτους με καθαρή πρόοδο" },
-    { month: "Ιανουάριος 2027", nbgPay: 30, nbgBal: 530, euroPay: 70, euroInterest: 27.6, euroPrincipal: 42.4, euroBal: 1729, score: "480", notes: "🎉 Καθαρίζει το 12μηνο ιστορικό του 01/2026!" },
-    { month: "Φεβρουάριος 2027", nbgPay: 40, nbgBal: 490, euroPay: 70, euroInterest: 27.0, euroPrincipal: 43.0, euroBal: 1686, score: "495", notes: "Εθνική πέφτει κάτω από 500€" },
-    { month: "Μάρτιος 2027", nbgPay: 40, nbgBal: 450, euroPay: 70, euroInterest: 26.3, euroPrincipal: 43.7, euroBal: 1642, score: "510", notes: "🎯 Εθνική στο 50% (Sweet Spot)" },
-    { month: "Απρίλιος 2027", nbgPay: 50, nbgBal: 400, euroPay: 70, euroInterest: 25.6, euroPrincipal: 44.4, euroBal: 1598, score: "525", notes: "Πράσινη Ζώνη Τειρεσία" },
-    { month: "Μάιος 2027", nbgPay: 100, nbgBal: 300, euroPay: 100, euroInterest: 24.9, euroPrincipal: 75.1, euroBal: 1523, score: "540", notes: "⚡ ΦΑΣΗ 2: Αύξηση σε 100€! Τελειώνει το Shopflix!" },
-    { month: "Ιούνιος 2027", nbgPay: 100, nbgBal: 200, euroPay: 100, euroInterest: 23.8, euroPrincipal: 76.2, euroBal: 1447, score: "550", notes: "Εθνική στο 22% (Optimal)" },
-    { month: "Ιούλιος 2027", nbgPay: 100, nbgBal: 100, euroPay: 100, euroInterest: 22.6, euroPrincipal: 77.4, euroBal: 1369, score: "560", notes: "Εθνική στα τελευταία 100€" },
-    { month: "Αύγουστος 2027", nbgPay: 100, nbgBal: 0, euroPay: 100, euroInterest: 21.3, euroPrincipal: 78.7, euroBal: 1291, score: "570", notes: "🏆 ΠΛΗΡΗΣ ΕΞΟΦΛΗΣΗ ΕΘΝΙΚΗΣ (0,00€)!" },
-    { month: "Σεπτέμβριος 2027", nbgPay: 0, nbgBal: 0, euroPay: 200, euroInterest: 20.1, euroPrincipal: 179.9, euroBal: 1111, score: "580", notes: "Και τα 200€ στη Eurobank (Άλμα -180€)" },
-    { month: "Οκτώβριος 2027", nbgPay: 0, nbgBal: 0, euroPay: 200, euroInterest: 17.3, euroPrincipal: 182.7, euroBal: 928, score: "590+", notes: "🏆 ΤΕΛΙΚΟΣ ΣΤΟΧΟΣ: Eurobank < 50% & A-Tier Score!" },
+    { month: "Σεπτέμβριος 2026", nbgPay: 30, nbgBal: 650, euroPay: 70, euroInterest: 23.45, euroPrincipal: 46.55, euroBal: 1888, score: "390", notes: "✓ ΕΞΟΦΛΗΘΗΚΕ (01/10) — Πραγματική οφειλή 1.888,35 €!", completed: true },
+    { month: "Οκτώβριος 2026", nbgPay: 30, nbgBal: 620, euroPay: 70, euroInterest: 29.5, euroPrincipal: 40.5, euroBal: 1848, score: "410", notes: "👉 ΤΡΕΧΩΝ ΜΗΝΑΣ: Οι τόκοι πέφτουν κάτω από 30€", current: true },
+    { month: "Νοέμβριος 2026", nbgPay: 30, nbgBal: 590, euroPay: 70, euroInterest: 28.9, euroPrincipal: 41.1, euroBal: 1807, score: "430", notes: "Σταθερή μείωση και στις δύο" },
+    { month: "Δεκέμβριος 2026", nbgPay: 30, nbgBal: 560, euroPay: 70, euroInterest: 28.3, euroPrincipal: 41.7, euroBal: 1765, score: "450", notes: "Κλείσιμο έτους με καθαρή πρόοδο" },
+    { month: "Ιανουάριος 2027", nbgPay: 30, nbgBal: 530, euroPay: 70, euroInterest: 27.6, euroPrincipal: 42.4, euroBal: 1723, score: "480", notes: "🎉 Καθαρίζει το 12μηνο ιστορικό του 01/2026!" },
+    { month: "Φεβρουάριος 2027", nbgPay: 40, nbgBal: 490, euroPay: 70, euroInterest: 27.0, euroPrincipal: 43.0, euroBal: 1680, score: "495", notes: "Εθνική πέφτει κάτω από 500€" },
+    { month: "Μάρτιος 2027", nbgPay: 40, nbgBal: 450, euroPay: 70, euroInterest: 26.3, euroPrincipal: 43.7, euroBal: 1636, score: "510", notes: "🎯 Εθνική στο 50% (Sweet Spot)" },
+    { month: "Απρίλιος 2027", nbgPay: 50, nbgBal: 400, euroPay: 70, euroInterest: 25.6, euroPrincipal: 44.4, euroBal: 1592, score: "525", notes: "Πράσινη Ζώνη Τειρεσία" },
+    { month: "Μάιος 2027", nbgPay: 100, nbgBal: 300, euroPay: 100, euroInterest: 24.9, euroPrincipal: 75.1, euroBal: 1517, score: "540", notes: "⚡ ΦΑΣΗ 2: Αύξηση σε 100€! Τελειώνει το Shopflix!" },
+    { month: "Ιούνιος 2027", nbgPay: 100, nbgBal: 200, euroPay: 100, euroInterest: 23.8, euroPrincipal: 76.2, euroBal: 1441, score: "550", notes: "Εθνική στο 22% (Optimal)" },
+    { month: "Ιούλιος 2027", nbgPay: 100, nbgBal: 100, euroPay: 100, euroInterest: 22.6, euroPrincipal: 77.4, euroBal: 1364, score: "560", notes: "Εθνική στα τελευταία 100€" },
+    { month: "Αύγουστος 2027", nbgPay: 100, nbgBal: 0, euroPay: 100, euroInterest: 21.3, euroPrincipal: 78.7, euroBal: 1285, score: "570", notes: "🏆 ΠΛΗΡΗΣ ΕΞΟΦΛΗΣΗ ΕΘΝΙΚΗΣ (0,00€)!" },
+    { month: "Σεπτέμβριος 2027", nbgPay: 0, nbgBal: 0, euroPay: 200, euroInterest: 20.1, euroPrincipal: 179.9, euroBal: 1105, score: "580", notes: "Και τα 200€ στη Eurobank (Άλμα -180€)" },
+    { month: "Οκτώβριος 2027", nbgPay: 0, nbgBal: 0, euroPay: 200, euroInterest: 17.3, euroPrincipal: 182.7, euroBal: 922, score: "590+", notes: "🏆 ΤΕΛΙΚΟΣ ΣΤΟΧΟΣ: Eurobank < 50% & A-Tier Score!" },
   ];
 
   return (
@@ -664,11 +664,11 @@ export function SpyrosTab() {
 
             <div className="my-3 space-y-1.5">
               <div className="flex justify-between text-xs font-bold text-gray-700">
-                <span>Υπόλοιπο: {eurobankCard.currentBalance}€</span>
-                <span className="text-slate-400">Όριο: {eurobankCard.limit}€ (94,8%)</span>
+                <span>Υπόλοιπο: {eurobankCard.currentBalance.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €</span>
+                <span className="text-slate-400">Όριο: {eurobankCard.limit}€ (94,4%)</span>
               </div>
               <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200">
-                <div className="h-full rounded-full bg-rose-500" style={{ width: "94.8%" }} />
+                <div className="h-full rounded-full bg-rose-500" style={{ width: "94.4%" }} />
               </div>
             </div>
 
@@ -679,11 +679,11 @@ export function SpyrosTab() {
               </div>
               <div>
                 <span className="text-[9px] text-slate-400 font-bold uppercase block">Τόκοι Μήνα</span>
-                <span className="font-bold text-rose-600 font-mono">~29,60 €</span>
+                <span className="font-bold text-rose-600 font-mono">~29,50 €</span>
               </div>
               <div>
                 <span className="text-[9px] text-emerald-600 font-bold uppercase block">Καθαρή Μείωση</span>
-                <span className="font-black text-emerald-600 font-mono">~40,40 € / μ.</span>
+                <span className="font-black text-emerald-600 font-mono">~40,50 € / μ.</span>
               </div>
             </div>
 
@@ -807,12 +807,12 @@ export function SpyrosTab() {
                       <p className="text-xs font-bold">Mastercard Eurobank (Υπερβαίνει τους Τόκους)</p>
                       <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">21/10</span>
                     </div>
-                    <p className="text-[10px] text-slate-500">Στόχος νέου υπολοίπου: 1.854,00 € (Τόκοι &lt; 30€!)</p>
+                    <p className="text-[10px] text-slate-500">Στόχος νέου υπολοίπου: 1.848,00 € (από 1.888,35 €)</p>
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="font-mono font-black text-xs block">70,00 €</span>
-                  <span className="text-[9px] text-emerald-600 font-bold">+40,40€ Κεφάλαιο</span>
+                  <span className="text-[9px] text-emerald-600 font-bold">+40,50€ Κεφάλαιο</span>
                 </div>
               </div>
 
@@ -968,7 +968,7 @@ export function SpyrosTab() {
                   </div>
                   <div>
                     <p className="text-xs font-bold">Mastercard Eurobank (Υπερβαίνει τους Τόκους)</p>
-                    <p className="text-[10px] text-emerald-700 font-medium">✓ Πληρώθηκε 01/10/2026 (-40€ καθαρό κεφάλαιο)</p>
+                    <p className="text-[10px] text-emerald-700 font-medium">✓ Πληρώθηκε 01/10/2026 (Live οφειλή: 1.888,35 €)</p>
                   </div>
                 </div>
                 <span className="font-mono font-black text-xs">70,00 €</span>
