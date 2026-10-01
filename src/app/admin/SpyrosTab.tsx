@@ -202,35 +202,43 @@ export function SpyrosTab() {
           <div className="bg-slate-900/90 p-5 rounded-2xl border border-rose-500/40 space-y-4">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-black uppercase text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-md border border-rose-500/20">
-                  🔴 ΤΟΚΟΦΟΡΟ ΥΠΟΛΟΙΠΟ (18,75%)
-                </span>
-                <h4 className="font-black text-base text-white mt-1.5">Eurobank Mastercard (1.934,90 €)</h4>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-md border border-rose-500/20">
+                    🔴 ΤΟΚΟΦΟΡΟ ΥΠΟΛΟΙΠΟ (18,75%)
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-400">Ιστορικό Πρόβλημα</span>
+                </div>
+                <h4 className="font-black text-base text-white mt-1.5 flex items-center gap-2">
+                  <span>Eurobank Mastercard</span>
+                  <span className="text-xs font-mono font-normal text-rose-300">
+                    (Ήταν 1.934,90 € ➔ <strong className="text-emerald-400">1.888,35 €</strong>)
+                  </span>
+                </h4>
               </div>
-              <span className="font-mono text-xs font-black text-rose-400">Τόκοι: ~33,80 € / μήνα</span>
+              <span className="font-mono text-xs font-black text-rose-400">Παλιοί Τόκοι: ~33,80 € / μ.</span>
             </div>
 
             <div className="space-y-2 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-xs font-mono">
               <div className="flex justify-between text-slate-300">
-                <span>Καταβολή από εσάς:</span>
-                <span className="font-bold text-emerald-400">+50,00 €</span>
+                <span>Παλιά καταβολή (Πριν την 01/10):</span>
+                <span className="font-bold text-amber-400">50,00 € / μήνα</span>
               </div>
               <div className="flex justify-between text-rose-400">
                 <span>- Τόκοι περιόδου (18,75%):</span>
                 <span className="font-bold">-33,80 €</span>
               </div>
               <div className="flex justify-between text-amber-400">
-                <span>- Άτοκη δόση Shopflix (27/36):</span>
+                <span>- Άτοκη δόση Shopflix:</span>
                 <span className="font-bold">-13,66 €</span>
               </div>
               <div className="pt-2 border-t border-slate-800 flex justify-between text-white font-black">
-                <span>= ΠΡΑΓΜΑΤΙΚΗ ΜΕΙΩΣΗ ΧΡΕΟΥΣ:</span>
+                <span>= ΠΡΑΓΜΑΤΙΚΗ ΜΕΙΩΣΗ (ΠΑΛΙΑ):</span>
                 <span className="text-rose-400 font-black">+2,54 € μόλις!</span>
               </div>
             </div>
 
             <p className="text-[11px] text-slate-300 leading-relaxed">
-              💡 <strong>Συμπέρασμα:</strong> Είχατε απόλυτο δίκιο! Δίνοντας 50€, τα 34€ πήγαιναν κατευθείαν σε τόκους της τράπεζας και το χρέος έμενε στάσιμο στα 1.984€.
+              💡 <strong>Συμπέρασμα:</strong> Είχατε απόλυτο δίκιο! Δίνοντας 50€, τα 34€ πήγαιναν κατευθείαν σε τόκους και το χρέος έμενε κολλημένο στα 1.934€. Με τα <strong>70€</strong> που βάλατε την 01/10, σπάσατε την παγίδα και έπεσε ήδη στα <strong>1.888,35 €</strong>!
             </p>
           </div>
 
@@ -238,10 +246,18 @@ export function SpyrosTab() {
           <div className="bg-slate-900/90 p-5 rounded-2xl border border-emerald-500/40 space-y-4">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-black uppercase text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
-                  🟢 ΑΤΟΚΕΣ ΔΟΣΕΙΣ (0,00% ΤΟΚΟΣ)
-                </span>
-                <h4 className="font-black text-base text-white mt-1.5">Mastercard Εθνικής (680,54 €)</h4>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
+                    🟢 ΑΤΟΚΕΣ ΔΟΣΕΙΣ (0,00% ΤΟΚΟΣ)
+                  </span>
+                  <span className="text-[10px] font-bold text-emerald-400/80">Άτοκη Αποπληρωμή</span>
+                </div>
+                <h4 className="font-black text-base text-white mt-1.5 flex items-center gap-2">
+                  <span>Mastercard Εθνικής</span>
+                  <span className="text-xs font-mono font-normal text-emerald-300">
+                    (Ήταν 680,54 € ➔ <strong className="text-emerald-400">650,54 €</strong>)
+                  </span>
+                </h4>
               </div>
               <span className="font-mono text-xs font-black text-emerald-400">Τόκοι: 0,00 €</span>
             </div>
@@ -266,7 +282,7 @@ export function SpyrosTab() {
             </div>
 
             <p className="text-[11px] text-slate-300 leading-relaxed">
-              💡 <strong>Συμπέρασμα:</strong> Στην Εθνική, κάθε ευρώ που βάζετε αφαιρείται 100% από το κεφάλαιο. Γι&apos; αυτό έπεσε τόσο εύκολα από 905€ στα 680€!
+              💡 <strong>Συμπέρασμα:</strong> Στην Εθνική, κάθε ευρώ που βάζετε αφαιρείται 100% από το κεφάλαιο. Γι&apos; αυτό έπεσε τόσο εύκολα από 905€ ➔ 680€ ➔ <strong>650,54 €</strong> σήμερα!
             </p>
           </div>
 
