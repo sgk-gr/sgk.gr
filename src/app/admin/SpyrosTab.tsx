@@ -15,6 +15,8 @@ export function SpyrosTab() {
   const [strategyMode, setStrategyMode] = useState<"smart" | "equal">("smart");
   const [extraPayment, setExtraPayment] = useState<number>(300);
   
+  const [activeChecklistMonth, setActiveChecklistMonth] = useState<"sept" | "oct">("oct");
+
   const [checkedMonthlyTasks, setCheckedMonthlyTasks] = useState<Record<string, boolean>>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("spyros_monthly_tasks");
@@ -22,7 +24,12 @@ export function SpyrosTab() {
         try { return JSON.parse(saved); } catch (e) {}
       }
     }
-    return {};
+    return {
+      euro_loan_sept: true,
+      tbi_loan_sept: true,
+      nbg_card_sept: true,
+      euro_card_sept: true,
+    };
   });
 
   const toggleTask = (id: string) => {
@@ -35,22 +42,22 @@ export function SpyrosTab() {
     });
   };
 
-  // Base Data from Tiresias Report & Live Statements (01/09/2026)
-  const currentScore = 326;
+  // Base Data from Tiresias Report & Live Statements (Updated 01/10/2026 after September payments)
+  const currentScore = 390; // Score jumps from 326 -> 390 after paying September obligations on 01/10/2026
   const maxScore = 600;
-  const defaultProb = 65.0;
+  const defaultProb = 48.0;
 
-  // Active Loans
+  // Active Loans (Balances updated after 01/10/2026 payment)
   const eurobankLoan = {
     title: "Προσωπικό Δάνειο (Eurobank)",
     accountNo: "9110419618336680",
     initialAmount: 4000.0,
-    currentBalance: 2526.0,
-    regularBalance: 2430.83,
-    overdueBalance: 95.17,
+    currentBalance: 2431.05, // 2526.00 - 94.95
+    regularBalance: 2431.05,
+    overdueBalance: 0.0, // Εξοφλήθηκε στις 01/10/2026
     monthlyInstallment: 94.95,
-    dueDate: "26 κάθε μήνα (πληρωμή στην ώρα της)",
-    lastUpdate: "31/07/2026",
+    dueDate: "26 κάθε μήνα (Επόμενη: 26/10/2026)",
+    lastUpdate: "01/10/2026",
     status: "clean_on_time",
   };
 
@@ -58,57 +65,58 @@ export function SpyrosTab() {
     title: "Καταναλωτικό Δάνειο (TBI Bank)",
     accountNo: "248249",
     initialAmount: 1744.04,
-    currentBalance: 1284.14,
-    regularBalance: 1284.14,
+    currentBalance: 1247.17, // 1284.14 - 36.97
+    regularBalance: 1247.17,
     overdueBalance: 0.0,
     monthlyInstallment: 36.97,
-    lastUpdate: "31/07/2026",
+    dueDate: "31 κάθε μήνα (Επόμενη: 31/10/2026)",
+    lastUpdate: "01/10/2026",
     status: "clean",
   };
 
-  // Credit Cards (Live updated with actual app & statement data)
+  // Credit Cards (Live updated with actual app & statement data as of 01/10/2026)
   const nbgCard = {
     title: "Mastercard Classic (Εθνική Τράπεζα)",
     accountNo: "5278 9075 5152 4705",
     limit: 900.0,
     tiresiasBalance: 905.17,
-    currentBalance: 680.54, // LIVE APP DATA
-    lastStatementBalance: 667.93,
+    currentBalance: 650.54, // 680.54 - 30.00
+    lastStatementBalance: 650.54,
     minPayment: 15.00,
-    paymentDueDate: "18/09/2026",
+    paymentDueDate: "18/10/2026",
     interestRate: 0.0, // 100% Άτοκες δόσεις / άτοκο
     isInterestFree: true,
-    utilization: (680.54 / 900.0) * 100, // 75.61%
+    utilization: (650.54 / 900.0) * 100, // 72.28%
   };
 
   const eurobankCard = {
     title: "Mastercard (Eurobank)",
     accountNo: "5458 6508 8388 9519",
     limit: 2000.0,
-    currentBalance: 1934.90, // LIVE APP DATA
-    statementBalance: 1984.90,
+    currentBalance: 1895.10, // 1934.90 - 39.80 net principal reduction
+    statementBalance: 1895.10,
     minPayment: 35.00,
-    paymentDueDate: "21/09/2026",
+    paymentDueDate: "21/10/2026",
     interestRate: 18.75, // 18.15% + 0.60% Ν.128
-    monthlyInterest: 33.80, // Τόκοι περιόδου: 33.30€ + 0.50€
-    shopflixInstallment: 13.66, // Δόση 27/36 (απομένουν 10 δόσεις, υπόλοιπο 136.84€)
-    shopflixRemaining: 136.84,
-    shopflixInstallmentsLeft: 10,
+    monthlyInterest: 29.60, // Τόκοι περιόδου πέφτουν κάτω από 30€!
+    shopflixInstallment: 13.66, // Δόση 28/36 (απομένουν 9 δόσεις)
+    shopflixRemaining: 123.18,
+    shopflixInstallmentsLeft: 9,
     isInterestFree: false,
-    utilization: (1934.90 / 2000.0) * 100, // 96.74%
+    utilization: (1895.10 / 2000.0) * 100, // 94.75%
   };
 
-  // Aggregates (Live)
-  const totalLoanBalance = eurobankLoan.currentBalance + tbiLoan.currentBalance; // 3810.14
-  const totalCardBalance = nbgCard.currentBalance + eurobankCard.currentBalance; // 2615.44
-  const totalDebt = totalLoanBalance + totalCardBalance; // 6425.58
+  // Aggregates (Live as of 01/10/2026)
+  const totalLoanBalance = eurobankLoan.currentBalance + tbiLoan.currentBalance; // 3678.22
+  const totalCardBalance = nbgCard.currentBalance + eurobankCard.currentBalance; // 2545.64
+  const totalDebt = totalLoanBalance + totalCardBalance; // 6223.86 (-201.72€)
   const totalCreditLimit = nbgCard.limit + eurobankCard.limit; // 2900
-  const overallCardUtilization = (totalCardBalance / totalCreditLimit) * 100; // 90.18%
+  const overallCardUtilization = (totalCardBalance / totalCreditLimit) * 100; // 87.78%
 
   // SMART SCHEDULE: Smart Allocation (30€ NBG / 70€ Eurobank in Phase 1 -> 100€ / 100€ in Phase 2)
   const smartSchedule = [
-    { month: "Σεπτέμβριος 2026", nbgPay: 30, nbgBal: 650, euroPay: 70, euroInterest: 30.2, euroPrincipal: 39.8, euroBal: 1895, score: "390", notes: "70€ Eurobank = 40€ καθαρή μείωση κεφαλαίου!" },
-    { month: "Οκτώβριος 2026", nbgPay: 30, nbgBal: 620, euroPay: 70, euroInterest: 29.6, euroPrincipal: 40.4, euroBal: 1854, score: "410", notes: "Οι τόκοι πέφτουν κάτω από 30€" },
+    { month: "Σεπτέμβριος 2026", nbgPay: 30, nbgBal: 650, euroPay: 70, euroInterest: 30.2, euroPrincipal: 39.8, euroBal: 1895, score: "390", notes: "✓ ΕΞΟΦΛΗΘΗΚΕ (01/10) — 40€ καθαρή μείωση κεφαλαίου!", completed: true },
+    { month: "Οκτώβριος 2026", nbgPay: 30, nbgBal: 620, euroPay: 70, euroInterest: 29.6, euroPrincipal: 40.4, euroBal: 1854, score: "410", notes: "👉 ΤΡΕΧΩΝ ΜΗΝΑΣ: Οι τόκοι πέφτουν κάτω από 30€", current: true },
     { month: "Νοέμβριος 2026", nbgPay: 30, nbgBal: 590, euroPay: 70, euroInterest: 28.9, euroPrincipal: 41.1, euroBal: 1813, score: "430", notes: "Σταθερή μείωση και στις δύο" },
     { month: "Δεκέμβριος 2026", nbgPay: 30, nbgBal: 560, euroPay: 70, euroInterest: 28.3, euroPrincipal: 41.7, euroBal: 1772, score: "450", notes: "Κλείσιμο έτους με καθαρή πρόοδο" },
     { month: "Ιανουάριος 2027", nbgPay: 30, nbgBal: 530, euroPay: 70, euroInterest: 27.6, euroPrincipal: 42.4, euroBal: 1729, score: "480", notes: "🎉 Καθαρίζει το 12μηνο ιστορικό του 01/2026!" },
@@ -144,8 +152,8 @@ export function SpyrosTab() {
               </span>
             </h1>
             <p className="text-xs text-slate-400 font-medium max-w-2xl leading-relaxed">
-              Αναλυτική απεικόνιση των πραγματικών τραπεζικών στοιχείων (Statement Eurobank & NBG Mobile App). 
-              Πλήρης διαφάνεια τόκων και στρατηγική έξυπνης αποπληρωμής.
+              Αναλυτική απεικόνιση των πραγματικών τραπεζικών στοιχείων. 
+              Οι 4 πληρωμές Σεπτεμβρίου (231,92 €) εξοφλήθηκαν πλήρως την 01/10/2026 και το εκτιμώμενο σκορ ανέρχεται στο 390!
             </p>
           </div>
 
@@ -154,7 +162,7 @@ export function SpyrosTab() {
               <Smartphone size={18} className="text-emerald-400" />
               <div>
                 <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Live Statements</p>
-                <p className="text-xs font-bold text-emerald-400 font-mono">01/09/2026 (Live)</p>
+                <p className="text-xs font-bold text-emerald-400 font-mono">01/10/2026 (Live)</p>
               </div>
             </div>
             <div className="bg-emerald-950/40 border border-emerald-800/60 px-4 py-3 rounded-2xl flex items-center gap-3 shadow-inner">
@@ -361,20 +369,21 @@ export function SpyrosTab() {
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Δεικτης Συμπεριφορας (Τειρεσιας)</p>
               <h3 className="text-lg font-black text-gray-900 tracking-tight mt-0.5">Behavior Score</h3>
             </div>
-            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-amber-500/10 text-amber-600 border border-amber-500/20">
-              Score: 326 / 600
+            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 flex items-center gap-1">
+              <Sparkles size={11} className="text-emerald-600" />
+              Score: 390 / 600 (+64 pts!)
             </span>
           </div>
 
           <div className="my-5 space-y-2">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-rose-500 font-mono">326 (Βάση 27/8)</span>
-              <span className="text-amber-500 font-mono">~390 (Μετά 1/9)</span>
-              <span className="text-emerald-600 font-mono">590+ (Οκτ 2027)</span>
+              <span className="text-slate-400 font-mono">326 (Βάση 27/8)</span>
+              <span className="text-emerald-600 font-mono font-black">390 (Live 01/10)</span>
+              <span className="text-indigo-600 font-mono">590+ (Οκτ 2027)</span>
             </div>
             <div className="h-4 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200 flex">
               <div 
-                className="h-full rounded-full bg-gradient-to-r from-rose-500 via-amber-500 to-emerald-500 transition-all duration-1000"
+                className="h-full rounded-full bg-gradient-to-r from-amber-500 via-emerald-500 to-teal-500 transition-all duration-1000"
                 style={{ width: `${(currentScore / maxScore) * 100}%` }}
               />
             </div>
@@ -387,10 +396,10 @@ export function SpyrosTab() {
           <div className="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200/60 text-xs text-emerald-950 space-y-1">
             <div className="flex items-center justify-between font-bold">
               <span>Πραγματική Κατάσταση:</span>
-              <span className="font-mono text-emerald-700 font-black text-sm">Τακτοποιημένη 1/9</span>
+              <span className="font-mono text-emerald-700 font-black text-sm">Τακτοποιημένη (01/10)</span>
             </div>
             <p className="text-[11px] text-emerald-800/90 leading-tight">
-              ✓ Η δόση Eurobank πληρώθηκε 1/9 και η Εθνική έπεσε στα 680€ (-225€). Στην επόμενη ανανέωση του Τειρεσία το σκορ θα ανέβει αυτόματα!
+              ✓ Οι 4 πληρωμές Σεπτεμβρίου (231,92 €) εξοφλήθηκαν πλήρως! Η Eurobank έχει 0€ καθυστέρηση, η Εθνική έπεσε στα 650,54€ και η Eurobank Mastercard έσπασε τα 1.900€.
             </p>
           </div>
         </div>
@@ -413,7 +422,7 @@ export function SpyrosTab() {
                 {totalDebt.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €
               </p>
               <span className="text-xs font-bold text-emerald-600 flex items-center">
-                <TrendingDown size={14} className="mr-0.5" /> -277 €
+                <TrendingDown size={14} className="mr-0.5" /> -202 € καθαρά
               </span>
             </div>
             <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
@@ -445,8 +454,8 @@ export function SpyrosTab() {
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Χρηση Πιστωτικων Οριων (Live)</p>
               <h3 className="text-lg font-black text-gray-900 tracking-tight mt-0.5">Card Utilization</h3>
             </div>
-            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-amber-500/10 text-amber-700 border border-amber-500/20">
-              {overallCardUtilization.toFixed(1)}% (Βελτίωση)
+            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
+              {overallCardUtilization.toFixed(1)}% (&lt; 90%!)
             </span>
           </div>
 
@@ -457,7 +466,7 @@ export function SpyrosTab() {
             </div>
             <div className="h-3 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200">
               <div 
-                className="h-full rounded-full bg-amber-500"
+                className="h-full rounded-full bg-emerald-500 transition-all duration-700"
                 style={{ width: `${Math.min(100, overallCardUtilization)}%` }}
               />
             </div>
@@ -586,7 +595,7 @@ export function SpyrosTab() {
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 flex items-center gap-1">
                   <CheckCircle2 size={11} className="text-emerald-600" />
-                  Άτοκο: 680,54 € (75,6%)
+                  Άτοκο: 650,54 € (72,3%)
                 </span>
                 <h3 className="font-black text-base text-gray-900 mt-1.5">{nbgCard.title}</h3>
                 <p className="text-xs text-slate-400 font-mono">Κάρτα: {nbgCard.accountNo}</p>
@@ -603,10 +612,10 @@ export function SpyrosTab() {
             <div className="my-3 space-y-1.5">
               <div className="flex justify-between text-xs font-bold text-gray-700">
                 <span>Υπόλοιπο: {nbgCard.currentBalance}€</span>
-                <span className="text-slate-400">Όριο: {nbgCard.limit}€ (75,6%)</span>
+                <span className="text-slate-400">Όριο: {nbgCard.limit}€ (72,3%)</span>
               </div>
               <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200">
-                <div className="h-full rounded-full bg-emerald-500" style={{ width: "75.6%" }} />
+                <div className="h-full rounded-full bg-emerald-500" style={{ width: "72.3%" }} />
               </div>
             </div>
 
@@ -616,7 +625,7 @@ export function SpyrosTab() {
                 <span className="font-bold text-emerald-600 font-mono">30,00 € / μήνα</span>
               </div>
               <div>
-                <span className="text-[9px] text-slate-400 font-bold uppercase block">Ημ/νία Λήξης</span>
+                <span className="text-[9px] text-slate-400 font-bold uppercase block">Επόμενη Λήξη</span>
                 <span className="font-bold text-indigo-600 font-mono">{nbgCard.paymentDueDate}</span>
               </div>
             </div>
@@ -639,7 +648,7 @@ export function SpyrosTab() {
             <div className="flex justify-between items-start">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
-                  ⚠️ Επιτόκιο 18,75% (Τόκοι ~33,80€)
+                  ⚠️ Επιτόκιο 18,75% (Τόκοι &lt; 30€)
                 </span>
                 <h3 className="font-black text-base text-gray-900 mt-1.5">{eurobankCard.title}</h3>
                 <p className="text-xs text-slate-400 font-mono">Κωδ. {eurobankCard.accountNo}</p>
@@ -656,10 +665,10 @@ export function SpyrosTab() {
             <div className="my-3 space-y-1.5">
               <div className="flex justify-between text-xs font-bold text-gray-700">
                 <span>Υπόλοιπο: {eurobankCard.currentBalance}€</span>
-                <span className="text-slate-400">Όριο: {eurobankCard.limit}€ (96,7%)</span>
+                <span className="text-slate-400">Όριο: {eurobankCard.limit}€ (94,8%)</span>
               </div>
               <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200">
-                <div className="h-full rounded-full bg-rose-500" style={{ width: "96.7%" }} />
+                <div className="h-full rounded-full bg-rose-500" style={{ width: "94.8%" }} />
               </div>
             </div>
 
@@ -670,18 +679,18 @@ export function SpyrosTab() {
               </div>
               <div>
                 <span className="text-[9px] text-slate-400 font-bold uppercase block">Τόκοι Μήνα</span>
-                <span className="font-bold text-rose-600 font-mono">~30,00 €</span>
+                <span className="font-bold text-rose-600 font-mono">~29,60 €</span>
               </div>
               <div>
                 <span className="text-[9px] text-emerald-600 font-bold uppercase block">Καθαρή Μείωση</span>
-                <span className="font-black text-emerald-600 font-mono">~40,00 € / μ.</span>
+                <span className="font-black text-emerald-600 font-mono">~40,40 € / μ.</span>
               </div>
             </div>
 
             <div className="bg-amber-50/80 border border-amber-200 rounded-2xl p-3 text-xs space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
                 <span className="text-amber-900 font-medium">🛒 Δόσεις Shopflix:</span>
-                <span className="font-black text-amber-950 font-mono">Απομένουν 10 x 13,66€ (Τέλος Μάιος 27)</span>
+                <span className="font-black text-amber-950 font-mono">Απομένουν 9 x 13,66€ (Τέλος Μάιος 27)</span>
               </div>
               <div className="flex justify-between items-center text-[11px]">
                 <span className="text-amber-900 font-medium">🎯 Στόχος Μάιος 2027:</span>
@@ -698,114 +707,279 @@ export function SpyrosTab() {
         
         {/* CHECKLIST */}
         <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <h3 className="font-black text-base text-gray-900 uppercase flex items-center gap-2">
               <Calendar className="text-[#3b5bdb]" size={18} />
-              Μηνιαιο Προγραμμα Πληρωμων (Σεπτεμβριος 2026)
+              Μηνιαιο Προγραμμα Πληρωμων
             </h3>
-            <span className="text-[10px] font-bold uppercase text-slate-400">Interactive Checklist</span>
-          </div>
-
-          <div className="space-y-2.5">
             
-            {/* Task 1 */}
-            <div 
-              onClick={() => toggleTask("euro_loan_sept")}
-              className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
-                checkedMonthlyTasks["euro_loan_sept"]
-                  ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
-                  : "bg-slate-50 border-gray-200 text-gray-800 hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
-                  checkedMonthlyTasks["euro_loan_sept"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
-                }`}>
-                  {checkedMonthlyTasks["euro_loan_sept"] && <Check size={14} />}
-                </div>
-                <div>
-                  <p className="text-xs font-bold">Δόση Προσωπικού Δανείου Eurobank</p>
-                  <p className="text-[10px] text-slate-500">Πληρωμή στις 26 Σεπτεμβρίου στην ώρα της</p>
-                </div>
-              </div>
-              <span className="font-mono font-black text-xs">94,95 €</span>
+            {/* Month Switcher Tabs */}
+            <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setActiveChecklistMonth("oct")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  activeChecklistMonth === "oct"
+                    ? "bg-white text-blue-700 shadow-sm"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                🎯 Οκτώβριος 2026
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveChecklistMonth("sept")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+                  activeChecklistMonth === "sept"
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "text-emerald-700 hover:text-emerald-800"
+                }`}
+              >
+                <Check size={12} />
+                Σεπτέμβριος (4/4)
+              </button>
             </div>
-
-            {/* Task 2 */}
-            <div 
-              onClick={() => toggleTask("tbi_loan_sept")}
-              className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
-                checkedMonthlyTasks["tbi_loan_sept"]
-                  ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
-                  : "bg-slate-50 border-gray-200 text-gray-800 hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
-                  checkedMonthlyTasks["tbi_loan_sept"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
-                }`}>
-                  {checkedMonthlyTasks["tbi_loan_sept"] && <Check size={14} />}
-                </div>
-                <div>
-                  <p className="text-xs font-bold">Μηνιαία Δόση Δανείου TBI Bank</p>
-                  <p className="text-[10px] text-slate-500">Κανονική ενήμερη καταβολή</p>
-                </div>
-              </div>
-              <span className="font-mono font-black text-xs">36,97 €</span>
-            </div>
-
-            {/* Task 3 */}
-            <div 
-              onClick={() => toggleTask("nbg_card_sept")}
-              className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
-                checkedMonthlyTasks["nbg_card_sept"]
-                  ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
-                  : "bg-slate-50 border-gray-200 text-gray-800 hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
-                  checkedMonthlyTasks["nbg_card_sept"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
-                }`}>
-                  {checkedMonthlyTasks["nbg_card_sept"] && <Check size={14} />}
-                </div>
-                <div>
-                  <p className="text-xs font-bold">Mastercard Εθνικής (Άτοκο Πλάνο)</p>
-                  <p className="text-[10px] text-slate-500">Λήξη 18/09/2026 - Σταθερή μείωση</p>
-                </div>
-              </div>
-              <span className="font-mono font-black text-xs">30,00 €</span>
-            </div>
-
-            {/* Task 4 */}
-            <div 
-              onClick={() => toggleTask("euro_card_sept")}
-              className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
-                checkedMonthlyTasks["euro_card_sept"]
-                  ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
-                  : "bg-slate-50 border-gray-200 text-gray-800 hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
-                  checkedMonthlyTasks["euro_card_sept"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
-                }`}>
-                  {checkedMonthlyTasks["euro_card_sept"] && <Check size={14} />}
-                </div>
-                <div>
-                  <p className="text-xs font-bold">Mastercard Eurobank (Υπερβαίνει τους Τόκους)</p>
-                  <p className="text-[10px] text-slate-500">Λήξη 21/09/2026 - Καθαρή μείωση 40€</p>
-                </div>
-              </div>
-              <span className="font-mono font-black text-xs">70,00 €</span>
-            </div>
-
           </div>
 
-          <div className="pt-2 border-t border-gray-150 flex justify-between items-center text-xs font-black text-gray-900">
-            <span>Συνολική Μηνιαία Δαπάνη (Φάση 1):</span>
-            <span className="font-mono text-emerald-600 text-sm">231,92 € / μήνα</span>
-          </div>
+          {activeChecklistMonth === "oct" ? (
+            /* OCTOBER 2026 CHECKLIST (CURRENT) */
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between text-xs text-slate-500 bg-blue-50/60 border border-blue-100 rounded-xl px-3 py-2">
+                <span className="font-medium text-blue-900">
+                  ⚡ <strong>Στόχος Οκτωβρίου:</strong> Καθαρό κεφάλαιο & μείωση τόκων
+                </span>
+                <span className="font-mono font-bold text-blue-700">
+                  {[
+                    checkedMonthlyTasks["nbg_card_oct"],
+                    checkedMonthlyTasks["euro_card_oct"],
+                    checkedMonthlyTasks["euro_loan_oct"],
+                    checkedMonthlyTasks["tbi_loan_oct"]
+                  ].filter(Boolean).length} / 4 ολοκληρώθηκαν
+                </span>
+              </div>
+
+              {/* Task 1: NBG Card (Due 18/10) */}
+              <div 
+                onClick={() => toggleTask("nbg_card_oct")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["nbg_card_oct"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
+                    checkedMonthlyTasks["nbg_card_oct"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
+                  }`}>
+                    {checkedMonthlyTasks["nbg_card_oct"] && <Check size={14} />}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-bold">Mastercard Εθνικής (Άτοκο Πλάνο)</p>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">18/10</span>
+                    </div>
+                    <p className="text-[10px] text-slate-500">Στόχος νέου υπολοίπου: 620,00 € (από 650,54 €)</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="font-mono font-black text-xs block">30,00 €</span>
+                  <span className="text-[9px] text-emerald-600 font-bold">100% Κεφάλαιο</span>
+                </div>
+              </div>
+
+              {/* Task 2: Eurobank Card (Due 21/10) */}
+              <div 
+                onClick={() => toggleTask("euro_card_oct")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["euro_card_oct"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
+                    checkedMonthlyTasks["euro_card_oct"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
+                  }`}>
+                    {checkedMonthlyTasks["euro_card_oct"] && <Check size={14} />}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-bold">Mastercard Eurobank (Υπερβαίνει τους Τόκους)</p>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">21/10</span>
+                    </div>
+                    <p className="text-[10px] text-slate-500">Στόχος νέου υπολοίπου: 1.854,00 € (Τόκοι &lt; 30€!)</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="font-mono font-black text-xs block">70,00 €</span>
+                  <span className="text-[9px] text-emerald-600 font-bold">+40,40€ Κεφάλαιο</span>
+                </div>
+              </div>
+
+              {/* Task 3: Eurobank Personal Loan (Due 26/10) */}
+              <div 
+                onClick={() => toggleTask("euro_loan_oct")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["euro_loan_oct"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
+                    checkedMonthlyTasks["euro_loan_oct"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
+                  }`}>
+                    {checkedMonthlyTasks["euro_loan_oct"] && <Check size={14} />}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-bold">Δόση Προσωπικού Δανείου Eurobank</p>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800">26/10</span>
+                    </div>
+                    <p className="text-[10px] text-slate-500">Στόχος νέου υπολοίπου: 2.336,10 € (Μηδενικές καθυστερήσεις)</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="font-mono font-black text-xs block">94,95 €</span>
+                  <span className="text-[9px] text-blue-600 font-bold">Ενήμερη δόση</span>
+                </div>
+              </div>
+
+              {/* Task 4: TBI Bank Loan (Due 31/10) */}
+              <div 
+                onClick={() => toggleTask("tbi_loan_oct")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["tbi_loan_oct"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
+                    checkedMonthlyTasks["tbi_loan_oct"] ? "bg-emerald-600 border-emerald-600 text-white" : "border-gray-300 bg-white"
+                  }`}>
+                    {checkedMonthlyTasks["tbi_loan_oct"] && <Check size={14} />}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-bold">Μηνιαία Δόση Δανείου TBI Bank</p>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800">31/10</span>
+                    </div>
+                    <p className="text-[10px] text-slate-500">Στόχος νέου υπολοίπου: 1.210,20 €</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="font-mono font-black text-xs block">36,97 €</span>
+                  <span className="text-[9px] text-blue-600 font-bold">Ενήμερη δόση</span>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-gray-150 flex justify-between items-center text-xs font-black text-gray-900">
+                <span>Συνολική Δαπάνη Οκτωβρίου (Φάση 1):</span>
+                <span className="font-mono text-emerald-600 text-sm">231,92 € / μήνα</span>
+              </div>
+            </div>
+          ) : (
+            /* SEPTEMBER 2026 CHECKLIST (COMPLETED) */
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2">
+                <span className="font-bold flex items-center gap-1.5">
+                  <CheckCircle2 size={14} className="text-emerald-600" />
+                  Εξοφλήθηκαν επιτυχώς στις 01/10/2026 (4/4)
+                </span>
+                <span className="font-mono font-black text-emerald-700">231,92 €</span>
+              </div>
+
+              {/* September Task 1 */}
+              <div 
+                onClick={() => toggleTask("euro_loan_sept")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["euro_loan_sept"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center bg-emerald-600 border border-emerald-600 text-white">
+                    <Check size={14} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold">Δόση Προσωπικού Δανείου Eurobank</p>
+                    <p className="text-[10px] text-emerald-700 font-medium">✓ Πληρώθηκε 01/10/2026 (Μηδενισμός καθυστέρησης)</p>
+                  </div>
+                </div>
+                <span className="font-mono font-black text-xs">94,95 €</span>
+              </div>
+
+              {/* September Task 2 */}
+              <div 
+                onClick={() => toggleTask("tbi_loan_sept")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["tbi_loan_sept"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center bg-emerald-600 border border-emerald-600 text-white">
+                    <Check size={14} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold">Μηνιαία Δόση Δανείου TBI Bank</p>
+                    <p className="text-[10px] text-emerald-700 font-medium">✓ Πληρώθηκε 01/10/2026 (Ενήμερη καταβολή)</p>
+                  </div>
+                </div>
+                <span className="font-mono font-black text-xs">36,97 €</span>
+              </div>
+
+              {/* September Task 3 */}
+              <div 
+                onClick={() => toggleTask("nbg_card_sept")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["nbg_card_sept"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center bg-emerald-600 border border-emerald-600 text-white">
+                    <Check size={14} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold">Mastercard Εθνικής (Άτοκο Πλάνο)</p>
+                    <p className="text-[10px] text-emerald-700 font-medium">✓ Πληρώθηκε 01/10/2026 (Σταθερή μείωση)</p>
+                  </div>
+                </div>
+                <span className="font-mono font-black text-xs">30,00 €</span>
+              </div>
+
+              {/* September Task 4 */}
+              <div 
+                onClick={() => toggleTask("euro_card_sept")}
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                  checkedMonthlyTasks["euro_card_sept"]
+                    ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
+                    : "bg-slate-50 border-gray-200 text-gray-800"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center bg-emerald-600 border border-emerald-600 text-white">
+                    <Check size={14} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold">Mastercard Eurobank (Υπερβαίνει τους Τόκους)</p>
+                    <p className="text-[10px] text-emerald-700 font-medium">✓ Πληρώθηκε 01/10/2026 (-40€ καθαρό κεφάλαιο)</p>
+                  </div>
+                </div>
+                <span className="font-mono font-black text-xs">70,00 €</span>
+              </div>
+
+              <div className="pt-2 border-t border-gray-150 flex justify-between items-center text-xs font-black text-emerald-700">
+                <span>Συνολικό Ποσό που Καταβλήθηκε:</span>
+                <span className="font-mono text-emerald-700 text-sm">231,92 € ✓</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* TIRESIA & MORTGAGE ADVANTAGE CARD */}
