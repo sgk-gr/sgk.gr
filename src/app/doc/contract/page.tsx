@@ -56,6 +56,9 @@ const DEFAULT_CONTRACT: ContractData = {
   representativeTitle: "τον μοναδικό εταίρο και διαχειριστή αυτής",
   representativeAfm: "",
   clientAfm: "....................",
+  serviceType: "ike_gemi",
+  serviceTitle: "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ) & Σχεδιασμός Λογότυπου",
+  serviceDescription: "Σχεδιασμός εταιρικού λογοτύπου (Logo Design), σχεδίαση, ανάπτυξη και παράδοση ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ. (βάσει Ν.4072/2012), καταχώριση domain name (.gr), δημιουργία 1 επαγγελματικού εταιρικού email (info@...gr) και φιλοξενία (hosting) 1ου έτους.",
   totalAmountNum: 150,
   totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
   advanceAmountNum: 0,
@@ -68,6 +71,26 @@ const DEFAULT_CONTRACT: ContractData = {
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
   includeSignature: true,
+};
+
+const normalizeContractData = (raw: any): ContractData => {
+  const merged: ContractData = { ...DEFAULT_CONTRACT, ...raw };
+  let title = merged.serviceTitle || DEFAULT_CONTRACT.serviceTitle || "";
+  let desc = merged.serviceDescription || DEFAULT_CONTRACT.serviceDescription || "";
+
+  // Always ensure Logo Design is clearly included
+  if (!title.toLowerCase().includes("λογοτύπ") && !title.toLowerCase().includes("logo")) {
+    title = `${title} & Σχεδιασμός Λογότυπου`;
+  }
+  if (!desc.toLowerCase().includes("λογοτύπ") && !desc.toLowerCase().includes("logo")) {
+    desc = `Σχεδιασμός εταιρικού λογοτύπου (Logo Design), ${desc}`;
+  }
+
+  return {
+    ...merged,
+    serviceTitle: title,
+    serviceDescription: desc,
+  };
 };
 
 const formatDateGreek = (dateStr?: string) => {
@@ -121,7 +144,7 @@ function ContractViewer() {
       if (dataParam) {
         const decoded = safeDecodeBase64(dataParam);
         if (decoded) {
-          setContract(prev => ({ ...DEFAULT_CONTRACT, ...decoded }));
+          setContract(normalizeContractData(decoded));
           setLoading(false);
           if (autoDownload) {
             setTimeout(() => window.print(), 600);
@@ -138,7 +161,7 @@ function ContractViewer() {
             const list = JSON.parse(localSaved);
             const found = list.find((c: any) => c.id === id || (c.clientAfm && id.includes(c.clientAfm)));
             if (found) {
-              setContract(prev => ({ ...DEFAULT_CONTRACT, ...found }));
+              setContract(normalizeContractData(found));
               setLoading(false);
               if (autoDownload) {
                 setTimeout(() => window.print(), 600);
@@ -172,7 +195,7 @@ function ContractViewer() {
         }
 
         if (fetchedData) {
-          setContract(prev => ({ ...DEFAULT_CONTRACT, ...fetchedData }));
+          setContract(normalizeContractData(fetchedData));
         }
       }
 
@@ -238,7 +261,7 @@ function ContractViewer() {
             ΙΔΙΩΤΙΚΟ ΣΥΜΦΩΝΗΤΙΚΟ ΠΑΡΟΧΗΣ ΥΠΗΡΕΣΙΩΝ
           </h1>
           <h2 className="text-sm uppercase tracking-tight text-black font-extrabold">
-            {contract.serviceTitle ? contract.serviceTitle.toUpperCase() : "ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ)"}
+            {contract.serviceTitle ? contract.serviceTitle.toUpperCase() : "ΚΑΤΑΣΚΕΥΗΣ ΙΣΤΟΣΕΛΙΔΑΣ ΕΤΑΙΡΙΚΗΣ ΔΙΑΦΑΝΕΙΑΣ (ΣΤΟΙΧΕΙΑ ΓΕΜΗ) & ΣΧΕΔΙΑΣΜΟΥ ΛΟΓΟΤΥΠΟΥ"}
           </h2>
         </div>
 
@@ -269,13 +292,13 @@ function ContractViewer() {
               Άρθρο 1 – Αντικείμενο της σύμβασης
             </h3>
             <p className="mb-2">
-              Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη την υλοποίηση και παροχή της υπηρεσίας: <strong>{contract.serviceTitle || "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ)"}</strong>.
+              Ο Ανάδοχος αναλαμβάνει έναντι του Εργοδότη την υλοποίηση και παροχή της υπηρεσίας: <strong>{contract.serviceTitle || "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ) & Σχεδιασμός Λογότυπου"}</strong>.
             </p>
             <p className="mb-2">
-              {contract.serviceDescription || "Σκοπός της ιστοσελίδας είναι να παρέχει στον Εργοδότη έναν δημόσια προσβάσιμο σύνδεσμο (link) με τα στοιχεία διαφάνειας της επιχείρησής του, ώστε να καλύπτονται οι σχετικές του υποχρεώσεις έναντι του Γ.Ε.ΜΗ., σύμφωνα με το υπόδειγμα σχεδιασμού."}
+              {contract.serviceDescription || "Στις παρεχόμενες υπηρεσίες περιλαμβάνονται: ο γραφιστικός σχεδιασμός εταιρικού λογοτύπου (Logo Design), η σχεδίαση, ανάπτυξη και παράδοση της ιστοσελίδας εταιρικής διαφάνειας με τα νόμιμα στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ. (βάσει Ν.4072/2012), η δημιουργία 1 επαγγελματικού εταιρικού λογαριασμού email (info@...gr), πιστοποιητικό ασφαλείας SSL και πλήρης συμμόρφωση GDPR."}
             </p>
             <p>
-              Στην αμοιβή του Άρθρου 4 περιλαμβάνονται η υλοποίηση του παραδοτέου έργου, η αγορά/ενεργοποίηση του domain name και η φιλοξενία (hosting) για τον πρώτο χρόνο.
+              Στην αμοιβή του Άρθρου 4 περιλαμβάνονται ο σχεδιασμός του λογοτύπου, η υλοποίηση του παραδοτέου έργου της ιστοσελίδας, η αγορά/ενεργοποίηση του domain name (.gr), η δημιουργία του εταιρικού email και η φιλοξενία (hosting) για τον πρώτο χρόνο.
             </p>
           </div>
 
@@ -296,7 +319,7 @@ function ContractViewer() {
               Άρθρο 3 – Χρόνος παράδοσης
             </h3>
             <p>
-              Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα εντός <strong>{contract.deliveryDaysText || "πέντε (5)"}</strong> εργάσιμων ημερών από την {contract.advanceAmountNum && contract.advanceAmountNum > 0 ? "καταβολή της προκαταβολής του Άρθρου 4" : "εξόφληση της αμοιβής του Άρθρου 4"}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας.
+              Ο Ανάδοχος υποχρεούται να παραδώσει την ολοκληρωμένη ιστοσελίδα και το λογότυπο εντός <strong>{contract.deliveryDaysText || "πέντε (5)"}</strong> εργάσιμων ημερών από την {contract.advanceAmountNum && contract.advanceAmountNum > 0 ? "καταβολή της προκαταβολής του Άρθρου 4" : "εξόφληση της αμοιβής του Άρθρου 4"}. Ο Εργοδότης υποχρεούται να παρέχει εγκαίρως στον Ανάδοχο τα απαραίτητα στοιχεία της επιχείρησης για την κατασκευή της ιστοσελίδας και τις κατευθύνσεις για το λογότυπο.
             </p>
           </div>
 
@@ -305,7 +328,7 @@ function ContractViewer() {
               Άρθρο 4 – Αμοιβή και τρόπος πληρωμής
             </h3>
             <p className="mb-1.5">
-              <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{contract.totalAmountText || "εκατόν πενήντα ευρώ (150,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
+              <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για τον σχεδιασμό του λογοτύπου, την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name, του εταιρικού email και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{contract.totalAmountText || "εκατόν πενήντα ευρώ (150,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
             </p>
 
             {contract.advanceAmountNum && contract.advanceAmountNum > 0 ? (
@@ -314,7 +337,7 @@ function ContractViewer() {
                   <strong>4.2</strong> Ως προκαταβολή συμφωνείται το ποσό των <strong>{contract.advanceAmountText}</strong>, το οποίο καταβάλλεται από τον Εργοδότη στον Ανάδοχο πριν από την έναρξη των εργασιών. Ο Ανάδοχος δεν υπέχει καμία υποχρέωση έναρξης εργασιών πριν από την είσπραξη της προκαταβολής.
                 </p>
                 <p className="mb-1.5">
-                  <strong>4.3</strong> Το υπόλοιπο ποσό των <strong>{contract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας.
+                  <strong>4.3</strong> Το υπόλοιπο ποσό των <strong>{contract.remainingAmountText}</strong> εξοφλείται από τον Εργοδότη με την παράδοση της ιστοσελίδας και των αρχείων του λογοτύπου.
                 </p>
               </>
             ) : (
@@ -336,7 +359,7 @@ function ContractViewer() {
               Άρθρο 5 – Λοιποί όροι
             </h3>
             <p className="mb-2">
-              Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα δικαιώματα επί του παραδοτέου κώδικα και του σχεδιασμού της ιστοσελίδας περιέρχονται στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.
+              Με την ολοκλήρωση της πλήρους εξόφλησης της αμοιβής, τα πλήρη δικαιώματα πνευματικής ιδιοκτησίας και η κυριότητα επί του παραδοτέου λογοτύπου, του κώδικα και του σχεδιασμού της ιστοσελίδας περιέρχονται οριστικά και αποκλειστικά στον Εργοδότη. Τυχόν πρόσθετες απαιτήσεις ή αλλαγές πέραν του περιγραφόμενου αντικειμένου δύνανται να αποτελέσουν αντικείμενο νέας συμφωνίας.
             </p>
             <p className="mb-2">
               Το παρόν συμφωνητικό διέπεται από το Ελληνικό Δίκαιο. Για την επίλυση κάθε διαφοράς που τυχόν ανακύψει από ή σε σχέση με το παρόν, αρμόδια ορίζονται τα Δικαστήρια Αθηνών.
