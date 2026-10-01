@@ -2937,7 +2937,7 @@ function safeEncodeBase64(data: any): string {
                   {isScanningGemi ? "Ακυρωση" : "Κλεισιμο"}
                 </button>
 
-                {!isScanningGemi && scanStats.added > 0 && (
+                {!isScanningGemi && (scanStats.added > 0 || scannedNewLeads.length > 0) && (
                   <button
                     onClick={() => {
                       setIsScanModalOpen(false);
@@ -2964,7 +2964,7 @@ function safeEncodeBase64(data: any): string {
                     className="px-5 py-2 text-xs font-black uppercase tracking-wider text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-xl shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 transition-all cursor-pointer"
                   >
                     <Send size={12} />
-                    Μαζικη Αποστολη στα {scanStats.added} Νεα Leads
+                    Μαζικη Αποστολη στα {scanStats.added > 0 ? scanStats.added : scannedNewLeads.length} Νεα Leads
                   </button>
                 )}
               </div>

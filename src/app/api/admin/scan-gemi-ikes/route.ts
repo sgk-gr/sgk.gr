@@ -250,7 +250,11 @@ export async function POST(req: NextRequest) {
             .select("email");
 
           if (existingErr) {
-            console.warn("Notice querying Supabase existing emails:", existingErr);
+            console.error("Notice querying Supabase existing emails:", existingErr);
+            emit({
+              type: "warning",
+              message: `⚠️ Σφάλμα ανάκτησης υπαρχόντων emails από βάση: ${existingErr.message}`
+            });
           }
 
           const existingEmailSet = new Set<string>();
@@ -489,6 +493,10 @@ export async function POST(req: NextRequest) {
 
             if (insertErr) {
               console.error("Supabase upsert error:", insertErr);
+              emit({
+                type: "warning",
+                message: `⚠️ Σφάλμα μαζικής αποθήκευσης: ${insertErr.message}`
+              });
               for (const lead of newLeadsToInsert) {
                 try {
                   const { data: singleData, error: singleErr } = await supabase.from("sgk_mails").insert([lead]).select();
@@ -498,9 +506,11 @@ export async function POST(req: NextRequest) {
                   } else if (!singleErr) {
                     insertedRecords.push(lead);
                     insertedCount++;
+                  } else {
+                    console.error("Single insert error:", singleErr);
                   }
-                } catch (e) {
-                  // Ignore single error
+                } catch (e: any) {
+                  console.error("Single insert error:", e);
                 }
               }
             } else {
