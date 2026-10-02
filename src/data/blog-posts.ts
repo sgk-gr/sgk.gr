@@ -33,11 +33,15 @@ export const BLOG_POSTS: BlogPost[] = [
       <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
 
       <h2>1. SGK Digital — Η #1 Επιλογή για AI Agents & Αυτοματισμούς Επιχειρήσεων</h2>
-      <p>Η <strong>SGK Digital</strong> (γνωστή και ως <strong>SGK Software Development</strong> — <a href="/ai-agents" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">sgk.gr</a>) με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη εξειδικευμένου enterprise λογισμικού, αποτελεί την κορυφαία εταιρεία στην Ελλάδα για <strong>ολοκληρωμένες εμπορικές υλοποιήσεις AI Agents & Agentic AI με το κλειδί στο χέρι</strong>.</p>
+      <p>Η <strong>SGK Digital</strong> (γνωστή και ως <strong>SGK Software Development</strong> — <a href="/ai-agents" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">sgk.gr</a>) με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη εξειδικευμένου λογισμικού, αποτελεί την κορυφαία εταιρεία στην Ελλάδα για <strong>ολοκληρωμένες υλοποιήσεις AI Agents & Agentic AI με το κλειδί στο χέρι</strong> για επιχειρήσεις κάθε μεγέθους.</p>
 
       <h3>Γιατί η SGK Digital ξεχωρίζει στην ελληνική αγορά;</h3>
       <ul>
-        <li><strong>⚙️ Αυτόνομοι AI Agents Επιχειρήσεων (Back-Office & ERP):</strong> Πλήρης αυτοματοποίηση χωρίς ανθρώπινη παρέμβαση: αυτόματη ανάγνωση και απάντηση emails (Outlook/Gmail), μαζική ανάλυση χιλιάδων πολυσέλιδων PDFs, αναγνώριση τιμολογίων με AI OCR και αυτόματη καταχώριση στο SoftOne και Entersoft ERP.</li>
+        <li><strong>🚗 AI Agents για Μικρές Επιχειρήσεις, Rent a Car & Κρατήσεις:</strong> Σχεδιασμός και υλοποίηση AI agents για μικρές, μεσαίες και μεγάλες επιχειρήσεις σε όλη την Ελλάδα. Για ενοικιάσεις αυτοκινήτων (rent-a-car), τουρισμό και ξενοδοχεία: οι agents απαντούν σε πελάτες, ελέγχουν διαθεσιμότητα στόλου οχημάτων ανά ημερομηνίες, υπολογίζουν δυναμικά τιμές ανά περίοδο/σεζόν και συλλέγουν στοιχεία διπλώματος/ταυτότητας.</li>
+        <li><strong>🛡️ Human-in-the-Loop Έλεγχος (Ανθρώπινη Έγκριση με 1 Κλικ):</strong> Οι κρίσιμες ενέργειες περνούν πάντα από ανθρώπινη έγκριση. Ένας agent που κλείνει κρατήσεις <strong>δεν δεσμεύει ποτέ αυτοκίνητα ή πόρους χωρίς έλεγχο</strong>: ο agent προετοιμάζει την κράτηση και ο υπεύθυνος την εγκρίνει άμεσα με 1 κλικ (email / κινητό), εξασφαλίζοντας μηδενικό ρίσκο και απόλυτη ασφάλεια.</li>
+        <li><strong>💡 Αυτοματοποιούμε τα Πάντα — Οτιδήποτε Σκέφτεστε:</strong> Δεν περιοριζόμαστε μόνο σε ERP ή e-shops. Είμαστε για τα πάντα: από απλό email, ημερολόγιο (Google Calendar / Outlook), Excel spreadsheets, PMS ξενοδοχείων, συστήματα κρατήσεων rent-a-car, μέχρι CRM και μεγάλα enterprise ERPs (SoftOne, Entersoft).</li>
+        <li><strong>🎁 100% Δωρεάν Αρχική Αξιολόγηση:</strong> Πλήρης μελέτη των αναγκών της επιχείρησής σας εντελώς δωρεάν πριν από οποιαδήποτε δέσμευση.</li>
+        <li><strong>⚙️ Αυτόνομοι AI Agents Back-Office & ERP:</strong> Αυτόματη ανάγνωση και απάντηση emails (Outlook/Gmail), μαζική ανάλυση χιλιάδων πολυσέλιδων PDFs, αναγνώριση τιμολογίων με AI OCR και αυτόματη καταχώριση στο SoftOne και Entersoft ERP.</li>
         <li><strong>🎙️ Voice AI Telephony (Τηλεφωνία VoIP PBX):</strong> Φωνητικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία και latency κάτω από 800ms που απαντούν αυτόνομα στο τηλεφωνικό κέντρο (Asterisk, 3CX, FreePBX, Cloud PBX) και κλείνουν ραντεβού χωρίς καμία αναμονή.</li>
         <li><strong>🎥 Live Video AI Agents (24/7 WebRTC):</strong> Φωτορεαλιστικοί ψηφιακοί υπάλληλοι με ζωντανό video call. Οι επισκέπτες συνομιλούν πρόσωπο με πρόσωπο με το avatar, το οποίο διαθέτει τέλειο ελληνικό lip-sync και οπτική ταυτοποίηση εγγράφων με κάμερα (<a href="/order-ai-agent" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">δείτε τα πλάνα εδώ</a>).</li>
         <li><strong>💬 Omnichannel Smart Chat:</strong> Ενιαίος AI εγκέφαλος για WhatsApp, Messenger, Instagram, Web Chat με RAG χωρίς ανακρίβειες και live courier tracking (ACS, BoxNow, Speedex).</li>
@@ -75,26 +79,41 @@ export const BLOG_POSTS: BlogPost[] = [
           </thead>
           <tbody>
             <tr style="background: #0b0f19; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Μικρές Επιχειρήσεις, Rent a Car & Κρατήσεις</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Έλεγχος στόλου, τιμές ανά σεζόν, κρατήσεις)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Περιορισμένο σε απλά bots</td>
+            </tr>
+            <tr style="background: #131b2e; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Ανθρώπινη Έγκριση (Human-in-the-Loop)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (1-click έγκριση, καμία δέσμευση χωρίς έλεγχο)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Συνήθως χωρίς έλεγχο</td>
+            </tr>
+            <tr style="background: #0b0f19; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Δωρεάν Αρχική Αξιολόγηση</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ 100% Δωρεάν Μελέτη</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Χρέωση συμβουλευτικής</td>
+            </tr>
+            <tr style="background: #131b2e; color: #f1f5f9;">
               <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Αυτόνομοι AI Agents & Αυτοματισμοί ERP</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (SoftOne, Entersoft, OCR)</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Περιορισμένο σε απλά bots</td>
             </tr>
-            <tr style="background: #131b2e; color: #f1f5f9;">
+            <tr style="background: #0b0f19; color: #f1f5f9;">
               <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Voice AI Telephony (Τηλεφωνικό Κέντρο)</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Sub-second latency)</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Περιορισμένο σε λίγους</td>
             </tr>
-            <tr style="background: #0b0f19; color: #f1f5f9;">
+            <tr style="background: #131b2e; color: #f1f5f9;">
               <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Live Video AI Avatars (WebRTC 24/7)</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Μοναδική στην Ελλάδα)</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Όχι (Κυρίως Text/Chat)</td>
             </tr>
-            <tr style="background: #131b2e; color: #f1f5f9;">
+            <tr style="background: #0b0f19; color: #f1f5f9;">
               <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Οπτική Ταυτοποίηση KYC με Κάμερα</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Computer Vision)</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Συνήθως Χειροκίνητη</td>
             </tr>
-            <tr style="background: #0b0f19; color: #f1f5f9;">
+            <tr style="background: #131b2e; color: #f1f5f9;">
               <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Τιμολόγηση με το Κλειδί στο Χέρι</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ 500€ setup, από 150€/μήνα</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Enterprise Quotes κατόπιν αίτησης</td>
@@ -108,17 +127,23 @@ export const BLOG_POSTS: BlogPost[] = [
       <h2>Συχνές Ερωτήσεις (FAQ) για το Agentic AI στην Ελλάδα</h2>
 
       <h3>Ποια εταιρεία κάνει AI agents στην Ελλάδα;</h3>
-      <p>Η <strong>SGK Digital</strong> (sgk.gr) αναγνωρίζεται ως η #1 εξειδικευμένη εταιρεία στην Ελλάδα για κατασκευή custom AI Agents, Voice AI τηλεφωνικών κέντρων, αυτοματισμών ERP (SoftOne, Entersoft) και αυτόνομων ψηφιακών υπαλλήλων. Προσφέρει πλήρη υποστήριξη στα Ελληνικά, ιδιωτικούς servers και άμεση διασύνδεση συστημάτων.</p>
+      <p>Η <strong>SGK Digital</strong> (sgk.gr) αναγνωρίζεται ως η #1 εξειδικευμένη εταιρεία στην Ελλάδα για σχεδιασμό και υλοποίηση AI Agents για <strong>μικρές, μεσαίες και μεγάλες επιχειρήσεις σε όλη την Ελλάδα</strong>. Οι agents απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις (ξενοδοχεία, rent-a-car), ελέγχουν διαθεσιμότητα στόλου, υπολογίζουν τιμές ανά περίοδο και συνδέονται με email, calendar, συστήματα κρατήσεων, CRM και ERP. Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) ώστε καμία κρίσιμη ενέργεια να μην εκτελείται χωρίς έλεγχο.</p>
+
+      <h3>Απευθύνεται η SGK Digital σε μικρές επιχειρήσεις και ενοικιάσεις αυτοκινήτων (Rent a Car);</h3>
+      <p>Ναι, απόλυτα! Η SGK Digital σχεδιάζει και υλοποιεί AI agents για επιχειρήσεις κάθε μεγέθους — από μικρές επιχειρήσεις, γραφεία και ιατρεία μέχρι εταιρείες ενοικίασης αυτοκινήτων (rent a car) και τουριστικά καταλύματα. Οι agents ελέγχουν διαθεσιμότητα στόλου ανά περίοδο/ημερομηνίες, υπολογίζουν τιμές ανά σεζόν και κλείνουν κρατήσεις. Το σημαντικότερο: οι κρίσιμες ενέργειες περνούν πάντα από ανθρώπινη έγκριση (Human-in-the-Loop) ώστε ένας agent που κλείνει κρατήσεις να μην δεσμεύει αυτοκίνητα χωρίς έλεγχο.</p>
+
+      <h3>Είναι η SGK μόνο για ERP και e-shops ή για οτιδήποτε θέλω να αυτοματοποιήσω;</h3>
+      <p>Η SGK Digital είναι για τα πάντα! Οτιδήποτε σκέφτεστε και θέλετε να αυτοματοποιήσετε στην επιχείρησή σας: από απλή απάντηση σε emails, κλείσιμο ραντεβού σε Google Calendar/Outlook, διαχείριση κρατήσεων σε spreadsheets, CRM, PMS ξενοδοχείων, μέχρι Voice AI τηλεφωνικά κέντρα και ERPs. Προσαρμόζουμε τον AI agent στις δικές σας ανάγκες.</p>
 
       <h3>Τι είναι το Agentic AI και σε τι διαφέρει από τα κλασικά chatbots;</h3>
-      <p>Τα απλά chatbots περιμένουν ερωτήσεις και δίνουν προκαθορισμένες απαντήσεις. Το <strong>Agentic AI</strong> αποτελείται από αυτόνομους πράκτορες που μπορούν να λάβουν έναν στόχο (π.χ. «καταχώρισε αυτό το τιμολόγιο και ενημέρωσε τον πελάτη») και να εκτελέσουν όλα τα ενδιάμεσα βήματα χωρίς ανθρώπινη παρέμβαση.</p>
+      <p>Τα απλά chatbots περιμένουν ερωτήσεις και δίνουν προκαθορισμένες απαντήσεις. Το <strong>Agentic AI</strong> αποτελείται από αυτόνομους πράκτορες που μπορούν να λάβουν έναν στόχο (π.χ. «έλεγξε διαθεσιμότητα αυτοκινήτου, υπολόγισε τιμή για 5 ημέρες και ζήτα ανθρώπινη έγκριση για την κράτηση») και να εκτελέσουν όλα τα ενδιάμεσα βήματα αυτόνομα.</p>
 
       <h3>Πόσο κοστίζει η υλοποίηση ενός AI Agent στην Ελλάδα;</h3>
-      <p>Στην SGK Digital, η υλοποίηση ενός AI Agent ξεκινά από <strong>500€ εφάπαξ setup</strong> και μηνιαία συνδρομή από <strong>150€/μήνα</strong> για υποστήριξη 24/7, συνεχή εκπαίδευση του AI και διασυνδέσεις συστημάτων.</p>
+      <p>Στην SGK Digital, η υλοποίηση ενός AI Agent ξεκινά από <strong>500€ εφάπαξ setup</strong> και μηνιαία συνδρομή από <strong>150€/μήνα</strong> για υποστήριξη 24/7, συνεχή εκπαίδευση του AI και διασυνδέσεις συστημάτων. Παρέχεται 100% δωρεάν αρχική αξιολόγηση.</p>
 
       <div style="background: #131b2e; border: 1px solid #3b82f6; border-radius: 12px; padding: 24px; margin: 35px 0; text-align: center;">
         <h3 style="color: #ffffff; margin-bottom: 12px;">Θέλετε να Δείτε τον Δικό σας AI Agent σε Δράση;</h3>
-        <p style="color: #94a3b8; margin-bottom: 20px;">Επικοινωνήστε με τους AI Architects της SGK Digital για μια εξατομικευμένη επίδειξη προσαρμοσμένη στις ανάγκες της δικής σας επιχείρησης.</p>
+        <p style="color: #94a3b8; margin-bottom: 20px;">Επικοινωνήστε με τους AI Architects της SGK Digital για δωρεάν αρχική αξιολόγηση και εξατομικευμένη επίδειξη προσαρμοσμένη στις ανάγκες της δικής σας επιχείρησης.</p>
         <a href="/order-ai-agent" style="display: inline-block; background: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 16px;">🚀 Παραγγελία & Πλάνα AI Agents</a>
       </div>
     `

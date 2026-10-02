@@ -4,7 +4,7 @@ import OrderAIAgentClient from "./OrderAIAgentClient";
 
 export const metadata: Metadata = {
   title: "Ψηφιακοί Υπάλληλοι & Live Video AI Agents | AI Video Call Ελλάδα | SGK Digital",
-  description: "Η SGK Digital κατασκευάζει Ψηφιακούς Υπαλλήλους με ζωντανό Video & Φωνή (WebRTC). 24/7 πρόσωπο με πρόσωπο εξυπηρέτηση, άμεση διασύνδεση με ERP & CRM σε ιδιωτικούς servers. Πλήρης υλοποίηση με το κλειδί στο χέρι.",
+  description: "Η SGK Digital κατασκευάζει Ψηφιακούς Υπαλλήλους με ζωντανό Video & Φωνή (WebRTC). 24/7 εξυπηρέτηση για μικρές & μεγάλες επιχειρήσεις: κρατήσεις, rent-a-car, ραντεβού, άμεση σύνδεση με CRM & ERP. Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop).",
   keywords: [
     "Ψηφιακοί Υπάλληλοι",
     "AI Video Call Ελλάδα",
@@ -14,6 +14,8 @@ export const metadata: Metadata = {
     "Interactive AI Avatars",
     "Agentic AI Greece",
     "AI Agents Ελλάδα",
+    "AI Agents για μικρές επιχειρήσεις",
+    "AI Agents rent a car ενοικιάσεις αυτοκινήτων",
     "Τεχνητή Νοημοσύνη Εξυπηρέτηση Πελατών",
     "WebRTC AI Avatars",
     "ERP AI Integration SoftOne Entersoft",
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Ψηφιακοί Υπάλληλοι & Live Video AI Agents | AI Video Call Ελλάδα | SGK Digital",
-    description: "Δημιουργούμε για εσάς έναν πραγματικό Ψηφιακό Υπάλληλο με ζωντανό Video & Φωνή. Πρόσωπο με πρόσωπο εξυπηρέτηση 24/7 σε 160+ γλώσσες, συνδεδεμένος ζωντανά με την επιχείρησή σας σε ιδιωτικούς servers.",
+    description: "Δημιουργούμε για εσάς έναν πραγματικό Ψηφιακό Υπάλληλο με ζωντανό Video & Φωνή. Πρόσωπο με πρόσωπο εξυπηρέτηση 24/7 σε 160+ γλώσσες για μικρές και μεγάλες επιχειρήσεις: κρατήσεις, ραντεβού, συστήματα κρατήσεων, CRM και ERP.",
     url: "https://www.sgk.gr/order-ai-agent",
     siteName: "SGK Software Development",
     images: [
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ψηφιακοί Υπάλληλοι & Live Video AI Agents | SGK Digital",
-    description: "Κατασκευή Ψηφιακών Υπαλλήλων με ζωντανό Video & Φωνή (WebRTC). 24/7 πρόσωπο με πρόσωπο εξυπηρέτηση, άμεση διασύνδεση με ERP & CRM σε ιδιωτικούς servers.",
+    description: "Κατασκευή Ψηφιακών Υπαλλήλων με ζωντανό Video & Φωνή (WebRTC). 24/7 εξυπηρέτηση για μικρές και μεγάλες επιχειρήσεις, κρατήσεις, ραντεβού, CRM & ERP.",
     images: ["https://www.sgk.gr/images/hero_ai_video_agent.jpg"],
   },
   robots: {
@@ -86,7 +88,7 @@ const structuredData = {
           "addressCountry": "GR"
         }
       },
-      "description": "Ολοκληρωμένη υλοποίηση ψηφιακών υπαλλήλων με το κλειδί στο χέρι με ζωντανό βίντεο και φωνή μέσω WebRTC. 24/7 εξυπηρέτηση πελατών, διασύνδεση με ERP (SoftOne, Entersoft), E-shop (WooCommerce, Shopify) και εκτέλεση πραγματικών ενεργειών σε ιδιωτικούς, αυτόνομους servers (100% GDPR).",
+      "description": "Ολοκληρωμένη υλοποίηση ψηφιακών υπαλλήλων με ζωντανό βίντεο και φωνή μέσω WebRTC. Εξυπηρετεί μικρές, μεσαίες και μεγάλες επιχειρήσεις σε όλη την Ελλάδα: κλείσιμο ραντεβού, κρατήσεις (ξενοδοχεία, rent-a-car), έλεγχος διαθεσιμότητας στόλου, υπολογισμός τιμών ανά περίοδο, και διασύνδεση με email, ημερολόγιο, συστήματα κρατήσεων, CRM και ERP σε ιδιωτικούς servers. Με ανθρώπινη έγκριση (Human-in-the-Loop) και δωρεάν αρχική αξιολόγηση.",
       "areaServed": [
         { "@type": "Country", "name": "Greece" },
         { "@type": "Country", "name": "Cyprus" },

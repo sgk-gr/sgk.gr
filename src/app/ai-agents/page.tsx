@@ -12,14 +12,14 @@ import {
 
 export const metadata: Metadata = {
     title: "AI Agents Ελλάδα | Agentic AI & Αυτόνομοι Πράκτορες Τεχνητής Νοημοσύνης | SGK Digital",
-    description: "Η κορυφαία εταιρεία για AI Agents στην Ελλάδα και Agentic AI. Αυτόνομοι ψηφιακοί υπάλληλοι χωρίς ανθρώπινη παρέμβαση: διασύνδεση ERP (SoftOne, Entersoft), Voice AI τηλεφωνικά κέντρα, διαχείριση emails, ανάλυση PDFs και 24/7 Live Video Avatars.",
-    keywords: "ai agents ελλαδα, ai agent τι ειναι, agentic ai ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, agentic ai greece, ai agency ελλαδα, custom ai agents, ai ψηφιακοι υπαλληλοι, voice ai agents ελλαδα, erp ai integration softone entersoft, video ai customer support",
+    description: "Η SGK Digital σχεδιάζει και υλοποιεί AI agents για επιχειρήσεις σε όλη την Ελλάδα — από μικρές επιχειρήσεις και ενοικιάσεις αυτοκινήτων (rent a car) μέχρι μεγάλους οργανισμούς. Οι agents απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις και συνδέονται με email, ημερολόγιο, CRM και ERP. Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop). Αυτοματοποιούμε τα πάντα.",
+    keywords: "ai agents ελλαδα, ai agents μικρες επιχειρησεις, ai agents rent a car ενοικιασεις αυτοκινητων, κρατησεις ραντεβου ai agents, εταιρειες ai agents ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, agentic ai greece, ai agency ελλαδα, custom ai agents, ai ψηφιακοι υπαλληλοι, voice ai agents ελλαδα, human in the loop ai, erp ai integration softone entersoft, video ai customer support",
     alternates: {
         canonical: "https://www.sgk.gr/ai-agents",
     },
     openGraph: {
         title: "AI Agents Ελλάδα | Agentic AI & Αυτόνομοι Πράκτορες | SGK Digital",
-        description: "Η #1 εταιρεία για AI Agents στην Ελλάδα & Agentic AI. Αυτόνομοι ψηφιακοί υπάλληλοι, Voice AI, Live Video Avatars και αυτοματισμοί ERP.",
+        description: "Η #1 εταιρεία για AI Agents στην Ελλάδα & Agentic AI. Για μικρές & μεγάλες επιχειρήσεις: κρατήσεις, rent-a-car, ραντεβού, Voice AI, Live Video Avatars και αυτοματισμοί ERP.",
         url: "https://www.sgk.gr/ai-agents",
         type: "website",
         images: ["https://www.sgk.gr/social-preview.png"],
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "AI Agents Ελλάδα | Agentic AI & Αυτόνομοι Πράκτορες | SGK Digital",
-        description: "Η #1 εταιρεία για AI Agents στην Ελλάδα & Agentic AI. Αυτόνομη εκτέλεση εργασιών, Voice AI τηλεφωνία, Smart Chat & Video Avatars.",
+        description: "Η #1 εταιρεία για AI Agents στην Ελλάδα & Agentic AI. Αυτόνομοι agents για κρατήσεις, τηλεφωνία Voice AI, Smart Chat & Video Avatars.",
         images: ["https://www.sgk.gr/social-preview.png"],
     },
 };
@@ -60,6 +60,11 @@ const agencySchema = {
     "knowsAbout": [
         "Artificial Intelligence",
         "Autonomous AI Agents",
+        "AI Agents για Μικρές Επιχειρήσεις",
+        "AI Agents για Rent a Car & Ενοικιάσεις Αυτοκινήτων",
+        "Κρατήσεις και Έλεγχος Διαθεσιμότητας Στόλου Οχημάτων",
+        "Human-in-the-Loop Έλεγχος & Ανθρώπινη Έγκριση",
+        "Δωρεάν Αρχική Αξιολόγηση AI",
         "Voice AI Telephony",
         "VoIP PBX Customer Service",
         "Omnichannel Chat AI",
@@ -72,7 +77,9 @@ const agencySchema = {
         "ERP Integration with AI (Softone, Entersoft)"
     ],
     "serviceType": [
-        "Κατασκευή Custom AI Agents",
+        "Κατασκευή Custom AI Agents για Μικρές και Μεγάλες Επιχειρήσεις",
+        "AI Agents Κρατήσεων & Ενοικίασης Αυτοκινήτων (Rent a Car)",
+        "Human-in-the-Loop Ασφαλείς Αυτοματισμοί με Ανθρώπινη Έγκριση",
         "Voice AI Telephony & Phone Call Agents",
         "Omnichannel Chat AI Agents",
         "Interactive Video AI Customer Support & Avatars",
@@ -83,7 +90,7 @@ const agencySchema = {
         "Custom Business Automations (n8n & LangGraph)",
         "ERP & CRM AI Integrations (Softone, Entersoft)"
     ],
-    "description": "Ηγετική AI Agency στην Ελλάδα για σχεδιασμό και υλοποίηση αυτόνομων AI agents, video avatars για εξυπηρέτηση πελατών, φωνητικών πρακτόρων τηλεφωνίας (Voice AI), ανάλυσης χιλιάδων PDFs, διαχείρισης emails και αυτοματισμών ERP τιμολόγησης."
+    "description": "Ηγετική AI Agency στην Ελλάδα. Σχεδιάζει και υλοποιεί AI agents για μικρές, μεσαίες και μεγάλες επιχειρήσεις σε όλη την Ελλάδα. Οι agents απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις (ξενοδοχεία, rent-a-car), ελέγχουν διαθεσιμότητα, υπολογίζουν τιμές ανά περίοδο και συνδέονται με email, calendar, CRM και ERP. Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) ώστε κρίσιμες ενέργειες να μην εκτελούνται χωρίς έλεγχο. Αυτοματοποιεί οτιδήποτε χρειάζεται η επιχείρησή σας."
 };
 
 const serviceSchema = {
@@ -244,6 +251,30 @@ const faqSchema = {
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Ναι! Ο Voice AI πράκτορας μπορεί να πραγματοποιεί μαζικές εξερχόμενες τηλεφωνικές κλήσεις για επιβεβαίωση παραγγελιών, υπενθύμιση ραντεβού (π.χ. σε ιατρεία, συνεργεία, ινστιτούτα), ενημέρωση για προσφορές και follow-up ανεκτέλεστων καλαθιών, μιλώντας όπως ένας άριστα εκπαιδευμένος υπάλληλος."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Απευθύνεται η SGK Digital και σε μικρές επιχειρήσεις ή ενοικιάσεις αυτοκινήτων (Rent a Car);",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ναι, απόλυτα! Η SGK Digital σχεδιάζει και υλοποιεί AI agents για επιχειρήσεις κάθε μεγέθους σε όλη την Ελλάδα — από μικρές επιχειρήσεις, γραφεία και ιατρεία μέχρι εταιρείες ενοικίασης αυτοκινήτων (rent a car) και τουριστικά καταλύματα. Οι agents απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, ελέγχουν διαθεσιμότητα στόλου οχημάτων ανά ημερομηνίες, υπολογίζουν τιμές ανά περίοδο και συνδέονται με email, Google Calendar, CRM ή οποιοδήποτε λογισμικό κρατήσεων. Προσφέρουμε 100% δωρεάν αρχική αξιολόγηση."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Πώς διασφαλίζεται ότι ο AI agent δεν θα δεσμεύσει αυτοκίνητα ή κρατήσεις χωρίς έλεγχο; (Human-in-the-Loop)",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Εφαρμόζουμε αυστηρό Human-in-the-Loop σχεδιασμό. Οι κρίσιμες ενέργειες περνούν πάντα από ανθρώπινη έγκριση: ένας AI agent που κλείνει κρατήσεις δεν δεσμεύει ποτέ αυτοκίνητα ή πόρους χωρίς έλεγχο. Ο πράκτορας συνομιλεί με τον πελάτη, επιβεβαιώνει τις ημερομηνίες και την τιμή, και στέλνει άμεση ειδοποίηση έγκρισης στον υπεύθυνο. Με ένα απλό κλικ (1-click approval) στο κινητό ή email, ο υπεύθυνος οριστικοποιεί την κράτηση, εξασφαλίζοντας απόλυτο έλεγχο και μηδενικό ρίσκο."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Είναι η SGK μόνο για ERP και e-shops ή για οτιδήποτε θέλω να αυτοματοποιήσω;",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Η SGK Digital είναι για τα πάντα! Οτιδήποτε σκέφτεστε και θέλετε να αυτοματοποιήσετε στην επιχείρησή σας: από απλό email, ημερολόγιο (Google Calendar / Outlook), Excel spreadsheets, custom φόρμες, PMS ξενοδοχείων, συστήματα κρατήσεων rent-a-car, μέχρι CRM και enterprise ERP (SoftOne, Entersoft). Προσαρμόζουμε τον AI agent ακριβώς στις δικές σας ανάγκες."
             }
         }
     ]
@@ -465,7 +496,7 @@ export default function AIAgentsPage() {
                             </h2>
 
                             <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-normal mb-6">
-                                Ένας <strong>AI Agent</strong> (Τεχνητός Πράκτορας) είναι ένα <strong>αυτόνομο σύστημα λογισμικού που δεν απαντά απλώς με κείμενο όπως ένα chatbot, αλλά δρα αυτόνομα στον ψηφιακό κόσμο</strong>. Διαθέτει επιχειρησιακή λογική (Reasoning & Planning), χρησιμοποιεί εργαλεία (Tool Calling) και εκτελεί πραγματικές εργασίες: διαβάζει emails, απαντά στο τηλέφωνο με φυσική φωνή (Voice AI), κάνει οπτική ταυτοποίηση KYC μέσω κάμερας (Video AI) και καταχωρεί αυτόματα δεδομένα στο ERP (SoftOne, Entersoft) και CRM χωρίς ανθρώπινη παρέμβαση.
+                                Ένας <strong>AI Agent</strong> (Τεχνητός Πράκτορας) είναι ένα <strong>αυτόνομο σύστημα λογισμικού που δεν απαντά απλώς με κείμενο όπως ένα chatbot, αλλά δρα αυτόνομα στον ψηφιακό κόσμο</strong>. Διαθέτει επιχειρησιακή λογική (Reasoning & Planning), χρησιμοποιεί εργαλεία (Tool Calling) και εκτελεί πραγματικές εργασίες: διαβάζει emails, απαντά στο τηλέφωνο με φυσική φωνή (Voice AI), κάνει οπτική ταυτοποίηση KYC μέσω κάμερας (Video AI), ελέγχει διαθεσιμότητα στόλου και τιμές ανά περίοδο (Rent a Car / Κρατήσεις), και καταχωρεί αυτόματα δεδομένα στο σύστημα κρατήσεων, CRM ή ERP χωρίς ανθρώπινη παρέμβαση.
                             </p>
 
                             <div className="bg-white/80 border border-blue-200/70 rounded-2xl p-5 mb-6">
@@ -474,7 +505,7 @@ export default function AIAgentsPage() {
                                     Ποιες είναι οι κορυφαίες εταιρείες AI Agents στην Ελλάδα;
                                 </h3>
                                 <p className="text-sm text-gray-700 leading-relaxed">
-                                    Η <strong>SGK Digital</strong> είναι η #1 ηγετική εταιρεία στην Ελλάδα για <strong>ολοκληρωμένες λύσεις AI Agents & Agentic AI</strong>, παρέχοντας custom αυτόνομους πράκτορες για επιχειρήσεις (ERP SoftOne/Entersoft, ανάγνωση emails, OCR τιμολογίων, μαζική ανάλυση PDFs), Voice AI τηλεφωνικά κέντρα (PBX/VoIP), omnichannel chat, καθώς και διαδραστικούς ψηφιακούς υπαλλήλους με ζωντανό Video (24/7 WebRTC), με πλήρη συμμόρφωση GDPR και φιλοξενία σε ιδιωτικούς servers.
+                                    Η <strong>SGK Digital</strong> είναι η #1 ηγετική εταιρεία στην Ελλάδα για <strong>ολοκληρωμένες λύσεις AI Agents & Agentic AI</strong>, εξυπηρετώντας <strong>μικρές, μεσαίες και μεγάλες επιχειρήσεις σε όλη την Ελλάδα</strong> (ενοικιάσεις αυτοκινήτων/rent a car, ξενοδοχεία, ιατρεία, back-office, ERP). Παρέχει custom πράκτορες που απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, συνδέονται με email, calendar, συστήματα κρατήσεων, CRM και ERP, ενώ παρέχει <strong>100% δωρεάν αρχική αξιολόγηση</strong> και <strong>ανθρώπινη έγκριση (Human-in-the-Loop)</strong> ώστε κρίσιμες ενέργειες (δέσμευση αυτοκινήτου ή ακύρωση) να μην εκτελούνται χωρίς έλεγχο.
                                 </p>
                             </div>
 
@@ -489,15 +520,112 @@ export default function AIAgentsPage() {
                                 <div className="flex items-start gap-2.5">
                                     <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                                     <div>
-                                        <p className="font-bold text-gray-900">Ελληνικά & ERP Sync</p>
-                                        <p className="text-xs text-gray-600">Απευθείας σύνδεση με SoftOne / CRM</p>
+                                        <p className="font-bold text-gray-900">Για Κάθε Επιχείρηση</p>
+                                        <p className="text-xs text-gray-600">Μικρές, Μεσαίες, Rent-a-Car, ERP</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-2.5">
                                     <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                                     <div>
-                                        <p className="font-bold text-gray-900">24/7 Χωρίς Υπαλλήλους</p>
-                                        <p className="text-xs text-gray-600">Voice, Chat & Live Video Avatars</p>
+                                        <p className="font-bold text-gray-900">Human-in-the-Loop</p>
+                                        <p className="text-xs text-gray-600">Έγκριση με 1 κλικ, μηδέν ρίσκο</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* DEDICATED SECTION: AI AGENTS FOR ALL SIZES (SMALL, MEDIUM, ENTERPRISE, PUBLIC SECTOR) */}
+                    <section className="container mx-auto px-6 py-12">
+                        <div className="max-w-6xl mx-auto bg-white border border-gray-200 rounded-3xl p-8 sm:p-12 shadow-lg">
+                            <div className="text-center max-w-3xl mx-auto mb-10">
+                                <span className="text-xs font-black uppercase tracking-widest text-[#3b5bdb] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                                    AI Agents για Ολους • Για Καθε Αναγκη
+                                </span>
+                                <h2 className="text-3xl sm:text-4xl font-bold text-black mt-3 mb-3">
+                                    AI Agents για Κάθε Επιχείρηση: Μικρή, Μεσαία, Μεγάλη & Δημόσιο
+                                </h2>
+                                <p className="text-gray-600 text-base">
+                                    Στην <strong>SGK Digital</strong> προσφέρουμε AI agents για <strong>όλους</strong> — για <strong>οτιδήποτε μπορεί να θελήσει ή να χρειαστεί η επιχείρησή σας</strong>. Δεν περιοριζόμαστε σε κανέναν τομέα: σχεδιάζουμε custom λύσεις ακριβώς στα μέτρα σας.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                <div className="p-6 rounded-2xl bg-[#faf9f5] border border-gray-200 flex flex-col justify-between">
+                                    <div>
+                                        <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xl mb-4">💼</div>
+                                        <h3 className="text-base font-bold text-black mb-2">Μικρές Επιχειρήσεις, Ιατρεία & Γραφεία</h3>
+                                        <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                                            Κλείσιμο ραντεβού (Calendar/Outlook), αυτόματη απάντηση κλήσεων και emails, υπενθυμίσεις SMS/email και διαχείριση πελατών χωρίς ανάγκη πλήρους γραμματείας.
+                                        </p>
+                                    </div>
+                                    <div className="pt-3 border-t border-gray-200 text-xs font-bold text-emerald-700 flex items-center gap-1.5">
+                                        <CheckCircle className="w-4 h-4 text-emerald-600" />
+                                        <span>Μηδέν χαμένα ραντεβού & κλήσεις</span>
+                                    </div>
+                                </div>
+
+                                <div className="p-6 rounded-2xl bg-[#faf9f5] border border-gray-200 flex flex-col justify-between">
+                                    <div>
+                                        <div className="w-10 h-10 rounded-xl bg-blue-100 text-[#3b5bdb] flex items-center justify-center font-bold text-xl mb-4">🏛️</div>
+                                        <h3 className="text-base font-bold text-black mb-2">Δημόσιο, Οργανισμοί & Enterprise</h3>
+                                        <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                                            Μαζική επεξεργασία χιλιάδων εγγράφων/PDFs, πρωτόκολλα, συμβάσεις, προκηρύξεις, εξυπηρέτηση πολιτών/πελατών και σύνδεση με ERP/βάσεις σε 100% ιδιωτικούς servers.
+                                        </p>
+                                    </div>
+                                    <div className="pt-3 border-t border-gray-200 text-xs font-bold text-emerald-700 flex items-center gap-1.5">
+                                        <CheckCircle className="w-4 h-4 text-emerald-600" />
+                                        <span>100% GDPR & Private Dedicated</span>
+                                    </div>
+                                </div>
+
+                                <div className="p-6 rounded-2xl bg-[#faf9f5] border border-gray-200 flex flex-col justify-between">
+                                    <div>
+                                        <div className="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-xl mb-4">🚗</div>
+                                        <h3 className="text-base font-bold text-black mb-2">Ενοικιάσεις, Στόλοι & Logistics</h3>
+                                        <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                                            Απάντηση σε πελάτες, έλεγχος διαθεσιμότητας στόλου ανά ημερομηνίες, υπολογισμός τιμών ανά περίοδο/σεζόν και συλλογή στοιχείων διπλώματος/ταυτότητας.
+                                        </p>
+                                    </div>
+                                    <div className="pt-3 border-t border-gray-200 text-xs font-bold text-emerald-700 flex items-center gap-1.5">
+                                        <CheckCircle className="w-4 h-4 text-emerald-600" />
+                                        <span>Σύνδεση με Calendar, PMS ή Excel</span>
+                                    </div>
+                                </div>
+
+                                <div className="p-6 rounded-2xl bg-[#faf9f5] border border-gray-200 flex flex-col justify-between">
+                                    <div>
+                                        <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xl mb-4">🏨</div>
+                                        <h3 className="text-base font-bold text-black mb-2">Τουρισμός, Ξενοδοχεία & Εμπόριο</h3>
+                                        <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                                            Εξυπηρέτηση 24/7 σε 15+ γλώσσες. Έλεγχος διαθεσιμότητας, απαντήσεις σε απορίες πελατών, διαχείριση παραγγελιών και αυτόματη καταχώριση αιτημάτων.
+                                        </p>
+                                    </div>
+                                    <div className="pt-3 border-t border-gray-200 text-xs font-bold text-emerald-700 flex items-center gap-1.5">
+                                        <CheckCircle className="w-4 h-4 text-emerald-600" />
+                                        <span>Channel Manager & Booking Sync</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* HUMAN-IN-THE-LOOP & FREE ASSESSMENT CALLOUT */}
+                            <div className="grid sm:grid-cols-2 gap-4 p-6 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200">
+                                <div className="flex items-start gap-3">
+                                    <ShieldCheck className="w-6 h-6 text-[#3b5bdb] shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="font-bold text-black text-sm mb-1">Ανθρώπινη Έγκριση (Human-in-the-Loop)</h4>
+                                        <p className="text-xs text-gray-600 leading-relaxed">
+                                            Οι κρίσιμες ενέργειες περνούν πάντα από έγκριση αν το επιθυμείτε. Ένας agent <strong>δεν δεσμεύει ποτέ πόρους, χρήματα ή οχήματα χωρίς έλεγχο</strong>: ο agent ετοιμάζει τα πάντα και εσείς εγκρίνετε με 1 κλικ!
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <Sparkles className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="font-bold text-black text-sm mb-1">100% Δωρεάν Αρχική Αξιολόγηση</h4>
+                                        <p className="text-xs text-gray-600 leading-relaxed">
+                                            Αναλύουμε δωρεάν τις ανάγκες της επιχείρησης ή του οργανισμού σας (διαδικασίες, λογισμικά, κανάλια) και σας παραδίδουμε εξατομικευμένη μελέτη υλοποίησης χωρίς καμία δέσμευση.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -887,7 +1015,33 @@ export default function AIAgentsPage() {
                             <p className="text-gray-500 text-center mb-12 font-light">
                                 Case studies εφαρμογών τεχνητής νοημοσύνης σε πραγματικές επιχειρήσεις
                             </p>
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="p-8 rounded-xl border-2 border-blue-400/40 bg-blue-50/20 shadow-sm flex flex-col justify-between">
+                                    <div>
+                                        <span className="text-xs font-bold text-[#3b5bdb] uppercase tracking-wider">Rent a Car & Fleet Booking</span>
+                                        <h3 className="text-2xl font-bold text-black mt-2 mb-3">DriveElite AI</h3>
+                                        <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                                            Αυτόνομος AI πράκτορας ενοικίασης αυτοκινήτων. Έλεγχος διαθεσιμότητας στόλου οχημάτων ανά ημερομηνίες, υπολογισμός τιμών ανά περίοδο/σεζόν, έλεγχος διπλώματος και Human-in-the-Loop έγκριση κράτησης με 1 κλικ.
+                                        </p>
+                                    </div>
+                                    <div className="text-xs font-bold text-emerald-700 flex items-center gap-1.5 pt-3 border-t border-blue-100">
+                                        <CheckCircle className="w-4 h-4 text-emerald-600" />
+                                        <span>Μηδέν ρίσκο δέσμευσης οχήματος</span>
+                                    </div>
+                                </div>
+                                <div className="p-8 rounded-xl border-2 border-emerald-400/40 bg-emerald-50/20 shadow-sm flex flex-col justify-between">
+                                    <div>
+                                        <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Hospitality & Hotel Bookings</span>
+                                        <h3 className="text-2xl font-bold text-black mt-2 mb-3">AegeanStay AI</h3>
+                                        <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                                            AI πράκτορας για ξενοδοχεία και βίλες. 24/7 υποδοχή ταξιδιωτών σε 15+ γλώσσες, διαχείριση κρατήσεων, έλεγχος διαθεσιμότητας και άμεση σύνδεση με Google Calendar, PMS και email.
+                                        </p>
+                                    </div>
+                                    <div className="text-xs font-bold text-emerald-700 flex items-center gap-1.5 pt-3 border-t border-emerald-100">
+                                        <CheckCircle className="w-4 h-4 text-emerald-600" />
+                                        <span>24/7 Κρατήσεις σε 15+ Γλώσσες</span>
+                                    </div>
+                                </div>
                                 <Link href="/case-study/sigmalabs-ai" className="p-8 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
                                     <span className="text-xs font-bold text-[#3b5bdb] uppercase tracking-wider">eCommerce AI Operations</span>
                                     <h3 className="text-2xl font-bold text-black mt-2 mb-3 group-hover:text-[#3b5bdb] transition-colors">Sigmalabs AI</h3>

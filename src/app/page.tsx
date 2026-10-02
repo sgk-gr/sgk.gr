@@ -4,12 +4,12 @@ import IndexClient from "./IndexClient";
 
 export const metadata: Metadata = {
     title: "AI Agents Ελλάδα | SGK Digital — Η #1 Εταιρεία Κατασκευής AI Agents & Agentic AI",
-    description: "SGK Digital: Η #1 εταιρεία για AI Agents στην Ελλάδα & Agentic AI. Αυτόνομοι ψηφιακοί υπάλληλοι, Voice AI τηλεφωνικά κέντρα, αυτοματισμοί ERP (SoftOne, Entersoft), ανάλυση εγγράφων & custom AI agents επιχειρήσεων.",
-    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, agentic ai ελλαδα, ai agents για επιχειρησεις, custom ai agents, ποια εταιρεια κανει ai agents, sgk digital, sgk, αυτονομοι ai agents, voice ai ελλαδα, ψηφιακοι υπαλληλοι, live video ai agents, αυτοματισμοι erp softone entersoft, web development ελλαδα",
+    description: "Η SGK Digital σχεδιάζει και υλοποιεί AI agents για κάθε επιχείρηση: μικρή, μεσαία, μεγάλη και δημόσιο, σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειαστεί μια επιχείρηση: εξυπηρέτηση πελατών, ραντεβού, κρατήσεις, Voice AI τηλεφωνία, emails, έγγραφα, CRM & ERP. 100% Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop).",
+    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, agentic ai ελλαδα, ai agents για επιχειρησεις, custom ai agents, ai agents για ολους, ai agents μικρες μεσαιες μεγαλες επιχειρησεις δημοσιο, sgk digital, sgk, κρατησεις ραντεβου ai agents, αυτονομοι ai agents, voice ai ελλαδα, ψηφιακοι υπαλληλοι, live video ai agents, αυτοματισμοι erp softone entersoft, web development ελλαδα",
     alternates: { canonical: "https://www.sgk.gr/" },
     openGraph: {
         title: "AI Agents Ελλάδα | SGK Digital — Agentic AI & Αυτόνομοι Πράκτορες Επιχειρήσεων",
-        description: "Η κορυφαία εταιρεία στην Ελλάδα για Custom AI Agents & Agentic AI. Αυτόνομοι πράκτορες ERP, Voice AI τηλεφωνία, Smart Chat και Live Video WebRTC ψηφιακοί υπάλληλοι.",
+        description: "Η #1 εταιρεία στην Ελλάδα για AI Agents & Agentic AI. AI Agents για όλους: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο, για οτιδήποτε μπορεί να χρειαστεί μια επιχείρηση.",
         url: "https://www.sgk.gr",
         siteName: "SGK Digital",
         locale: "el_GR",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "AI Agents Ελλάδα | SGK Digital — Agentic AI & Αυτόνομοι Πράκτορες",
-        description: "Η #1 εταιρεία στην Ελλάδα για Agentic AI και αυτόνομους AI Agents για επιχειρήσεις.",
+        description: "Η #1 εταιρεία στην Ελλάδα για Agentic AI και AI Agents για κάθε επιχείρηση (μικρή, μεσαία, μεγάλη, δημόσιο). AI agents για όλους και για τα πάντα.",
         images: ["https://www.sgk.gr/social-preview.png"],
     },
     other: {
@@ -36,7 +36,7 @@ const autonomousAIAgentsSchema = {
     "@id": "https://www.sgk.gr/#ai-agents",
     "name": "Κατασκευή AI Agents & Agentic AI για Επιχειρήσεις | SGK Digital",
     "serviceType": "Autonomous AI Agents Development, Multi-Agent Systems & Business Process Automation",
-    "description": "Η SGK Digital είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για κατασκευή αυτόνομων AI Agents (Agentic AI). Υλοποιεί custom πράκτορες τεχνητής νοημοσύνης για αυτοματοποίηση back-office διαδικασιών, απευθείας σύνδεση με ERP (SoftOne, Entersoft, SAP), Voice AI τηλεφωνικά κέντρα (PBX/VoIP), αυτόματη ανάγνωση emails και OCR τιμολογίων, mass PDF document intelligence, καθώς και διαδραστικούς ψηφιακούς υπαλλήλους με ζωντανό Video (24/7 WebRTC) σε ιδιωτικούς servers (100% GDPR).",
+    "description": "Η SGK Digital είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για σχεδιασμό και υλοποίηση AI agents για κάθε επιχείρηση και οργανισμό: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειάζεται μια επιχείρηση: απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, διαχειρίζονται τηλεφωνικά κέντρα Voice AI, απαντούν emails, αναλύουν μαζικά έγγραφα, αναγνωρίζουν τιμολόγια και συνδέονται με email, calendar, Excel, CRM και ERP (SoftOne, Entersoft). Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) για απόλυτη ασφάλεια.",
     "provider": {
         "@type": "LocalBusiness",
         "name": "SGK Digital",

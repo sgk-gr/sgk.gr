@@ -187,15 +187,19 @@ export default function ServicesClient() {
               <ul className="space-y-6 mb-12">
                 <li className="flex items-start text-black/80 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-black mr-4 shrink-0 mt-2"></span>
-                  <span><strong>Voice, Chat & Video AI:</strong> 24/7 εξυπηρέτηση πελατών με τηλεφωνικό Voice AI, WhatsApp chat και διαδραστικά video avatars.</span>
+                  <span><strong>Για Μικρές & Μεγάλες Επιχειρήσεις:</strong> Agents για rent a car (έλεγχος στόλου, τιμές ανά σεζόν, κρατήσεις), τουρισμό, ιατρεία, καταστήματα και γραφεία.</span>
                 </li>
                 <li className="flex items-start text-black/80 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-black mr-4 shrink-0 mt-2"></span>
-                  <span><strong>Αυτόνομη Εργασία Χωρίς Υπαλλήλους:</strong> Πράκτορες που εκτελούν data entry, τιμολόγηση, courier vouchers και ERP updates αυτόνομα.</span>
+                  <span><strong>Human-in-the-Loop & Ασφάλεια:</strong> Κρίσιμες ενέργειες περνούν πάντα από ανθρώπινη έγκριση με 1 κλικ — κανένας agent δεν δεσμεύει αυτοκίνητα ή πόρους χωρίς έλεγχο.</span>
                 </li>
                 <li className="flex items-start text-black/80 text-[15px] md:text-lg">
                   <span className="w-3 h-3 bg-black mr-4 shrink-0 mt-2"></span>
-                  <span><strong>Softone, Entersoft & CRM Sync:</strong> Άμεση διασύνδεση με ελληνικά ERPs, τράπεζες, τηλεφωνικά κέντρα PBX και e-commerce.</span>
+                  <span><strong>Αυτοματοποιούμε τα Πάντα (Όχι μόνο ERP):</strong> Σύνδεση με emails, Google Calendar, Excel spreadsheets, PMS ξενοδοχείων, CRM και ERPs (SoftOne, Entersoft).</span>
+                </li>
+                <li className="flex items-start text-black/80 text-[15px] md:text-lg">
+                  <span className="w-3 h-3 bg-black mr-4 shrink-0 mt-2"></span>
+                  <span><strong>Voice, Chat & Live Video AI (24/7):</strong> Τηλεφωνικά κέντρα Voice AI σε φυσικά ελληνικά, WhatsApp business chat και 24/7 WebRTC Video Avatars.</span>
                 </li>
               </ul>
               

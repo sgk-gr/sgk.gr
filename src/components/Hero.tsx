@@ -13,7 +13,7 @@ const slides = [
         Αυτόνομοι AI Agents <br /> Για Επιχειρήσεις <br /> Στην Ελλάδα.
       </>
     ),
-    description: "Ηγετική εταιρεία στην Ελλάδα για Custom AI Agents & Agentic AI. Αυτοματοποιήστε ERP (SoftOne, Entersoft), τηλεφωνικά κέντρα Voice AI, διαχείριση emails, μαζική ανάλυση PDFs και ψηφιακούς υπαλλήλους 24/7.",
+    description: "Η SGK Digital σχεδιάζει και υλοποιεί AI agents για κάθε επιχείρηση: μικρή, μεσαία, μεγάλη και δημόσιο, σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειαστεί μια επιχείρηση: εξυπηρέτηση, τηλεφωνία Voice AI, ραντεβού, emails, έγγραφα, CRM & ERP. 100% Δωρεάν αξιολόγηση!",
     buttonText: "Ανακαλύψτε τους AI Agents",
     buttonLink: "/ai-agents",
     image: "/hero_slide_2.webp"

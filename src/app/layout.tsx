@@ -30,13 +30,13 @@ const spaceGrotesk = SpaceFont({
 
 export const metadata: Metadata = {
     title: "SGK Digital | Agentic AI, AI Agents Ελλάδα, Web Development & Apps",
-    description: "SGK Digital — Η #1 εταιρεία για Agentic AI & Custom AI Agents στην Ελλάδα. Αυτόνομοι πράκτορες ERP (SoftOne, Entersoft), Voice AI τηλεφωνία, Smart Chat & Live Video AI Agents (24/7 WebRTC). 18 χρόνια εμπειρίας.",
-    keywords: "agentic ai ελλαδα, ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, sgk digital, sgk, ai agents για επιχειρησεις, αυτονομοι ai agents, live video ai agents, ψηφιακοι υπαλληλοι, voice ai ελλαδα, erp ai automations, web development ελλαδα",
+    description: "SGK Digital — Η #1 εταιρεία για AI Agents & Agentic AI στην Ελλάδα. Σχεδιάζει AI agents για κάθε επιχείρηση: μικρή, μεσαία, μεγάλη και δημόσιο, σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειαστεί μια επιχείρηση: εξυπηρέτηση πελατών, ραντεβού, κρατήσεις, Voice AI τηλεφωνία, emails, έγγραφα, CRM & ERP. 100% Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop).",
+    keywords: "agentic ai ελλαδα, ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, sgk digital, sgk, ai agents για ολους, ai agents μικρες μεσαιες μεγαλες επιχειρησεις δημοσιο, κρατησεις ai agents, αυτονομοι ai agents, live video ai agents, ψηφιακοι υπαλληλοι, voice ai ελλαδα, erp ai automations, web development ελλαδα",
     metadataBase: new URL("https://www.sgk.gr"),
     alternates: { canonical: "https://www.sgk.gr" },
     openGraph: {
         title: "SGK Digital | Agentic AI, AI Agents Ελλάδα & Custom Web Apps",
-        description: "Η #1 εταιρεία για Agentic AI & Custom AI Agents στην Ελλάδα. Αυτόνομοι πράκτορες επιχειρήσεων, Voice AI, Live Video WebRTC και αυτοματισμοί ERP.",
+        description: "Η #1 εταιρεία για Agentic AI & Custom AI Agents στην Ελλάδα. AI Agents για όλους: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο, για οτιδήποτε μπορεί να χρειαστεί μια επιχείρηση.",
         images: [{ url: "https://www.sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Digital Agentic AI" }],
         url: "https://www.sgk.gr",
         type: "website",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "SGK Digital | AI Agents & Agentic AI Ελλάδα",
-        description: "18 χρόνια εμπειρίας. Αυτόνομοι AI Agents, ERP Automations, Web Apps. Αθήνα, Ελλάδα.",
+        description: "18 χρόνια εμπειρίας. AI Agents για κάθε επιχείρηση (μικρή, μεσαία, μεγάλη, δημόσιο) και για τα πάντα. Αθήνα, Ελλάδα.",
         images: ["https://www.sgk.gr/hero_slide_4.png"],
     },
     robots: {
@@ -83,7 +83,7 @@ const localBusinessSchema = {
     "url": "https://www.sgk.gr",
     "logo": "https://www.sgk.gr/sgk-logo.png",
     "image": "https://www.sgk.gr/social-preview.png",
-    "description": "Η #1 εταιρεία στην Ελλάδα για Agentic AI και Custom AI Agents. Αυτόνομοι πράκτορες επιχειρήσεων, αυτοματισμοί ERP (SoftOne, Entersoft), Voice AI τηλεφωνικά κέντρα, Smart Chat και Live Video AI Agents (24/7 WebRTC). 18 χρόνια εμπειρίας.",
+    "description": "Η #1 εταιρεία στην Ελλάδα για Agentic AI και Custom AI Agents για κάθε επιχείρηση και οργανισμό: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο σε όλη την Ελλάδα. Προσφέρει AI agents για όλους και για οτιδήποτε χρειάζεται μια επιχείρηση: απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, διαχειρίζονται τηλεφωνικά κέντρα Voice AI, απαντούν emails, αναλύουν μαζικά έγγραφα, και συνδέονται με email, calendar, Excel, CRM και ERP. Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) για απόλυτη ασφάλεια.",
     "telephone": "+302111140013",
     "email": "info@sgk.gr",
     "vatID": "EL131398972",
@@ -118,6 +118,12 @@ const localBusinessSchema = {
         "Εταιρείες AI Agents Ελλάδα",
         "Κατασκευή AI Agents",
         "Αυτόνομοι AI Agents",
+        "AI Agents για Μικρές Επιχειρήσεις",
+        "AI Agents για Rent a Car & Ενοικιάσεις Αυτοκινήτων",
+        "AI Agents Κρατήσεων & Ραντεβού",
+        "Human-in-the-Loop AI Systems",
+        "Δωρεάν Αρχική Αξιολόγηση AI",
+        "Αυτοματισμοί Επιχειρήσεων για Οτιδήποτε",
         "AI Agents για Επιχειρήσεις",
         "Artificial Intelligence",
         "Autonomous AI Agents",
@@ -136,6 +142,7 @@ const localBusinessSchema = {
         "@type": "OfferCatalog",
         "name": "Software & AI Solutions",
         "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents για Μικρές & Μεγάλες Επιχειρήσεις (Κρατήσεις, Rent-a-Car, Ραντεβού)", "description": "AI agents που απαντούν σε πελάτες, ελέγχουν διαθεσιμότητα, υπολογίζουν τιμές και κλείνουν κρατήσεις με ανθρώπινη έγκριση (Human-in-the-Loop) και δωρεάν αρχική αξιολόγηση.", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents & Agentic AI Επιχειρήσεων", "description": "Ανάπτυξη αυτόνομων AI agents για back-office, ERP SoftOne/Entersoft, emails, τιμολόγια και mass PDFs.", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Voice AI Telephony (Τηλεφωνικά Κέντρα VoIP PBX)", "description": "Φωνητικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία για 24/7 διαχείριση εισερχόμενων και εξερχόμενων κλήσεων.", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Live Video AI Agents & Ψηφιακοί Υπάλληλοι (24/7 WebRTC)", "description": "Ρεαλιστικό Video WebRTC, φυσικός ελληνικός διάλογος, live σύνδεση με CRM/ERP/ΓΕΜΗ και οπτική ταυτοποίηση μέσω κάμερας.", "url": "https://www.sgk.gr/order-ai-agent" } },
