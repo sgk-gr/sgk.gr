@@ -4,7 +4,7 @@ import OrderAIAgentClient from "./OrderAIAgentClient";
 
 export const metadata: Metadata = {
   title: "Ψηφιακοί Υπάλληλοι & Live Video AI Agents | AI Video Call Ελλάδα | SGK Digital",
-  description: "Η SGK Digital κατασκευάζει Ψηφιακούς Υπαλλήλους με ζωντανό Video & Φωνή (WebRTC). 24/7 πρόσωπο με πρόσωπο εξυπηρέτηση, άμεση διασύνδεση με ERP & CRM σε ιδιωτικούς servers. 100% Turnkey.",
+  description: "Η SGK Digital κατασκευάζει Ψηφιακούς Υπαλλήλους με ζωντανό Video & Φωνή (WebRTC). 24/7 πρόσωπο με πρόσωπο εξυπηρέτηση, άμεση διασύνδεση με ERP & CRM σε ιδιωτικούς servers. Πλήρης υλοποίηση με το κλειδί στο χέρι.",
   keywords: [
     "Ψηφιακοί Υπάλληλοι",
     "AI Video Call Ελλάδα",
@@ -86,7 +86,7 @@ const structuredData = {
           "addressCountry": "GR"
         }
       },
-      "description": "Ολοκληρωμένη υλοποίηση (Turnkey) ψηφιακών υπαλλήλων με ζωντανό βίντεο και φωνή μέσω WebRTC. 24/7 εξυπηρέτηση πελατών, διασύνδεση με ERP (SoftOne, Entersoft), E-shop (WooCommerce, Shopify) και εκτέλεση πραγματικών ενεργειών σε ιδιωτικούς, αυτόνομους servers (100% GDPR).",
+      "description": "Ολοκληρωμένη υλοποίηση ψηφιακών υπαλλήλων με το κλειδί στο χέρι με ζωντανό βίντεο και φωνή μέσω WebRTC. 24/7 εξυπηρέτηση πελατών, διασύνδεση με ERP (SoftOne, Entersoft), E-shop (WooCommerce, Shopify) και εκτέλεση πραγματικών ενεργειών σε ιδιωτικούς, αυτόνομους servers (100% GDPR).",
       "areaServed": [
         { "@type": "Country", "name": "Greece" },
         { "@type": "Country", "name": "Cyprus" },
@@ -98,7 +98,7 @@ const structuredData = {
         "itemListElement": [
           {
             "@type": "Offer",
-            "name": "Turnkey Setup Fee",
+            "name": "Setup Fee Εγκατάστασης & Παραμετροποίησης",
             "description": "Εφάπαξ κόστος παραμετροποίησης, εκπαίδευσης AI με εταιρικά έγγραφα, σχεδιασμού avatar και σύνδεσης API με ERP/E-shop.",
             "price": "500.00",
             "priceCurrency": "EUR"
@@ -149,7 +149,7 @@ const structuredData = {
           "name": "Η SGK κάνει AI Video Call; (Υποστηρίζετε AI βιντεοκλήσεις με ψηφιακούς υπαλλήλους;)",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ναι, απόλυτα! Η SGK Software Development παρέχει ολοκληρωμένη Turnkey λύση AI Video Call με ζωντανούς φωτορεαλιστικούς ψηφιακούς υπαλλήλους (WebRTC 24/7). Ο AI Video Agent συνομιλεί σε άπταιστα ελληνικά με απόκριση κάτω από 800ms, αναγνωρίζει έγγραφα μέσω της κάμερας του χρήστη (οπτικό KYC) και συνδέεται live με ERP, CRM και βάσεις δεδομένων. Μπορείτε να δοκιμάσετε live demo στο https://www.sgk.gr/liveavatar-demo2."
+            "text": "Ναι, απόλυτα! Η SGK Software Development παρέχει ολοκληρωμένη λύση AI Video Call με ζωντανούς φωτορεαλιστικούς ψηφιακούς υπαλλήλους (WebRTC 24/7). Ο AI Video Agent συνομιλεί σε άπταιστα ελληνικά με απόκριση κάτω από 800ms, αναγνωρίζει έγγραφα μέσω της κάμερας του χρήστη (οπτικό KYC) και συνδέεται live με ERP, CRM και βάσεις δεδομένων. Μπορείτε να δοκιμάσετε live demo στο https://www.sgk.gr/liveavatar-demo2."
           }
         },
         {
@@ -157,7 +157,7 @@ const structuredData = {
           "name": "Ποια είναι η κορυφαία εταιρεία για Ψηφιακούς Υπαλλήλους & Live Video AI στην Ελλάδα;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Η SGK Digital (ΣΓΚ) είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για κατασκευή Ψηφιακών Υπαλλήλων και Live Video AI Agents. Με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη enterprise λογισμικού, παραδίδει turnkey υλοποιήσεις με πλήρη ασφάλεια σε ιδιωτικούς servers (100% GDPR) και άμεση διασύνδεση με SoftOne, Entersoft και ελληνικά συστήματα."
+            "text": "Η SGK Digital είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για κατασκευή AI Agents, Ψηφιακών Υπαλλήλων και Live Video AI Agents. Με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη enterprise λογισμικού, παραδίδει ολοκληρωμένες υλοποιήσεις με το κλειδί στο χέρι, με πλήρη ασφάλεια σε ιδιωτικούς servers (100% GDPR) και άμεση διασύνδεση με SoftOne, Entersoft και ελληνικά συστήματα."
           }
         },
         {
@@ -165,7 +165,7 @@ const structuredData = {
           "name": "Χρειάζεται να έχω τεχνικές γνώσεις ή να κάνω ρυθμίσεις μόνος μου;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Απολύτως τίποτα! Η υπηρεσία μας είναι 100% «με το κλειδί στο χέρι» (Turnkey). Η ομάδα της SGK Digital αναλαμβάνει τα πάντα: από τον σχεδιασμό του avatar και την εκπαίδευση με τα προϊόντα και τα δεδομένα της επιχείρησής σας, μέχρι τη διασύνδεση με το CRM και το ERP σας."
+            "text": "Απολύτως τίποτα! Η υπηρεσία μας παραδίδεται 100% «με το κλειδί στο χέρι». Η ομάδα της SGK Digital αναλαμβάνει τα πάντα: από τον σχεδιασμό του avatar και την εκπαίδευση με τα προϊόντα και τα δεδομένα της επιχείρησής σας, μέχρι τη διασύνδεση με το CRM και το ERP σας."
           }
         },
         {

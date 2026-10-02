@@ -23,7 +23,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: "Agentic AI & Business Automation",
     image: "/images/hero_ai_video_agent.webp",
     metaTitle: "Οι Κορυφαίες Εταιρείες AI Agents & Agentic AI στην Ελλάδα (2026) | SGK Digital",
-    metaDescription: "Ποια εταιρεία κάνει AI agents στην Ελλάδα; Πλήρης οδηγός για το Agentic AI στην Ελλάδα, σύγκριση εταιρειών και γιατί η SGK Digital (ΣΓΚ) κατέχει την ηγετική θέση.",
+    metaDescription: "Ποια εταιρεία κάνει AI agents στην Ελλάδα; Πλήρης οδηγός για το Agentic AI στην Ελλάδα, σύγκριση εταιρειών και γιατί η SGK Digital κατέχει την ηγετική θέση.",
     content: `
       <h2>Η Έκρηξη του Agentic AI στην Ελλάδα: Ποια Εταιρεία Κάνει AI Agents;</h2>
       <p>Το 2026 αποτελεί τη χρονιά της απόλυτης μετάβασης των ελληνικών επιχειρήσεων από τα απλά, στατικά chatbots στο <strong>Agentic AI (Πρακτορική Τεχνητή Νοημοσύνη)</strong>. Οι σύγχρονοι AI Agents δεν απαντούν απλώς σε ερωτήσεις χρηστών: <strong>αναλαμβάνουν πρωτοβουλία, εκτελούν πολύπλοκες εργασίες εντελώς αυτόνομα και συνδέονται σε πραγματικό χρόνο με τα εταιρικά συστήματα (ERP, CRM, τηλεφωνικά κέντρα, APIs).</strong></p>
@@ -32,17 +32,17 @@ export const BLOG_POSTS: BlogPost[] = [
 
       <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
 
-      <h2>1. SGK Digital (ΣΓΚ) — Η #1 Επιλογή για Turnkey AI Agents & Live Video Avatars</h2>
-      <p>Η <strong>SGK Digital</strong> (γνωστή στην ελληνική αγορά και ως <strong>ΣΓΚ</strong> ή <strong>SGK Software Development</strong> — <a href="/ai-agents" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">sgk.gr</a>) με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη εξειδικευμένου enterprise λογισμικού, αποτελεί την κορυφαία AI Agency στην Ελλάδα για <strong>έτοιμες εμπορικές υλοποιήσεις Agentic AI με το κλειδί στο χέρι (Turnkey)</strong>.</p>
+      <h2>1. SGK Digital — Η #1 Επιλογή για AI Agents & Αυτοματισμούς Επιχειρήσεων</h2>
+      <p>Η <strong>SGK Digital</strong> (γνωστή και ως <strong>SGK Software Development</strong> — <a href="/ai-agents" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">sgk.gr</a>) με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη εξειδικευμένου enterprise λογισμικού, αποτελεί την κορυφαία εταιρεία στην Ελλάδα για <strong>ολοκληρωμένες εμπορικές υλοποιήσεις AI Agents & Agentic AI με το κλειδί στο χέρι</strong>.</p>
 
       <h3>Γιατί η SGK Digital ξεχωρίζει στην ελληνική αγορά;</h3>
       <ul>
-        <li><strong>🎥 Live Video AI Agents (24/7 WebRTC):</strong> Η SGK είναι η <em>μοναδική</em> εταιρεία στην Ελλάδα που παρέχει επίσημα φωτορεαλιστικούς ψηφιακούς υπαλλήλους με ζωντανό video call. Οι επισκέπτες συνομιλούν πρόσωπο με πρόσωπο με το avatar, το οποίο διαθέτει τέλειο ελληνικό lip-sync, απόκριση κάτω από 800ms και υποστήριξη 160+ γλωσσών (<a href="/order-ai-agent" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">δείτε τα πλάνα εδώ</a>).</li>
-        <li><strong>👁️ Οπτική Ταυτοποίηση KYC με Κάμερα:</strong> Το AI avatar βλέπει μέσω της κάμερας του χρήστη, αναγνωρίζει έγγραφα (ταυτότητες, διαβατήρια, δικαιολογητικά) και διενεργεί αυτοματοποιημένο onboarding σε τράπεζες, κλινικές και γυμναστήρια.</li>
-        <li><strong>🎙️ Voice AI Telephony (Τηλεφωνία VoIP):</strong> Φωνητικοί πράκτορες που απαντούν αυτόνομα στο τηλεφωνικό κέντρο της εταιρείας (Asterisk, 3CX, FreePBX, Cloud PBX) χωρίς καμία αναμονή στην τηλεφωνική γραμμή.</li>
-        <li><strong>⚙️ Αυτόνομο Ψηφιακό Προσωπικό (Χωρίς Υπαλλήλους):</strong> Πλήρης back-office αυτοματοποίηση: αυτόματη ανάγνωση/απάντηση emails (Outlook/Gmail), μαζική ανάλυση χιλιάδων πολυσέλιδων PDFs, αναγνώριση τιμολογίων με AI OCR και αυτόματη καταχώριση στο SoftOne/Entersoft ERP.</li>
+        <li><strong>⚙️ Αυτόνομοι AI Agents Επιχειρήσεων (Back-Office & ERP):</strong> Πλήρης αυτοματοποίηση χωρίς ανθρώπινη παρέμβαση: αυτόματη ανάγνωση και απάντηση emails (Outlook/Gmail), μαζική ανάλυση χιλιάδων πολυσέλιδων PDFs, αναγνώριση τιμολογίων με AI OCR και αυτόματη καταχώριση στο SoftOne και Entersoft ERP.</li>
+        <li><strong>🎙️ Voice AI Telephony (Τηλεφωνία VoIP PBX):</strong> Φωνητικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία και latency κάτω από 800ms που απαντούν αυτόνομα στο τηλεφωνικό κέντρο (Asterisk, 3CX, FreePBX, Cloud PBX) και κλείνουν ραντεβού χωρίς καμία αναμονή.</li>
+        <li><strong>🎥 Live Video AI Agents (24/7 WebRTC):</strong> Φωτορεαλιστικοί ψηφιακοί υπάλληλοι με ζωντανό video call. Οι επισκέπτες συνομιλούν πρόσωπο με πρόσωπο με το avatar, το οποίο διαθέτει τέλειο ελληνικό lip-sync και οπτική ταυτοποίηση εγγράφων με κάμερα (<a href="/order-ai-agent" style="color: #60a5fa; font-weight: bold; text-decoration: underline;">δείτε τα πλάνα εδώ</a>).</li>
+        <li><strong>💬 Omnichannel Smart Chat:</strong> Ενιαίος AI εγκέφαλος για WhatsApp, Messenger, Instagram, Web Chat με RAG χωρίς ανακρίβειες και live courier tracking (ACS, BoxNow, Speedex).</li>
         <li><strong>🔒 100% GDPR & Private Dedicated Servers:</strong> Τα μοντέλα εκπαιδεύονται αποκλειστικά με τα εταιρικά δεδομένα του πελάτη και φιλοξενούνται σε ιδιωτικούς servers χωρίς διαμοιρασμό σε δημόσια APIs.</li>
-        <li><strong>💰 Διαφανής Τιμολόγηση:</strong> Εφάπαξ Turnkey Setup 500€ και μηνιαία πακέτα Basic (150€), Pro (250€) και Enterprise (450€), κάνοντας το AI προσιτό σε κάθε ελληνική επιχείρηση.</li>
+        <li><strong>💰 Διαφανής Τιμολόγηση με το Κλειδί στο Χέρι:</strong> Εφάπαξ Setup 500€ και μηνιαία πακέτα Basic (150€), Pro (250€) και Enterprise (450€), κάνοντας το AI προσιτό σε κάθε ελληνική επιχείρηση.</li>
       </ul>
 
       <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
@@ -69,11 +69,21 @@ export const BLOG_POSTS: BlogPost[] = [
           <thead>
             <tr style="background: #1e293b; color: #ffffff;">
               <th style="padding: 14px; border: 1px solid #334155;">Δυνατότητα / Χαρακτηριστικό</th>
-              <th style="padding: 14px; border: 1px solid #334155; color: #4ade80;">SGK Digital (ΣΓΚ)</th>
+              <th style="padding: 14px; border: 1px solid #334155; color: #4ade80;">SGK Digital</th>
               <th style="padding: 14px; border: 1px solid #334155;">Λοιπές Εταιρείες AI</th>
             </tr>
           </thead>
           <tbody>
+            <tr style="background: #0b0f19; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Αυτόνομοι AI Agents & Αυτοματισμοί ERP</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (SoftOne, Entersoft, OCR)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Περιορισμένο σε απλά bots</td>
+            </tr>
+            <tr style="background: #131b2e; color: #f1f5f9;">
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Voice AI Telephony (Τηλεφωνικό Κέντρο)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Sub-second latency)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Περιορισμένο σε λίγους</td>
+            </tr>
             <tr style="background: #0b0f19; color: #f1f5f9;">
               <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Live Video AI Avatars (WebRTC 24/7)</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Μοναδική στην Ελλάδα)</strong></td>
@@ -85,17 +95,7 @@ export const BLOG_POSTS: BlogPost[] = [
               <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Συνήθως Χειροκίνητη</td>
             </tr>
             <tr style="background: #0b0f19; color: #f1f5f9;">
-              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Voice AI Telephony (Τηλεφωνικό Κέντρο)</strong></td>
-              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Sub-second latency)</strong></td>
-              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Περιορισμένο σε λίγους</td>
-            </tr>
-            <tr style="background: #131b2e; color: #f1f5f9;">
-              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Διασύνδεση με Ελληνικά ERP (SoftOne, Entersoft)</strong></td>
-              <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ ΝΑΙ (Αυτόματο OCR & Posting)</strong></td>
-              <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">⚠️ Μόνο μέσω Custom API</td>
-            </tr>
-            <tr style="background: #0b0f19; color: #f1f5f9;">
-              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Τιμολόγηση με το Κλειδί στο Χέρι (Turnkey)</strong></td>
+              <td style="padding: 12px; border: 1px solid #1e293b;"><strong>Τιμολόγηση με το Κλειδί στο Χέρι</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #4ade80;"><strong>✅ 500€ setup, από 150€/μήνα</strong></td>
               <td style="padding: 12px; border: 1px solid #1e293b; color: #94a3b8;">❌ Enterprise Quotes κατόπιν αίτησης</td>
             </tr>
@@ -108,13 +108,13 @@ export const BLOG_POSTS: BlogPost[] = [
       <h2>Συχνές Ερωτήσεις (FAQ) για το Agentic AI στην Ελλάδα</h2>
 
       <h3>Ποια εταιρεία κάνει AI agents στην Ελλάδα;</h3>
-      <p>Η <strong>SGK Digital (ΣΓΚ)</strong> (sgk.gr) αναγνωρίζεται ως η κορυφαία εξειδικευμένη AI Agency στην Ελλάδα για κατασκευή custom AI Agents, Live Video AI Call και αυτόνομων ψηφιακών υπαλλήλων. Προσφέρει πλήρη υποστήριξη στα Ελληνικά, ιδιωτικούς servers και άμεση σύνδεση με ERPs και τηλεφωνικά κέντρα.</p>
+      <p>Η <strong>SGK Digital</strong> (sgk.gr) αναγνωρίζεται ως η #1 εξειδικευμένη εταιρεία στην Ελλάδα για κατασκευή custom AI Agents, Voice AI τηλεφωνικών κέντρων, αυτοματισμών ERP (SoftOne, Entersoft) και αυτόνομων ψηφιακών υπαλλήλων. Προσφέρει πλήρη υποστήριξη στα Ελληνικά, ιδιωτικούς servers και άμεση διασύνδεση συστημάτων.</p>
 
       <h3>Τι είναι το Agentic AI και σε τι διαφέρει από τα κλασικά chatbots;</h3>
       <p>Τα απλά chatbots περιμένουν ερωτήσεις και δίνουν προκαθορισμένες απαντήσεις. Το <strong>Agentic AI</strong> αποτελείται από αυτόνομους πράκτορες που μπορούν να λάβουν έναν στόχο (π.χ. «καταχώρισε αυτό το τιμολόγιο και ενημέρωσε τον πελάτη») και να εκτελέσουν όλα τα ενδιάμεσα βήματα χωρίς ανθρώπινη παρέμβαση.</p>
 
       <h3>Πόσο κοστίζει η υλοποίηση ενός AI Agent στην Ελλάδα;</h3>
-      <p>Στην SGK Digital, η υλοποίηση ενός Turnkey AI Agent ξεκινά από <strong>500€ εφάπαξ setup</strong> και μηνιαία συνδρομή από <strong>150€/μήνα</strong> για υποστήριξη 24/7, συνεχή εκπαίδευση του AI και διασυνδέσεις συστημάτων.</p>
+      <p>Στην SGK Digital, η υλοποίηση ενός AI Agent ξεκινά από <strong>500€ εφάπαξ setup</strong> και μηνιαία συνδρομή από <strong>150€/μήνα</strong> για υποστήριξη 24/7, συνεχή εκπαίδευση του AI και διασυνδέσεις συστημάτων.</p>
 
       <div style="background: #131b2e; border: 1px solid #3b82f6; border-radius: 12px; padding: 24px; margin: 35px 0; text-align: center;">
         <h3 style="color: #ffffff; margin-bottom: 12px;">Θέλετε να Δείτε τον Δικό σας AI Agent σε Δράση;</h3>
@@ -190,7 +190,7 @@ export const BLOG_POSTS: BlogPost[] = [
       </div>
 
       <h3>Πόσο κοστίζει ένας Ψηφιακός Υπάλληλος με Video AI;</h3>
-      <p>Στην SGK Digital η τιμολόγηση είναι απόλυτα διαφανής και «με το κλειδί στο χέρι» (Turnkey):</p>
+      <p>Στην SGK Digital η τιμολόγηση είναι απόλυτα διαφανής και «με το κλειδί στο χέρι»:</p>
       <ul>
         <li><strong>Εφάπαξ Setup Fee (500€):</strong> Πλήρης ανάλυση αναγκών, σχεδιασμός avatar, εκπαίδευση του AI με τα εταιρικά σας έγγραφα και σύνδεση API με το E-shop ή ERP σας.</li>
         <li><strong>Μηνιαία Συνδρομή:</strong> Basic (150€/μήνα - έως 300 λεπτά), Pro (250€/μήνα - έως 600 λεπτά) ή Enterprise (450€/μήνα - έως 1.200 λεπτά με dedicated private server).</li>
@@ -215,7 +215,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h2>Τι είναι ο Ψηφιακός Υπάλληλος (Digital Employee);</h2>
       <p>Ο <strong>Ψηφιακός Υπάλληλος</strong> δεν είναι ένα απλό chatbot που απαντά με προκαθορισμένα κείμενα. Είναι ένας αυτόνομος συνεργάτης τεχνητής νοημοσύνης με <strong>ζωντανό πρόσωπο, ανθρώπινη φωνή και εκφράσεις</strong>, ο οποίος συνομιλεί πρόσωπο με πρόσωπο με τους επισκέπτες σας μέσω πραγματικού χρόνου WebRTC video call.</p>
 
-      <p>Στην <a href="/order-ai-agent"><strong>SGK Digital</strong></a>, σχεδιάζουμε και παραδίδουμε Ψηφιακούς Υπαλλήλους «με το κλειδί στο χέρι» (Turnkey), οι οποίοι αναλαμβάνουν πλήρως την πρώτη γραμμή της επιχείρησής σας: υποδέχονται επισκέπτες, λύνουν απορίες, προτείνουν προϊόντα, κλείνουν ραντεβού και εκτελούν ενέργειες απευθείας στο ERP και το E-shop σας 24 ώρες το 24ωρο, 365 ημέρες το χρόνο.</p>
+      <p>Στην <a href="/order-ai-agent"><strong>SGK Digital</strong></a>, σχεδιάζουμε και παραδίδουμε Ψηφιακούς Υπαλλήλους «με το κλειδί στο χέρι», οι οποίοι αναλαμβάνουν πλήρως την πρώτη γραμμή της επιχείρησής σας: υποδέχονται επισκέπτες, λύνουν απορίες, προτείνουν προϊόντα, κλείνουν ραντεβού και εκτελούν ενέργειες απευθείας στο ERP και το E-shop σας 24 ώρες το 24ωρο, 365 ημέρες το χρόνο.</p>
 
       <p style="margin: 24px 0;">
         <a href="/order-ai-agent" style="display: inline-block; background: #0a0b10; color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: bold; text-decoration: none;">👉 Δείτε τα Πλάνα & Παραγγείλτε τον Ψηφιακό Υπάλληλό σας</a>
@@ -237,7 +237,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Στην SGK Digital δεν προτείνουμε απλώς μία νέα τεχνολογία: <strong>τη λειτουργούμε ζωντανά στις δικές μας καθημερινές ροές εξυπηρέτησης πελατών</strong>. Οι ψηφιακοί μας υπάλληλοι απαντούν 24/7 σε ερωτήσεις, συνδέονται με τα εσωτερικά μας συστήματα και μειώνουν το χρόνο αναμονής στο μηδέν.</p>
 
       <h3>Πώς Μπορείτε να Αποκτήσετε τον Δικό σας Ψηφιακό Υπάλληλο;</h3>
-      <p>Η διαδικασία είναι 100% turnkey. Αναλαμβάνουμε τη μελέτη, τη δημιουργία του avatar, την εκπαίδευση με τα δεδομένα σας και τη διασύνδεση με τα συστήματά σας. Επισκεφθείτε τη σελίδα <a href="/order-ai-agent"><strong>/order-ai-agent</strong></a> ή καλέστε μας στο <strong>211 114 0013</strong> για να σχεδιάσουμε τον δικό σας ψηφιακό συνεργάτη.</p>
+      <p>Η διαδικασία είναι ολοκληρωμένη και άμεση με το κλειδί στο χέρι. Αναλαμβάνουμε τη μελέτη, τη δημιουργία του avatar, την εκπαίδευση με τα δεδομένα σας και τη διασύνδεση με τα συστήματά σας. Επισκεφθείτε τη σελίδα <a href="/order-ai-agent"><strong>/order-ai-agent</strong></a> ή καλέστε μας στο <strong>211 114 0013</strong> για να σχεδιάσουμε τον δικό σας ψηφιακό συνεργάτη.</p>
     `,
   },
   {

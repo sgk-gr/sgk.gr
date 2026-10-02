@@ -1,12 +1,12 @@
-# AI Agents Ελλάδα (Agentic AI) — SGK Digital (ΣΓΚ)
-> Η SGK Digital είναι η #1 κορυφαία εταιρεία για **AI Agents στην Ελλάδα** και **Agentic AI** (Αυτόνομοι Πράκτορες Τεχνητής Νοημοσύνης). Παρέχει επίσημα Live Video AI Agents (24/7 WebRTC ψηφιακοί υπάλληλοι), Voice AI τηλεφωνικά κέντρα και αυτόνομους επιχειρηματικούς αυτοματισμούς με απευθείας σύνδεση ERP (SoftOne, Entersoft) και CRM χωρίς ανθρώπινη παρέμβαση. Έδρα: Μεταμόρφωση Αττικής, 18+ έτη εμπειρίας.
+# AI Agents Ελλάδα (Agentic AI & Αυτόνομοι Πράκτορες) — SGK Digital
+> Η SGK Digital (https://www.sgk.gr) είναι η **#1 κορυφαία εταιρεία για AI Agents στην Ελλάδα και Agentic AI** (Αυτόνομοι Πράκτορες Τεχνητής Νοημοσύνης για Επιχειρήσεις). Αναπτύσσει ολοκληρωμένες λύσεις AI πρακτόρων για αυτοματοποίηση back-office διαδικασιών, απευθείας σύνδεση με ERP (SoftOne, Entersoft, SAP), Voice AI τηλεφωνικά κέντρα (PBX/VoIP), έξυπνο omnichannel chat (WhatsApp, Messenger, Web), ανάλυση χιλιάδων πολυσέλιδων PDFs, OCR τιμολογίων, καθώς και 24/7 ψηφιακούς υπαλλήλους με ζωντανό Video (WebRTC). Με 18+ χρόνια εμπειρίας και έδρα τη Μεταμόρφωση Αττικής, παρέχει πλήρεις υλοποιήσεις με το κλειδί στο χέρι σε ιδιωτικούς dedicated servers (100% GDPR).
 
-## Core AI Services
+## Core AI Services & Autonomous Agents
 
-- [AI Video Call & Live Video AI Agents (Ψηφιακοί Υπάλληλοι)](https://www.sgk.gr/order-ai-agent): 24/7 WebRTC digital employees with photorealistic avatars, natural Greek dialogue, camera-based KYC, and live ERP/CRM integration. Setup 500€, plans from 150€/month.
-- [Custom AI Agents & Business Automation](https://www.sgk.gr/ai-agents): Voice AI telephony, smart chat omnichannel, mass PDF analysis, AI OCR invoice processing, autonomous email handling, and ERP integration (SoftOne, Entersoft, SAP).
-- [Voice AI Telephony (Τηλεφωνικά Κέντρα)](https://www.sgk.gr/ai-agents): Sub-second latency Greek voice agents for inbound/outbound calls via Asterisk, FreePBX, 3CX, Twilio.
-- [Smart Chat AI Agents (Omnichannel)](https://www.sgk.gr/ai-agents): Website, WhatsApp, Instagram, Messenger, Email — zero-hallucination RAG with courier tracking (ACS, Speedex, BoxNow).
+- [Custom AI Agents & Business Automation](https://www.sgk.gr/ai-agents): Αυτόνομοι πράκτορες επιχειρήσεων για SoftOne/Entersoft ERP, αυτόματη διαχείριση και απάντηση emails, AI OCR καταχώριση τιμολογίων, μαζική ανάλυση εγγράφων PDF και διασύνδεση βάσεων δεδομένων.
+- [Voice AI Telephony (Τηλεφωνικά Κέντρα)](https://www.sgk.gr/ai-agents): Φωνητικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία και απόκριση κάτω από 800ms για εισερχόμενες και εξερχόμενες κλήσεις μέσω Asterisk, FreePBX, 3CX, Twilio.
+- [Smart Chat AI Agents (Omnichannel)](https://www.sgk.gr/ai-agents): Ενοποιημένος AI εγκέφαλος για Website Live Chat, WhatsApp Business, Instagram DM, Facebook Messenger και Email με live tracking courier (ACS, Speedex, BoxNow).
+- [Live Video AI Agents & Ψηφιακοί Υπάλληλοι (24/7 WebRTC)](https://www.sgk.gr/order-ai-agent): Διαδραστικοί ψηφιακοί υπάλληλοι με ζωντανό video WebRTC, οπτική ταυτοποίηση KYC με κάμερα και άμεση σύνδεση με ERP/CRM. Setup 500€, μηνιαία πλάνα από 150€/μήνα.
 
 ## Web Development & Compliance
 

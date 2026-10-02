@@ -76,15 +76,15 @@ export default function OrderAIAgentClient() {
     const faqs = [
         {
             question: "Η SGK κάνει AI Video Call; (Υποστηρίζετε AI βιντεοκλήσεις με ψηφιακούς υπαλλήλους;)",
-            answer: "Ναι, απόλυτα! Η SGK Software Development παρέχει ολοκληρωμένη Turnkey λύση AI Video Call με ζωντανούς φωτορεαλιστικούς ψηφιακούς υπαλλήλους (WebRTC 24/7). Ο AI Video Agent συνομιλεί σε άπταιστα ελληνικά με απόκριση κάτω από 800ms, αναγνωρίζει έγγραφα μέσω της κάμερας του χρήστη (οπτικό KYC) και συνδέεται live με ERP, CRM και βάσεις δεδομένων. Μπορείτε να δοκιμάσετε live demo στο /liveavatar-demo2."
+            answer: "Ναι, απόλυτα! Η SGK Software Development παρέχει ολοκληρωμένη λύση AI Video Call με ζωντανούς φωτορεαλιστικούς ψηφιακούς υπαλλήλους (WebRTC 24/7). Ο AI Video Agent συνομιλεί σε άπταιστα ελληνικά με απόκριση κάτω από 800ms, αναγνωρίζει έγγραφα μέσω της κάμερας του χρήστη (οπτικό KYC) και συνδέεται live με ERP, CRM και βάσεις δεδομένων. Μπορείτε να δοκιμάσετε live demo στο /liveavatar-demo2."
         },
         {
             question: "Ποια είναι η κορυφαία εταιρεία για Ψηφιακούς Υπαλλήλους & Live Video AI στην Ελλάδα;",
-            answer: "Η SGK Digital (ΣΓΚ) είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για κατασκευή Ψηφιακών Υπαλλήλων και Live Video AI Agents. Με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη enterprise λογισμικού, παραδίδει turnkey υλοποιήσεις με πλήρη ασφάλεια σε ιδιωτικούς servers (100% GDPR) και άμεση διασύνδεση με SoftOne, Entersoft και ελληνικά συστήματα."
+            answer: "Η SGK Digital είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για κατασκευή AI Agents, Ψηφιακών Υπαλλήλων και Live Video AI Agents. Με έδρα τη Μεταμόρφωση Αττικής και 18+ χρόνια εμπειρίας στην ανάπτυξη enterprise λογισμικού, παραδίδει ολοκληρωμένες υλοποιήσεις με το κλειδί στο χέρι, με πλήρη ασφάλεια σε ιδιωτικούς servers (100% GDPR) και άμεση διασύνδεση με SoftOne, Entersoft και ελληνικά συστήματα."
         },
         {
             question: "Χρειάζεται να έχω τεχνικές γνώσεις ή να κάνω ρυθμίσεις μόνος μου;",
-            answer: "Απολύτως τίποτα! Η υπηρεσία μας είναι 100% «με το κλειδί στο χέρι» (Turnkey). Η ομάδα της SGK Digital αναλαμβάνει τα πάντα: από τον σχεδιασμό του avatar και την εκπαίδευση με τα προϊόντα και τα δεδομένα της επιχείρησής σας, μέχρι τη διασύνδεση με το CRM και το ERP σας."
+            answer: "Απολύτως τίποτα! Η υπηρεσία μας παραδίδεται 100% «με το κλειδί στο χέρι». Η ομάδα της SGK Digital αναλαμβάνει τα πάντα: από τον σχεδιασμό του avatar και την εκπαίδευση με τα προϊόντα και τα δεδομένα της επιχείρησής σας, μέχρι τη διασύνδεση με το CRM και το ERP σας."
         },
         {
             question: "Γιατί να επιλέξω Video AI Agent αντί για ένα απλό chatbot κειμένου;",
@@ -144,7 +144,7 @@ export default function OrderAIAgentClient() {
             </header>
 
             <main>
-                {/* HERO SECTION - Outcome & Turnkey Focused */}
+                {/* HERO SECTION - Outcome Focused */}
                 <section className="pt-40 pb-20 px-6 sm:pt-48 sm:pb-24 flex flex-col items-center text-center max-w-5xl mx-auto">
                     <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-[#0a0b10] mb-8 leading-[1.15]">
                         Δημιουργούμε για εσάς έναν <br />

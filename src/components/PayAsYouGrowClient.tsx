@@ -207,7 +207,7 @@ export default function PayAsYouGrowClient() {
                                         <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Αρχικό Setup (Day 1)</td>
                                         <td className="p-4 md:p-5 text-sm text-gray-600">0 € (Στήσιμο από εσάς)</td>
                                         <td className="p-4 md:p-5 text-sm text-gray-600">300 € – 450 €</td>
-                                        <td className="p-4 md:p-5 text-sm font-bold text-black bg-[#3b5bdb]/5">250 € (Turnkey)</td>
+                                        <td className="p-4 md:p-5 text-sm font-bold text-black bg-[#3b5bdb]/5">250 € (Εφάπαξ Setup)</td>
                                     </tr>
                                     <tr>
                                         <td className="p-4 md:p-5 text-sm font-medium text-gray-900">Μηνιαίο Πάγιο</td>

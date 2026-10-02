@@ -43,7 +43,7 @@ export default function ServicesSection() {
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>
-                <span>SGK Turnkey Solutions – Ξεκίνα το project σου άμεσα & με ξεκάθαρο κόστος</span>
+                <span>SGK Ολοκληρωμένες Λύσεις – Ξεκίνα το project σου άμεσα & με ξεκάθαρο κόστος</span>
               </li>
               <li className="flex items-start text-white/90 text-sm md:text-[15px]">
                 <span className="w-3 h-3 bg-[#4ade80] mr-4 shrink-0 mt-1"></span>

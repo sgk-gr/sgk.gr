@@ -128,7 +128,7 @@ const templates = [
   </p>
 </div>
 
-<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Ξεκάθαρη Τιμολόγηση με το Κλειδί στο Χέρι (Turnkey):</p>
+<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Ξεκάθαρη Τιμολόγηση με το Κλειδί στο Χέρι:</p>
 
 <div style="margin: 0 0 16px 0; padding-left: 4px;">
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">

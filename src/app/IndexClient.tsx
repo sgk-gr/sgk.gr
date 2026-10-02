@@ -31,9 +31,12 @@ export default function IndexClient() {
             <WelcomeDiscount />
             
             <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-[#4ade80]" />
+            <AIAgentsShowcase />
+            
+            <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-[#3b5bdb]" />
             <LiveVideoAgentSection />
             
-            <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-pink-500" />
+            <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-pink-500" />
             <ServicesSection />
             
             <SectionDivider leftColor="bg-pink-500" rightColor="bg-white" />

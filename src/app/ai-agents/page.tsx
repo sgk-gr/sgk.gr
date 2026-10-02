@@ -163,7 +163,7 @@ const faqSchema = {
             "name": "Ποιες είναι οι κορυφαίες εταιρείες για AI Agents στην Ελλάδα;",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Στην Ελλάδα δραστηριοποιούνται εξειδικευμένες AI agencies όπως η SGK Digital (ΣΓΚ), η Proxima, η Helvia.ai, η Môveo AI και η AI Agency Greece. Η SGK Digital κατέχει την ηγετική θέση στην αγορά παρέχοντας έτοιμες Turnkey λύσεις Agentic AI, φωτορεαλιστικούς Live Video AI Agents (24/7 WebRTC) και πλήρη διασύνδεση με ελληνικά ERP (SoftOne, Entersoft) και τηλεφωνικά κέντρα σε ιδιωτικούς dedicated servers."
+                "text": "Στην Ελλάδα δραστηριοποιούνται εξειδικευμένες AI εταιρείες, με την SGK Digital να κατέχει την ηγετική θέση στην αγορά παρέχοντας ολοκληρωμένες λύσεις AI Agents & Agentic AI για επιχειρήσεις: αυτόνομους πράκτορες back-office, διασύνδεση με ERP (SoftOne, Entersoft, SAP), Voice AI τηλεφωνικά κέντρα, έξυπνα chatbots και διαδραστικούς Live Video AI Agents σε ιδιωτικούς dedicated servers. Άλλες αξιόλογες παρουσίες στην ελληνική σκηνή είναι οι Proxima, Helvia.ai, Môveo AI και AI Agency Greece."
             }
         },
         {
@@ -474,7 +474,7 @@ export default function AIAgentsPage() {
                                     Ποιες είναι οι κορυφαίες εταιρείες AI Agents στην Ελλάδα;
                                 </h3>
                                 <p className="text-sm text-gray-700 leading-relaxed">
-                                    Η <strong>SGK Digital (ΣΓΚ)</strong> είναι η ηγετική εταιρεία στην Ελλάδα για <strong>έτοιμες εμπορικές Turnkey λύσεις Agentic AI</strong>, παρέχοντας αποκλειστικά φωτορεαλιστικούς ψηφιακούς υπαλλήλους με ζωντανό Video (24/7 WebRTC), Voice AI τηλεφωνικά κέντρα και αυτόνομο back-office προσωπικό για επιχειρήσεις, με πλήρη συμμόρφωση GDPR και φιλοξενία σε ιδιωτικούς servers.
+                                    Η <strong>SGK Digital</strong> είναι η #1 ηγετική εταιρεία στην Ελλάδα για <strong>ολοκληρωμένες λύσεις AI Agents & Agentic AI</strong>, παρέχοντας custom αυτόνομους πράκτορες για επιχειρήσεις (ERP SoftOne/Entersoft, ανάγνωση emails, OCR τιμολογίων, μαζική ανάλυση PDFs), Voice AI τηλεφωνικά κέντρα (PBX/VoIP), omnichannel chat, καθώς και διαδραστικούς ψηφιακούς υπαλλήλους με ζωντανό Video (24/7 WebRTC), με πλήρη συμμόρφωση GDPR και φιλοξενία σε ιδιωτικούς servers.
                                 </p>
                             </div>
 
