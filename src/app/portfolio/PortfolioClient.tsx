@@ -206,6 +206,46 @@ const gridProjects = [
     tags: ["WordPress", "WooCommerce", "Custom Theme"],
     image: "/images/solutions/unsplash_eshop.jpg",
     link: "/case-study/kastanidis",
+  },
+  {
+    title: "Alkinoi Consulting",
+    category: "Σύμβουλοι Επιχειρήσεων & Web Portal",
+    description: "Σχεδιασμός και ανάπτυξη εταιρικής ιστοσελίδας και ψηφιακής παρουσίας για την Alkinoi Consulting. Παρουσίαση υπηρεσιών επιχειρηματικής στρατηγικής, φοροτεχνικών, λογιστικών και χρηματοοικονομικών συμβουλών με σύγχρονο SEO.",
+    tags: ["Next.js", "Tailwind CSS", "Corporate Web", "SEO", "Financial Consulting"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "/case-study/alkinoi",
+  },
+  {
+    title: "Think Localization IKE",
+    category: "ΓΕΜΗ & Μεταφραστικές Υπηρεσίες",
+    description: "Ανάπτυξη σύγχρονης εταιρικής πλατφόρμας δημοσιότητας ΓΕΜΗ (Ν. 4072/2012) και παρουσίασης εξειδικευμένων υπηρεσιών μετάφρασης & τοπικοποίησης (Localization) για διεθνή brands. Πλήρης ασφάλεια SSL και 100% GDPR συμμόρφωση.",
+    tags: ["ΓΕΜΗ Compliance", "Localization", "Next.js", "Corporate Identity"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "/case-study/think-localization",
+  },
+  {
+    title: "Agios Stefanos Properties IKE",
+    category: "Real Estate & ΓΕΜΗ ΙΚΕ",
+    description: "Κατασκευή σύγχρονης εταιρικής ιστοσελίδας διαφάνειας ΓΕΜΗ και παρουσίασης χαρτοφυλακίου ακινήτων για την Agios Stefanos Properties Μονοπρόσωπη Ι.Κ.Ε. Minimal design με έμφαση στα premium ακίνητα και συμμόρφωση με το Άρθρο 47.",
+    tags: ["Real Estate", "ΓΕΜΗ Compliance", "Next.js", "Property Showcase"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "/case-study/agios-stefanos-properties",
+  },
+  {
+    title: "Φάρμα Ευβοίας Τσάκαλος",
+    category: "Αγροτική Παραγωγή & Web",
+    description: "Σχεδιασμός και υλοποίηση σύγχρονης ψηφιακής παρουσίας για πρότυπη αγροτική μονάδα καλλιέργειας και χονδρικής διάθεσης νωπών κηπευτικών & λαχανικών στην Εύβοια. Ανάδειξη της ποιότητας παραγωγής και της εφοδιαστικής αλυσίδας.",
+    tags: ["AgroTech", "Brand Presence", "Next.js", "B2B Wholesale"],
+    image: "/images/solutions/unsplash_marketing.jpg",
+    link: "/case-study/farma-tsakalos",
+  },
+  {
+    title: "GIK Accounting IKE",
+    category: "ΓΕΜΗ & Λογιστικές Υπηρεσίες",
+    description: "Ανάπτυξη επίσημης εταιρικής ιστοσελίδας ΓΕΜΗ (Ν. 4072/2012) και ψηφιακού γραφείου για την GIK Accounting στη Λαμία. Παρουσίαση ολοκληρωμένων φοροτεχνικών, μισθοδοτικών και συμβουλευτικών υπηρεσιών με εύχρηστη πλοήγηση.",
+    tags: ["ΓΕΜΗ Compliance", "Accounting", "Next.js", "Tax Advisory"],
+    image: "/images/solutions/unsplash_web.jpg",
+    link: "/case-study/gikaccounting",
   }
 ];
 

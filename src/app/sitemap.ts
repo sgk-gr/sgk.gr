@@ -22,10 +22,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const caseStudies = [
-    'diador', 'energy-solutions', 'evolis-ai', 'harmony-apartments', 'high-travel',
+    'alkinoi', 'agios-stefanos-properties', 'diador', 'energy-solutions', 'evolis-ai', 
+    'farma-tsakalos', 'gikaccounting', 'harmony-apartments', 'high-travel',
     'kastanidis', 'km-fiber', 'lemon-tree-paros', 'live-tour-guide', 'lyroudis',
-    'rekrua', 'sigmalabs-ai', 'skinnera', 'super-app', 'top-travel-greece',
-    'vaia-charms', 'yolo8'
+    'rekrua', 'sigmalabs-ai', 'skinnera', 'super-app', 'think-localization', 
+    'top-travel-greece', 'vaia-charms', 'yolo8'
   ].map((slug) => ({
     url: `${baseUrl}/case-study/${slug}`,
     lastModified: now,
