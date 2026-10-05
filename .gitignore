@@ -42,6 +42,7 @@ scratch/
 !public/.well-known/*.txt
 *.mjs
 !scripts/submit-indexnow.mjs
+!scripts/check-pagespeed.mjs
 *.csv
 public/*26-9*
 public/*_screenshot*.png
