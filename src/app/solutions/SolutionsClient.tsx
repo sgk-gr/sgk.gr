@@ -211,9 +211,7 @@ export default function SolutionsClient() {
               <span className="font-bold">επιχείρησή σας;</span>
             </h2>
             <p className="text-white/70 text-lg mb-10 max-w-2xl mx-auto font-light">
-              Επικοινωνήστε μαζί μας για να βρούμε μαζί την κατάλληλη λύση. Με
-              το <strong className="text-white font-medium">Pay as you grow</strong> μοντέλο
-              της SGK, πληρώνετε μόνο ό,τι χρειάζεστε.
+              Επικοινωνήστε μαζί μας για να βρούμε μαζί την κατάλληλη λύση για την επιχείρησή σας, με ξεκάθαρο κόστος και διαφάνεια.
             </p>
             <Link
               href="/estimate"

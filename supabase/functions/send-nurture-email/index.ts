@@ -18,10 +18,10 @@ function getOfferButton(firstSubject: string = "", firstBody: string = "", leadT
             buttonLink: "https://sgk.gr/ike-offer"
         };
     }
-    if (cleanText.includes("eshop") || cleanText.includes("pay as you grow") || cleanText.includes("payg") || cleanText.includes("e-shop")) {
+    if (cleanText.includes("ai") || cleanText.includes("agent") || cleanText.includes("αυτοματισμ")) {
         return {
-            buttonText: "Δείτε την Προσφορά Eshop",
-            buttonLink: "https://sgk.gr/pay-as-you-grow"
+            buttonText: "Ανακαλύψτε AI Agents",
+            buttonLink: "https://sgk.gr/ai-agents"
         };
     }
     return {

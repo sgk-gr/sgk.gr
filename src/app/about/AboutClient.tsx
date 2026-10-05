@@ -23,8 +23,8 @@ const values = [
   },
   {
     icon: <Globe className="w-5 h-5 text-[#3b5bdb]" />,
-    title: "Pay As You Grow",
-    desc: "Πληρώνετε μόνο ό,τι χρειάζεστε. Μεγαλώνουμε μαζί σας, χωρίς κρυφά κόστη.",
+    title: "Διαφάνεια & Αξιοπιστία",
+    desc: "Ξεκάθαρες λύσεις, χωρίς κρυφά κόστη. Σχεδιάζουμε τεχνολογία που αποδίδει άμεσα για την επιχείρησή σας.",
   },
 ];
 
@@ -186,8 +186,7 @@ export default function AboutClient() {
                 </p>
                 <p className="text-black/60 leading-relaxed font-light">
                   Με αξιοπιστία και διαφάνεια, σε ενδυναμώνουμε με καινοτόμες
-                  λύσεις — e-shops, AI agents, portals — και το υποστηρικτικό μοντέλο{" "}
-                  <span className="font-medium text-black">Pay As You Grow</span>, για
+                  λύσεις — AI agents, portals, web applications — για
                   να είναι η επιχείρησή σου πιο ανταγωνιστική κάθε μέρα.
                 </p>
               </motion.div>

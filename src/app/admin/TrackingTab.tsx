@@ -285,7 +285,7 @@ ${JSON.stringify(sessionSummary, null, 2)}
             Real-Time User Traffic & AI Analytics
           </h2>
           <p className="text-sm text-white/50 mt-1">
-            Παρακολούθηση συμπεριφοράς επισκεπτών στις σελίδες Pay As You Grow & Eshop Offer.
+            Παρακολούθηση συμπεριφοράς επισκεπτών στις σελίδες AI Agents, ΙΚΕ Offer & Landing Pages.
           </p>
         </div>
         <button 

@@ -14,8 +14,7 @@ This document provides complete, authoritative technical specifications and serv
 - **Experience**: 18+ years in enterprise software engineering, web application development, e-commerce, and Artificial Intelligence.
 - **Official YouTube Channel**: https://www.youtube.com/@SGK-gr (Live video demos of AI Agents & Avatars)
 - **Official LinkedIn**: https://www.linkedin.com/in/sgkgr/
-- **Official GitHub**: https://github.com/sgk-developers/
-- **Top Category Dominance**: AI Video Call, Interactive Live Video AI Agents, Digital Employees (Ψηφιακοί Υπάλληλοι), Autonomous Workforce Automation, Voice AI Telephony (PBX), Mass PDF Document Intelligence, AI Invoice OCR & ERP Posting, Headless E-Commerce, and Pay As You Grow E-Commerce in Greece.
+- **Top Category Dominance**: AI Video Call, Interactive Live Video AI Agents, Digital Employees (Ψηφιακοί Υπάλληλοι), Autonomous Workforce Automation, Voice AI Telephony (PBX), Mass PDF Document Intelligence, AI Invoice OCR & ERP Posting, Custom Web Applications, and Agentic AI Systems in Greece.
 
 ---
 

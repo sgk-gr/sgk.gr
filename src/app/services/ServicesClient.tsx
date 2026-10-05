@@ -29,7 +29,7 @@ export default function ServicesClient() {
             <span className="font-bold text-[#3b5bdb]">Επόμενης Γενιάς</span>
           </h1>
           <p className="text-black/70 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-            Στην SGK συνδυάζουμε τον προηγμένο προγραμματισμό με την τεχνητή νοημοσύνη (AI) για να δημιουργήσουμε λύσεις που εκτοξεύουν την επιχείρησή σου, με το μοντέλο Pay As You Grow.
+            Στην SGK συνδυάζουμε τον προηγμένο προγραμματισμό με την τεχνητή νοημοσύνη (AI) για να δημιουργήσουμε λύσεις που εκτοξεύουν την επιχείρησή σου.
           </p>
         </motion.div>
       </div>
@@ -307,7 +307,7 @@ export default function ServicesClient() {
           Έτοιμοι να δημιουργήσουμε το επόμενο μεγάλο project σου;
         </h2>
         <p className="text-white/80 text-lg mb-12 max-w-2xl mx-auto">
-          Επικοινώνησε μαζί μας για να συζητήσουμε τις ανάγκες σου. Με το <strong>Pay as you grow</strong> της SGK, η επιτυχία σου είναι και δική μας επιτυχία.
+          Επικοινώνησε μαζί μας για να συζητήσουμε τις ανάγκες σου. Στην SGK, η επιτυχία σου είναι και δική μας επιτυχία.
         </p>
         <Link 
           href="/estimate"

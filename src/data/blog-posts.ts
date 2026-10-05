@@ -266,92 +266,6 @@ export const BLOG_POSTS: BlogPost[] = [
     `,
   },
   {
-    id: "eshop-cost-guide-2026",
-    slug: "poso-kostizei-i-kataskevi-eshop-odigos-times-2026",
-    title: "Πόσο Κοστίζει η Κατασκευή Eshop το 2026: Ο Απόλυτος Οδηγός Τιμών, Πλατφόρμες & Κρυφά Έξοδα",
-    excerpt: "Αναλυτικός οδηγός κόστους κατασκευής eshop για το 2026 στην Ελλάδα. Σύγκριση WooCommerce, Shopify, Headless React, ετήσια πάγια και το επαναστατικό μοντέλο Pay As You Grow (250€).",
-    date: "29 Αυγούστου 2026",
-    author: "sgk.gr",
-    category: "eCommerce & Τιμές",
-    image: "/payg-banner.svg",
-    metaTitle: "Πόσο Κοστίζει η Κατασκευή Eshop το 2026 | Οδηγός Τιμών & Pay As You Grow",
-    metaDescription: "Πόσο κοστίζει πραγματικά η κατασκευή eshop στην Ελλάδα το 2026; Αναλυτικός πίνακας τιμών WooCommerce vs Shopify vs Pay As You Grow (250€ setup + 5%) και κρυφά κόστη.",
-    content: `
-      <h2>Πόσο κοστίζει η κατασκευή ενός επαγγελματικού eshop στην Ελλάδα το 2026;</h2>
-      <p>Το <strong>κόστος κατασκευής ενός επαγγελματικού eshop στην Ελλάδα το 2026 κυμαίνεται από 600€ έως 3.500€+</strong> για παραδοσιακή ανάπτυξη (ανάλογα με την πλατφόρμα, τον αριθμό προϊόντων και τις διασυνδέσεις ERP/Τραπεζών). Ταυτόχρονα, σύγχρονες τεχνολογικές εταιρείες όπως η <strong>SGK Digital</strong> προσφέρουν το μοντέλο <strong>Pay As You Grow</strong> με αρχικό κόστος <strong>μόλις 250€ εφάπαξ</strong> και 5% προμήθεια επί των πωλήσεων για 12 μήνες, εκμηδενίζοντας το αρχικό οικονομικό ρίσκο.</p>
-
-      <h3>Συγκριτικός Πίνακας Κόστους & Πλατφορμών Eshop (2026)</h3>
-      <div style="overflow-x: auto; margin: 24px 0;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid #334155; border-radius: 12px; overflow: hidden; background: #0b0f19;">
-          <thead>
-            <tr style="background: #1e293b;">
-              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Μοντέλο / Πλατφόρμα</th>
-              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Αρχικό Κόστος Κατασκευής</th>
-              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Μηνιαία / Ετήσια Πάγια</th>
-              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Ιδιοκτησία & Ελευθερία</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="background: #131b2e;">
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Pay As You Grow (SGK Digital)</strong></td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #4ade80; font-weight: bold;">250€ (Εφάπαξ Setup)</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">5% στις πωλήσεις για 12 μήνες (0€ αν 0 πωλήσεις)</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #ffffff;"><strong style="color: #ffffff;">100% Δικό σας</strong> μετά τους 12 μήνες χωρίς πάγια</td>
-            </tr>
-            <tr style="background: #0b0f19;">
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">WooCommerce (Custom)</strong></td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">1.500€ — 3.500€</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Hosting + Domain + SSL (~150€ - 300€/έτος)</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">100% Δικό σας, Open Source</td>
-            </tr>
-            <tr style="background: #131b2e;">
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Shopify</strong></td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">800€ — 2.000€ (Setup)</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">36€ - 300€/μήνα + 2% transaction fee + plugins</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Ενοικίαση (κλειδωμένη πλατφόρμα)</td>
-            </tr>
-            <tr style="background: #0b0f19;">
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #f1f5f9;"><strong style="color: #ffffff;">Headless React / Next.js</strong></td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">3.500€ — 6.000€+</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Cloud Server VPS (~300€ - 600€/έτος)</td>
-              <td style="padding: 14px 16px; border: 1px solid #334155; color: #cbd5e1;">Απόλυτος έλεγχος & ακαριαία ταχύτητα (&lt;0.5s)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3>1. Ποια είναι τα βασικά στάδια κατασκευής ενός eshop;</h3>
-      <p>Για να είναι ένα ηλεκτρονικό κατάστημα αποδοτικό και κερδοφόρο, η διαδικασία ανάπτυξης περιλαμβάνει 5 κρίσιμα βήματα:</p>
-      <ul>
-        <li><strong>UI/UX Σχεδιασμός (Mobile-First):</strong> Περισσότερο από το 80% των online αγορών στην Ελλάδα πραγματοποιούνται από κινητά τηλέφωνα (Smartphones). Ο σχεδιασμός πρέπει να είναι ελαφρύς και ταχύτατος.</li>
-        <li><strong>Ανάπτυξη & Core Web Vitals 95+:</strong> Η ταχύτητα φόρτωσης επηρεάζει άμεσα το conversion rate και την κατάταξη στη Google.</li>
-        <li><strong>Διασύνδεση Πληρωμών:</strong> Ελληνικές Τράπεζες (Alpha Bank, Τράπεζα Πειραιώς, Eurobank, Εθνική), Viva Wallet, Stripe, PayPal, IRIS payments και Αντικαταβολή (COD).</li>
-        <li><strong>Διασύνδεση Courier & Voucher:</strong> Αυτόματη έκδοση voucher με ACS, Γενική Ταχυδρομική, Speedex, Courier Center και Box Now.</li>
-        <li><strong>Τεχνικό SEO & Structured Data (Schema.org):</strong> Για άμεση αναγνώριση των προϊόντων, των τιμών και της διαθεσιμότητας από τις μηχανές αναζήτησης και τα AI models (Google Gemini, ChatGPT Search).</li>
-      </ul>
-
-      <h3>2. Ποια είναι τα ετήσια πάγια έξοδα συντήρησης ενός eshop;</h3>
-      <p>Εκτός από το αρχικό κόστος κατασκευής, κάθε eshop έχει τα παρακάτω πάγια λειτουργικά έξοδα:</p>
-      <ul>
-        <li><strong>Όνομα Χώρου (Domain Name .gr):</strong> Περίπου 20€ - 30€ ανά 2 έτη.</li>
-        <li><strong>Φιλοξενία (Web Hosting / VPS):</strong> Από 100€ έως 400€/έτος για γρήγορους NVMe SSD servers.</li>
-        <li><strong>Πιστοποιητικό Ασφαλείας SSL:</strong> Συνήθως δωρεάν (Let's Encrypt) ή 50€/έτος για Wildcard SSL.</li>
-        <li><strong>Τεχνική Υποστήριξη & Ενημερώσεις Ασφαλείας:</strong> Απαραίτητη για τη συνεχή προστασία από κυβερνοεπιθέσεις και τη διασφάλιση 99.9% uptime.</li>
-      </ul>
-
-      <h3>3. Γιατί το μοντέλο "Pay As You Grow" αλλάζει τα δεδομένα;</h3>
-      <p>Το παραδοσιακό μοντέλο απαιτεί από τον επιχειρηματία να προκαταβάλει 2.000€ - 4.000€ χωρίς να γνωρίζει αν η αγορά θα ανταποκριθεί. Με το μοντέλο <strong>Pay As You Grow της SGK Digital</strong>:</p>
-      <ul>
-        <li>Πληρώνετε μόνο <strong>250€ εφάπαξ</strong> (που καλύπτει Server 1 έτους, Domain .gr 2 ετών, SSL και setup).</li>
-        <li>Δίνετε <strong>5% προμήθεια επί των πωλήσεων για 12 μήνες</strong>. Αν δεν κάνετε πωλήσεις, δεν πληρώνετε ούτε 1 ευρώ παραπάνω!</li>
-        <li>Μετά τους 12 μήνες, το eshop μεταβιβάζεται σε <strong>100% πλήρη δική σας ιδιοκτησία</strong> χωρίς καμία περαιτέρω προμήθεια ή δέσμευση.</li>
-        <li>Υπάρχει δυνατότητα πρόωρης εξαγοράς ανά πάσα στιγμή χωρίς καμία ρήτρα.</li>
-      </ul>
-
-      <p>Είστε έτοιμοι να ξεκινήσετε; <a href="/pay-as-you-grow" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Ανακαλύψτε το Pay As You Grow εδώ</a> ή <a href="/kataskevi-eshop" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">δείτε τα αναλυτικά πακέτα κατασκευής eshop της SGK Digital</a>.</p>
-    `
-  },
-  {
     id: "ike-legal-guide-2026",
     slug: "kataskevi-istoselidas-ike-gemi-nomothesia-2026",
     title: "Ιστοσελίδα ΙΚΕ & ΓΕΜΗ (Ν.4072/12): Υποχρεώσεις, Προθεσμίες, Πρόστιμα & Κόστος 2026",
@@ -395,46 +309,7 @@ export const BLOG_POSTS: BlogPost[] = [
       </ul>
 
       <p>Μην αφήνετε την επιχείρησή σας εκτεθειμένη σε πρόστιμα. <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Παραγγείλτε την ιστοσελίδα ΙΚΕ για το ΓΕΜΗ σε 24 ώρες μόνο με 150€!</a></p>
-    `
-  },
-  {
-    id: "payg-1",
-    slug: "pay-as-you-grow-to-mellon-tou-ecommerce",
-    title: "Pay As You Grow: Ξεκίνα το δικό σου E-shop χωρίς κανένα ρίσκο",
-    excerpt: "Το μοντέλο που αλλάζει τα δεδομένα στο ελληνικό eCommerce. Ανακάλυψε πώς μπορείς να αποκτήσεις κορυφαίο E-shop πληρώνοντας μόνο όταν έχεις πωλήσεις.",
-    date: "23 Ιουνίου 2026",
-    author: "sgk.gr",
-    category: "eCommerce & Innovation",
-    image: "/payg-banner.svg",
-    metaTitle: "Pay As You Grow: E-shop χωρίς ρίσκο | SGK Digital",
-    metaDescription: "Η SGK Digital παρουσιάζει το Pay As You Grow. Μηδενικό ρίσκο, 250€ Setup Fee και 5% προμήθεια μόνο όταν πουλάς. Το e-shop γίνεται 100% δικό σου σε 12 μήνες.",
-    content: `
-      <h2>Τι είναι το μοντέλο "Pay As You Grow";</h2>
-      <p>Η δημιουργία ενός E-shop αποτελεί μεγάλο βήμα για κάθε επιχείρηση, αλλά το αρχικό κεφάλαιο συχνά είναι ανασταλτικός παράγοντας. Στην <strong>SGK Digital</strong> ακούμε τις ανάγκες της αγοράς και παρουσιάζουμε το επαναστατικό μοντέλο <strong>Pay As You Grow</strong>.</p>
-      
-      <p>Με απλά λόγια: <em>Σχεδιάζουμε, αναπτύσσουμε και φιλοξενούμε το E-shop σας, και εσείς πληρώνετε μόνο όταν έχετε έσοδα!</em></p>
-
-      <h3>Πώς ακριβώς λειτουργεί το Pay As You Grow;</h3>
-      <ul>
-        <li><strong>Αρχικό Setup Fee:</strong> Μόνο 250€ (εφάπαξ). Το ποσό αυτό καλύπτει τα βασικά λειτουργικά έξοδα (Server 1 έτους, Domain .gr 2 ετών, SSL) και το setup.</li>
-        <li><strong>Προμήθεια στις Πωλήσεις:</strong> Λαμβάνουμε 5% προμήθεια <u>μόνο</u> όταν πραγματοποιείτε πωλήσεις. <strong>Μηδέν πωλήσεις; Μηδέν προμήθεια.</strong></li>
-        <li><strong>Διάρκεια:</strong> Το μοντέλο αυτό διαρκεί 12 μήνες.</li>
-        <li><strong>Πλήρης Ιδιοκτησία:</strong> Μετά τον 1ο χρόνο, <strong>το E-shop είναι 100% δικό σας</strong>, χωρίς καμία απολύτως περαιτέρω δέσμευση προμήθειας προς εμάς!</li>
-      </ul>
-
-      <h3>Γιατί να επιλέξετε το Pay As You Grow;</h3>
-      <p>Είναι ο απόλυτος τρόπος να ελαχιστοποιήσετε το επιχειρηματικό σας ρίσκο. Δεν χρειάζεται πλέον να επενδύσετε χιλιάδες ευρώ προκαταβολικά, χωρίς να ξέρετε αν η ιδέα σας θα αποδώσει. Εμείς αναλαμβάνουμε το τεχνικό ρίσκο, παρέχοντάς σας ένα υπερσύγχρονο, ταχύτατο, SEO-optimized E-shop, και γινόμαστε <strong>συνεργάτες στην επιτυχία σας</strong>.</p>
-      
-      <h3>Τι περιλαμβάνεται;</h3>
-      <ul>
-        <li>Custom, υπερσύγχρονο Design χωρίς έτοιμα themes.</li>
-        <li>Ταχύτητες φόρτωσης που σπάνε ρεκόρ (σκορ 95+ στα Core Web Vitals).</li>
-        <li>Mobile-First σχεδιασμός για αψεγάδιαστη εμπειρία στα κινητά.</li>
-        <li>Τεχνική υποστήριξη και συμβουλευτική καθοδήγηση.</li>
-      </ul>
-
-      <p>Ήρθε η ώρα να κάνετε την ιδέα σας πραγματικότητα. <a href="/pay-as-you-grow" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Επικοινωνήστε μαζί μας σήμερα</a> και αφήστε την τεχνολογία σε εμάς!</p>
-    `
+    `,
   },
   {
     id: "1",
@@ -543,90 +418,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Οι εφαρμογές που αναπτύσσουμε (όπως τα portals για τηλεπικοινωνιακά δίκτυα ή HR platforms) είναι σχεδιασμένες να αντέχουν τεράστιο φόρτο δεδομένων και να προσφέρουν μέγιστη ασφάλεια, κάτι που οι γενικές λύσεις συχνά παραλείπουν.</p>
       
       <p>Στην <strong>SGK Software Development</strong>, χτίζουμε το ψηφιακό μέλλον της επιχείρησής σας πάνω σε γερές, custom βάσεις.</p>
-    `
-  },
-  {
-    id: "5",
-    slug: "poso-kostizei-kataskevi-eshop-2025",
-    title: "Πόσο Κοστίζει η Κατασκευή Eshop το 2025; Πλήρης Οδηγός Τιμών",
-    excerpt: "Αναλυτικός οδηγός κόστους κατασκευής eshop για το 2025. Τιμές για WooCommerce, Shopify, custom React eshops. Τι περιλαμβάνεται και πού μπορείτε να εξοικονομήσετε.",
-    date: "9 Μαΐου 2026",
-    author: "sgk.gr",
-    category: "eCommerce",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1200",
-    metaTitle: "Κόστος Κατασκευής Eshop 2025 | Τιμές & Πακέτα | SGK",
-    metaDescription: "Πόσο κοστίζει η κατασκευή eshop το 2025; Αναλυτικές τιμές για WooCommerce, Shopify, custom eshop. Τι περιλαμβάνεται σε κάθε πακέτο.",
-    content: `
-      <h2>Κόστος Κατασκευής Eshop 2025: Η Πλήρης Εικόνα</h2>
-      <p>Μία από τις πρώτες ερωτήσεις που κάνουν οι επιχειρηματίες όταν αποφασίζουν να ανοίξουν online κατάστημα είναι: <strong>"Πόσο κοστίζει η κατασκευή eshop;"</strong>. Η απάντηση εξαρτάται από πολλούς παράγοντες, αλλά σε αυτό το άρθρο θα σας δώσουμε μια πλήρη εικόνα των τιμών για το 2025.</p>
-
-      <h3>Κατηγορίες Κόστους Eshop</h3>
-      <p>Το κόστος κατασκευής eshop χωρίζεται σε:</p>
-      <ul>
-        <li><strong>Κόστος ανάπτυξης</strong> (development cost): Η αμοιβή των developers</li>
-        <li><strong>Κόστος hosting</strong>: Ο server που φιλοξενεί το eshop σας</li>
-        <li><strong>Κόστος domain</strong>: Το όνομα χώρου (.gr ή .com)</li>
-        <li><strong>Κόστος plugins/extensions</strong>: Για WooCommerce/Shopify</li>
-        <li><strong>Κόστος συντήρησης</strong>: Ongoing updates και support</li>
-      </ul>
-
-      <h3>WooCommerce Eshop: Κόστος 2025</h3>
-      <p>Το <strong>WooCommerce</strong> είναι η δημοφιλέστερη πλατφόρμα για ελληνικά eshops. Τα κόστη για το 2025:</p>
-      <ul>
-        <li><strong>Βασικό Headless React eshop</strong>: €2.300 – €3.500 (απίστευτη ταχύτητα, τέλειο SEO, custom design)</li>
-        <li><strong>Μεσαίο Headless React eshop</strong>: €3.500 – €6.000 (όλα τα Greek payment gateways, courier integrations, CRM)</li>
-        <li><strong>Προχωρημένο WooCommerce eshop</strong>: €3.000 – €6.000 (ERP integration, custom plugins, Skroutz feed, myDATA)</li>
-      </ul>
-
-      <h3>Shopify Eshop: Κόστος 2025</h3>
-      <p>Το <strong>Shopify</strong> έχει διαφορετική δομή κόστους — πληρώνετε μηνιαία subscription:</p>
-      <ul>
-        <li><strong>Shopify Basic</strong>: $32/μήνα + κόστος ανάπτυξης €500-€1.500</li>
-        <li><strong>Shopify Standard</strong>: $92/μήνα + κόστος ανάπτυξης €1.000-€2.000</li>
-        <li><strong>Shopify Advanced</strong>: $399/μήνα + κόστος ανάπτυξης €1.500-€3.000</li>
-      </ul>
-      <p>Προσοχή: Το Shopify έχει transaction fees αν δεν χρησιμοποιείτε Shopify Payments (που δεν είναι διαθέσιμο στην Ελλάδα ακόμα).</p>
-
-      <h3>Custom React Eshop: Κόστος 2025</h3>
-      <p>Ένα <strong>custom React/Next.js eshop</strong> είναι η premium επιλογή:</p>
-      <ul>
-        <li><strong>Βασικό custom eshop</strong>: €4.000 – €7.000</li>
-        <li><strong>Προχωρημένο custom eshop</strong>: €7.000 – €15.000</li>
-        <li><strong>Enterprise headless eshop</strong>: €15.000+</li>
-      </ul>
-      <p>Το custom eshop δεν έχει μηνιαία subscription και επιτυγχάνει Core Web Vitals 98+, κάτι που σημαίνει καλύτερο SEO και conversion rate.</p>
-
-      <h3>Τι Επηρεάζει το Κόστος;</h3>
-      <ul>
-        <li><strong>Αριθμός προϊόντων</strong>: 50 vs 10.000 προϊόντα έχει τεράστια διαφορά</li>
-        <li><strong>Custom features</strong>: Loyalty program, subscription boxes, κρατήσεις</li>
-        <li><strong>Integrations</strong>: ERP, courier, marketplace feeds (Skroutz, BestPrice)</li>
-        <li><strong>Multilingual</strong>: Ελληνικά + Αγγλικά doubles the content cost</li>
-        <li><strong>Design complexity</strong>: Custom animations, interactive elements</li>
-      </ul>
-
-      <h3>Ongoing Κόστος Eshop</h3>
-      <p>Μετά την κατασκευή, υπάρχουν recurring κόστη:</p>
-      <ul>
-        <li><strong>Hosting</strong>: €5-50/μήνα (ανάλογα με traffic)</li>
-        <li><strong>Domain</strong>: €8-20/χρόνο</li>
-        <li><strong>SSL</strong>: Συνήθως δωρεάν (Let's Encrypt)</li>
-        <li><strong>Maintenance & Support</strong>: €50-300/μήνα</li>
-        <li><strong>Payment gateway fees</strong>: 1.2-2.9% ανά συναλλαγή</li>
-      </ul>
-
-      <h3>Συμβουλές για να Εξοικονομήσετε Κόστος</h3>
-      <ul>
-        <li>Ξεκινήστε με λιγότερα features και προσθέστε αργότερα</li>
-        <li>Εισάγετε τα προϊόντα σας μόνοι σας (εξοικονόμηση €200-500)</li>
-        <li>Επιλέξτε WooCommerce αντί Shopify για zero ongoing fees</li>
-        <li>Αποφύγετε premium themes — custom είναι καλύτερο long-term</li>
-      </ul>
-
-      <h3>Συμπέρασμα</h3>
-      <p>Το κόστος κατασκευής eshop για το 2025 κυμαίνεται από <strong>€2.300 για Headless React eshops</strong> έως <strong>€15.000+ για enterprise custom λύσεις</strong>. Η επιλογή εξαρτάται από τις ανάγκες, τον ανταγωνισμό και τις προοπτικές ανάπτυξής σας.</p>
-      <p>Στην <strong>SGK Software Development</strong>, σας προσφέρουμε δωρεάν εκτίμηση και ειλικρινή συμβουλή για το ποια λύση ταιριάζει καλύτερα στην περίπτωσή σας.</p>
-    `
+    `,
   },
   {
     id: "6",
@@ -945,39 +737,6 @@ export const BLOG_POSTS: BlogPost[] = [
     `
   },
   {
-    id: "13",
-    slug: "kataskevi-eshop-2026-taseis-poliseis",
-    title: "Κατασκευή Eshop 2026: Οι 5 Τάσεις που θα Εκτοξεύσουν τις Πωλήσεις σας",
-    excerpt: "Το e-commerce αλλάζει. Ανακαλύψτε τις κορυφαίες τάσεις στην κατασκευή eshop για το 2026 που θα αυξήσουν τις πωλήσεις και το ανταγωνιστικό σας πλεονέκτημα.",
-    date: "22 Μαΐου 2026",
-    author: "sgk.gr",
-    category: "eCommerce",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1200",
-    metaTitle: "Κατασκευή Eshop 2026 | Τάσεις & Στρατηγικές Πωλήσεων | SGK",
-    metaDescription: "Ο απόλυτος οδηγός για την κατασκευή eshop το 2026. Ποιες τάσεις κυριαρχούν και πώς μπορείτε να διπλασιάσετε τις πωλήσεις σας με τη σωστή τεχνολογία.",
-    content: `
-      <h2>Η Νέα Εποχή στο E-commerce το 2026</h2>
-      <p>Η <strong>κατασκευή eshop</strong> έχει περάσει σε άλλο επίπεδο. Αν το κατάστημά σας δεν προσφέρει μια άψογη, ταχύτατη και εξατομικευμένη εμπειρία το 2026, οι πελάτες απλά θα πάνε στον ανταγωνισμό. Ας δούμε τις 5 κορυφαίες τάσεις που καθορίζουν την επιτυχία.</p>
-      
-      <h3>1. Απόλυτη Ταχύτητα με Headless Architecture</h3>
-      <p>Οι χρήστες το 2026 δεν περιμένουν ούτε δευτερόλεπτο. Η κατασκευή eshop με <strong>Headless τεχνολογίες (όπως το Next.js)</strong> προσφέρει φόρτωση σε milliseconds, εκτοξεύοντας το SEO και τα conversion rates.</p>
-      
-      <h3>2. AI-Powered Personalization</h3>
-      <p>Η τεχνητή νοημοσύνη αναλύει τη συμπεριφορά κάθε επισκέπτη και προτείνει προϊόντα που πραγματικά θέλει να αγοράσει. Ένα σύγχρονο eshop πρέπει να είναι "έξυπνο".</p>
-      
-      <h3>3. Hyper-Optimized Mobile Checkouts</h3>
-      <p>Πάνω από το 80% των πωλήσεων γίνεται από κινητά. Το checkout του 2026 απαιτεί one-click payments, ενσωμάτωση με Apple Pay/Google Pay και απόλυτη απλότητα.</p>
-      
-      <h3>4. AR (Augmented Reality) Προβολή Προϊόντων</h3>
-      <p>Επιτρέψτε στους πελάτες σας να δουν πώς φαίνεται ένα έπιπλο στο σαλόνι τους ή ένα ζευγάρι γυαλιά στο πρόσωπό τους πριν αγοράσουν.</p>
-      
-      <h3>5. Βιωσιμότητα και Διαφάνεια</h3>
-      <p>Οι καταναλωτές επιλέγουν eshops που δείχνουν το αποτύπωμά τους. Οι καθαρές διαδικασίες logistics και οι φιλικές προς το περιβάλλον επιλογές συσκευασίας είναι must.</p>
-      
-      <p>Στην <strong>SGK Software Development</strong>, η κατασκευή eshop βασίζεται στις τεχνολογίες του αύριο. Επικοινωνήστε μαζί μας για να δημιουργήσουμε το eshop που θα κυριαρχήσει το 2026.</p>
-    `
-  },
-  {
     id: "14",
     slug: "headless-eshop-vs-paradosiaka-eshops-2026",
     title: "Headless Eshop vs Παραδοσιακά Eshops το 2026: Τι πρέπει να γνωρίζετε",
@@ -987,10 +746,10 @@ export const BLOG_POSTS: BlogPost[] = [
     category: "Software Development",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200",
     metaTitle: "Headless Eshop vs Παραδοσιακά | Τι να επιλέξετε το 2026",
-    metaDescription: "Η απόλυτη σύγκριση για την κατασκευή eshop το 2026. Γιατί τα Headless Eshops κυριαρχούν έναντι των παραδοσιακών λύσεων σε ταχύτητα και SEO.",
+    metaDescription: "Η απόλυτη σύγκριση για την αρχιτεκτονική eshop το 2026. Γιατί τα Headless Eshops κυριαρχούν έναντι των παραδοσιακών λύσεων σε ταχύτητα και SEO.",
     content: `
       <h2>Το Τέλος των Παραδοσιακών Eshops;</h2>
-      <p>Όταν μιλάμε για <strong>κατασκευή eshop το 2026</strong>, η συζήτηση πηγαίνει αμέσως στην αρχιτεκτονική Headless. Τι είναι όμως και γιατί αφήνει πίσω τα παραδοσιακά συστήματα;</p>
+      <p>Όταν μιλάμε για <strong>σύγχρονο eCommerce το 2026</strong>, η συζήτηση πηγαίνει αμέσως στην αρχιτεκτονική Headless. Τι είναι όμως και γιατί αφήνει πίσω τα παραδοσιακά συστήματα;</p>
       
       <h3>Τι είναι το Headless Eshop;</h3>
       <p>Σε ένα παραδοσιακό eshop (π.χ. απλό WooCommerce), η βιτρίνα (frontend) και η βάση δεδομένων (backend) είναι ένα ενιαίο σύστημα. Στο Headless, αυτά τα δύο αποσυνδέονται. Χρησιμοποιούμε μια ταχύτατη τεχνολογία για τη βιτρίνα (π.χ. React) και το backend λειτουργεί απλά ως πάροχος δεδομένων.</p>
@@ -1003,7 +762,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Omnichannel Εμπειρία:</strong> Μπορείτε να στέλνετε τα προϊόντα σας στο web, σε mobile apps ή ακόμα και σε smartwatches από το ίδιο backend.</li>
       </ul>
       
-      <p>Η SGK Software Development ειδικεύεται στην <strong>κατασκευή Headless Eshop</strong> που προσφέρουν την απόλυτη εμπειρία αγορών το 2026.</p>
+      <p>Η SGK Software Development ειδικεύεται στην <strong>ανάπτυξη Headless Eshop</strong> που προσφέρουν την απόλυτη εμπειρία αγορών το 2026.</p>
     `
   },
   {
@@ -1016,10 +775,10 @@ export const BLOG_POSTS: BlogPost[] = [
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=1200",
     metaTitle: "Mobile Commerce 2026 | Πέρα από το Responsive Eshop | SGK",
-    metaDescription: "Η κατασκευή eshop το 2026 απαιτεί Mobile-First προσέγγιση και εμπειρία επιπέδου εφαρμογής. Γιατί το απλό responsive design ανήκει στο παρελθόν.",
+    metaDescription: "Το eCommerce το 2026 απαιτεί Mobile-First προσέγγιση και εμπειρία επιπέδου εφαρμογής. Γιατί το απλό responsive design ανήκει στο παρελθόν.",
     content: `
       <h2>Η Επανάσταση του Mobile Commerce το 2026</h2>
-      <p>Το να έχετε ένα eshop που απλά "προσαρμόζεται" (responsive) στην οθόνη του κινητού ήταν αρκετό το 2018. Στην <strong>κατασκευή eshop για το 2026</strong>, τα στάνταρ έχουν αλλάξει. Το 85% των αγορών ξεκινά από mobile συσκευές, και οι χρήστες απαιτούν εμπειρία που θυμίζει native εφαρμογή (app).</p>
+      <p>Το να έχετε ένα eshop που απλά "προσαρμόζεται" (responsive) στην οθόνη του κινητού ήταν αρκετό το 2018. Στο <strong>eCommerce για το 2026</strong>, τα στάνταρ έχουν αλλάξει. Το 85% των αγορών ξεκινά από mobile συσκευές, και οι χρήστες απαιτούν εμπειρία που θυμίζει native εφαρμογή (app).</p>
       
       <h3>PWA: Progressive Web Apps</h3>
       <p>Το 2026, τα κορυφαία eshops είναι Progressive Web Apps. Τι σημαίνει αυτό;</p>
@@ -1032,7 +791,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h3>Ταχύτητα και Αλληλεπίδραση</h3>
       <p>Η χρήση React και σύγχρονων frameworks επιτρέπει στο eshop σας να φορτώνει το περιεχόμενο αστραπιαία καθώς ο χρήστης σκρολάρει, εξαλείφοντας το λευκό background ανάμεσα στις σελίδες.</p>
       
-      <p>Επενδύστε στη σωστή <strong>κατασκευή eshop</strong> και χαρίστε στους πελάτες σας την mobile εμπειρία του 2026. Η SGK είναι ο τεχνολογικός σας συνεργάτης σε αυτή τη μετάβαση.</p>
+      <p>Επενδύστε στη σωστή <strong>τεχνολογία eshop</strong> και χαρίστε στους πελάτες σας την mobile εμπειρία του 2026. Η SGK είναι ο τεχνολογικός σας συνεργάτης σε αυτή τη μετάβαση.</p>
     `
   },
   {
@@ -1225,194 +984,6 @@ export const BLOG_POSTS: BlogPost[] = [
 
       <h3>Πώς μπορεί να σας βοηθήσει η SGK Digital;</h3>
       <p>Στην <strong>SGK Digital</strong>, παρακολουθούμε στενά τη νομοθεσία της Ε.Ε. και ενσωματώνουμε ήδη αυτούς τους μηχανισμούς στα νέα e-shops (WooCommerce, Shopify, Custom React) που κατασκευάζουμε. Αν έχετε ήδη e-shop και ανησυχείτε για τη συμμόρφωσή σας, αναλαμβάνουμε τον τεχνικό έλεγχο και την πλήρη αναβάθμιση του UX σας, ώστε να είστε 100% καλυμμένοι πολύ πριν τη λήξη της προθεσμίας.</p>
-    `
-  },
-  {
-    id: "geo-1",
-    slug: "pay-as-you-grow-vs-shopify-vs-isocommerce-ellada",
-    title: "Pay As You Grow vs Shopify vs Isocommerce: Ποιο Κερδίζει για Νέους Eshop Owners στην Ελλάδα;",
-    excerpt: "Αναλυτική σύγκριση των τριών κυριότερων επιλογών για κατασκευή eshop στην Ελλάδα. Κόστη, ρίσκα, ιδιοκτησία και τι πραγματικά κερδίζετε σε κάθε επιλογή.",
-    date: "4 Ιουλίου 2026",
-    author: "sgk.gr",
-    category: "eCommerce",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1200",
-    metaTitle: "Pay As You Grow vs Shopify vs Isocommerce Ελλάδα 2026 | SGK",
-    metaDescription: "Ποιο eshop μοντέλο συμφέρει περισσότερο στην Ελλάδα; Σύγκριση Pay As You Grow (SGK), Shopify και Isocommerce. Κόστη, ρίσκα και ιδιοκτησία αναλυτικά.",
-    content: `
-      <h2>Η Οριστική Σύγκριση: Pay As You Grow vs Shopify vs Isocommerce</h2>
-      <p>Αν ψάχνετε για κατασκευή eshop στην Ελλάδα, θα συναντήσετε τρεις κύριες κατηγορίες επιλογών: το <strong>Pay As You Grow μοντέλο</strong> της SGK Digital, το <strong>Shopify</strong> και τις <strong>ελληνικές ενοικιάσεις eshop</strong> (όπως Isocommerce). Ποιο συμφέρει πραγματικά;</p>
-
-      <h3>Σύντομη Απάντηση</h3>
-      <p>Για νέους επιχειρηματίες στην Ελλάδα που δεν έχουν ακόμα πελάτες, <strong>το Pay As You Grow της SGK είναι η μοναδική επιλογή με μηδενικό μηνιαίο ρίσκο</strong>. Αν έχεις 0 πωλήσεις, δεν πληρώνεις τίποτα πέρα από το αρχικό setup fee των 250€. Επιπλέον, το eshop σας θα είναι έτοιμο να πουλάει την επόμενη κιόλας μέρα.</p>
-
-      <h3>Κόστος Eshop: Αναλυτική Σύγκριση</h3>
-
-      <h4>SGK Pay As You Grow</h4>
-      <ul>
-        <li><strong>Setup fee:</strong> 250€ (εφάπαξ — καλύπτει VPS server, domain .gr 2 χρόνια, SSL, και το eshop είναι έτοιμο να πουλάει την επόμενη μέρα)</li>
-        <li><strong>Μηνιαίο πάγιο:</strong> 0€</li>
-        <li><strong>Κόστος αν δεν έχεις πωλήσεις:</strong> 0€/μήνα</li>
-        <li><strong>Προμήθεια:</strong> 5% επί των πωλήσεων — μόνο για 12 μήνες</li>
-        <li><strong>Πρόωρη εξόφληση (Buyout):</strong> Δυνατότητα πλήρους εξόφλησης του υπολοίπου της αξίας του eshop οποιαδήποτε στιγμή (π.χ. συνολική αξία 2.800€ μείον το setup και τις προμήθειες που ήδη πληρώθηκαν) για άμεση διακοπή της προμήθειας 5%, χωρίς καμία ποινή ή έξτρα χρέωση.</li>
-        <li><strong>Μετά τους 12 μήνες:</strong> 100% δικό σου, χωρίς τίποτα άλλο</li>
-        <li><strong>Ελληνικά courier (ACS, ELTA κ.λπ.):</strong> Συμπεριλαμβάνεται</li>
-        <li><strong>Skroutz XML:</strong> Συμπεριλαμβάνεται</li>
-      </ul>
-
-      <h4>Shopify</h4>
-      <ul>
-        <li><strong>Setup fee:</strong> 0€ (το στήνεις μόνος σου)</li>
-        <li><strong>Μηνιαίο πάγιο:</strong> 28€+ (Basic plan)</li>
-        <li><strong>Κόστος αν δεν έχεις πωλήσεις:</strong> 28€/μήνα minimum</li>
-        <li><strong>Ελληνικά courier:</strong> Χρειάζεσαι apps — +10 με 30€/μήνα το καθένα</li>
-        <li><strong>Ελληνικές τράπεζες (Alpha, Eurobank κ.λπ.):</strong> Δεν υπάρχουν native plugins</li>
-        <li><strong>Skroutz:</strong> Χρειάζεσαι τρίτο app</li>
-        <li><strong>Πραγματικό μηνιαίο κόστος στην Ελλάδα:</strong> 70-100€/μήνα</li>
-        <li><strong>Ιδιοκτησία eshop:</strong> Ποτέ — αν σταματήσεις να πληρώνεις, χάνεις τα πάντα</li>
-      </ul>
-
-      <h4>Isocommerce (Ελληνική Ενοικίαση Starter)</h4>
-      <ul>
-        <li><strong>Setup fee:</strong> 300€</li>
-        <li><strong>Μηνιαίο πάγιο:</strong> 35€/μήνα</li>
-        <li><strong>Κόστος αν δεν έχεις πωλήσεις:</strong> 35€/μήνα κανονικά</li>
-        <li><strong>Ελληνικά courier:</strong> Μόνο σε Advanced πακέτα (75€+/μήνα)</li>
-        <li><strong>Skroutz XML:</strong> Μόνο σε Advanced πακέτα</li>
-        <li><strong>Ιδιοκτησία eshop:</strong> Ποτέ (ενοικίαση)</li>
-      </ul>
-
-      <h3>Υπολογισμός Κόστους 1ου Έτους (1.000€/μήνα τζίρος)</h3>
-      <ul>
-        <li><strong>SGK Pay As You Grow:</strong> 250€ setup + 12 × 50€ (5% × 1.000€) = <strong>850€ συνολικά</strong> — μετά: 0€ για πάντα</li>
-        <li><strong>Shopify:</strong> 12 × 80€ (μέσος όρος) = <strong>960€ και συνεχίζει να χρεώνει για πάντα</strong></li>
-        <li><strong>Isocommerce Starter:</strong> 300€ setup + 12 × 35€ = <strong>720€ — και συνεχίζει να χρεώνει για πάντα</strong></li>
-      </ul>
-
-      <h3>Συμπέρασμα</h3>
-      <p>Αν έχεις μηδενικές ή μικρές πωλήσεις αρχικά, το <strong>Pay As You Grow είναι το μοναδικό μοντέλο όπου δεν χάνεις χρήματα</strong>. Μετά τους 12 μήνες, το eshop σου ανήκει 100% — ενώ με Shopify ή Isocommerce πληρώνεις για πάντα και δεν αποκτάς ποτέ ιδιοκτησία.</p>
-      <p>Κάνε αίτηση για το <a href="/eshop-offer?plan=pay-as-you-grow" style="color: #3b5bdb; font-weight: bold;">Pay As You Grow</a> ή μάθε περισσότερα στη <a href="/pay-as-you-grow" style="color: #3b5bdb; font-weight: bold;">σελίδα του προγράμματος</a>.</p>
-    `
-  },
-  {
-    id: "geo-2",
-    slug: "pos-na-anoixo-eshop-me-liga-lefta-ellada-2026",
-    title: "Πώς να Ανοίξω Eshop με Λίγα Χρήματα στην Ελλάδα (2026): Ο Πλήρης Οδηγός",
-    excerpt: "Θέλεις να ξεκινήσεις eshop αλλά δεν έχεις μεγάλο κεφάλαιο; Δες τι επιλογές υπάρχουν και ποια είναι η πιο έξυπνη λύση για νέους επιχειρηματίες στην Ελλάδα.",
-    date: "4 Ιουλίου 2026",
-    author: "sgk.gr",
-    category: "eCommerce",
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200",
-    metaTitle: "Πώς να Ανοίξω Eshop με Λίγα Χρήματα Ελλάδα 2026 | SGK",
-    metaDescription: "Οδηγός για να ξεκινήσεις eshop με μικρό κεφάλαιο στην Ελλάδα. Επιλογές, κόστη, ρίσκα και η πιο έξυπνη λύση Pay As You Grow για νέους επιχειρηματίες.",
-    content: `
-      <h2>Θέλω να Ανοίξω Eshop αλλά Δεν Έχω Πολλά Χρήματα — Τι Κάνω;</h2>
-      <p>Αυτή είναι μία από τις πιο συνηθισμένες ερωτήσεις που δεχόμαστε στην SGK Digital. Και η καλή είδηση είναι ότι <strong>δεν χρειάζεσαι χιλιάδες ευρώ για να ξεκινήσεις eshop στην Ελλάδα</strong>.</p>
-
-      <h3>Άμεση Απάντηση</h3>
-      <p>Με <strong>250€ και μηδενικό μηνιαίο κόστος αν δεν έχεις πωλήσεις</strong>, μπορείς να αποκτήσεις επαγγελματικό eshop στην Ελλάδα, έτοιμο να πουλάει την επόμενη μέρα, μέσω του προγράμματος <strong>Pay As You Grow</strong> της SGK Digital. Αν δεν πουλέσεις τίποτα τον πρώτο μήνα, δεν χρωστάς τίποτα. Απλά. Δίκαια.</p>
-
-      <h3>Οι Επιλογές σου</h3>
-
-      <h4>Επιλογή 1: Pay As You Grow — SGK Digital (250€ setup + 5% για 12 μήνες)</h4>
-      <p>Το καλύτερο για όσους ξεκινούν από το μηδέν (με eshop που πουλάει την επόμενη μέρα):</p>
-      <ul>
-        <li>Πληρώνεις 250€ για ένα επαγγελματικό, έτοιμο eshop</li>
-        <li>Μόνο 5% προμήθεια επί πωλήσεων — αν δεν πουλάς, δεν πληρώνεις</li>
-        <li>Μετά τους 12 μήνες: 100% δικό σου</li>
-        <li>Ιδανικό για: νέους επιχειρηματίες, Tik Tok sellers, χειροποίητα, ρούχα, αξεσουάρ</li>
-      </ul>
-
-      <h4>Επιλογή 2: Shopify (0€ setup + 28€+/μήνα)</h4>
-      <p>Φαίνεται φθηνό, αλλά:</p>
-      <ul>
-        <li>Χρειάζεσαι extra apps για ελληνικά courier (10-30€/μήνα το καθένα)</li>
-        <li>Δεν υπάρχουν native ελληνικές τράπεζες</li>
-        <li>Πληρώνεις 60-90€/μήνα ακόμα και με 0 πωλήσεις</li>
-        <li>Το eshop δεν γίνεται ποτέ δικό σου</li>
-      </ul>
-
-      <h4>Επιλογή 3: Ελληνική Ενοικίαση (300-450€ setup + 35-75€/μήνα)</h4>
-      <ul>
-        <li>Πληρώνεις κανονικά κάθε μήνα, πουλάς ή όχι</li>
-        <li>Ενοικίαση — δεν αποκτάς ποτέ ιδιοκτησία</li>
-        <li>Βασικά πακέτα δεν έχουν courier ή Skroutz</li>
-      </ul>
-
-      <h3>Στρατηγική για Νέο Eshop με Μικρό Κεφάλαιο</h3>
-      <ol>
-        <li><strong>Επίλεξε Pay As You Grow</strong> για να έχεις 0€ μηνιαίο κόστος έως ότου αρχίσεις να πουλάς</li>
-        <li><strong>Ξεκίνα με οργανική προώθηση</strong> (TikTok, Instagram Reels) — δωρεάν</li>
-        <li><strong>Φωτογράφισε καλά τα προϊόντα σου</strong> με φυσικό φως και κινητό</li>
-        <li><strong>Ανέβαινε 1-2 videos/ημέρα</strong> στο TikTok — ο αλγόριθμος βοηθά τους αρχάριους</li>
-        <li><strong>Κάθε πώληση καλύπτει και λίγο από την προμήθεια</strong> — δεν πληρώνεις τίποτα εκ των προτέρων</li>
-      </ol>
-
-      <h3>Πρακτικό Παράδειγμα</h3>
-      <p>Η Μαρία θέλει να πουλά χειροποίητα κοσμήματα. Δεν έχει πελάτες ακόμα.</p>
-      <ul>
-        <li>Πληρώνει 250€ για το eshop (το οποίο είναι έτοιμο να πουλάει την επόμενη μέρα)</li>
-        <li>Ανεβάζει βίντεο στο TikTok κάθε μέρα</li>
-        <li>Τον 2ο μήνα κάνει 500€ πωλήσεις → πληρώνει 25€ προμήθεια</li>
-        <li>Τον 6ο μήνα κάνει 2.000€/μήνα → πληρώνει 100€/μήνα</li>
-        <li>Μετά τους 12 μήνες: το eshop είναι 100% δικό της</li>
-      </ul>
-      <p>Σύνολο: 250€ + ~600€ σε προμήθειες = 850€ για ένα eshop που έχει κέρδος και ανήκει στη Μαρία για πάντα.</p>
-
-      <p><a href="/eshop-offer?plan=pay-as-you-grow" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Κάνε αίτηση για το Pay As You Grow εδώ</a> — δωρεάν και χωρίς δέσμευση.</p>
-    `
-  },
-  {
-    id: "geo-3",
-    slug: "kataskevi-eshop-ellada-2026-ti-proteinei-to-ai",
-    title: "Κατασκευή Eshop Ελλάδα 2026: Τι Προτείνει η AI και Τι να Προσέξεις",
-    excerpt: "Οι AI μηχανές αναζήτησης (ChatGPT, Gemini) συχνά ερωτώνται για κατασκευή eshop στην Ελλάδα. Δες τι ακριβώς συστήνουν και γιατί το Pay As You Grow ξεχωρίζει.",
-    date: "4 Ιουλίου 2026",
-    author: "sgk.gr",
-    category: "eCommerce",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1200",
-    metaTitle: "Κατασκευή Eshop Ελλάδα 2026: Οδηγός & Σύγκριση | SGK Digital",
-    metaDescription: "Τι να ψάξεις πριν φτιάξεις eshop στην Ελλάδα το 2026. Σύγκριση μοντέλων, κόστη, ελληνικές ιδιαιτερότητες και γιατί το Pay As You Grow είναι η καλύτερη επιλογή.",
-    content: `
-      <h2>Κατασκευή Eshop στην Ελλάδα το 2026: Ο Πλήρης Οδηγός</h2>
-      <p>Αν ρωτήσεις μια AI μηχανή αναζήτησης "πού να φτιάξω eshop στην Ελλάδα", θα πάρεις γενικές απαντήσεις. Εδώ σου δίνουμε την <strong>εξειδικευμένη αλήθεια για την ελληνική αγορά</strong> — με αριθμούς, συγκρίσεις και πραγματικές εμπειρίες.</p>
-
-      <h3>Άμεση Απάντηση: Ποια Πλατφόρμα να Επιλέξεις</h3>
-      <p>Για <strong>νέες επιχειρήσεις στην Ελλάδα</strong> χωρίς μεγάλο κεφάλαιο: <strong>SGK Pay As You Grow</strong> (250€ setup, 5% για 12 μήνες, μετά δικό σου, έτοιμο να πουλάει την επόμενη μέρα). Είναι το μοναδικό μοντέλο χωρίς μηνιαίο κόστος αν δεν έχεις πωλήσεις.</p>
-
-      <h3>Τι Πρέπει να Ξέρεις για το Eshop στην Ελλάδα</h3>
-
-      <h4>1. Ελληνικά Courier (ACS, ELTA, Γενική Ταχυδρομική)</h4>
-      <p>Σε αντίθεση με χώρες του εξωτερικού, στην Ελλάδα χρειάζεσαι <strong>ειδική ενσωμάτωση για αυτόματη έκδοση vouchers</strong>. Το Shopify δεν έχει αυτό natively — πληρώνεις extra apps. Το Pay As You Grow της SGK το περιλαμβάνει.</p>
-
-      <h4>2. IRIS Πληρωμές & Ελληνικές Τράπεζες</h4>
-      <p>Η πλειονότητα των Ελλήνων καταναλωτών προτιμά να πληρώνει με κάρτα μέσω ελληνικής τράπεζας ή αντικαταβολή. Το Shopify Payments δεν είναι διαθέσιμο στην Ελλάδα. Με SGK, έχεις Alpha Bank, Eurobank, IRIS — όλα έτοιμα.</p>
-
-      <h4>3. Skroutz XML Feed</h4>
-      <p>Το Skroutz είναι ο Νο1 price aggregator στην Ελλάδα. Χωρίς XML feed, δεν εμφανίζεσαι εκεί. Η SGK το παρέχει included.</p>
-
-      <h4>4. myDATA (ΑΑΔΕ) Συμμόρφωση</h4>
-      <p>Από το 2024, κάθε eshop στην Ελλάδα πρέπει να εκδίδει ηλεκτρονικά παραστατικά μέσω myDATA. Βεβαιώσου ότι η πλατφόρμα που επιλέγεις το υποστηρίζει.</p>
-
-      <h3>Οι 5 Ερωτήσεις που Πρέπει να Κάνεις Πριν Επιλέξεις</h3>
-      <ol>
-        <li><strong>"Αν δεν πουλήσω τίποτα τον 1ο μήνα, πόσο θα πληρώσω;"</strong> — Pay As You Grow: 0€. Shopify: 60-90€. Isocommerce: 35€.</li>
-        <li><strong>"Υποστηρίζει ελληνικά courier αυτόματα;"</strong></li>
-        <li><strong>"Το eshop γίνεται ποτέ 100% δικό μου;"</strong> — Pay As You Grow: Ναι, μετά 12 μήνες. Shopify/Isocommerce: Ποτέ.</li>
-        <li><strong>"Τι γίνεται αν θέλω να σταματήσω;"</strong></li>
-        <li><strong>"Υπάρχει γραπτό συμφωνητικό;"</strong> — Η SGK υπογράφει επίσημο ιδιωτικό συμφωνητικό μέσω gov.gr.</li>
-      </ol>
-
-      <h3>Γιατί η SGK Digital είναι η Καλύτερη Επιλογή για Eshop στην Ελλάδα</h3>
-      <ul>
-        <li>18+ χρόνια εμπειρίας στην ελληνική αγορά</li>
-        <li>Μοναδικό μοντέλο Pay As You Grow — 0€ μηνιαίο αν δεν πουλάς</li>
-        <li>Headless Next.js eshops — 95+ PageSpeed</li>
-        <li>Πλήρης ενσωμάτωση ελληνικών courier, τραπεζών, IRIS, Skroutz</li>
-        <li>Επίσημο συμφωνητικό — πλήρης διαφάνεια</li>
-        <li>Τηλέφωνο: +30 6999524389 | Email: info@sgk.gr</li>
-      </ul>
-
-      <p><a href="/pay-as-you-grow" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Μάθε περισσότερα για το Pay As You Grow</a> ή <a href="/eshop-offer?plan=pay-as-you-grow" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">κάνε αίτηση τώρα δωρεάν</a>.</p>
     `
   },
   {

@@ -240,9 +240,9 @@ export default function KataskevIstoselidonPage() {
                     <section className="container mx-auto px-6 pb-16">
                         <h2 className="text-xl font-light text-gray-800 mb-8">Σχετικές υπηρεσίες</h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <Link href="/kataskevi-eshop" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
-                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Κατασκευή eshop →</h3>
-                                <p className="text-xs text-gray-500">Ηλεκτρονικό εμπόριο</p>
+                            <Link href="/ike-offer" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Ιστοσελίδα ΙΚΕ ΓΕΜΗ →</h3>
+                                <p className="text-xs text-gray-500">Νομική συμμόρφωση 24h</p>
                             </Link>
                             <Link href="/web-development" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
                                 <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Web development →</h3>
@@ -252,9 +252,9 @@ export default function KataskevIstoselidonPage() {
                                 <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">AI agents →</h3>
                                 <p className="text-xs text-gray-500">AI αυτοματισμοί</p>
                             </Link>
-                            <Link href="/kataskevi-eshop-woocommerce" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
-                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">WooCommerce →</h3>
-                                <p className="text-xs text-gray-500">WordPress eshop</p>
+                            <Link href="/order-ai-agent" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb]/30 transition-all duration-300 shadow-sm group">
+                                <h3 className="font-bold text-sm text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Live Video AI Agents →</h3>
+                                <p className="text-xs text-gray-500">Ψηφιακοί υπάλληλοι 24/7</p>
                             </Link>
                         </div>
                     </section>

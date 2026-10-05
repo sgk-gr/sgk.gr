@@ -6,10 +6,10 @@ import { ShoppingCart, Layout, Bot, Code2, ArrowRight } from "lucide-react";
 
 const services = [
   {
-    title: "Κατασκευή Eshop",
-    description: "Ολοκληρωμένα ηλεκτρονικά καταστήματα με WooCommerce ή custom React solutions. Γρήγορα, ασφαλή, βελτιστοποιημένα για πωλήσεις.",
-    href: "/kataskevi-eshop",
-    icon: <ShoppingCart size={28} className="text-white" />,
+    title: "Ιστοσελίδα ΙΚΕ (ΓΕΜΗ)",
+    description: "Πλήρης νομική συμμόρφωση για τη νέα σας Ι.Κ.Ε. εντός 24 ωρών. Περιλαμβάνει .gr domain, hosting, SSL και δημοσίευση στο ΓΕΜΗ.",
+    href: "/ike-offer",
+    icon: <Code2 size={28} className="text-white" />,
     color: "bg-[#3b5bdb]"
   },
   {

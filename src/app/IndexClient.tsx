@@ -12,7 +12,6 @@ import SectionDivider from "@/components/SectionDivider";
 
 import LiveVideoAgentSection from "@/components/LiveVideoAgentSection";
 
-const WordPressShowcase = dynamic(() => import("@/components/WordPressShowcase"), { ssr: true });
 const WebAppsShowcase = dynamic(() => import("@/components/WebAppsShowcase"), { ssr: false });
 const AIAgentsShowcase = dynamic(() => import("@/components/AIAgentsShowcase"), { ssr: false });
 const Process = dynamic(() => import("@/components/Process"), { ssr: false });

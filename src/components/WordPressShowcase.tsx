@@ -43,18 +43,18 @@ const WordPressShowcase = () => {
             transition={{ duration: 0.6 }}
           >
             <p className="font-heading font-bold text-xs tracking-[0.2em] uppercase mb-4 text-[#3b5bdb]">
-              WordPress eShops
+              WordPress Websites
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-[1.1] mb-6 text-black">
-              eShops νέας γενιάς
+              Websites νέας γενιάς
               <br />
               <span className="text-[#3b5bdb]">με απίστευτη ταχύτητα</span>
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed mb-8 max-w-lg">
-              Χτίζουμε WordPress & WooCommerce καταστήματα που φορτώνουν σε
+              Χτίζουμε WordPress & custom web εφαρμογές που φορτώνουν σε
               χιλιοστά του δευτερολέπτου. Custom θέμα, zero bloat, maximum
-              performance — το eshop σας γίνεται η ταχύτερη εμπειρία αγορών
-              για τους πελάτες σας.
+              performance — η ιστοσελίδα σας γίνεται η ταχύτερη εμπειρία
+              για τους επισκέπτες σας.
             </p>
             <a
               href="/estimate"
@@ -106,12 +106,12 @@ const WordPressShowcase = () => {
           <div className="flex items-center gap-4">
             <div>
               <p className="font-heading font-bold text-2xl text-black">Average Load Time</p>
-              <p className="text-gray-500 mt-1">Τα eshops μας vs industry average</p>
+              <p className="text-gray-500 mt-1">Τα websites μας vs industry average</p>
             </div>
           </div>
           <div className="flex-1 max-w-lg w-full">
             <div className="flex justify-between text-sm font-bold text-gray-800 mb-2">
-              <span>SGK eShops</span>
+              <span>SGK Websites</span>
               <span className="text-[#4ade80] font-black text-lg">0.8s</span>
             </div>
             <div className="h-4 rounded-full bg-gray-200 overflow-hidden mb-6">

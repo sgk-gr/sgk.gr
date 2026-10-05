@@ -14,9 +14,8 @@ const links = [
             { name: "Πελάτες", path: "/portfolio" },
             { name: "Σχετικά", path: "/about" },
             { name: "Insights", path: "/blog" },
-            { name: "Επικοινωνία", path: "/estimate" },
-            { name: "Κατασκευή Eshop", path: "/kataskevi-eshop" },
-            { name: "Κατασκευή Eshop WooCommerce", path: "/kataskevi-eshop-woocommerce" },
+            { name: "Ιστοσελίδα ΙΚΕ ΓΕΜΗ", path: "/ike-offer" },
+            { name: "Live Video AI Agents", path: "/order-ai-agent" },
             { name: "AI Agents", path: "/ai-agents" },
             { name: "Web Development", path: "/web-development" },
             { name: "Κατασκευή Ιστοσελίδων", path: "/kataskevi-istoselidon" },
@@ -48,8 +47,8 @@ const links = [
     {
         title: "Προσφορές & Demo",
         items: [
-            { name: "Eshop Demo", path: "/eshop-demo" },
-            { name: "Προσφορά Eshop", path: "/eshop-offer" },
+            { name: "Live Video AI Agent Demo", path: "/liveavatar-demo2" },
+            { name: "Προσφορά Ιστοσελίδας ΙΚΕ (150€)", path: "/ike-offer" },
             { name: "Προσφορά Barbershop & Κομμωτήρια", path: "/promo/barbershop" },
         ]
     },
