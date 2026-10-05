@@ -65,6 +65,11 @@ const nextConfig = {
         destination: '/order-ai-agent',
         permanent: true,
       },
+      {
+        source: '/mendora',
+        destination: 'https://mendoraacademy.vercel.app/',
+        permanent: true,
+      },
     ];
   },
 };
