@@ -84,7 +84,7 @@ export default function MendoraCaseStudyClient() {
             </h1>
             
             <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed mb-8">
-              Το πρώτο <span className="text-foreground font-semibold">AI-Native Voice-First</span> ψηφιακό φροντιστήριο. Πλήρης αρχιτεκτονική με Σωκρατική μέθοδο διδασκαλίας, αυτόματη διόρθωση χειρόγραφων ασκήσεων με Vision OCR και δυναμικό Knowledge Graph ύλης.
+              Το πρώτο <span className="text-foreground font-semibold">AI-Native Voice-First</span> ψηφιακό φροντιστήριο, κατασκευασμένο αποκλειστικά από την SGK Digital για λογαριασμό της Βρετανικής <strong>ELC</strong>. Πλήρης αρχιτεκτονική με Σωκρατική μέθοδο διδασκαλίας, αυτόματη διόρθωση χειρόγραφων ασκήσεων με Vision OCR και δυναμικό Knowledge Graph ύλης.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-10">
@@ -132,7 +132,7 @@ export default function MendoraCaseStudyClient() {
                   Σχεδιασμένο με έμπνευση από το Khanmigo & κορυφαία US EdTech
                 </h3>
                 <p className="text-gray-600 leading-relaxed mb-6 text-sm sm:text-base">
-                  Η SGK Digital σχεδίασε το Mendora Academy από το μηδέν με απαλό λιλά UI, παιχνιδοποιημένα stickers, άμεση απόκριση φωνής (&lt;600ms) και ασφάλεια δεδομένων για ανηλίκους μαθητές σύμφωνα με το GDPR.
+                  Το Mendora Academy κατασκευάστηκε αποκλειστικά από την SGK Digital για λογαριασμό της <strong>ELC</strong> (κορυφαία Βρετανική εταιρεία εκπαίδευσης). Σχεδιάστηκε από το μηδέν με απαλό λιλά UI, παιχνιδοποιημένα stickers, άμεση απόκριση φωνής (&lt;600ms) και ασφάλεια δεδομένων για ανηλίκους μαθητές σύμφωνα με το GDPR.
                 </p>
                 <div className="grid grid-cols-2 gap-4 text-left">
                   <div className="p-4 rounded-xl bg-[#FAF8FE] border border-purple-100">
@@ -154,17 +154,19 @@ export default function MendoraCaseStudyClient() {
                 </div>
               </div>
 
-              <div className="relative rounded-2xl overflow-hidden border border-gray-200 shadow-lg bg-[#EAE6F8] p-6 text-center">
+              <div className="relative rounded-2xl overflow-hidden border border-gray-200 shadow-lg bg-[#EAE6F8] text-center flex flex-col">
                 <Image
-                  src="/mendora/logo.jpg"
+                  src="/mend.png"
                   alt="Mendora Academy Brand"
-                  width={500}
-                  height={300}
-                  className="rounded-xl shadow-sm object-contain mx-auto mb-4"
+                  width={800}
+                  height={450}
+                  className="w-full h-auto object-cover border-b border-gray-200"
                 />
-                <p className="text-xs text-gray-600 font-medium">
-                  Αποκλειστικό UI/UX & AI Engine αναπτυγμένο εξ ολοκλήρου από την ομάδα της <strong>SGK Digital</strong>.
-                </p>
+                <div className="p-4">
+                  <p className="text-xs text-gray-600 font-medium">
+                    Αποκλειστικό UI/UX & AI Engine αναπτυγμένο εξ ολοκλήρου από την ομάδα της <strong>SGK Digital</strong> για λογαριασμό της ELC.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -323,7 +325,7 @@ export default function MendoraCaseStudyClient() {
                 </Link>
                 <Link
                   href="/mendora"
-                  className="px-5 py-3 rounded-xl border border-border text-foreground hover:bg-card text-sm font-semibold transition-colors"
+                  className="px-5 py-3 rounded-xl border border-border text-black hover:bg-card text-sm font-semibold transition-colors"
                 >
                   Περιήγηση στο Live Demo
                 </Link>

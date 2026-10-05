@@ -14,6 +14,48 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: "ai-education-mendora-elc",
+    slug: "ai-education-platform-mendora-academy-elc",
+    title: "Mendora Academy: Πώς κατασκευάσαμε την πρώτη AI εκπαιδευτική πλατφόρμα για λογαριασμό της Βρετανικής ELC",
+    excerpt: "Case Study: Η SGK Digital ανέπτυξε ένα Custom AI-Native ψηφιακό φροντιστήριο με χρήση WebRTC Voice Agents και Vision OCR για λογαριασμό κορυφαίας Βρετανικής εκπαιδευτικής εταιρείας (ELC).",
+    date: "5 Οκτ 2026",
+    author: "Ομάδα SGK Digital",
+    category: "AI & EdTech",
+    image: "/mend.png",
+    metaTitle: "Mendora Academy Case Study | AI EdTech από την SGK Digital",
+    metaDescription: "Δείτε πώς η SGK Digital κατασκεύασε το Mendora Academy, μια AI εκπαιδευτική πλατφόρμα για την βρετανική εταιρεία ELC, με voice agents και AI grading.",
+    content: `
+      <h2>Ένα υπερσύγχρονο AI Ψηφιακό Φροντιστήριο</h2>
+      <p>Η SGK Digital ανέλαβε και έφερε εις πέρας ένα από τα πιο απαιτητικά έργα στον χώρο του EdTech (Educational Technology). Κατασκευάσαμε αποκλειστικά για λογαριασμό της Βρετανικής εταιρείας <strong>ELC</strong> το Mendora Academy: το πρώτο AI-Native ψηφιακό φροντιστήριο που βασίζεται στη Σωκρατική μέθοδο.</p>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
+
+      <h2>Η Πρόκληση</h2>
+      <p>Η πρόκληση ήταν να δημιουργηθεί μια πλατφόρμα που δεν δίνει απλώς έτοιμες απαντήσεις (όπως το ChatGPT), το οποίο συχνά οδηγεί σε γνωστική αδράνεια των μαθητών. Αντίθετα, η ELC χρειαζόταν ένα σύστημα που λειτουργεί ως πραγματικός <strong>παιδαγωγός-μέντορας</strong>.</p>
+      
+      <p>Επιπλέον, η πλατφόρμα έπρεπε να δέχεται χειρόγραφες απαντήσεις και εκθέσεις μαθητών, να τις διαβάζει, και να τις βαθμολογεί με τα επίσημα κριτήρια των εξεταστών.</p>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
+
+      <h2>Η Λύση της SGK Digital</h2>
+      <p>Για την υλοποίηση του Mendora Academy αξιοποιήσαμε τεχνολογίες αιχμής:</p>
+      <ul>
+        <li><strong>WebRTC Voice Agents:</strong> Αναπτύξαμε ένα σύστημα φωνητικής συνομιλίας σε πραγματικό χρόνο (με latency κάτω από 600ms) που επιτρέπει στον μαθητή να μιλάει με τον AI καθηγητή σαν να βρισκόταν στον ίδιο χώρο.</li>
+        <li><strong>Σωκρατική Μέθοδος:</strong> Μέσω εξειδικευμένου prompt engineering, το AI καθοδηγεί τον μαθητή με ερωτήσεις και hints, ώστε να φτάσει μόνος του στη λύση, καλλιεργώντας την κριτική σκέψη.</li>
+        <li><strong>Vision OCR & AI Grading:</strong> Το σύστημα μπορεί να αναλύσει φωτογραφίες χειρόγραφων ασκήσεων και εκθέσεων, αναγνωρίζοντας λάθη, δομή, και επιχειρηματολογία, προσφέροντας άμεση ανατροφοδότηση και βαθμολόγηση.</li>
+        <li><strong>Γονικός Έλεγχος & Reporting:</strong> Το σύστημα εξάγει αυτόματα εβδομαδιαίες αναφορές προόδου, καλύπτοντας τα κενά του μαθητή, και τις στέλνει απευθείας στους γονείς.</li>
+      </ul>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;" />
+
+      <h2>Αποτέλεσμα</h2>
+      <p>Το Mendora Academy αποτελεί ζωντανή απόδειξη ότι η SGK Digital κατασκευάζει custom enterprise AI λογισμικό παγκόσμιας κλάσης. Με τη χρήση πολύπλοκου business logic και multi-modal μοντέλων, παραδώσαμε στην ELC ένα καινοτόμο προϊόν που επαναπροσδιορίζει τον τρόπο με τον οποίο μαθαίνουν οι μαθητές παγκοσμίως.</p>
+      
+      <p>Αν αναζητάτε έναν τεχνολογικό συνεργάτη για να υλοποιήσετε την επόμενη καινοτόμα ιδέα σας στον χώρο του λογισμικού και της τεχνητής νοημοσύνης, <a href="/estimate">επικοινωνήστε μαζί μας</a>.</p>
+    `
+  },
+
+  {
     id: "ai-telecom-fiber-automation",
     slug: "pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies",
     title: "Πώς η SGK Digital Αυτοματοποίησε Εταιρεία Τηλεπικοινωνιών & Οπτικών Ινών: AI Αυτοψίες Οικοδομών & Εγκαταστάσεις σε Real-Time",
