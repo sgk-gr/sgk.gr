@@ -21,7 +21,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "5 Οκτ 2026",
     author: "Ομάδα SGK Digital",
     category: "AI & EdTech",
-    image: "/mend.png",
+    image: "https://www.sgk.gr/mend.png",
     metaTitle: "Mendora Academy Case Study | AI EdTech από την SGK Digital",
     metaDescription: "Δείτε πώς η SGK Digital κατασκεύασε το Mendora Academy, μια AI εκπαιδευτική πλατφόρμα για την βρετανική εταιρεία ELC, με voice agents και AI grading.",
     content: `

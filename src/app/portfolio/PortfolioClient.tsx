@@ -35,7 +35,7 @@ const featuredProjects = [
     accentColor: "bg-[#7c3aed]",
     textColor: "text-[#7c3aed]",
     hoverBg: "hover:bg-[#6d28d9]",
-    image: "/mendora/logo.jpg", 
+    image: "/mend.png", 
     link: "/case-study/mendora-academy",
     badge: "AI EdTech Platform"
   },
