@@ -24,6 +24,7 @@
 
 ## Case Studies & Portfolio
 
+- [Mendora Academy - AI Educational Platform for ELC](https://www.sgk.gr/case-study/mendora-academy): AI-Native Voice-First platform for British ELC featuring Socratic teaching, Vision OCR, and WebRTC video chat.
 - [AI Αυτοματισμός & Αυτοψίες Οπτικών Ινών](https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies): Telecom operations platform με Real-time tracking και Computer Vision AI αυτοψίες.
 - [Portfolio & Case Studies](https://www.sgk.gr/portfolio): Proven implementations for Greek retail, healthcare, tourism, and enterprise clients.
 - [Blog & Industry Insights](https://www.sgk.gr/blog): Technical articles on AI agents, e-commerce, and business automation.
