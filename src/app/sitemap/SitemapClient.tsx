@@ -25,6 +25,7 @@ const links = [
     {
         title: "Case Studies (Έργα)",
         items: [
+            { name: "Mendora Academy AI", path: "/case-study/mendora-academy" },
             { name: "Sigmalabs AI", path: "/case-study/sigmalabs-ai" },
             { name: "Skinnera", path: "/case-study/skinnera" },
             { name: "Harmony Apartments", path: "/case-study/harmony-apartments" },
@@ -47,6 +48,7 @@ const links = [
     {
         title: "Προσφορές & Demo",
         items: [
+            { name: "Mendora Academy (English Showcase)", path: "/mendora" },
             { name: "Live Video AI Agent Demo", path: "/liveavatar-demo2" },
             { name: "Προσφορά Ιστοσελίδας ΙΚΕ (150€)", path: "/ike-offer" },
             { name: "Προσφορά Barbershop & Κομμωτήρια", path: "/promo/barbershop" },

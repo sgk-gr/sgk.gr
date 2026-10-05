@@ -19,13 +19,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/innovation`, priority: 0.80, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/estimate`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/blog`, priority: 0.90, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/mendora`, priority: 0.85, changeFrequency: 'monthly' as const },
   ];
 
   const caseStudies = [
     'alkinoi', 'agios-stefanos-properties', 'diador', 'energy-solutions', 'evolis-ai', 
     'farma-tsakalos', 'gikaccounting', 'harmony-apartments', 'high-travel',
     'kastanidis', 'km-fiber', 'lemon-tree-paros', 'live-tour-guide', 'lyroudis',
-    'rekrua', 'sigmalabs-ai', 'skinnera', 'super-app', 'think-localization', 
+    'mendora-academy', 'rekrua', 'sigmalabs-ai', 'skinnera', 'super-app', 'think-localization', 
     'top-travel-greece', 'vaia-charms', 'yolo8'
   ].map((slug) => ({
     url: `${baseUrl}/case-study/${slug}`,

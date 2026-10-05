@@ -28,6 +28,18 @@ const featuredProjects = [
     badge: "Enterprise Platform"
   },
   {
+    title: "Mendora Academy",
+    subtitle: "AI Socratic EdTech Platform",
+    description: "Το πρώτο AI-Native Voice-First ψηφιακό φροντιστήριο. Πρωτοποριακή πλατφόρμα με Socratic Voice AI σε πραγματικό χρόνο (<600ms), αυτόματη διόρθωση χειρόγραφων ασκήσεων με Vision OCR και RAG Knowledge Graph σχολικής ύλης.",
+    tags: ["Next.js 15", "OpenAI Realtime Voice", "WebRTC", "Vision OCR", "Supabase pgvector", "Socratic AI Engine"],
+    accentColor: "bg-[#7c3aed]",
+    textColor: "text-[#7c3aed]",
+    hoverBg: "hover:bg-[#6d28d9]",
+    image: "/mendora/logo.jpg", 
+    link: "/case-study/mendora-academy",
+    badge: "AI EdTech Platform"
+  },
+  {
     title: "Sigmalabs AI",
     subtitle: "Agentic AI",
     description: "Το πρώτο παγκοσμίως Agentic AI για e-commerce που ελέγχει και εκτελεί εργασίες σε WooCommerce και Shopify.",
