@@ -226,217 +226,260 @@ const templates = [
     defaultButtonText: "Δείτε Ζωντανά την Πλατφόρμα (hightravel.gr)",
     defaultButtonLink: "https://www.hightravel.gr/"
   },
+
   {
-    name: "Operations: Custom Web App Τεχνικών & Έργων (KM-Fiber Style)",
-    subject: "Αυτοματοποίηση Συντονισμού Τεχνικών, Συνεργείων & Έργων (KM-Fiber Case Study)",
-    body: `<h2>Συντονίστε Τεχνικούς, Έργα & Στόλο Αυτόματα — Χωρίς Χαμένο Χρόνο & Τηλεφωνήματα</h2>
-<p>Γεια σας,</p>
-<p>Συγχαρητήρια για την έναρξη της νέας σας εταιρείας και καλή επιτυχία στα νέα σας έργα!</p>
-<p>Στις τεχνικές, εργολαβικές και κατασκευαστικές εταιρείες, ο καθημερινός συντονισμός συνεργείων μέσα από δεκάδες τηλεφωνήματα, μηνύματα στο Viber και χειρόγραφα δελτία δημιουργεί <strong>καθυστερήσεις, ανθρώπινα λάθη και τεράστιο χαμένο χρόνο</strong> για τη διοίκηση.</p>
-<p>Στην <strong>SGK Digital</strong> αναπτύσσουμε εξειδικευμένες εφαρμογές λειτουργίας (Operational Apps) σχεδιασμένες για τις ανάγκες των συνεργείων στο πεδίο. Ενδεικτικά, για την <strong>KM-FIBER</strong> (κορυφαίο συνεργάτη της Cosmote στις εγκαταστάσεις οπτικών ινών), δημιουργήσαμε το κεντρικό σύστημα συντονισμού τους:</p>
-<p><strong>Τι κερδίζετε στην καθημερινή πράξη:</strong></p>
-<ul>
-  <li><strong>Live Χάρτης Συνεργείων:</strong> Βλέπετε σε πραγματικό χρόνο πού βρίσκεται κάθε τεχνικός/όχημα και αναθέτετε άμεσα νέες εργασίες στο πλησιέστερο συνεργείο, μηδενίζοντας τα άσκοπα χιλιόμετρα.</li>
-  <li><strong>Ψηφιακό Δελτίο στο Κινητό:</strong> Ο τεχνικός βλέπει το πρόγραμμά του στο κινητό, ολοκληρώνει την εργασία με φωτογραφίες παράδοσης και ο πελάτης υπογράφει ψηφιακά στην οθόνη.</li>
-  <li><strong>Αυτόματες Αναφορές & Τιμολόγηση:</strong> Τέλος στα χαμένα χαρτάκια και τις σημειώσεις — όλες οι αναφορές έργων, τα υλικά και τα δελτία παράγονται αυτόματα σε Excel / PDF για το λογιστήριό σας.</li>
-  <li><strong>Εξοικονόμηση 20+ Ωρών την Εβδομάδα:</strong> Μηδενισμός των περιττών τηλεφωνημάτων και πλήρης έλεγχος της προόδου των έργων από μία οθόνη.</li>
-  <li><strong>100% Νομική Συμμόρφωση:</strong> Πλήρης κάλυψη όλων των υποχρεωτικών εταιρικών στοιχείων δημοσιότητας Γ.Ε.ΜΗ.</li>
-</ul>
+    name: "🏢 Αναβάθμιση ΙΚΕ σε Πλήρες Website & Local SEO (390€)",
+    subject: "Αναβάθμιση σε Πλήρη Εταιρική Ιστοσελίδα & Google Maps (Ειδική Προσφορά Συνεργάτη)",
+    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
+<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0f172a; overflow: hidden;">
+  <a href="https://www.sgk.gr/website-offer" target="_blank" style="display: block; text-decoration: none;">
+    <img 
+      src="https://www.sgk.gr/images/banner-corporate-website.jpg" 
+      alt="Αναβάθμιση σε Πλήρη Εταιρική Ιστοσελίδα - SGK Digital" 
+      width="600" 
+      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
+    />
+  </a>
+</div>
+
+<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Μετατρέψτε την Ιστοσελίδα της Ι.Κ.Ε. σας σε Ισχυρό Εργαλείο Πωλήσεων!</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ συνεργάτη,</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Χαιρόμαστε ιδιαίτερα που συνεργαστήκαμε για τη δημιουργία της επίσημης σελίδας ΓΕΜΗ της εταιρείας σας. Η νομική συμμόρφωση ήταν το πρώτο απαραίτητο βήμα.
+</p>
+
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Τώρα που η επιχείρησή σας λειτουργεί κανονικά, οι υποψήφιοι πελάτες σας αναζητούν στη Google για να δουν τις <strong>υπηρεσίες, τα έργα και το επαγγελματικό σας προφίλ</strong>. Μια απλή μονοσέλιδη καταχώριση δεν αρκεί για να κερδίσει την εμπιστοσύνη τους και να φέρει νέες δουλειές.
+</p>
+
+<!-- Upgrade Offer Box -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 5px solid #16a34a; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: #15803d;">
+    🌟 Αποκλειστική Προσφορά Αναβάθμισης για Υπάρχοντες Πελάτες — Μόνο 390€ (Εφάπαξ)
+  </p>
+  <p style="margin: 0; font-size: 13.5px; color: #166534; line-height: 1.55;">
+    Επειδή είστε ήδη πελάτης μας, <strong>δεν πληρώνετε ξανά Hosting, Domain (.gr) ή SSL</strong> για το τρέχον έτος! Καλύπτονται ήδη από τη συνδρομή της ΙΚΕ σας.
+  </p>
+</div>
+
+<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Τι περιλαμβάνει η αναβάθμιση της ιστοσελίδας σας:</p>
+
+<div style="margin: 0 0 16px 0; padding-left: 4px;">
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    🎨 <strong>Πλήρης Σχεδιασμός & Επαγγελματικό Branding:</strong> Μοντέρνα, πολυτελής εμφάνιση προσαρμοσμένη στα χρώματα και το ύφος του κλάδου σας.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    📄 <strong>Ολοκληρωμένες Σελίδες:</strong> Αρχική σελίδα, Αναλυτική παρουσίαση Υπηρεσιών, Σελίδα Εταιρικού Προφίλ & Portfolio/Έργα.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    📬 <strong>Διαδραστική Φόρμα Επικοινωνίας (Lead Capture):</strong> Φόρμα αιτημάτων με άμεση ειδοποίηση στο email και στο κινητό σας για κάθε νέο υποψήφιο πελάτη.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    📍 <strong>Google My Business & Local SEO:</strong> Σύνδεση με Google Maps και βελτιστοποίηση SEO ώστε να σας βρίσκουν τοπικά οι πελάτες σας.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    ⚡ <strong>Αστραπιαία Ταχύτητα & 100% Mobile:</strong> Άψογη λειτουργία σε όλα τα κινητά και tablet με βαθμολογία Google PageSpeed 90+.
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    🏛️ <strong>Ενσωμάτωση Στοιχείων ΓΕΜΗ:</strong> Όλα τα επίσημα στοιχεία, οι διαχειριστές και η ενότητα δημοσίευσης οικονομικών καταστάσεων παραμένουν 100% ενεργά.
+  </p>
+</div>
 
 <!-- Direct Phone Call Card -->
-<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
-  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
-    📞 Θέλετε να συζητήσουμε άμεσα για τη νέα σας εταιρεία;
+<div style="background-color: #f0f7ff; border: 1px solid #bae6fd; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #0369a1;">
+    📞 Θέλετε να ξεκινήσουμε άμεσα την αναβάθμιση;
   </p>
-  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> (ή απαντήστε απλά σε αυτό το email).
+  <p style="margin: 0; font-size: 13px; color: #0284c7; line-height: 1.5;">
+    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #0369a1; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #0369a1; text-decoration: underline;">6999 524 389</a></strong> ή απαντήστε σε αυτό το email.
   </p>
 </div>
 
 <div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
-  Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νέας σας εταιρείας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
+  <strong>SGK Digital — Εταιρικές Ιστοσελίδες & Ψηφιακός Μετασχηματισμός:</strong><br />
+  Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
 </div>`,
-    defaultButtonText: "Δείτε το Case Study της KM-Fiber",
-    defaultButtonLink: "https://www.sgk.gr/case-study/km-fiber"
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος για Αναβάθμιση",
+    defaultButtonLink: "https://www.sgk.gr/website-offer"
   },
   {
-    name: "Αναβάθμιση ΙΚΕ σε Πλήρες Website (390€)",
-    subject: "Αναβαθμίστε την Ι.Κ.Ε. σας σε Πλήρη Εταιρική Ιστοσελίδα (Ειδική Προσφορά 390€)",
-    body: `<h2>Μετατρέψτε την Ιστοσελίδα της Ι.Κ.Ε. σας σε Ισχυρό Εργαλείο Πωλήσεων & Προβολής!</h2>
-<p>Γεια σας,</p>
-<p>Χαιρόμαστε ιδιαίτερα που συνεργαστήκαμε για τη δημιουργία της επίσημης σελίδας ΓΕΜΗ της εταιρείας σας!</p>
-<p>Η νομική συμμόρφωση είναι το πρώτο βήμα. Ωστόσο, στην ψηφιακή εποχή, οι υποψήφιοι πελάτες και συνεργάτες σας αναζητούν μια <strong>πλήρη εταιρική παρουσίαση</strong> για να δουν τις υπηρεσίες και το προφίλ της επιχείρησής σας.</p>
-<p>Γι' αυτό το λόγο, ετοιμάσαμε μια <strong>αποκλειστική προσφορά αναβάθμισης</strong> ειδικά για εσάς που είστε ήδη πελάτες μας:</p>
-<h3>Αναβάθμιση σε Πλήρη Εταιρική Ιστοσελίδα Παρουσίασης & Υπηρεσιών — Μόνο 390€ (Εφάπαξ)</h3>
-<ul>
-  <li><strong>Πλήρης Σχεδιασμός & Branding:</strong> Σύγχρονη παρουσίαση προσαρμοσμένη στα χρώματα, το λογότυπο και το ύφος της επιχείρησής σας.</li>
-  <li><strong>Ολοκληρωμένες Σελίδες:</strong> Αρχική σελίδα, Σχετικά με Εμάς (About Us), Αναλυτικές Υπηρεσίες/Προϊόντα & Φόρμα Επικοινωνίας με Google Maps.</li>
-  <li><strong>100% Mobile & SEO Optimized:</strong> Υπερταχύτητα φόρτωσης (Core Web Vitals) για να σας βρίσκουν εύκολα οι πελάτες σας στη Google.</li>
-  <li><strong>Ενσωμάτωση των Στοιχείων ΓΕΜΗ:</strong> Όλα τα στοιχεία ΓΕΜΗ, το κεφάλαιο, οι διαχειριστές και η ενότητα δημοσίευσης Ισολογισμών (PDF) παραμένουν 100% ενεργά και ενσωματωμένα στη νέα σας ιστοσελίδα.</li>
-  <li><strong>Χωρίς Επιπλέον Κόστος Hosting/Domain για το 2026:</strong> Το Domain (.gr), η φιλοξενία, τα εταιρικά emails, το SSL και το GDPR καλύπτονται ήδη από τη συνδρομή της ΙΚΕ σας!</li>
-</ul>
-<p><strong>Τελική Τιμή Αναβάθμισης:</strong> Μόνο <strong>390€ εφάπαξ</strong> (συμπεριλαμβανομένου ΦΠΑ 24% - εκδίδεται τιμολόγιο εξόδων). Η ετήσια συνδρομή σας παραμένει σταθερά στα <strong>124€/έτος</strong> από το 2027, όπως ακριβώς συμφωνήθηκε!</p>
+    name: "📊 Λογιστές & Σύμβουλοι: Client Portal & AI OCR Τιμολογίων",
+    subject: "Custom Web Πλατφόρμα για το Λογιστικό σας Γραφείο | Portal Πελατών & Αυτόματο AI OCR Τιμολογίων",
+    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
+<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b1329; overflow: hidden;">
+  <a href="https://www.sgk.gr/estimate" target="_blank" style="display: block; text-decoration: none;">
+    <img 
+      src="https://www.sgk.gr/images/banner-accounting-ai.jpg" 
+      alt="Πλατφόρμα Λογιστών & AI OCR Τιμολογίων - SGK Digital" 
+      width="600" 
+      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
+    />
+  </a>
+</div>
+
+<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Τέλος στο Χάος των Σκόρπιων Τιμολογίων σε Email, Viber & Χαρτιά</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ συνεργάτη,</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Σε κάθε σύγχρονο λογιστικό και συμβουλευτικό γραφείο, το μεγαλύτερο καθημερινό "αγκάθι" είναι η <strong>συλλογή παραστατικών από τους πελάτες</strong>. Τιμολόγια που έρχονται στο Viber, φωτογραφίες αποδείξεων στο WhatsApp, συνημμένα σε διάσπαρτα emails και φυσικά χαρτιά στο γραφείο την τελευταία μέρα του μήνα.
+</p>
+
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στην <strong>SGK Digital</strong> αναπτύσσουμε <strong>Custom Web Πλατφόρμες (Client Portals) ειδικά για Λογιστές & Συμβούλους</strong>, με το δικό σας brand, που οργανώνουν αυτόματα όλη τη ροή εργασιών:
+</p>
+
+<!-- Feature Grid Box -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #0284c7; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: #0369a1;">
+    🚀 Τι προσφέρει η πλατφόρμα στο γραφείο σας:
+  </p>
+  <p style="margin: 0 0 6px 0; font-size: 13.5px; color: #0f172a; line-height: 1.6;">
+    1. <strong>Προσωπική Πύλη Πελάτη (Client Portal):</strong> Κάθε πελάτης σας έχει ασφαλές login από κινητό ή PC. Τραβάει φωτογραφία το τιμολόγιο ή σέρνει το PDF και ανεβαίνει άμεσα στον φάκελό του.<br/>
+    2. <strong>AI OCR & Αυτόματη Ανάγνωση:</strong> Η Τεχνητή Νοημοσύνη διαβάζει σε 2 δευτερόλεπτα το ΑΦΜ εκδότη, την ημερομηνία, την καθαρή αξία, τον συντελεστή και το ποσό ΦΠΑ.<br/>
+    3. <strong>Οργάνωση ανά Μήνα & Τρίμηνο:</strong> Όλα τα παραστατικά ταξινομούνται αυτόματα. Βλέπετε σε πραγματικό χρόνο ποιοι πελάτες έχουν ανεβάσει τα έξοδά τους και ποιοι καθυστερούν.<br/>
+    4. <strong>Έτοιμη Εξαγωγή για MyDATA / ERP:</strong> Εξαγωγή δεδομένων σε Excel / CSV έτοιμα για εισαγωγή στα λογιστικά σας προγράμματα (SoftOne, Entersoft, Epsilon Net κ.α.).<br/>
+    5. <strong>100% GDPR & Ασφαλές Cloud:</strong> Όλα τα αρχεία των πελατών σας φυλάσσονται σε ιδιωτικό, κρυπτογραφημένο cloud με καθημερινά backups.
+  </p>
+</div>
+
+<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Γλιτώστε 25+ εργατοώρες το μήνα από χειροκίνητες καταχωρήσεις και τηλεφωνήματα υπενθύμισης!</p>
 
 <!-- Direct Phone Call Card -->
 <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
   <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
-    📞 Θέλετε να ξεκινήσουμε άμεσα την αναβάθμιση;
+    📞 Θέλετε να δείτε ένα ζωντανό demo της πλατφόρμας;
   </p>
   <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> (ή απαντήστε απλά σε αυτό το email).
+    Κλείστε μια σύντομη 15λεπτη παρουσίαση online, ή καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
   </p>
+</div>
+
+<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  <strong>SGK Software Development — Custom Business Platforms & FinTech AI:</strong><br />
+  Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
 </div>`,
-    defaultButtonText: "",
-    defaultButtonLink: ""
+    defaultButtonText: "Κλείστε 15λεπτη Παρουσίαση Πλατφόρμας",
+    defaultButtonLink: "https://www.sgk.gr/estimate"
   },
   {
-    name: "Κενό (Σύνταξη από την αρχή)",
-    subject: "",
-    body: "",
-    defaultButtonText: "",
-    defaultButtonLink: ""
-  },
-  {
-    name: "🧾 Εξοφλημένο Τιμολόγιο Παροχής Υπηρεσιών (Snapi Design)",
-    subject: "Εξοφλημένο Τιμολόγιο Παροχής Υπηρεσιών — SGK Digital",
-    body: `<h2>Εξοφλημένο Τιμολόγιο 🧾</h2>
-<p>Αγαπητέ συνεργάτη,</p>
-<p>Σας αποστέλλουμε συνημμένα σε μορφή PDF το εξοφλημένο τιμολόγιο παροχής υπηρεσιών που αφορά τις εργασίες μας. <br/><strong>Το παραστατικό έχει εξοφληθεί πλήρως και δεν εκκρεμεί κάποιο υπόλοιπο.</strong></p>
-<h4>Στοιχεία Παραστατικού</h4>
-<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
-  <thead>
-    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
-      <th style="padding: 8px;">Περιγραφή Χρέωσης</th>
-      <th style="padding: 8px; text-align: right; width: 100px;">Ποσό</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px; vertical-align: middle;">
-        <strong>Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας</strong><br/>
-        <span style="font-size: 11px; color: #64748b; line-height: 1.4; display: block; margin-top: 4px;">
-          Τιμολόγιο Παροχής Υπηρεσιών # [ΑΡΙΘΜΟΣ_ΤΙΜΟΛΟΓΙΟΥ]
-        </span>
-      </td>
-      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">[ΚΑΘΑΡΟ_ΠΟΣΟ] €</td>
-    </tr>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px; vertical-align: middle;">ΦΠΑ 24%</td>
-      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">[ΠΟΣΟ_ΦΠΑ] €</td>
-    </tr>
-    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
-      <td style="padding: 10px 8px; color: #166534;">Συνολικό Ποσό (με ΦΠΑ)</td>
-      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">[ΤΕΛΙΚΟ_ΠΟΣΟ] €</td>
-    </tr>
-  </tbody>
-</table>
-<div style="background-color: #f0fdf4; border: 2px solid #4ade80; border-radius: 12px; padding: 18px; text-align: center; margin: 20px 0;">
-  <div style="display: inline-block; background-color: #22c55e; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
-    ✓ ΕΞΟΦΛΗΘΗΚΕ / PAID
-  </div>
-  <p style="margin: 0 !important; font-size: 14px; font-weight: bold; color: #166534; line-height: 1.5;">Το παραστατικό έχει εξοφληθεί πλήρως. Σας ευχαριστούμε πολύ για τη συνεργασία και την εμπιστοσύνη σας!</p>
-</div>
-<p style="margin-top: 20px; color: #64748b; font-style: italic;">Η ομάδα της SGK Digital</p>`,
-    defaultButtonText: "🧾 Λήψη Εξοφλημένου Τιμολογίου (PDF)",
-    defaultButtonLink: "https://www.sgk.gr/doc/invoice"
-  },
-  {
-    name: "✉️ Τιμολόγιο προς Εξόφληση",
-    subject: "Τιμολόγιο Παροχής Υπηρεσιών — SGK Digital",
-    body: `<h2>Τιμολόγιο προς Εξόφληση 🧾</h2>
-<p>Αγαπητέ συνεργάτη,</p>
-<p>Σας αποστέλλουμε συνημμένα το τιμολόγιο παροχής υπηρεσιών που αφορά τις εργασίες μας. Παρακαλούμε για την τακτοποίησή του εντός της συμφωνηθείσας προθεσμίας από τη λήψη του παραστατικού.</p>
-<h4>Στοιχεία Παραστατικού</h4>
-<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; text-align: left;">
-  <thead>
-    <tr style="background-color: #f8fafc; border-bottom: 2px solid #cbd5e1;">
-      <th style="padding: 8px;">Περιγραφή Χρέωσης</th>
-      <th style="padding: 8px; text-align: right; width: 100px;">Ποσό</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px; vertical-align: middle;">
-        <strong>Κατασκευή & Ανάπτυξη Λογισμικού / Ιστοσελίδας</strong><br/>
-        <span style="font-size: 11px; color: #64748b; line-height: 1.4; display: block; margin-top: 4px;">
-          Τιμολόγιο Παροχής Υπηρεσιών # [ΑΡΙΘΜΟΣ_ΤΙΜΟΛΟΓΙΟΥ]
-        </span>
-      </td>
-      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">[ΚΑΘΑΡΟ_ΠΟΣΟ] €</td>
-    </tr>
-    <tr style="border-bottom: 1px solid #e2e8f0;">
-      <td style="padding: 8px; vertical-align: middle;">ΦΠΑ 24%</td>
-      <td style="padding: 8px; text-align: right; font-weight: 600; vertical-align: middle;">[ΠΟΣΟ_ΦΠΑ] €</td>
-    </tr>
-    <tr style="background-color: #f0fdf4; border-top: 2px solid #4ade80; border-bottom: 2px solid #4ade80; font-weight: bold;">
-      <td style="padding: 10px 8px; color: #166534;">Συνολικό Ποσό (με ΦΠΑ)</td>
-      <td style="padding: 10px 8px; text-align: right; color: #166534; font-size: 15px; font-weight: 900;">[ΤΕΛΙΚΟ_ΠΟΣΟ] €</td>
-    </tr>
-  </tbody>
-</table>
-<h4>Στοιχεία Τραπεζικών Λογαριασμών</h4>
-<p>Για την εξόφληση, μπορείτε να κάνετε κατάθεση σε έναν από τους παρακάτω τραπεζικούς λογαριασμούς της εταιρείας μας (παρακαλούμε αναφέρετε τον αριθμό τιμολογίου στην αιτιολογία):</p>
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
-  <div style="margin-bottom: 10px;">
-    <div style="font-size: 13px; font-weight: bold; color: #111111;">Τράπεζα Πειραιώς</div>
-    <div style="font-size: 12px; font-family: monospace; color: #3b5bdb; margin-top: 2px; font-weight: bold;">GR74 0172 0000 0000 1234 5678 901</div>
-    <div style="font-size: 10px; color: #64748b;">Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ (SGK Digital)</div>
-  </div>
-  <div style="margin-bottom: 10px; border-top: 1px solid #e2e8f0; padding-top: 10px;">
-    <div style="font-size: 13px; font-weight: bold; color: #111111;">Eurobank</div>
-    <div style="font-size: 12px; font-family: monospace; color: #3b5bdb; margin-top: 2px; font-weight: bold;">GR12 0260 0000 0000 9876 5432 109</div>
-    <div style="font-size: 10px; color: #64748b;">Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ (SGK Digital)</div>
-  </div>
-  <div style="border-top: 1px solid #e2e8f0; padding-top: 10px;">
-    <div style="font-size: 13px; font-weight: bold; color: #111111;">Alpha Bank</div>
-    <div style="font-size: 12px; font-family: monospace; color: #3b5bdb; margin-top: 2px; font-weight: bold;">GR45 0140 0000 0000 1111 2222 333</div>
-    <div style="font-size: 10px; color: #64748b;">Δικαιούχος: ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ ΧΡΗΣΤΟΣ (SGK Digital)</div>
-  </div>
-</div>
-<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>`,
-    defaultButtonText: "Online Εξόφληση",
-    defaultButtonLink: "https://www.sgk.gr/pay-invoice?ref=[ΑΡΙΘΜΟΣ_ΤΙΜΟΛΟΓΙΟΥ]"
-  },
-  {
-    name: "📜 Ιδιωτικό Συμφωνητικό (ΓΕΜΗ)",
-    subject: "Ιδιωτικό Συμφωνητικό Κατασκευής Ιστοσελίδας — SGK Digital",
-    body: `<p>Καλημέρα σας,</p>
-<p>Σας στέλνουμε αυτό το μήνυμα σε συνέχεια της επικοινωνίας μας σχετικά με το νέο σας <strong>Website</strong></p>
-<p>Στο παρόν email <strong>επισυνάπτουμε το συμφωνητικό συνεργασίας μας</strong>. Το έχουμε ανεβάσει και στο gov και πρέπει να υπογραφεί</p>
-
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 25px 0;">
-  <h3 style="margin-top: 0; color: #3b5bdb; font-size: 16px; font-weight: bold; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">💸 Στοιχεία Κατάθεσης Προκαταβολής</h3>
-  <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; line-height: 1.5;">
-    <tbody>
-      <tr>
-        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Ποσό:</td>
-        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; font-size: 16px; width: 65%;">150,00 €</td>
-      </tr>
-      <tr>
-        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Τράπεζα:</td>
-        <td style="padding: 6px 0px; color: #0f172a; width: 65%;">Eurobank</td>
-      </tr>
-      <tr>
-        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Δικαιούχος:</td>
-        <td style="padding: 6px 0px; color: #0f172a; font-weight: bold; width: 65%;">ΤΣΑΒΟΣ ΣΠΥΡΙΔΩΝ</td>
-      </tr>
-      <tr>
-        <td style="padding: 6px 0px; font-weight: bold; color: #475569; vertical-align: top; width: 35%;">IBAN:</td>
-        <td style="padding: 6px 0px; color: #0f172a; font-family: monospace; font-size: 14px; font-weight: bold; letter-spacing: 0.5px; width: 65%;">GR4602601970000830201330337</td>
-      </tr>
-      <tr>
-        <td style="padding: 6px 0px; font-weight: bold; color: #475569; width: 35%;">Αιτιολογία:</td>
-        <td style="padding: 6px 0px; color: #475569; font-style: italic; width: 65%;">website</td>
-      </tr>
-    </tbody>
-  </table>
+    name: "🏡 Real Estate & Ακίνητα: Πλατφόρμα Διαχείρισης Μισθώσεων & Συμβολαίων",
+    subject: "Ολοκληρωμένη Web Πλατφόρμα Διαχείρισης Ακινήτων, Μισθώσεων & Συμβολαίων",
+    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
+<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #f8fafc; overflow: hidden;">
+  <a href="https://www.sgk.gr/estimate" target="_blank" style="display: block; text-decoration: none;">
+    <img 
+      src="https://www.sgk.gr/images/banner-real-estate.jpg" 
+      alt="Πλατφόρμα Διαχείρισης Ακινήτων & Μισθώσεων - SGK Digital" 
+      width="600" 
+      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
+    />
+  </a>
 </div>
 
-<p>Παραμένουμε στη διάθεσή σας για οποιαδήποτε απορία ή διευκρίνιση.</p>
-<p style="margin-top: 30px !important; border-top: 1px solid #f0f0f0; padding-top: 20px;">Με εκτίμηση,<br /><strong>Η ομάδα της SGK Software Development</strong></p>`,
-    defaultButtonText: "📄 Προβολή & Λήψη Συμφωνητικού (PDF)",
-    defaultButtonLink: "https://www.sgk.gr/doc/contract"
+<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Όλα τα Ακίνητα, τα Μισθωτήρια & οι Εισπράξεις σε Ένα Κεντρικό Dashboard</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ συνεργάτη,</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στον τομέα της εκμετάλλευσης, μίσθωσης και διαχείρισης ακινήτων (Real Estate & Property Management), η παρακολούθηση πολλαπλών συμβολαίων, λήξεων, ενοικίων, κοινοχρήστων και τεχνικών εκκρεμοτήτων με απλά Excel γίνεται γρήγορα χαοτική και επιρρεπής σε λάθη.
+</p>
+
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στην <strong>SGK Digital</strong> δημιουργούμε <strong>Custom Web Εφαρμογές Διαχείρισης Ακινήτων</strong>, απόλυτα προσαρμοσμένες στο δικό σας χαρτοφυλάκιο:
+</p>
+
+<!-- Feature Box -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #0f766e; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: #115e59;">
+    🏢 Τι κερδίζετε στην καθημερινή διαχείριση του χαρτοφυλακίου σας:
+  </p>
+  <p style="margin: 0 0 6px 0; font-size: 13.5px; color: #0f172a; line-height: 1.6;">
+    1. <strong>Κεντρικό Μητρώο Ακινήτων:</strong> Πλήρης ψηφιακός φάκελος ανά ακίνητο (φωτογραφίες, κατόψεις, συμβόλαια, ΠΕΑ, πιστοποιητικά, τετραγωνικά, τιμή).<br/>
+    2. <strong>Παρακολούθηση Μισθώσεων & Συμβολαίων:</strong> Αυτόματες ειδοποιήσεις για επερχόμενες λήξεις μισθώσεων, αναπροσαρμογές ενοικίων και ανανεώσεις.<br/>
+    3. <strong>Έλεγχος Εισπράξεων & Καθυστερήσεων:</strong> Live εικόνα πληρωμών — αυτόματη αποστολή υπενθυμίσεων και αποδείξεων σε ενοικιαστές μέσω Email/SMS.<br/>
+    4. <strong>Διαχείριση Βλαβών & Συντήρησης:</strong> Καταγραφή τεχνικών προβλημάτων και ανάθεση σε τεχνικούς με live status επισκευής.<br/>
+    5. <strong>AI Chatbot Ενδιαφερομένων (24/7):</strong> Αυτόματος ψηφιακός βοηθός στην ιστοσελίδα σας που απαντάει σε ερωτήσεις υποψήφιων ενοικιαστών/αγοραστών και κλείνει ραντεβού για υποδείξεις.
+  </p>
+</div>
+
+<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Αποκτήστε πλήρη έλεγχο και διαφάνεια για κάθε τετραγωνικό μέτρο της επένδυσής σας.</p>
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
+    📞 Θέλετε να συζητήσουμε τις ανάγκες του χαρτοφυλακίου σας;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
+    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> ή πατήστε στο παρακάτω κουμπί.
+  </p>
+</div>
+
+<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  <strong>SGK Software Development — Custom Real Estate & PropTech Solutions:</strong><br />
+  Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
+</div>`,
+    defaultButtonText: "Δείτε Ζωντανό Demo Διαχείρισης Ακινήτων",
+    defaultButtonLink: "https://www.sgk.gr/estimate"
+  },
+  {
+    name: "📞 AI Voice Agent: Τηλεφωνικός Βοηθός 24/7 για Εισερχόμενες Κλήσεις",
+    subject: "Μην χάνετε καμία κλήση πελάτη: AI Φωνητικός Βοηθός 24/7 για την εταιρεία σας",
+    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
+<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b0f19; overflow: hidden;">
+  <a href="https://www.sgk.gr/ai-agents" target="_blank" style="display: block; text-decoration: none;">
+    <img 
+      src="https://www.sgk.gr/images/hero_ai_video_agent.webp" 
+      alt="Voice AI Telephony Agents 24/7 - SGK Digital" 
+      width="600" 
+      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
+    />
+  </a>
+</div>
+
+<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Καμία Αναπάντητη Κλήση: AI Τηλεφωνικός Βοηθός με Φυσική Ελληνική Φωνή 24/7</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ συνεργάτη,</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Πόσες φορές έχει τύχει να χάσετε μια κλήση από υποψήφιο πελάτη επειδή ήσασταν σε ραντεβού, οδηγούσατε ή ήταν εκτός ωραρίου γραφείου; <strong>Στο 80% των περιπτώσεων, ο πελάτης δεν αφήνει μήνυμα — απλά καλεί τον επόμενο ανταγωνιστή σας.</strong>
+</p>
+
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στην <strong>SGK Digital</strong> υλοποιούμε <strong>Voice AI Φωνητικούς Πράκτορες</strong> για το τηλεφωνικό κέντρο της επιχείρησής σας:
+</p>
+
+<!-- Feature Box -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #6366f1; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: #4338ca;">
+    🎙️ Πώς λειτουργεί ο Voice AI Agent:
+  </p>
+  <p style="margin: 0 0 6px 0; font-size: 13.5px; color: #0f172a; line-height: 1.6;">
+    1. <strong>Άπταιστη Φυσική Ελληνική Ομιλία (Απόκριση &lt;800ms):</strong> Απαντάει αμέσως σαν ένας έμπειρος γραμματέας χωρίς ρομποτικές παύσεις.<br/>
+    2. <strong>Κλείσιμο Ραντεβού & Καταγραφή Στοιχείων:</strong> Συνομιλεί με τον πελάτη, καταγράφει το αίτημά του και κλείνει ραντεβού απευθείας στο Google Calendar σας.<br/>
+    3. <strong>Άμεση Ειδοποίηση με SMS & Email:</strong> Με το που κλείσει η κλήση, λαμβάνετε στο κινητό σας πλήρη σύνοψη της συνομιλίας, το τηλέφωνο και το αίτημα του πελάτη.<br/>
+    4. <strong>Σύνδεση με το Υπάρχον Τηλέφωνό σας:</strong> Συνδέεται πανεύκολα με εκτροπή κλήσης από το σταθερό ή το κινητό σας όταν δεν μπορείτε να απαντήσετε.
+  </p>
+</div>
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
+    📞 Θέλετε να ακούσετε ζωντανό δείγμα Voice AI;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
+    Καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> ή πατήστε στο παρακάτω κουμπί για να ακούσετε δείγματα.
+  </p>
+</div>
+
+<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  <strong>SGK Software Development — Voice AI Telephony & Business Automation:</strong><br />
+  Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
+</div>`,
+    defaultButtonText: "Ακούστε Δείγματα Voice AI στα Ελληνικά",
+    defaultButtonLink: "https://www.sgk.gr/ai-agents"
   }
 ];
 
