@@ -124,3 +124,4 @@ When writing code for the SGK Software Development codebase, AI coding assistant
 - **Blog / Tech Insights:** https://sgk.gr/blog
 - **Free Project Estimation Form:** https://sgk.gr/estimate
 - **Dynamic Sitemap:** https://sgk.gr/sitemap
+- **Case Study: Telecom & Fiber Optics AI Automation:** https://sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies
