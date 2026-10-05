@@ -93,7 +93,7 @@ const templates = [
     subject: "Ο πρώτος σας AI Ψηφιακός Υπάλληλος σε Ζωντανή Κλήση Πρόσωπο-με-Πρόσωπο (24/7)",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b0f19; overflow: hidden;">
-  <a href="https://www.sgk.gr/order-ai-agent" target="_blank" style="display: block; text-decoration: none;">
+  <a href="https://www.sgk.gr/estimate" target="_blank" style="display: block; text-decoration: none;">
     <img 
       src="https://www.sgk.gr/images/hero_ai_video_agent.webp" 
       alt="Live Video AI Agents 24/7 - SGK Digital" 
@@ -145,7 +145,7 @@ const templates = [
     📞 Θέλετε να δείτε ζωντανά πώς λειτουργεί;
   </p>
   <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Πατήστε στο παρακάτω κουμπί για να δείτε τα πλάνα και να δοκιμάσετε το <strong>Live Video Demo</strong>, ή καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
+    Πατήστε στο παρακάτω κουμπί για εκδήλωση ενδιαφέροντος, ή καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
   </p>
 </div>
 
@@ -153,8 +153,8 @@ const templates = [
   <strong>SGK Software Development — AI Innovation Greece:</strong><br />
   Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
 </div>`,
-    defaultButtonText: "Δείτε τα Πλάνα & το Live Demo",
-    defaultButtonLink: "https://www.sgk.gr/order-ai-agent"
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
+    defaultButtonLink: "https://www.sgk.gr/estimate"
   },
   {
     name: "Τουρισμός: Πλατφόρμα & Κρατήσεις (High Travel Style)",
@@ -215,7 +215,7 @@ const templates = [
     📞 Θέλετε να συζητήσουμε άμεσα για τη νέα σας εταιρεία;
   </p>
   <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> (ή απαντήστε απλά σε αυτό το email).
+    Πατήστε στο παρακάτω κουμπί για εκδήλωση ενδιαφέροντος ή καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
   </p>
 </div>
 
@@ -223,8 +223,8 @@ const templates = [
   <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
   Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
 </div>`,
-    defaultButtonText: "Δείτε Ζωντανά την Πλατφόρμα (hightravel.gr)",
-    defaultButtonLink: "https://www.hightravel.gr/"
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
+    defaultButtonLink: "https://www.sgk.gr/estimate"
   },
 
   {
@@ -232,7 +232,7 @@ const templates = [
     subject: "Αναβάθμιση σε Πλήρη Εταιρική Ιστοσελίδα & Google Maps (Ειδική Προσφορά Συνεργάτη)",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0f172a; overflow: hidden;">
-  <a href="https://www.sgk.gr/website-offer" target="_blank" style="display: block; text-decoration: none;">
+  <a href="https://www.sgk.gr/estimate" target="_blank" style="display: block; text-decoration: none;">
     <img 
       src="https://www.sgk.gr/images/banner-corporate-website.jpg" 
       alt="Αναβάθμιση σε Πλήρη Εταιρική Ιστοσελίδα - SGK Digital" 
@@ -293,7 +293,7 @@ const templates = [
     📞 Θέλετε να ξεκινήσουμε άμεσα την αναβάθμιση;
   </p>
   <p style="margin: 0; font-size: 13px; color: #0284c7; line-height: 1.5;">
-    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #0369a1; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #0369a1; text-decoration: underline;">6999 524 389</a></strong> ή απαντήστε σε αυτό το email.
+    Πατήστε στο παρακάτω κουμπί για εκδήλωση ενδιαφέροντος, ή καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #0369a1; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #0369a1; text-decoration: underline;">6999 524 389</a></strong>.
   </p>
 </div>
 
@@ -301,8 +301,8 @@ const templates = [
   <strong>SGK Digital — Εταιρικές Ιστοσελίδες & Ψηφιακός Μετασχηματισμός:</strong><br />
   Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
 </div>`,
-    defaultButtonText: "Εκδήλωση Ενδιαφέροντος για Αναβάθμιση",
-    defaultButtonLink: "https://www.sgk.gr/website-offer"
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
+    defaultButtonLink: "https://www.sgk.gr/estimate"
   },
   {
     name: "📊 Λογιστές & Σύμβουλοι: Client Portal & AI OCR Τιμολογίων",
@@ -353,7 +353,7 @@ const templates = [
     📞 Θέλετε να δείτε ένα ζωντανό demo της πλατφόρμας;
   </p>
   <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Κλείστε μια σύντομη 15λεπτη παρουσίαση online, ή καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
+    Πατήστε στο παρακάτω κουμπί για εκδήλωση ενδιαφέροντος ή καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
   </p>
 </div>
 
@@ -361,7 +361,7 @@ const templates = [
   <strong>SGK Software Development — Custom Business Platforms & FinTech AI:</strong><br />
   Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
 </div>`,
-    defaultButtonText: "Κλείστε 15λεπτη Παρουσίαση Πλατφόρμας",
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
     defaultButtonLink: "https://www.sgk.gr/estimate"
   },
   {
@@ -413,7 +413,7 @@ const templates = [
     📞 Θέλετε να συζητήσουμε τις ανάγκες του χαρτοφυλακίου σας;
   </p>
   <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> ή πατήστε στο παρακάτω κουμπί.
+    Πατήστε στο παρακάτω κουμπί για εκδήλωση ενδιαφέροντος ή καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
   </p>
 </div>
 
@@ -421,7 +421,7 @@ const templates = [
   <strong>SGK Software Development — Custom Real Estate & PropTech Solutions:</strong><br />
   Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
 </div>`,
-    defaultButtonText: "Δείτε Ζωντανό Demo Διαχείρισης Ακινήτων",
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
     defaultButtonLink: "https://www.sgk.gr/estimate"
   },
   {
@@ -429,7 +429,7 @@ const templates = [
     subject: "Μην χάνετε καμία κλήση πελάτη: AI Φωνητικός Βοηθός 24/7 για την εταιρεία σας",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
 <div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b0f19; overflow: hidden;">
-  <a href="https://www.sgk.gr/ai-agents" target="_blank" style="display: block; text-decoration: none;">
+  <a href="https://www.sgk.gr/estimate" target="_blank" style="display: block; text-decoration: none;">
     <img 
       src="https://www.sgk.gr/images/hero_ai_video_agent.webp" 
       alt="Voice AI Telephony Agents 24/7 - SGK Digital" 
@@ -470,7 +470,7 @@ const templates = [
     📞 Θέλετε να ακούσετε ζωντανό δείγμα Voice AI;
   </p>
   <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> ή πατήστε στο παρακάτω κουμπί για να ακούσετε δείγματα.
+    Πατήστε στο παρακάτω κουμπί για εκδήλωση ενδιαφέροντος ή καλέστε μας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong>.
   </p>
 </div>
 
@@ -478,8 +478,8 @@ const templates = [
   <strong>SGK Software Development — Voice AI Telephony & Business Automation:</strong><br />
   Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής | Τηλ: 211 114 0013 | Email: info@sgk.gr
 </div>`,
-    defaultButtonText: "Ακούστε Δείγματα Voice AI στα Ελληνικά",
-    defaultButtonLink: "https://www.sgk.gr/ai-agents"
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
+    defaultButtonLink: "https://www.sgk.gr/estimate"
   }
 ];
 
