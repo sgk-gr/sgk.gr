@@ -38,7 +38,10 @@ scratch/
 !public/llms.txt
 !public/llms-full.txt
 !public/robots.txt
+!public/a20be9a36f2b8a1d99b77e6695107894.txt
+!public/.well-known/*.txt
 *.mjs
+!scripts/submit-indexnow.mjs
 *.csv
 public/*26-9*
 public/*_screenshot*.png
