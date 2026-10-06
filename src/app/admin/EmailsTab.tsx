@@ -11,6 +11,157 @@ import {
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
 
+
+export interface ProfessionConfig {
+  key: string;
+  label: string;
+  shortLabel: string;
+  icon: string;
+  badgeBg: string;
+  text: string;
+  border: string;
+}
+
+export const CLIENT_PROFESSIONS: Record<string, ProfessionConfig> = {
+  accounting: {
+    key: "accounting",
+    label: "Λογιστής / Λογιστικό Γραφείο",
+    shortLabel: "Λογιστής",
+    icon: "📊",
+    badgeBg: "bg-emerald-50",
+    text: "text-emerald-800",
+    border: "border-emerald-300"
+  },
+  tourism: {
+    key: "tourism",
+    label: "Τουριστικό Γραφείο / Τουρισμός",
+    shortLabel: "Τουριστικό",
+    icon: "✈️",
+    badgeBg: "bg-amber-50",
+    text: "text-amber-800",
+    border: "border-amber-300"
+  },
+  real_estate: {
+    key: "real_estate",
+    label: "Real Estate / Ακίνητα",
+    shortLabel: "Real Estate",
+    icon: "🏢",
+    badgeBg: "bg-teal-50",
+    text: "text-teal-800",
+    border: "border-teal-300"
+  },
+  consulting: {
+    key: "consulting",
+    label: "Σύμβουλοι Επιχειρήσεων",
+    shortLabel: "Σύμβουλοι",
+    icon: "💼",
+    badgeBg: "bg-indigo-50",
+    text: "text-indigo-800",
+    border: "border-indigo-300"
+  },
+  construction: {
+    key: "construction",
+    label: "Κατασκευαστική / Τεχνική",
+    shortLabel: "Κατασκευές",
+    icon: "🏗️",
+    badgeBg: "bg-orange-50",
+    text: "text-orange-800",
+    border: "border-orange-300"
+  },
+  agriculture: {
+    key: "agriculture",
+    label: "Αγροτικά / Κτηνοτροφία / Φάρμα",
+    shortLabel: "Αγροτικά",
+    icon: "🌾",
+    badgeBg: "bg-lime-50",
+    text: "text-lime-800",
+    border: "border-lime-300"
+  },
+  tech_ecommerce: {
+    key: "tech_ecommerce",
+    label: "E-commerce & Tech Platform",
+    shortLabel: "E-commerce",
+    icon: "🌐",
+    badgeBg: "bg-purple-50",
+    text: "text-purple-800",
+    border: "border-purple-300"
+  },
+  tech_it: {
+    key: "tech_it",
+    label: "Πληροφορική & Δίκτυα",
+    shortLabel: "Πληροφορική",
+    icon: "💻",
+    badgeBg: "bg-blue-50",
+    text: "text-blue-800",
+    border: "border-blue-300"
+  },
+  services: {
+    key: "services",
+    label: "Επαγγελματικές Υπηρεσίες",
+    shortLabel: "Υπηρεσίες",
+    icon: "🛠️",
+    badgeBg: "bg-slate-100",
+    text: "text-slate-800",
+    border: "border-slate-300"
+  },
+  translation: {
+    key: "translation",
+    label: "Μεταφράσεις & Localization",
+    shortLabel: "Μεταφράσεις",
+    icon: "📝",
+    badgeBg: "bg-sky-50",
+    text: "text-sky-800",
+    border: "border-sky-300"
+  },
+  operations_tech: {
+    key: "operations_tech",
+    label: "Operations & Τεχνικά Έργα",
+    shortLabel: "Operations",
+    icon: "⚡",
+    badgeBg: "bg-violet-50",
+    text: "text-violet-800",
+    border: "border-violet-300"
+  },
+  new_ike: {
+    key: "new_ike",
+    label: "Νέα ΙΚΕ (Γενική)",
+    shortLabel: "ΙΚΕ",
+    icon: "🏢",
+    badgeBg: "bg-slate-100",
+    text: "text-slate-800",
+    border: "border-slate-300"
+  },
+  general_co: {
+    key: "general_co",
+    label: "Εταιρεία / Επιχείρηση",
+    shortLabel: "Επιχείρηση",
+    icon: "🏢",
+    badgeBg: "bg-slate-100",
+    text: "text-slate-800",
+    border: "border-slate-300"
+  }
+};
+
+export function getLeadProfession(lead: any): ProfessionConfig {
+  if (lead.type && CLIENT_PROFESSIONS[lead.type]) {
+    return CLIENT_PROFESSIONS[lead.type];
+  }
+  const t = `${lead.company || ''} ${lead.email || ''} ${lead.first_name || ''} ${lead.last_name || ''}`.toLowerCase();
+  if (t.includes('logist') || t.includes('gik') || t.includes('λογιστ')) return CLIENT_PROFESSIONS.accounting;
+  if (t.includes('tour') || t.includes('travel') || t.includes('τουριστ') || t.includes('alkinoi') || t.includes('palk') || t.includes('hotel') || t.includes('ξενοδοχ')) return CLIENT_PROFESSIONS.tourism;
+  if (t.includes('properties') || t.includes('real estate') || t.includes('ακινητ') || t.includes('stefanos')) return CLIENT_PROFESSIONS.real_estate;
+  if (t.includes('consult') || t.includes('lyroud') || t.includes('mallios') || t.includes('συμβουλ')) return CLIENT_PROFESSIONS.consulting;
+  if (t.includes('construct') || t.includes('pnp') || t.includes('κατασκευ') || t.includes('τεχνικ')) return CLIENT_PROFESSIONS.construction;
+  if (t.includes('farma') || t.includes('tsakalos') || t.includes('φαρμα') || t.includes('αγροτ')) return CLIENT_PROFESSIONS.agriculture;
+  if (t.includes('localiz') || t.includes('translat') || t.includes('μεταφρασ')) return CLIENT_PROFESSIONS.translation;
+  if (t.includes('yolo') || t.includes('eshop') || t.includes('ecommerce')) return CLIENT_PROFESSIONS.tech_ecommerce;
+  if (t.includes('gr8net') || t.includes('tech') || t.includes('δικτυ')) return CLIENT_PROFESSIONS.tech_it;
+  if (t.includes('routis') || t.includes('services') || t.includes('υπηρεσι')) return CLIENT_PROFESSIONS.services;
+  if (lead.type === 'operations_tech') return CLIENT_PROFESSIONS.operations_tech;
+  if (lead.type === 'new_ike') return CLIENT_PROFESSIONS.new_ike;
+  return CLIENT_PROFESSIONS.general_co;
+}
+
 const templates = [
   {
     name: "Istoselida ike 150 ευρω",
@@ -775,6 +926,7 @@ function safeEncodeBase64(data: any): string {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
+  const [professionSubFilter, setProfessionSubFilter] = useState<string>('all');
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -939,6 +1091,23 @@ function safeEncodeBase64(data: any): string {
       toast.success("Διαγράφηκε επιτυχώς!");
       setSelectedLeads(prev => prev.filter(item => item !== id));
       fetchLeads();
+    }
+  };
+
+  
+  const handleUpdateLeadType = async (id: string, newType: string) => {
+    try {
+      const { error } = await supabase
+        .from("sgk_mails")
+        .update({ type: newType })
+        .eq("id", id);
+      if (error) throw error;
+      setLeads(prev => prev.map(l => l.id === id ? { ...l, type: newType } : l));
+      const profLabel = CLIENT_PROFESSIONS[newType]?.label || newType;
+      toast.success(`Ο κλάδος ενημερώθηκε σε «${profLabel}»!`);
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Σφάλμα κατά την ενημέρωση κλάδου");
     }
   };
 
@@ -1504,7 +1673,11 @@ function safeEncodeBase64(data: any): string {
         return lead.type === 'legacy_ike';
       }
       if (statusFilter === 'converted') {
-        return lead.converted;
+        if (!lead.converted) return false;
+        if (professionSubFilter !== 'all') {
+          return getLeadProfession(lead).key === professionSubFilter;
+        }
+        return true;
       }
       if (statusFilter === 'new') {
         return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) === 0) && !lead.last_email_sent_at;
@@ -1521,7 +1694,7 @@ function safeEncodeBase64(data: any): string {
 
       return true;
     });
-  }, [leads, searchTerm, statusFilter]);
+  }, [leads, searchTerm, statusFilter, professionSubFilter]);
 
   const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && !isEmailBlacklisted(l.email) && (l.email_sequence_step || 0) === 0 && !l.last_email_sent_at);
   const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !isEmailBlacklisted(l.email));
@@ -1533,6 +1706,21 @@ function safeEncodeBase64(data: any): string {
   const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (((l.email_sequence_step || 0) >= 1) || Boolean(l.last_email_sent_at))).length;
   const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
   const convertedCount = leads.filter(l => l.converted).length;
+  const convertedLeads = useMemo(() => leads.filter(l => l.converted), [leads]);
+  const convertedProfessionsSummary = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const lead of convertedLeads) {
+      const prof = getLeadProfession(lead);
+      counts[prof.key] = (counts[prof.key] || 0) + 1;
+    }
+    return Object.entries(counts)
+      .map(([key, count]) => ({
+        key,
+        prof: CLIENT_PROFESSIONS[key] || CLIENT_PROFESSIONS.general_co,
+        count
+      }))
+      .sort((a, b) => b.count - a.count);
+  }, [convertedLeads]);
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
 
   const now = useMemo(() => new Date(), []);
@@ -2009,22 +2197,62 @@ function safeEncodeBase64(data: any): string {
           </div>
         </div>
 
-        {/* Card 4: Πελάτες */}
+        {/* Card 4: Πελάτες (με ανάλυση κλάδων & επαγγελμάτων) */}
         <div 
-          onClick={() => setStatusFilter('converted')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
+          onClick={() => {
+            setStatusFilter('converted');
+            setProfessionSubFilter('all');
+          }}
+          className={`p-4 rounded-2xl flex flex-col justify-between shadow-sm cursor-pointer transition-all border ${
             statusFilter === 'converted' 
-              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20' 
+              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20 shadow-md' 
               : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
           }`}
         >
-          <div>
-            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Πελατες 🎉</p>
-            <p className="text-xl font-black text-emerald-700 mt-1">{convertedCount}</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5">
+                <span>Πελατες</span>
+                <span>🎉</span>
+              </p>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-xl font-black text-emerald-700">{convertedCount}</span>
+                <span className="text-[10px] font-bold text-emerald-600/70">
+                  {convertedCount === 1 ? 'ενεργός' : 'ενεργοί'}
+                </span>
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+              <CheckCircle2 size={18} />
+            </div>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-            <CheckCircle2 size={18} />
-          </div>
+
+          {/* Breakdown Pills: Τι είναι οι πελάτες (Λογιστής, Τουριστικό, Real Estate κλπ.) */}
+          {convertedProfessionsSummary.length > 0 && (
+            <div className="mt-3 pt-2.5 border-t border-emerald-100/80 flex flex-wrap gap-1">
+              {convertedProfessionsSummary.map(({ prof, count, key }) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setStatusFilter('converted');
+                    setProfessionSubFilter(professionSubFilter === key ? 'all' : key);
+                  }}
+                  className={`inline-flex items-center gap-1 text-[9.5px] font-bold px-1.5 py-0.5 rounded transition-all cursor-pointer border ${
+                    statusFilter === 'converted' && professionSubFilter === key
+                      ? 'bg-emerald-600 text-white border-emerald-700 shadow-2xs'
+                      : 'bg-emerald-50/90 text-emerald-900 border-emerald-200/80 hover:bg-emerald-100'
+                  }`}
+                  title={`${count} ${prof.label} (Κάντε κλικ για φιλτράρισμα)`}
+                >
+                  <span>{prof.icon}</span>
+                  <span>{prof.shortLabel}:</span>
+                  <span className="font-black text-emerald-950">{count}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -2293,26 +2521,32 @@ function safeEncodeBase64(data: any): string {
                             <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-1.5 mt-0.5 flex-wrap">
                               <Building2 size={11} className="text-slate-400 shrink-0" />
                               <span>{lead.company}</span>
-                              {lead.type === 'tourism' && (
-                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300">
-                                  ✈️ Τουρισμός {lead.last_name ? `• ${lead.last_name}` : ''}
-                                </span>
-                              )}
-                              {lead.type === 'operations_tech' && (
-                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-purple-100 text-purple-800 border border-purple-300">
-                                  ⚡ Operations {lead.last_name ? `• ${lead.last_name}` : ''}
-                                </span>
-                              )}
-                              {(lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01')) && (
-                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
-                                  🏢 ΙΚΕ
-                                </span>
-                              )}
-                              {lead.type === 'general_co' && (
-                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-slate-100 text-slate-700 border border-slate-200">
-                                  🏢 {lead.last_name || 'Επιχείρηση'}
-                                </span>
-                              )}
+                              {(() => {
+                                const prof = getLeadProfession(lead);
+                                return (
+                                  <div className="inline-flex items-center gap-1.5 flex-wrap">
+                                    <span 
+                                      className={`px-2 py-0.5 rounded-md text-[10px] font-black border inline-flex items-center gap-1 shadow-2xs ${prof.badgeBg} ${prof.text} ${prof.border}`}
+                                      title={`Κλάδος: ${prof.label}`}
+                                    >
+                                      <span>{prof.icon}</span>
+                                      <span>{prof.label}</span>
+                                    </span>
+                                    <select
+                                      value={lead.type && CLIENT_PROFESSIONS[lead.type] ? lead.type : prof.key}
+                                      onChange={(e) => handleUpdateLeadType(lead.id, e.target.value)}
+                                      className="text-[9.5px] font-bold bg-white border border-gray-200 hover:border-blue-400 rounded px-1.5 py-0.5 text-slate-600 focus:outline-none focus:border-blue-500 cursor-pointer shadow-2xs"
+                                      title="Αλλαγή κλάδου / επαγγέλματος"
+                                    >
+                                      {Object.entries(CLIENT_PROFESSIONS).map(([k, p]) => (
+                                        <option key={k} value={k}>
+                                          {p.icon} {p.label}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                );
+                              })()}
                             </div>
                           )}
                           {(lead.first_name || lead.last_name) && lead.first_name !== lead.company && (
@@ -2496,6 +2730,23 @@ function safeEncodeBase64(data: any): string {
                     placeholder="π.χ. 6999524389 / 2111140013"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold"
                   />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">
+                    Κλάδος / Επάγγελμα Επιχείρησης (π.χ. Λογιστής, Τουριστικό κλπ.)
+                  </label>
+                  <select
+                    value={editingLead.type || "new_ike"}
+                    onChange={(e) => setEditingLead({ ...editingLead, type: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#3b5bdb] text-gray-900 text-xs font-bold bg-white cursor-pointer"
+                  >
+                    {Object.entries(CLIENT_PROFESSIONS).map(([k, p]) => (
+                      <option key={k} value={k}>
+                        {p.icon} {p.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
