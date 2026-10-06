@@ -147,8 +147,8 @@ export function getLeadProfession(lead: any): ProfessionConfig {
     return CLIENT_PROFESSIONS[lead.type];
   }
   const t = `${lead.company || ''} ${lead.email || ''} ${lead.first_name || ''} ${lead.last_name || ''}`.toLowerCase();
-  if (t.includes('logist') || t.includes('gik') || t.includes('λογιστ')) return CLIENT_PROFESSIONS.accounting;
-  if (t.includes('tour') || t.includes('travel') || t.includes('τουριστ') || t.includes('alkinoi') || t.includes('palk') || t.includes('hotel') || t.includes('ξενοδοχ')) return CLIENT_PROFESSIONS.tourism;
+  if (t.includes('logist') || t.includes('gik') || t.includes('λογιστ') || t.includes('φοροτεχνικ')) return CLIENT_PROFESSIONS.accounting;
+  if (t.includes('tour') || t.includes('travel') || t.includes('τουριστ') || t.includes('palk') || t.includes('hotel') || t.includes('ξενοδοχ')) return CLIENT_PROFESSIONS.tourism;
   if (t.includes('properties') || t.includes('real estate') || t.includes('ακινητ') || t.includes('stefanos')) return CLIENT_PROFESSIONS.real_estate;
   if (t.includes('consult') || t.includes('lyroud') || t.includes('mallios') || t.includes('συμβουλ')) return CLIENT_PROFESSIONS.consulting;
   if (t.includes('construct') || t.includes('pnp') || t.includes('κατασκευ') || t.includes('τεχνικ')) return CLIENT_PROFESSIONS.construction;
@@ -2517,44 +2517,51 @@ function safeEncodeBase64(data: any): string {
                               </span>
                             )}
                           </div>
-                          {lead.company && (
-                            <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-1.5 mt-0.5 flex-wrap">
-                              <Building2 size={11} className="text-slate-400 shrink-0" />
-                              <span>{lead.company}</span>
+
+                          {/* Company / Brand Name & Profession Badge */}
+                          {(lead.company || lead.first_name) && (
+                            <div className="text-xs font-bold text-[#0f2d59] flex items-center gap-2 mt-1 flex-wrap">
+                              <Building2 size={13} className="text-slate-400 shrink-0" />
+                              <span className="font-extrabold text-slate-900">
+                                {lead.company || lead.first_name}
+                              </span>
+
+                              {/* Single, Beautiful Interactive Profession Badge */}
                               {(() => {
                                 const prof = getLeadProfession(lead);
                                 return (
-                                  <div className="inline-flex items-center gap-1.5 flex-wrap">
-                                    <span 
-                                      className={`px-2 py-0.5 rounded-md text-[10px] font-black border inline-flex items-center gap-1 shadow-2xs ${prof.badgeBg} ${prof.text} ${prof.border}`}
-                                      title={`Κλάδος: ${prof.label}`}
-                                    >
-                                      <span>{prof.icon}</span>
-                                      <span>{prof.label}</span>
-                                    </span>
+                                  <div className="relative inline-flex items-center">
                                     <select
                                       value={lead.type && CLIENT_PROFESSIONS[lead.type] ? lead.type : prof.key}
                                       onChange={(e) => handleUpdateLeadType(lead.id, e.target.value)}
-                                      className="text-[9.5px] font-bold bg-white border border-gray-200 hover:border-blue-400 rounded px-1.5 py-0.5 text-slate-600 focus:outline-none focus:border-blue-500 cursor-pointer shadow-2xs"
-                                      title="Αλλαγή κλάδου / επαγγέλματος"
+                                      className={`text-[10px] font-black px-2 py-0.5 pr-5 rounded-md border appearance-none cursor-pointer transition-all shadow-2xs ${prof.badgeBg} ${prof.text} ${prof.border} hover:opacity-90 focus:outline-none focus:ring-1 focus:ring-emerald-500`}
+                                      title="Κάντε κλικ για να αλλάξετε τον κλάδο"
                                     >
                                       {Object.entries(CLIENT_PROFESSIONS).map(([k, p]) => (
-                                        <option key={k} value={k}>
+                                        <option key={k} value={k} className="bg-white text-slate-800 font-bold">
                                           {p.icon} {p.label}
                                         </option>
                                       ))}
                                     </select>
+                                    <span className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 text-[8px] text-slate-500">
+                                      ▼
+                                    </span>
                                   </div>
                                 );
                               })()}
                             </div>
                           )}
-                          {(lead.first_name || lead.last_name) && lead.first_name !== lead.company && (
-                            <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">
-                              {lead.first_name || ""} {lead.last_name ? `(${lead.last_name})` : ""}
+
+                          {/* Representative Name (Only if different from company name and not legal form) */}
+                          {lead.first_name && lead.company && lead.first_name !== lead.company && !lead.first_name.includes("Ι.Κ.Ε.") && !lead.first_name.includes("IKE") && !lead.first_name.includes("Ε.Π.Ε.") && (
+                            <div className="text-[10.5px] text-slate-500 font-semibold mt-0.5 flex items-center gap-1">
+                              <User size={10} className="text-slate-400" />
+                              <span>{lead.first_name} {lead.last_name || ""}</span>
                             </div>
                           )}
-                          <div className="flex flex-wrap items-center gap-2 mt-1">
+
+                          {/* Phone & AFM */}
+                          <div className="flex flex-wrap items-center gap-2 mt-1.5">
                             {lead.phone && (
                               <a 
                                 href={`tel:${lead.phone}`}
