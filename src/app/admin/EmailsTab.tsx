@@ -431,6 +431,9 @@ const templates = [
     📍 <strong>Google My Business & Local SEO:</strong> Σύνδεση με Google Maps και βελτιστοποίηση SEO ώστε να σας βρίσκουν τοπικά οι πελάτες σας.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
+    🤖 <strong>Αναγνώριση & Προτάσεις από AI / LLMs (ChatGPT, Claude, Gemini, Copilot, Perplexity):</strong> Πλήρης προετοιμασία των ψηφιακών δεδομένων της ιστοσελίδας σας (AI Semantic SEO & llms.txt), ώστε όλα τα κορυφαία μοντέλα Τεχνητής Νοημοσύνης να γνωρίζουν άριστα την εταιρεία σας και να σας προτείνουν απευθείας σε χρήστες που αναζητούν τις υπηρεσίες σας, μετατρέποντάς τους σε νέους πελάτες!
+  </p>
+  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
     ⚡ <strong>Αστραπιαία Ταχύτητα & 100% Mobile:</strong> Άψογη λειτουργία σε όλα τα κινητά και tablet με βαθμολογία Google PageSpeed 90+.
   </p>
   <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
