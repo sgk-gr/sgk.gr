@@ -161,6 +161,43 @@ function parseGemiCompany(co: any) {
     fullAddress = tk ? `${city} ${tk}` : city;
   }
 
+  function detectIndustryFromGemi(companyObj: any): string {
+    const acts = companyObj.activities || [];
+    const kad_codes: string[] = [];
+    for (const a of acts) {
+      const aid = String(a?.activity?.id || a?.id || "");
+      const clean = aid.replace(/[^0-9]/g, "");
+      if (clean) kad_codes.push(clean);
+    }
+    const name = (companyObj.coNameEl || (companyObj.coTitlesEl && companyObj.coTitlesEl[0]) || "").toUpperCase();
+
+    if (kad_codes.some((k: string) => k.startsWith("6920")) || name.includes("ΛΟΓΙΣΤ") || name.includes("ΦΟΡΟΤΕΧΝ")) {
+      return "accounting";
+    }
+    if (kad_codes.some((k: string) => k.startsWith("7430")) || name.includes("ΜΕΤΑΦΡΑΣ") || name.includes("LOCALIZATION")) {
+      return "translation";
+    }
+    if (kad_codes.some((k: string) => k.startsWith("68")) || name.includes("PROPERTIES") || name.includes("ΑΚΙΝΗΤ")) {
+      return "real_estate";
+    }
+    if (kad_codes.some((k: string) => k.startsWith("41") || k.startsWith("42") || k.startsWith("43")) || name.includes("CONSTRUCTION") || name.includes("ΚΑΤΑΣΚΕΥ")) {
+      return "construction";
+    }
+    if (kad_codes.some((k: string) => k.startsWith("01") || k.startsWith("113")) || name.includes("ΦΑΡΜΑ") || name.includes("ΑΓΡΟΤ")) {
+      return "agriculture";
+    }
+    if (kad_codes.some((k: string) => k.startsWith("55") || k.startsWith("79") || k.startsWith("7711")) || name.includes("ΤΟΥΡΙΣΤ") || name.includes("TRAVEL") || name.includes("HOTEL")) {
+      return "tourism";
+    }
+    if (kad_codes.some((k: string) => k.startsWith("7020")) || name.includes("CONSULT") || name.includes("ΣΥΜΒΟΥΛ")) {
+      return "consulting";
+    }
+    if (kad_codes.some((k: string) => k.startsWith("62") || k.startsWith("63") || k.startsWith("4791")) || name.includes("TECH") || name.includes("NET") || name.includes("COMMERCE")) {
+      return "tech_it";
+    }
+    return "services";
+  }
+
   return {
     companyName: co.coNameEl || co.coNamesEn?.[0] || "",
     tradeName: (co.coTitlesEl && co.coTitlesEl[0]) || (co.coTitlesEn && co.coTitlesEn[0]) || co.coNameEl || "",
@@ -173,6 +210,7 @@ function parseGemiCompany(co: any) {
     representativeName: repName,
     representativeFatherName: repFather,
     representativeTitle: repTitle,
+    detectedIndustry: detectIndustryFromGemi(co),
     ymsFound: false,
     ymsDocumentUrl: ""
   };

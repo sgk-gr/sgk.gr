@@ -926,6 +926,7 @@ function safeEncodeBase64(data: any): string {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
+  const [isSyncingGemi, setIsSyncingGemi] = useState(false);
   const [professionSubFilter, setProfessionSubFilter] = useState<string>('all');
 
   const fetchLeads = async () => {
@@ -1095,6 +1096,105 @@ function safeEncodeBase64(data: any): string {
   };
 
   
+    const handleSyncLeadFromGemi = async (lead: any) => {
+    const query = lead.afm || lead.gemi_number;
+    if (!query) {
+      toast.error("Δεν υπάρχει καταχωρημένο ΑΦΜ ή Αρ. ΓΕΜΗ.");
+      return;
+    }
+    const toastId = toast.loading(`Αναζήτηση ${query} στο Γ.Ε.ΜΗ...`);
+    try {
+      const res = await fetch(`/api/gemi-lookup?query=${encodeURIComponent(query)}&quick=true`);
+      const data = await res.json();
+      if (!res.ok || !data.success || !data.company) {
+        throw new Error(data.error || "Δεν βρέθηκε η επιχείρηση στο Γ.Ε.ΜΗ.");
+      }
+      const c = data.company;
+      const detectedType = c.detectedIndustry || lead.type || "services";
+      const officialName = c.companyName || lead.company;
+
+      const { error } = await supabase
+        .from("sgk_mails")
+        .update({
+          company: officialName,
+          type: detectedType,
+          gemi_number: c.gemiNo || lead.gemi_number,
+          afm: c.clientAfm || lead.afm
+        })
+        .eq("id", lead.id);
+
+      if (error) throw error;
+
+      setLeads(prev => prev.map(l => l.id === lead.id ? {
+        ...l,
+        company: officialName,
+        type: detectedType,
+        gemi_number: c.gemiNo || l.gemi_number,
+        afm: c.clientAfm || l.afm
+      } : l));
+
+      const profLabel = CLIENT_PROFESSIONS[detectedType]?.label || detectedType;
+      toast.success(`Ενημερώθηκε από Γ.Ε.ΜΗ: ${officialName} (${profLabel})`, { id: toastId });
+    } catch (err: any) {
+      console.error(err);
+      toast.error(`Σφάλμα Γ.Ε.ΜΗ: ${err.message || "Αποτυχία ανάκτησης"}`, { id: toastId });
+    }
+  };
+
+  const handleSyncAllConvertedFromGemi = async () => {
+    const targetLeads = leads.filter(l => l.converted && (l.afm || l.gemi_number));
+    if (targetLeads.length === 0) {
+      toast.info("Δεν βρέθηκαν πελάτες με ΑΦΜ ή Αρ. ΓΕΜΗ.");
+      return;
+    }
+
+    setIsSyncingGemi(true);
+    const toastId = toast.loading(`Αναζήτηση στο Γ.Ε.ΜΗ. για ${targetLeads.length} πελάτες...`);
+    let updatedCount = 0;
+
+    try {
+      for (const lead of targetLeads) {
+        const query = lead.afm || lead.gemi_number;
+        try {
+          const res = await fetch(`/api/gemi-lookup?query=${encodeURIComponent(query)}&quick=true`);
+          const data = await res.json();
+          if (data && data.success && data.company) {
+            const c = data.company;
+            const detectedType = c.detectedIndustry || lead.type || "services";
+            const officialName = c.companyName || lead.company;
+
+            await supabase
+              .from("sgk_mails")
+              .update({
+                company: officialName,
+                type: detectedType,
+                gemi_number: c.gemiNo || lead.gemi_number,
+                afm: c.clientAfm || lead.afm
+              })
+              .eq("id", lead.id);
+
+            setLeads(prev => prev.map(l => l.id === lead.id ? {
+              ...l,
+              company: officialName,
+              type: detectedType,
+              gemi_number: c.gemiNo || l.gemi_number,
+              afm: c.clientAfm || l.afm
+            } : l));
+
+            updatedCount++;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      toast.success(`Ολοκληρώθηκε! Ενημερώθηκαν ${updatedCount} πελάτες απευθείας από το Γ.Ε.ΜΗ.`, { id: toastId });
+    } catch (err: any) {
+      toast.error(`Σφάλμα: ${err.message}`, { id: toastId });
+    } finally {
+      setIsSyncingGemi(false);
+    }
+  };
+
   const handleUpdateLeadType = async (id: string, newType: string) => {
     try {
       const { error } = await supabase
@@ -2309,6 +2409,17 @@ function safeEncodeBase64(data: any): string {
               <UserPlus size={14} />
               + Νεος Πελατης
             </button>
+            {/* Quick Sync Converted Clients from GEMI */}
+            <button
+              onClick={handleSyncAllConvertedFromGemi}
+              disabled={isSyncingGemi}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer disabled:opacity-50"
+              title="Αυτόματος έλεγχος και ενημέρωση όλων των πελατών απευθείας από το Γ.Ε.ΜΗ."
+            >
+              {isSyncingGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-amber-300" />}
+              <span>Ελεγχος Πελατων στο ΓΕΜΗ</span>
+            </button>
+
             {/* Targeted GEMI Scanner Dual Selectors & Trigger */}
             <div className="inline-flex items-center flex-wrap bg-slate-900 border border-slate-700/80 rounded-xl p-1 shadow-md gap-1">
               <div className="flex items-center gap-1 pl-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
@@ -2573,9 +2684,20 @@ function safeEncodeBase64(data: any): string {
                               </a>
                             )}
                             {lead.afm && (
-                              <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
-                                ΑΦΜ: {lead.afm}
-                              </span>
+                              <div className="inline-flex items-center gap-1">
+                                <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                                  ΑΦΜ: {lead.afm}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleSyncLeadFromGemi(lead)}
+                                  className="inline-flex items-center gap-1 text-[9.5px] font-bold text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-1.5 py-0.5 rounded transition-all cursor-pointer shadow-2xs"
+                                  title="Αυτόματη ανάκτηση επίσημης επωνυμίας & κλάδου από το Γ.Ε.ΜΗ."
+                                >
+                                  <Sparkles size={9} className="text-indigo-500" />
+                                  <span>ΓΕΜΗ</span>
+                                </button>
+                              </div>
                             )}
                           </div>
                         </td>
