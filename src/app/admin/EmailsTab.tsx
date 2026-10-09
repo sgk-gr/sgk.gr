@@ -1491,13 +1491,29 @@ function safeEncodeBase64(data: any): string {
     setImportingProgress(true);
     
     try {
-      const { data: existingLeads, error: fetchError } = await supabase
-        .from("sgk_mails")
-        .select("email");
+      const existingSet = new Set<string>();
+      let fromIdx = 0;
+      const chunkSize = 1000;
+      let moreToFetch = true;
 
-      if (fetchError) throw fetchError;
+      while (moreToFetch) {
+        const { data: chunk, error: fetchError } = await supabase
+          .from("sgk_mails")
+          .select("email")
+          .range(fromIdx, fromIdx + chunkSize - 1);
 
-      const existingSet = new Set((existingLeads || []).map(l => l.email.toLowerCase()));
+        if (fetchError) throw fetchError;
+
+        if (chunk && chunk.length > 0) {
+          for (const l of chunk) {
+            if (l.email) existingSet.add(l.email.toLowerCase().trim());
+          }
+          if (chunk.length < chunkSize) moreToFetch = false;
+          else fromIdx += chunkSize;
+        } else {
+          moreToFetch = false;
+        }
+      }
       const lines = importData.split("\n");
       const newLeads: any[] = [];
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -3347,10 +3363,15 @@ function safeEncodeBase64(data: any): string {
                     <Loader2 size={14} className="animate-spin text-indigo-400" />
                     <span>Η σάρωση βρίσκεται σε εξέλιξη...</span>
                   </>
-                ) : (
+                ) : scanStats.added > 0 ? (
                   <>
                     <CheckCircle2 size={14} className="text-emerald-400" />
-                    <span>Η διαδικασία ολοκληρώθηκε.</span>
+                    <span className="text-emerald-300 font-semibold">Προστέθηκαν {scanStats.added} νέες Ι.Κ.Ε.!</span>
+                  </>
+                ) : (
+                  <>
+                    <AlertCircle size={14} className="text-amber-400" />
+                    <span className="text-amber-300 font-semibold">Δεν βρέθηκαν νέες Ι.Κ.Ε. (υπάρχουν ήδη όλες στη βάση).</span>
                   </>
                 )}
               </div>

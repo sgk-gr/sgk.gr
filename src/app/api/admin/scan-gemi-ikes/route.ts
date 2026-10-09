@@ -244,31 +244,54 @@ export async function POST(req: NextRequest) {
             targetMonth
           });
 
-          // 1. Fetch existing emails from Supabase
-          const { data: existingRecords, error: existingErr } = await supabase
-            .from("sgk_mails")
-            .select("email");
-
-          if (existingErr) {
-            console.error("Notice querying Supabase existing emails:", existingErr);
-            emit({
-              type: "warning",
-              message: `⚠️ Σφάλμα ανάκτησης υπαρχόντων emails από βάση: ${existingErr.message}`
-            });
-          }
-
+          // 1. Fetch ALL existing emails, AFMs, and GEMI numbers from Supabase (paginated to bypass 1000 limit)
           const existingEmailSet = new Set<string>();
-          (existingRecords || []).forEach((r: any) => {
-            if (r.email) existingEmailSet.add(r.email.toLowerCase().trim());
-          });
+          const existingAfmSet = new Set<string>();
+          const existingGemiSet = new Set<string>();
+
+          let fetchFrom = 0;
+          const fetchChunkSize = 1000;
+          let hasMoreExisting = true;
+
+          while (hasMoreExisting) {
+            const { data: existingRecords, error: existingErr } = await supabase
+              .from("sgk_mails")
+              .select("email, afm, gemi_number")
+              .range(fetchFrom, fetchFrom + fetchChunkSize - 1);
+
+            if (existingErr) {
+              console.error("Notice querying Supabase existing records:", existingErr);
+              emit({
+                type: "warning",
+                message: `⚠️ Σφάλμα ανάκτησης υπαρχόντων records από βάση: ${existingErr.message}`
+              });
+              break;
+            }
+
+            if (existingRecords && existingRecords.length > 0) {
+              for (const r of existingRecords) {
+                if (r.email) existingEmailSet.add(r.email.toLowerCase().trim());
+                if (r.afm) existingAfmSet.add(String(r.afm).trim());
+                if (r.gemi_number) existingGemiSet.add(String(r.gemi_number).trim());
+              }
+              if (existingRecords.length < fetchChunkSize) {
+                hasMoreExisting = false;
+              } else {
+                fetchFrom += fetchChunkSize;
+              }
+            } else {
+              hasMoreExisting = false;
+            }
+          }
 
           emit({
             type: "info",
-            message: `🔍 Ελέγχθηκαν ${existingEmailSet.size} υπάρχοντα emails στη βάση δεδομένων για αποφυγή διπλοτύπων.`,
+            message: `🔍 Ελέγχθηκαν ${existingEmailSet.size} υπάρχοντα emails και ${existingAfmSet.size} ΑΦΜ στη βάση δεδομένων για 100% αποφυγή διπλοτύπων.`,
           });
 
           const newLeadsToInsert: any[] = [];
           const seenInBatch = new Set<string>();
+          const seenAfmInBatch = new Set<string>();
           let totalExamined = 0;
           let totalDuplicates = 0;
           let totalHasWebsite = 0;
@@ -277,7 +300,7 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = 0;
 
-          const maxOffset = 800;
+          const maxOffset = 4000;
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor(offset / pageSize) + 1;
             emit({
@@ -413,22 +436,33 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Check if already in Supabase or already seen in current batch
-              if (existingEmailSet.has(email) || seenInBatch.has(email)) {
+              // Check if already in Supabase or already seen in current batch (Email, AFM, GEMI)
+              const isDuplicateEmail = Boolean(email && (existingEmailSet.has(email) || seenInBatch.has(email)));
+              const isDuplicateAfm = Boolean(afm && (existingAfmSet.has(afm) || seenAfmInBatch.has(afm)));
+              const isDuplicateGemi = Boolean(arGemi && existingGemiSet.has(arGemi));
+
+              if (isDuplicateEmail || isDuplicateAfm || isDuplicateGemi) {
                 totalDuplicates++;
+                const dupReason = isDuplicateEmail
+                  ? `Το email (${email}) υπάρχει ήδη στη βάση δεδομένων (παραλείφθηκε)`
+                  : isDuplicateAfm
+                  ? `Το ΑΦΜ (${afm}) υπάρχει ήδη στη βάση δεδομένων (παραλείφθηκε)`
+                  : `Ο αριθμός ΓΕΜΗ (${arGemi}) υπάρχει ήδη στη βάση δεδομένων (παραλείφθηκε)`;
+
                 emit({
                   type: "log",
                   category: "duplicate",
                   company: companyTitle,
                   email,
                   afm,
-                  reason: `Το email (${email}) υπάρχει ήδη στη βάση δεδομένων (παραλείφθηκε)`,
+                  reason: dupReason,
                   stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
                 continue;
               }
 
-              seenInBatch.add(email);
+              if (email) seenInBatch.add(email);
+              if (afm) seenAfmInBatch.add(afm);
 
               const newLead = {
                 email: email,
@@ -475,6 +509,9 @@ export async function POST(req: NextRequest) {
 
             offset += results.length;
             if (results.length < pageSize) break;
+
+            // Small respectful delay between pages so GEMI API never throttles (HTTP 429)
+            await new Promise((r) => setTimeout(r, 600));
           }
 
           // Insert new leads into Supabase safely
@@ -519,6 +556,10 @@ export async function POST(req: NextRequest) {
             }
           }
 
+          const doneMessage = insertedCount > 0
+            ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
+            : `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις σε όλες τις σελίδες και ΔΕΝ βρέθηκαν νέες Ι.Κ.Ε. (όλες οι διαθέσιμες επιχειρήσεις υπάρχουν ήδη στη βάση δεδομένων ή διαθέτουν ήδη ιστοσελίδα/εταιρικό domain).`;
+
           emit({
             type: "done",
             success: true,
@@ -529,8 +570,8 @@ export async function POST(req: NextRequest) {
             totalCustomDomain,
             totalNoEmail,
             totalOldDate,
-            leads: insertedRecords.length > 0 ? insertedRecords : newLeadsToInsert,
-            message: `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
+            leads: insertedRecords.length > 0 ? insertedRecords : [],
+            message: doneMessage
           });
 
         } catch (err: any) {
