@@ -166,75 +166,40 @@ const templates = [
   {
     name: "Istoselida ike 150 ευρω",
     subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Επίσημη ιστοσελίδα ΓΕΜΗ έτοιμη σε 24 ώρες",
-    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
-<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #f1f5f9; overflow: hidden;">
-  <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display: block; text-decoration: none;">
-    <img 
-      src="https://www.sgk.gr/ike-banner.jpg" 
-      alt="Εταιρική Ιστοσελίδα ΙΚΕ ΓΕΜΗ σε 24 ώρες - SGK Digital" 
-      width="600" 
-      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
-    />
-  </a>
-</div>
-
-<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Επίσημη Ιστοσελίδα Ι.Κ.Ε. & Πλήρης Συμμόρφωση ΓΕΜΗ σε 24 Ώρες</h2>
-
-<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ διαχειριστή,</p>
+    body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">Επίσημη Ιστοσελίδα ΓΕΜΗ (150€) για τη νέα σας Ι.Κ.Ε.</h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  <strong>Συγχαρητήρια για την ίδρυση της νέας σας Ι.Κ.Ε.</strong> και καλή επιτυχία στα νέα σας επιχειρηματικά βήματα!
+  Αγαπητέ διαχειριστή, καλησπέρα. Είδαμε τη σύσταση της νέας σας εταιρείας στο ΓΕΜΗ και σας ευχόμαστε καλή επιτυχία.
 </p>
 
-<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Γνωρίζουμε καλά ότι τις πρώτες ημέρες τρέχετε με λογιστήρια, τράπεζες και γραφειοκρατία. Επικοινωνούμε για να σας <strong>απαλλάξουμε άμεσα από μία υποχρεωτική νομική εκκρεμότητα</strong>: βάσει του <strong>Άρθρου 47 §2 του Ν. 4072/2012</strong> και της <strong>ΚΥΑ 46982/2025</strong>, κάθε νέα Ι.Κ.Ε. οφείλει να διαθέτει ενεργή εταιρική ιστοσελίδα εντός <strong>ενός (1) μηνός</strong> από τη σύστασή της.
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Ο λόγος που επικοινωνούμε είναι για να σας βοηθήσουμε να κλείσετε άμεσα τη βασική <strong>νομική εκκρεμότητα (Άρθρο 47 Ν.4072/2012)</strong>: Την υποχρεωτική δημιουργία εταιρικής ιστοσελίδας εντός 1 μηνός, την οποία θα σας ζητήσει άμεσα ο λογιστής σας.
 </p>
 
-<!-- The "Why Do It Now" Psychology Box -->
-<div style="background-color: #f0f7ff; border: 1px solid #bae6fd; border-left: 5px solid #0284c7; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
-  <p style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: #0369a1;">
-    💡 Γιατί να ξεμπερδέψετε σήμερα, ακόμα κι αν έχετε 1 μήνα μπροστά σας;
-  </p>
-  <p style="margin: 0 0 6px 0; font-size: 13.5px; color: #0f172a; line-height: 1.55;">
-    1. <strong>Το ζητάει άμεσα ο λογιστής σας:</strong> Χρειάζεται το επίσημο URL της ιστοσελίδας για να ολοκληρώσει τη δήλωση στο ΓΕΜΗ και να μην καθυστερήσει καμία εταιρική σας διαδικασία.<br/>
-    2. <strong>Μηδενικός κόπος από εσάς:</strong> <u>Δεν χρειάζεται να γράψετε ούτε μία λέξη</u>. Αντλούμε εμείς αυτόματα τα στοιχεία της επιχείρησής σας απευθείας από το ΓΕΜΗ.<br/>
-    3. <strong>Έξοδο που εκπίπτει 100%:</strong> Λαμβάνετε νόμιμο τιμολόγιο παροχής υπηρεσιών και συμψηφίζετε άμεσα το ΦΠΑ στα πρώτα σας έξοδα.
-  </p>
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Μπορούμε να το αναλάβουμε εμείς με <strong>μηδενικό κόπο από εσάς</strong>. Αντλούμε τα στοιχεία απευθείας από το ΓΕΜΗ και αύριο το πρωί θα έχετε το επίσημο URL έτοιμο. 
+</p>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 20px 0;">
+  <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Τι περιλαμβάνει η λύση με 150€ (συμπ. ΦΠΑ):</p>
+  <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.6;">
+    <li>Πλήρης ιστοσελίδα συμβατή με τις προδιαγραφές ΓΕΜΗ.</li>
+    <li>Κατοχύρωση .gr Domain (για 2 έτη) & Hosting (1 έτος).</li>
+    <li>Εταιρικό Email (π.χ. info@...).</li>
+    <li>Νόμιμο τιμολόγιο που εκπίπτει 100% στα έξοδά σας.</li>
+  </ul>
 </div>
 
-<p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">Τι περιλαμβάνει η ολοκληρωμένη λύση «Με το Κλειδί στο Χέρι» (Τελική τιμή 150€ με ΦΠΑ):</p>
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.6; font-weight: 600;">
+  Ακούγεται σαν κάτι που θα σας βοηθούσε να ξεμπερδεύετε άμεσα; 
+</p>
 
-<div style="margin: 0 0 16px 0; padding-left: 4px;">
-  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    ⏱️ <strong>Παράδοση σε 24 Ώρες:</strong> Η ιστοσελίδα σας θα είναι <strong>live και ενεργή αύριο το πρωί</strong>, έτοιμη να τη στείλετε απευθείας στο λογιστή σας.
-  </p>
-  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🏛️ <strong>100% Συμβατότητα με Προδιαγραφές ΓΕΜΗ:</strong> Πλήρης ανάρτηση όλων των νόμιμων στοιχείων (Αρ. ΓΕΜΗ, ΑΦΜ, Έδρα, Διαχειριστές, Εταιρικό Κεφάλαιο) και ειδική ενότητα για δημοσίευση Ισολογισμών & Πρακτικών.
-  </p>
-  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    ✉️ <strong>Εταιρικό Email (info@etairia.gr):</strong> Επαγγελματική διεύθυνση ηλεκτρονικού ταχυδρομείου με πρόσβαση από κινητό, tablet και Outlook.
-  </p>
-  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🌐 <strong>Όλα Πληρωμένα για το 1ο Έτος:</strong> Κατοχύρωση Domain Name <strong>.gr (για 2 ολόκληρα έτη)</strong> + Ταχύτατο Cloud Hosting (1 έτος) + Πιστοποιητικό Ασφαλείας SSL + Πλήρης Συμμόρφωση GDPR.
-  </p>
-  <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #334155;">
-    🧾 <strong>Τελικό Κόστος 150€ (συμπεριλαμβανομένου ΦΠΑ 24%):</strong> <u>Καμία κρυφή χρέωση</u>. Εκδίδεται άμεσα κανονικό τιμολόγιο παροχής υπηρεσιών.
-  </p>
-</div>
+<p style="margin: 0 0 20px 0; color: #475569; font-size: 14px; line-height: 1.5;">
+  Αν ναι, μπορείτε να μας καλέσετε στο <strong>211 114 0013</strong> / <strong>6999 524 389</strong> ή απλά να απαντήσετε σε αυτό το email. <em>(Αν πάλι το έχετε ήδη τακτοποιήσει, παρακαλώ αγνοήστε αυτό το μήνυμα και καλή συνέχεια!)</em>
+</p>
 
-<!-- Direct Phone Call Card -->
-<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
-  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #166534;">
-    📞 Θέλετε να το αναλάβουμε άμεσα σήμερα;
-  </p>
-  <p style="margin: 0; font-size: 13px; color: #15803d; line-height: 1.5;">
-    Καλέστε μας απευθείας στα <strong><a href="tel:2111140013" style="color: #166534; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #166534; text-decoration: underline;">6999 524 389</a></strong> ή πατήστε στο παρακάτω κουμπί για άμεση εκδήλωση ενδιαφέροντος.
-  </p>
-</div>
-
-<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
-  Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της νεοσυσταθείσας εταιρείας σας στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong>. Δεν είστε εγγεγραμμένοι σε λίστα newsletter και <strong>δεν θα λάβετε δεύτερο email</strong> από εμάς.
+<div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  <strong>Διαφάνεια & GDPR:</strong> Επικοινωνούμε βάσει των δημοσίων στοιχείων (OpenData) της νεοσυσταθείσας εταιρείας σας. Δεν είστε σε λίστα newsletter και δεν θα λάβετε άλλο email.
 </div>`,
     defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
     defaultButtonLink: "https://www.sgk.gr/ike-offer"
