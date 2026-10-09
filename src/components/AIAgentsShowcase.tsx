@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { MessageSquare, ShoppingBag, Receipt, LineChart, Workflow, BrainCircuit } from "lucide-react";
+import { MessageSquare, Calendar, Receipt, LineChart, Workflow, BrainCircuit } from "lucide-react";
 
 const agents = [
   {
@@ -12,9 +12,9 @@ const agents = [
     color: "bg-[#3b5bdb]"
   },
   {
-    title: "eShop Operations Agent",
-    description: "Διαχείριση παραγγελιών, stock updates, επιστροφές και ενημέρωση πελατών — αυτόματα.",
-    icon: <ShoppingBag size={24} className="text-black" />,
+    title: "Booking & Operations Agent",
+    description: "Αυτόματη διαχείριση κρατήσεων, ραντεβού, αιτημάτων και άμεση ενημέρωση πελατών 24/7.",
+    icon: <Calendar size={24} className="text-black" />,
     color: "bg-[#4ade80]"
   },
   {

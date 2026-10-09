@@ -22,12 +22,11 @@ const About = () => {
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-6">
               Με περισσότερα από <span className="text-foreground font-semibold">18 χρόνια εμπειρίας</span> στον χώρο της πληροφορικής, η SGK είναι μια <span className="text-foreground font-semibold">Software Development Company</span> που συνδυάζει βαθιά τεχνική γνώση με
-              στρατηγική σκέψη. Εξειδικευόμαστε σε eCommerce, web development και
-              AI automation.
+              στρατηγική σκέψη. Εξειδικευόμαστε σε Custom Web Development, εταιρικές ιστοσελίδες και
+              AI Automation.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Από WordPress eshops μέχρι custom React applications και AI agentic
-              systems — κάθε project αντιμετωπίζεται με τον ίδιο ζήλο για ποιότητα
+              Από άμεσες εταιρικές ιστοσελίδες μέχρι custom React εφαρμογές και αυτόνομους AI Agents — κάθε project αντιμετωπίζεται με τον ίδιο ζήλο για ποιότητα
               και performance, έχοντας ως βάση την πολυετή μας διαδρομή στην αγορά.
             </p>
           </motion.div>
