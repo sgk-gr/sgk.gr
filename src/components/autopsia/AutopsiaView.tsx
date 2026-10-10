@@ -2176,23 +2176,7 @@ export default function AutopsiaPage() {
                 return fileName.includes('aut_earth');
             });
 
-            const updatePayload: any = {
-                autopsia_completed: true,
-                is_upcoming: false,
-                autopsia_completed_at: new Date().toISOString(),
-                show_in_earthworks: customer.den_thelei_xwmatoyrgiko ? false : hasEarthworksPhotos,
-                checklist_forms: true,
-                checklist_route: true,
-                exoterika_fb: !!customer.exoterika_fb,
-                den_thelei_xwmatoyrgiko: !!customer.den_thelei_xwmatoyrgiko,
-            };
-
-            if (customer.den_thelei_xwmatoyrgiko) {
-                updatePayload.close_xwmatoyrgiko = true;
-                updatePayload.etimo_emfysisi = true;
-                updatePayload.thanasis_pliromi_xwma = true;
-                updatePayload.thanasis_amount_xwma = 0;
-            }
+            const updatePayload: any = { autopsia_completed: true, is_upcoming: false };
 
             const { error } = await supabase
                 .from("customers")
@@ -2210,20 +2194,22 @@ export default function AutopsiaPage() {
 
             if (fetchError) throw fetchError;
 
-            // Send the original autopsia-mail (to spiros39t@gmail.com and kmfiber@teletronic.gr)
-            await supabase.functions.invoke("autopsia-mail", {
+            console.log("Starting autopsia-mail Edge Function...");
+            const res1 = await supabase.functions.invoke("autopsia-mail", {
                 body: {
                     customer: latestCustomer,
                     userEmail: user?.email
                 },
             });
+            console.log("Result of autopsia-mail:", res1);
 
-            // Send the autopsia-zip-mail with ENTYPA documents (always to spiros39t@gmail.com)
-            await supabase.functions.invoke("autopsia-zip-mail", {
+            console.log("Starting autopsia-zip-mail Edge Function...");
+            const res2 = await supabase.functions.invoke("autopsia-zip-mail", {
                 body: {
                     customer: latestCustomer
                 },
             });
+            console.log("Result of autopsia-zip-mail:", res2);
 
             // If contractor is BEYONDWIRE, automatically upload the 7 ENTYPA to Beyondwire portal
             if (latestCustomer.is_beyondwire) {
