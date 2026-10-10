@@ -2197,12 +2197,8 @@ export default function AutopsiaPage() {
             
 
             console.log("Starting autopsia-zip-mail Edge Function...");
-            const res2 = await supabase.functions.invoke("autopsia-zip-mail", {
-                body: {
-                    customer: latestCustomer
-                },
-            });
-            const data2 = await res2.json(); console.log("Result of autopsia-zip-mail:", data2);
+            const { data, error } = await supabase.functions.invoke("autopsia-zip-mail", { body: { customer: latestCustomer } });
+            console.log("Result of autopsia-zip-mail:", data, error);
 
             // If contractor is BEYONDWIRE, automatically upload the 7 ENTYPA to Beyondwire portal
             if (latestCustomer.is_beyondwire) {
