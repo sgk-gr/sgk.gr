@@ -23,7 +23,7 @@ export async function POST(req: Request) {
                         const buffer = Buffer.from(arrayBuffer);
                         
                         attachments.push({
-                            filename: \\_\.jpg\,
+                            filename: `${cat}_${customer.id}.jpg`,
                             content: buffer,
                         });
                     } catch (e) {
@@ -36,13 +36,13 @@ export async function POST(req: Request) {
         const data = await resend.emails.send({
             from: 'SGK Digital <noreply@sgk.gr>',
             to: customer.autopsia_tech_data?.recipient_email ? [customer.autopsia_tech_data.recipient_email] : ['spiros39t@gmail.com'],
-            subject: \Έγγραφα Αυτοψίας (ZIP): \ - \\,
-            html: \
+            subject: `Έγγραφα Αυτοψίας (ZIP): ${customer.address} - ${customer.city}`,
+            html: `
                 <h2>Έντυπα Αυτοψίας</h2>
-                <p><strong>Διεύθυνση:</strong> \, \</p>
-                <p><strong>SR:</strong> \</p>
+                <p><strong>Διεύθυνση:</strong> ${customer.address}, ${customer.city}</p>
+                <p><strong>SR:</strong> ${customer.sr || '-'}</p>
                 <p>Επισυνάπτονται τα παραγόμενα ψηφιακά έγγραφα.</p>
-            \,
+            `,
             attachments: attachments.length > 0 ? attachments : undefined
         });
 
