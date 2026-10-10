@@ -183,7 +183,8 @@ const templates = [
 <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 20px 0;">
   <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Η ολοκληρωμένη λύση (150€ τελικό κόστος με ΦΠΑ):</p>
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.6;">
-    <li>Έτοιμη ιστοσελίδα συμβατή με τις προδιαγραφές ΓΕΜΗ σε 24 ώρες.</li>
+    <li>Έτοιμη ιστοσελίδα σε 24 ώρες, απολύτως συμβατή με τον νόμο.</li>
+    <li><strong>Πιστοποιημένη Διασύνδεση (API):</strong> Η σελίδα σας συνδέεται και διαβάζεται απευθείας από το ΓΕΜΗ, μηδενίζοντας λάθη και κινδύνους.</li>
     <li>Κατοχύρωση .gr Domain & Hosting (για 1 έτος).</li>
     <li>Κατασκευή επαγγελματικού λογοτύπου.</li>
     <li>Εταιρικό Email (π.χ. info@...).</li>
