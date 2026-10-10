@@ -17,7 +17,7 @@ serve(async (req) => {
     try {
         const { customer } = await req.json();
 
-        let toEmails = ['spiros39t@gmail.com'];
+        let toEmails = ['info@sgk.gr'];
         if (customer?.autopsia_tech_data?.recipient_email) {
             toEmails = customer.autopsia_tech_data.recipient_email.split(',').map((e: string) => e.trim()).filter((e: string) => e);
         }
