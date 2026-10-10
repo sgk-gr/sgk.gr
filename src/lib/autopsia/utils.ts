@@ -23,32 +23,36 @@ export function getTimestampedUrl(url: string | null | undefined, forceNewTimest
   if (!url) return "";
   if (url.startsWith("data:") || url.startsWith("blob:")) return url;
 
-  let targetUrl = url;
-
-  if (targetUrl.includes("pub-80f7efe0d271423e936b64080f0a0de2.r2.dev")) {
-    if (forceNewTimestamp) {
-      const timestamp = new Date().getTime();
-      const separator = targetUrl.includes("?") ? "&" : "?";
-      return `${targetUrl}${separator}t=${timestamp}`;
-    }
-    return targetUrl;
+  // Preserve local static assets
+  if (
+    url.startsWith("/templates/") ||
+    url.startsWith("/icons/") ||
+    url.startsWith("/images/") ||
+    url === "/OTELOGO.jpg" ||
+    url.startsWith("/OTELOGO")
+  ) {
+    return url;
   }
 
-  if (targetUrl.includes("r2.dev") || targetUrl.includes("pub-c08b1610623748bfb2c633b2c4e31130")) {
-    const rawFileName = targetUrl.split("/").pop() || "";
-    const cleanFileName = rawFileName.split("?")[0];
-    if (cleanFileName) {
-      targetUrl = `https://pub-80f7efe0d271423e936b64080f0a0de2.r2.dev/${cleanFileName}`;
-    }
+  let fileName = "";
+
+  if (url.includes("file=")) {
+    fileName = url.split("file=")[1].split("&")[0];
+  } else if (url.includes("/")) {
+    fileName = url.split("/").pop() || "";
+  } else {
+    fileName = url;
   }
 
-  if (forceNewTimestamp) {
-    const timestamp = new Date().getTime();
-    const separator = targetUrl.includes("?") ? "&" : "?";
-    return `${targetUrl}${separator}t=${timestamp}`;
-  }
+  fileName = fileName.split("?")[0];
+  try {
+    fileName = decodeURIComponent(fileName);
+  } catch {}
 
-  return targetUrl;
+  if (!fileName) return url;
+
+  const timestamp = forceNewTimestamp ? `&t=${Date.now()}` : "";
+  return `/api/autopsia/media?file=${encodeURIComponent(fileName)}${timestamp}`;
 }
 
 export function getContractorCardClass(customer: any) {

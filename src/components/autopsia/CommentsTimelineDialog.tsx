@@ -273,7 +273,7 @@ export function CommentsTimelineDialog({
               placeholder="Γράψτε νέα σημείωση για τον πελάτη..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              className="min-h-[70px] text-sm bg-slate-50 dark:bg-[#181817] border-slate-200 dark:border-[#2e2e2c] dark:text-[#f4f4f0] dark:placeholder:text-[#6b6b65] focus:bg-white dark:focus:bg-[#222220] resize-none"
+              className="min-h-[70px] text-sm bg-slate-50 dark:bg-[#181817] border-slate-300 dark:border-[#2e2e2c] text-slate-950 dark:text-[#f4f4f0] placeholder:text-slate-400 dark:placeholder:text-[#6b6b65] focus:bg-white dark:focus:bg-[#222220] resize-none font-medium"
             />
             <div className="flex items-center justify-between gap-2">
               {localCustomerComments ? (

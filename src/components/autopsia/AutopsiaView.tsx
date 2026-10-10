@@ -2904,8 +2904,8 @@ export default function AutopsiaPage() {
                         <Users className="h-7 w-7 text-blue-600" />
                     </div>
                     <div>
-                        <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Αυτοψίες FTTH</h1>
-                        <p className="text-sm text-muted-foreground hidden sm:block">
+                        <h1 className="text-xl md:text-2xl font-black text-slate-950 tracking-tight">Αυτοψίες FTTH</h1>
+                        <p className="text-sm font-semibold text-slate-700 hidden sm:block">
                             {pendingCount} σε εκκρεμότητα • {readyCount} έτοιμες για αποστολή • Σύστημα 7 Εντύπων ΟΤΕ
                         </p>
                     </div>
@@ -2963,23 +2963,23 @@ export default function AutopsiaPage() {
             <div className={cn("lg:hidden bg-white border-slate-200/90 rounded-2xl shadow-sm border p-4 mb-6 space-y-3", customerUrlParam && "hidden")}>
                 <div className="flex flex-col gap-3">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                         <Input
                             placeholder="Αναζήτηση (διεύθυνση, όνομα, SR, Building ID)..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-11 bg-slate-50/80 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-1 focus-visible:ring-blue-500"
+                            className="pl-10 h-11 bg-white border-slate-300 text-slate-950 placeholder:text-slate-500 font-medium focus-visible:ring-1 focus-visible:ring-blue-500"
                         />
                     </div>
 
                     {/* Quick Status Tabs on Mobile */}
-                    <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100/90 rounded-xl border border-slate-200/80">
+                    <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200">
                         <Button
                             variant={statusFilter === "pending" ? "default" : "ghost"}
                             size="sm"
                             className={cn(
-                                "h-8 px-1 text-[11px] font-bold rounded-lg transition-all",
-                                statusFilter === "pending" ? "bg-slate-900 text-white shadow-xs" : "text-slate-700 hover:bg-slate-200/60"
+                                "h-8 px-1 text-[11px] font-black rounded-lg transition-all",
+                                statusFilter === "pending" ? "bg-slate-950 text-white shadow-xs" : "text-slate-900 hover:bg-slate-200 hover:text-black"
                             )}
                             onClick={() => setStatusFilter("pending")}
                         >
@@ -2989,8 +2989,8 @@ export default function AutopsiaPage() {
                             variant={statusFilter === "ready" ? "default" : "ghost"}
                             size="sm"
                             className={cn(
-                                "h-8 px-1 text-[11px] font-bold rounded-lg transition-all",
-                                statusFilter === "ready" ? "bg-emerald-600 text-white shadow-xs" : "text-slate-700 hover:bg-slate-200/60"
+                                "h-8 px-1 text-[11px] font-black rounded-lg transition-all",
+                                statusFilter === "ready" ? "bg-emerald-600 text-white shadow-xs hover:bg-emerald-700" : "text-slate-900 hover:bg-slate-200 hover:text-black"
                             )}
                             onClick={() => setStatusFilter("ready")}
                         >
@@ -3000,8 +3000,8 @@ export default function AutopsiaPage() {
                             variant={statusFilter === "all" ? "default" : "ghost"}
                             size="sm"
                             className={cn(
-                                "h-8 px-1 text-[11px] font-bold rounded-lg transition-all",
-                                statusFilter === "all" ? "bg-blue-600 text-white shadow-xs" : "text-slate-700 hover:bg-slate-200/60"
+                                "h-8 px-1 text-[11px] font-black rounded-lg transition-all",
+                                statusFilter === "all" ? "bg-blue-600 text-white shadow-xs hover:bg-blue-700" : "text-slate-900 hover:bg-slate-200 hover:text-black"
                             )}
                             onClick={() => setStatusFilter("all")}
                         >
@@ -3093,31 +3093,31 @@ export default function AutopsiaPage() {
             <div className={cn("hidden lg:flex flex-col gap-4 mb-8", customerUrlParam && "hidden")}>
                 <div className="bg-white border-slate-200/90 rounded-2xl shadow-sm border p-4 flex flex-wrap items-center justify-between gap-4">
                     <div className="relative flex-1 min-w-[280px] max-w-md">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                         <Input
                             placeholder="Αναζήτηση βάσει διεύθυνσης, ονόματος, SR ή Building ID..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-11 bg-slate-50/80 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-1 focus-visible:ring-blue-500"
+                            className="pl-10 h-11 bg-white border-slate-300 text-slate-950 placeholder:text-slate-500 font-medium focus-visible:ring-1 focus-visible:ring-blue-500"
                         />
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3">
                         {/* Status Filter Tabs */}
-                        <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-xl border border-slate-200/80 shadow-xs">
+                        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-xs">
                             <Button
                                 variant={statusFilter === "pending" ? "default" : "ghost"}
                                 size="sm"
                                 className={cn(
-                                    "h-9 px-3.5 rounded-lg text-xs font-bold transition-all",
-                                    statusFilter === "pending" ? "bg-slate-900 text-white shadow-sm" : "text-slate-700 hover:bg-slate-200/60"
+                                    "h-9 px-3.5 rounded-lg text-xs font-black transition-all",
+                                    statusFilter === "pending" ? "bg-slate-950 text-white shadow-sm" : "text-slate-900 hover:bg-slate-200 hover:text-black"
                                 )}
                                 onClick={() => setStatusFilter("pending")}
                             >
                                 ⏳ Σε Εκκρεμότητα
                                 <span className={cn(
-                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px]",
-                                    statusFilter === "pending" ? "bg-white/20 text-white" : "bg-slate-200 text-slate-700 font-extrabold"
+                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-black",
+                                    statusFilter === "pending" ? "bg-white/20 text-white" : "bg-slate-200 text-slate-950"
                                 )}>
                                     {pendingCount}
                                 </span>
@@ -3126,15 +3126,15 @@ export default function AutopsiaPage() {
                                 variant={statusFilter === "ready" ? "default" : "ghost"}
                                 size="sm"
                                 className={cn(
-                                    "h-9 px-3.5 rounded-lg text-xs font-bold transition-all",
-                                    statusFilter === "ready" ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm" : "text-slate-700 hover:bg-slate-200/60"
+                                    "h-9 px-3.5 rounded-lg text-xs font-black transition-all",
+                                    statusFilter === "ready" ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm" : "text-slate-900 hover:bg-slate-200 hover:text-black"
                                 )}
                                 onClick={() => setStatusFilter("ready")}
                             >
                                 📦 Έτοιμες για Αποστολή
                                 <span className={cn(
-                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px]",
-                                    statusFilter === "ready" ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-800 font-extrabold"
+                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-black",
+                                    statusFilter === "ready" ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-900"
                                 )}>
                                     {readyCount}
                                 </span>
@@ -3143,15 +3143,15 @@ export default function AutopsiaPage() {
                                 variant={statusFilter === "all" ? "default" : "ghost"}
                                 size="sm"
                                 className={cn(
-                                    "h-9 px-3.5 rounded-lg text-xs font-bold transition-all",
-                                    statusFilter === "all" ? "bg-blue-600 hover:bg-blue-700 text-white shadow-sm" : "text-slate-700 hover:bg-slate-200/60"
+                                    "h-9 px-3.5 rounded-lg text-xs font-black transition-all",
+                                    statusFilter === "all" ? "bg-blue-600 hover:bg-blue-700 text-white shadow-sm" : "text-slate-900 hover:bg-slate-200 hover:text-black"
                                 )}
                                 onClick={() => setStatusFilter("all")}
                             >
                                 📁 Όλες
                                 <span className={cn(
-                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px]",
-                                    statusFilter === "all" ? "bg-white/20 text-white" : "bg-slate-200 text-slate-700 font-extrabold"
+                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-black",
+                                    statusFilter === "all" ? "bg-white/20 text-white" : "bg-slate-200 text-slate-950"
                                 )}>
                                     {allCount}
                                 </span>
@@ -3159,7 +3159,7 @@ export default function AutopsiaPage() {
                         </div>
 
                         {/* City Filters */}
-                        <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-xl border border-slate-200/80">
+                        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200">
                             {[
                                 { key: "all", label: "Όλες οι Πόλεις" },
                                 { key: "kastoria", label: "📍 Καστοριά" },
@@ -3170,17 +3170,17 @@ export default function AutopsiaPage() {
                                     variant={cityFilter === filter.key ? "default" : "ghost"}
                                     size="sm"
                                     className={cn(
-                                        "h-9 px-3 rounded-lg text-xs font-bold transition-all",
+                                        "h-9 px-3 rounded-lg text-xs font-black transition-all",
                                         cityFilter === filter.key && filter.key === "kastoria" && "bg-purple-600 hover:bg-purple-700 text-white",
-                                        cityFilter === filter.key && filter.key === "florina" && "bg-cyan-600 hover:bg-cyan-700 text-white",
-                                        cityFilter === filter.key && filter.key === "all" && "bg-slate-800 hover:bg-slate-900 text-white",
-                                        cityFilter !== filter.key && "text-slate-700 hover:bg-slate-200/60"
+                                        cityFilter === filter.key && filter.key === "florina" && "bg-cyan-700 hover:bg-cyan-800 text-white",
+                                        cityFilter === filter.key && filter.key === "all" && "bg-slate-950 hover:bg-black text-white",
+                                        cityFilter !== filter.key && "text-slate-900 hover:bg-slate-200 hover:text-black"
                                     )}
                                     onClick={() => setCityFilter(filter.key as any)}
                                 >
                                     {filter.label}
                                     {validCustomers && (
-                                        <span className="ml-1.5 opacity-70">
+                                        <span className={cn("ml-1.5", cityFilter === filter.key ? "opacity-90" : "opacity-80 font-black")}>
                                             ({filter.key === "all" ? validCustomers.length : validCustomers.filter(c => (c as any)[`is_${filter.key}`]).length})
                                         </span>
                                     )}
@@ -3671,34 +3671,34 @@ export default function AutopsiaPage() {
             )}
 
             <Dialog open={commentEditOpen} onOpenChange={setCommentEditOpen}>
-                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px] bg-white text-slate-950 border-slate-200 shadow-2xl">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
+                        <DialogTitle className="flex items-center gap-2 text-slate-950 font-bold">
                             <PenLine className="h-5 w-5 text-primary" />
                             Παρατηρήσεις Αυτοψίας
                         </DialogTitle>
                         <DialogDescription className="sr-only">
                             Επεξεργασία των παρατηρήσεων για την επιλεγμένη αυτοψία.
                         </DialogDescription>
-                        <p className="text-sm text-muted-foreground font-medium">
+                        <p className="text-sm text-slate-700 font-semibold">
                             {editingCustomerForComment?.address}
                         </p>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <textarea
-                            className="min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="min-h-[150px] w-full rounded-md border border-slate-300 bg-white p-3 text-sm text-slate-950 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                             placeholder="Γράψτε εδώ τις παρατηρήσεις σας..."
                             value={tempComment}
                             onChange={(e) => setTempComment(e.target.value)}
                         />
                     </div>
                     <div className="flex justify-end gap-3">
-                        <Button variant="outline" onClick={() => setCommentEditOpen(false)}>
+                        <Button variant="outline" className="border-slate-300 text-slate-800 hover:bg-slate-200 hover:text-black font-bold" onClick={() => setCommentEditOpen(false)}>
                             Ακύρωση
                         </Button>
                         <Button
                             onClick={() => saveCommentMutation.mutate({ id: editingCustomerForComment.id, comments: tempComment })}
-                            className="bg-primary text-white"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold"
                             disabled={saveCommentMutation.isPending}
                         >
                             {saveCommentMutation.isPending ? "Αποθήκευση..." : "Αποθήκευση"}
@@ -3709,13 +3709,13 @@ export default function AutopsiaPage() {
 
             {/* ADT Input Dialog */}
             <Dialog open={!!currentCustomerForAdt} onOpenChange={(open) => !open && setCurrentCustomerForAdt(null)}>
-                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px] bg-white text-slate-950 border-slate-200 shadow-2xl">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
+                        <DialogTitle className="flex items-center gap-2 text-slate-950 font-bold">
                             <UserCircle className="h-5 w-5 text-primary" />
                             Εισαγωγή ΑΔΤ Πελάτη
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-slate-700 font-medium">
                             Πληκτρολογήστε τον αριθμό ταυτότητας για να συμπληρωθεί αυτόματα στην Υπεύθυνη Δήλωση.
                         </DialogDescription>
                     </DialogHeader>
@@ -3724,12 +3724,12 @@ export default function AutopsiaPage() {
                             placeholder="π.χ. ΑΝ 123456"
                             value={tempAdt}
                             onChange={(e) => setTempAdt(e.target.value.toUpperCase())}
-                            className="text-lg font-bold uppercase h-12"
+                            className="text-lg font-black uppercase h-12 bg-white text-slate-950 border-slate-300"
                             autoFocus
                         />
                     </div>
                     <div className="flex justify-end gap-3">
-                        <Button variant="outline" onClick={() => setCurrentCustomerForAdt(null)}>Άκυρο</Button>
+                        <Button variant="outline" className="border-slate-300 text-slate-800 hover:bg-slate-200 hover:text-black font-bold" onClick={() => setCurrentCustomerForAdt(null)}>Άκυρο</Button>
                         <Button 
                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold" 
                             disabled={saveAdtMutation.isPending}
@@ -3743,13 +3743,13 @@ export default function AutopsiaPage() {
 
             {/* Chimney Number Dialog */}
             <Dialog open={!!currentCustomerForChimney} onOpenChange={(open) => !open && setCurrentCustomerForChimney(null)}>
-                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px] bg-white text-slate-950 border-slate-200 shadow-2xl">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
+                        <DialogTitle className="flex items-center gap-2 text-slate-950 font-bold">
                             <PenLine className="h-4 w-4 text-primary" />
                             Αριθμός Καμπίνας
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-slate-700 font-medium">
                             Εισάγετε τον αριθμό καμπίνας για {currentCustomerForChimney?.address}.
                         </DialogDescription>
                     </DialogHeader>
@@ -3758,6 +3758,7 @@ export default function AutopsiaPage() {
                             placeholder="π.χ. 123"
                             value={tempChimney}
                             onChange={(e) => setTempChimney(e.target.value)}
+                            className="bg-white text-slate-950 border-slate-300 font-bold"
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                     saveChimneyNumberMutation.mutate({
@@ -3768,6 +3769,7 @@ export default function AutopsiaPage() {
                             }}
                         />
                         <Button
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold"
                             onClick={() => saveChimneyNumberMutation.mutate({
                                 id: currentCustomerForChimney.id,
                                 chimney_number: tempChimney
@@ -3782,23 +3784,23 @@ export default function AutopsiaPage() {
 
             {/* Signature Dialog */}
             <Dialog open={!!currentCustomerForSignature} onOpenChange={(open) => !open && setCurrentCustomerForSignature(null)}>
-                <DialogContent aria-describedby={undefined} className="sm:max-w-[500px]">
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[500px] bg-white text-slate-950 border-slate-200 shadow-2xl">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
+                        <DialogTitle className="flex items-center gap-2 text-slate-950 font-bold">
                             <PenLine className="h-5 w-5 text-primary" />
                             Ψηφιακή Υπογραφή Πελάτη
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-slate-700 font-medium">
                             Παρακαλούμε υπογράψτε μέσα στο παρακάτω πλαίσιο.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="py-4">
-                        <div className="border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 overflow-hidden touch-none">
+                        <div className="border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 overflow-hidden touch-none">
                             <canvas
                                 id="signature-canvas"
                                 width={450}
                                 height={250}
-                                className="w-full cursor-crosshair"
+                                className="w-full cursor-crosshair bg-white"
                                 onMouseDown={(e) => {
                                     const canvas = e.currentTarget;
                                     const ctx = canvas.getContext('2d');
@@ -3854,6 +3856,7 @@ export default function AutopsiaPage() {
                     <div className="flex justify-between gap-3">
                         <Button 
                             variant="outline" 
+                            className="border-slate-300 text-slate-800 hover:bg-slate-200 hover:text-black font-bold"
                             onClick={() => {
                                 const canvas = document.getElementById('signature-canvas') as HTMLCanvasElement;
                                 const ctx = canvas?.getContext('2d');
@@ -3864,7 +3867,7 @@ export default function AutopsiaPage() {
                             Καθαρισμός
                         </Button>
                         <div className="flex gap-2">
-                            <Button variant="outline" onClick={() => setCurrentCustomerForSignature(null)}>Άκυρο</Button>
+                            <Button variant="outline" className="border-slate-300 text-slate-800 hover:bg-slate-200 hover:text-black font-bold" onClick={() => setCurrentCustomerForSignature(null)}>Άκυρο</Button>
                             <Button 
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold flex items-center gap-2" 
                                 disabled={isSavingSignature}
@@ -3902,30 +3905,30 @@ export default function AutopsiaPage() {
             
             {/* Father's Name Dialog */}
             <Dialog open={!!currentCustomerForFatherName} onOpenChange={(open) => !open && setCurrentCustomerForFatherName(null)}>
-                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px] bg-white text-slate-950 border-slate-200 shadow-2xl">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
+                        <DialogTitle className="flex items-center gap-2 text-slate-950 font-bold">
                             <UserCircle className="h-5 w-5 text-primary" />
                             Ονοματεπώνυμο Πατρός
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-slate-700 font-medium">
                             Εισάγετε το όνομα πατρός του πελάτη για το έντυπο.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid gap-2">
-                            <label htmlFor="father-name" className="text-sm font-medium">Όνομα Πατρός</label>
+                            <label htmlFor="father-name" className="text-sm font-bold text-slate-900">Όνομα Πατρός</label>
                             <Input
                                 id="father-name"
                                 placeholder="π.χ. ΙΩΑΝΝΗΣ"
                                 value={tempFatherName}
                                 onChange={(e) => setTempFatherName(e.target.value.toUpperCase())}
-                                className="col-span-3 uppercase"
+                                className="col-span-3 uppercase bg-white text-slate-950 border-slate-300 font-bold"
                             />
                         </div>
                     </div>
                     <div className="flex justify-end gap-3">
-                        <Button variant="outline" onClick={() => setCurrentCustomerForFatherName(null)}>Πίσω</Button>
+                        <Button variant="outline" className="border-slate-300 text-slate-800 hover:bg-slate-200 hover:text-black font-bold" onClick={() => setCurrentCustomerForFatherName(null)}>Πίσω</Button>
                         <Button 
                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold" 
                             disabled={saveFatherNameMutation.isPending}
@@ -3939,9 +3942,9 @@ export default function AutopsiaPage() {
 
             {/* Excel Preview Dialog */}
             <Dialog open={!!previewExcelUrl} onOpenChange={(open) => !open && setPreviewExcelUrl(null)}>
-                <DialogContent aria-describedby={undefined} className="max-w-[95vw] w-[1200px] h-[90vh] p-0 overflow-hidden flex flex-col">
-                    <DialogHeader className="p-4 border-b flex-shrink-0">
-                        <DialogTitle className="flex items-center gap-2">
+                <DialogContent aria-describedby={undefined} className="max-w-[95vw] w-[1200px] h-[90vh] p-0 overflow-hidden flex flex-col bg-white text-slate-950 border-slate-200 shadow-2xl">
+                    <DialogHeader className="p-4 border-b border-slate-200 flex-shrink-0">
+                        <DialogTitle className="flex items-center gap-2 text-slate-950 font-bold">
                             <FileSpreadsheet className="h-5 w-5 text-emerald-600" />
                             Προεπισκόπηση Γραμμογράφησης (Excel)
                         </DialogTitle>
@@ -3964,27 +3967,27 @@ export default function AutopsiaPage() {
 
             {/* Cancellation Reason Dialog */}
             <Dialog open={cancellationDialogOpen} onOpenChange={setCancellationDialogOpen}>
-                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px] bg-white text-slate-950 border-slate-200 shadow-2xl">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2 text-red-600">
+                        <DialogTitle className="flex items-center gap-2 text-red-600 font-bold">
                             <AlertTriangle className="h-5 w-5" />
                             Ακύρωση Αυτοψίας
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-slate-700 font-medium">
                             Παρακαλώ εισάγετε τον λόγο για τον οποίο ακυρώνεται η αυτοψία στη διεύθυνση:
-                            <div className="font-bold text-slate-900 mt-1">{cancellingCustomer?.address}</div>
+                            <div className="font-bold text-slate-950 mt-1">{cancellingCustomer?.address}</div>
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <textarea
-                            className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="min-h-[120px] w-full rounded-md border border-slate-300 bg-white p-3 text-sm text-slate-950 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 font-medium"
                             placeholder="Λόγος ακύρωσης..."
                             value={cancellationReason}
                             onChange={(e) => setCancellationReason(e.target.value)}
                         />
                     </div>
                     <div className="flex justify-end gap-3">
-                        <Button variant="outline" onClick={() => setCancellationDialogOpen(false)}>
+                        <Button variant="outline" className="border-slate-300 text-slate-800 hover:bg-slate-200 hover:text-black font-bold" onClick={() => setCancellationDialogOpen(false)}>
                             Πίσω
                         </Button>
                         <Button
@@ -3998,7 +4001,7 @@ export default function AutopsiaPage() {
                                     reason: cancellationReason
                                 });
                             }}
-                            className="bg-red-600 hover:bg-red-700 text-white"
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold"
                             disabled={cancelAutopsiaMutation.isPending}
                         >
                             {cancelAutopsiaMutation.isPending ? "Ακύρωση..." : "ΕΠΙΒΕΒΑΙΩΣΗ ΑΚΥΡΩΣΗΣ"}

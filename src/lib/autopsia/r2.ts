@@ -65,43 +65,26 @@ export async function uploadToR2(rawFile: File | Blob, fileName: string): Promis
       /\.(jpg|jpeg|png|webp|heic)$/i.test(fileName);
       
     const file = isImage ? await compressImageForUpload(rawFile) : rawFile;
-    const contentType = isImage ? "image/jpeg" : (file.type || "application/octet-stream");
 
-    const res = await fetch("/api/autopsia/r2-sign-upload", {
+    const formData = new FormData();
+    formData.append("file", file, fileName);
+    formData.append("fileName", fileName);
+
+    const res = await fetch("/api/autopsia/upload", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fileName, contentType }),
+      body: formData,
     });
 
-    const signData = await res.json();
-
-    if (!res.ok || !signData?.uploadUrl) {
-      console.warn("R2 Sign notice:", signData?.error);
-      // Fallback if R2 credentials aren't set yet in .env: allow preview via local Blob URL
+    const data = await res.json();
+    if (!res.ok || !data?.url) {
+      console.warn("R2 upload notice:", data?.error);
       if (rawFile instanceof Blob) {
         return URL.createObjectURL(rawFile);
       }
       return null;
     }
 
-    const { uploadUrl } = signData;
-
-    const uploadRes = await fetch(uploadUrl, {
-      method: "PUT",
-      body: file,
-      headers: {
-        "Content-Type": contentType,
-      },
-    });
-
-    if (!uploadRes.ok) {
-      const errorText = await uploadRes.text();
-      console.error("R2 Upload failed:", errorText);
-      throw new Error(`Upload failed: ${uploadRes.statusText}`);
-    }
-
-    const publicBaseUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || "https://pub-80f7efe0d271423e936b64080f0a0de2.r2.dev";
-    return `${publicBaseUrl.replace(/\/$/, "")}/${fileName}`;
+    return data.url;
   } catch (error) {
     console.error("uploadToR2 Error:", error);
     if (rawFile instanceof Blob) {

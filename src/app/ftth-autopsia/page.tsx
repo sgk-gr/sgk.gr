@@ -20,9 +20,16 @@ const AutopsiaView = dynamic(() => import("@/components/autopsia/AutopsiaView"),
 export default function FtthAutopsiaPage() {
   useEffect(() => {
     document.documentElement.classList.remove("dark");
+    document.documentElement.classList.add("ftth-theme");
+    document.body.classList.add("ftth-theme");
     try {
       localStorage.setItem("km_theme_mode", "light");
     } catch {}
+
+    return () => {
+      document.documentElement.classList.remove("ftth-theme");
+      document.body.classList.remove("ftth-theme");
+    };
   }, []);
 
   const [queryClient] = useState(
@@ -40,7 +47,7 @@ export default function FtthAutopsiaPage() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <main className="min-h-screen bg-slate-50 text-slate-900">
+      <main className="ftth-autopsia-scope min-h-screen bg-slate-50 text-slate-900">
         <Suspense
           fallback={
             <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 text-slate-900">
