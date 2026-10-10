@@ -606,6 +606,57 @@ const templates = [
   }
 ];
 
+const EmailTimingIndicator = () => {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const day = now.getDay();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  const time = hour + minute / 60;
+
+  let status: 'good' | 'okay' | 'bad' = 'bad';
+  let message = 'Ακατάλληλη Στιγμή';
+
+  if (day === 0 || day === 6 || day === 1) {
+    status = 'bad';
+    message = day === 1 ? 'Μην στείλεις (Δευτέρα/Spam)' : 'Σαββατοκύριακο (Ακατάλληλο)';
+  } else if (time < 8 || time >= 17) {
+    status = 'bad';
+    message = 'Εκτός Ωραρίου (Μην στείλεις)';
+  } else if (day === 5 && time > 14) {
+    status = 'bad';
+    message = 'Απόγευμα Παρασκευής (Checkout)';
+  } else if ((day >= 2 && day <= 4) && ((time >= 8.5 && time <= 10.5) || (time >= 13.5 && time <= 15))) {
+    status = 'good';
+    message = 'Ιδανική Στιγμή (Στείλε τώρα!)';
+  } else {
+    status = 'okay';
+    message = 'Μέτρια Στιγμή (ΟΚ για αποστολή)';
+  }
+
+  return (
+    <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider shadow-sm border ${
+      status === 'good' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 
+      status === 'okay' ? 'bg-amber-50 text-amber-700 border-amber-200' : 
+      'bg-rose-50 text-rose-700 border-rose-200'
+    }`} title="Βασισμένο σε B2B ψυχολογία">
+      <span className="relative flex h-2 w-2">
+        {status === 'good' && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>}
+        <span className={`relative inline-flex rounded-full h-2 w-2 ${
+          status === 'good' ? 'bg-emerald-500' : 
+          status === 'okay' ? 'bg-amber-500' : 'bg-rose-500'
+        }`}></span>
+      </span>
+      {message}
+    </div>
+  );
+};
+
 export function EmailsTab() {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -2357,6 +2408,7 @@ function safeEncodeBase64(data: any): string {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
+            <EmailTimingIndicator />
             <button
               onClick={() => {
                 setSingleLeadTarget(null);
