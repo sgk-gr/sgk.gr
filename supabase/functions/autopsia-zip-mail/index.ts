@@ -23,8 +23,8 @@ serve(async (req) => {
             toEmails = customer.autopsia_tech_data.recipient_email.split(',').map((e: string) => e.trim()).filter((e: string) => e);
         }
 
-        // Real stored file names: <SR>_YD_Diaxeiristi, <SR>_Texn_Perigrafi, <SR>_Entypo_1, <SR>_Ekthesi_Epith, <SR>_aut_fb_<floor>_<n>
-        const entypaMarkers = ['yd_diaxeiristi', 'texn_perigrafi', 'entypo_', 'ekthesi_epith', 'aut_fb_', 'aut_decl', 'aut_tech', 'aut_form', 'aut_report'];
+        // The 7 entypa: <SR>_YD_Diaxeiristi, _Kampina, _Anamoni, _Texn_Perigrafi, _XEDM, _Entypo_1, _Ekthesi_Epith
+        const entypaMarkers = ['yd_diaxeiristi', 'kampina', 'anamoni', 'texn_perigrafi', 'xedm', 'entypo_1', 'ekthesi_epith'];
         let attachments: any[] = [];
 
         const photoUrls: string[] = Array.isArray(customer?.photo_urls) ? customer.photo_urls : [];
