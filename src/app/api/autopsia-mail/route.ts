@@ -8,7 +8,7 @@ export async function POST(req: Request) {
         const resend = new Resend(process.env.RESEND_API_KEY || 're_123');
         const { customer, userEmail } = await req.json();
 
-        const data = await resend.emails.send({
+        const { data, error: resendError } = await resend.emails.send({
             from: 'SGK Digital <noreply@sgk.gr>',
             to: customer.autopsia_tech_data?.recipient_email ? [customer.autopsia_tech_data.recipient_email] : ['spiros39t@gmail.com', 'kmfiber@teletronic.gr'],
             subject: `Ολοκλήρωση Αυτοψίας: ${customer.address} - ${customer.city}`,
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
             `,
         });
 
-        return NextResponse.json(data);
+        if (resendError) { console.error("Resend error:", resendError); return NextResponse.json({ error: resendError }, { status: 400 }); } return NextResponse.json(data);
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }

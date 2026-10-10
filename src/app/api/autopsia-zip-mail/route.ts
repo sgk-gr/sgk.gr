@@ -25,7 +25,7 @@ export async function POST(req: Request) {
                         
                         attachments.push({
                             filename: `${cat}_${customer.id}.jpg`,
-                            content: buffer,
+                            content: buffer.toString("base64"),
                         });
                     } catch (e) {
                         console.error('Failed to fetch attachment', url, e);
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
             }
         }
 
-        const data = await resend.emails.send({
+        const { data, error: resendError } = await resend.emails.send({
             from: 'SGK Digital <noreply@sgk.gr>',
             to: customer.autopsia_tech_data?.recipient_email ? [customer.autopsia_tech_data.recipient_email] : ['spiros39t@gmail.com'],
             subject: `Έγγραφα Αυτοψίας (ZIP): ${customer.address} - ${customer.city}`,
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
             attachments: attachments.length > 0 ? attachments : undefined
         });
 
-        return NextResponse.json(data);
+        if (resendError) { console.error("Resend error:", resendError); return NextResponse.json({ error: resendError }, { status: 400 }); } return NextResponse.json(data);
     } catch (error: any) {
         console.error('autopsia-zip-mail error:', error);
         return NextResponse.json({ error: error.message }, { status: 500 });
