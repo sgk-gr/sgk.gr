@@ -184,7 +184,8 @@ const templates = [
   <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Η ολοκληρωμένη λύση (150€ τελικό κόστος με ΦΠΑ):</p>
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.6;">
     <li>Έτοιμη ιστοσελίδα συμβατή με τις προδιαγραφές ΓΕΜΗ σε 24 ώρες.</li>
-    <li>Κατοχύρωση .gr Domain (για 2 έτη) & Hosting (1 έτος).</li>
+    <li>Κατοχύρωση .gr Domain & Hosting (για 1 έτος).</li>
+    <li>Κατασκευή επαγγελματικού λογοτύπου.</li>
     <li>Εταιρικό Email (π.χ. info@...).</li>
     <li>Νόμιμο τιμολόγιο για τα έξοδα της εταιρείας σας.</li>
   </ul>
