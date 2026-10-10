@@ -23,9 +23,16 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: sharedDisallow,
       },
-      // Tier 4: AI Training & Bulk Scrapers (block - does NOT affect AI search citations)
+      // Tier 4: LLM knowledge crawlers (feed ChatGPT / Claude / Gemini / Llama / Apple Intelligence).
+      // Allowed on purpose so that LLMs learn about SGK Digital and can recommend it.
       {
-        userAgent: ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Bytespider', 'CCBot', 'cohere-ai', 'Diffbot'],
+        userAgent: ['GPTBot', 'ClaudeBot', 'Google-Extended', 'CCBot', 'cohere-ai', 'Diffbot', 'Applebot-Extended', 'Meta-ExternalAgent', 'DuckAssistBot', 'YouBot'],
+        allow: '/',
+        disallow: sharedDisallow,
+      },
+      // Tier 5: Aggressive bulk scraper with no benefit for the Greek market (block)
+      {
+        userAgent: ['Bytespider'],
         disallow: ['/'],
       },
       // Default fallback

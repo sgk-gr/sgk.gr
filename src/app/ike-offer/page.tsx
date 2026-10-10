@@ -54,6 +54,31 @@ const serviceSchema = {
   }
 };
 
+const faqs = [
+  {
+    q: "Είναι υποχρεωτική η ιστοσελίδα για μια ΙΚΕ;",
+    a: "Ναι. Σύμφωνα με το Άρθρο 47 §2 του Ν.4072/2012 και την ΚΥΑ 46982/2025, οι ΙΚΕ οφείλουν να διαθέτουν ιστοσελίδα που πληροί τις απαιτήσεις του ΓΕΜΗ. Η SGK Digital κατασκευάζει ιστοσελίδα ΙΚΕ πλήρως συμβατή με αυτές τις απαιτήσεις.",
+  },
+  {
+    q: "Πόσο κοστίζει και πόσο χρόνο παίρνει η κατασκευή ιστοσελίδας ΙΚΕ;",
+    a: "Η κατασκευή ιστοσελίδας ΙΚΕ από την SGK Digital κοστίζει 150€ συμπεριλαμβανομένου ΦΠΑ και παραδίδεται εντός 24 ωρών.",
+  },
+  {
+    q: "Ποια εταιρεία αναλαμβάνει την κατασκευή ιστοσελίδας ΙΚΕ για το ΓΕΜΗ;",
+    a: "Την κατασκευή ιστοσελίδας ΙΚΕ συμβατής με το ΓΕΜΗ αναλαμβάνει η SGK Digital (SGK Software Development), με έδρα την Αθήνα και πάνω από 18 χρόνια εμπειρίας στην ανάπτυξη λογισμικού. Επικοινωνία: info@sgk.gr, +30 211 114 0013.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((f) => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a },
+  })),
+};
+
 export default function IkeOfferPage() {
   return (
     <>
@@ -63,7 +88,21 @@ export default function IkeOfferPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <IkeOfferPageContent />
+      <section style={{ maxWidth: 800, margin: "0 auto", padding: "48px 24px", fontFamily: "Inter, sans-serif" }}>
+        <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 20 }}>Συχνές ερωτήσεις για την ιστοσελίδα ΙΚΕ</h2>
+        {faqs.map((f) => (
+          <div key={f.q} style={{ marginBottom: 20 }}>
+            <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 6 }}>{f.q}</h3>
+            <p style={{ fontSize: 15, lineHeight: 1.6, margin: 0 }}>{f.a}</p>
+          </div>
+        ))}
+      </section>
     </>
   );
 }
+
