@@ -1633,8 +1633,8 @@ const compressImage = (file: File | Blob, watermark?: string): Promise<Blob | Fi
 
 
 export default function AutopsiaPage() {
-    const [searchParams] = useSearchParams();
-    const customerUrlParam = searchParams.get("customer");
+    const searchParams = useSearchParams();
+    const customerUrlParam = searchParams ? searchParams.get("customer") : null;
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         document.title = "Αυτοψίες FTTH | Field Engineering System";
@@ -1648,7 +1648,13 @@ export default function AutopsiaPage() {
         fetchUser();
     }, []);
 
-    const [searchQuery, setSearchQuery] = useState(() => localStorage.getItem("autopsia2_searchQuery") || "");
+    const [searchQuery, setSearchQuery] = useState(() => {
+        try {
+            return typeof window !== "undefined" ? localStorage.getItem("autopsia2_searchQuery") || "" : "";
+        } catch {
+            return "";
+        }
+    });
     const [visibleCount, setVisibleCount] = useState(20);
     const [selectedCustomerPhotos, setSelectedCustomerPhotos] = useState<string[] | null>(null);
     const [selectedCustomerName, setSelectedCustomerName] = useState<string>("");
@@ -1658,17 +1664,35 @@ export default function AutopsiaPage() {
     const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number; category: string, floor?: string } | null>(null);
     const [fbFloors, setFbFloors] = useState<Record<string, string[]>>({});
     const [newFloorInput, setNewFloorInput] = useState<Record<string, string>>({});
-    const [cityFilter, setCityFilter] = useState<"all" | "kastoria" | "florina">(() => (localStorage.getItem("autopsia2_cityFilter") as any) || "all");
-    const [statusFilter, setStatusFilter] = useState<"pending" | "ready" | "all">(() => (localStorage.getItem("autopsia2_statusFilter") as any) || "pending");
-    const [expandedCustomers, setExpandedCustomers] = useState<Record<string, boolean>>(() => {
-        const saved = localStorage.getItem("autopsia2_expandedCustomers");
+    const [cityFilter, setCityFilter] = useState<"all" | "kastoria" | "florina">(() => {
         try {
+            return (typeof window !== "undefined" ? (localStorage.getItem("autopsia2_cityFilter") as any) : null) || "all";
+        } catch {
+            return "all";
+        }
+    });
+    const [statusFilter, setStatusFilter] = useState<"pending" | "ready" | "all">(() => {
+        try {
+            return (typeof window !== "undefined" ? (localStorage.getItem("autopsia2_statusFilter") as any) : null) || "pending";
+        } catch {
+            return "pending";
+        }
+    });
+    const [expandedCustomers, setExpandedCustomers] = useState<Record<string, boolean>>(() => {
+        try {
+            const saved = typeof window !== "undefined" ? localStorage.getItem("autopsia2_expandedCustomers") : null;
             return saved ? JSON.parse(saved) : {};
         } catch {
             return {};
         }
     });
-    const [activeCustomerId, setActiveCustomerId] = useState<string | null>(() => localStorage.getItem("autopsia2_activeCustomerId") || null);
+    const [activeCustomerId, setActiveCustomerId] = useState<string | null>(() => {
+        try {
+            return typeof window !== "undefined" ? localStorage.getItem("autopsia2_activeCustomerId") : null;
+        } catch {
+            return null;
+        }
+    });
 
     useEffect(() => {
         if (activeCustomerId) {
