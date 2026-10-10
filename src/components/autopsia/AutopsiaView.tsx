@@ -44,6 +44,7 @@ import { uploadToR2, deleteFromR2 } from "@/lib/autopsia/r2";
 import { FileText } from "lucide-react";
 import { TechDescriptionModal, type TechDescriptionData } from "./TechDescriptionModal";
 import { ThemeToggle } from "./ThemeToggle";
+import { NewAutopsiaModal } from "./NewAutopsiaModal";
 
 
 const catNamesGreek: Record<string, string> = {
@@ -1661,6 +1662,7 @@ export default function AutopsiaPage() {
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
     const [timelineCustomer, setTimelineCustomer] = useState<any | null>(null);
     const [timelineOpen, setTimelineOpen] = useState(false);
+    const [isNewAutopsiaOpen, setIsNewAutopsiaOpen] = useState(false);
     const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number; category: string, floor?: string } | null>(null);
     const [fbFloors, setFbFloors] = useState<Record<string, string[]>>({});
     const [newFloorInput, setNewFloorInput] = useState<Record<string, string>>({});
@@ -2417,7 +2419,15 @@ export default function AutopsiaPage() {
     const saveChimneyNumberMutation = useMutation({
         mutationFn: async ({ id, chimney_number }: { id: string; chimney_number: string }) => {
             const clean = chimney_number ? chimney_number.trim().replace(/^[gG]/i, '').trim() : chimney_number;
-            const { error } = await supabase.from("customers").update({ chimney_number: clean, kampina: clean } as any).eq("id", id);
+            const customer = customers?.find(c => c.id === id);
+            const currentTech = customer?.autopsia_tech_data || {};
+            const { error } = await supabase.from("customers").update({
+                chimney_type: clean,
+                autopsia_tech_data: {
+                    ...currentTech,
+                    chimney_number: clean
+                }
+            } as any).eq("id", id);
             if (error) throw error;
         },
         onSuccess: () => {
@@ -2911,8 +2921,16 @@ export default function AutopsiaPage() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 sm:gap-4">
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border-slate-200 shadow-xs border rounded-full text-sm font-medium text-slate-700">
+                <div className="flex items-center gap-2 sm:gap-3">
+                    <Button 
+                        onClick={() => setIsNewAutopsiaOpen(true)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold h-9 px-3.5 rounded-xl flex items-center gap-1.5 shadow-sm transition-all text-xs sm:text-sm cursor-pointer"
+                    >
+                        <Plus className="h-4 w-4 stroke-[2.5]" />
+                        <span>Νέα Αυτοψία</span>
+                    </Button>
+
+                    <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-white border-slate-200 shadow-xs border rounded-full text-sm font-medium text-slate-700">
                         <Users className="h-4 w-4 text-blue-600" />
                         <span>{customers?.length || 0} Κτήρια</span>
                     </div>
@@ -2931,10 +2949,11 @@ export default function AutopsiaPage() {
                                         <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                                     </div>
                                 </DropdownMenuLabel>
-                                <div className="mb-2 px-2">
-
-                                </div>
                                 <div className="max-h-[300px] overflow-y-auto">
+                                    <DropdownMenuItem onClick={() => setIsNewAutopsiaOpen(true)} className="cursor-pointer flex items-center gap-2 text-blue-600 font-bold">
+                                        <Plus className="h-4 w-4" /> Νέα Αυτοψία
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => setStatusFilter("pending")} className="cursor-pointer flex items-center gap-2">
                                         <Zap className="h-4 w-4 text-amber-500" /> Εκκρεμείς Αυτοψίες
                                     </DropdownMenuItem>
@@ -3220,8 +3239,13 @@ export default function AutopsiaPage() {
                                         </h3>
                                         <p className="text-sm text-slate-500 font-medium flex items-center gap-1.5 flex-wrap">
                                             SR: {customer.sr} 
-                                            {customer.chimney_number ? (
-                                                <span> • <span className="font-bold text-blue-900 cursor-pointer hover:underline" onClick={(e) => { e.stopPropagation(); setCurrentCustomerForChimney(customer); setTempChimney(customer.chimney_number); }}>Καμπίνα: {customer.chimney_number} <PenLine className="inline h-3 w-3" /></span></span>
+                                            {(customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number) ? (
+                                                <span> • <span className="font-bold text-blue-900 cursor-pointer hover:underline" onClick={(e) => { 
+                                                    e.stopPropagation(); 
+                                                    const chim = customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number || "";
+                                                    setCurrentCustomerForChimney(customer); 
+                                                    setTempChimney(chim); 
+                                                }}>Καμπίνα: {customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number} <PenLine className="inline h-3 w-3" /></span></span>
                                             ) : (
                                                 <span> • <span className="font-bold text-blue-900 cursor-pointer hover:underline" onClick={(e) => { e.stopPropagation(); setCurrentCustomerForChimney(customer); setTempChimney(""); }}>Προσθήκη Καμπίνας</span></span>
                                             )} 
@@ -3238,9 +3262,10 @@ export default function AutopsiaPage() {
                                                 {isAutopsiaReady(customer) && <span className="text-[9px] font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded border border-emerald-300 flex items-center gap-1">📦 ΕΤΟΙΜΗ</span>}
                                                 {customer.is_kastoria && <span className="text-[9px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded border border-purple-200">📍 ΚΑΣΤΟΡΙΑ</span>}
                                                 {customer.is_florina && <span className="text-[9px] font-bold bg-cyan-100 text-cyan-700 px-1.5 py-0.5 rounded border border-cyan-200">📍 ΦΛΩΡΙΝΑ</span>}
-                                                {customer.is_thiseas && <span className="text-[9px] font-bold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded border border-blue-200">👷 THISEAS</span>}
-                                                {customer.is_ergatikat && <span className="text-[9px] font-bold bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded border border-orange-200">👷 ERGATIKAT</span>}
-                                                {(customer as any).is_beyondwire && <span className="text-[9px] font-bold bg-violet-100 text-violet-700 px-1.5 py-0.5 rounded border border-violet-200">🔷 BEYONDWIRE</span>}
+                                                {(customer.is_thiseas || customer.contractor?.toUpperCase() === 'THISEAS') && <span className="text-[9px] font-bold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded border border-blue-200">👷 THISEAS</span>}
+                                                {(customer.is_ergatikat || customer.contractor?.toUpperCase() === 'ERGATIKAT') && <span className="text-[9px] font-bold bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded border border-orange-200">👷 ERGATIKAT</span>}
+                                                {((customer as any).is_beyondwire || customer.contractor?.toUpperCase() === 'BEYONDWIRE') && <span className="text-[9px] font-bold bg-violet-100 text-violet-700 px-1.5 py-0.5 rounded border border-violet-200">🔷 BEYONDWIRE</span>}
+                                                {(customer.is_kasos || customer.contractor?.toUpperCase() === 'KASOS') && <span className="text-[9px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded border border-green-200">🟢 KASOS</span>}
                                             </span>
                                         </p>
 
@@ -3337,10 +3362,10 @@ export default function AutopsiaPage() {
                                             </div>
                                         </div>
 
-                                        {isExpanded && customer.autopsia_latitude && (
+                                        {isExpanded && (customer.autopsia_latitude || customer.autopsia_tech_data?.latitude) && (
                                             <div className="mt-2 flex items-center gap-1 text-[10px] text-emerald-600 font-mono">
                                                 <MapPin className="h-3 w-3" />
-                                                {customer.autopsia_latitude}, {customer.autopsia_longitude}
+                                                {customer.autopsia_latitude || customer.autopsia_tech_data?.latitude}, {customer.autopsia_longitude || customer.autopsia_tech_data?.longitude}
                                             </div>
                                         )}
                                     </div>
@@ -4166,6 +4191,12 @@ export default function AutopsiaPage() {
                 customer={timelineCustomer}
                 sourcePageName="Παρατηρήσεις Αυτοψίας (Autopsia2Page)"
                 queryKeyToInvalidate={["customers-autopsia2"]}
+            />
+
+            {/* New Autopsy Modal */}
+            <NewAutopsiaModal
+                open={isNewAutopsiaOpen}
+                onOpenChange={setIsNewAutopsiaOpen}
             />
         </div>
     );
