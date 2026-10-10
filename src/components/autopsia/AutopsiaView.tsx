@@ -2179,7 +2179,6 @@ export default function AutopsiaPage() {
             const updatePayload: any = {
                 autopsia_completed: true,
                 is_upcoming: false,
-                anathesi_autopsia: false,
                 autopsia_completed_at: new Date().toISOString(),
                 show_in_earthworks: customer.den_thelei_xwmatoyrgiko ? false : hasEarthworksPhotos,
                 checklist_forms: true,

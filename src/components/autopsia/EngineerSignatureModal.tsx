@@ -11,23 +11,22 @@ interface EngineerSignatureModalProps {
 
 export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignatureModalProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [hasDrawn, setHasDrawn] = useState(false);
-
-    useEffect(() => {
-        if (open && canvasRef.current) {
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
+    const setupCanvas = (canvas: HTMLCanvasElement | null) => {
+        canvasRef.current = canvas;
+        if (canvas) {
+            const ctx = canvas.getContext("2d");
             if (ctx) {
-                // Clear and setup
                 ctx.fillStyle = "#ffffff";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.strokeStyle = "#0000FF";
                 ctx.lineWidth = 3;
                 ctx.lineCap = "round";
             }
-            setHasDrawn(false);
         }
-    }, [open]);
+    };
+    const [hasDrawn, setHasDrawn] = useState(false);
+
+
 
     const handleClear = () => {
         if (!canvasRef.current) return;
@@ -68,7 +67,7 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
                 <div className="py-4">
                     <div className="border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 overflow-hidden touch-none relative">
                         <canvas
-                            ref={canvasRef}
+                            ref={setupCanvas}
                             width={450}
                             height={250}
                             className="w-full cursor-crosshair bg-white"
