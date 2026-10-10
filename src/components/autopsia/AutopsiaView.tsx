@@ -1,4 +1,5 @@
 "use client";
+import { EngineerSignatureModal } from "./EngineerSignatureModal";
 
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -1052,7 +1053,7 @@ const drawDigitalTech = async (customer: any, techData: TechDescriptionData, sig
     
     // --- Permanent Engineer Signature ---
     const engSigImg = new window.Image();
-    engSigImg.src = "/engineer_sig.jpg";
+    engSigImg.src = window.localStorage.getItem("autopsia_engineer_signature") || "/engineer_sig.jpg";
     await new Promise((resolve) => {
         engSigImg.onload = () => {
         engSigImg.onerror = () => resolve(null);
@@ -1640,6 +1641,13 @@ const compressImage = (file: File | Blob, watermark?: string): Promise<Blob | Fi
 
 
 export default function AutopsiaPage() {
+    const [showEngineerSigSetup, setShowEngineerSigSetup] = useState(false);
+    useEffect(() => {
+        if (!localStorage.getItem("autopsia_engineer_signature")) {
+            setShowEngineerSigSetup(true);
+        }
+    }, []);
+
     const searchParams = useSearchParams();
     const customerUrlParam = searchParams ? searchParams.get("customer") : null;
     const [user, setUser] = useState<User | null>(null);
@@ -2989,6 +2997,9 @@ export default function AutopsiaPage() {
                                     <DropdownMenuItem onClick={() => setCityFilter("all")} className="cursor-pointer flex items-center gap-2">
                                         <MapPin className="h-4 w-4 text-purple-500" /> Όλες οι Πόλεις
                                     </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setShowEngineerSigSetup(true)} className="cursor-pointer flex items-center gap-2">
+                                        <PenLine className="h-4 w-4 text-blue-500" /> Υπογραφή Τεχνικού
+                                    </DropdownMenuItem>
                                 </div>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem className="text-destructive cursor-pointer" onClick={() => supabase.auth.signOut()}>
@@ -4256,6 +4267,7 @@ export default function AutopsiaPage() {
             />
 
             {/* New Autopsy Modal */}
+            <EngineerSignatureModal open={showEngineerSigSetup} onOpenChange={setShowEngineerSigSetup} />
             <NewAutopsiaModal
                 open={isNewAutopsiaOpen}
                 onOpenChange={setIsNewAutopsiaOpen}
