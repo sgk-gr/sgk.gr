@@ -2662,16 +2662,16 @@ export default function AutopsiaPage() {
         };
 
         return (
-            <div key={cat} className="space-y-3 p-3 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
+            <div key={cat} className="space-y-3 p-3.5 bg-slate-50/70 rounded-2xl border border-slate-200/80 shadow-xs hover:border-slate-300 transition-all">
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <span className="text-[11px] font-bold text-slate-700 uppercase tracking-tight">{label}</span>
+                            <span className="text-[12px] font-extrabold text-slate-800 uppercase tracking-tight">{label}</span>
                             {cat.toLowerCase() === 'aut_tech' && (
                                 <Button 
                                     variant="outline" 
                                     size="sm" 
-                                    className="h-6 px-2 text-[10px] bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100"
+                                    className="h-6 px-2 text-[10px] font-bold bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 rounded-lg"
                                     onClick={handleOpenTechModal}
                                 >
                                     Επιλογές
@@ -2679,9 +2679,9 @@ export default function AutopsiaPage() {
                             )}
                         </div>
 
-                        <div className="flex gap-1">
-                            <Label htmlFor={`camera-${cat}-${customer.id}`} className="cursor-pointer p-1.5 hover:bg-slate-200 rounded-full transition-colors">
-                                <Camera className="h-4 w-4 text-primary" />
+                        <div className="flex items-center gap-1.5">
+                            <Label htmlFor={`camera-${cat}-${customer.id}`} className="cursor-pointer p-2 bg-white rounded-xl border border-slate-200/80 hover:bg-slate-100 hover:border-slate-300 shadow-xs transition-all active:scale-95" title="Λήψη Φωτογραφίας">
+                                <Camera className="h-4 w-4 text-blue-600" />
                                 <input
                                     type="file"
                                     id={`camera-${cat}-${customer.id}`}
@@ -2704,8 +2704,8 @@ export default function AutopsiaPage() {
                                     }}
                                 />
                             </Label>
-                            <Label htmlFor={`upload-${cat}-${customer.id}`} className="cursor-pointer p-1.5 hover:bg-slate-200 rounded-full transition-colors">
-                                <Plus className="h-4 w-4 text-primary" />
+                            <Label htmlFor={`upload-${cat}-${customer.id}`} className="cursor-pointer p-2 bg-white rounded-xl border border-slate-200/80 hover:bg-slate-100 hover:border-slate-300 shadow-xs transition-all active:scale-95" title="Μεταφόρτωση">
+                                <Plus className="h-4 w-4 text-blue-600" />
                                 <input
                                     type="file"
                                     id={`upload-${cat}-${customer.id}`}
@@ -2729,10 +2729,10 @@ export default function AutopsiaPage() {
                             <Button 
                                 variant="outline" 
                                 size="sm" 
-                                className="h-7 px-2 text-[10px] bg-blue-600 text-white hover:bg-blue-700 border-0 shadow-sm"
+                                className="h-7 px-2.5 text-[11px] font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl border-0 shadow-xs active:scale-95 transition-all cursor-pointer"
                                 onClick={handleUseTemplate}
                             >
-                                <FileText className="h-3 w-3 mr-1" />
+                                <FileText className="h-3.5 w-3.5 mr-1" />
                                 Πρότυπο
                             </Button>
                         )}
@@ -2861,7 +2861,7 @@ export default function AutopsiaPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] text-slate-900 pb-20 p-4 md:p-6 transition-colors duration-200">
+        <div className={cn("min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pb-28 px-3 sm:px-6 transition-colors duration-200", customerUrlParam && "pt-4")}>
             {customerUrlParam && (
                 <div className="mb-6 flex items-center justify-between bg-white border-slate-200 p-4 rounded-2xl shadow-sm border max-w-2xl mx-auto">
                     <div className="flex items-center gap-2">
@@ -2913,353 +2913,210 @@ export default function AutopsiaPage() {
                     }}
                 />
             )}
-            <div className={cn("flex items-center justify-between gap-4 mb-8", customerUrlParam && "hidden")}>
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-500/10 rounded-xl">
-                        <Users className="h-7 w-7 text-blue-600" />
-                    </div>
-                    <div>
-                        <h1 className="text-xl md:text-2xl font-black text-slate-950 tracking-tight">Αυτοψίες FTTH</h1>
-                        <p className="text-sm font-semibold text-slate-700 hidden sm:block">
-                            {pendingCount} σε εκκρεμότητα • {readyCount} έτοιμες για αποστολή • Σύστημα 7 Εντύπων ΟΤΕ
-                        </p>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-2 sm:gap-3">
-                    <Button 
-                        onClick={() => setIsNewAutopsiaOpen(true)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold h-9 px-3.5 rounded-xl flex items-center gap-1.5 shadow-sm transition-all text-xs sm:text-sm cursor-pointer"
-                    >
-                        <Plus className="h-4 w-4 stroke-[2.5]" />
-                        <span>Νέα Αυτοψία</span>
-                    </Button>
-
-                    <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-white border-slate-200 shadow-xs border rounded-full text-sm font-medium text-slate-700">
-                        <Users className="h-4 w-4 text-blue-600" />
-                        <span>{customers?.length || 0} Κτήρια</span>
-                    </div>
-
-                    <Button onClick={() => setShowEngineerSigSetup(true)} variant="outline" className="h-9 px-3 rounded-xl flex items-center gap-1.5 border-slate-200 bg-white text-slate-700 hover:bg-slate-50 cursor-pointer">
-                        <PenLine className="h-4 w-4 text-blue-500" />
-                        <span className="hidden sm:inline">Υπογραφή Τεχνικού</span>
-                    </Button>
-                    <Button onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); window.location.reload(); }} variant="outline" className="h-9 w-9 p-0 rounded-xl flex items-center justify-center border-red-200 bg-red-50 text-red-600 hover:bg-red-100 cursor-pointer" title="Διαγραφή Υπογραφής Τεχνικού">
-                        <Trash2 className="h-4 w-4" />
-                    </Button>
-
-                    {user && (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 bg-white shadow-sm border">
-                                    <UserCircle className="h-6 w-6 text-purple-600" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56 mt-2">
-                                <DropdownMenuLabel className="font-normal border-b pb-2 mb-2">
-                                    <div className="flex flex-col space-y-1">
-                                        <p className="text-sm font-medium leading-none">Ο λογαριασμός μου</p>
-                                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                                    </div>
-                                </DropdownMenuLabel>
-                                <div className="max-h-[300px] overflow-y-auto">
-                                    <DropdownMenuItem onClick={() => setIsNewAutopsiaOpen(true)} className="cursor-pointer flex items-center gap-2 text-blue-600 font-bold">
-                                        <Plus className="h-4 w-4" /> Νέα Αυτοψία
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={() => setStatusFilter("pending")} className="cursor-pointer flex items-center gap-2">
-                                        <Zap className="h-4 w-4 text-amber-500" /> Εκκρεμείς Αυτοψίες
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setStatusFilter("ready")} className="cursor-pointer flex items-center gap-2">
-                                        <CheckCircle2 className="h-4 w-4 text-emerald-500" /> Έτοιμες για Αποστολή
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setStatusFilter("all")} className="cursor-pointer flex items-center gap-2">
-                                        <Layers className="h-4 w-4 text-blue-500" /> Όλες οι Αυτοψίες
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setCityFilter("all")} className="cursor-pointer flex items-center gap-2">
-                                        <MapPin className="h-4 w-4 text-purple-500" /> Όλες οι Πόλεις
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setShowEngineerSigSetup(true)} className="cursor-pointer flex items-center gap-2">
-                                        <PenLine className="h-4 w-4 text-blue-500" /> Υπογραφή Τεχνικού
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); window.location.reload(); }} className="cursor-pointer flex items-center gap-2 text-red-500">
-                                        <Trash2 className="h-4 w-4" /> Διαγραφή Υπογραφής Τεχνικού
-                                    </DropdownMenuItem>
-                                </div>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-destructive cursor-pointer" onClick={() => supabase.auth.signOut()}>
-                                    <LogOut className="h-4 w-4 mr-2" />
-                                    Αποσύνδεση
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    )}
-                </div>
-            </div>
-
-            {/* Filters Section (Mobile) */}
-            <div className={cn("lg:hidden bg-white border-slate-200/90 rounded-2xl shadow-sm border p-4 mb-6 space-y-3", customerUrlParam && "hidden")}>
-                <div className="flex flex-col gap-3">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-                        <Input
-                            placeholder="Αναζήτηση (διεύθυνση, όνομα, SR, Building ID)..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-11 bg-white border-slate-300 text-slate-950 placeholder:text-slate-500 font-medium focus-visible:ring-1 focus-visible:ring-blue-500"
-                        />
-                    </div>
-
-                    {/* Quick Status Tabs on Mobile */}
-                    <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200">
-                        <Button
-                            variant={statusFilter === "pending" ? "default" : "ghost"}
-                            size="sm"
-                            className={cn(
-                                "h-8 px-1 text-[11px] font-black rounded-lg transition-all",
-                                statusFilter === "pending" ? "bg-slate-950 text-white shadow-xs" : "text-slate-900 hover:bg-slate-200 hover:text-black"
-                            )}
-                            onClick={() => setStatusFilter("pending")}
-                        >
-                            ⏳ Εκκρεμείς ({pendingCount})
-                        </Button>
-                        <Button
-                            variant={statusFilter === "ready" ? "default" : "ghost"}
-                            size="sm"
-                            className={cn(
-                                "h-8 px-1 text-[11px] font-black rounded-lg transition-all",
-                                statusFilter === "ready" ? "bg-emerald-600 text-white shadow-xs hover:bg-emerald-700" : "text-slate-900 hover:bg-slate-200 hover:text-black"
-                            )}
-                            onClick={() => setStatusFilter("ready")}
-                        >
-                            📦 Έτοιμες ({readyCount})
-                        </Button>
-                        <Button
-                            variant={statusFilter === "all" ? "default" : "ghost"}
-                            size="sm"
-                            className={cn(
-                                "h-8 px-1 text-[11px] font-black rounded-lg transition-all",
-                                statusFilter === "all" ? "bg-blue-600 text-white shadow-xs hover:bg-blue-700" : "text-slate-900 hover:bg-slate-200 hover:text-black"
-                            )}
-                            onClick={() => setStatusFilter("all")}
-                        >
-                            📁 Όλες ({allCount})
-                        </Button>
-                    </div>
-
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button variant="outline" className="w-full h-10 gap-2 bg-white border-dashed text-slate-700 hover:bg-slate-50 text-xs">
-                                <Filter className="h-4 w-4" />
-                                Φίλτρα Πόλης
-                                {cityFilter !== "all" && (
-                                    <span className="ml-1 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px]">1</span>
-                                )}
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-white text-slate-900">
-                            <SheetHeader>
-                                <SheetTitle className="text-slate-900">Φίλτρα</SheetTitle>
-                            </SheetHeader>
-                            <div className="py-6 space-y-6">
-                                <div>
-                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Κατάσταση:</p>
-                                    <div className="flex flex-col gap-2">
-                                        {[
-                                            { key: "pending", label: "⏳ Σε Εκκρεμότητα", count: pendingCount },
-                                            { key: "ready", label: "📦 Έτοιμες για Αποστολή", count: readyCount },
-                                            { key: "all", label: "📁 Όλες οι Αυτοψίες", count: allCount },
-                                        ].map((f) => (
-                                            <Button
-                                                key={f.key}
-                                                variant={statusFilter === f.key ? "default" : "outline"}
-                                                size="sm"
-                                                className={cn(
-                                                    "justify-between font-bold",
-                                                    statusFilter === f.key && f.key === "ready" && "bg-emerald-600 hover:bg-emerald-700 text-white",
-                                                    statusFilter === f.key && f.key === "pending" && "bg-slate-900 hover:bg-slate-800 text-white",
-                                                    statusFilter === f.key && f.key === "all" && "bg-blue-600 hover:bg-blue-700 text-white",
-                                                    statusFilter !== f.key && "bg-white text-slate-700 hover:bg-slate-50"
-                                                )}
-                                                onClick={() => setStatusFilter(f.key as any)}
-                                            >
-                                                <span>{f.label}</span>
-                                                <span className="text-xs opacity-80">({f.count})</span>
-                                            </Button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Πόλη:</p>
-                                    <div className="flex flex-col gap-2">
-                                        {[
-                                            { key: "all", label: "Όλες οι Πόλεις" },
-                                            { key: "kastoria", label: "📍 Καστοριά" },
-                                            { key: "florina", label: "📍 Φλώρινα" },
-                                        ].map((filter) => (
-                                            <Button
-                                                key={filter.key}
-                                                variant={cityFilter === filter.key ? "default" : "outline"}
-                                                size="sm"
-                                                className={cn(
-                                                    "justify-between font-semibold",
-                                                    cityFilter === filter.key && filter.key === "kastoria" && "bg-purple-600 hover:bg-purple-700 text-white",
-                                                    cityFilter === filter.key && filter.key === "florina" && "bg-cyan-600 hover:bg-cyan-700 text-white",
-                                                    cityFilter === filter.key && filter.key === "all" && "bg-slate-800 hover:bg-slate-900 text-white",
-                                                    cityFilter !== filter.key && "bg-white text-slate-700 hover:bg-slate-50"
-                                                )}
-                                                onClick={() => setCityFilter(filter.key as any)}
-                                            >
-                                                <span>{filter.label}</span>
-                                                {validCustomers && (
-                                                    <span className="ml-auto text-xs opacity-70">
-                                                        ({filter.key === "all" ? validCustomers.length : validCustomers.filter(c => (c as any)[`is_${filter.key}`]).length})
-                                                    </span>
-                                                )}
-                                            </Button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </SheetContent>
-                    </Sheet>
-                </div>
-            </div>
-
-            {/* Desktop Filters */}
-            <div className={cn("hidden lg:flex flex-col gap-4 mb-8", customerUrlParam && "hidden")}>
-                <div className="bg-white border-slate-200/90 rounded-2xl shadow-sm border p-4 flex flex-wrap items-center justify-between gap-4">
-                    <div className="relative flex-1 min-w-[280px] max-w-md">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-                        <Input
-                            placeholder="Αναζήτηση βάσει διεύθυνσης, ονόματος, SR ή Building ID..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-11 bg-white border-slate-300 text-slate-950 placeholder:text-slate-500 font-medium focus-visible:ring-1 focus-visible:ring-blue-500"
-                        />
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3">
-                        {/* Status Filter Tabs */}
-                        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200 shadow-xs">
-                            <Button
-                                variant={statusFilter === "pending" ? "default" : "ghost"}
-                                size="sm"
-                                className={cn(
-                                    "h-9 px-3.5 rounded-lg text-xs font-black transition-all",
-                                    statusFilter === "pending" ? "bg-slate-950 text-white shadow-sm" : "text-slate-900 hover:bg-slate-200 hover:text-black"
-                                )}
-                                onClick={() => setStatusFilter("pending")}
-                            >
-                                ⏳ Σε Εκκρεμότητα
-                                <span className={cn(
-                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-black",
-                                    statusFilter === "pending" ? "bg-white/20 text-white" : "bg-slate-200 text-slate-950"
-                                )}>
-                                    {pendingCount}
-                                </span>
-                            </Button>
-                            <Button
-                                variant={statusFilter === "ready" ? "default" : "ghost"}
-                                size="sm"
-                                className={cn(
-                                    "h-9 px-3.5 rounded-lg text-xs font-black transition-all",
-                                    statusFilter === "ready" ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm" : "text-slate-900 hover:bg-slate-200 hover:text-black"
-                                )}
-                                onClick={() => setStatusFilter("ready")}
-                            >
-                                📦 Έτοιμες για Αποστολή
-                                <span className={cn(
-                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-black",
-                                    statusFilter === "ready" ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-900"
-                                )}>
-                                    {readyCount}
-                                </span>
-                            </Button>
-                            <Button
-                                variant={statusFilter === "all" ? "default" : "ghost"}
-                                size="sm"
-                                className={cn(
-                                    "h-9 px-3.5 rounded-lg text-xs font-black transition-all",
-                                    statusFilter === "all" ? "bg-blue-600 hover:bg-blue-700 text-white shadow-sm" : "text-slate-900 hover:bg-slate-200 hover:text-black"
-                                )}
-                                onClick={() => setStatusFilter("all")}
-                            >
-                                📁 Όλες
-                                <span className={cn(
-                                    "ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-black",
-                                    statusFilter === "all" ? "bg-white/20 text-white" : "bg-slate-200 text-slate-950"
-                                )}>
-                                    {allCount}
-                                </span>
-                            </Button>
+            {/* ===== Modern App Bar ===== */}
+            <header className={cn("sticky top-0 z-30 -mx-3 sm:-mx-6 px-3 sm:px-6 py-3 mb-4 bg-white/80 backdrop-blur-xl border-b border-slate-200/70", customerUrlParam && "hidden")}>
+                <div className="max-w-[1600px] mx-auto flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                        <div className="h-11 w-11 shrink-0 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-600/25">
+                            <Zap className="h-5 w-5 text-white" />
                         </div>
+                        <div className="min-w-0">
+                            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight leading-tight truncate">Αυτοψίες FTTH</h1>
+                            <p className="text-xs text-slate-500 font-medium truncate">Σύστημα 7 Εντύπων ΟΤΕ • {customers?.length || 0} κτήρια</p>
+                        </div>
+                    </div>
 
-                        {/* City Filters */}
-                        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200">
-                            {[
-                                { key: "all", label: "Όλες οι Πόλεις" },
-                                { key: "kastoria", label: "📍 Καστοριά" },
-                                { key: "florina", label: "📍 Φλώρινα" },
-                            ].map((filter) => (
-                                <Button
+                    <div className="flex items-center gap-2 shrink-0">
+                        <Button
+                            onClick={() => setIsNewAutopsiaOpen(true)}
+                            className="hidden sm:inline-flex h-10 px-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold gap-2 shadow-md shadow-blue-600/20 cursor-pointer"
+                        >
+                            <Plus className="h-4 w-4 stroke-[2.5]" />
+                            <span>Νέα Αυτοψία</span>
+                        </Button>
+
+                        <Button onClick={() => setShowEngineerSigSetup(true)} variant="outline" className="h-10 px-3 rounded-2xl flex items-center gap-2 border-slate-200 bg-white text-slate-700 hover:bg-slate-50 cursor-pointer" title="Υπογραφή Τεχνικού">
+                            <PenLine className="h-4 w-4 text-blue-600" />
+                            <span className="hidden md:inline text-sm font-semibold">Υπογραφή Τεχνικού</span>
+                        </Button>
+                        <Button onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); window.location.reload(); }} variant="outline" className="h-10 w-10 p-0 rounded-2xl flex items-center justify-center border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 cursor-pointer" title="Διαγραφή Υπογραφής Τεχνικού">
+                            <Trash2 className="h-4 w-4" />
+                        </Button>
+
+                        {user && (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="rounded-2xl h-10 w-10 bg-white shadow-xs border border-slate-200">
+                                        <UserCircle className="h-5 w-5 text-indigo-600" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56 mt-2 rounded-2xl">
+                                    <DropdownMenuLabel className="font-normal border-b pb-2 mb-2">
+                                        <div className="flex flex-col space-y-1">
+                                            <p className="text-sm font-medium leading-none">Ο λογαριασμός μου</p>
+                                            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                                        </div>
+                                    </DropdownMenuLabel>
+                                    <div className="max-h-[300px] overflow-y-auto">
+                                        <DropdownMenuItem onClick={() => setIsNewAutopsiaOpen(true)} className="cursor-pointer flex items-center gap-2 text-blue-600 font-bold">
+                                            <Plus className="h-4 w-4" /> Νέα Αυτοψία
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={() => setStatusFilter("pending")} className="cursor-pointer flex items-center gap-2">
+                                            <Zap className="h-4 w-4 text-amber-500" /> Εκκρεμείς Αυτοψίες
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setStatusFilter("ready")} className="cursor-pointer flex items-center gap-2">
+                                            <CheckCircle2 className="h-4 w-4 text-emerald-500" /> Έτοιμες για Αποστολή
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setStatusFilter("all")} className="cursor-pointer flex items-center gap-2">
+                                            <Layers className="h-4 w-4 text-blue-500" /> Όλες οι Αυτοψίες
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setCityFilter("all")} className="cursor-pointer flex items-center gap-2">
+                                            <MapPin className="h-4 w-4 text-purple-500" /> Όλες οι Πόλεις
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setShowEngineerSigSetup(true)} className="cursor-pointer flex items-center gap-2">
+                                            <PenLine className="h-4 w-4 text-blue-500" /> Υπογραφή Τεχνικού
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); window.location.reload(); }} className="cursor-pointer flex items-center gap-2 text-red-500">
+                                            <Trash2 className="h-4 w-4" /> Διαγραφή Υπογραφής Τεχνικού
+                                        </DropdownMenuItem>
+                                    </div>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="text-destructive cursor-pointer" onClick={() => supabase.auth.signOut()}>
+                                        <LogOut className="h-4 w-4 mr-2" />
+                                        Αποσύνδεση
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
+                    </div>
+                </div>
+            </header>
+
+            {/* ===== Status cards (act as filters) + Search + City chips ===== */}
+            <section className={cn("max-w-[1600px] mx-auto mb-5 space-y-3", customerUrlParam && "hidden")}>
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    {([
+                        { key: "pending", label: "Εκκρεμείς", sub: "σε εκκρεμότητα", count: pendingCount, Icon: Zap, activeCls: "bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-orange-500/25", iconCls: "bg-amber-100 text-amber-600" },
+                        { key: "ready", label: "Έτοιμες", sub: "για αποστολή", count: readyCount, Icon: CheckCircle2, activeCls: "bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25", iconCls: "bg-emerald-100 text-emerald-600" },
+                        { key: "all", label: "Όλες", sub: "οι αυτοψίες", count: allCount, Icon: Layers, activeCls: "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25", iconCls: "bg-blue-100 text-blue-600" },
+                    ] as const).map(({ key, label, sub, count, Icon, activeCls, iconCls }) => {
+                        const active = statusFilter === key;
+                        return (
+                            <button
+                                key={key}
+                                type="button"
+                                onClick={() => setStatusFilter(key)}
+                                className={cn(
+                                    "relative text-left rounded-2xl p-3 sm:p-4 border transition-all active:scale-[0.98] cursor-pointer",
+                                    active ? cn("border-transparent", activeCls) : "bg-white border-slate-200 hover:border-slate-300 shadow-xs"
+                                )}
+                            >
+                                <div className="flex items-center justify-between gap-2">
+                                    <span className={cn("h-8 w-8 rounded-xl flex items-center justify-center", active ? "bg-white/20 text-white" : iconCls)}>
+                                        <Icon className="h-4 w-4" />
+                                    </span>
+                                    <span className={cn("text-2xl sm:text-3xl font-black tabular-nums leading-none", active ? "text-white" : "text-slate-900")}>{count}</span>
+                                </div>
+                                <p className={cn("mt-2 text-xs sm:text-sm font-bold leading-tight", active ? "text-white" : "text-slate-800")}>{label}</p>
+                                <p className={cn("hidden sm:block text-[11px] font-medium", active ? "text-white/80" : "text-slate-500")}>{sub}</p>
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <div className="flex flex-col lg:flex-row lg:items-center gap-3">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Input
+                            placeholder="Αναζήτηση: διεύθυνση, όνομα, SR, Building ID..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-11 pr-10 h-12 rounded-2xl bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 font-medium shadow-xs focus-visible:ring-2 focus-visible:ring-blue-500/40"
+                        />
+                        {searchQuery && (
+                            <button
+                                type="button"
+                                onClick={() => setSearchQuery("")}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center cursor-pointer"
+                                aria-label="Καθαρισμός αναζήτησης"
+                            >
+                                <X className="h-3.5 w-3.5" />
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-3 px-3 sm:mx-0 sm:px-0 pb-0.5">
+                        {[
+                            { key: "all", label: "Όλες οι Πόλεις", activeCls: "bg-slate-900 text-white border-slate-900" },
+                            { key: "kastoria", label: "📍 Καστοριά", activeCls: "bg-purple-600 text-white border-purple-600" },
+                            { key: "florina", label: "📍 Φλώρινα", activeCls: "bg-cyan-600 text-white border-cyan-600" },
+                        ].map((filter) => {
+                            const active = cityFilter === filter.key;
+                            const cityCount = validCustomers
+                                ? (filter.key === "all" ? validCustomers.length : validCustomers.filter(c => (c as any)[`is_${filter.key}`]).length)
+                                : 0;
+                            return (
+                                <button
                                     key={filter.key}
-                                    variant={cityFilter === filter.key ? "default" : "ghost"}
-                                    size="sm"
-                                    className={cn(
-                                        "h-9 px-3 rounded-lg text-xs font-black transition-all",
-                                        cityFilter === filter.key && filter.key === "kastoria" && "bg-purple-600 hover:bg-purple-700 text-white",
-                                        cityFilter === filter.key && filter.key === "florina" && "bg-cyan-700 hover:bg-cyan-800 text-white",
-                                        cityFilter === filter.key && filter.key === "all" && "bg-slate-950 hover:bg-black text-white",
-                                        cityFilter !== filter.key && "text-slate-900 hover:bg-slate-200 hover:text-black"
-                                    )}
+                                    type="button"
                                     onClick={() => setCityFilter(filter.key as any)}
+                                    className={cn(
+                                        "shrink-0 h-10 px-4 rounded-full border text-sm font-semibold transition-all active:scale-[0.97] cursor-pointer whitespace-nowrap",
+                                        active ? cn("shadow-md", filter.activeCls) : "bg-white border-slate-200 text-slate-700 hover:border-slate-300"
+                                    )}
                                 >
                                     {filter.label}
-                                    {validCustomers && (
-                                        <span className={cn("ml-1.5", cityFilter === filter.key ? "opacity-90" : "opacity-80 font-black")}>
-                                            ({filter.key === "all" ? validCustomers.length : validCustomers.filter(c => (c as any)[`is_${filter.key}`]).length})
-                                        </span>
-                                    )}
-                                </Button>
-                            ))}
-                        </div>
+                                    <span className={cn("ml-2 text-xs font-bold", active ? "text-white/80" : "text-slate-400")}>{cityCount}</span>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
-            </div>
+            </section>
 
             {displayedCustomers.length === 0 ? (
-                <div className="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 text-center max-w-md mx-auto shadow-sm my-8">
-                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-xs">
-                        <Users className="h-6 w-6" />
+                <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 text-center max-w-md mx-auto shadow-[0_8px_30px_-12px_rgba(15,23,42,0.15)] my-8">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                        <Users className="h-8 w-8" />
                     </div>
-                    <h3 className="font-bold text-slate-900 text-base mb-1">Δεν βρέθηκαν αυτοψίες</h3>
-                    <p className="text-xs text-slate-500 mb-4 font-medium">
+                    <h3 className="font-extrabold text-slate-900 text-lg mb-1">Δεν βρέθηκαν αυτοψίες</h3>
+                    <p className="text-sm text-slate-500 mb-5 font-medium">
                         {customers?.length === 0 ? "Δεν υπάρχει καμία καταχωρημένη αυτοψία. Πατήστε παρακάτω για προσθήκη." : "Δεν βρέθηκαν αποτελέσματα με τα επιλεγμένα φίλτρα."}
                     </p>
                     <Button
                         onClick={() => setIsNewAutopsiaOpen(true)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold h-9 px-4 rounded-xl text-xs inline-flex items-center gap-1.5 shadow-sm"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold h-11 px-5 rounded-2xl text-sm inline-flex items-center gap-2 shadow-md shadow-blue-600/20"
                     >
                         <Plus className="h-4 w-4" />
                         Προσθήκη Νέας Αυτοψίας
                     </Button>
                 </div>
             ) : (
-                <div className={cn("grid gap-6 items-start", customerUrlParam ? "grid-cols-1 max-w-2xl mx-auto" : "md:grid-cols-2 lg:grid-cols-3")}>
+                <div className={cn("grid gap-4 sm:gap-5 items-start", customerUrlParam ? "grid-cols-1 max-w-2xl mx-auto" : "max-w-[1600px] mx-auto md:grid-cols-2 xl:grid-cols-3")}>
                     {displayedCustomers.map((customer) => {
                     const isExpanded = expandedCustomers[customer.id] !== undefined ? expandedCustomers[customer.id] : !!customerUrlParam;
 
+                    const cUp = String(customer.contractor || "").toUpperCase();
+                    const ready = isAutopsiaReady(customer);
+                    const accent = ready
+                        ? "from-emerald-400 to-teal-500"
+                        : (customer.is_thiseas || cUp === "THISEAS") ? "from-blue-400 to-blue-600"
+                        : ((customer as any).is_beyondwire || cUp === "BEYONDWIRE") ? "from-violet-400 to-purple-600"
+                        : (customer.is_ergatikat || cUp === "ERGATIKAT") ? "from-orange-400 to-amber-500"
+                        : (customer.is_kasos || cUp === "KASOS") ? "from-green-400 to-emerald-600"
+                        : customer.anathesi_xwma ? "from-amber-300 to-amber-500"
+                        : "from-slate-200 to-slate-300";
+
                     return (
                         <Card id={customer.id} key={customer.id} className={cn(
-                            "border shadow-sm overflow-hidden h-fit transition-all duration-300",
-                            isAutopsiaReady(customer) && "ring-2 ring-emerald-500/60 bg-emerald-50/15",
-                            getContractorCardClass(customer)
+                            "relative border-0 bg-white rounded-3xl overflow-hidden h-fit transition-all duration-300 ring-1 ring-slate-200/80 shadow-[0_4px_20px_-8px_rgba(15,23,42,0.12)] hover:shadow-[0_10px_30px_-12px_rgba(15,23,42,0.2)]",
+                            ready && "ring-2 ring-emerald-400/70"
                         )}>
-                            <CardContent className="p-4">
+                            <div className={cn("h-1.5 w-full bg-gradient-to-r", accent)} />
+                            <CardContent className="p-4 sm:p-5">
                                 <div
-                                    className="flex items-start justify-between cursor-pointer group"
+                                    className="flex items-start justify-between gap-3 cursor-pointer group"
                                     onClick={() => {
                                         const nextExpanded = !isExpanded;
                                         setExpandedCustomers(prev => ({ ...prev, [customer.id]: nextExpanded }));
@@ -3270,72 +3127,82 @@ export default function AutopsiaPage() {
                                         }
                                     }}
                                 >
-                                    <div className="flex-1">
-                                        <h3 className="font-bold text-lg group-hover:text-primary transition-colors text-slate-800">
-                                            {customer.address || 'Χωρίς διεύθυνση'}
-                                        </h3>
-                                        <p className="text-sm text-slate-500 font-medium flex items-center gap-1.5 flex-wrap">
-                                            SR: {customer.sr} 
-                                            {(customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number) ? (
-                                                <span> • <span className="font-bold text-blue-900 cursor-pointer hover:underline" onClick={(e) => { 
-                                                    e.stopPropagation(); 
-                                                    const chim = customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number || "";
-                                                    setCurrentCustomerForChimney(customer); 
-                                                    setTempChimney(chim); 
-                                                }}>Καμπίνα: {customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number} <PenLine className="inline h-3 w-3" /></span></span>
-                                            ) : (
-                                                <span> • <span className="font-bold text-blue-900 cursor-pointer hover:underline" onClick={(e) => { e.stopPropagation(); setCurrentCustomerForChimney(customer); setTempChimney(""); }}>Προσθήκη Καμπίνας</span></span>
-                                            )} 
-                                            {customer.floor && <span> • <span className="font-bold text-orange-900">Όροφος: {customer.floor}</span></span>} {customer.building_id && `• ID: ${customer.building_id}`} • {customer.first_name} {customer.last_name}
-
-                                            <span className="flex items-center gap-1 mt-0.5 flex-wrap">
-                                                <a
-                                                    href={`/ftth-autopsia?customer=${customer.id}`}
-                                                    className="inline-flex items-center justify-center h-5 w-5 rounded-full border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors shrink-0"
-                                                    title="Προβολή Πελάτη"
-                                                >
-                                                    <Eye className="h-3 w-3" />
-                                                </a>
-                                                <button
-                                                    type="button"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setCustomerToDelete(customer);
-                                                    }}
-                                                    className="inline-flex items-center justify-center h-5 w-5 rounded-full border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors shrink-0 cursor-pointer"
-                                                    title="Διαγραφή Αυτοψίας"
-                                                >
-                                                    <Trash2 className="h-3 w-3" />
-                                                </button>
-                                                {isAutopsiaReady(customer) && <span className="text-[9px] font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded border border-emerald-300 flex items-center gap-1">📦 ΕΤΟΙΜΗ</span>}
-                                                {customer.is_kastoria && <span className="text-[9px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded border border-purple-200">📍 ΚΑΣΤΟΡΙΑ</span>}
-                                                {customer.is_florina && <span className="text-[9px] font-bold bg-cyan-100 text-cyan-700 px-1.5 py-0.5 rounded border border-cyan-200">📍 ΦΛΩΡΙΝΑ</span>}
-                                                {(customer.is_thiseas || customer.contractor?.toUpperCase() === 'THISEAS') && <span className="text-[9px] font-bold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded border border-blue-200">👷 THISEAS</span>}
-                                                {(customer.is_ergatikat || customer.contractor?.toUpperCase() === 'ERGATIKAT') && <span className="text-[9px] font-bold bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded border border-orange-200">👷 ERGATIKAT</span>}
-                                                {((customer as any).is_beyondwire || customer.contractor?.toUpperCase() === 'BEYONDWIRE') && <span className="text-[9px] font-bold bg-violet-100 text-violet-700 px-1.5 py-0.5 rounded border border-violet-200">🔷 BEYONDWIRE</span>}
-                                                {(customer.is_kasos || customer.contractor?.toUpperCase() === 'KASOS') && <span className="text-[9px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded border border-green-200">🟢 KASOS</span>}
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-start justify-between gap-2">
+                                            <h3 className="font-extrabold text-[17px] sm:text-lg leading-snug text-slate-900 group-hover:text-blue-700 transition-colors">
+                                                {customer.address || 'Χωρίς διεύθυνση'}
+                                            </h3>
+                                            <span className="shrink-0 h-9 w-9 -mr-1.5 -mt-1 rounded-full flex items-center justify-center bg-slate-100 text-slate-500 group-hover:bg-slate-200 transition-colors">
+                                                {isExpanded ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
                                             </span>
-                                        </p>
+                                        </div>
+
+                                        {/* Meta chips */}
+                                        <div className="mt-2 flex items-center gap-1.5 flex-wrap text-[13px] text-slate-600 font-medium">
+                                            <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700">SR: {customer.sr}</span>
+                                            {(customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number) ? (
+                                                <button type="button" className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-2.5 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100 cursor-pointer" onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    const chim = customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number || "";
+                                                    setCurrentCustomerForChimney(customer);
+                                                    setTempChimney(chim);
+                                                }}>Καμπίνα: {customer.chimney_number || customer.chimney_type || customer.autopsia_tech_data?.chimney_number} <PenLine className="inline h-3 w-3" /></button>
+                                            ) : (
+                                                <button type="button" className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-dashed border-blue-200 px-2.5 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100 cursor-pointer" onClick={(e) => { e.stopPropagation(); setCurrentCustomerForChimney(customer); setTempChimney(""); }}><Plus className="h-3 w-3" /> Προσθήκη Καμπίνας</button>
+                                            )}
+                                            {customer.floor && <span className="inline-flex items-center rounded-full bg-orange-50 border border-orange-100 px-2.5 py-1 text-xs font-bold text-orange-800">Όροφος: {customer.floor}</span>}
+                                            {customer.building_id && <span className="inline-flex items-center rounded-full bg-slate-50 border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600">ID: {customer.building_id}</span>}
+                                            <span className="text-slate-600">{customer.first_name} {customer.last_name}</span>
+                                        </div>
+
+                                        {/* Badges & quick actions */}
+                                        <div className="mt-2 flex items-center gap-1.5 flex-wrap">
+                                            <a
+                                                href={`/ftth-autopsia?customer=${customer.id}`}
+                                                className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors shrink-0"
+                                                title="Προβολή Πελάτη"
+                                            >
+                                                <Eye className="h-3.5 w-3.5" />
+                                            </a>
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setCustomerToDelete(customer);
+                                                }}
+                                                className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors shrink-0 cursor-pointer"
+                                                title="Διαγραφή Αυτοψίας"
+                                            >
+                                                <Trash2 className="h-3.5 w-3.5" />
+                                            </button>
+                                            {ready && <span className="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-1 rounded-full border border-emerald-200 flex items-center gap-1">📦 ΕΤΟΙΜΗ</span>}
+                                            {customer.is_kastoria && <span className="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-1 rounded-full border border-purple-200">📍 ΚΑΣΤΟΡΙΑ</span>}
+                                            {customer.is_florina && <span className="text-[10px] font-bold bg-cyan-50 text-cyan-700 px-2 py-1 rounded-full border border-cyan-200">📍 ΦΛΩΡΙΝΑ</span>}
+                                            {(customer.is_thiseas || cUp === 'THISEAS') && <span className="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-1 rounded-full border border-blue-200">👷 THISEAS</span>}
+                                            {(customer.is_ergatikat || cUp === 'ERGATIKAT') && <span className="text-[10px] font-bold bg-orange-50 text-orange-700 px-2 py-1 rounded-full border border-orange-200">👷 ERGATIKAT</span>}
+                                            {((customer as any).is_beyondwire || cUp === 'BEYONDWIRE') && <span className="text-[10px] font-bold bg-violet-50 text-violet-700 px-2 py-1 rounded-full border border-violet-200">🔷 BEYONDWIRE</span>}
+                                            {(customer.is_kasos || cUp === 'KASOS') && <span className="text-[10px] font-bold bg-green-50 text-green-700 px-2 py-1 rounded-full border border-green-200">🟢 KASOS</span>}
+                                        </div>
 
                                         {/* Contact info */}
-                                        <div className="mt-3 flex flex-wrap gap-2">
+                                        <div className="mt-3 grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                             {customer.phone && (
-                                                <a href={`tel:${customer.phone}`} className="inline-flex items-center gap-2 text-xs font-bold text-white bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 hover:bg-slate-900 transition-colors shadow-sm">
-                                                    <Phone className="h-3.5 w-3.5 text-emerald-400" />
-                                                    ΚΛΗΣΗ: {customer.phone}
+                                                <a href={`tel:${customer.phone}`} className="inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-800 active:scale-[0.98] transition-all shadow-sm">
+                                                    <Phone className="h-4 w-4 text-emerald-400" />
+                                                    <span className="truncate">ΚΛΗΣΗ: {customer.phone}</span>
                                                 </a>
                                             )}
                                             {customer.manager_phone && (
-                                                <a href={`tel:${customer.manager_phone}`} className="inline-flex items-center gap-2 text-xs font-bold text-white bg-blue-700 px-3 py-2 rounded-lg border border-blue-600 hover:bg-blue-800 transition-colors shadow-sm">
-                                                    <Phone className="h-3.5 w-3.5 text-white" />
-                                                    ΔΙΑΧΕΙΡΙΣΤΗΣ: {customer.manager_phone}
+                                                <a href={`tel:${customer.manager_phone}`} className="inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 active:scale-[0.98] transition-all shadow-sm">
+                                                    <Phone className="h-4 w-4 text-white" />
+                                                    <span className="truncate">ΔΙΑΧΕΙΡΙΣΤΗΣ: {customer.manager_phone}</span>
                                                 </a>
                                             )}
                                             {(customer as any).building_id && (
-                                                <Button 
-                                                    variant="outline" 
+                                                <Button
+                                                    variant="outline"
                                                     size="sm"
-                                                    className="inline-flex items-center gap-1.5 text-[10px] font-bold text-indigo-700 bg-indigo-50 px-3 py-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition-colors shadow-sm h-auto"
+                                                    className="inline-flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 bg-indigo-50 px-3 rounded-xl border border-indigo-200 hover:bg-indigo-100 active:scale-[0.98] transition-all h-11"
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         e.stopPropagation();
@@ -3344,21 +3211,21 @@ export default function AutopsiaPage() {
                                                         window.open("https://home.teletronic.gr/", "_blank");
                                                     }}
                                                 >
-                                                    <Search className="h-3.5 w-3.5" />
+                                                    <Search className="h-4 w-4" />
                                                     ΠΛΟΗΓΗΣΗ ΣΤΟΝ ΠΕΛΑΤΗ
                                                 </Button>
                                             )}
 
                                             {customer.excel_url && (
-                                                <div className="flex items-center gap-2">
-                                                    <a href={getTimestampedUrl(customer.excel_url)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-100 hover:bg-emerald-100 transition-colors shadow-sm">
-                                                        <FileSpreadsheet className="h-3.5 w-3.5" />
+                                                <div className="col-span-2 sm:col-span-1 flex items-center gap-2">
+                                                    <a href={getTimestampedUrl(customer.excel_url)} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-emerald-700 bg-emerald-50 rounded-xl border border-emerald-200 hover:bg-emerald-100 active:scale-[0.98] transition-all">
+                                                        <FileSpreadsheet className="h-4 w-4" />
                                                         ΓΡΑΜΜΟΓΡΑΦΗΣΗ
                                                     </a>
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        className="h-9 w-9 text-emerald-600 bg-emerald-50 border border-emerald-100 hover:bg-emerald-100 shadow-sm"
+                                                        className="h-11 w-11 rounded-xl text-emerald-700 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100"
                                                         onClick={() => setPreviewExcelUrl(getTimestampedUrl(customer.excel_url))}
                                                     >
                                                         <Eye className="h-4 w-4" />
@@ -3368,8 +3235,8 @@ export default function AutopsiaPage() {
                                         </div>
 
                                         {/* Comments Display */}
-                                        <div 
-                                            className="mt-4 p-3 bg-amber-50/50 rounded-xl border border-amber-100 shadow-sm cursor-pointer group hover:border-purple-300 hover:bg-purple-50/30 transition-all"
+                                        <div
+                                            className="mt-3 p-3 bg-amber-50/70 rounded-2xl border border-amber-100 cursor-pointer group/comments hover:border-amber-200 hover:bg-amber-50 transition-all"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setTimelineCustomer(customer);
@@ -3377,15 +3244,15 @@ export default function AutopsiaPage() {
                                             }}
                                             title="Κάντε κλικ για προβολή Σχολίων & Ιστορικού"
                                         >
-                                            <div className="flex items-center justify-between mb-2">
+                                            <div className="flex items-center justify-between mb-1.5">
                                                 <div className="flex items-center gap-1.5">
                                                     <MessageSquare className="h-3.5 w-3.5 text-amber-600" />
-                                                    <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider">Παρατηρήσεις / Σχόλια</span>
+                                                    <span className="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider">Παρατηρήσεις / Σχόλια</span>
                                                 </div>
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
-                                                    className="h-6 px-2 text-[11px] font-bold text-purple-700 bg-purple-100/60 hover:bg-purple-200/60 rounded flex items-center gap-1"
+                                                    className="h-7 px-2.5 text-[11px] font-bold text-amber-800 bg-amber-100/80 hover:bg-amber-200/80 rounded-full flex items-center gap-1"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         setTimelineCustomer(customer);
@@ -3397,14 +3264,14 @@ export default function AutopsiaPage() {
                                                 </Button>
                                             </div>
                                             {customer.thanasis_comments ? (
-                                                <p className="text-xs text-amber-900 leading-relaxed font-medium whitespace-pre-wrap">
+                                                <p className="text-[13px] text-amber-950 leading-relaxed font-medium whitespace-pre-wrap">
                                                     {customer.thanasis_comments}
                                                 </p>
                                             ) : (
-                                                <p className="text-[10px] text-amber-600/60 italic">Δεν υπάρχουν σχόλια (Κάντε κλικ για προσθήκη)...</p>
+                                                <p className="text-xs text-amber-700/60 italic">Δεν υπάρχουν σχόλια (Κάντε κλικ για προσθήκη)...</p>
                                             )}
-                                            <div className="mt-2 pt-1 border-t border-amber-200/40 flex items-center justify-between text-[10px] text-purple-600 font-semibold">
-                                                <span className="flex items-center gap-1 group-hover:underline">
+                                            <div className="mt-2 pt-1.5 border-t border-amber-200/50 flex items-center justify-between text-[10px] text-amber-700 font-semibold">
+                                                <span className="flex items-center gap-1 group-hover/comments:underline">
                                                     <MessageSquare className="h-3 w-3" /> Ιστορικό Σημειώσεων & Ώρα
                                                 </span>
                                             </div>
@@ -3417,201 +3284,40 @@ export default function AutopsiaPage() {
                                             </div>
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-2 shrink-0">
-                                        {/* Ready for Send Checkbox Toggle */}
-                                        <div
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const nextReady = !isAutopsiaReady(customer);
-                                                toggleReadyMutation.mutate({
-                                                    id: customer.id,
-                                                    isReady: nextReady,
-                                                    customer
-                                                });
-                                            }}
-                                            className={cn(
-                                                "flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer shadow-xs select-none",
-                                                isAutopsiaReady(customer)
-                                                    ? "bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-200"
-                                                    : "bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400"
-                                            )}
-                                            title={isAutopsiaReady(customer) ? "Κάντε κλικ για επαναφορά στις Εκκρεμείς" : "Κάντε κλικ για σημείωση ως Έτοιμη για Αποστολή"}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={isAutopsiaReady(customer)}
-                                                onChange={() => {}}
-                                                className="h-3.5 w-3.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer pointer-events-none"
-                                            />
-                                            <span>{isAutopsiaReady(customer) ? "Έτοιμη ✓" : "Έτοιμη"}</span>
-                                        </div>
-
-                                        <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2">
-                                            {isExpanded ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-                                        </Button>
-                                    </div>
                                 </div>
+
+                                {/* Ready for Send toggle (always visible, large tap target) */}
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        toggleReadyMutation.mutate({
+                                            id: customer.id,
+                                            isReady: !ready,
+                                            customer
+                                        });
+                                    }}
+                                    className={cn(
+                                        "mt-4 w-full h-12 rounded-2xl flex items-center justify-between px-4 border text-sm font-bold transition-all active:scale-[0.99] cursor-pointer select-none",
+                                        ready
+                                            ? "bg-emerald-50 border-emerald-300 text-emerald-800"
+                                            : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
+                                    )}
+                                    title={ready ? "Κάντε κλικ για επαναφορά στις Εκκρεμείς" : "Κάντε κλικ για σημείωση ως Έτοιμη για Αποστολή"}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        <CheckCircle2 className={cn("h-5 w-5", ready ? "text-emerald-600" : "text-slate-400")} />
+                                        {ready ? "Έτοιμη για αποστολή ✓" : "Σήμανση ως έτοιμη"}
+                                    </span>
+                                    <span className={cn("relative h-6 w-11 rounded-full transition-colors", ready ? "bg-emerald-500" : "bg-slate-300")}>
+                                        <span className={cn("absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all", ready ? "left-[22px]" : "left-0.5")} />
+                                    </span>
+                                </button>
 
                                 {isExpanded && (
                                     <div className="space-y-4 mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
                                         <div className="space-y-2">
-                                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider tabular-nums">Φωτογραφίες ΟΔΕΥΣΗΣ</p>
-                                            <div className="grid grid-cols-2 gap-2">
-                                                {renderPhotoCategory(customer, "aut_earth", "Χωματουργικό")}
-                                                {renderPhotoCategory(customer, "aut_route", "Οδευση")}
-                                                {renderPhotoCategory(customer, "aut_bepbmo", "BEP & BMO")}
-                                                <div className="col-span-2 space-y-2 mt-2">
-                                                    <div className="flex items-center justify-between">
-                                                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">FB (Fiber Box) & ΟΡΟΦΟΙ</p>
-                                                        <div className="flex items-center gap-1">
-                                                            <Input
-                                                                placeholder="+01"
-                                                                className="h-6 w-16 text-xs px-1 bg-white"
-                                                                value={newFloorInput[customer.id] || ""}
-                                                                onChange={(e) => setNewFloorInput(prev => ({ ...prev, [customer.id]: e.target.value }))}
-                                                            />
-                                                            <Button
-                                                                size="sm"
-                                                                variant="outline"
-                                                                className="h-6 px-2 text-xs bg-white"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    const floor = newFloorInput[customer.id];
-                                                                    if (floor) {
-                                                                        setFbFloors(prev => ({
-                                                                            ...prev,
-                                                                            [customer.id]: [...(prev[customer.id] || []), floor]
-                                                                        }));
-                                                                        setNewFloorInput(prev => ({ ...prev, [customer.id]: "" }));
-                                                                    }
-                                                                }}
-                                                            >
-                                                                <Plus className="h-3 w-3" />
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                    <div className="grid grid-cols-2 gap-2">
-                                                        {(() => {
-                                                            const existingFloors = new Set<string>();
-                                                            (customer.photo_urls || []).forEach((url: string) => {
-                                                                const fileName = decodeURIComponent(url.toLowerCase().split('/').pop() || "");
-                                                                if (fileName.includes('aut_fb_')) {
-                                                                    const parts = fileName.split('_');
-                                                                    // Handle both legacy (aut_fb_floor...) and new (SR_aut_fb_floor...)
-                                                                    const floorIndex = fileName.startsWith('aut_fb_') ? 2 : 3;
-                                                                    if (parts.length > floorIndex) {
-                                                                        existingFloors.add(parts[floorIndex].toUpperCase());
-                                                                    }
-                                                                }
-                                                            });
-                                                            const allFloors = Array.from(new Set([...Array.from(existingFloors), ...(fbFloors[customer.id] || [])])).sort();
-
-                                                            return allFloors.map(floor => (
-                                                                <div key={floor} className="space-y-2 p-3 bg-slate-50 rounded-lg border border-slate-100">
-                                                                    <div className="flex items-center justify-between">
-                                                                        <div className="flex items-center gap-1">
-                                                                            <Layers className="h-3 w-3 text-slate-400" />
-                                                                            <span className="text-[10px] font-bold text-slate-700">ΟΡΟΦΟΣ {floor}</span>
-                                                                        </div>
-                                                                        <div className="flex gap-1">
-                                                                            <Label htmlFor={`camera-fb-${floor}-${customer.id}`} className="cursor-pointer p-1 hover:bg-slate-200 rounded-full xl:hidden">
-                                                                                <Camera className="h-4 w-4 text-primary" />
-                                                                                <input
-                                                                                    type="file"
-                                                                                    id={`camera-fb-${floor}-${customer.id}`}
-                                                                                    className="hidden"
-                                                                                    accept="image/*"
-                                                                                    capture="environment"
-                                                                                    onChange={(e) => {
-                                                                                        if (e.target.files && e.target.files[0]) {
-                                                                                            const reader = new FileReader();
-                                                                                            reader.onload = (event) => {
-                                                                                                setEditingImage({
-                                                                                                    src: event.target?.result as string,
-                                                                                                    category: 'aut_fb',
-                                                                                                    customerId: customer.id,
-                                                                                                    floor
-                                                                                                });
-                                                                                            };
-                                                                                            reader.readAsDataURL(e.target.files[0]);
-                                                                                            e.target.value = '';
-                                                                                        }
-                                                                                    }}
-                                                                                />
-                                                                            </Label>
-                                                                            <Label htmlFor={`upload-fb-${floor}-${customer.id}`} className="cursor-pointer p-1 hover:bg-slate-200 rounded-full">
-                                                                                <Plus className="h-4 w-4 text-primary" />
-                                                                                <input
-                                                                                    type="file"
-                                                                                    id={`upload-fb-${floor}-${customer.id}`}
-                                                                                    className="hidden"
-                                                                                    accept="image/*"
-                                                                                    multiple
-                                                                                    onChange={(e) => {
-                                                                                        if (e.target.files && e.target.files.length > 0) {
-                                                                                            const files = Array.from(e.target.files);
-                                                                                            if (files.length === 1) {
-                                                                                                const reader = new FileReader();
-                                                                                                reader.onload = (event) => {
-                                                                                                    setEditingImage({
-                                                                                                        src: event.target?.result as string,
-                                                                                                        category: 'aut_fb',
-                                                                                                        customerId: customer.id,
-                                                                                                        floor
-                                                                                                    });
-                                                                                                };
-                                                                                                reader.readAsDataURL(files[0]);
-                                                                                            } else {
-                                                                                                uploadPhotosMutation.mutate({ customerId: customer.id, category: 'aut_fb', floor, files });
-                                                                                            }
-                                                                                            e.target.value = '';
-                                                                                        }
-                                                                                    }}
-                                                                                />
-                                                                            </Label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="flex flex-wrap gap-1 min-h-[32px]">
-                                                                        {(customer.photo_urls || []).filter((url: string) => {
-                                                                            const fileName = decodeURIComponent(url.toLowerCase().split('/').pop() || "");
-                                                                            return fileName.includes(`aut_fb_${floor.toLowerCase()}_`) || fileName.startsWith(`aut_fb_${floor.toLowerCase()}_`);
-                                                                        }).map((url: string, idx: number, floorPhotos: string[]) => (
-                                                                            <div key={idx} className="relative group">
-                                                                                <button onClick={() => { setSelectedCustomerPhotos(floorPhotos); setSelectedCustomerName(`${customer.address} - FB Όροφος ${floor}`); setLightboxIndex(idx); }} className="w-14 h-14 rounded-lg overflow-hidden border-2 border-white shadow-sm hover:border-primary/50 transition-colors">
-                                                                                    <img src={getTimestampedUrl(url)} className="w-full h-full object-cover" />
-                                                                                </button>
-                                                                                <div className="absolute -top-2 -right-2 flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                                                                                    <button
-                                                                                        onClick={(e) => { 
-                                                                                            e.stopPropagation(); 
-                                                                                            const timestampedUrl = getTimestampedUrl(url);
-                                                                                            setEditingImage({ src: timestampedUrl, category: 'aut_fb', customerId: customer.id, floor, isExisting: true, existingUrl: url }); 
-                                                                                        }}
-                                                                                        className="bg-blue-600 text-white rounded-full p-1 shadow-md hover:bg-blue-700 active:scale-90 transition-all border border-white"
-                                                                                    >
-                                                                                        <Edit2 className="h-3 w-3" />
-                                                                                    </button>
-                                                                                    <button
-                                                                                        onClick={(e) => { e.stopPropagation(); confirm("Διαγραφή;") && deletePhotoMutation.mutate({ customerId: customer.id, photoUrl: url }); }}
-                                                                                        className="bg-red-600 text-white rounded-full p-1 shadow-md hover:bg-red-700 active:scale-90 transition-all border border-white"
-                                                                                    >
-                                                                                        <X className="h-3 w-3" />
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        ))}
-                                                                    </div>
-                                                                </div>
-                                                            ));
-                                                        })()}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">ΕΝΤΥΠΑ</p>
-                                            <div className="grid grid-cols-2 gap-2">
+                                            <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-[0.12em]">ΕΝΤΥΠΑ</p>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                                 {renderPhotoCategory(customer, "aut_decl", "Υ.Δ. Διαχειριστή")}
                                                 {renderPhotoCategory(customer, "aut_cab", "Καμπίνα")}
                                                 {renderPhotoCategory(customer, "aut_wait", "Αναμονή")}
@@ -3622,10 +3328,10 @@ export default function AutopsiaPage() {
                                             </div>
                                         </div>
 
-                                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2 mt-4">
-                                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">ΕΠΙΠΛΕΟΝ ΕΠΙΛΟΓΕΣ ΑΥΤΟΨΙΑΣ</p>
+                                        <div className="bg-slate-50/80 border border-slate-200 rounded-2xl p-3 space-y-2 mt-4">
+                                            <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-[0.12em]">ΕΠΙΠΛΕΟΝ ΕΠΙΛΟΓΕΣ ΑΥΤΟΨΙΑΣ</p>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-100/50 transition-colors">
+                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 min-h-12 bg-white rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
                                                     <label className="flex items-center gap-2 cursor-pointer">
                                                         <input
                                                             type="checkbox"
@@ -3669,7 +3375,7 @@ export default function AutopsiaPage() {
                                                     )}
                                                 </div>
 
-                                                <label className="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-100/50 transition-colors">
+                                                <label className="flex items-center gap-2 p-3 min-h-12 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors">
                                                     <input
                                                         type="checkbox"
                                                         checked={customer.den_thelei_xwmatoyrgiko || false}
@@ -3684,19 +3390,18 @@ export default function AutopsiaPage() {
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-3 gap-2 mt-4">
+                                        <div className="grid grid-cols-2 gap-2 mt-5 pt-4 border-t border-slate-100">
                                             <Button
-                                                variant="outline"
-                                                className="h-11 font-bold border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 text-xs px-2"
-                                                onClick={() => setCustomerToDelete(customer)}
-                                                disabled={deleteCustomerMutation.isPending}
+                                                className="col-span-2 h-12 rounded-2xl font-bold text-sm bg-gradient-to-br from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg shadow-blue-600/25 transition-all active:scale-[0.99]"
+                                                onClick={() => confirm("Ολοκλήρωση Αυτοψίας;") && completeAutopsiaMutation.mutate(customer)}
+                                                disabled={completeAutopsiaMutation.isPending}
                                             >
-                                                <Trash2 className="h-3.5 w-3.5 mr-1 text-rose-500" />
-                                                ΔΙΑΓΡΑΦΗ
+                                                <CheckCircle2 className="h-4 w-4 mr-2" />
+                                                ΟΛΟΚΛΗΡΩΣΗ & ΑΠΟΣΤΟΛΗ
                                             </Button>
                                             <Button
                                                 variant="outline"
-                                                className="h-11 font-bold border-amber-300 text-amber-700 hover:bg-amber-50 text-xs px-2"
+                                                className="h-11 rounded-2xl font-bold border-amber-300 bg-amber-50/60 text-amber-800 hover:bg-amber-100 text-xs px-2"
                                                 onClick={() => {
                                                     setCancellingCustomer(customer);
                                                     setCancellationReason("");
@@ -3704,15 +3409,17 @@ export default function AutopsiaPage() {
                                                 }}
                                                 disabled={cancelAutopsiaMutation.isPending}
                                             >
-                                                <XCircle className="h-3.5 w-3.5 mr-1" />
+                                                <XCircle className="h-4 w-4 mr-1.5" />
                                                 ΑΚΥΡΩΣΗ
                                             </Button>
                                             <Button
-                                                className="h-11 font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-md text-xs px-2 transition-all"
-                                                onClick={() => confirm("Ολοκλήρωση Αυτοψίας;") && completeAutopsiaMutation.mutate(customer)}
-                                                disabled={completeAutopsiaMutation.isPending}
+                                                variant="outline"
+                                                className="h-11 rounded-2xl font-bold border-rose-200 bg-rose-50/60 text-rose-700 hover:bg-rose-100 hover:text-rose-800 text-xs px-2"
+                                                onClick={() => setCustomerToDelete(customer)}
+                                                disabled={deleteCustomerMutation.isPending}
                                             >
-                                                ΟΛΟΚΛΗΡΩΣΗ
+                                                <Trash2 className="h-4 w-4 mr-1.5 text-rose-500" />
+                                                ΔΙΑΓΡΑΦΗ
                                             </Button>
                                         </div>
                                     </div>
@@ -3725,11 +3432,24 @@ export default function AutopsiaPage() {
             )}
             
             {filteredCustomers && visibleCount < filteredCustomers.length && (
-                <div className="flex justify-center mt-8 mb-4 w-full">
-                    <Button variant="outline" size="lg" onClick={() => setVisibleCount(v => v + 20)} className="w-full sm:w-auto shadow-sm">
+                <div className="flex justify-center mt-8 mb-4 w-full max-w-[1600px] mx-auto">
+                    <Button variant="outline" size="lg" onClick={() => setVisibleCount(v => v + 20)} className="w-full sm:w-auto h-12 rounded-2xl border-slate-200 bg-white text-slate-700 font-semibold shadow-xs hover:bg-slate-50">
                         Φόρτωση Περισσότερων (Έχουν εμφανιστεί {displayedCustomers.length} από {filteredCustomers.length})
                     </Button>
                 </div>
+            )}
+
+            {/* Floating "New Autopsy" button (mobile only) */}
+            {!customerUrlParam && (
+                <button
+                    type="button"
+                    onClick={() => setIsNewAutopsiaOpen(true)}
+                    className="sm:hidden fixed right-4 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-40 h-14 pl-4 pr-5 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold shadow-xl shadow-blue-600/35 flex items-center gap-2 active:scale-95 transition-transform cursor-pointer"
+                    aria-label="Νέα Αυτοψία"
+                >
+                    <Plus className="h-5 w-5 stroke-[2.5]" />
+                    <span>Νέα Αυτοψία</span>
+                </button>
             )}
 
             <Dialog open={lightboxIndex !== null} onOpenChange={() => setLightboxIndex(null)}>
