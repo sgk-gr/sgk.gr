@@ -2985,6 +2985,9 @@ export default function AutopsiaPage() {
                                     <DropdownMenuItem onClick={() => setShowEngineerSigSetup(true)} className="cursor-pointer flex items-center gap-2">
                                         <PenLine className="h-4 w-4 text-blue-500" /> Υπογραφή Τεχνικού
                                     </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); window.location.reload(); }} className="cursor-pointer flex items-center gap-2 text-red-500">
+                                        <Trash2 className="h-4 w-4" /> Διαγραφή Υπογραφής Τεχνικού
+                                    </DropdownMenuItem>
                                 </div>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem className="text-destructive cursor-pointer" onClick={() => supabase.auth.signOut()}>
