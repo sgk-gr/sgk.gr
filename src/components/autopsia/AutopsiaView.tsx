@@ -3682,10 +3682,19 @@ export default function AutopsiaPage() {
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-3 mt-4">
+                                        <div className="grid grid-cols-3 gap-2 mt-4">
                                             <Button
                                                 variant="outline"
-                                                className="h-12 font-bold border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                                                className="h-11 font-bold border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 text-xs px-2"
+                                                onClick={() => setCustomerToDelete(customer)}
+                                                disabled={deleteCustomerMutation.isPending}
+                                            >
+                                                <Trash2 className="h-3.5 w-3.5 mr-1 text-rose-500" />
+                                                ΔΙΑΓΡΑΦΗ
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                className="h-11 font-bold border-amber-300 text-amber-700 hover:bg-amber-50 text-xs px-2"
                                                 onClick={() => {
                                                     setCancellingCustomer(customer);
                                                     setCancellationReason("");
@@ -3693,11 +3702,11 @@ export default function AutopsiaPage() {
                                                 }}
                                                 disabled={cancelAutopsiaMutation.isPending}
                                             >
-                                                <XCircle className="h-4 w-4 mr-2" />
+                                                <XCircle className="h-3.5 w-3.5 mr-1" />
                                                 ΑΚΥΡΩΣΗ
                                             </Button>
                                             <Button
-                                                className="h-12 font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-lg transition-all"
+                                                className="h-11 font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-md text-xs px-2 transition-all"
                                                 onClick={() => confirm("Ολοκλήρωση Αυτοψίας;") && completeAutopsiaMutation.mutate(customer)}
                                                 disabled={completeAutopsiaMutation.isPending}
                                             >
