@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
-import { Users, Search, Image, ExternalLink, ChevronDown, ChevronUp, X, Phone, Save, Plus, Loader2, Camera, MessageSquare, MapPin, Layers, UserCircle, LogOut, Filter, Shovel, Zap, Edit2, AlertTriangle, PenLine, FileSpreadsheet, Eye, Settings, Package, FolderClosed, Database, XCircle, History, CheckCircle2, Navigation } from "lucide-react";
+import { Users, Search, Image, ExternalLink, ChevronDown, ChevronUp, X, Phone, Save, Plus, Loader2, Camera, MessageSquare, MapPin, Layers, UserCircle, LogOut, Filter, Shovel, Zap, Edit2, AlertTriangle, PenLine, FileSpreadsheet, Eye, Settings, Package, FolderClosed, Database, XCircle, History, CheckCircle2, Navigation, Trash2 } from "lucide-react";
 import { CommentsTimelineDialog } from "./CommentsTimelineDialog";
 import {
     DropdownMenu,
@@ -1663,6 +1663,7 @@ export default function AutopsiaPage() {
     const [timelineCustomer, setTimelineCustomer] = useState<any | null>(null);
     const [timelineOpen, setTimelineOpen] = useState(false);
     const [isNewAutopsiaOpen, setIsNewAutopsiaOpen] = useState(false);
+    const [customerToDelete, setCustomerToDelete] = useState<any | null>(null);
     const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number; category: string, floor?: string } | null>(null);
     const [fbFloors, setFbFloors] = useState<Record<string, string[]>>({});
     const [newFloorInput, setNewFloorInput] = useState<Record<string, string>>({});
@@ -2449,6 +2450,22 @@ export default function AutopsiaPage() {
         },
     });
 
+    const deleteCustomerMutation = useMutation({
+        mutationFn: async (id: string) => {
+            const { error } = await supabase.from("customers").delete().eq("id", id);
+            if (error) throw error;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["customers-autopsia2-pending"] });
+            queryClient.invalidateQueries({ queryKey: ["customers"] });
+            toast.success("Η αυτοψία διαγράφηκε επιτυχώς!");
+            setCustomerToDelete(null);
+        },
+        onError: (err: any) => {
+            toast.error("Σφάλμα κατά τη διαγραφή: " + err.message);
+        }
+    });
+
     const saveSignatureMutation = useMutation({
         mutationFn: async ({ id, signature_url }: { id: string; signature_url: string }) => {
             const { error } = await supabase.from("customers").update({ signature_url } as any).eq("id", id);
@@ -3210,8 +3227,26 @@ export default function AutopsiaPage() {
                 </div>
             </div>
 
-            <div className={cn("grid gap-6 items-start", customerUrlParam ? "grid-cols-1 max-w-2xl mx-auto" : "md:grid-cols-2 lg:grid-cols-3")}>
-                {displayedCustomers.map((customer) => {
+            {displayedCustomers.length === 0 ? (
+                <div className="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 text-center max-w-md mx-auto shadow-sm my-8">
+                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-xs">
+                        <Users className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-bold text-slate-900 text-base mb-1">Δεν βρέθηκαν αυτοψίες</h3>
+                    <p className="text-xs text-slate-500 mb-4 font-medium">
+                        {customers?.length === 0 ? "Δεν υπάρχει καμία καταχωρημένη αυτοψία. Πατήστε παρακάτω για προσθήκη." : "Δεν βρέθηκαν αποτελέσματα με τα επιλεγμένα φίλτρα."}
+                    </p>
+                    <Button
+                        onClick={() => setIsNewAutopsiaOpen(true)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold h-9 px-4 rounded-xl text-xs inline-flex items-center gap-1.5 shadow-sm"
+                    >
+                        <Plus className="h-4 w-4" />
+                        Προσθήκη Νέας Αυτοψίας
+                    </Button>
+                </div>
+            ) : (
+                <div className={cn("grid gap-6 items-start", customerUrlParam ? "grid-cols-1 max-w-2xl mx-auto" : "md:grid-cols-2 lg:grid-cols-3")}>
+                    {displayedCustomers.map((customer) => {
                     const isExpanded = expandedCustomers[customer.id] !== undefined ? expandedCustomers[customer.id] : !!customerUrlParam;
 
                     return (
@@ -3259,6 +3294,17 @@ export default function AutopsiaPage() {
                                                 >
                                                     <Eye className="h-3 w-3" />
                                                 </a>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setCustomerToDelete(customer);
+                                                    }}
+                                                    className="inline-flex items-center justify-center h-5 w-5 rounded-full border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors shrink-0 cursor-pointer"
+                                                    title="Διαγραφή Αυτοψίας"
+                                                >
+                                                    <Trash2 className="h-3 w-3" />
+                                                </button>
                                                 {isAutopsiaReady(customer) && <span className="text-[9px] font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded border border-emerald-300 flex items-center gap-1">📦 ΕΤΟΙΜΗ</span>}
                                                 {customer.is_kastoria && <span className="text-[9px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded border border-purple-200">📍 ΚΑΣΤΟΡΙΑ</span>}
                                                 {customer.is_florina && <span className="text-[9px] font-bold bg-cyan-100 text-cyan-700 px-1.5 py-0.5 rounded border border-cyan-200">📍 ΦΛΩΡΙΝΑ</span>}
@@ -3665,6 +3711,7 @@ export default function AutopsiaPage() {
                     );
                 })}
             </div>
+            )}
             
             {filteredCustomers && visibleCount < filteredCustomers.length && (
                 <div className="flex justify-center mt-8 mb-4 w-full">
@@ -4198,6 +4245,39 @@ export default function AutopsiaPage() {
                 open={isNewAutopsiaOpen}
                 onOpenChange={setIsNewAutopsiaOpen}
             />
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog open={!!customerToDelete} onOpenChange={(open) => !open && setCustomerToDelete(null)}>
+                <DialogContent className="sm:max-w-md bg-white border border-slate-200 text-slate-900 rounded-2xl shadow-2xl p-5">
+                    <DialogHeader>
+                        <DialogTitle className="text-rose-600 flex items-center gap-2 text-base font-bold">
+                            <Trash2 className="h-5 w-5" /> Επιβεβαίωση Διαγραφής
+                        </DialogTitle>
+                        <DialogDescription className="text-slate-600 text-xs sm:text-sm pt-1">
+                            Είστε βέβαιοι ότι θέλετε να διαγράψετε οριστικά την αυτοψία{" "}
+                            <span className="font-bold text-slate-900">{customerToDelete?.address || customerToDelete?.sr}</span>;
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 mt-2">
+                        <Button
+                            variant="outline"
+                            onClick={() => setCustomerToDelete(null)}
+                            disabled={deleteCustomerMutation.isPending}
+                            className="h-9 text-xs font-semibold bg-white border-slate-300 text-slate-700 hover:bg-slate-50"
+                        >
+                            Ακύρωση
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            onClick={() => customerToDelete && deleteCustomerMutation.mutate(customerToDelete.id)}
+                            disabled={deleteCustomerMutation.isPending}
+                            className="h-9 text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white"
+                        >
+                            {deleteCustomerMutation.isPending ? "Διαγραφή..." : "Οριστική Διαγραφή"}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
