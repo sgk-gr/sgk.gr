@@ -117,7 +117,7 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                     <div className="flex items-center space-x-2">
                                         <Checkbox 
                                             id="use_escalit" 
-                                            checked={formData.use_escalit} 
+                                            checked={!!formData.use_escalit} 
                                             onCheckedChange={(v) => handleChange("use_escalit", v)} 
                                         />
                                         <Label htmlFor="use_escalit" className="font-bold text-slate-900 cursor-pointer">ΜΕ ΧΡΗΣΗ ΕΣΚΑΛΙΤ (Εισαγωγή χαλκού)</Label>
@@ -147,7 +147,7 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                     <div className="flex items-center space-x-2">
                                         <Checkbox 
                                             id="external_pipe" 
-                                            checked={formData.external_pipe} 
+                                            checked={!!formData.external_pipe} 
                                             onCheckedChange={(v) => handleChange("external_pipe", v)} 
                                         />
                                         <Label htmlFor="external_pipe" className="font-bold text-slate-900 cursor-pointer">ΕΞΩΤΕΡΙΚΗ ΟΔΕΥΣΗ ΜΕ ΧΡΗΣΗ ΣΙΔΗΡΟΣΩΛΗΝΑ</Label>
@@ -175,7 +175,7 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                             <div className="flex items-center space-x-2">
                                                 <Checkbox 
                                                     id="pipe_support_fence" 
-                                                    checked={formData.pipe_support_fence} 
+                                                    checked={!!formData.pipe_support_fence} 
                                                     onCheckedChange={(v) => handleChange("pipe_support_fence", v)} 
                                                 />
                                                 <Label htmlFor="pipe_support_fence" className="text-xs font-semibold text-slate-900 cursor-pointer">Στήριξη επί τοιχοποιίας περίφραξης ή/και κτιρίου</Label>
@@ -183,7 +183,7 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                             <div className="flex items-center space-x-2">
                                                 <Checkbox 
                                                     id="pipe_support_building" 
-                                                    checked={formData.pipe_support_building} 
+                                                    checked={!!formData.pipe_support_building} 
                                                     onCheckedChange={(v) => handleChange("pipe_support_building", v)} 
                                                 />
                                                 <Label htmlFor="pipe_support_building" className="text-xs font-semibold text-slate-900 cursor-pointer">Εκσκαφή έως το κτίριο και στήριξη επί του κτιρίου</Label>
@@ -197,7 +197,7 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                     <div className="flex items-center space-x-2 p-3 bg-slate-50 rounded-lg border border-slate-200">
                                         <Checkbox 
                                             id="aerial" 
-                                            checked={formData.aerial} 
+                                            checked={!!formData.aerial} 
                                             onCheckedChange={(v) => handleChange("aerial", v)} 
                                         />
                                         <Label htmlFor="aerial" className="font-bold text-slate-900 cursor-pointer">ΕΝΑΕΡΙΟ</Label>
@@ -207,7 +207,7 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                         <div className="flex items-center space-x-2">
                                             <Checkbox 
                                                 id="other_way_1" 
-                                                checked={formData.other_way_1} 
+                                                checked={!!formData.other_way_1} 
                                                 onCheckedChange={(v) => handleChange("other_way_1", v)} 
                                             />
                                             <Label htmlFor="other_way_1" className="font-bold text-slate-900 cursor-pointer">ΑΛΛΟΣ ΤΡΟΠΟΣ</Label>
@@ -231,51 +231,51 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                                 <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_internal" checked={formData.bep_internal} onCheckedChange={(v) => handleChange("bep_internal", v)} />
+                                        <Checkbox id="bep_internal" checked={!!formData.bep_internal} onCheckedChange={(v) => handleChange("bep_internal", v)} />
                                         <Label htmlFor="bep_internal" className="text-xs font-bold text-slate-900 cursor-pointer">ΕΣΩΤΕΡΙΚΑ</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_external" checked={formData.bep_external} onCheckedChange={(v) => handleChange("bep_external", v)} />
+                                        <Checkbox id="bep_external" checked={!!formData.bep_external} onCheckedChange={(v) => handleChange("bep_external", v)} />
                                         <Label htmlFor="bep_external" className="text-xs font-bold text-slate-900 cursor-pointer">ΕΞΩΤΕΡΙΚΑ</Label>
                                     </div>
                                 </div>
                                 <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_fence" checked={formData.bep_fence} onCheckedChange={(v) => handleChange("bep_fence", v)} />
+                                        <Checkbox id="bep_fence" checked={!!formData.bep_fence} onCheckedChange={(v) => handleChange("bep_fence", v)} />
                                         <Label htmlFor="bep_fence" className="text-xs font-bold text-slate-900 cursor-pointer">ΣΤΗΝ ΠΕΡΙΦΡΑΞΗ</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_building" checked={formData.bep_building} onCheckedChange={(v) => handleChange("bep_building", v)} />
+                                        <Checkbox id="bep_building" checked={!!formData.bep_building} onCheckedChange={(v) => handleChange("bep_building", v)} />
                                         <Label htmlFor="bep_building" className="text-xs font-bold text-slate-900 cursor-pointer">ΣΤΟ ΚΤΙΡΙΟ</Label>
                                     </div>
                                 </div>
                                 <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_pole" checked={formData.bep_pole} onCheckedChange={(v) => handleChange("bep_pole", v)} />
+                                        <Checkbox id="bep_pole" checked={!!formData.bep_pole} onCheckedChange={(v) => handleChange("bep_pole", v)} />
                                         <Label htmlFor="bep_pole" className="text-xs font-bold text-slate-900 cursor-pointer">ΕΠΙ ΣΤΥΛΟΥ</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_pilar" checked={formData.bep_pilar} onCheckedChange={(v) => handleChange("bep_pilar", v)} />
+                                        <Checkbox id="bep_pilar" checked={!!formData.bep_pilar} onCheckedChange={(v) => handleChange("bep_pilar", v)} />
                                         <Label htmlFor="bep_pilar" className="text-xs font-bold text-slate-900 cursor-pointer">PILAR</Label>
                                     </div>
                                 </div>
                                 <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_underground" checked={formData.bep_underground} onCheckedChange={(v) => handleChange("bep_underground", v)} />
+                                        <Checkbox id="bep_underground" checked={!!formData.bep_underground} onCheckedChange={(v) => handleChange("bep_underground", v)} />
                                         <Label htmlFor="bep_underground" className="text-xs font-bold text-slate-900 cursor-pointer">ΥΠΟΓΕΙΟ</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_ground" checked={formData.bep_ground} onCheckedChange={(v) => handleChange("bep_ground", v)} />
+                                        <Checkbox id="bep_ground" checked={!!formData.bep_ground} onCheckedChange={(v) => handleChange("bep_ground", v)} />
                                         <Label htmlFor="bep_ground" className="text-xs font-bold text-slate-900 cursor-pointer">ΙΣΟΓΕΙΟ</Label>
                                     </div>
                                 </div>
                                 <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_roof" checked={formData.bep_roof} onCheckedChange={(v) => handleChange("bep_roof", v)} />
+                                        <Checkbox id="bep_roof" checked={!!formData.bep_roof} onCheckedChange={(v) => handleChange("bep_roof", v)} />
                                         <Label htmlFor="bep_roof" className="text-xs font-bold text-slate-900 cursor-pointer">ΤΑΡΑΤΣΑ</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="bep_piloti" checked={formData.bep_piloti} onCheckedChange={(v) => handleChange("bep_piloti", v)} />
+                                        <Checkbox id="bep_piloti" checked={!!formData.bep_piloti} onCheckedChange={(v) => handleChange("bep_piloti", v)} />
                                         <Label htmlFor="bep_piloti" className="text-xs font-bold text-slate-900 cursor-pointer">ΠΥΛΩΤΗ</Label>
                                     </div>
                                 </div>
@@ -289,21 +289,21 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox id="fb_shaft" checked={formData.fb_shaft} onCheckedChange={(v) => handleChange("fb_shaft", v)} />
+                                            <Checkbox id="fb_shaft" checked={!!formData.fb_shaft} onCheckedChange={(v) => handleChange("fb_shaft", v)} />
                                             <Label htmlFor="fb_shaft" className="text-xs font-bold text-slate-900 cursor-pointer">ΦΡΕΑΤΙΟ</Label>
                                         </div>
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox id="fb_elevator" checked={formData.fb_elevator} onCheckedChange={(v) => handleChange("fb_elevator", v)} />
+                                            <Checkbox id="fb_elevator" checked={!!formData.fb_elevator} onCheckedChange={(v) => handleChange("fb_elevator", v)} />
                                             <Label htmlFor="fb_elevator" className="text-xs font-bold text-slate-900 cursor-pointer">ΑΝΕΛΚΥΣΤΗΡΑ</Label>
                                         </div>
                                     </div>
                                     <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox id="fb_staircase" checked={formData.fb_staircase} onCheckedChange={(v) => handleChange("fb_staircase", v)} />
+                                            <Checkbox id="fb_staircase" checked={!!formData.fb_staircase} onCheckedChange={(v) => handleChange("fb_staircase", v)} />
                                             <Label htmlFor="fb_staircase" className="text-xs font-bold text-slate-900 cursor-pointer">ΚΛΙΜΑΚΟΣΤΑΣΙΟ</Label>
                                         </div>
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox id="fb_internal_external" checked={formData.fb_internal_external} onCheckedChange={(v) => handleChange("fb_internal_external", v)} />
+                                            <Checkbox id="fb_internal_external" checked={!!formData.fb_internal_external} onCheckedChange={(v) => handleChange("fb_internal_external", v)} />
                                             <Label htmlFor="fb_internal_external" className="text-xs font-bold text-slate-900 cursor-pointer">ΕΣΩΤΕΡΙΚΑ / ΕΞΩΤΕΡΙΚΑ</Label>
                                         </div>
                                     </div>
@@ -311,17 +311,17 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox id="fb_lightwell" checked={formData.fb_lightwell} onCheckedChange={(v) => handleChange("fb_lightwell", v)} />
+                                            <Checkbox id="fb_lightwell" checked={!!formData.fb_lightwell} onCheckedChange={(v) => handleChange("fb_lightwell", v)} />
                                             <Label htmlFor="fb_lightwell" className="text-xs font-bold text-slate-900 cursor-pointer">ΦΩΤΑΓΩΓΟΣ</Label>
                                         </div>
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox id="fb_stairwell" checked={formData.fb_stairwell} onCheckedChange={(v) => handleChange("fb_stairwell", v)} />
+                                            <Checkbox id="fb_stairwell" checked={!!formData.fb_stairwell} onCheckedChange={(v) => handleChange("fb_stairwell", v)} />
                                             <Label htmlFor="fb_stairwell" className="text-xs font-bold text-slate-900 cursor-pointer">ΦΑΝΑΡΙ ΣΚΑΛΑΣ</Label>
                                         </div>
                                     </div>
                                     <div className="space-y-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
                                         <div className="flex items-center space-x-2">
-                                            <Checkbox id="fb_other_way" checked={formData.fb_other_way} onCheckedChange={(v) => handleChange("fb_other_way", v)} />
+                                            <Checkbox id="fb_other_way" checked={!!formData.fb_other_way} onCheckedChange={(v) => handleChange("fb_other_way", v)} />
                                             <Label htmlFor="fb_other_way" className="text-xs font-bold text-slate-900 cursor-pointer">ΑΛΛΟΣ ΤΡΟΠΟΣ</Label>
                                         </div>
                                         {formData.fb_other_way && (
@@ -485,7 +485,7 @@ export function TechDescriptionModal({ open, onOpenChange, data, onSave }: TechD
                                     <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
                                         <Checkbox 
                                             id="use_fb" 
-                                            checked={formData.use_fb} 
+                                            checked={!!formData.use_fb} 
                                             onCheckedChange={(v) => handleChange("use_fb", v)} 
                                         />
                                         <Label htmlFor="use_fb" className="font-bold text-blue-900 cursor-pointer">Χρήση FB (κουτί σε κάθε όροφο)</Label>

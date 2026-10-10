@@ -93,6 +93,7 @@ const drawDigitalDecl = async (customer: any, adt: string, signatureUrl?: string
     
     await new Promise((resolve) => {
         logoImg.onload = () => {
+        logoImg.onerror = () => resolve(null);
             // Draw the official logo
             ctx.drawImage(logoImg, 50, 40, 380, 240);
             
@@ -269,6 +270,7 @@ const drawDigitalDecl = async (customer: any, adt: string, signatureUrl?: string
             sigImg.src = getTimestampedUrl(signatureUrl);
             await new Promise((resolve) => {
                 sigImg.onload = () => {
+        sigImg.onerror = () => resolve(null);
                     try {
                         // Create a temporary canvas to tint the signature blue
                         const tempCanvas = document.createElement("canvas");
@@ -369,6 +371,7 @@ const drawDigitalReport = async (customer: any, fatherName: string): Promise<str
     
     await new Promise((resolve) => {
         logoImg.onload = () => {
+        logoImg.onerror = () => resolve(null);
             ctx.drawImage(logoImg, 150, 150, 380, 240);
             ctx.fillStyle = "#0054a6";
             ctx.font = "bold 32px Arial";
@@ -625,6 +628,7 @@ const drawDigitalTech = async (customer: any, techData: TechDescriptionData, sig
     logoImg.src = "/OTELOGO.jpg";
     await new Promise((resolve) => {
         logoImg.onload = () => {
+        logoImg.onerror = () => resolve(null);
             ctx.drawImage(logoImg, 100, 80, 280, 180);
             ctx.fillStyle = blueOTE;
             ctx.font = "bold 28px Arial";
@@ -1051,6 +1055,7 @@ const drawDigitalTech = async (customer: any, techData: TechDescriptionData, sig
     engSigImg.src = "/engineer_sig.jpg";
     await new Promise((resolve) => {
         engSigImg.onload = () => {
+        engSigImg.onerror = () => resolve(null);
             // Tint it blue like the others
             const tempCanvas = document.createElement("canvas");
             tempCanvas.width = engSigImg.width;
@@ -1118,6 +1123,7 @@ const drawDigitalTech = async (customer: any, techData: TechDescriptionData, sig
         sigImg.src = getTimestampedUrl(signatureUrl);
         await new Promise((resolve) => {
             sigImg.onload = () => {
+        sigImg.onerror = () => resolve(null);
                 try {
                     const tempCanvas = document.createElement("canvas");
                     tempCanvas.width = sigImg.naturalWidth || sigImg.width || 450;
