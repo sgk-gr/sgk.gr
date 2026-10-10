@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { Loader2 } from "lucide-react";
@@ -8,9 +8,9 @@ import { Loader2 } from "lucide-react";
 const AutopsiaView = dynamic(() => import("@/components/autopsia/AutopsiaView"), {
   ssr: false,
   loading: () => (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#141413] text-slate-900 dark:text-[#f4f4f0]">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 text-slate-900">
       <Loader2 className="h-10 w-10 animate-spin text-blue-600 mb-4" />
-      <p className="text-sm font-bold tracking-wider uppercase text-slate-600 dark:text-slate-400">
+      <p className="text-sm font-bold tracking-wider uppercase text-slate-600">
         Φόρτωση Συστήματος Αυτοψιών FTTH...
       </p>
     </div>
@@ -18,6 +18,13 @@ const AutopsiaView = dynamic(() => import("@/components/autopsia/AutopsiaView"),
 });
 
 export default function FtthAutopsiaPage() {
+  useEffect(() => {
+    document.documentElement.classList.remove("dark");
+    try {
+      localStorage.setItem("km_theme_mode", "light");
+    } catch {}
+  }, []);
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -33,12 +40,12 @@ export default function FtthAutopsiaPage() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <main className="min-h-screen bg-slate-50 dark:bg-[#141413]">
+      <main className="min-h-screen bg-slate-50 text-slate-900">
         <Suspense
           fallback={
-            <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#141413] text-slate-900 dark:text-[#f4f4f0]">
+            <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 text-slate-900">
               <Loader2 className="h-10 w-10 animate-spin text-blue-600 mb-4" />
-              <p className="text-sm font-bold tracking-wider uppercase text-slate-600 dark:text-slate-400">
+              <p className="text-sm font-bold tracking-wider uppercase text-slate-600">
                 Εκκίνηση Περιβάλλοντος...
               </p>
             </div>

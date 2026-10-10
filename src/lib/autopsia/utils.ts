@@ -21,38 +21,24 @@ export function sanitizePhotoUrlForDb(url: string | null | undefined): string {
 
 export function getTimestampedUrl(url: string | null | undefined, forceNewTimestamp: boolean = false) {
   if (!url) return "";
-  if (url.startsWith("data:")) return url;
+  if (url.startsWith("data:") || url.startsWith("blob:")) return url;
 
   let targetUrl = url;
 
-  if (targetUrl.includes("/functions/v1/r2-media") && !targetUrl.includes("file=")) {
-    return "";
+  if (targetUrl.includes("pub-80f7efe0d271423e936b64080f0a0de2.r2.dev")) {
+    if (forceNewTimestamp) {
+      const timestamp = new Date().getTime();
+      const separator = targetUrl.includes("?") ? "&" : "?";
+      return `${targetUrl}${separator}t=${timestamp}`;
+    }
+    return targetUrl;
   }
 
   if (targetUrl.includes("r2.dev") || targetUrl.includes("pub-c08b1610623748bfb2c633b2c4e31130")) {
     const rawFileName = targetUrl.split("/").pop() || "";
     const cleanFileName = rawFileName.split("?")[0];
     if (cleanFileName) {
-      const fileParam = cleanFileName.includes("%")
-        ? encodeURIComponent(cleanFileName)
-        : encodeURIComponent(decodeURIComponent(cleanFileName));
-      targetUrl = `https://dxsdmumciinpqtewpipx.supabase.co/functions/v1/r2-media?file=${fileParam}`;
-    }
-  } else if (targetUrl.includes("/functions/v1/r2-media")) {
-    const urlParts = targetUrl.split("?file=");
-    if (urlParts.length === 2) {
-      const rest = urlParts[1];
-      const rawFile = rest.split("&")[0];
-      const encodedFile = rawFile.includes("%25") || rawFile.includes("%")
-        ? encodeURIComponent(decodeURIComponent(rawFile))
-        : encodeURIComponent(decodeURIComponent(rawFile));
-      const otherParams = rest
-        .split("&")
-        .slice(1)
-        .filter((p) => !p.startsWith("t=") && !p.startsWith("nocache="))
-        .join("&");
-      const paramStr = otherParams ? `&${otherParams}` : "";
-      targetUrl = `${urlParts[0]}?file=${encodedFile}${paramStr}`;
+      targetUrl = `https://pub-80f7efe0d271423e936b64080f0a0de2.r2.dev/${cleanFileName}`;
     }
   }
 

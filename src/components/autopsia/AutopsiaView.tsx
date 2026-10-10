@@ -2846,19 +2846,18 @@ export default function AutopsiaPage() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-100 pb-20 p-4 md:p-6 dark-mode-page transition-colors duration-200">
+        <div className="min-h-screen bg-[#f8fafc] text-slate-900 pb-20 p-4 md:p-6 transition-colors duration-200">
             {customerUrlParam && (
-                <div className="mb-6 flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border max-w-2xl mx-auto">
+                <div className="mb-6 flex items-center justify-between bg-white border-slate-200 p-4 rounded-2xl shadow-sm border max-w-2xl mx-auto">
                     <div className="flex items-center gap-2">
                         <UserCircle className="h-6 w-6 text-purple-600" />
                         <span className="font-bold text-base md:text-lg text-slate-800">Καρτέλα Πελάτη (Αυτοψία 2)</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <ThemeToggle />
                         <Button 
                             variant="outline" 
                             size="sm"
-                            onClick={() => { window.location.href = '/autopsia2'; }}
+                            onClick={() => { window.location.href = '/ftth-autopsia'; }}
                             className="gap-1.5 h-8 text-xs font-semibold bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
                         >
                             <X className="h-3.5 w-3.5" /> Κλείσιμο
@@ -2913,9 +2912,7 @@ export default function AutopsiaPage() {
                 </div>
 
                 <div className="flex items-center gap-2 sm:gap-4">
-                    <ThemeToggle />
-
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-[#1f1f1e] shadow-sm border rounded-full text-sm font-medium">
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border-slate-200 shadow-xs border rounded-full text-sm font-medium text-slate-700">
                         <Users className="h-4 w-4 text-blue-600" />
                         <span>{customers?.length || 0} Κτήρια</span>
                     </div>
@@ -2963,15 +2960,15 @@ export default function AutopsiaPage() {
             </div>
 
             {/* Filters Section (Mobile) */}
-            <div className={cn("lg:hidden bg-card rounded-2xl shadow-sm border p-4 mb-6 space-y-3", customerUrlParam && "hidden")}>
+            <div className={cn("lg:hidden bg-white border-slate-200/90 rounded-2xl shadow-sm border p-4 mb-6 space-y-3", customerUrlParam && "hidden")}>
                 <div className="flex flex-col gap-3">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                         <Input
                             placeholder="Αναζήτηση (διεύθυνση, όνομα, SR, Building ID)..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-11 bg-muted/50 border-0"
+                            className="pl-10 h-11 bg-slate-50/80 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-1 focus-visible:ring-blue-500"
                         />
                     </div>
 
@@ -3014,7 +3011,7 @@ export default function AutopsiaPage() {
 
                     <Sheet>
                         <SheetTrigger asChild>
-                            <Button variant="outline" className="w-full h-10 gap-2 bg-white border-dashed text-xs">
+                            <Button variant="outline" className="w-full h-10 gap-2 bg-white border-dashed text-slate-700 hover:bg-slate-50 text-xs">
                                 <Filter className="h-4 w-4" />
                                 Φίλτρα Πόλης
                                 {cityFilter !== "all" && (
@@ -3022,13 +3019,13 @@ export default function AutopsiaPage() {
                                 )}
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                        <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-white text-slate-900">
                             <SheetHeader>
-                                <SheetTitle>Φίλτρα</SheetTitle>
+                                <SheetTitle className="text-slate-900">Φίλτρα</SheetTitle>
                             </SheetHeader>
                             <div className="py-6 space-y-6">
                                 <div>
-                                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Κατάσταση:</p>
+                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Κατάσταση:</p>
                                     <div className="flex flex-col gap-2">
                                         {[
                                             { key: "pending", label: "⏳ Σε Εκκρεμότητα", count: pendingCount },
@@ -3043,7 +3040,8 @@ export default function AutopsiaPage() {
                                                     "justify-between font-bold",
                                                     statusFilter === f.key && f.key === "ready" && "bg-emerald-600 hover:bg-emerald-700 text-white",
                                                     statusFilter === f.key && f.key === "pending" && "bg-slate-900 hover:bg-slate-800 text-white",
-                                                    statusFilter === f.key && f.key === "all" && "bg-blue-600 hover:bg-blue-700 text-white"
+                                                    statusFilter === f.key && f.key === "all" && "bg-blue-600 hover:bg-blue-700 text-white",
+                                                    statusFilter !== f.key && "bg-white text-slate-700 hover:bg-slate-50"
                                                 )}
                                                 onClick={() => setStatusFilter(f.key as any)}
                                             >
@@ -3055,7 +3053,7 @@ export default function AutopsiaPage() {
                                 </div>
 
                                 <div>
-                                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Πόλη:</p>
+                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Πόλη:</p>
                                     <div className="flex flex-col gap-2">
                                         {[
                                             { key: "all", label: "Όλες οι Πόλεις" },
@@ -3067,9 +3065,11 @@ export default function AutopsiaPage() {
                                                 variant={cityFilter === filter.key ? "default" : "outline"}
                                                 size="sm"
                                                 className={cn(
-                                                    "justify-between",
-                                                    cityFilter === filter.key && filter.key === "kastoria" && "bg-purple-600 hover:bg-purple-700",
-                                                    cityFilter === filter.key && filter.key === "florina" && "bg-cyan-600 hover:bg-cyan-700"
+                                                    "justify-between font-semibold",
+                                                    cityFilter === filter.key && filter.key === "kastoria" && "bg-purple-600 hover:bg-purple-700 text-white",
+                                                    cityFilter === filter.key && filter.key === "florina" && "bg-cyan-600 hover:bg-cyan-700 text-white",
+                                                    cityFilter === filter.key && filter.key === "all" && "bg-slate-800 hover:bg-slate-900 text-white",
+                                                    cityFilter !== filter.key && "bg-white text-slate-700 hover:bg-slate-50"
                                                 )}
                                                 onClick={() => setCityFilter(filter.key as any)}
                                             >
@@ -3091,14 +3091,14 @@ export default function AutopsiaPage() {
 
             {/* Desktop Filters */}
             <div className={cn("hidden lg:flex flex-col gap-4 mb-8", customerUrlParam && "hidden")}>
-                <div className="bg-card rounded-2xl shadow-sm border p-4 flex flex-wrap items-center justify-between gap-4">
+                <div className="bg-white border-slate-200/90 rounded-2xl shadow-sm border p-4 flex flex-wrap items-center justify-between gap-4">
                     <div className="relative flex-1 min-w-[280px] max-w-md">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                         <Input
                             placeholder="Αναζήτηση βάσει διεύθυνσης, ονόματος, SR ή Building ID..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 h-11 bg-muted/50 border-0"
+                            className="pl-10 h-11 bg-slate-50/80 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-1 focus-visible:ring-blue-500"
                         />
                     </div>
 
@@ -3110,7 +3110,7 @@ export default function AutopsiaPage() {
                                 size="sm"
                                 className={cn(
                                     "h-9 px-3.5 rounded-lg text-xs font-bold transition-all",
-                                    statusFilter === "pending" ? "bg-slate-900 hover:bg-slate-800 text-white shadow-sm" : "text-slate-600 hover:bg-slate-200/60"
+                                    statusFilter === "pending" ? "bg-slate-900 text-white shadow-sm" : "text-slate-700 hover:bg-slate-200/60"
                                 )}
                                 onClick={() => setStatusFilter("pending")}
                             >
@@ -3127,7 +3127,7 @@ export default function AutopsiaPage() {
                                 size="sm"
                                 className={cn(
                                     "h-9 px-3.5 rounded-lg text-xs font-bold transition-all",
-                                    statusFilter === "ready" ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm" : "text-slate-600 hover:bg-slate-200/60"
+                                    statusFilter === "ready" ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm" : "text-slate-700 hover:bg-slate-200/60"
                                 )}
                                 onClick={() => setStatusFilter("ready")}
                             >
@@ -3144,7 +3144,7 @@ export default function AutopsiaPage() {
                                 size="sm"
                                 className={cn(
                                     "h-9 px-3.5 rounded-lg text-xs font-bold transition-all",
-                                    statusFilter === "all" ? "bg-blue-600 hover:bg-blue-700 text-white shadow-sm" : "text-slate-600 hover:bg-slate-200/60"
+                                    statusFilter === "all" ? "bg-blue-600 hover:bg-blue-700 text-white shadow-sm" : "text-slate-700 hover:bg-slate-200/60"
                                 )}
                                 onClick={() => setStatusFilter("all")}
                             >
@@ -3159,7 +3159,7 @@ export default function AutopsiaPage() {
                         </div>
 
                         {/* City Filters */}
-                        <div className="flex items-center gap-1.5 p-1 bg-muted/30 rounded-xl border border-slate-200/60">
+                        <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-xl border border-slate-200/80">
                             {[
                                 { key: "all", label: "Όλες οι Πόλεις" },
                                 { key: "kastoria", label: "📍 Καστοριά" },
@@ -3172,7 +3172,9 @@ export default function AutopsiaPage() {
                                     className={cn(
                                         "h-9 px-3 rounded-lg text-xs font-bold transition-all",
                                         cityFilter === filter.key && filter.key === "kastoria" && "bg-purple-600 hover:bg-purple-700 text-white",
-                                        cityFilter === filter.key && filter.key === "florina" && "bg-cyan-600 hover:bg-cyan-700 text-white"
+                                        cityFilter === filter.key && filter.key === "florina" && "bg-cyan-600 hover:bg-cyan-700 text-white",
+                                        cityFilter === filter.key && filter.key === "all" && "bg-slate-800 hover:bg-slate-900 text-white",
+                                        cityFilter !== filter.key && "text-slate-700 hover:bg-slate-200/60"
                                     )}
                                     onClick={() => setCityFilter(filter.key as any)}
                                 >
@@ -3227,7 +3229,7 @@ export default function AutopsiaPage() {
 
                                             <span className="flex items-center gap-1 mt-0.5 flex-wrap">
                                                 <a
-                                                    href={`/?customer=${customer.id}`}
+                                                    href={`/ftth-autopsia?customer=${customer.id}`}
                                                     className="inline-flex items-center justify-center h-5 w-5 rounded-full border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors shrink-0"
                                                     title="Προβολή Πελάτη"
                                                 >
@@ -3273,35 +3275,7 @@ export default function AutopsiaPage() {
                                                     ΠΛΟΗΓΗΣΗ ΣΤΟΝ ΠΕΛΑΤΗ
                                                 </Button>
                                             )}
-                                            <Button 
-                                                variant="outline" 
-                                                size="sm"
-                                                disabled={verifyingCustomerId === customer.id}
-                                                className={cn(
-                                                    "inline-flex items-center gap-1.5 text-[10px] font-bold px-3 py-2 rounded-lg border shadow-sm h-auto transition-all",
-                                                    verifyingCustomerId === customer.id
-                                                        ? "bg-amber-50 text-amber-800 border-amber-300 animate-pulse"
-                                                        : "text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-emerald-100"
-                                                )}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    handleVerifyLocation(customer);
-                                                }}
-                                                title="Έλεγχος GPS: Επαλήθευση αν βρίσκεστε στο σωστό κτίριο"
-                                            >
-                                                {verifyingCustomerId === customer.id ? (
-                                                    <>
-                                                        <Loader2 className="h-3.5 w-3.5 animate-spin text-amber-600" />
-                                                        ΕΛΕΓΧΟΣ GPS...
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <MapPin className="h-3.5 w-3.5 text-emerald-600" />
-                                                        ΕΙΜΑΙ ΕΔΩ; (GPS)
-                                                    </>
-                                                )}
-                                            </Button>
+
                                             {customer.excel_url && (
                                                 <div className="flex items-center gap-2">
                                                     <a href={getTimestampedUrl(customer.excel_url)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-100 hover:bg-emerald-100 transition-colors shadow-sm">

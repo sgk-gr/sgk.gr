@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 export default function GlobalPromoBar() {
   const pathname = usePathname();
   
-  // Do not show the promo bar on doc pages, admin pages, elv8 requirements, liveavatar demo, order-ai-agent, or ike-offer
-  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements" || pathname.startsWith("/liveavatar-demo") || pathname.startsWith("/order-ai-agent") || pathname === "/ike-offer") {
+  // Do not show the promo bar on doc pages, admin pages, elv8 requirements, liveavatar demo, order-ai-agent, ike-offer, or ftth-autopsia
+  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements" || pathname.startsWith("/liveavatar-demo") || pathname.startsWith("/order-ai-agent") || pathname === "/ike-offer" || pathname.startsWith("/ftth-autopsia")) {
     return null;
   }
 

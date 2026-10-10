@@ -100,7 +100,7 @@ export async function uploadToR2(rawFile: File | Blob, fileName: string): Promis
       throw new Error(`Upload failed: ${uploadRes.statusText}`);
     }
 
-    const publicBaseUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || "https://pub-c08b1610623748bfb2c633b2c4e31130.r2.dev";
+    const publicBaseUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || "https://pub-80f7efe0d271423e936b64080f0a0de2.r2.dev";
     return `${publicBaseUrl.replace(/\/$/, "")}/${fileName}`;
   } catch (error) {
     console.error("uploadToR2 Error:", error);

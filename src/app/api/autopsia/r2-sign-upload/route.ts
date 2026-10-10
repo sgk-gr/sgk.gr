@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID;
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
-const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME;
-const R2_ENDPOINT = process.env.R2_ENDPOINT || (R2_ACCOUNT_ID ? `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com` : undefined);
+const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "64dbfe29358f1df34ab375dd0936db21";
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || "2a003628b63e17138ddef40de2dc529d";
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || "13b0fb7ec6026336d2743c02a78733b4d1d6838867baa6de96ed6742409c349d";
+const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "sgk-ftth-autopsia";
+const R2_ENDPOINT = process.env.R2_ENDPOINT || `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
 
 function getR2Client() {
   if (!R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY || !R2_ENDPOINT) {
