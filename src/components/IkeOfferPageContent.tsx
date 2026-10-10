@@ -154,12 +154,12 @@ function IkeOfferContent() {
                 Θέλετε να δείτε ένα ζωντανό δείγμα ιστοσελίδας Ι.Κ.Ε.;
               </p>
               <a 
-                href="https://www.hightravel.gr/ike"
+                href="https://www.sellascountryhouses.gr/"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-full bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-300 gap-1.5 text-xs shadow-sm"
               >
-                Δείτε το site της High Travel ↗
+                Δείτε πρόσφατο δείγμα μας ↗
               </a>
             </div>
 

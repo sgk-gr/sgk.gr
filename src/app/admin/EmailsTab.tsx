@@ -165,7 +165,7 @@ export function getLeadProfession(lead: any): ProfessionConfig {
 const templates = [
   {
     name: "Istoselida ike 150 ευρω",
-    subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Επίσημη ιστοσελίδα ΓΕΜΗ έτοιμη σε 24 ώρες",
+    subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Εταιρική ιστοσελίδα για το ΓΕΜΗ",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">Εταιρική Ιστοσελίδα ΙΚΕ (βάσει προδιαγραφών ΓΕΜΗ)</h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
@@ -188,6 +188,9 @@ const templates = [
     <li>Εταιρικό Email (π.χ. info@...).</li>
     <li>Νόμιμο τιμολόγιο για τα έξοδα της εταιρείας σας.</li>
   </ul>
+  <p style="margin: 10px 0 0 0; font-size: 13px; color: #475569;">
+    👉 <strong>Δείτε ένα πρόσφατο δείγμα μας:</strong> <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; text-decoration: underline;">sellascountryhouses.gr</a>
+  </p>
 </div>
 
 <p style="margin: 0 0 20px 0; color: #475569; font-size: 14px; line-height: 1.5;">
@@ -195,11 +198,15 @@ const templates = [
   <em>(Αν πάλι το έχετε ήδη τακτοποιήσει, παρακαλώ αγνοήστε αυτό το μήνυμα και καλή συνέχεια στα νέα σας βήματα!)</em>
 </p>
 
+<div style="text-align: center; margin: 20px 0 10px;">
+  <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
+    Εκδήλωση Ενδιαφέροντος
+  </a>
+</div>
+
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
   <strong>Διαφάνεια & GDPR:</strong> Επικοινωνούμε αποκλειστικά βάσει των δημοσίων στοιχείων (OpenData API) του Γ.Ε.ΜΗ.
-</div>`,
-    defaultButtonText: "Εκδήλωση Ενδιαφέροντος",
-    defaultButtonLink: "https://www.sgk.gr/ike-offer"
+</div>`
   },
   {
     name: "AI Video Call & Ψηφιακοί Υπάλληλοι (order-ai-agent)",

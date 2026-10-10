@@ -422,8 +422,8 @@ serve(async (req) => {
                         <p style="margin: 0 0 8px 0; font-size: 13px; color: #475569;">
                             Δείτε πώς θα φαίνεται η δική σας ιστοσελίδα Ι.Κ.Ε. από τον τελευταίο μας πελάτη:
                         </p>
-                        <a href="https://www.hightravel.gr/ike" target="_blank" style="display:inline-block;background:#3b5bdb;color:#fff;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border-radius:10px;text-decoration:none;">
-                            Δείτε το site της High Travel ↗
+                        <a href="https://www.sellascountryhouses.gr/" target="_blank" style="display:inline-block;background:#3b5bdb;color:#fff;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border-radius:10px;text-decoration:none;">
+                            Δείτε πρόσφατο δείγμα μας ↗
                         </a>
                     </div>
 
