@@ -2194,14 +2194,7 @@ export default function AutopsiaPage() {
 
             if (fetchError) throw fetchError;
 
-            console.log("Starting autopsia-mail Edge Function...");
-            const res1 = await supabase.functions.invoke("autopsia-mail", {
-                body: {
-                    customer: latestCustomer,
-                    userEmail: user?.email
-                },
-            });
-            const data1 = await res1.json(); console.log("Result of autopsia-mail:", data1);
+            
 
             console.log("Starting autopsia-zip-mail Edge Function...");
             const res2 = await supabase.functions.invoke("autopsia-zip-mail", {
