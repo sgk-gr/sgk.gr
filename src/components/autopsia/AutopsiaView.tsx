@@ -2951,6 +2951,14 @@ export default function AutopsiaPage() {
                         <span>{customers?.length || 0} Κτήρια</span>
                     </div>
 
+                    <Button onClick={() => setShowEngineerSigSetup(true)} variant="outline" className="h-9 px-3 rounded-xl flex items-center gap-1.5 border-slate-200 bg-white text-slate-700 hover:bg-slate-50 cursor-pointer">
+                        <PenLine className="h-4 w-4 text-blue-500" />
+                        <span className="hidden sm:inline">Υπογραφή Τεχνικού</span>
+                    </Button>
+                    <Button onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); window.location.reload(); }} variant="outline" className="h-9 w-9 p-0 rounded-xl flex items-center justify-center border-red-200 bg-red-50 text-red-600 hover:bg-red-100 cursor-pointer" title="Διαγραφή Υπογραφής Τεχνικού">
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+
                     {user && (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
