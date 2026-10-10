@@ -1,5 +1,3 @@
-import { supabaseAutopsia } from "./supabase";
-
 export function compressImageForUpload(file: File | Blob): Promise<Blob | File> {
   return new Promise((resolve) => {
     const isImage = (file.type && file.type.startsWith("image/")) || 
@@ -69,13 +67,21 @@ export async function uploadToR2(rawFile: File | Blob, fileName: string): Promis
     const file = isImage ? await compressImageForUpload(rawFile) : rawFile;
     const contentType = isImage ? "image/jpeg" : (file.type || "application/octet-stream");
 
-    const { data: signData, error: signError } = await supabaseAutopsia.functions.invoke("r2-sign-upload", {
-      body: { fileName, contentType },
+    const res = await fetch("/api/autopsia/r2-sign-upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileName, contentType }),
     });
 
-    if (signError || !signData?.uploadUrl) {
-      console.error("Error getting pre-signed URL:", signError);
-      throw new Error("Could not get upload URL");
+    const signData = await res.json();
+
+    if (!res.ok || !signData?.uploadUrl) {
+      console.warn("R2 Sign notice:", signData?.error);
+      // Fallback if R2 credentials aren't set yet in .env: allow preview via local Blob URL
+      if (rawFile instanceof Blob) {
+        return URL.createObjectURL(rawFile);
+      }
+      return null;
     }
 
     const { uploadUrl } = signData;
@@ -98,22 +104,19 @@ export async function uploadToR2(rawFile: File | Blob, fileName: string): Promis
     return `${publicBaseUrl.replace(/\/$/, "")}/${fileName}`;
   } catch (error) {
     console.error("uploadToR2 Error:", error);
+    if (rawFile instanceof Blob) {
+      return URL.createObjectURL(rawFile);
+    }
     return null;
   }
 }
 
 export async function deleteFromR2(fileName: string): Promise<boolean> {
   try {
-    const { error } = await supabaseAutopsia.functions.invoke("r2-delete-file", {
-      body: { fileName },
+    const res = await fetch(`/api/autopsia/r2-sign-upload?fileName=${encodeURIComponent(fileName)}`, {
+      method: "DELETE",
     });
-
-    if (error) {
-      console.error("Error deleting from R2:", error);
-      return false;
-    }
-
-    return true;
+    return res.ok;
   } catch (error) {
     console.error("deleteFromR2 Error:", error);
     return false;
