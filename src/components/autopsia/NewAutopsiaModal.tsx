@@ -114,7 +114,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
 
             const payload: any = {
                 sr: finalSr,
-                first_name: firstName.trim() || "ΠΟΛΥΚΑΤΟΙΚΙΑ",
+                first_name: firstName.trim() || "",
                 last_name: lastName.trim(),
                 address: address.trim(),
                 city: cityName,
@@ -222,7 +222,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                             <Label htmlFor="firstName" className="text-xs font-bold text-slate-700">Όνομα</Label>
                             <Input
                                 id="firstName"
-                                placeholder="π.χ. ΠΟΛΥΚΑΤΟΙΚΙΑ ή Όνομα"
+                                placeholder="π.χ. Γεώργιος"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                                 className="h-9 bg-white border-slate-300 text-slate-900 font-medium text-xs sm:text-sm focus-visible:ring-1 focus-visible:ring-blue-500"
@@ -235,7 +235,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                             </Label>
                             <Input
                                 id="lastName"
-                                placeholder="π.χ. ΜΗΤΡΟΠΟΛΕΩΣ 14"
+                                placeholder="π.χ. Παπαδόπουλος"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                                 required
