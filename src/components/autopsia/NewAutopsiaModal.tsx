@@ -41,10 +41,42 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
     const [managerPhone, setManagerPhone] = useState("");
     const [address, setAddress] = useState("");
     const [floor, setFloor] = useState("");
-    const [city, setCity] = useState<"kastoria" | "florina" | "other">("kastoria");
-    const [customCity, setCustomCity] = useState("");
-    const [contractor, setContractor] = useState<string>("OTE");
+    const [city, setCity] = useState<string>("");
+    const [savedCities, setSavedCities] = useState<string[]>([]);
+    const [newCityName, setNewCityName] = useState("");
+    const [isAddingCity, setIsAddingCity] = useState(false);
+
+    const [contractor, setContractor] = useState<string>("");
+    const [recipientEmail, setRecipientEmail] = useState<string>("");
+    const [savedContractors, setSavedContractors] = useState<{name: string, email: string}[]>([]);
+    const [newContractorName, setNewContractorName] = useState("");
+    const [newContractorEmail, setNewContractorEmail] = useState("");
+    const [isAddingContractor, setIsAddingContractor] = useState(false);
+
     const [notes, setNotes] = useState("");
+
+    React.useEffect(() => {
+        const storedCities = localStorage.getItem("autopsia_saved_cities");
+        if (storedCities) {
+            try {
+                const parsed = JSON.parse(storedCities);
+                setSavedCities(parsed);
+                if (parsed.length > 0) setCity(parsed[0]);
+            } catch (e) {}
+        }
+        
+        const storedContractors = localStorage.getItem("autopsia_saved_contractors");
+        if (storedContractors) {
+            try {
+                const parsed = JSON.parse(storedContractors);
+                setSavedContractors(parsed);
+                if (parsed.length > 0) {
+                    setContractor(parsed[0].name);
+                    setRecipientEmail(parsed[0].email);
+                }
+            } catch (e) {}
+        }
+    }, []);
 
     const resetForm = () => {
         setSr("");
@@ -59,9 +91,23 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
         setManagerPhone("");
         setAddress("");
         setFloor("");
-        setCity("kastoria");
-        setCustomCity("");
-        setContractor("OTE");
+        
+        if (savedCities.length > 0) setCity(savedCities[0]);
+        else setCity("");
+        setIsAddingCity(false);
+        setNewCityName("");
+
+        if (savedContractors.length > 0) {
+            setContractor(savedContractors[0].name);
+            setRecipientEmail(savedContractors[0].email);
+        } else {
+            setContractor("");
+            setRecipientEmail("");
+        }
+        setIsAddingContractor(false);
+        setNewContractorName("");
+        setNewContractorEmail("");
+
         setNotes("");
     };
 
@@ -87,6 +133,29 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
         );
     };
 
+    const handleAddCity = () => {
+        if (!newCityName.trim()) return;
+        const updated = [...savedCities, newCityName.trim()];
+        setSavedCities(updated);
+        localStorage.setItem("autopsia_saved_cities", JSON.stringify(updated));
+        setCity(newCityName.trim());
+        setNewCityName("");
+        setIsAddingCity(false);
+    };
+
+    const handleAddContractor = () => {
+        if (!newContractorName.trim() || !newContractorEmail.trim()) return;
+        const newObj = { name: newContractorName.trim(), email: newContractorEmail.trim() };
+        const updated = [...savedContractors, newObj];
+        setSavedContractors(updated);
+        localStorage.setItem("autopsia_saved_contractors", JSON.stringify(updated));
+        setContractor(newObj.name);
+        setRecipientEmail(newObj.email);
+        setNewContractorName("");
+        setNewContractorEmail("");
+        setIsAddingContractor(false);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -98,13 +167,33 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
             toast.error("Παρακαλώ συμπληρώστε τη Διεύθυνση.");
             return;
         }
+        if (!city.trim() && !newCityName.trim()) {
+            toast.error("Παρακαλώ επιλέξτε ή προσθέστε πόλη.");
+            return;
+        }
+        if (!contractor.trim() && !newContractorName.trim()) {
+            toast.error("Παρακαλώ επιλέξτε ή προσθέστε εργολάβο.");
+            return;
+        }
 
         setLoading(true);
 
         try {
-            const isKastoria = city === "kastoria";
-            const isFlorina = city === "florina";
-            const cityName = city === "kastoria" ? "Καστοριά" : city === "florina" ? "Φλώρινα" : (customCity.trim() || "Άλλη");
+            const finalCityName = isAddingCity ? newCityName.trim() : city;
+            const finalContractorName = isAddingContractor ? newContractorName.trim() : contractor;
+            const finalRecipientEmail = isAddingContractor ? newContractorEmail.trim() : recipientEmail;
+            
+            // Auto-add if they typed it but didn't click save
+            if (isAddingCity && finalCityName) {
+                handleAddCity();
+            }
+            if (isAddingContractor && finalContractorName && finalRecipientEmail) {
+                handleAddContractor();
+            }
+
+            // Keep backwards compatibility for legacy flags
+            const isKastoria = finalCityName.toLowerCase() === "καστοριά" || finalCityName.toLowerCase() === "kastoria";
+            const isFlorina = finalCityName.toLowerCase() === "φλώρινα" || finalCityName.toLowerCase() === "florina";
 
             const finalSr = sr.trim() || `SR-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
             const cleanChimney = chimney.trim().replace(/^[gG]/i, '').trim();
@@ -117,7 +206,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                 first_name: firstName.trim() || "",
                 last_name: lastName.trim(),
                 address: address.trim(),
-                city: cityName,
+                city: finalCityName,
                 is_kastoria: isKastoria,
                 is_florina: isFlorina,
                 building_id: buildingId.trim() || null,
@@ -125,7 +214,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                 floor: floor.trim() || null,
                 phone: phone.trim() || null,
                 manager_phone: managerPhone.trim() || null,
-                contractor: contractor,
+                contractor: finalContractorName,
                 notes: notes.trim() || null,
                 is_upcoming: true,
                 autopsia_completed: false,
@@ -138,7 +227,9 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                     latitude: parsedLat,
                     longitude: parsedLng,
                     chimney_number: cleanChimney,
-                    contractor: contractor,
+                    contractor: finalContractorName,
+                    contractor_email: finalRecipientEmail,
+                    recipient_email: finalRecipientEmail,
                     created_at: new Date().toISOString()
                 }
             };
@@ -280,54 +371,52 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                                 <MapPin className="h-3.5 w-3.5 text-purple-600" />
                                 Πόλη
                             </Label>
-                            <div className="grid grid-cols-3 gap-1.5">
-                                <Button
-                                    type="button"
-                                    variant={city === "kastoria" ? "default" : "outline"}
-                                    size="sm"
-                                    className={`h-8 text-xs font-bold transition-all ${
-                                        city === "kastoria"
-                                            ? "bg-purple-600 hover:bg-purple-700 text-white"
-                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-100"
-                                    }`}
-                                    onClick={() => setCity("kastoria")}
-                                >
-                                    Καστοριά
-                                </Button>
-                                <Button
-                                    type="button"
-                                    variant={city === "florina" ? "default" : "outline"}
-                                    size="sm"
-                                    className={`h-8 text-xs font-bold transition-all ${
-                                        city === "florina"
-                                            ? "bg-cyan-600 hover:bg-cyan-700 text-white"
-                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-100"
-                                    }`}
-                                    onClick={() => setCity("florina")}
-                                >
-                                    Φλώρινα
-                                </Button>
-                                <Button
-                                    type="button"
-                                    variant={city === "other" ? "default" : "outline"}
-                                    size="sm"
-                                    className={`h-8 text-xs font-bold transition-all ${
-                                        city === "other"
-                                            ? "bg-slate-800 hover:bg-slate-900 text-white"
-                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-100"
-                                    }`}
-                                    onClick={() => setCity("other")}
-                                >
-                                    Άλλη
-                                </Button>
-                            </div>
-                            {city === "other" && (
-                                <Input
-                                    placeholder="Εισαγωγή ονόματος πόλης..."
-                                    value={customCity}
-                                    onChange={(e) => setCustomCity(e.target.value)}
-                                    className="h-8 mt-1.5 bg-white border-slate-300 text-xs text-slate-900"
-                                />
+                            {!isAddingCity ? (
+                                <Select value={city} onValueChange={(val) => {
+                                    if (val === "new") {
+                                        setIsAddingCity(true);
+                                        setCity("");
+                                    } else {
+                                        setCity(val);
+                                    }
+                                }}>
+                                    <SelectTrigger className="h-8 bg-white border-slate-300 text-slate-900 text-xs font-semibold">
+                                        <SelectValue placeholder="Επιλέξτε πόλη" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-white border-slate-200 text-slate-900 shadow-lg max-h-60">
+                                        {savedCities.map(c => (
+                                            <SelectItem key={c} value={c} className="text-xs font-semibold cursor-pointer">
+                                                {c}
+                                            </SelectItem>
+                                        ))}
+                                        {/* Defaults if empty */}
+                                        {savedCities.length === 0 && (
+                                            <>
+                                                <SelectItem value="Καστοριά" className="text-xs font-semibold cursor-pointer">Καστοριά</SelectItem>
+                                                <SelectItem value="Φλώρινα" className="text-xs font-semibold cursor-pointer">Φλώρινα</SelectItem>
+                                            </>
+                                        )}
+                                        <SelectItem value="new" className="text-xs font-bold text-purple-600 cursor-pointer border-t mt-1 pt-1">
+                                            + Προσθήκη νέας πόλης...
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            ) : (
+                                <div className="flex gap-1.5">
+                                    <Input
+                                        placeholder="Όνομα πόλης"
+                                        value={newCityName}
+                                        onChange={(e) => setNewCityName(e.target.value)}
+                                        className="h-8 bg-white border-slate-300 text-xs text-slate-900"
+                                        autoFocus
+                                    />
+                                    <Button type="button" onClick={handleAddCity} size="sm" className="h-8 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-2">
+                                        OK
+                                    </Button>
+                                    <Button type="button" onClick={() => setIsAddingCity(false)} variant="outline" size="sm" className="h-8 text-xs px-2 border-slate-300 text-slate-600">
+                                        X
+                                    </Button>
+                                </div>
                             )}
                         </div>
 
@@ -337,28 +426,74 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                                 <Building2 className="h-3.5 w-3.5 text-blue-600" />
                                 Εργολάβος
                             </Label>
-                            <Select value={contractor} onValueChange={setContractor}>
-                                <SelectTrigger className="h-8 bg-white border-slate-300 text-slate-900 text-xs font-semibold">
-                                    <SelectValue placeholder="Επιλέξτε εργολάβο" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-white border-slate-200 text-slate-900 shadow-lg">
-                                    <SelectItem value="OTE" className="text-xs font-semibold cursor-pointer">
-                                        OTE (SGK Digital)
-                                    </SelectItem>
-                                    <SelectItem value="THISEAS" className="text-xs font-semibold text-blue-700 cursor-pointer">
-                                        🔹 THISEAS
-                                    </SelectItem>
-                                    <SelectItem value="BEYONDWIRE" className="text-xs font-semibold text-violet-700 cursor-pointer">
-                                        🟣 BEYONDWIRE
-                                    </SelectItem>
-                                    <SelectItem value="ERGATIKAT" className="text-xs font-semibold text-orange-700 cursor-pointer">
-                                        🔸 ERGATIKAT
-                                    </SelectItem>
-                                    <SelectItem value="KASOS" className="text-xs font-semibold text-green-700 cursor-pointer">
-                                        🟢 KASOS
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+                            {!isAddingContractor ? (
+                                <Select value={contractor} onValueChange={(val) => {
+                                    if (val === "new") {
+                                        setIsAddingContractor(true);
+                                        setContractor("");
+                                        setRecipientEmail("");
+                                    } else {
+                                        setContractor(val);
+                                        const found = savedContractors.find(c => c.name === val);
+                                        if (found) setRecipientEmail(found.email);
+                                    }
+                                }}>
+                                    <SelectTrigger className="h-8 bg-white border-slate-300 text-slate-900 text-xs font-semibold">
+                                        <SelectValue placeholder="Επιλέξτε εργολάβο" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-white border-slate-200 text-slate-900 shadow-lg max-h-60">
+                                        {savedContractors.map(c => (
+                                            <SelectItem key={c.name} value={c.name} className="text-xs font-semibold cursor-pointer">
+                                                {c.name} <span className="text-[10px] text-slate-500 ml-1">({c.email})</span>
+                                            </SelectItem>
+                                        ))}
+                                        {savedContractors.length === 0 && (
+                                            <SelectItem value="OTE" className="text-xs font-semibold cursor-pointer">OTE (SGK Digital)</SelectItem>
+                                        )}
+                                        <SelectItem value="new" className="text-xs font-bold text-blue-600 cursor-pointer border-t mt-1 pt-1">
+                                            + Προσθήκη νέου...
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            ) : (
+                                <div className="space-y-1.5">
+                                    <Input
+                                        placeholder="Όνομα εργολάβου"
+                                        value={newContractorName}
+                                        onChange={(e) => setNewContractorName(e.target.value)}
+                                        className="h-8 bg-white border-slate-300 text-xs text-slate-900"
+                                        autoFocus
+                                    />
+                                    <div className="flex gap-1.5">
+                                        <Input
+                                            type="email"
+                                            placeholder="Email παραλήπτη"
+                                            value={newContractorEmail}
+                                            onChange={(e) => setNewContractorEmail(e.target.value)}
+                                            className="h-8 bg-white border-slate-300 text-xs text-slate-900"
+                                        />
+                                        <Button type="button" onClick={handleAddContractor} size="sm" className="h-8 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-2">
+                                            OK
+                                        </Button>
+                                        <Button type="button" onClick={() => setIsAddingContractor(false)} variant="outline" size="sm" className="h-8 text-xs px-2 border-slate-300 text-slate-600">
+                                            X
+                                        </Button>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {!isAddingContractor && contractor && (
+                                <div className="mt-1 flex flex-col gap-0.5">
+                                    <Label className="text-[10px] font-semibold text-slate-500 ml-0.5">Email Αποστολής (ZIP):</Label>
+                                    <Input
+                                        type="email"
+                                        value={recipientEmail}
+                                        onChange={(e) => setRecipientEmail(e.target.value)}
+                                        className="h-7 text-xs bg-slate-100 border-slate-200 text-slate-700 focus-visible:ring-1"
+                                        placeholder="Email εργολάβου"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
 
