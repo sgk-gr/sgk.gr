@@ -62,15 +62,19 @@ serve(async (req) => {
             });
         }
 
+        const srPart = customer.sr ? `${customer.sr}` : '';
+        const cityPart = customer.city ? `${customer.city}` : '';
+        const addressPart = customer.address ? `(${customer.address})` : '';
+        const subjectDetails = [srPart, cityPart, addressPart].filter(Boolean).join(' ');
+        const subject = `ΑΥΤΟΨΙΑ ${subjectDetails}`.trim();
+
         const data = await resend.emails.send({
             from: "SGK Digital <info@sgk.gr>",
             to: toEmails,
-            subject: `Έγγραφα Αυτοψίας (ZIP): ${customer.address} - ${customer.city}`,
+            subject: subject,
             html: `
-                <h2>Έντυπα Αυτοψίας</h2>
-                <p><strong>Διεύθυνση:</strong> ${customer.address}, ${customer.city}</p>
-                <p><strong>SR:</strong> ${customer.sr || '-'}</p>
-                <p>Επισυνάπτονται τα παραγόμενα ψηφιακά έγγραφα.</p>
+                <p>Καλησπέρα σας,</p>
+                <p>Σας αποστέλλω τα έντυπα της αυτοψίας.</p>
             `,
             attachments: attachments.length > 0 ? attachments : undefined
         });
