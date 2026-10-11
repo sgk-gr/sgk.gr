@@ -29,15 +29,15 @@ const spaceGrotesk = SpaceFont({
 });
 
 export const metadata: Metadata = {
-    title: "SGK Digital | Agentic AI, AI Agents Ελλάδα, Web Development & Apps",
-    description: "SGK Digital — Η #1 εταιρεία για AI Agents & Agentic AI στην Ελλάδα. Σχεδιάζει AI agents για κάθε επιχείρηση: μικρή, μεσαία, μεγάλη και δημόσιο, σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειαστεί μια επιχείρηση: εξυπηρέτηση πελατών, ραντεβού, κρατήσεις, Voice AI τηλεφωνία, emails, έγγραφα, CRM & ERP. 100% Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop).",
-    keywords: "agentic ai ελλαδα, ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, sgk digital, sgk, ai agents για ολους, ai agents μικρες μεσαιες μεγαλες επιχειρησεις δημοσιο, κρατησεις ai agents, αυτονομοι ai agents, live video ai agents, ψηφιακοι υπαλληλοι, voice ai ελλαδα, erp ai automations, web development ελλαδα",
+    title: "SGK Digital | AI Agents Ελλάδα, Agentic AI & Custom Web Applications",
+    description: "Η κορυφαία εξειδικευμένη εταιρεία στην Ελλάδα για Αυτόνομους AI Agents (Agentic AI) και Custom Web Applications. Υλοποιούμε αυτόνομους AI agents, Voice AI τηλεφωνικά κέντρα, 24/7 Live Video Avatars και custom web εφαρμογές υψηλής απόδοσης για επιχειρήσεις και οργανισμούς.",
+    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, τεχνητη νοημοσυνη ελλαδα, agentic ai ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, custom web apps ελλαδα, web applications ελλαδα, sgk digital, sgk, voice ai ελλαδα, live video ai agents, ψηφιακοι υπαλληλοι, αυτοματισμοι επιχειρησεων ai, erp ai integration softone entersoft, multi-agent systems greece",
     metadataBase: new URL("https://www.sgk.gr"),
     alternates: { canonical: "https://www.sgk.gr" },
     openGraph: {
-        title: "SGK Digital | Agentic AI, AI Agents Ελλάδα & Custom Web Apps",
-        description: "Η #1 εταιρεία για Agentic AI & Custom AI Agents στην Ελλάδα. AI Agents για όλους: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο, για οτιδήποτε μπορεί να χρειαστεί μια επιχείρηση.",
-        images: [{ url: "https://www.sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Digital Agentic AI" }],
+        title: "SGK Digital | AI Agents Ελλάδα, Agentic AI & Custom Web Apps",
+        description: "Η #1 εταιρεία στην Ελλάδα αποκλειστικά για Αυτόνομους AI Agents & Custom Web Applications. Σχεδιάζουμε AI πράκτορες και enterprise web εφαρμογές για επιχειρήσεις και οργανισμούς.",
+        images: [{ url: "https://www.sgk.gr/social-preview.png", width: 1200, height: 630, alt: "SGK Digital AI Agents & Web Applications" }],
         url: "https://www.sgk.gr",
         type: "website",
         siteName: "SGK Digital",
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "SGK Digital | AI Agents & Agentic AI Ελλάδα",
-        description: "18 χρόνια εμπειρίας. AI Agents για κάθε επιχείρηση (μικρή, μεσαία, μεγάλη, δημόσιο) και για τα πάντα. Αθήνα, Ελλάδα.",
+        title: "SGK Digital | AI Agents Ελλάδα & Custom Web Apps",
+        description: "Η #1 εταιρεία στην Ελλάδα για Αυτόνομους AI Agents, Agentic AI και Custom Web Applications. Αθήνα, Ελλάδα.",
         images: ["https://www.sgk.gr/hero_slide_4.png"],
     },
     robots: {
