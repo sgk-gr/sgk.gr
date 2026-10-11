@@ -65,6 +65,89 @@ function isOperationsKad(kad: string): boolean {
   );
 }
 
+export const FTTH_TARGET_KADS = [
+  "43211006", // ΥΠΗΡΕΣΙΕΣ ΕΓΚΑΤΑΣΤΑΣΗΣ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΟΠΛΙΣΜΟΥ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ ΚΑΙ ΔΙΚΤΥΩΝ
+  "43999000", // ΕΞΕΙΔΙΚΕΥΜΕΝΕΣ ΚΑΤΑΣΚΕΥΑΣΤΙΚΕΣ ΕΡΓΑΣΙΕΣ Π.Δ.Κ.Α.
+  "43121200", // ΕΡΓΑΣΙΕΣ ΕΚΣΚΑΦΩΝ ΚΑΙ ΜΕΤΑΚΙΝΗΣΗΣ ΓΑΙΩΝ
+  "43211002", // ΥΠΗΡΕΣΙΕΣ ΕΠΙΣΚΕΥΗΣ ΗΛΕΚΤΡΙΚΩΝ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΑΡΤΗΜΑΤΩΝ, ΜΕ ΔΙΑΘΕΣΗ ΚΑΙ ΥΛΙΚΩΝ
+  "43131001", // ΟΡΙΖΟΝΤΙΕΣ ΔΙΑΤΡΗΣΕΙΣ ΓΙΑ ΤΟ ΠΕΡΑΣΜΑ ΚΑΛΩΔΙΩΝ Η ΥΔΡΟΡΡΟΩΝ
+  "43211003", // ΥΠΗΡΕΣΙΕΣ ΕΠΙΣΚΕΥΗΣ ΗΛΕΚΤΡΙΚΩΝ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΑΡΤΗΜΑΤΩΝ, ΧΩΡΙΣ ΔΙΑΘΕΣΗ ΥΛΙΚΩΝ
+];
+
+export function checkFtthTelecomTarget(co: any): { isMatch: boolean; reason: string } {
+  const kadCodes: string[] = [];
+  const activityTexts: string[] = [];
+
+  if (Array.isArray(co.activities)) {
+    for (const a of co.activities) {
+      const rawId = a?.activity?.id || a?.id;
+      if (rawId) {
+        const clean = String(rawId).replace(/[^0-9]/g, "");
+        kadCodes.push(clean);
+      }
+      if (a?.activity?.descr || a?.descr) {
+        activityTexts.push(normalizeGreek(a?.activity?.descr || a?.descr));
+      }
+    }
+  }
+
+  if (co.objective) {
+    activityTexts.push(normalizeGreek(co.objective));
+    const matches = co.objective.match(/\b\d{4,8}\b/g);
+    if (matches) {
+      for (const m of matches) kadCodes.push(m);
+    }
+  }
+
+  // 1. Direct or prefix match with target KADs
+  for (const kad of kadCodes) {
+    for (const target of FTTH_TARGET_KADS) {
+      if (kad === target || (kad.length >= 6 && target.startsWith(kad)) || (target.length >= 6 && kad.startsWith(target))) {
+        let kadLabel = `ΚΑΔ ${kad}`;
+        if (target === "43211006") kadLabel = "ΚΑΔ 43211006 (Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών)";
+        else if (target === "43999000") kadLabel = "ΚΑΔ 43999000 (Εξειδικευμένες Κατασκευαστικές Εργασίες)";
+        else if (target === "43121200") kadLabel = "ΚΑΔ 43121200 (Εκσκαφές & Μετακίνηση Γαιών)";
+        else if (target === "43211002") kadLabel = "ΚΑΔ 43211002 (Επισκευή Καλωδιώσεων με διάθεση υλικών)";
+        else if (target === "43131001") kadLabel = "ΚΑΔ 43131001 (Οριζόντιες Διατρήσεις Καλωδίων)";
+        else if (target === "43211003") kadLabel = "ΚΑΔ 43211003 (Επισκευή Καλωδιώσεων χωρίς υλικά)";
+        return { isMatch: true, reason: kadLabel };
+      }
+    }
+  }
+
+  // 2. Keyword match in name or activities
+  const allText = [
+    normalizeGreek(co.coNameEl || ""),
+    ...(co.coTitlesEl || []).map((t: string) => normalizeGreek(t)),
+    ...(co.coTitlesEn || []).map((t: string) => normalizeGreek(t)),
+    ...activityTexts
+  ].join(" ");
+
+  const FTTH_EXACT_KEYWORDS = [
+    "ΕΓΚΑΤΑΣΤΑΣΗΣ ΚΑΛΩΔΙΩΣΕΩΝ",
+    "ΕΞΟΠΛΙΣΜΟΥ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ",
+    "ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΔΙΚΤΥΩΝ",
+    "ΟΡΙΖΟΝΤΙΕΣ ΔΙΑΤΡΗΣΕΙΣ",
+    "ΠΕΡΑΣΜΑ ΚΑΛΩΔΙΩΝ",
+    "ΕΠΙΣΚΕΥΗΣ ΗΛΕΚΤΡΙΚΩΝ ΚΑΛΩΔΙΩΣΕΩΝ",
+    "ΕΚΣΚΑΦΩΝ ΚΑΙ ΜΕΤΑΚΙΝΗΣΗΣ ΓΑΙΩΝ",
+    "ΟΠΤΙΚΕΣ ΙΝΕΣ",
+    "ΟΠΤΙΚΗΣ ΙΝΑΣ",
+    "ΟΠΤΙΚΩΝ ΙΝΩΝ",
+    "FTTH",
+    "FIBER OPTIC",
+    "FIBER"
+  ];
+
+  for (const kw of FTTH_EXACT_KEYWORDS) {
+    if (allText.includes(kw)) {
+      return { isMatch: true, reason: `Λέξη-κλειδί: ${kw}` };
+    }
+  }
+
+  return { isMatch: false, reason: "" };
+}
+
 const TOURISM_TEXT_REGEX = /(?:\b(TOUR|TOURS|TOURISM|TOURIST|TOURISTIC|TRAVEL|RENT A CAR|CAR RENTAL|YACHT|CHARTER|BOAT RENTAL|HOTEL|HOTELS|VILLA|VILLAS|RESORT|RESORTS|CRUISE|HOLIDAY|HOLIDAYS|HOSPITALITY)\b|ΤΟΥΡΙΣΤ|ΞΕΝΟΔΟΧ|ΒΙΛΑ|ΒΙΛΕΣ|ΒΙΛΛΑ|ΒΙΛΛΕΣ|ΚΡΟΥΑΖΙΕΡ|ΕΚΔΡΟΜ|ΕΝΟΙΚΙΑΖΟΜΕΝ[Α-Ω\s]+ΔΩΜΑΤΙ|ΤΟΥΡΙΣΤΙΚ[Α-Ω\s]+ΚΑΤΑΛΥΜ|ΚΑΤΑΛΥΜΑΤΑ ΔΙΑΚΟΠΩΝ|ΤΟΥΡΙΣΤΙΚ[Α-Ω\s]+ΦΙΛΟΞΕΝ)/;
 
 const OPS_TEXT_REGEX = /(?:\b(LOGISTICS|SECURITY|FIBER|FIBER OPTIC)\b|ΤΗΛΕΠΙΚΟΙΝΩΝ|ΟΠΤΙΚΕΣ ΙΝΕΣ|ΟΠΤΙΚΗ ΙΝΑ|ΟΠΤΙΚΩΝ ΙΝΩΝ|ΤΕΧΝΙΚΗ ΕΤΑΙΡΕΙΑ|ΤΕΧΝΙΚΕΣ ΕΡΓΑΣΙΕΣ|ΤΕΧΝΙΚΟ ΓΡΑΦΕΙΟ|ΤΕΧΝΙΚΩΝ ΕΡΓΩΝ|ΤΕΧΝΙΚΕΣ ΥΠΗΡΕΣΙΕΣ|ΤΕΧΝΙΚΟΣ ΕΛΕΓΧΟΣ|ΤΕΧΝΙΚΩΝ ΕΓΚΑΤΑΣΤΑΣΕΩΝ|ΕΡΓΟΛΑΒ|ΜΕΤΑΦΟΡΙΚΗ|ΜΕΤΑΦΟΡΕΣ ΕΜΠΟΡΕΥΜΑΤΩΝ|ΔΙΑΜΕΤΑΦΟΡ|ΣΥΝΤΗΡΗΣΗ ΚΤΙΡΙΩΝ|ΣΥΝΤΗΡΗΣΕΙΣ|ΣΥΝΤΗΡΗΣΗ ΕΓΚΑΤΑΣΤΑΣΕΩΝ|ΗΛΕΚΤΡΟΛΟΓΙΚ|ΥΔΡΑΥΛΙΚΕΣ ΕΓΚΑΤΑΣΤΑΣΕΙΣ|ΥΔΡΑΥΛΙΚΑ ΕΡΓΑ|ΥΔΡΑΥΛΙΚΟΣ|ΥΔΡΑΥΛΙΚΟΙ|ΨΥΚΤΙΚΕΣ ΕΓΚΑΤΑΣΤΑΣΕΙΣ|ΨΥΚΤΙΚΟΣ|ΨΥΚΤΙΚΟΙ|ΧΩΜΑΤΟΥΡΓ|ΦΥΛΑΞΗ|ΣΥΣΤΗΜΑΤΑ ΑΣΦΑΛΕΙΑΣ|ΙΔΙΩΤΙΚΗ ΑΣΦΑΛΕΙΑ|ΚΑΤΑΣΚΕΥΑΣΤΙΚΗ|ΚΑΤΑΣΚΕΥΕΣ ΚΤΙΡΙΩΝ|ΟΙΚΟΔΟΜΙΚΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ|ΑΝΕΛΚΥΣΤ|ΜΟΝΩΣΕΙΣ)/;
@@ -178,7 +261,8 @@ export async function POST(req: NextRequest) {
   }
 
   const maxResults = body.limit || 50;
-  const targetCategory = "all";
+  const targetCategory = body.targetCategory || "all";
+  const isFtthMode = targetCategory === "ftth_telecom";
   const targetLegalForm = "ike"; // Always strictly I.K.E. (legalTypes=19)
   
   // Dynamic Month Handling: automatically follows current month (e.g. 2026-09 in September, 2026-10 in October)
@@ -236,10 +320,12 @@ export async function POST(req: NextRequest) {
 
           emit({
             type: "init",
-            message: `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
+            message: isFtthMode
+              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Οπτικές Ίνες & Τηλεπικοινωνίες (FTTH) | 📅 ${monthLabel}]...`
+              : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
             minDate,
             maxResults,
-            targetCategory: "all",
+            targetCategory,
             targetLegalForm: "ike",
             targetMonth
           });
@@ -300,12 +386,14 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = 0;
 
-          const maxOffset = 4000;
+          const maxOffset = isFtthMode ? 8000 : 4000;
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor(offset / pageSize) + 1;
             emit({
               type: "page",
-              message: `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες Ι.Κ.Ε. ${offset + 1} έως ${offset + pageSize})...`,
+              message: isFtthMode
+                ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (έλεγχος ΚΑΔ FTTH/Τηλεπικοινωνιών ${offset + 1} έως ${offset + pageSize})...`
+                : `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες Ι.Κ.Ε. ${offset + 1} έως ${offset + pageSize})...`,
               offset,
               page: pageNum
             });
@@ -378,8 +466,14 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Filter: Check official website
-              if (hasOfficialWebsite(urlClean)) {
+              // Filter: Check FTTH targeting if in FTTH mode
+              const ftthCheck = checkFtthTelecomTarget(co);
+              if (isFtthMode && !ftthCheck.isMatch) {
+                continue;
+              }
+
+              // Filter: Check official website (Only in general IKE mode; FTTH contractors are targeted for autopsy software)
+              if (!isFtthMode && hasOfficialWebsite(urlClean)) {
                 totalHasWebsite++;
                 emit({
                   type: "log",
@@ -421,8 +515,8 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Filter: Check Custom Corporate Domain (e.g. @domain.gr, @company.com)
-              if (isCustomDomainEmail(email)) {
+              // Filter: Check Custom Corporate Domain (Only in general IKE mode)
+              if (!isFtthMode && isCustomDomainEmail(email)) {
                 totalCustomDomain++;
                 emit({
                   type: "log",
@@ -464,11 +558,13 @@ export async function POST(req: NextRequest) {
               if (email) seenInBatch.add(email);
               if (afm) seenAfmInBatch.add(afm);
 
+              const leadType = isFtthMode || ftthCheck.isMatch ? "ftth_telecom" : "new_ike";
+
               const newLead = {
                 email: email,
                 company: companyTitle,
                 first_name: companyTitle,
-                last_name: "Ι.Κ.Ε.",
+                last_name: isFtthMode ? "FTTH / Δίκτυα" : "Ι.Κ.Ε.",
                 phone: phone,
                 afm: afm,
                 gemi_number: arGemi,
@@ -477,7 +573,7 @@ export async function POST(req: NextRequest) {
                 email_sequence_step: 0,
                 unsubscribed: false,
                 converted: false,
-                type: "new_ike",
+                type: leadType,
                 created_at: new Date().toISOString()
               };
 
@@ -491,7 +587,9 @@ export async function POST(req: NextRequest) {
                 afm,
                 phone,
                 date: incDate,
-                reason: `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
+                reason: isFtthMode || ftthCheck.isMatch
+                  ? `🔌 ΕΤΑΙΡΕΙΑ FTTH / ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ (${ftthCheck.reason})! Προστέθηκε για καμπάνια Αυτοψιών!`
+                  : `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
 
@@ -557,8 +655,12 @@ export async function POST(req: NextRequest) {
           }
 
           const doneMessage = insertedCount > 0
-            ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
-            : `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις σε όλες τις σελίδες και ΔΕΝ βρέθηκαν νέες Ι.Κ.Ε. (όλες οι διαθέσιμες επιχειρήσεις υπάρχουν ήδη στη βάση δεδομένων ή διαθέτουν ήδη ιστοσελίδα/εταιρικό domain).`;
+            ? isFtthMode
+              ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} εταιρείες FTTH / Τηλεπικοινωνιών στη βάση δεδομένων.`
+              : `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
+            : isFtthMode
+              ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και δεν βρέθηκαν νέες μη-καταχωρημένες εταιρείες με τους επιλεγμένους ΚΑΔ για το διάστημα αυτό.`
+              : `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις σε όλες τις σελίδες και ΔΕΝ βρέθηκαν νέες Ι.Κ.Ε. (όλες οι διαθέσιμες επιχειρήσεις υπάρχουν ήδη στη βάση δεδομένων ή διαθέτουν ήδη ιστοσελίδα/εταιρικό domain).`;
 
           emit({
             type: "done",

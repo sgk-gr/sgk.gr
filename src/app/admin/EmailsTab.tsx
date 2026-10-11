@@ -113,6 +113,15 @@ export const CLIENT_PROFESSIONS: Record<string, ProfessionConfig> = {
     text: "text-sky-800",
     border: "border-sky-300"
   },
+  ftth_telecom: {
+    key: "ftth_telecom",
+    label: "Οπτικές Ίνες & Τηλεπικοινωνίες (FTTH)",
+    shortLabel: "FTTH / Δίκτυα",
+    icon: "🔌",
+    badgeBg: "bg-cyan-50",
+    text: "text-cyan-800",
+    border: "border-cyan-300"
+  },
   operations_tech: {
     key: "operations_tech",
     label: "Operations & Τεχνικά Έργα",
@@ -147,6 +156,7 @@ export function getLeadProfession(lead: any): ProfessionConfig {
     return CLIENT_PROFESSIONS[lead.type];
   }
   const t = `${lead.company || ''} ${lead.email || ''} ${lead.first_name || ''} ${lead.last_name || ''}`.toLowerCase();
+  if (t.includes('οπτικ') || t.includes('ftth') || t.includes('fiber') || t.includes('καλωδιωσ') || t.includes('τηλεπικοινων')) return CLIENT_PROFESSIONS.ftth_telecom;
   if (t.includes('logist') || t.includes('gik') || t.includes('λογιστ') || t.includes('φοροτεχνικ')) return CLIENT_PROFESSIONS.accounting;
   if (t.includes('tour') || t.includes('travel') || t.includes('τουριστ') || t.includes('palk') || t.includes('hotel') || t.includes('ξενοδοχ')) return CLIENT_PROFESSIONS.tourism;
   if (t.includes('properties') || t.includes('real estate') || t.includes('ακινητ') || t.includes('stefanos')) return CLIENT_PROFESSIONS.real_estate;
@@ -157,12 +167,107 @@ export function getLeadProfession(lead: any): ProfessionConfig {
   if (t.includes('yolo') || t.includes('eshop') || t.includes('ecommerce')) return CLIENT_PROFESSIONS.tech_ecommerce;
   if (t.includes('gr8net') || t.includes('tech') || t.includes('δικτυ')) return CLIENT_PROFESSIONS.tech_it;
   if (t.includes('routis') || t.includes('services') || t.includes('υπηρεσι')) return CLIENT_PROFESSIONS.services;
+  if (lead.type === 'ftth_telecom') return CLIENT_PROFESSIONS.ftth_telecom;
   if (lead.type === 'operations_tech') return CLIENT_PROFESSIONS.operations_tech;
   if (lead.type === 'new_ike') return CLIENT_PROFESSIONS.new_ike;
   return CLIENT_PROFESSIONS.general_co;
 }
 
 const templates = [
+  {
+    name: "🔌 Οπτικές Ίνες & FTTH: Αυτοματισμός Αυτοψιών & Σχεδίων σε 5 Λεπτά",
+    subject: "Αυτοματισμός Αυτοψιών FTTH & Σχεδίων σε 5 Λεπτά | Ειδική Πλατφόρμα Πεδίου για Εργολάβους Οπτικών Ινών",
+    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
+<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b1329; overflow: hidden;">
+  <a href="https://www.sgk.gr/estimate" target="_blank" style="display: block; text-decoration: none;">
+    <img 
+      src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&h=240&q=80" 
+      alt="Αυτοματισμός Αυτοψιών FTTH σε 5 Λεπτά - SGK Digital" 
+      width="600" 
+      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
+    />
+  </a>
+</div>
+
+<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Αυτοψίες Οπτικών Ινών (FTTH) σε 5 Λεπτά: Τέρμα τα Χαρτιά, τα Σκαριφήματα στο Χέρι & οι Καθυστερήσεις</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ συνεργάτη,</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στη μαζική ανάπτυξη των δικτύων <strong>Fiber to the Home (FTTH)</strong>, γνωρίζουμε καλά ότι η μεγαλύτερη επιχειρησιακή συμφόρηση για τις τεχνικές εταιρείες και τους εργολάβους δεν είναι το σκάψιμο, αλλά η <strong>διαδικασία της επίγειας αυτοψίας στις πολυκατοικίες</strong>:
+</p>
+
+<!-- Problem Highlight Box -->
+<div style="background-color: #fef2f2; border: 1px solid #fecaca; border-left: 5px solid #ef4444; border-radius: 12px; padding: 14px 18px; margin: 18px 0;">
+  <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #991b1b;">
+    ⚠️ Τα 4 καθημερινά προβλήματα του παραδοσιακού τρόπου:
+  </p>
+  <ul style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #7f1d1d; line-height: 1.55;">
+    <li>Χειρόγραφα μπλοκάκια & σημειώσεις μέσα σε σκοτεινά κλιμακοστάσια.</li>
+    <li>Χειροκίνητο μέτρημα διαμερισμάτων και υπολογισμός floor boxes & καμπινών με το μυαλό (μεγάλο ρίσκο λαθών).</li>
+    <li>Καθυστέρηση ημερών στο back-office για να ψηφιοποιηθούν τα χαρτιά και να σχεδιαστούν τα CAD σκαριφήματα.</li>
+    <li>Επανειλημμένες επισκέψεις στην πολυκατοικία για φυσικές υπογραφές διαχειριστών.</li>
+  </ul>
+</div>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στην <strong>SGK Digital</strong> λύσαμε οριστικά αυτό το πρόβλημα αναπτύσσοντας μια <strong>εξειδικευμένη Cloud/Mobile Web Εφαρμογή Πεδίου</strong> ειδικά για τεχνικές εταιρείες οπτικών ινών στην Ελλάδα.
+</p>
+
+<!-- Features Card -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #0284c7; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 10px 0; font-size: 15px; font-weight: 800; color: #0369a1;">
+    ⚡ Πώς λειτουργεί η νέα αυτοματοποιημένη ροή:
+  </p>
+  <div style="font-size: 13.5px; color: #1e293b; line-height: 1.6;">
+    <p style="margin: 0 0 10px 0;">
+      🎛️ <strong>1. Αυτόματος Υπολογισμός Floor Boxes & Υλικών:</strong> Ο τεχνικός εισάγει απλώς ορόφους και διαμερίσματα. Το σύστημα υπολογίζει <em>αυτόματα</em> πόσα Floor Boxes χρειάζονται, σε ποιους ορόφους θα μπουν, τον τύπο καμπίνας (BEP) και την πλήρη προμέτρηση υλικών!
+    </p>
+    <p style="margin: 0 0 10px 0;">
+      ⏱️ <strong>2. Ολοκλήρωση σε μόλις 5 Λεπτά (100% Paperless):</strong> Ολοκληρωμένη φόρμα αυτοψίας απευθείας από το κινητό ή το tablet του τεχνικού, χωρίς κανένα χαρτί.
+    </p>
+    <p style="margin: 0 0 10px 0;">
+      📐 <strong>3. Αυτόματα CAD Σχέδια & Σκαριφήματα:</strong> Δημιουργία τεχνικού σκαριφήματος όδευσης και διαγραμμάτων καμπίνας αυτόματα από το σύστημα, χωρίς να απασχολείται σχεδιαστής στο γραφείο.
+    </p>
+    <p style="margin: 0 0 10px 0;">
+      ✍️ <strong>4. Ψηφιακές Υπογραφές επί τόπου:</strong> Ο διαχειριστής και ο τεχνικός υπογράφουν ηλεκτρονικά πάνω στην οθόνη του κινητού.
+    </p>
+    <p style="margin: 0 0 0 0;">
+      📧 <strong>5. Άμεση Αποστολή στον Εργολάβο με Email (Real-time):</strong> Με το πάτημα της "Ολοκλήρωσης", παράγεται αυτόματα πλήρης φάκελος (PDF τεχνικής έκθεσης + ZIP με φωτογραφίες & σχέδια) και αποστέλλεται <em>άμεσα</em> με email στον εργολάβο, <strong>χωρίς να περάσει καθόλου από το back-office</strong>!
+    </p>
+  </div>
+</div>
+
+<!-- Case Study Box -->
+<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 5px solid #16a34a; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
+  <p style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 800; color: #15803d;">
+    🚀 Πραγματικό Case Study (Οκτώβριος 2026):
+  </p>
+  <p style="margin: 0 0 8px 0; font-size: 13.5px; color: #166534; line-height: 1.55;">
+    Δείτε πώς τεχνική εταιρεία υποδομών οπτικών ινών μηδένισε τη γραφειοκρατία και μείωσε τον χρόνο ολοκλήρωσης αυτοψιών από 4 ημέρες σε 5 λεπτά:
+  </p>
+  <p style="margin: 0; font-size: 13.5px;">
+    👉 <a href="https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta" target="_blank" style="color: #15803d; font-weight: 800; text-decoration: underline;">Διαβάστε το αναλυτικό Case Study στο sgk.gr</a>
+  </p>
+</div>
+
+<!-- Direct Phone Call Card -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
+  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #0f172a;">
+    📞 Ενδιαφέρεστε για Live Demo ή Εγκατάσταση στη δική σας εταιρεία;
+  </p>
+  <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
+    Πατήστε στο παρακάτω κουμπί για να προγραμματίσουμε μια σύντομη επίδειξη ή καλέστε μας άμεσα στα <strong><a href="tel:2111140013" style="color: #0284c7; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #0284c7; text-decoration: underline;">6999 524 389</a></strong>.
+  </p>
+</div>
+
+<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
+  Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της τεχνικής σας επιχείρησης στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong> βάσει των συναφών επαγγελματικών δραστηριοτήτων (ΚΑΔ). Δεν είστε εγγεγραμμένοι σε λίστα newsletter και δεν θα λάβετε ανεπιθύμητα μηνύματα.
+</div>`,
+    defaultButtonText: "Ζητήστε Live Demo Πλατφόρμας",
+    defaultButtonLink: "https://www.sgk.gr/estimate"
+  },
   {
     name: "Istoselida ike 150 ευρω",
     subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Εταιρική ιστοσελίδα για το ΓΕΜΗ",
@@ -692,6 +797,7 @@ export function EmailsTab() {
 
   // Live GEMI Scanner state & Real-time Live Modal
   const [isScanningGemi, setIsScanningGemi] = useState(false);
+  const [scanCategory, setScanCategory] = useState<"all" | "ftth_telecom">("all");
   const [scanMonth, setScanMonth] = useState<"current" | "previous" | "all_year">("current");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
   const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
@@ -1613,7 +1719,9 @@ function safeEncodeBase64(data: any): string {
     }
   };
 
-  const handleScanGemiIkes = async () => {
+  const runGemiScan = async (category: "all" | "ftth_telecom" = "all") => {
+    setScanCategory(category);
+    const isFtth = category === "ftth_telecom";
     const monthLabel =
       scanMonth === "current" ? `📅 ${currentMonthName} ${now.getFullYear()}` :
       scanMonth === "previous" ? `📅 ${prevMonthName} ${prevDate.getFullYear()}` : `📅 Όλο το ${now.getFullYear()}`;
@@ -1621,7 +1729,11 @@ function safeEncodeBase64(data: any): string {
     setIsScanModalOpen(true);
     setIsScanningGemi(true);
     setScannedNewLeads([]);
-    setScanStatusMessage(`⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`);
+    setScanStatusMessage(
+      isFtth
+        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Εταιρείες FTTH & Τηλεπικοινωνιών (${monthLabel})...`
+        : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
+    );
     setScanStats({
       totalExamined: 0,
       added: 0,
@@ -1636,7 +1748,9 @@ function safeEncodeBase64(data: any): string {
         id: "init",
         time: new Date().toLocaleTimeString("el-GR"),
         type: "init",
-        message: `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
+        message: isFtth
+          ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για FTTH & Οπτικές Ίνες (${monthLabel})...`
+          : `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
       }
     ]);
 
@@ -1647,7 +1761,7 @@ function safeEncodeBase64(data: any): string {
         body: JSON.stringify({ 
           stream: true, 
           limit: 50, 
-          targetCategory: "all",
+          targetCategory: category,
           targetLegalForm: "ike",
           month: scanMonth,
         }),
@@ -1747,9 +1861,9 @@ function safeEncodeBase64(data: any): string {
                 }
               ]);
               if (event.count > 0) {
-                toast.success(`🎉 Προστέθηκαν ${event.count} νέες Ι.Κ.Ε. στη λίστα!`);
+                toast.success(isFtth ? `🎉 Προστέθηκαν ${event.count} εταιρείες FTTH / Τηλεπικοινωνιών!` : `🎉 Προστέθηκαν ${event.count} νέες Ι.Κ.Ε. στη λίστα!`);
               } else {
-                toast.info(`Η σάρωση ολοκληρώθηκε. Όλες οι Ι.Κ.Ε. υπάρχουν ήδη στη βάση.`);
+                toast.info(isFtth ? `Η σάρωση ολοκληρώθηκε. Δεν βρέθηκαν νέες επιχειρήσεις με τους επιλεγμένους ΚΑΔ.` : `Η σάρωση ολοκληρώθηκε. Όλες οι Ι.Κ.Ε. υπάρχουν ήδη στη βάση.`);
               }
               await fetchLeads();
             } else if (event.type === "error") {
@@ -1787,6 +1901,9 @@ function safeEncodeBase64(data: any): string {
     }
   };
 
+  const handleScanGemiIkes = () => runGemiScan("all");
+  const handleScanGemiFtthIkes = () => runGemiScan("ftth_telecom");
+
   const filteredLeads = useMemo(() => {
     return leads.filter((lead) => {
       if (searchTerm.trim()) {
@@ -1806,6 +1923,9 @@ function safeEncodeBase64(data: any): string {
       }
       if (statusFilter === 'operations_tech') {
         return lead.type === 'operations_tech';
+      }
+      if (statusFilter === 'ftth_telecom') {
+        return lead.type === 'ftth_telecom';
       }
       if (statusFilter === 'new_ike') {
         return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
@@ -1841,6 +1961,7 @@ function safeEncodeBase64(data: any): string {
   const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !isEmailBlacklisted(l.email));
   const tourismCount = leads.filter(l => l.type === 'tourism').length;
   const opsTechCount = leads.filter(l => l.type === 'operations_tech').length;
+  const ftthTelecomCount = leads.filter(l => l.type === 'ftth_telecom').length;
   const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && lead.created_at >= '2026-08-01')).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0) && !l.last_email_sent_at).length;
@@ -2488,8 +2609,18 @@ function safeEncodeBase64(data: any): string {
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
                 title="Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."
               >
-                {isScanningGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-yellow-300" />}
+                {isScanningGemi && scanCategory === "all" ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-yellow-300" />}
                 <span>Ευρεση Νεων ΙΚΕ</span>
+              </button>
+
+              <button
+                onClick={handleScanGemiFtthIkes}
+                disabled={isScanningGemi}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
+                title="Live σάρωση στο Γ.Ε.ΜΗ. αποκλειστικά για Ι.Κ.Ε. Οπτικών Ινών & Τηλεπικοινωνιών (ΚΑΔ 43211006, 43999000, 43121200, 43211002, 43131001, 43211003)"
+              >
+                {isScanningGemi && scanCategory === "ftth_telecom" ? <Loader2 size={13} className="animate-spin" /> : <Target size={13} className="text-cyan-200" />}
+                <span>🔌 Ευρεση ΙΚΕ FTTH</span>
               </button>
             </div>
             <button
@@ -2566,12 +2697,25 @@ function safeEncodeBase64(data: any): string {
               <span>🏢 Νέες ΙΚΕ</span>
               <span className="text-[10px] px-1 rounded-full bg-white/40">{newIkeCount}</span>
             </button>
+
+            <button
+              onClick={() => setStatusFilter(statusFilter === 'ftth_telecom' ? 'all' : 'ftth_telecom')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                statusFilter === 'ftth_telecom'
+                  ? 'bg-cyan-600 text-white border-cyan-700 shadow-sm'
+                  : 'bg-cyan-50 text-cyan-800 border-cyan-200 hover:bg-cyan-100'
+              }`}
+            >
+              <span>🔌 FTTH / Οπτικές Ίνες</span>
+              <span className="text-[10px] px-1 rounded-full bg-white/40">{ftthTelecomCount}</span>
+            </button>
           </div>
 
           {/* Active Filter Indicator */}
           {statusFilter !== 'all' && (
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
+              {statusFilter === 'ftth_telecom' && <span className="text-cyan-700 font-black">🔌 Οπτικές Ίνες / FTTH & Δίκτυα</span>}
               {statusFilter === 'tourism' && <span className="text-amber-700 font-black">✈️ Τουρισμός / Travel</span>}
               {statusFilter === 'operations_tech' && <span className="text-purple-700 font-black">⚡ Operations & Τεχνικές</span>}
               {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
@@ -3117,19 +3261,21 @@ function safeEncodeBase64(data: any): string {
             {/* Modal Header */}
             <div className="bg-slate-900/90 px-6 py-4 border-b border-slate-800 flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
+                <div className={`w-10 h-10 rounded-2xl ${scanCategory === "ftth_telecom" ? "bg-gradient-to-br from-cyan-500 to-blue-600 shadow-cyan-500/20" : "bg-gradient-to-br from-indigo-500 to-purple-600 shadow-indigo-500/20"} flex items-center justify-center text-white shadow-lg`}>
                   {isScanningGemi ? (
                     <Loader2 size={20} className="animate-spin text-white" />
+                  ) : scanCategory === "ftth_telecom" ? (
+                    <Target size={20} className="text-cyan-200" />
                   ) : (
                     <Sparkles size={20} className="text-yellow-300" />
                   )}
                 </div>
                 <div>
                   <h3 className="font-black text-white text-base tracking-wide uppercase flex items-center gap-2">
-                    ⚡ Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε.
+                    {scanCategory === "ftth_telecom" ? "🔌 Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH / Δικτύων" : "⚡ Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε."}
                     {isScanningGemi && (
-                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 animate-pulse">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
+                      <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest ${scanCategory === "ftth_telecom" ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" : "bg-indigo-500/20 text-indigo-400 border-indigo-500/30"} border animate-pulse`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${scanCategory === "ftth_telecom" ? "bg-cyan-400" : "bg-indigo-400"} animate-ping`} />
                         Live Scrape
                       </span>
                     )}
@@ -3140,7 +3286,9 @@ function safeEncodeBase64(data: any): string {
                       : scanMonth === "previous"
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
                       : `Ίδρυση εντός του ${now.getFullYear()}`}
-                    {" • Μόνο Ι.Κ.Ε."}
+                    {scanCategory === "ftth_telecom"
+                      ? " • Στοχευμένοι ΚΑΔ: 43211006, 43999000, 43121200, 43211002, 43131001, 43211003"
+                      : " • Μόνο Ι.Κ.Ε."}
                   </p>
                 </div>
               </div>
