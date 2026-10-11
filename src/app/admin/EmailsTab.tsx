@@ -277,6 +277,51 @@ const templates = [
 </div>`
   },
   {
+    name: "🔁 Follow-Up Ι.Κ.Ε. 150€ (3 ημέρες μετά)",
+    subject: "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 150€)",
+    body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
+  Υπενθύμιση: Προθεσμία 30 Ημερών για Ιστοσελίδα Ι.Κ.Ε. στο Γ.Ε.ΜΗ.
+</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Αγαπητέ διαχειριστή,
+</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Επικοινωνούμε σύντομα ως υπενθύμιση, καθώς σύμφωνα με το <strong>Άρθρο 47 του Ν.4072/2012</strong>, κάθε νέα Ι.Κ.Ε. οφείλει να αποκτήσει και να δηλώσει εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ. <strong>εντός 1 μηνός από τη σύστασή της</strong>.
+</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Γνωρίζουμε ότι αυτές τις πρώτες μέρες τρέχετε με λογιστήρια και τράπεζες. Γι' αυτό στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
+</p>
+
+<!-- Value Box -->
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #3b5bdb; border-radius: 10px; padding: 14px 16px; margin: 16px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 800; color: #1e3a8a;">
+    📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 150€ (τελική τιμή με ΦΠΑ):
+  </p>
+  <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.55;">
+    <li><strong>Έτοιμη σε 24 ώρες:</strong> Αντλούμε τα στοιχεία απευθείας από το API του Γ.Ε.ΜΗ., χωρίς να χρειάζεται να γράψετε κείμενα.</li>
+    <li><strong>Κατοχύρωση .gr Domain &amp; Hosting για 1 έτος.</strong></li>
+    <li><strong>Επαγγελματικό Λογότυπο &amp; Εταιρικό Email</strong> (π.χ. info@...).</li>
+    <li><strong>Επίσημο Τιμολόγιο Εξόδων</strong> για τα βιβλία της εταιρείας σας.</li>
+  </ul>
+</div>
+
+<p style="margin: 0 0 14px 0; font-size: 13.5px; color: #475569;">
+  👉 <strong>Δείτε πρόσφατο δείγμα μας:</strong> 
+  <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
+</p>
+
+<div style="background-color: #f1f5f9; border-radius: 8px; padding: 10px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
+  📞 Θέλετε να το κλείσουμε άμεσα τηλεφωνικά; Καλέστε μας:<br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">📱 6999 524 389</a>
+</div>`,
+    defaultButtonText: "Έναρξη Ιστοσελίδας ΙΚΕ (150€)",
+    defaultButtonLink: "https://www.sgk.gr/ike-offer"
+  },
+  {
     name: "AI Video Call & Ψηφιακοί Υπάλληλοι (order-ai-agent)",
     subject: "Ο πρώτος σας AI Ψηφιακός Υπάλληλος σε Ζωντανή Κλήση Πρόσωπο-με-Πρόσωπο (24/7)",
     body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
@@ -757,6 +802,7 @@ export function EmailsTab() {
   const [pdfUrl, setPdfUrl] = useState("");
 
   // Live GEMI Scanner state & Real-time Live Modal
+  const [isRunningAutoFollowUp, setIsRunningAutoFollowUp] = useState(false);
   const [isScanningGemi, setIsScanningGemi] = useState(false);
   const [scanCategory, setScanCategory] = useState<"all" | "ftth_telecom">("all");
   const [scanMonth, setScanMonth] = useState<"current" | "previous" | "all_year">("current");
@@ -1865,6 +1911,51 @@ function safeEncodeBase64(data: any): string {
   const handleScanGemiIkes = () => runGemiScan("all");
   const handleScanGemiFtthIkes = () => runGemiScan("ftth_telecom");
 
+  const dueFollowUpIkeLeads = useMemo(() => {
+    const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
+    return leads.filter(l => 
+      !l.unsubscribed && 
+      !l.converted && 
+      !isEmailBlacklisted(l.email) &&
+      (l.email_sequence_step === 1 || (!l.email_sequence_step && l.last_email_sent_at)) &&
+      l.last_email_sent_at &&
+      l.last_email_sent_at <= threeDaysAgo &&
+      (l.type === 'new_ike' || l.type === 'imported' || (!l.type && (l.company?.toUpperCase().includes('ΙΚΕ') || l.company?.toUpperCase().includes('Ι.Κ.Ε.'))))
+    );
+  }, [leads]);
+
+  const handleRunAutoFollowUpIkes = async () => {
+    const count = dueFollowUpIkeLeads.length;
+    if (count === 0) {
+      toast.info("Δεν υπάρχουν εκκρεμείς Ι.Κ.Ε. που να έχουν συμπληρώσει 3+ ημέρες από το 1ο email.");
+      return;
+    }
+
+    if (!window.confirm(`Βρέθηκαν ${count} Ι.Κ.Ε. που έλαβαν το 1ο email πριν από 3+ ημέρες.\n\nΘέλετε να ξεκινήσει η αυτόματη αποστολή του Follow-Up (Βήμα 2 - 150€);`)) {
+      return;
+    }
+
+    setIsRunningAutoFollowUp(true);
+    try {
+      const res = await fetch("/api/admin/cron-followup-ike", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ days: 3, limit: 50 })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Αποτυχία εκτέλεσης Follow-Up");
+      }
+      toast.success(`Ολοκληρώθηκε! Εστάλησαν ${data.sent} Follow-Up emails (${data.failed} αποτυχίες).`);
+      await fetchLeads();
+    } catch (err: any) {
+      console.error(err);
+      toast.error(`Σφάλμα: ${err.message || "Αποτυχία αποστολής"}`);
+    } finally {
+      setIsRunningAutoFollowUp(false);
+    }
+  };
+
   const filteredLeads = useMemo(() => {
     return leads.filter((lead) => {
       if (searchTerm.trim()) {
@@ -1890,6 +1981,13 @@ function safeEncodeBase64(data: any): string {
       }
       if (statusFilter === 'new_ike') {
         return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
+      }
+      if (statusFilter === 'due_followup') {
+        const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
+        return !lead.unsubscribed && !lead.converted && !isEmailBlacklisted(lead.email) &&
+          (lead.email_sequence_step === 1 || (!lead.email_sequence_step && lead.last_email_sent_at)) &&
+          lead.last_email_sent_at && lead.last_email_sent_at <= threeDaysAgo &&
+          (lead.type === 'new_ike' || lead.type === 'imported' || (!lead.type && (lead.company?.toUpperCase().includes('ΙΚΕ') || lead.company?.toUpperCase().includes('Ι.Κ.Ε.'))));
       }
       if (statusFilter === 'legacy') {
         return lead.type === 'legacy_ike';
@@ -2583,6 +2681,21 @@ function safeEncodeBase64(data: any): string {
                 {isScanningGemi && scanCategory === "ftth_telecom" ? <Loader2 size={13} className="animate-spin" /> : <Target size={13} className="text-cyan-200" />}
                 <span>🔌 Ευρεση FTTH (Ολες οι Μορφες)</span>
               </button>
+
+              <button
+                onClick={handleRunAutoFollowUpIkes}
+                disabled={isRunningAutoFollowUp}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
+                title="Αυτόματη αποστολή 2ου Email (Follow-Up 150€) σε όσες Ι.Κ.Ε. έλαβαν το 1ο email πριν από 3+ ημέρες"
+              >
+                {isRunningAutoFollowUp ? <Loader2 size={13} className="animate-spin" /> : <RefreshCcw size={13} />}
+                <span>🔁 Auto Follow-Up (3+ μέρες)</span>
+                {dueFollowUpIkeLeads.length > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full text-[10px] font-black bg-white text-orange-700 shadow-xs">
+                    {dueFollowUpIkeLeads.length}
+                  </span>
+                )}
+              </button>
             </div>
             <button
               onClick={() => {
@@ -2657,6 +2770,18 @@ function safeEncodeBase64(data: any): string {
             >
               <span>🏢 Νέες ΙΚΕ</span>
               <span className="text-[10px] px-1 rounded-full bg-white/40">{newIkeCount}</span>
+            </button>
+
+            <button
+              onClick={() => setStatusFilter(statusFilter === 'due_followup' ? 'all' : 'due_followup')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                statusFilter === 'due_followup'
+                  ? 'bg-amber-600 text-white border-amber-700 shadow-sm'
+                  : 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
+              }`}
+            >
+              <span>🔁 Follow-Up Έτοιμα</span>
+              <span className="text-[10px] px-1 rounded-full bg-white/40">{dueFollowUpIkeLeads.length}</span>
             </button>
 
             <button
@@ -2767,8 +2892,35 @@ function safeEncodeBase64(data: any): string {
                           )}
                         </td>
                         <td className="py-3 px-4">
-                          <div className="font-bold text-gray-900 flex items-center gap-1.5">
+                          <div className="font-bold text-gray-900 flex items-center gap-1.5 flex-wrap">
                             <span>{lead.email}</span>
+
+                            {/* Sequence Badges: 1 (Green) = Sent by user, 2 (Orange) = Sent automatically by system */}
+                            {((lead.email_sequence_step || 0) === 1 || ((lead.email_sequence_step || 0) === 0 && lead.last_email_sent_at)) && (
+                              <span 
+                                className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
+                                title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
+                              >
+                                1
+                              </span>
+                            )}
+                            {(lead.email_sequence_step || 0) >= 2 && (
+                              <div className="inline-flex items-center gap-1 shrink-0" title="Email 1 (Εσείς) & Email 2 (Αυτόματο Follow-Up)">
+                                <span 
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600"
+                                  title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
+                                >
+                                  1
+                                </span>
+                                <span 
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-500 text-white text-[10.5px] font-black shadow-xs border border-amber-600"
+                                  title="Email 2: Στάλθηκε αυτόματα από το σύστημα (Follow-Up)"
+                                >
+                                  2
+                                </span>
+                              </div>
+                            )}
+
                             {isEmailBlacklisted(lead.email) && (
                               <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase bg-slate-900 text-rose-400 border border-rose-500/40">
                                 Blacklist
@@ -2870,11 +3022,18 @@ function safeEncodeBase64(data: any): string {
                             <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">
                               🎉 Πελάτης
                             </span>
-                          ) : ((lead.email_sequence_step || 0) > 0 || lead.last_email_sent_at) ? (
+                          ) : (lead.email_sequence_step || 0) >= 2 ? (
                             <div className="inline-flex flex-col items-center">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-100 text-blue-800 border border-blue-200 shadow-sm">
-                                <Check size={11} className="text-blue-600 stroke-[3]" />
-                                Εστάλη Email
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300 shadow-sm" title="2ο Email: Αυτόματο Follow-Up από το σύστημα">
+                                <Check size={11} className="text-amber-600 stroke-[3]" />
+                                2ο Email (Auto)
+                              </span>
+                            </div>
+                          ) : ((lead.email_sequence_step || 0) === 1 || lead.last_email_sent_at) ? (
+                            <div className="inline-flex flex-col items-center">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title="1ο Email: Αρχική αποστολή από εσάς">
+                                <Check size={11} className="text-emerald-600 stroke-[3]" />
+                                1ο Email (Εσείς)
                               </span>
                             </div>
                           ) : (
