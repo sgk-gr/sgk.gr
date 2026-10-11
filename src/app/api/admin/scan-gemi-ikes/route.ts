@@ -66,12 +66,8 @@ function isOperationsKad(kad: string): boolean {
 }
 
 export const FTTH_TARGET_KADS = [
-  "43211006", // ΥΠΗΡΕΣΙΕΣ ΕΓΚΑΤΑΣΤΑΣΗΣ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΟΠΛΙΣΜΟΥ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ ΚΑΙ ΔΙΚΤΥΩΝ
-  "43999000", // ΕΞΕΙΔΙΚΕΥΜΕΝΕΣ ΚΑΤΑΣΚΕΥΑΣΤΙΚΕΣ ΕΡΓΑΣΙΕΣ Π.Δ.Κ.Α.
-  "43121200", // ΕΡΓΑΣΙΕΣ ΕΚΣΚΑΦΩΝ ΚΑΙ ΜΕΤΑΚΙΝΗΣΗΣ ΓΑΙΩΝ
-  "43211002", // ΥΠΗΡΕΣΙΕΣ ΕΠΙΣΚΕΥΗΣ ΗΛΕΚΤΡΙΚΩΝ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΑΡΤΗΜΑΤΩΝ, ΜΕ ΔΙΑΘΕΣΗ ΚΑΙ ΥΛΙΚΩΝ
-  "43131001", // ΟΡΙΖΟΝΤΙΕΣ ΔΙΑΤΡΗΣΕΙΣ ΓΙΑ ΤΟ ΠΕΡΑΣΜΑ ΚΑΛΩΔΙΩΝ Η ΥΔΡΟΡΡΟΩΝ
-  "43211003", // ΥΠΗΡΕΣΙΕΣ ΕΠΙΣΚΕΥΗΣ ΗΛΕΚΤΡΙΚΩΝ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΑΡΤΗΜΑΤΩΝ, ΧΩΡΙΣ ΔΙΑΘΕΣΗ ΥΛΙΚΩΝ
+  "43210006", // ΥΠΗΡΕΣΙΕΣ ΕΓΚΑΤΑΣΤΑΣΗΣ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΟΠΛΙΣΜΟΥ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ ΚΑΙ ΔΙΚΤΥΩΝ
+  "43211006", // Επίσημος 8-ψήφιος ΚΑΔ ΓΕΜΗ (ΥΠΗΡΕΣΙΕΣ ΕΓΚΑΤΑΣΤΑΣΗΣ ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΕΞΟΠΛΙΣΜΟΥ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ ΚΑΙ ΔΙΚΤΥΩΝ)
 ];
 
 export function checkFtthTelecomTarget(co: any): { isMatch: boolean; reason: string } {
@@ -99,18 +95,11 @@ export function checkFtthTelecomTarget(co: any): { isMatch: boolean; reason: str
     }
   }
 
-  // 1. Direct or prefix match with target KADs
+  // 1. Direct or prefix match with target KAD (43210006 / 43211006)
   for (const kad of kadCodes) {
     for (const target of FTTH_TARGET_KADS) {
       if (kad === target || (kad.length >= 6 && target.startsWith(kad)) || (target.length >= 6 && kad.startsWith(target))) {
-        let kadLabel = `ΚΑΔ ${kad}`;
-        if (target === "43211006") kadLabel = "ΚΑΔ 43211006 (Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών)";
-        else if (target === "43999000") kadLabel = "ΚΑΔ 43999000 (Εξειδικευμένες Κατασκευαστικές Εργασίες)";
-        else if (target === "43121200") kadLabel = "ΚΑΔ 43121200 (Εκσκαφές & Μετακίνηση Γαιών)";
-        else if (target === "43211002") kadLabel = "ΚΑΔ 43211002 (Επισκευή Καλωδιώσεων με διάθεση υλικών)";
-        else if (target === "43131001") kadLabel = "ΚΑΔ 43131001 (Οριζόντιες Διατρήσεις Καλωδίων)";
-        else if (target === "43211003") kadLabel = "ΚΑΔ 43211003 (Επισκευή Καλωδιώσεων χωρίς υλικά)";
-        return { isMatch: true, reason: kadLabel };
+        return { isMatch: true, reason: `ΚΑΔ ${kad} (Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών)` };
       }
     }
   }
@@ -125,12 +114,10 @@ export function checkFtthTelecomTarget(co: any): { isMatch: boolean; reason: str
 
   const FTTH_EXACT_KEYWORDS = [
     "ΕΓΚΑΤΑΣΤΑΣΗΣ ΚΑΛΩΔΙΩΣΕΩΝ",
+    "ΕΓΚΑΤΑΣΤΑΣΗ ΚΑΛΩΔΙΩΣΕΩΝ",
     "ΕΞΟΠΛΙΣΜΟΥ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ",
     "ΚΑΛΩΔΙΩΣΕΩΝ ΚΑΙ ΔΙΚΤΥΩΝ",
-    "ΟΡΙΖΟΝΤΙΕΣ ΔΙΑΤΡΗΣΕΙΣ",
-    "ΠΕΡΑΣΜΑ ΚΑΛΩΔΙΩΝ",
-    "ΕΠΙΣΚΕΥΗΣ ΗΛΕΚΤΡΙΚΩΝ ΚΑΛΩΔΙΩΣΕΩΝ",
-    "ΕΚΣΚΑΦΩΝ ΚΑΙ ΜΕΤΑΚΙΝΗΣΗΣ ΓΑΙΩΝ",
+    "ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ ΚΑΙ ΔΙΚΤΥΩΝ",
     "ΟΠΤΙΚΕΣ ΙΝΕΣ",
     "ΟΠΤΙΚΗΣ ΙΝΑΣ",
     "ΟΠΤΙΚΩΝ ΙΝΩΝ",
@@ -141,7 +128,7 @@ export function checkFtthTelecomTarget(co: any): { isMatch: boolean; reason: str
 
   for (const kw of FTTH_EXACT_KEYWORDS) {
     if (allText.includes(kw)) {
-      return { isMatch: true, reason: `Λέξη-κλειδί: ${kw}` };
+      return { isMatch: true, reason: `Δραστηριότητα: ${kw}` };
     }
   }
 
@@ -263,7 +250,7 @@ export async function POST(req: NextRequest) {
   const maxResults = body.limit || 50;
   const targetCategory = body.targetCategory || "all";
   const isFtthMode = targetCategory === "ftth_telecom";
-  const targetLegalForm = "ike"; // Always strictly I.K.E. (legalTypes=19)
+  const targetLegalForm = isFtthMode ? "all" : "ike"; // In FTTH mode, scan ALL legal forms (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)
   
   // Dynamic Month Handling: automatically follows current month (e.g. 2026-09 in September, 2026-10 in October)
   const now = new Date();
@@ -321,12 +308,12 @@ export async function POST(req: NextRequest) {
           emit({
             type: "init",
             message: isFtthMode
-              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Οπτικές Ίνες & Τηλεπικοινωνίες (FTTH) | 📅 ${monthLabel}]...`
+              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [ΚΑΔ 43210006/43211006 - Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών | Όλες οι Μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) | 📅 ${monthLabel}]...`
               : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
             minDate,
             maxResults,
             targetCategory,
-            targetLegalForm: "ike",
+            targetLegalForm,
             targetMonth
           });
 
@@ -386,20 +373,20 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = 0;
 
-          const maxOffset = isFtthMode ? 8000 : 4000;
+          const maxOffset = isFtthMode ? 15000 : 4000;
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor(offset / pageSize) + 1;
             emit({
               type: "page",
               message: isFtthMode
-                ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (έλεγχος ΚΑΔ FTTH/Τηλεπικοινωνιών ${offset + 1} έως ${offset + pageSize})...`
+                ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (έλεγχος ΚΑΔ 43210006 σε όλες τις μορφές ${offset + 1} έως ${offset + pageSize})...`
                 : `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες Ι.Κ.Ε. ${offset + 1} έως ${offset + pageSize})...`,
               offset,
               page: pageNum
             });
 
-            // Always target strictly ONLY I.K.E. (legalTypes=19)
-            const legalTypeParam = "&legalTypes=19";
+            // Target only IKEs if general mode; in FTTH mode target ALL legal forms (AE, EE, OE, IKE, Ατομική)
+            const legalTypeParam = isFtthMode ? "" : "&legalTypes=19";
             const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}&resultsSortBy=-arGemi`;
 
             let results: any[] = [];
@@ -432,7 +419,7 @@ export async function POST(req: NextRequest) {
 
             for (const co of results) {
               totalExamined++;
-              const legalForm = co.legalType?.descr || "Επιχείρηση";
+              const legalForm = co.legalType?.descr || (isFtthMode ? "Τηλεπικοινωνίες" : "Ι.Κ.Ε.");
               const companyTitle = co.coNameEl || (co.coTitlesEl && co.coTitlesEl[0]) || `Νέα ${legalForm}`;
               const incDate = co.incorporationDate ? String(co.incorporationDate).split("T")[0].trim() : "";
               const email = (co.email || "").toLowerCase().trim();
@@ -559,12 +546,11 @@ export async function POST(req: NextRequest) {
               if (afm) seenAfmInBatch.add(afm);
 
               const leadType = isFtthMode || ftthCheck.isMatch ? "ftth_telecom" : "new_ike";
-
               const newLead = {
                 email: email,
                 company: companyTitle,
                 first_name: companyTitle,
-                last_name: isFtthMode ? "FTTH / Δίκτυα" : "Ι.Κ.Ε.",
+                last_name: legalForm,
                 phone: phone,
                 afm: afm,
                 gemi_number: arGemi,
@@ -588,7 +574,7 @@ export async function POST(req: NextRequest) {
                 phone,
                 date: incDate,
                 reason: isFtthMode || ftthCheck.isMatch
-                  ? `🔌 ΕΤΑΙΡΕΙΑ FTTH / ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ (${ftthCheck.reason})! Προστέθηκε για καμπάνια Αυτοψιών!`
+                  ? `🔌 ΕΤΑΙΡΕΙΑ FTTH / ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ (${ftthCheck.reason}) [${legalForm}]! Προστέθηκε για καμπάνια Αυτοψιών!`
                   : `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
@@ -656,10 +642,10 @@ export async function POST(req: NextRequest) {
 
           const doneMessage = insertedCount > 0
             ? isFtthMode
-              ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} εταιρείες FTTH / Τηλεπικοινωνιών στη βάση δεδομένων.`
+              ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (όλες οι νομικές μορφές) και προστέθηκαν ${insertedCount} εταιρείες ΚΑΔ 43210006 (Καλωδιώσεις / Τηλεπικοινωνίες) στη βάση δεδομένων.`
               : `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
             : isFtthMode
-              ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και δεν βρέθηκαν νέες μη-καταχωρημένες εταιρείες με τους επιλεγμένους ΚΑΔ για το διάστημα αυτό.`
+              ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις όλων των νομικών μορφών και δεν βρέθηκαν νέες μη-καταχωρημένες εταιρείες με τον ΚΑΔ 43210006 για το διάστημα αυτό.`
               : `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις σε όλες τις σελίδες και ΔΕΝ βρέθηκαν νέες Ι.Κ.Ε. (όλες οι διαθέσιμες επιχειρήσεις υπάρχουν ήδη στη βάση δεδομένων ή διαθέτουν ήδη ιστοσελίδα/εταιρικό domain).`;
 
           emit({

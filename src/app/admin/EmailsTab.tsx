@@ -175,98 +175,59 @@ export function getLeadProfession(lead: any): ProfessionConfig {
 
 const templates = [
   {
-    name: "🔌 Οπτικές Ίνες & FTTH: Αυτοματισμός Αυτοψιών & Σχεδίων σε 5 Λεπτά",
-    subject: "Αυτοματισμός Αυτοψιών FTTH & Σχεδίων σε 5 Λεπτά | Ειδική Πλατφόρμα Πεδίου για Εργολάβους Οπτικών Ινών",
-    body: `<!-- Full-Width Edge-to-Edge Hero Banner -->
-<div style="margin: -24px -20px 24px -20px; text-align: center; background-color: #0b1329; overflow: hidden;">
-  <a href="https://www.sgk.gr/estimate" target="_blank" style="display: block; text-decoration: none;">
-    <img 
-      src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&h=240&q=80" 
-      alt="Αυτοματισμός Αυτοψιών FTTH σε 5 Λεπτά - SGK Digital" 
-      width="600" 
-      style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border: 0;"
-    />
-  </a>
-</div>
+    name: "🔌 Οπτικές Ίνες & FTTH: Αυτοματισμός Αυτοψιών σε 5 Λεπτά",
+    subject: "FTTH: Αυτοψία πολυκατοικίας σε 5' από το κινητό (χωρίς μπλοκάκι & CAD)",
+    body: `<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
+  Πόσες ώρες χάνετε για να παραδώσετε μία αυτοψία FTTH στον εργολάβο;
+</h2>
 
-<h2 style="color: #0f172a; font-size: 21px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">Αυτοψίες Οπτικών Ινών (FTTH) σε 5 Λεπτά: Τέρμα τα Χαρτιά, τα Σκαριφήματα στο Χέρι & οι Καθυστερήσεις</h2>
-
-<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">Αγαπητέ συνεργάτη,</p>
-
-<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Στη μαζική ανάπτυξη των δικτύων <strong>Fiber to the Home (FTTH)</strong>, γνωρίζουμε καλά ότι η μεγαλύτερη επιχειρησιακή συμφόρηση για τις τεχνικές εταιρείες και τους εργολάβους δεν είναι το σκάψιμο, αλλά η <strong>διαδικασία της επίγειας αυτοψίας στις πολυκατοικίες</strong>:
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.55;">
+  Αν οι τεχνικοί σας σημειώνουν ακόμη σε μπλοκάκια μέσα στα κλιμακοστάσια και τρώνε τα απογεύματά τους στο γραφείο για CAD και υλικά, υπάρχει η λύση που κλείνει την αυτοψία <strong>σε 5 λεπτά από το κινητό</strong>:
 </p>
 
-<!-- Problem Highlight Box -->
-<div style="background-color: #fef2f2; border: 1px solid #fecaca; border-left: 5px solid #ef4444; border-radius: 12px; padding: 14px 18px; margin: 18px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #991b1b;">
-    ⚠️ Τα 4 καθημερινά προβλήματα του παραδοσιακού τρόπου:
-  </p>
-  <ul style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #7f1d1d; line-height: 1.55;">
-    <li>Χειρόγραφα μπλοκάκια & σημειώσεις μέσα σε σκοτεινά κλιμακοστάσια.</li>
-    <li>Χειροκίνητο μέτρημα διαμερισμάτων και υπολογισμός floor boxes & καμπινών με το μυαλό (μεγάλο ρίσκο λαθών).</li>
-    <li>Καθυστέρηση ημερών στο back-office για να ψηφιοποιηθούν τα χαρτιά και να σχεδιαστούν τα CAD σκαριφήματα.</li>
-    <li>Επανειλημμένες επισκέψεις στην πολυκατοικία για φυσικές υπογραφές διαχειριστών.</li>
-  </ul>
-</div>
-
-<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Στην <strong>SGK Digital</strong> λύσαμε οριστικά αυτό το πρόβλημα αναπτύσσοντας μια <strong>εξειδικευμένη Cloud/Mobile Web Εφαρμογή Πεδίου</strong> ειδικά για τεχνικές εταιρείες οπτικών ινών στην Ελλάδα.
-</p>
-
-<!-- Features Card -->
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #0284c7; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
-  <p style="margin: 0 0 10px 0; font-size: 15px; font-weight: 800; color: #0369a1;">
-    ⚡ Πώς λειτουργεί η νέα αυτοματοποιημένη ροή:
-  </p>
-  <div style="font-size: 13.5px; color: #1e293b; line-height: 1.6;">
-    <p style="margin: 0 0 10px 0;">
-      🎛️ <strong>1. Αυτόματος Υπολογισμός Floor Boxes & Υλικών:</strong> Ο τεχνικός εισάγει απλώς ορόφους και διαμερίσματα. Το σύστημα υπολογίζει <em>αυτόματα</em> πόσα Floor Boxes χρειάζονται, σε ποιους ορόφους θα μπουν, τον τύπο καμπίνας (BEP) και την πλήρη προμέτρηση υλικών!
-    </p>
-    <p style="margin: 0 0 10px 0;">
-      ⏱️ <strong>2. Ολοκλήρωση σε μόλις 5 Λεπτά (100% Paperless):</strong> Ολοκληρωμένη φόρμα αυτοψίας απευθείας από το κινητό ή το tablet του τεχνικού, χωρίς κανένα χαρτί.
-    </p>
-    <p style="margin: 0 0 10px 0;">
-      📐 <strong>3. Αυτόματα CAD Σχέδια & Σκαριφήματα:</strong> Δημιουργία τεχνικού σκαριφήματος όδευσης και διαγραμμάτων καμπίνας αυτόματα από το σύστημα, χωρίς να απασχολείται σχεδιαστής στο γραφείο.
-    </p>
-    <p style="margin: 0 0 10px 0;">
-      ✍️ <strong>4. Ψηφιακές Υπογραφές επί τόπου:</strong> Ο διαχειριστής και ο τεχνικός υπογράφουν ηλεκτρονικά πάνω στην οθόνη του κινητού.
-    </p>
-    <p style="margin: 0 0 0 0;">
-      📧 <strong>5. Άμεση Αποστολή στον Εργολάβο με Email (Real-time):</strong> Με το πάτημα της "Ολοκλήρωσης", παράγεται αυτόματα πλήρης φάκελος (PDF τεχνικής έκθεσης + ZIP με φωτογραφίες & σχέδια) και αποστέλλεται <em>άμεσα</em> με email στον εργολάβο, <strong>χωρίς να περάσει καθόλου από το back-office</strong>!
-    </p>
+<!-- 3 Punchy Visual Cards -->
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    ⚡ 1. Αυτοψία σε 5 λεπτά στο κινητό (100% Paperless)
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Φωτογραφίες, στοιχεία κτιρίου και <strong>ψηφιακή υπογραφή διαχειριστή</strong> απευθείας στην οθόνη. Τέρμα τα μπλοκάκια και οι διπλές επισκέψεις.
   </div>
 </div>
 
-<!-- Case Study Box -->
-<div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 5px solid #16a34a; border-radius: 12px; padding: 16px 18px; margin: 20px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 800; color: #15803d;">
-    🚀 Πραγματικό Case Study (Οκτώβριος 2026):
-  </p>
-  <p style="margin: 0 0 8px 0; font-size: 13.5px; color: #166534; line-height: 1.55;">
-    Δείτε πώς τεχνική εταιρεία υποδομών οπτικών ινών μηδένισε τη γραφειοκρατία και μείωσε τον χρόνο ολοκλήρωσης αυτοψιών από 4 ημέρες σε 5 λεπτά:
-  </p>
-  <p style="margin: 0; font-size: 13.5px;">
-    👉 <a href="https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta" target="_blank" style="color: #15803d; font-weight: 800; text-decoration: underline;">Διαβάστε το αναλυτικό Case Study στο sgk.gr</a>
+<div style="background-color: #f8fafc; border-left: 4px solid #10b981; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    🎛️ 2. Αυτόματος Υπολογισμός Floor Boxes, BEP & BMO
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Εισάγετε απλώς ορόφους και διαμερίσματα. Η εφαρμογή υπολογίζει ακαριαία πόσα Floor Boxes χρειάζονται, σε ποιους ορόφους, τα BEP & BMO και την πλήρη προμέτρηση υλικών (μηδέν ανθρώπινο λάθος).
+  </div>
+</div>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #f59e0b; padding: 12px 14px; margin-bottom: 14px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    📐 3. Αυτόματο Σκαρίφημα CAD & Άμεσο Email στον Εργολάβο
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Παράγεται αυτόματα το σχέδιο όδευσης και διαγραμμάτων συνδεσμολογίας. Με το πάτημα «Ολοκλήρωση», ο πλήρης φάκελος (<strong>PDF έκθεσης + ZIP σχεδίων & φωτογραφιών</strong>) φεύγει <em>άμεσα με email στον εργολάβο</em> — <strong>χωρίς καμία εμπλοκή του back-office!</strong>
+  </div>
+</div>
+
+<!-- Social Proof -->
+<div style="background-color: #eff6ff; border: 1px dashed #93c5fd; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px;">
+  <p style="margin: 0 !important; font-size: 13px; color: #1e40af; line-height: 1.45;">
+    🚀 <strong>Ήδη σε παραγωγή:</strong> Λειτουργεί καθημερινά σε ελληνική τεχνική εταιρεία υποδομών οπτικών ινών, εξοικονομώντας 15+ ώρες γραφείου την εβδομάδα ανά συνεργείο.
   </p>
 </div>
 
-<!-- Direct Phone Call Card -->
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; margin: 22px 0 16px 0;">
-  <p style="margin: 0 0 4px 0; font-weight: 800; font-size: 14px; color: #0f172a;">
-    📞 Ενδιαφέρεστε για Live Demo ή Εγκατάσταση στη δική σας εταιρεία;
-  </p>
-  <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
-    Πατήστε στο παρακάτω κουμπί για να προγραμματίσουμε μια σύντομη επίδειξη ή καλέστε μας άμεσα στα <strong><a href="tel:2111140013" style="color: #0284c7; text-decoration: underline;">211 114 0013</a></strong> / <strong><a href="tel:6999524389" style="color: #0284c7; text-decoration: underline;">6999 524 389</a></strong>.
-  </p>
-</div>
-
-<div style="font-size: 11px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  <strong>Πληροφορίες Διαφάνειας & GDPR:</strong><br />
-  Το παρόν μήνυμα αποτελεί μία μεμονωμένη επιχειρηματική ενημέρωση (B2B) και απευθύνεται αποκλειστικά στα δημόσια καταχωρημένα στοιχεία επικοινωνίας της τεχνικής σας επιχείρησης στα Ανοικτά Δεδομένα του <strong>Γ.Ε.ΜΗ. (OpenData API)</strong> βάσει των συναφών επαγγελματικών δραστηριοτήτων (ΚΑΔ). Δεν είστε εγγεγραμμένοι σε λίστα newsletter και δεν θα λάβετε ανεπιθύμητα μηνύματα.
+<!-- Quick Call for drivers/engineers on the road -->
+<div style="text-align: center; font-size: 13px; color: #64748b; margin-top: 14px; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+  Είστε στον δρόμο; Καλέστε μας απευθείας για 2λεπτη ενημέρωση:<br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14px;">📱 6999 524 389</a>
 </div>`,
-    defaultButtonText: "Ζητήστε Live Demo Πλατφόρμας",
-    defaultButtonLink: "https://www.sgk.gr/estimate"
+    defaultButtonText: "Δείτε Live Demo (2 λεπτά)",
+    defaultButtonLink: "https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta"
   },
   {
     name: "Istoselida ike 150 ευρω",
@@ -2617,10 +2578,10 @@ function safeEncodeBase64(data: any): string {
                 onClick={handleScanGemiFtthIkes}
                 disabled={isScanningGemi}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
-                title="Live σάρωση στο Γ.Ε.ΜΗ. αποκλειστικά για Ι.Κ.Ε. Οπτικών Ινών & Τηλεπικοινωνιών (ΚΑΔ 43211006, 43999000, 43121200, 43211002, 43131001, 43211003)"
+                title="Live σάρωση στο Γ.Ε.ΜΗ. για Εταιρείες Τηλεπικοινωνιών & Καλωδιώσεων όλων των νομικών μορφών (ΚΑΔ 43210006 / 43211006)"
               >
                 {isScanningGemi && scanCategory === "ftth_telecom" ? <Loader2 size={13} className="animate-spin" /> : <Target size={13} className="text-cyan-200" />}
-                <span>🔌 Ευρεση ΙΚΕ FTTH</span>
+                <span>🔌 Ευρεση FTTH (Ολες οι Μορφες)</span>
               </button>
             </div>
             <button
@@ -3287,7 +3248,7 @@ function safeEncodeBase64(data: any): string {
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
                       : `Ίδρυση εντός του ${now.getFullYear()}`}
                     {scanCategory === "ftth_telecom"
-                      ? " • Στοχευμένοι ΚΑΔ: 43211006, 43999000, 43121200, 43211002, 43131001, 43211003"
+                      ? " • Στοχευμένος ΚΑΔ: 43210006 / 43211006 (Καλωδιώσεις & Τηλεπικοινωνίες) • Όλες οι νομικές μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)"
                       : " • Μόνο Ι.Κ.Ε."}
                   </p>
                 </div>
