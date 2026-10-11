@@ -1,25 +1,67 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getServiceSupabase } from "@/lib/supabase";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const token = searchParams.get("token");
+export const dynamic = "force-dynamic";
+
+async function handleUnsubscribe(token: string | null, email: string | null) {
+  if (!token && !email) {
+    return NextResponse.json({ success: false, error: "Missing token" }, { status: 400 });
+  }
 
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://fgyecckvlbkgclsehcgf.supabase.co";
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZneWVjY2t2bGJrZ2Nsc2VoY2dmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDc4MTcyMSwiZXhwIjoyMTA2MzU3NzIxfQ.4iZ7j4FKaXzq9CFTFZkQGaTEu8D0mTTHUaEFXG6qcDU";
+    const supabase = getServiceSupabase();
+    const updates = { unsubscribed: true, marketing_consent: false };
 
-    if (token && supabaseUrl && supabaseServiceKey) {
-      const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      await supabase
+    let updatedRows: any[] = [];
+
+    if (token) {
+      const { data, error } = await supabase
         .from("sgk_mails")
-        .update({ unsubscribed: true })
-        .eq("unsubscribe_token", token);
+        .update(updates)
+        .eq("unsubscribe_token", token)
+        .select("id, email");
+      if (error) throw error;
+      updatedRows = data || [];
     }
 
+    // Fallback by email if the token didn't match any lead
+    if (updatedRows.length === 0 && email) {
+      const { data, error } = await supabase
+        .from("sgk_mails")
+        .update(updates)
+        .ilike("email", email.trim())
+        .select("id, email");
+      if (error) throw error;
+      updatedRows = data || [];
+    }
+
+    if (updatedRows.length === 0) {
+      console.warn("Unsubscribe: no lead matched", { token, email });
+      return NextResponse.json({ success: false, error: "Lead not found" }, { status: 404 });
+    }
+
+    console.log("Unsubscribed:", updatedRows.map(r => r.email).join(", "));
     return NextResponse.json({ success: true, message: "Unsubscribed successfully" });
   } catch (error: any) {
     console.error("Unsubscribe API error:", error);
-    return NextResponse.json({ success: true, message: "Unsubscribed" });
+    return NextResponse.json({ success: false, error: error?.message || "Server error" }, { status: 500 });
   }
+}
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  return handleUnsubscribe(searchParams.get("token"), searchParams.get("email"));
+}
+
+export async function POST(request: Request) {
+  let token: string | null = null;
+  let email: string | null = null;
+  try {
+    const body = await request.json();
+    token = body.token || null;
+    email = body.email || null;
+  } catch {
+    // empty body
+  }
+  return handleUnsubscribe(token, email);
 }
