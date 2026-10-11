@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const sharedDisallow = ['/admin', '/api/admin/', '/liveavatar-demo', '/liveavatar-demo2', '/ai-video-call'];
+  const sharedDisallow = ['/admin', '/api/admin/', '/liveavatar-demo', '/liveavatar-demo2', '/ai-video-call', '/ftth-autopsia'];
 
   return {
     rules: [
