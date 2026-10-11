@@ -141,7 +141,16 @@ serve(async (req) => {
 
     try {
         const payload = await req.json();
-        const { processAllDue, email, unsubscribe_token, customSubject, customHtml, firstEmailSubject, firstEmailBody } = payload;
+        const { 
+            processAllDue, 
+            email, 
+            unsubscribe_token, 
+            customSubject, 
+            customHtml, 
+            firstEmailSubject, 
+            firstEmailBody,
+            step = 1,
+        } = payload;
         
         // Automated sequences are completely DISABLED per business rule
         if (processAllDue) {
@@ -214,15 +223,18 @@ serve(async (req) => {
         }
 
         const now = new Date().toISOString();
+        const updatePayload: any = {
+            last_email_sent_at: now,
+            email_sequence_step: typeof step === "number" ? step : 1,
+        };
+        if (step === 1) {
+            updatePayload.first_email_subject = firstEmailSubject || customSubject;
+            updatePayload.first_email_body = firstEmailBody || customHtml;
+            updatePayload.converted = false;
+        }
         await supabase
             .from("sgk_mails")
-            .update({
-                last_email_sent_at: now,
-                email_sequence_step: 1,
-                first_email_subject: firstEmailSubject || customSubject,
-                first_email_body: firstEmailBody || customHtml,
-                converted: false,
-            })
+            .update(updatePayload)
             .eq("email", cleanEmail);
 
         return new Response(JSON.stringify({ success: true, message: "Email sent successfully" }), {
