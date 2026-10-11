@@ -18,6 +18,7 @@ export async function POST(request: Request) {
         'https://www.sgk.gr',
         'https://www.sgk.gr/ai-agents',
         'https://www.sgk.gr/order-ai-agent',
+        'https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta',
         'https://www.sgk.gr/blog/etaireies-technitis-noimosynis-ai-agents-ellada',
         'https://www.sgk.gr/blog',
         'https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies',

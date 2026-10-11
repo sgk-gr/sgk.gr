@@ -55,6 +55,7 @@
 ## 📂 Case Studies & Articles
 
 - [Εταιρείες Τεχνητής Νοημοσύνης (AI) & AI Agents στην Ελλάδα [Οδηγός 2026]](https://www.sgk.gr/blog/etaireies-technitis-noimosynis-ai-agents-ellada): Πλήρης οδηγός για το ελληνικό οικοσύστημα AI, τους αυτόνομους agents και τις κορυφαίες εταιρείες.
+- [Αυτοματισμός Αυτοψιών Οπτικών Ινών FTTH σε 5 Λεπτά](https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta): Custom AI web πλατφόρμα πεδίου για εταιρεία οπτικών ινών FTTH. Αυτόματος υπολογισμός floor boxes, σχέδια CAD & καμπίνες, ψηφιακές υπογραφές και άμεση αποστολή στον εργολάβο σε 5 λεπτά χωρίς χαρτιά.
 - [Mendora Academy - AI Educational Platform for ELC](https://www.sgk.gr/case-study/mendora-academy): AI-Native Voice-First platform for British ELC featuring Socratic teaching, Vision OCR, and WebRTC video chat.
 - [AI Αυτοματισμός & Αυτοψίες Οπτικών Ινών](https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies): Telecom operations platform με Real-time tracking και Computer Vision AI αυτοψίες.
 - [Blog & Industry Insights](https://www.sgk.gr/blog): Τεχνικά άρθρα για AI agents, workflows και custom web applications.
