@@ -1879,7 +1879,7 @@ export default function AutopsiaPage() {
             if (isAtLocation) {
                 toast.success(`✅ Είστε στο σωστό κτίριο! (${Math.round(distanceMeters)}m)`);
             } else {
-                toast.error(`⚠️ ΠΡΟΣΟΧΗ: Ίσως το BID είναι λάθος! Απέχετε ${distanceMeters >= 1000 ? (distanceMeters / 1000).toFixed(1) + 'km' : Math.round(distanceMeters) + 'm'}`);
+                toast.error(`⚠️ Προσοχή: Ίσως το BID είναι λάθος! Απέχετε ${distanceMeters >= 1000 ? (distanceMeters / 1000).toFixed(1) + 'km' : Math.round(distanceMeters) + 'm'}`);
             }
         } catch (err: any) {
             toast.dismiss(toastId);
@@ -2231,29 +2231,59 @@ export default function AutopsiaPage() {
 
     const cancelAutopsiaMutation = useMutation({
         mutationFn: async ({ customer, reason }: { customer: any, reason: string }) => {
-            const { error } = await supabase
+            // 1. Send cancellation email to info@sgk.gr & user email
+            try {
+                const res = await fetch("/api/autopsia/akyrosi-mail", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        customer,
+                        reason,
+                        userEmail: user?.email
+                    })
+                });
+                if (!res.ok) {
+                    await supabase.functions.invoke("autopsia-akyrosi-mail", {
+                        body: { customer, reason, userEmail: user?.email }
+                    });
+                }
+            } catch (mailErr) {
+                console.warn("API route email failed, trying edge function fallback:", mailErr);
+                try {
+                    await supabase.functions.invoke("autopsia-akyrosi-mail", {
+                        body: { customer, reason, userEmail: user?.email }
+                    });
+                } catch (e) {
+                    console.error("Cancellation email fallback also failed:", e);
+                }
+            }
+
+            // 2. Delete the autopsy customer record completely so it leaves and is deleted
+            const { error: delError } = await supabase
                 .from("customers")
-                .update({
-                    project_status: "cancelled",
-                    thanasis_akyri: true,
-                    is_upcoming: false,
-                    thanasis_comments: (customer.thanasis_comments || "") + (customer.thanasis_comments ? "\n" : "") + `ΛΟΓΟΣ ΑΚΥΡΩΣΗΣ: ${reason}`
-                } as any)
+                .delete()
                 .eq("id", customer.id);
 
-            if (error) throw error;
-
-            await supabase.functions.invoke("autopsia-akyrosi-mail", {
-                body: {
-                    customer,
-                    reason,
-                    userEmail: user?.email
-                },
-            });
+            if (delError) {
+                console.warn("Delete error, falling back to soft cancellation:", delError);
+                await supabase
+                    .from("customers")
+                    .update({
+                        project_status: "cancelled",
+                        thanasis_akyri: true,
+                        is_upcoming: false,
+                        thanasis_comments: (customer.thanasis_comments || "") + (customer.thanasis_comments ? "\n" : "") + `ΛΟΓΟΣ ΑΚΥΡΩΣΗΣ: ${reason}`
+                    } as any)
+                    .eq("id", customer.id);
+            }
         },
-        onSuccess: () => {
+        onSuccess: (_data, variables) => {
+            queryClient.setQueryData(["customers-autopsia2-pending"], (old: any[] | undefined) => {
+                return old ? old.filter(c => c.id !== variables.customer.id) : [];
+            });
             queryClient.invalidateQueries({ queryKey: ["customers-autopsia2-pending"] });
-            toast.success("Η αυτοψία ακυρώθηκε και το email απεστάλη.");
+            queryClient.invalidateQueries({ queryKey: ["customers"] });
+            toast.success("Η αυτοψία ακυρώθηκε, διαγράφηκε και το email απεστάλη στο info@sgk.gr.");
             setCancellationDialogOpen(false);
             setCancellationReason("");
             setCancellingCustomer(null);
@@ -2666,7 +2696,7 @@ export default function AutopsiaPage() {
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <span className="text-[12px] font-extrabold text-slate-800 uppercase tracking-tight">{label}</span>
+                            <span className="text-[13px] font-bold text-slate-800 tracking-tight">{label}</span>
                             {cat.toLowerCase() === 'aut_tech' && (
                                 <Button 
                                     variant="outline" 
@@ -2739,7 +2769,7 @@ export default function AutopsiaPage() {
                         {cat === 'aut_wait' && (
                             <>
                                 <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2 h-7 shadow-sm">
-                                    <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Αρ. Αναμονής:</span>
+                                    <span className="text-[11px] font-bold text-slate-600">Αρ. Αναμονής:</span>
                                     <Input
                                         type="text"
                                         placeholder="-"
@@ -2775,7 +2805,7 @@ export default function AutopsiaPage() {
                                     />
                                     <label
                                         htmlFor={`bcp-chk-${customer.id}`}
-                                        className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider cursor-pointer select-none"
+                                        className="text-[11px] font-bold text-slate-600 cursor-pointer select-none"
                                     >
                                         BCP
                                     </label>
@@ -2824,7 +2854,7 @@ export default function AutopsiaPage() {
                                     }}
                                 >
                                     <UserCircle className="h-3 w-3 mr-1" />
-                                    ΠΑΤΡΩΝΥΜΟ {customer.father_name && "✓"}
+                                    Πατρώνυμο {customer.father_name && "✓"}
                                 </Button>
                             </>
                         )}
@@ -2993,13 +3023,12 @@ export default function AutopsiaPage() {
                 </div>
             </header>
 
-            {/* ===== Status cards (act as filters) + Search + City chips ===== */}
+            {/* ===== Status cards (act as filters) + Search ===== */}
             <section className={cn("max-w-[1600px] mx-auto mb-5 space-y-3", customerUrlParam && "hidden")}>
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     {([
                         { key: "pending", label: "Εκκρεμείς", sub: "σε εκκρεμότητα", count: pendingCount, Icon: Zap, activeCls: "bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-orange-500/25", iconCls: "bg-amber-100 text-amber-600" },
                         { key: "ready", label: "Έτοιμες", sub: "για αποστολή", count: readyCount, Icon: CheckCircle2, activeCls: "bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25", iconCls: "bg-emerald-100 text-emerald-600" },
-                        { key: "all", label: "Όλες", sub: "οι αυτοψίες", count: allCount, Icon: Layers, activeCls: "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25", iconCls: "bg-blue-100 text-blue-600" },
                     ] as const).map(({ key, label, sub, count, Icon, activeCls, iconCls }) => {
                         const active = statusFilter === key;
                         return (
@@ -3025,53 +3054,24 @@ export default function AutopsiaPage() {
                     })}
                 </div>
 
-                <div className="flex flex-col lg:flex-row lg:items-center gap-3">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                        <Input
-                            placeholder="Αναζήτηση: διεύθυνση, όνομα, SR, Building ID..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-11 pr-10 h-12 rounded-2xl bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 font-medium shadow-xs focus-visible:ring-2 focus-visible:ring-blue-500/40"
-                        />
-                        {searchQuery && (
-                            <button
-                                type="button"
-                                onClick={() => setSearchQuery("")}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center cursor-pointer"
-                                aria-label="Καθαρισμός αναζήτησης"
-                            >
-                                <X className="h-3.5 w-3.5" />
-                            </button>
-                        )}
-                    </div>
-
-                    <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-3 px-3 sm:mx-0 sm:px-0 pb-0.5">
-                        {[
-                            { key: "all", label: "Όλες οι Πόλεις", activeCls: "bg-slate-900 text-white border-slate-900" },
-                            { key: "kastoria", label: "📍 Καστοριά", activeCls: "bg-purple-600 text-white border-purple-600" },
-                            { key: "florina", label: "📍 Φλώρινα", activeCls: "bg-cyan-600 text-white border-cyan-600" },
-                        ].map((filter) => {
-                            const active = cityFilter === filter.key;
-                            const cityCount = validCustomers
-                                ? (filter.key === "all" ? validCustomers.length : validCustomers.filter(c => (c as any)[`is_${filter.key}`]).length)
-                                : 0;
-                            return (
-                                <button
-                                    key={filter.key}
-                                    type="button"
-                                    onClick={() => setCityFilter(filter.key as any)}
-                                    className={cn(
-                                        "shrink-0 h-10 px-4 rounded-full border text-sm font-semibold transition-all active:scale-[0.97] cursor-pointer whitespace-nowrap",
-                                        active ? cn("shadow-md", filter.activeCls) : "bg-white border-slate-200 text-slate-700 hover:border-slate-300"
-                                    )}
-                                >
-                                    {filter.label}
-                                    <span className={cn("ml-2 text-xs font-bold", active ? "text-white/80" : "text-slate-400")}>{cityCount}</span>
-                                </button>
-                            );
-                        })}
-                    </div>
+                <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <Input
+                        placeholder="Αναζήτηση: διεύθυνση, όνομα, SR, Building ID..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-11 pr-10 h-12 rounded-2xl bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 font-medium shadow-xs focus-visible:ring-2 focus-visible:ring-blue-500/40"
+                    />
+                    {searchQuery && (
+                        <button
+                            type="button"
+                            onClick={() => setSearchQuery("")}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center cursor-pointer"
+                            aria-label="Καθαρισμός αναζήτησης"
+                        >
+                            <X className="h-3.5 w-3.5" />
+                        </button>
+                    )}
                 </div>
             </section>
 
@@ -3155,275 +3155,163 @@ export default function AutopsiaPage() {
                                             <span className="text-slate-600">{customer.first_name} {customer.last_name}</span>
                                         </div>
 
-                                        {/* Badges & quick actions */}
-                                        <div className="mt-2 flex items-center gap-1.5 flex-wrap">
-                                            <a
-                                                href={`/ftth-autopsia?customer=${customer.id}`}
-                                                className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors shrink-0"
-                                                title="Προβολή Πελάτη"
-                                            >
-                                                <Eye className="h-3.5 w-3.5" />
-                                            </a>
-                                            <button
-                                                type="button"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setCustomerToDelete(customer);
-                                                }}
-                                                className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors shrink-0 cursor-pointer"
-                                                title="Διαγραφή Αυτοψίας"
-                                            >
-                                                <Trash2 className="h-3.5 w-3.5" />
-                                            </button>
-                                            {ready && <span className="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-1 rounded-full border border-emerald-200 flex items-center gap-1">📦 ΕΤΟΙΜΗ</span>}
-                                            {customer.is_kastoria && <span className="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-1 rounded-full border border-purple-200">📍 ΚΑΣΤΟΡΙΑ</span>}
-                                            {customer.is_florina && <span className="text-[10px] font-bold bg-cyan-50 text-cyan-700 px-2 py-1 rounded-full border border-cyan-200">📍 ΦΛΩΡΙΝΑ</span>}
-                                            {(customer.is_thiseas || cUp === 'THISEAS') && <span className="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-1 rounded-full border border-blue-200">👷 THISEAS</span>}
-                                            {(customer.is_ergatikat || cUp === 'ERGATIKAT') && <span className="text-[10px] font-bold bg-orange-50 text-orange-700 px-2 py-1 rounded-full border border-orange-200">👷 ERGATIKAT</span>}
-                                            {((customer as any).is_beyondwire || cUp === 'BEYONDWIRE') && <span className="text-[10px] font-bold bg-violet-50 text-violet-700 px-2 py-1 rounded-full border border-violet-200">🔷 BEYONDWIRE</span>}
-                                            {(customer.is_kasos || cUp === 'KASOS') && <span className="text-[10px] font-bold bg-green-50 text-green-700 px-2 py-1 rounded-full border border-green-200">🟢 KASOS</span>}
-                                        </div>
+                                            {/* Badges & quick actions */}
+                                            <div className="mt-2 flex items-center gap-1.5 flex-wrap">
+                                                <a
+                                                    href={`/ftth-autopsia?customer=${customer.id}`}
+                                                    className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors shrink-0"
+                                                    title="Προβολή Πελάτη"
+                                                >
+                                                    <Eye className="h-3.5 w-3.5" />
+                                                </a>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setCustomerToDelete(customer);
+                                                    }}
+                                                    className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors shrink-0 cursor-pointer"
+                                                    title="Διαγραφή Αυτοψίας"
+                                                >
+                                                    <Trash2 className="h-3.5 w-3.5" />
+                                                </button>
+                                                {ready && <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">📦 Έτοιμη</span>}
+                                                {customer.is_kastoria && <span className="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">📍 Καστοριά</span>}
+                                                {customer.is_florina && <span className="text-[10px] font-bold bg-cyan-50 text-cyan-700 px-2 py-0.5 rounded-full border border-cyan-200">📍 Φλώρινα</span>}
+                                                {(customer.is_thiseas || cUp === 'THISEAS') && <span className="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">👷 Thiseas</span>}
+                                                {(customer.is_ergatikat || cUp === 'ERGATIKAT') && <span className="text-[10px] font-bold bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full border border-orange-200">👷 Ergatikat</span>}
+                                                {((customer as any).is_beyondwire || cUp === 'BEYONDWIRE') && <span className="text-[10px] font-bold bg-violet-50 text-violet-700 px-2 py-0.5 rounded-full border border-violet-200">🔷 Beyondwire</span>}
+                                                {(customer.is_kasos || cUp === 'KASOS') && <span className="text-[10px] font-bold bg-green-50 text-green-700 px-2 py-0.5 rounded-full border border-green-200">🟢 Kasos</span>}
+                                            </div>
 
-                                        {/* Contact info */}
-                                        <div className="mt-3 grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-                                            {customer.phone && (
-                                                <a href={`tel:${customer.phone}`} className="inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-800 active:scale-[0.98] transition-all shadow-sm">
-                                                    <Phone className="h-4 w-4 text-emerald-400" />
-                                                    <span className="truncate">ΚΛΗΣΗ: {customer.phone}</span>
-                                                </a>
-                                            )}
-                                            {customer.manager_phone && (
-                                                <a href={`tel:${customer.manager_phone}`} className="inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 active:scale-[0.98] transition-all shadow-sm">
-                                                    <Phone className="h-4 w-4 text-white" />
-                                                    <span className="truncate">ΔΙΑΧΕΙΡΙΣΤΗΣ: {customer.manager_phone}</span>
-                                                </a>
-                                            )}
-                                            {(customer as any).building_id && (
+                                            {/* Contact info */}
+                                            <div className="mt-3 grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+                                                {customer.phone && (
+                                                    <a href={`tel:${customer.phone}`} className="inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-800 active:scale-[0.98] transition-all shadow-sm">
+                                                        <Phone className="h-4 w-4 text-emerald-400" />
+                                                        <span className="truncate">Κλήση: {customer.phone}</span>
+                                                    </a>
+                                                )}
+                                                {customer.manager_phone && (
+                                                    <a href={`tel:${customer.manager_phone}`} className="inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 active:scale-[0.98] transition-all shadow-sm">
+                                                        <Phone className="h-4 w-4 text-white" />
+                                                        <span className="truncate">Διαχειριστής: {customer.manager_phone}</span>
+                                                    </a>
+                                                )}
+                                                {(customer as any).building_id && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="inline-flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 bg-indigo-50 px-3 rounded-xl border border-indigo-200 hover:bg-indigo-100 active:scale-[0.98] transition-all h-11"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            navigator.clipboard.writeText((customer as any).building_id);
+                                                            toast.success("Το BID αντέγραφηκε!");
+                                                            window.open("https://home.teletronic.gr/", "_blank");
+                                                        }}
+                                                    >
+                                                        <Search className="h-4 w-4" />
+                                                        Πλοήγηση στον πελάτη
+                                                    </Button>
+                                                )}
+
+                                                {customer.excel_url && (
+                                                    <div className="col-span-2 sm:col-span-1 flex items-center gap-2">
+                                                        <a href={getTimestampedUrl(customer.excel_url)} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-emerald-700 bg-emerald-50 rounded-xl border border-emerald-200 hover:bg-emerald-100 active:scale-[0.98] transition-all">
+                                                            <FileSpreadsheet className="h-4 w-4" />
+                                                            Γραμμογράφηση
+                                                        </a>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-11 w-11 rounded-xl text-emerald-700 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100"
+                                                            onClick={() => setPreviewExcelUrl(getTimestampedUrl(customer.excel_url))}
+                                                        >
+                                                            <Eye className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Ready for Send toggle (always visible, large tap target) */}
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            toggleReadyMutation.mutate({
+                                                id: customer.id,
+                                                isReady: !ready,
+                                                customer
+                                            });
+                                        }}
+                                        className={cn(
+                                            "mt-4 w-full h-12 rounded-2xl flex items-center justify-between px-4 border text-sm font-bold transition-all active:scale-[0.99] cursor-pointer select-none",
+                                            ready
+                                                ? "bg-emerald-50 border-emerald-300 text-emerald-800"
+                                                : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
+                                        )}
+                                        title={ready ? "Κάντε κλικ για επαναφορά στις Εκκρεμείς" : "Κάντε κλικ για σημείωση ως Έτοιμη για Αποστολή"}
+                                    >
+                                        <span className="flex items-center gap-2">
+                                            <CheckCircle2 className={cn("h-5 w-5", ready ? "text-emerald-600" : "text-slate-400")} />
+                                            {ready ? "Έτοιμη για αποστολή ✓" : "Σήμανση ως έτοιμη"}
+                                        </span>
+                                        <span className={cn("relative h-6 w-11 rounded-full transition-colors", ready ? "bg-emerald-500" : "bg-slate-300")}>
+                                            <span className={cn("absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all", ready ? "left-[22px]" : "left-0.5")} />
+                                        </span>
+                                    </button>
+
+                                    {isExpanded && (
+                                        <div className="space-y-4 mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
+                                            <div className="space-y-2">
+                                                <p className="text-xs font-bold text-slate-700">Έντυπα</p>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                                    {renderPhotoCategory(customer, "aut_decl", "Υ.Δ. Διαχειριστή")}
+                                                    {renderPhotoCategory(customer, "aut_cab", "Καμπίνα")}
+                                                    {renderPhotoCategory(customer, "aut_wait", "Αναμονή")}
+                                                    {renderPhotoCategory(customer, "aut_tech", "Τεχνική Περιγραφή")}
+                                                    {renderPhotoCategory(customer, "aut_hedm", "ΧΕΔΜ")}
+                                                    {renderPhotoCategory(customer, "aut_form1", "Έντυπο 1")}
+                                                    {renderPhotoCategory(customer, "aut_report", "Έκθεση Επιθεώρησης")}
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-2 mt-5 pt-4 border-t border-slate-100">
+                                                <Button
+                                                    className="col-span-2 h-12 rounded-2xl font-bold text-sm bg-gradient-to-br from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg shadow-blue-600/25 transition-all active:scale-[0.99]"
+                                                    onClick={() => confirm("Ολοκλήρωση Αυτοψίας;") && completeAutopsiaMutation.mutate(customer)}
+                                                    disabled={completeAutopsiaMutation.isPending}
+                                                >
+                                                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                                                    Ολοκλήρωση & Αποστολή
+                                                </Button>
                                                 <Button
                                                     variant="outline"
-                                                    size="sm"
-                                                    className="inline-flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 bg-indigo-50 px-3 rounded-xl border border-indigo-200 hover:bg-indigo-100 active:scale-[0.98] transition-all h-11"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        navigator.clipboard.writeText((customer as any).building_id);
-                                                        toast.success("Το BID αντέγραφηκε!");
-                                                        window.open("https://home.teletronic.gr/", "_blank");
+                                                    className="h-11 rounded-2xl font-bold border-amber-300 bg-amber-50/60 text-amber-800 hover:bg-amber-100 text-xs px-2"
+                                                    onClick={() => {
+                                                        setCancellingCustomer(customer);
+                                                        setCancellationReason("");
+                                                        setCancellationDialogOpen(true);
                                                     }}
+                                                    disabled={cancelAutopsiaMutation.isPending}
                                                 >
-                                                    <Search className="h-4 w-4" />
-                                                    ΠΛΟΗΓΗΣΗ ΣΤΟΝ ΠΕΛΑΤΗ
+                                                    <XCircle className="h-4 w-4 mr-1.5" />
+                                                    Ακύρωση
                                                 </Button>
-                                            )}
-
-                                            {customer.excel_url && (
-                                                <div className="col-span-2 sm:col-span-1 flex items-center gap-2">
-                                                    <a href={getTimestampedUrl(customer.excel_url)} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 h-11 px-3 text-xs font-bold text-emerald-700 bg-emerald-50 rounded-xl border border-emerald-200 hover:bg-emerald-100 active:scale-[0.98] transition-all">
-                                                        <FileSpreadsheet className="h-4 w-4" />
-                                                        ΓΡΑΜΜΟΓΡΑΦΗΣΗ
-                                                    </a>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="h-11 w-11 rounded-xl text-emerald-700 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100"
-                                                        onClick={() => setPreviewExcelUrl(getTimestampedUrl(customer.excel_url))}
-                                                    >
-                                                        <Eye className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Comments Display */}
-                                        <div
-                                            className="mt-3 p-3 bg-amber-50/70 rounded-2xl border border-amber-100 cursor-pointer group/comments hover:border-amber-200 hover:bg-amber-50 transition-all"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setTimelineCustomer(customer);
-                                                setTimelineOpen(true);
-                                            }}
-                                            title="Κάντε κλικ για προβολή Σχολίων & Ιστορικού"
-                                        >
-                                            <div className="flex items-center justify-between mb-1.5">
-                                                <div className="flex items-center gap-1.5">
-                                                    <MessageSquare className="h-3.5 w-3.5 text-amber-600" />
-                                                    <span className="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider">Παρατηρήσεις / Σχόλια</span>
-                                                </div>
                                                 <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="h-7 px-2.5 text-[11px] font-bold text-amber-800 bg-amber-100/80 hover:bg-amber-200/80 rounded-full flex items-center gap-1"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setTimelineCustomer(customer);
-                                                        setTimelineOpen(true);
-                                                    }}
+                                                    variant="outline"
+                                                    className="h-11 rounded-2xl font-bold border-rose-200 bg-rose-50/60 text-rose-700 hover:bg-rose-100 hover:text-rose-800 text-xs px-2"
+                                                    onClick={() => setCustomerToDelete(customer)}
+                                                    disabled={deleteCustomerMutation.isPending}
                                                 >
-                                                    <MessageSquare className="h-3 w-3" />
-                                                    <span>Σχόλιο</span>
+                                                    <Trash2 className="h-4 w-4 mr-1.5 text-rose-500" />
+                                                    Διαγραφή
                                                 </Button>
                                             </div>
-                                            {customer.thanasis_comments ? (
-                                                <p className="text-[13px] text-amber-950 leading-relaxed font-medium whitespace-pre-wrap">
-                                                    {customer.thanasis_comments}
-                                                </p>
-                                            ) : (
-                                                <p className="text-xs text-amber-700/60 italic">Δεν υπάρχουν σχόλια (Κάντε κλικ για προσθήκη)...</p>
-                                            )}
-                                            <div className="mt-2 pt-1.5 border-t border-amber-200/50 flex items-center justify-between text-[10px] text-amber-700 font-semibold">
-                                                <span className="flex items-center gap-1 group-hover/comments:underline">
-                                                    <MessageSquare className="h-3 w-3" /> Ιστορικό Σημειώσεων & Ώρα
-                                                </span>
-                                            </div>
                                         </div>
-
-                                        {isExpanded && (customer.autopsia_latitude || customer.autopsia_tech_data?.latitude) && (
-                                            <div className="mt-2 flex items-center gap-1 text-[10px] text-emerald-600 font-mono">
-                                                <MapPin className="h-3 w-3" />
-                                                {customer.autopsia_latitude || customer.autopsia_tech_data?.latitude}, {customer.autopsia_longitude || customer.autopsia_tech_data?.longitude}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Ready for Send toggle (always visible, large tap target) */}
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        toggleReadyMutation.mutate({
-                                            id: customer.id,
-                                            isReady: !ready,
-                                            customer
-                                        });
-                                    }}
-                                    className={cn(
-                                        "mt-4 w-full h-12 rounded-2xl flex items-center justify-between px-4 border text-sm font-bold transition-all active:scale-[0.99] cursor-pointer select-none",
-                                        ready
-                                            ? "bg-emerald-50 border-emerald-300 text-emerald-800"
-                                            : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
                                     )}
-                                    title={ready ? "Κάντε κλικ για επαναφορά στις Εκκρεμείς" : "Κάντε κλικ για σημείωση ως Έτοιμη για Αποστολή"}
-                                >
-                                    <span className="flex items-center gap-2">
-                                        <CheckCircle2 className={cn("h-5 w-5", ready ? "text-emerald-600" : "text-slate-400")} />
-                                        {ready ? "Έτοιμη για αποστολή ✓" : "Σήμανση ως έτοιμη"}
-                                    </span>
-                                    <span className={cn("relative h-6 w-11 rounded-full transition-colors", ready ? "bg-emerald-500" : "bg-slate-300")}>
-                                        <span className={cn("absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all", ready ? "left-[22px]" : "left-0.5")} />
-                                    </span>
-                                </button>
-
-                                {isExpanded && (
-                                    <div className="space-y-4 mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
-                                        <div className="space-y-2">
-                                            <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-[0.12em]">ΕΝΤΥΠΑ</p>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                                                {renderPhotoCategory(customer, "aut_decl", "Υ.Δ. Διαχειριστή")}
-                                                {renderPhotoCategory(customer, "aut_cab", "Καμπίνα")}
-                                                {renderPhotoCategory(customer, "aut_wait", "Αναμονή")}
-                                                {renderPhotoCategory(customer, "aut_tech", "Τεχν. Περιγραφή")}
-                                                {renderPhotoCategory(customer, "aut_hedm", "ΧΕΔΜ")}
-                                                {renderPhotoCategory(customer, "aut_form1", "Έντυπο 1")}
-                                                {renderPhotoCategory(customer, "aut_report", "Έκθεση Επιθ.")}
-                                            </div>
-                                        </div>
-
-                                        <div className="bg-slate-50/80 border border-slate-200 rounded-2xl p-3 space-y-2 mt-4">
-                                            <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-[0.12em]">ΕΠΙΠΛΕΟΝ ΕΠΙΛΟΓΕΣ ΑΥΤΟΨΙΑΣ</p>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 min-h-12 bg-white rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
-                                                    <label className="flex items-center gap-2 cursor-pointer">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={customer.exoterika_fb || false}
-                                                            onChange={(e) => {
-                                                                const checked = e.target.checked;
-                                                                saveExoterikaFbMutation.mutate({ 
-                                                                    id: customer.id, 
-                                                                    exoterika_fb: checked,
-                                                                    count: customer.exoterika_fb_count || 1 
-                                                                });
-                                                            }}
-                                                            className="h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500 cursor-pointer"
-                                                        />
-                                                        <span className="text-xs font-bold text-slate-700">📦 ΕΞΩΤΕΡΙΚΑ FB (Βάλε BEP)</span>
-                                                    </label>
-                                                    {customer.exoterika_fb && (
-                                                        <div className="flex items-center gap-1.5 bg-purple-50 border border-purple-200 rounded-md px-2 py-0.5 shrink-0" onClick={(e) => e.stopPropagation()}>
-                                                            <span className="text-[10px] font-extrabold text-purple-700 uppercase">Ποσότητα:</span>
-                                                            <input
-                                                                type="number"
-                                                                min="1"
-                                                                max="99"
-                                                                defaultValue={customer.exoterika_fb_count || 1}
-                                                                onBlur={(e) => {
-                                                                    const count = Math.max(1, parseInt(e.target.value) || 1);
-                                                                    saveExoterikaFbMutation.mutate({ 
-                                                                        id: customer.id, 
-                                                                        exoterika_fb: true, 
-                                                                        count 
-                                                                    });
-                                                                }}
-                                                                onKeyDown={(e) => {
-                                                                    if (e.key === 'Enter') {
-                                                                        (e.target as HTMLInputElement).blur();
-                                                                    }
-                                                                }}
-                                                                className="w-12 h-6 text-xs font-bold text-center border border-purple-300 rounded bg-white focus:ring-1 focus:ring-purple-500"
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </div>
-
-                                                <label className="flex items-center gap-2 p-3 min-h-12 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={customer.den_thelei_xwmatoyrgiko || false}
-                                                        onChange={(e) => {
-                                                            const checked = e.target.checked;
-                                                            saveDenTheleiXwmatoyrgikoMutation.mutate({ id: customer.id, den_thelei_xwmatoyrgiko: checked });
-                                                        }}
-                                                        className="h-4 w-4 text-orange-600 border-slate-300 rounded focus:ring-orange-500 cursor-pointer"
-                                                    />
-                                                    <span className="text-xs font-bold text-slate-700">🚫 ΔΕΝ ΘΕΛΕΙ ΧΩΜΑΤΟΥΡΓΙΚΟ</span>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div className="grid grid-cols-2 gap-2 mt-5 pt-4 border-t border-slate-100">
-                                            <Button
-                                                className="col-span-2 h-12 rounded-2xl font-bold text-sm bg-gradient-to-br from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white shadow-lg shadow-blue-600/25 transition-all active:scale-[0.99]"
-                                                onClick={() => confirm("Ολοκλήρωση Αυτοψίας;") && completeAutopsiaMutation.mutate(customer)}
-                                                disabled={completeAutopsiaMutation.isPending}
-                                            >
-                                                <CheckCircle2 className="h-4 w-4 mr-2" />
-                                                ΟΛΟΚΛΗΡΩΣΗ & ΑΠΟΣΤΟΛΗ
-                                            </Button>
-                                            <Button
-                                                variant="outline"
-                                                className="h-11 rounded-2xl font-bold border-amber-300 bg-amber-50/60 text-amber-800 hover:bg-amber-100 text-xs px-2"
-                                                onClick={() => {
-                                                    setCancellingCustomer(customer);
-                                                    setCancellationReason("");
-                                                    setCancellationDialogOpen(true);
-                                                }}
-                                                disabled={cancelAutopsiaMutation.isPending}
-                                            >
-                                                <XCircle className="h-4 w-4 mr-1.5" />
-                                                ΑΚΥΡΩΣΗ
-                                            </Button>
-                                            <Button
-                                                variant="outline"
-                                                className="h-11 rounded-2xl font-bold border-rose-200 bg-rose-50/60 text-rose-700 hover:bg-rose-100 hover:text-rose-800 text-xs px-2"
-                                                onClick={() => setCustomerToDelete(customer)}
-                                                disabled={deleteCustomerMutation.isPending}
-                                            >
-                                                <Trash2 className="h-4 w-4 mr-1.5 text-rose-500" />
-                                                ΔΙΑΓΡΑΦΗ
-                                            </Button>
-                                        </div>
-                                    </div>
-                                )}
                             </CardContent>
                         </Card>
                     );
@@ -3723,7 +3611,7 @@ export default function AutopsiaPage() {
                             <label htmlFor="father-name" className="text-sm font-bold text-slate-900">Όνομα Πατρός</label>
                             <Input
                                 id="father-name"
-                                placeholder="π.χ. ΙΩΑΝΝΗΣ"
+                                placeholder="π.χ. Ιωάννης"
                                 value={tempFatherName}
                                 onChange={(e) => setTempFatherName(e.target.value.toUpperCase())}
                                 className="col-span-3 uppercase bg-white text-slate-950 border-slate-300 font-bold"
@@ -3807,7 +3695,7 @@ export default function AutopsiaPage() {
                             className="bg-red-600 hover:bg-red-700 text-white font-bold"
                             disabled={cancelAutopsiaMutation.isPending}
                         >
-                            {cancelAutopsiaMutation.isPending ? "Ακύρωση..." : "ΕΠΙΒΕΒΑΙΩΣΗ ΑΚΥΡΩΣΗΣ"}
+                            {cancelAutopsiaMutation.isPending ? "Ακύρωση..." : "Επιβεβαίωση Ακύρωσης"}
                         </Button>
                     </div>
                 </DialogContent>
@@ -3852,7 +3740,7 @@ export default function AutopsiaPage() {
                                     "text-lg sm:text-xl font-black tracking-tight",
                                     verificationResult.isAtLocation ? "text-emerald-700" : "text-rose-600"
                                 )}>
-                                    {verificationResult.isAtLocation ? "ΕΙΣΤΕ ΣΤΟ ΣΩΣΤΟ ΚΤΙΡΙΟ!" : "ΠΡΟΣΟΧΗ: ΔΕΝ ΕΙΣΤΕ ΕΚΕΙ!"}
+                                    {verificationResult.isAtLocation ? "Είστε στο σωστό κτίριο!" : "Προσοχή: Δεν είστε εκεί!"}
                                 </DialogTitle>
                                 {!verificationResult.isAtLocation && (
                                     <div className="mt-1.5 px-3 py-1 bg-rose-100 text-rose-800 rounded-lg text-xs font-bold border border-rose-200 inline-block shadow-sm">
@@ -3873,7 +3761,7 @@ export default function AutopsiaPage() {
                                     ? "bg-emerald-50/80 border-emerald-200 text-emerald-900" 
                                     : "bg-rose-50/80 border-rose-200 text-rose-900"
                             )}>
-                                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-75">
+                                <span className="text-[11px] sm:text-xs font-bold opacity-75">
                                     Αποσταση απο το κτιριο
                                 </span>
                                 <span className="text-2xl sm:text-3xl font-black tracking-tight my-0.5 sm:my-1">
@@ -3906,13 +3794,13 @@ export default function AutopsiaPage() {
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
                                     <div className="bg-white p-2 rounded-lg border border-slate-200 min-w-0">
-                                        <span className="text-[10px] text-slate-400 block uppercase font-bold truncate">Συντεταγμενες BID</span>
+                                        <span className="text-[11px] text-slate-400 block font-bold truncate">Συντεταγμένες BID</span>
                                         <span className="font-mono text-[11px] font-semibold text-slate-800 block truncate">
                                             {verificationResult.buildingLat.toFixed(5)}, {verificationResult.buildingLng.toFixed(5)}
                                         </span>
                                     </div>
                                     <div className="bg-white p-2 rounded-lg border border-slate-200 min-w-0">
-                                        <span className="text-[10px] text-slate-400 block uppercase font-bold truncate">Το GPS σας (±{Math.round(verificationResult.accuracy)}m)</span>
+                                        <span className="text-[11px] text-slate-400 block font-bold truncate">Το GPS σας (±{Math.round(verificationResult.accuracy)}m)</span>
                                         <span className="font-mono text-[11px] font-semibold text-slate-800 block truncate">
                                             {verificationResult.userLat.toFixed(5)}, {verificationResult.userLng.toFixed(5)}
                                         </span>

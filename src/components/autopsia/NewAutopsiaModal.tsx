@@ -16,7 +16,7 @@ import {
 import { supabaseAutopsia as supabase } from "@/lib/autopsia/supabase";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { MapPin, Plus, Loader2, Navigation, Building2, User, Phone, CheckCircle2 } from "lucide-react";
+import { MapPin, Plus, Loader2, Building2, User, Phone, CheckCircle2 } from "lucide-react";
 
 interface NewAutopsiaModalProps {
     open: boolean;
@@ -26,7 +26,7 @@ interface NewAutopsiaModalProps {
 export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) {
     const queryClient = useQueryClient();
     const [loading, setLoading] = useState(false);
-    const [locating, setLocating] = useState(false);
+    
 
     // Form state
     const [sr, setSr] = useState("");
@@ -34,8 +34,8 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
     const [chimney, setChimney] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [latitude, setLatitude] = useState("");
-    const [longitude, setLongitude] = useState("");
+    
+    
     const [priority, setPriority] = useState<"A" | "B" | "C">("B");
     const [phone, setPhone] = useState("");
     const [managerPhone, setManagerPhone] = useState("");
@@ -84,8 +84,8 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
         setChimney("");
         setFirstName("");
         setLastName("");
-        setLatitude("");
-        setLongitude("");
+        
+        
         setPriority("B");
         setPhone("");
         setManagerPhone("");
@@ -111,27 +111,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
         setNotes("");
     };
 
-    const handleGetLocation = () => {
-        if (!navigator.geolocation) {
-            toast.error("Η γεωγραφική τοποθεσία δεν υποστηρίζεται από τη συσκευή σας.");
-            return;
-        }
-
-        setLocating(true);
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setLatitude(pos.coords.latitude.toFixed(6));
-                setLongitude(pos.coords.longitude.toFixed(6));
-                setLocating(false);
-                toast.success("Επιτυχής λήψη συντεταγμένων GPS!");
-            },
-            (err) => {
-                setLocating(false);
-                toast.error("Αποτυχία λήψης τοποθεσίας: " + err.message);
-            },
-            { enableHighAccuracy: true, timeout: 10000 }
-        );
-    };
+    
 
     const handleAddCity = () => {
         if (!newCityName.trim()) return;
@@ -198,8 +178,8 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
             const finalSr = sr.trim() || `SR-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
             const cleanChimney = chimney.trim().replace(/^[gG]/i, '').trim();
 
-            const parsedLat = latitude.trim() ? parseFloat(latitude.trim()) : null;
-            const parsedLng = longitude.trim() ? parseFloat(longitude.trim()) : null;
+            const parsedLat = null;
+            const parsedLng = null;
 
             const payload: any = {
                 sr: finalSr,
@@ -497,60 +477,25 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                         </div>
                     </div>
 
-                    {/* GPS Coordinates & Priority */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div className="space-y-1">
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="latitude" className="text-xs font-bold text-slate-700">Latitude</Label>
-                                <button
-                                    type="button"
-                                    onClick={handleGetLocation}
-                                    disabled={locating}
-                                    className="text-[10px] text-blue-600 hover:text-blue-800 font-bold flex items-center gap-0.5"
-                                >
-                                    <Navigation className={`h-2.5 w-2.5 ${locating ? "animate-spin" : ""}`} />
-                                    {locating ? "Λήψη..." : "GPS"}
-                                </button>
-                            </div>
-                            <Input
-                                id="latitude"
-                                placeholder="π.χ. 40.5116"
-                                value={latitude}
-                                onChange={(e) => setLatitude(e.target.value)}
-                                className="h-9 bg-white border-slate-300 text-slate-900 font-medium text-xs sm:text-sm focus-visible:ring-1 focus-visible:ring-blue-500"
-                            />
-                        </div>
-
-                        <div className="space-y-1">
-                            <Label htmlFor="longitude" className="text-xs font-bold text-slate-700">Longitude</Label>
-                            <Input
-                                id="longitude"
-                                placeholder="π.χ. 21.2513"
-                                value={longitude}
-                                onChange={(e) => setLongitude(e.target.value)}
-                                className="h-9 bg-white border-slate-300 text-slate-900 font-medium text-xs sm:text-sm focus-visible:ring-1 focus-visible:ring-blue-500"
-                            />
-                        </div>
-
-                        <div className="space-y-1">
-                            <Label className="text-xs font-bold text-slate-700">PRIORITY</Label>
-                            <Select value={priority} onValueChange={(val: any) => setPriority(val)}>
-                                <SelectTrigger className="h-9 bg-white border-slate-300 text-slate-900 text-xs sm:text-sm font-semibold">
-                                    <SelectValue placeholder="Προτεραιότητα" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-white border-slate-200 text-slate-900 shadow-lg">
-                                    <SelectItem value="A" className="text-xs font-bold text-red-600 cursor-pointer">
-                                        A - Υψηλή
-                                    </SelectItem>
-                                    <SelectItem value="B" className="text-xs font-bold text-amber-600 cursor-pointer">
-                                        B - Μεσαία (Κανονική)
-                                    </SelectItem>
-                                    <SelectItem value="C" className="text-xs font-bold text-slate-600 cursor-pointer">
-                                        C - Χαμηλή
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                    {/* Priority */}
+                    <div className="space-y-1">
+                        <Label className="text-xs font-bold text-slate-700">Προτεραιότητα</Label>
+                        <Select value={priority} onValueChange={(val: any) => setPriority(val)}>
+                            <SelectTrigger className="h-9 bg-white border-slate-300 text-slate-900 text-xs sm:text-sm font-semibold">
+                                <SelectValue placeholder="Προτεραιότητα" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-slate-200 text-slate-900 shadow-lg">
+                                <SelectItem value="A" className="text-xs font-bold text-red-600 cursor-pointer">
+                                    A - Υψηλή
+                                </SelectItem>
+                                <SelectItem value="B" className="text-xs font-bold text-amber-600 cursor-pointer">
+                                    B - Μεσαία (Κανονική)
+                                </SelectItem>
+                                <SelectItem value="C" className="text-xs font-bold text-slate-600 cursor-pointer">
+                                    C - Χαμηλή
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
 
                     {/* Phones */}

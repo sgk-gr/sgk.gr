@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { PenLine, Trash2 } from "lucide-react";
+import { PenLine, Trash2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface EngineerSignatureModalProps {
@@ -11,22 +11,47 @@ interface EngineerSignatureModalProps {
 
 export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignatureModalProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [hasDrawn, setHasDrawn] = useState(false);
+    const [hasExistingSaved, setHasExistingSaved] = useState(false);
+
+    const loadSignatureToCanvas = useCallback((canvas: HTMLCanvasElement) => {
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        // Fill background white
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = "#0000FF";
+        ctx.lineWidth = 3;
+        ctx.lineCap = "round";
+
+        const saved = typeof window !== "undefined" ? localStorage.getItem("autopsia_engineer_signature") : null;
+        if (saved) {
+            setHasExistingSaved(true);
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                setHasDrawn(true);
+            };
+            img.src = saved;
+        } else {
+            setHasExistingSaved(false);
+            setHasDrawn(false);
+        }
+    }, []);
+
     const setupCanvas = (canvas: HTMLCanvasElement | null) => {
         canvasRef.current = canvas;
         if (canvas) {
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-                ctx.fillStyle = "#ffffff";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.strokeStyle = "#0000FF";
-                ctx.lineWidth = 3;
-                ctx.lineCap = "round";
-            }
+            loadSignatureToCanvas(canvas);
         }
     };
-    const [hasDrawn, setHasDrawn] = useState(false);
 
-
+    useEffect(() => {
+        if (open && canvasRef.current) {
+            loadSignatureToCanvas(canvasRef.current);
+        }
+    }, [open, loadSignatureToCanvas]);
 
     const handleClear = () => {
         if (!canvasRef.current) return;
@@ -48,6 +73,7 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
         
         const dataUrl = canvasRef.current.toDataURL("image/jpeg", 0.95);
         localStorage.setItem("autopsia_engineer_signature", dataUrl);
+        setHasExistingSaved(true);
         toast.success("Η υπογραφή τεχνικού/μηχανικού αποθηκεύτηκε επιτυχώς!");
         onOpenChange(false);
     };
@@ -60,12 +86,20 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
                         <PenLine className="h-5 w-5 text-blue-600" />
                         Ψηφιακή Υπογραφή Τεχνικού / Μηχανικού
                     </DialogTitle>
-                    <DialogDescription className="text-slate-700 font-medium">
-                        Παρακαλούμε υπογράψτε μέσα στο παρακάτω πλαίσιο. Αυτή η υπογραφή θα αποθηκευτεί στη συσκευή σας και θα μπαίνει αυτόματα σε κάθε νέο έγγραφο Τεχνικής Περιγραφής.
+                    <DialogDescription className="text-slate-700 font-medium text-xs sm:text-sm">
+                        Παρακαλούμε υπογράψτε μέσα στο παρακάτω πλαίσιο. Αυτή η υπογραφή αποθηκεύεται στη συσκευή σας και μπαίνει αυτόματα σε κάθε νέο έγγραφο Τεχνικής Περιγραφής.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="py-4">
-                    <div className="border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 overflow-hidden touch-none relative">
+
+                {hasExistingSaved && (
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                        <span>Υπάρχει αποθηκευμένη υπογραφή (προβάλλεται στο πλαίσιο παρακάτω)</span>
+                    </div>
+                )}
+
+                <div className="py-2">
+                    <div className="border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 overflow-hidden touch-none relative shadow-inner">
                         <canvas
                             ref={setupCanvas}
                             width={450}
@@ -115,19 +149,19 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
                         <Button 
                             variant="destructive" 
                             size="icon" 
-                            className="absolute top-2 right-2 h-8 w-8 rounded-full shadow-md z-10 opacity-70 hover:opacity-100"
+                            className="absolute top-2.5 right-2.5 h-8 w-8 rounded-full shadow-md z-10 opacity-80 hover:opacity-100 transition-opacity"
                             onClick={handleClear}
-                            title="Καθαρισμός"
+                            title="Καθαρισμός υπογραφής"
                         >
                             <Trash2 className="h-4 w-4" />
                         </Button>
                     </div>
                 </div>
                 <DialogFooter className="flex gap-2 justify-end">
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    <Button variant="outline" className="rounded-xl font-semibold" onClick={() => onOpenChange(false)}>
                         Ακύρωση
                     </Button>
-                    <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-sm">
                         Αποθήκευση
                     </Button>
                 </DialogFooter>
