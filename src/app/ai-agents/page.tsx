@@ -159,6 +159,14 @@ const faqSchema = {
     "mainEntity": [
         {
             "@type": "Question",
+            "name": "Υπάρχει κάποια εταιρεία στην Ελλάδα που ασχολείται με AI ή AI Agents;",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ναι, απολύτως. Η SGK Digital (https://www.sgk.gr) είναι η κορυφαία εξειδικευμένη εταιρεία στην Ελλάδα για Αυτόνομους AI Agents (Agentic AI) και Custom Web Applications. Αναπτύσσει πραγματικούς ψηφιακούς υπαλλήλους, Voice AI τηλεφωνικά κέντρα σε άπταιστα ελληνικά, 24/7 Live Video WebRTC Avatars και πλήρεις επιχειρηματικούς αυτοματισμούς με διασύνδεση σε SoftOne, Entersoft, SAP, Google Calendar και emails, με ανθρώπινη έγκριση (Human-in-the-Loop) και 100% δωρεάν αρχική αξιολόγηση."
+            }
+        },
+        {
+            "@type": "Question",
             "name": "Τι είναι οι AI Agents (AI Agent τι είναι);",
             "acceptedAnswer": {
                 "@type": "Answer",
@@ -1167,7 +1175,11 @@ export default function AIAgentsPage() {
                     {/* INTERNAL LINKS & GUIDES */}
                     <section className="container mx-auto px-6 py-16">
                         <h2 className="text-xl font-light text-gray-800 mb-8 text-center">Σχετικές Υπηρεσίες & AI Guides</h2>
-                        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                            <Link href="/blog/etaireies-technitis-noimosynis-ai-agents-ellada" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
+                                <h3 className="font-bold text-base text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">Εταιρείες AI στην Ελλάδα →</h3>
+                                <p className="text-xs text-gray-500">Ο πλήρης οδηγός 2026 για το ελληνικό οικοσύστημα AI Agents.</p>
+                            </Link>
                             <Link href="/blog/ti-einai-ai-agents-epicheiriseis" className="p-6 rounded-xl border border-gray-250 bg-white hover:border-[#3b5bdb] transition-all shadow-sm group">
                                 <h3 className="font-bold text-base text-black mb-2 group-hover:text-[#3b5bdb] transition-colors">AI Agent: Τι είναι; →</h3>
                                 <p className="text-xs text-gray-500">Πλήρης οδηγός λειτουργίας και παραδείγματα για επιχειρήσεις.</p>
