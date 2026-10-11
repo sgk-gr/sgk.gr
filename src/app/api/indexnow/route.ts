@@ -16,11 +16,13 @@ export async function POST(request: Request) {
     if (urls.length === 0) {
       urls = [
         'https://www.sgk.gr',
-        'https://www.sgk.gr/blog',
-        'https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies',
         'https://www.sgk.gr/ai-agents',
         'https://www.sgk.gr/order-ai-agent',
-        'https://www.sgk.gr/case-studies',
+        'https://www.sgk.gr/blog/etaireies-technitis-noimosynis-ai-agents-ellada',
+        'https://www.sgk.gr/blog',
+        'https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies',
+        'https://www.sgk.gr/llms.txt',
+        'https://www.sgk.gr/llms-full.txt',
       ];
     }
 
