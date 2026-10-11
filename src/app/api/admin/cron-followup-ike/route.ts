@@ -50,6 +50,9 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
 export const IKE_FOLLOWUP_BUTTON_TEXT = "Έναρξη Ιστοσελίδας ΙΚΕ (150€)";
 export const IKE_FOLLOWUP_BUTTON_LINK = "https://www.sgk.gr/ike-offer";
 
+// Strict rule: Follow-up is sent ONLY to IKEs that received Step 1 from today onwards!
+export const SEQUENCE_START_DATE = "2026-10-11T00:00:00.000Z";
+
 async function processFollowUp(days: number = 3, maxBatch: number = 25) {
   const supabase = getServiceSupabase();
   const supabaseUrl = SUPABASE_URL;
@@ -57,7 +60,7 @@ async function processFollowUp(days: number = 3, maxBatch: number = 25) {
 
   const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
 
-  // Find leads where Step 1 was sent >= 3 days ago, not converted, not unsubscribed
+  // Find leads where Step 1 was sent FROM TODAY ONWARDS (>= 2026-10-11) AND >= 3 days ago
   const { data: leads, error } = await supabase
     .from("sgk_mails")
     .select("id, email, company, first_name, last_name, unsubscribe_token, type, email_sequence_step, last_email_sent_at, unsubscribed, marketing_consent, converted")
@@ -65,6 +68,7 @@ async function processFollowUp(days: number = 3, maxBatch: number = 25) {
     .eq("unsubscribed", false)
     .eq("converted", false)
     .eq("email_sequence_step", 1)
+    .gte("last_email_sent_at", SEQUENCE_START_DATE)
     .lte("last_email_sent_at", cutoff)
     .order("last_email_sent_at", { ascending: true })
     .limit(maxBatch);

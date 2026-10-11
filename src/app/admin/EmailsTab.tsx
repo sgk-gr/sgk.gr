@@ -1912,6 +1912,7 @@ function safeEncodeBase64(data: any): string {
   const handleScanGemiFtthIkes = () => runGemiScan("ftth_telecom");
 
   const dueFollowUpIkeLeads = useMemo(() => {
+    const sequenceStartDate = "2026-10-11T00:00:00.000Z";
     const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
     return leads.filter(l => 
       !l.unsubscribed && 
@@ -1919,6 +1920,7 @@ function safeEncodeBase64(data: any): string {
       !isEmailBlacklisted(l.email) &&
       (l.email_sequence_step === 1 || (!l.email_sequence_step && l.last_email_sent_at)) &&
       l.last_email_sent_at &&
+      l.last_email_sent_at >= sequenceStartDate &&
       l.last_email_sent_at <= threeDaysAgo &&
       (l.type === 'new_ike' || l.type === 'imported' || (!l.type && (l.company?.toUpperCase().includes('ΙΚΕ') || l.company?.toUpperCase().includes('Ι.Κ.Ε.'))))
     );
