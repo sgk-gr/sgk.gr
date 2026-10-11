@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { createClient } from "@supabase/supabase-js";
+import { HARDCODED_SUPABASE_URL, HARDCODED_SUPABASE_ANON_KEY } from "@/lib/supabase";
 
 export async function POST(req: Request) {
     try {
@@ -143,35 +145,58 @@ export async function POST(req: Request) {
 </body>
 </html>`;
 
+        let resendSuccess = false;
         const resendApiKey = process.env.RESEND_API_KEY;
         if (resendApiKey) {
-            const resend = new Resend(resendApiKey);
-            await resend.emails.send({
-                from: "SGK Digital <info@sgk.gr>",
-                to: toEmails,
-                subject: subject,
-                html: html,
-            });
+            try {
+                const resend = new Resend(resendApiKey);
+                await resend.emails.send({
+                    from: "SGK Digital <info@sgk.gr>",
+                    to: toEmails,
+                    subject: subject,
+                    html: html,
+                });
+                resendSuccess = true;
+            } catch (resendErr) {
+                console.warn("Direct Resend dispatch failed, falling back to Supabase Edge Function:", resendErr);
+            }
+        }
+
+        if (resendSuccess) {
             return NextResponse.json({ success: true, via: "resend" });
         }
 
-        // Fallback to Supabase Edge function if resend key is only in Supabase
-        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-        const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
-        if (supabaseUrl && supabaseAnonKey) {
-            const edgeRes = await fetch(`${supabaseUrl}/functions/v1/autopsia-akyrosi-mail`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${supabaseAnonKey}`,
-                },
-                body: JSON.stringify({ customer, reason, userEmail })
+        // Reliable dispatch via Supabase Edge Function 'send-nurture-email' (which has working RESEND_API_KEY)
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || HARDCODED_SUPABASE_URL;
+        const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || HARDCODED_SUPABASE_ANON_KEY;
+        const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+
+        const { data: infoData, error: infoError } = await supabaseClient.functions.invoke("send-nurture-email", {
+            body: {
+                email: "info@sgk.gr",
+                customSubject: subject,
+                customHtml: html,
+            }
+        });
+
+        let userResult = null;
+        if (userEmail && typeof userEmail === "string" && userEmail.includes("@") && userEmail.trim().toLowerCase() !== "info@sgk.gr") {
+            const { data: uData, error: uErr } = await supabaseClient.functions.invoke("send-nurture-email", {
+                body: {
+                    email: userEmail.trim().toLowerCase(),
+                    customSubject: subject,
+                    customHtml: html,
+                }
             });
-            const edgeData = await edgeRes.json().catch(() => ({}));
-            return NextResponse.json({ success: edgeRes.ok, via: "supabase-edge", data: edgeData });
+            userResult = { data: uData, error: uErr };
         }
 
-        return NextResponse.json({ success: false, message: "No email service configured" }, { status: 500 });
+        if (infoError) {
+            console.error("send-nurture-email failed for info@sgk.gr:", infoError);
+            return NextResponse.json({ success: false, error: infoError?.message || infoError }, { status: 500 });
+        }
+
+        return NextResponse.json({ success: true, via: "supabase-send-nurture-email", infoData, userResult });
     } catch (error: any) {
         console.error("Error sending cancellation email:", error);
         return NextResponse.json({ success: false, error: error?.message || "Internal error" }, { status: 500 });

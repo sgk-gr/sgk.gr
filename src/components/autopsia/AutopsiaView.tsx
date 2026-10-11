@@ -2231,6 +2231,22 @@ export default function AutopsiaPage() {
 
     const cancelAutopsiaMutation = useMutation({
         mutationFn: async ({ customer, reason }: { customer: any, reason: string }) => {
+            const srPart = customer?.sr ? `${customer.sr}` : "Χωρίς SR";
+            const cancelSubject = `ΑΚΥΡΩΣΗ ΑΥΤΟΨΙΑΣ: ${srPart}`;
+            const fallbackHtml = `<div style="font-family:Arial,sans-serif;padding:20px;max-width:600px;line-height:1.6;">
+                <h2 style="color:#b91c1c;margin-bottom:12px;">Ειδοποίηση Ακύρωσης Αυτοψίας</h2>
+                <p style="margin:4px 0;"><strong>SR:</strong> ${srPart}</p>
+                <p style="margin:4px 0;"><strong>Πελάτης:</strong> ${((customer?.first_name || "") + " " + (customer?.last_name || "")).trim() || "-"}</p>
+                <p style="margin:4px 0;"><strong>Διεύθυνση:</strong> ${customer?.address || "-"}</p>
+                <p style="margin:4px 0;"><strong>Τηλέφωνο:</strong> ${customer?.phone || customer?.manager_phone || "-"}</p>
+                <p style="margin:4px 0;"><strong>Ανάδοχος:</strong> ${customer?.contractor || "-"}</p>
+                <p style="margin:4px 0;"><strong>Χειριστής:</strong> ${user?.email || "-"}</p>
+                <div style="background:#fef2f2;border-left:4px solid #ef4444;padding:12px;margin-top:16px;border-radius:4px;">
+                    <strong style="color:#991b1b;">Λόγος Ακύρωσης:</strong>
+                    <p style="color:#7f1d1d;margin:4px 0 0 0;white-space:pre-wrap;">${reason}</p>
+                </div>
+            </div>`;
+
             // 1. Send cancellation email to info@sgk.gr & user email
             try {
                 const res = await fetch("/api/autopsia/akyrosi-mail", {
@@ -2242,17 +2258,45 @@ export default function AutopsiaPage() {
                         userEmail: user?.email
                     })
                 });
-                if (!res.ok) {
-                    await supabase.functions.invoke("autopsia-akyrosi-mail", {
-                        body: { customer, reason, userEmail: user?.email }
+                const resData = await res.json().catch(() => ({}));
+                if (!res.ok || !resData?.success) {
+                    console.warn("API route email failed, trying edge function fallback:", resData);
+                    await supabase.functions.invoke("send-nurture-email", {
+                        body: {
+                            email: "info@sgk.gr",
+                            customSubject: cancelSubject,
+                            customHtml: fallbackHtml
+                        }
                     });
+                    if (user?.email && user.email.toLowerCase() !== "info@sgk.gr") {
+                        await supabase.functions.invoke("send-nurture-email", {
+                            body: {
+                                email: user.email.toLowerCase(),
+                                customSubject: cancelSubject,
+                                customHtml: fallbackHtml
+                            }
+                        });
+                    }
                 }
             } catch (mailErr) {
                 console.warn("API route email failed, trying edge function fallback:", mailErr);
                 try {
-                    await supabase.functions.invoke("autopsia-akyrosi-mail", {
-                        body: { customer, reason, userEmail: user?.email }
+                    await supabase.functions.invoke("send-nurture-email", {
+                        body: {
+                            email: "info@sgk.gr",
+                            customSubject: cancelSubject,
+                            customHtml: fallbackHtml
+                        }
                     });
+                    if (user?.email && user.email.toLowerCase() !== "info@sgk.gr") {
+                        await supabase.functions.invoke("send-nurture-email", {
+                            body: {
+                                email: user.email.toLowerCase(),
+                                customSubject: cancelSubject,
+                                customHtml: fallbackHtml
+                            }
+                        });
+                    }
                 } catch (e) {
                     console.error("Cancellation email fallback also failed:", e);
                 }
