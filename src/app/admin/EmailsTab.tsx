@@ -1985,10 +1985,13 @@ function safeEncodeBase64(data: any): string {
         return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
       }
       if (statusFilter === 'due_followup') {
+        const sequenceStartDate = "2026-10-11T00:00:00.000Z";
         const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
         return !lead.unsubscribed && !lead.converted && !isEmailBlacklisted(lead.email) &&
           (lead.email_sequence_step === 1 || (!lead.email_sequence_step && lead.last_email_sent_at)) &&
-          lead.last_email_sent_at && lead.last_email_sent_at <= threeDaysAgo &&
+          lead.last_email_sent_at && 
+          lead.last_email_sent_at >= sequenceStartDate &&
+          lead.last_email_sent_at <= threeDaysAgo &&
           (lead.type === 'new_ike' || lead.type === 'imported' || (!lead.type && (lead.company?.toUpperCase().includes('ΙΚΕ') || lead.company?.toUpperCase().includes('Ι.Κ.Ε.'))));
       }
       if (statusFilter === 'legacy') {
@@ -2897,7 +2900,15 @@ function safeEncodeBase64(data: any): string {
                           <div className="font-bold text-gray-900 flex items-center gap-1.5 flex-wrap">
                             <span>{lead.email}</span>
 
-                            {/* Sequence Badges: 1 (Green) = Sent by user, 2 (Orange) = Sent automatically by system */}
+                            {/* Sequence Badges: 0 (Grey) = Not sent yet, 1 (Green) = Sent by user, 2 (Orange) = Sent automatically by system */}
+                            {((lead.email_sequence_step || 0) === 0 && !lead.last_email_sent_at) && (
+                              <span 
+                                className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[10.5px] font-black border border-slate-300 shrink-0 shadow-2xs"
+                                title="Κανένα email δεν έχει σταλεί ακόμη (Εκκρεμεί 1ο Email)"
+                              >
+                                0
+                              </span>
+                            )}
                             {((lead.email_sequence_step || 0) === 1 || ((lead.email_sequence_step || 0) === 0 && lead.last_email_sent_at)) && (
                               <span 
                                 className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
@@ -3039,8 +3050,9 @@ function safeEncodeBase64(data: any): string {
                               </span>
                             </div>
                           ) : (
-                            <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200">
-                              ⚪ Εκκρεμεί
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-600 border border-slate-200 shadow-2xs">
+                              <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                              Εκκρεμεί
                             </span>
                           )}
                         </td>

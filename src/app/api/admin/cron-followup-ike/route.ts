@@ -154,6 +154,22 @@ async function processFollowUp(days: number = 3, maxBatch: number = 25) {
     }
   }
 
+  // Send Admin Report to info@sgk.gr whenever emails are sent (or forceReport is enabled)
+  if (sentCount > 0 || forceReport) {
+    try {
+      await sendAdminReport({
+        supabaseUrl,
+        supabaseServiceKey,
+        sentCount,
+        failCount,
+        totalChecked: leads?.length || 0,
+        sentLeads: results.filter(r => r.status === "sent"),
+      });
+    } catch (repErr) {
+      console.error("Failed to send admin report to info@sgk.gr:", repErr);
+    }
+  }
+
   return {
     totalChecked: leads?.length || 0,
     sent: sentCount,
@@ -162,13 +178,102 @@ async function processFollowUp(days: number = 3, maxBatch: number = 25) {
   };
 }
 
+async function sendAdminReport({
+  supabaseUrl,
+  supabaseServiceKey,
+  sentCount,
+  failCount,
+  totalChecked,
+  sentLeads,
+}: {
+  supabaseUrl: string;
+  supabaseServiceKey: string;
+  sentCount: number;
+  failCount: number;
+  totalChecked: number;
+  sentLeads: { email: string; company?: string }[];
+}) {
+  const dateStr = new Date().toLocaleDateString("el-GR");
+  const timeStr = new Date().toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" });
+
+  const leadItemsHtml = sentLeads.map((l, i) => `
+    <li style="margin-bottom: 6px; font-size: 13.5px; color: #1e293b;">
+      <strong>${i + 1}.</strong> ${l.email} ${l.company ? `— <em>${l.company}</em>` : ""}
+    </li>
+  `).join("");
+
+  const bodyHtml = `
+    <h2 style="color: #0f172a; font-size: 18px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
+      📊 Αναφορά Αυτόματου Follow-Up Ι.Κ.Ε.
+    </h2>
+    <p style="margin: 0 0 14px 0; color: #334155; font-size: 14px; line-height: 1.6;">
+      Η διαδικασία εκτελέστηκε στις <strong>${dateStr} ${timeStr}</strong>.
+    </p>
+
+    <!-- Stats Box -->
+    <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #10b981; border-radius: 8px; padding: 14px 16px; margin: 16px 0;">
+      <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 800; color: #065f46;">
+        📈 Σύνοψη Αποστολής:
+      </p>
+      <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.6;">
+        <li><strong>Απεστάλησαν Follow-Up (Βήμα 2 - 150€):</strong> <span style="color: #059669; font-weight: 800; font-size: 15px;">${sentCount}</span></li>
+        <li><strong>Σφάλματα:</strong> ${failCount}</li>
+        <li><strong>Συνολικές Εγγραφές που Ελέγχθηκαν:</strong> ${totalChecked}</li>
+      </ul>
+    </div>
+
+    ${sentLeads.length > 0 ? `
+      <div style="margin: 18px 0;">
+        <p style="margin: 0 0 8px 0; font-size: 13.5px; font-weight: 700; color: #334155;">
+          Παραλήπτες που έλαβαν το Follow-Up:
+        </p>
+        <ul style="margin: 0; list-style-type: none; padding: 0;">
+          ${leadItemsHtml}
+        </ul>
+      </div>
+    ` : `
+      <p style="margin: 12px 0; font-size: 13.5px; color: #64748b;">
+        Δεν υπήρχαν εκκρεμείς Ι.Κ.Ε. που να συμπλήρωσαν 3+ ημέρες από την αποστολή του 1ου email.
+      </p>
+    `}
+
+    <p style="margin: 16px 0 0 0; font-size: 12px; color: #64748b; line-height: 1.5; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+      💡 <em>Κανόνας ασφαλείας: Το follow-up αποστέλλεται αποκλειστικά σε Ι.Κ.Ε. που έλαβαν το 1ο email από 11/10/2026 και έπειτα.</em>
+    </p>
+  `;
+
+  const reportEmailHtml = buildProfessionalEmailHtml({
+    businessName: "SGK Admin",
+    subject: `📊 Αναφορά Follow-Up Ι.Κ.Ε.: Εστάλησαν ${sentCount} emails`,
+    bodyHtml,
+    buttonText: "Μετάβαση στο Admin Leads",
+    buttonLink: "https://www.sgk.gr/admin",
+  });
+
+  await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": supabaseServiceKey,
+      "Authorization": `Bearer ${supabaseServiceKey}`,
+    },
+    body: JSON.stringify({
+      email: "info@sgk.gr",
+      customSubject: `📊 Αναφορά Follow-Up Ι.Κ.Ε.: Εστάλησαν ${sentCount} emails`,
+      customHtml: reportEmailHtml,
+      step: 2,
+    }),
+  });
+}
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const days = parseInt(searchParams.get("days") || "3", 10);
     const maxBatch = parseInt(searchParams.get("limit") || "25", 10);
+    const forceReport = searchParams.get("report") === "true" || searchParams.get("forceReport") === "1";
 
-    const data = await processFollowUp(days, maxBatch);
+    const data = await processFollowUp(days, maxBatch, forceReport);
     return NextResponse.json({ success: true, ...data });
   } catch (err: any) {
     console.error("GET cron-followup-ike error:", err);
@@ -180,15 +285,17 @@ export async function POST(req: Request) {
   try {
     let days = 3;
     let maxBatch = 25;
+    let forceReport = false;
     try {
       const body = await req.json();
       if (body.days) days = parseInt(body.days, 10);
       if (body.limit) maxBatch = parseInt(body.limit, 10);
+      if (body.forceReport || body.report) forceReport = true;
     } catch {
       // empty body
     }
 
-    const data = await processFollowUp(days, maxBatch);
+    const data = await processFollowUp(days, maxBatch, forceReport);
     return NextResponse.json({ success: true, ...data });
   } catch (err: any) {
     console.error("POST cron-followup-ike error:", err);
