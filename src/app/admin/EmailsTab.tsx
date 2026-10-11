@@ -2910,12 +2910,25 @@ function safeEncodeBase64(data: any): string {
                               </span>
                             )}
                             {((lead.email_sequence_step || 0) === 1 || ((lead.email_sequence_step || 0) === 0 && lead.last_email_sent_at)) && (
-                              <span 
-                                className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
-                                title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
-                              >
-                                1
-                              </span>
+                              <div className="inline-flex items-center gap-1 shrink-0">
+                                <span 
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
+                                  title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
+                                >
+                                  1
+                                </span>
+                                <span 
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
+                                  title={(() => {
+                                    if (!lead.last_email_sent_at) return "Email 2 (Follow-Up): Σε αναμονή (3 ημέρες)";
+                                    const sentDate = new Date(lead.last_email_sent_at);
+                                    const targetDate = new Date(sentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+                                    return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα στις ${targetDate.toLocaleDateString("el-GR")} ${targetDate.toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}`;
+                                  })()}
+                                >
+                                  2
+                                </span>
+                              </div>
                             )}
                             {(lead.email_sequence_step || 0) >= 2 && (
                               <div className="inline-flex items-center gap-1 shrink-0" title="Email 1 (Εσείς) & Email 2 (Αυτόματο Follow-Up)">
