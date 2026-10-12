@@ -53,7 +53,7 @@ export default function LiveVideoAgentSection() {
 
                     <p className="text-black/75 text-base sm:text-lg leading-relaxed font-light">
                         Εξυπηρετήστε τους πελάτες σας μέσα από ένα <strong className="font-semibold text-black">ρεαλιστικό ανθρώπινο video call</strong>. 
-                        Οι AI Video Agents της SGK απαντούν με φυσική φωνή σε πραγματικό χρόνο, συνδέονται με τα συστήματά σας και αναλαμβάνουν ραντεβού, ταυτοποίηση και πωλήσεις 24/7.
+                        Οι AI Video Agents της SGK Digital απαντούν με φυσική φωνή σε πραγματικό χρόνο, συνδέονται με τα συστήματά σας και αναλαμβάνουν ραντεβού, ταυτοποίηση και πωλήσεις 24/7.
                     </p>
                 </div>
 

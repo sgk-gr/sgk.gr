@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Web development Ελλάδα | SGK",
+        title: "Web development Ελλάδα | SGK Digital",
         description: "Custom web εφαρμογές, React/Next.js. 18 χρόνια εμπειρία.",
         images: ["https://www.sgk.gr/social-preview.png"],
     },
@@ -171,7 +171,7 @@ export default function WebDevelopmentPage() {
                     {/* Rich Content */}
                     <section className="container mx-auto px-6 py-20">
                         <div className="max-w-4xl mx-auto bg-white border border-gray-250 p-8 md:p-12 rounded-xl shadow-sm">
-                            <h2 className="text-3xl md:text-4xl font-light text-black mb-8">Γιατί να επιλέξετε την SGK για web development;</h2>
+                            <h2 className="text-3xl md:text-4xl font-light text-black mb-8">Γιατί να επιλέξετε την SGK Digital για web development;</h2>
                             <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-headings:text-black prose-headings:font-light prose-strong:text-black prose-strong:font-medium">
                                 <p>
                                     Με <strong>18 χρόνια εμπειρία</strong> στο web development, η SGK Software Development έχει υλοποιήσει projects για Cosmote, Vodafone, startups και SMEs. Δεν αναπτύσσουμε απλώς "websites" — δημιουργούμε <strong>ψηφιακά προϊόντα</strong> που λύνουν πραγματικά business προβλήματα.

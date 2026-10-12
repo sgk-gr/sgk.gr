@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle, Star, Palette, Zap, Search } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Κατασκευή ιστοσελίδων | Επαγγελματικές ιστοσελίδες Ελλάδα | SGK",
+    title: "Κατασκευή ιστοσελίδων | Επαγγελματικές ιστοσελίδες Ελλάδα | SGK Digital",
     description: "Επαγγελματική κατασκευή ιστοσελίδων στην Ελλάδα. Custom design, SEO-optimized, mobile-first. Εταιρικά websites, landing pages, WordPress. Ζητήστε προσφορά.",
     keywords: "κατασκευή ιστοσελίδων, κατασκευή ιστοσελίδας ελλάδα, κατασκευή website, επαγγελματική ιστοσελίδα, εταιρικό website, wordpress κατασκευή",
     alternates: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Κατασκευή ιστοσελίδων | SGK",
+        title: "Κατασκευή ιστοσελίδων | SGK Digital",
         description: "Επαγγελματική κατασκευή ιστοσελίδων. Custom design, SEO, mobile-first.",
         images: ["https://www.sgk.gr/social-preview.png"],
     },

@@ -148,7 +148,7 @@ const structuredData = {
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Η SGK κάνει AI Video Call; (Υποστηρίζετε AI βιντεοκλήσεις με ψηφιακούς υπαλλήλους;)",
+          "name": "Η SGK Digital κάνει AI Video Call; (Υποστηρίζετε AI βιντεοκλήσεις με ψηφιακούς υπαλλήλους;)",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Ναι, απόλυτα! Η SGK Software Development παρέχει ολοκληρωμένη λύση AI Video Call με ζωντανούς φωτορεαλιστικούς ψηφιακούς υπαλλήλους (WebRTC 24/7). Ο AI Video Agent συνομιλεί σε άπταιστα ελληνικά με απόκριση κάτω από 800ms, αναγνωρίζει έγγραφα μέσω της κάμερας του χρήστη (οπτικό KYC) και συνδέεται live με ERP, CRM και βάσεις δεδομένων. Μπορείτε να δοκιμάσετε live demo στο https://www.sgk.gr/liveavatar-demo2."

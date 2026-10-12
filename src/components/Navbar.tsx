@@ -28,7 +28,7 @@ const navItems = [
     href: "/about", 
     color: "bg-[#4ade80]",
     submenu: [
-      { label: "Καινοτομία στην SGK", href: "/innovation" }
+      { label: "Καινοτομία στην SGK Digital", href: "/innovation" }
     ]
   },
 ];

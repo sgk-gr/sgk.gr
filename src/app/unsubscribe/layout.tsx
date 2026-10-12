@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Διαγραφή από Newsletter | SGK",
+    title: "Διαγραφή από Newsletter | SGK Digital",
     robots: {
         index: false,
         follow: false,

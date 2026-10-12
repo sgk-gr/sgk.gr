@@ -100,7 +100,7 @@ export default function AgiosStefanosClient() {
 
                         <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.1 }}>
                             <p className="text-primary font-heading text-sm tracking-[0.3em] uppercase mb-3">
-                                Η Λύση της SGK
+                                Η Λύση της SGK Digital
                             </p>
                             <h2 className="text-3xl font-heading font-bold mb-4">Τι Δημιουργήσαμε</h2>
                             <p className="text-muted-foreground leading-relaxed">

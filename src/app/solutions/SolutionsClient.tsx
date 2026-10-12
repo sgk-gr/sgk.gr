@@ -96,7 +96,7 @@ export default function SolutionsClient() {
             className="max-w-4xl mx-auto text-center"
           >
             <p className="text-[#3b5bdb] font-semibold text-xs tracking-wider uppercase mb-4">
-              Ψηφιακές λύσεις • SGK
+              Ψηφιακές λύσεις • SGK Digital
             </p>
             <h1 className="text-5xl md:text-7xl font-light tracking-tight mb-6 text-black leading-tight">
               Λύσεις για{" "}

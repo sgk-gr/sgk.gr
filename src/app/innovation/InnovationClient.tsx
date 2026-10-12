@@ -27,7 +27,7 @@ export default function InnovationClient() {
 
       <main className="flex-grow flex flex-col items-center w-full">
         
-        {/* SECTION 1: Blue Block (Η Καινοτομία στην SGK - SigmaLabs) */}
+        {/* SECTION 1: Blue Block (Η Καινοτομία στην SGK Digital - SigmaLabs) */}
         <section className="relative w-full bg-[#f4f2ea] overflow-hidden min-h-[600px] md:min-h-[700px] flex items-center">
           {/* Right side image */}
           <div className="absolute inset-0 md:left-1/2 w-full md:w-1/2 h-1/2 md:h-full top-0 md:top-0">
@@ -59,7 +59,7 @@ export default function InnovationClient() {
                 Ο Πρώτος Agentic <br/>Copilot για eShops
               </h1>
               <p className="text-xl md:text-2xl font-light text-white/90 mb-6 leading-relaxed">
-                Πριν από 3 χρόνια, η ομάδα της SGK οραματίστηκε και δημιούργησε το SigmaLabs AI. Μια τεχνολογία που άλλαξε τα δεδομένα στο ηλεκτρονικό εμπόριο.
+                Πριν από 3 χρόνια, η ομάδα της SGK Digital οραματίστηκε και δημιούργησε το SigmaLabs AI. Μια τεχνολογία που άλλαξε τα δεδομένα στο ηλεκτρονικό εμπόριο.
               </p>
               <p className="text-lg leading-relaxed font-light">
                 Αντί για ένα απλό chatbot, αναπτύξαμε έναν ολοκληρωμένο Agentic Copilot. Το όραμά μας ήταν απλό αλλά επαναστατικό: Να μιλάς στο eShop σου σαν σε συνεργάτη. Να ρωτάς, να διατάζεις, να αποφασίζεις — και το AI να αναλύει, να εκτελεί και να ειδοποιεί. Εμείς το φτιάξαμε πρώτοι.
@@ -162,7 +162,7 @@ export default function InnovationClient() {
                 Δεν φτιάξαμε απλά ένα γενικό AI. Σχεδιάσαμε και εκπαιδεύσαμε εξειδικευμένους Agentic ρόλους. Κάθε Skill έχει τη δική του εκπαίδευση και system prompt για κορυφαία αποτελέσματα.
               </p>
               <p className="text-lg leading-relaxed font-light text-black/80">
-                Από Product Copywriters και Pricing Strategists μέχρι Facebook Ads Specialists και E-commerce Support Gurus. Ο ιδιοκτήτης του eShop απλά ενεργοποιεί το skill που χρειάζεται, και η μηχανή της SGK αναλαμβάνει τη δουλειά.
+                Από Product Copywriters και Pricing Strategists μέχρι Facebook Ads Specialists και E-commerce Support Gurus. Ο ιδιοκτήτης του eShop απλά ενεργοποιεί το skill που χρειάζεται, και η μηχανή της SGK Digital αναλαμβάνει τη δουλειά.
               </p>
             </motion.div>
           </div>
@@ -203,7 +203,7 @@ export default function InnovationClient() {
                 Εμφανίσου στο ChatGPT
               </h2>
               <p className="text-lg leading-relaxed font-light text-black/80 mb-6">
-                Η SGK ήταν από τις πρώτες ομάδες που ενσωμάτωσε το Conversational SEO. Με το SigmaLabs AI, κάθε eShop αποκτά αυτόματα AI-ready αρχεία <code>llms.txt</code> & <code>llms-full.txt</code>.
+                Η SGK Digital ήταν από τις πρώτες ομάδες που ενσωμάτωσε το Conversational SEO. Με το SigmaLabs AI, κάθε eShop αποκτά αυτόματα AI-ready αρχεία <code>llms.txt</code> & <code>llms-full.txt</code>.
               </p>
               <p className="text-lg leading-relaxed font-light text-black/80">
                 Αυτό σημαίνει ότι τα προϊόντα γίνονται πλήρως ανιχνεύσιμα από τις AI μηχανές αναζήτησης όπως το ChatGPT και το Claude. Τα προϊόντα προτείνονται οργανικά όταν ταιριάζουν στο prompt του χρήστη, ανοίγοντας ένα εντελώς νέο κανάλι πωλήσεων που ο ανταγωνισμός αγνοεί.
@@ -273,7 +273,7 @@ export default function InnovationClient() {
       <section className="w-full bg-[#facc15] py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-8">
-            Αυτή είναι η δύναμη της SGK
+            Αυτή είναι η δύναμη της SGK Digital
           </h2>
           <p className="text-xl text-black/80 mb-10 font-medium leading-relaxed">
             Το SigmaLabs AI είναι η απόδειξη ότι μπορούμε να δημιουργήσουμε τεχνολογία αιχμής σε παγκόσμιο επίπεδο. Φανταστείτε τι μπορούμε να χτίσουμε για τη δική σας επιχείρηση.

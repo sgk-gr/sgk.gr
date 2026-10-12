@@ -21,7 +21,7 @@ const About = () => {
               Τεχνολογία με <span className="text-gradient">Στρατηγική</span>
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Με περισσότερα από <span className="text-foreground font-semibold">18 χρόνια εμπειρίας</span> στον χώρο της πληροφορικής, η SGK είναι μια <span className="text-foreground font-semibold">Software Development Company</span> που συνδυάζει βαθιά τεχνική γνώση με
+              Με περισσότερα από <span className="text-foreground font-semibold">18 χρόνια εμπειρίας</span> στον χώρο της πληροφορικής, η SGK Digital είναι μια <span className="text-foreground font-semibold">Software Development Company</span> που συνδυάζει βαθιά τεχνική γνώση με
               στρατηγική σκέψη. Εξειδικευόμαστε σε Custom Web Development, εταιρικές ιστοσελίδες και
               AI Automation.
             </p>

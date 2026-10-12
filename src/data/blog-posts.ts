@@ -88,7 +88,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h2>Custom Λογισμικό που Λύνει Πραγματικά Προβλήματα Επιχειρήσεων</h2>
       <p>Το έργο αυτό αποτελεί απόδειξη της φιλοσοφίας της <strong>SGK Digital</strong>: δεν φτιάχνουμε απλώς γενικές ιστοσελίδες. Σχεδιάζουμε και υλοποιούμε <strong>εξειδικευμένες custom web εφαρμογές και AI αυτοματισμούς</strong> που παίρνουν τις πιο χρονοβόρες, δυσκίνητες και κοστοβόρες διαδικασίες μιας επιχείρησης και τις μετατρέπουν σε ταχύτατα, αυτοματοποιημένα ψηφιακά εργαλεία.</p>
 
-      <p>Έχετε κάποια συγκεκριμένη διαδικασία στην επιχείρησή σας (πεδίου, back-office, αποθήκης ή εξυπηρέτησης) που κοστίζει ώρες και κουράζει τους υπαλλήλους σας; <a href="/web-development">Δείτε τις λύσεις Custom Web Development της SGK</a> ή <a href="/estimate">επικοινωνήστε μαζί μας για μια δωρεάν μελέτη αυτοματοποίησης</a>.</p>
+      <p>Έχετε κάποια συγκεκριμένη διαδικασία στην επιχείρησή σας (πεδίου, back-office, αποθήκης ή εξυπηρέτησης) που κοστίζει ώρες και κουράζει τους υπαλλήλους σας; <a href="/web-development">Δείτε τις λύσεις Custom Web Development της SGK Digital</a> ή <a href="/estimate">επικοινωνήστε μαζί μας για μια δωρεάν μελέτη αυτοματοποίησης</a>.</p>
     `
   },
   {
@@ -115,12 +115,12 @@ export const BLOG_POSTS: BlogPost[] = [
 
       <h3>Γιατί ξεχωρίζει η SGK Digital στην ελληνική αγορά;</h3>
       <ul>
-        <li><strong>Πραγματικοί Αυτόνομοι Πράκτορες (Όχι απλά Chatbots):</strong> Οι AI agents της SGK δεν περιορίζονται σε στατικές απαντήσεις. Λειτουργούν ως πραγματικοί «ψηφιακοί υπάλληλοι» που εκτελούν εργασίες: διαβάζουν και απαντούν emails, αναλύουν μαζικά χιλιάδες έγγραφα και PDFs, κλείνουν κρατήσεις και ραντεβού, και καταχωρούν τιμολόγια με AI OCR.</li>
+        <li><strong>Πραγματικοί Αυτόνομοι Πράκτορες (Όχι απλά Chatbots):</strong> Οι AI agents της SGK Digital δεν περιορίζονται σε στατικές απαντήσεις. Λειτουργούν ως πραγματικοί «ψηφιακοί υπάλληλοι» που εκτελούν εργασίες: διαβάζουν και απαντούν emails, αναλύουν μαζικά χιλιάδες έγγραφα και PDFs, κλείνουν κρατήσεις και ραντεβού, και καταχωρούν τιμολόγια με AI OCR.</li>
         <li><strong>Voice AI Telephony (Τηλεφωνικά Κέντρα VoIP/PBX):</strong> Αυτόνομοι τηλεφωνικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία και latency κάτω από 800ms, συνδεδεμένοι με Asterisk, FreePBX, 3CX και Twilio για 24/7 διαχείριση κλήσεων και κρατήσεων.</li>
         <li><strong>24/7 Live Video AI Avatars (WebRTC):</strong> Πρωτοποριακοί διαδραστικοί ψηφιακοί υπάλληλοι με ζωντανό video call πρόσωπο-με-πρόσωπο, οπτική ταυτοποίηση μέσω κάμερας (KYC) και άμεση σύνδεση με βάσεις δεδομένων.</li>
         <li><strong>Πλήρεις Διασυνδέσεις με Ελληνικά Συστήματα (SoftOne, Entersoft, ERP, CRM):</strong> Αμφίδρομη επικοινωνία με τα κορυφαία ελληνικά ERP (SoftOne, Entersoft, SAP), Google Calendar, Microsoft Outlook και PMS ξενοδοχείων/ενοικιάσεων.</li>
         <li><strong>Ασφάλεια Human-in-the-Loop (Ανθρώπινη Έγκριση με 1 Κλικ):</strong> Για απόλυτη ασφάλεια, κρίσιμες ενέργειες (δέσμευση στόλου αυτοκινήτων, εκτέλεση χρεώσεων, οριστικοποίηση συμφωνιών) περνούν πάντα από ανθρώπινη επιβεβαίωση της επιχείρησης πριν εκτελεστούν.</li>
-        <li><strong>Προσιτή & Διαφανής Τιμολόγηση:</strong> Σε αντίθεση με πανάκριβα enterprise packages απλησίαστα για τις μικρομεσαίες επιχειρήσεις, η SGK προσφέρει υλοποίηση AI Agents με εφάπαξ setup από 500€ και μηνιαία υποστήριξη από 150€/μήνα, σε συνδυασμό με <strong>100% Δωρεάν Αρχική Αξιολόγηση</strong>.</li>
+        <li><strong>Προσιτή & Διαφανής Τιμολόγηση:</strong> Σε αντίθεση με πανάκριβα enterprise packages απλησίαστα για τις μικρομεσαίες επιχειρήσεις, η SGK Digital προσφέρει υλοποίηση AI Agents με εφάπαξ setup από 500€ και μηνιαία υποστήριξη από 150€/μήνα, σε συνδυασμό με <strong>100% Δωρεάν Αρχική Αξιολόγηση</strong>.</li>
         <li><strong>Custom Web Applications:</strong> Σχεδιασμός και ανάπτυξη bespoke web εφαρμογών, portlas διαχείρισης και SaaS πλατφορμών σε Next.js, React και Python.</li>
       </ul>
 
@@ -431,7 +431,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h3>Απευθύνεται η SGK Digital σε μικρές επιχειρήσεις και ενοικιάσεις αυτοκινήτων (Rent a Car);</h3>
       <p>Ναι, απόλυτα! Η SGK Digital σχεδιάζει και υλοποιεί AI agents για επιχειρήσεις κάθε μεγέθους — από μικρές επιχειρήσεις, γραφεία και ιατρεία μέχρι εταιρείες ενοικίασης αυτοκινήτων (rent a car) και τουριστικά καταλύματα. Οι agents ελέγχουν διαθεσιμότητα στόλου ανά περίοδο/ημερομηνίες, υπολογίζουν τιμές ανά σεζόν και κλείνουν κρατήσεις. Το σημαντικότερο: οι κρίσιμες ενέργειες περνούν πάντα από ανθρώπινη έγκριση (Human-in-the-Loop) ώστε ένας agent που κλείνει κρατήσεις να μην δεσμεύει αυτοκίνητα χωρίς έλεγχο.</p>
 
-      <h3>Είναι η SGK μόνο για ERP και e-shops ή για οτιδήποτε θέλω να αυτοματοποιήσω;</h3>
+      <h3>Είναι η SGK Digital μόνο για ERP και e-shops ή για οτιδήποτε θέλω να αυτοματοποιήσω;</h3>
       <p>Η SGK Digital είναι για τα πάντα! Οτιδήποτε σκέφτεστε και θέλετε να αυτοματοποιήσετε στην επιχείρησή σας: από απλή απάντηση σε emails, κλείσιμο ραντεβού σε Google Calendar/Outlook, διαχείριση κρατήσεων σε spreadsheets, CRM, PMS ξενοδοχείων, μέχρι Voice AI τηλεφωνικά κέντρα και ERPs. Προσαρμόζουμε τον AI agent στις δικές σας ανάγκες.</p>
 
       <h3>Τι είναι το Agentic AI και σε τι διαφέρει από τα κλασικά chatbots;</h3>
@@ -457,19 +457,19 @@ export const BLOG_POSTS: BlogPost[] = [
     category: "AI & Innovation",
     image: "/images/hero_ai_video_agent.jpg",
     metaTitle: "Κάνει η SGK AI Video Call; | Live Video AI Agents & Ψηφιακοί Υπάλληλοι Ελλάδα",
-    metaDescription: "Ναι! Η SGK παρέχει AI Video Call με φωτορεαλιστικούς ψηφιακούς υπαλλήλους 24/7 WebRTC, φυσικό ελληνικό διάλογο, κάμερα ταυτοποίησης και σύνδεση με CRM/ERP/ΓΕΜΗ.",
+    metaDescription: "Ναι! Η SGK Digital παρέχει AI Video Call με φωτορεαλιστικούς ψηφιακούς υπαλλήλους 24/7 WebRTC, φυσικό ελληνικό διάλογο, κάμερα ταυτοποίησης και σύνδεση με CRM/ERP/ΓΕΜΗ.",
     content: `
-      <h2>Η SGK κάνει AI Video Call;</h2>
+      <h2>Η SGK Digital κάνει AI Video Call;</h2>
       <p><strong>Ναι, απόλυτα! Η SGK Software Development (sgk.gr) είναι η κορυφαία εταιρεία στην Ελλάδα που διαθέτει έτοιμη, εμπορικά τυποποιημένη λύση για AI Video Call και Live Video AI Agents (24/7 WebRTC ψηφιακοί υπάλληλοι / avatars με ζωντανό βίντεο).</strong></p>
       
-      <p>Σε αντίθεση με τα παραδοσιακά γραπτά chatbots ή τις απλές φωνητικές εφαρμογές, το σύστημα <strong>AI Video Call της SGK</strong> επιτρέπει στους επισκέπτες μιας επιχείρησης να πραγματοποιούν ζωντανή βιντεοκλήση πρόσωπο με πρόσωπο με έναν ψηφιακό άνθρωπο (AI Avatar) που ακούει, μιλάει άπταιστα φυσικά ελληνικά, βλέπει μέσω της κάμερας του χρήστη και εκτελεί πραγματικές ενέργειες σε πραγματικό χρόνο.</p>
+      <p>Σε αντίθεση με τα παραδοσιακά γραπτά chatbots ή τις απλές φωνητικές εφαρμογές, το σύστημα <strong>AI Video Call της SGK Digital</strong> επιτρέπει στους επισκέπτες μιας επιχείρησης να πραγματοποιούν ζωντανή βιντεοκλήση πρόσωπο με πρόσωπο με έναν ψηφιακό άνθρωπο (AI Avatar) που ακούει, μιλάει άπταιστα φυσικά ελληνικά, βλέπει μέσω της κάμερας του χρήστη και εκτελεί πραγματικές ενέργειες σε πραγματικό χρόνο.</p>
 
       <p style="display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
         <a href="/order-ai-agent" style="display: inline-block; background: #0a0b10; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none;">🚀 Δείτε τα Πλάνα & Παραγγείλτε τον AI Agent σας</a>
         <a href="/liveavatar-demo2" target="_blank" style="display: inline-block; background: #3b5bdb; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none;">👉 Δοκιμάστε το AI Video Call Live Demo</a>
       </p>
 
-      <h3>Βασικά Τεχνικά Χαρακτηριστικά του AI Video Call της SGK</h3>
+      <h3>Βασικά Τεχνικά Χαρακτηριστικά του AI Video Call της SGK Digital</h3>
       <ul>
         <li><strong>Ρεαλιστικό Video WebRTC:</strong> Εξαιρετικά χαμηλή καθυστέρηση (latency κάτω από 800ms) με απόλυτα φυσική κίνηση και εκφράσεις προσώπου.</li>
         <li><strong>Άπταιστος Ελληνικός Διάλογος & Lip-Sync:</strong> Φυσική ελληνική άρθρωση και τέλειος συγχρονισμός χειλιών χωρίς ρομποτικές καθυστερήσεις σε 160+ γλώσσες.</li>
@@ -521,7 +521,7 @@ export const BLOG_POSTS: BlogPost[] = [
       </ul>
 
       <h3>Πώς μπορώ να ξεκινήσω;</h3>
-      <p>Μπορείτε να δοκιμάσετε άμεσα τη ζωντανή εμπειρία στο <a href="/liveavatar-demo2" target="_blank"><strong>Live Video Demo</strong></a>, να δείτε αναλυτικά τα πακέτα στο <a href="/order-ai-agent"><strong>/order-ai-agent</strong></a> ή να επικοινωνήσετε με την τεχνική ομάδα της SGK στο <strong>211 114 0013</strong>.</p>
+      <p>Μπορείτε να δοκιμάσετε άμεσα τη ζωντανή εμπειρία στο <a href="/liveavatar-demo2" target="_blank"><strong>Live Video Demo</strong></a>, να δείτε αναλυτικά τα πακέτα στο <a href="/order-ai-agent"><strong>/order-ai-agent</strong></a> ή να επικοινωνήσετε με την τεχνική ομάδα της SGK Digital στο <strong>211 114 0013</strong>.</p>
     `,
   },
   {
@@ -573,7 +573,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "Νομοθεσία & Επιχειρήσεις",
     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200",
-    metaTitle: "Ιστοσελίδα ΙΚΕ ΓΕΜΗ 2026: Υποχρέωση, Προθεσμίες & Κόστος 150€ | SGK",
+    metaTitle: "Ιστοσελίδα ΙΚΕ ΓΕΜΗ 2026: Υποχρέωση, Προθεσμίες & Κόστος 150€ | SGK Digital",
     metaDescription: "Είναι υποχρεωτική η ιστοσελίδα για κάθε νέα ΙΚΕ; Τι ορίζει το Άρθρο 47 §2 Ν.4072/2012 και η ΚΥΑ 46982/2025; Όλα τα υποχρεωτικά στοιχεία και παράδοση σε 24 ώρες με 150€.",
     content: `
       <h2>Είναι υποχρεωτική η ιστοσελίδα για κάθε Ιδιωτική Κεφαλαιουχική Εταιρεία (Ι.Κ.Ε.);</h2>
@@ -728,7 +728,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200",
-    metaTitle: "WooCommerce vs Shopify Ελλάδα 2025 | Σύγκριση | SGK Blog",
+    metaTitle: "WooCommerce vs Shopify Ελλάδα 2025 | Σύγκριση | SGK Digital Blog",
     metaDescription: "WooCommerce ή Shopify για ελληνικό eshop; Σύγκριση κόστους, features, payment gateways, courier, SEO. Ποιο κερδίζει για την ελληνική αγορά το 2025.",
     content: `
       <h2>WooCommerce vs Shopify για Ελληνικές Επιχειρήσεις: Η Οριστική Σύγκριση</h2>
@@ -788,7 +788,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li>Στοχεύετε κυρίως διεθνείς πωλήσεις (εκτός Ελλάδας)</li>
         <li>Δεν χρειάζεστε ελληνικές τράπεζες ή courier</li>
       </ul>
-      <p>Για τις περισσότερες <strong>ελληνικές επιχειρήσεις</strong>, το WooCommerce είναι η καλύτερη επιλογή. Στην SGK, αναπτύσσουμε και τις δύο πλατφόρμες — επικοινωνήστε μαζί μας για δωρεάν συμβουλή.</p>
+      <p>Για τις περισσότερες <strong>ελληνικές επιχειρήσεις</strong>, το WooCommerce είναι η καλύτερη επιλογή. Στην SGK Digital, αναπτύσσουμε και τις δύο πλατφόρμες — επικοινωνήστε μαζί μας για δωρεάν συμβουλή.</p>
     `
   },
   {
@@ -800,7 +800,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
-    metaTitle: "AI Agent: Τι είναι & Πώς λειτουργεί; Οδηγός για Επιχειρήσεις 2026 | SGK",
+    metaTitle: "AI Agent: Τι είναι & Πώς λειτουργεί; Οδηγός για Επιχειρήσεις 2026 | SGK Digital",
     metaDescription: "AI agent τι είναι και πώς λειτουργεί; Ο απόλυτος οδηγός για ελληνικές επιχειρήσεις. Διαφορές AI agent vs chatbot, custom αυτοματισμοί, κόστη και πραγματικά παραδείγματα.",
     content: `
       <h2>AI Agent: Τι είναι και πώς λειτουργεί; Ο Πλήρης Οδηγός για Επιχειρήσεις</h2>
@@ -888,13 +888,13 @@ export const BLOG_POSTS: BlogPost[] = [
     id: "8",
     slug: "headless-ecommerce-2026-speed",
     title: "Headless eCommerce 2026: Γιατί η Ταχύτητα δεν είναι πλέον Επιλογή, αλλά Προϋπόθεση",
-    excerpt: "Το 2026, η ταχύτητα φόρτωσης κάτω από 1 δευτερόλεπτο είναι το νέο standard. Ανακαλύψτε πώς η Headless αρχιτεκτονική της SGK δίνει το απόλυτο πλεονέκτημα.",
+    excerpt: "Το 2026, η ταχύτητα φόρτωσης κάτω από 1 δευτερόλεπτο είναι το νέο standard. Ανακαλύψτε πώς η Headless αρχιτεκτονική της SGK Digital δίνει το απόλυτο πλεονέκτημα.",
     date: "15 Μαΐου 2026",
     author: "sgk.gr",
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200",
-    metaTitle: "Headless eCommerce 2026 | Ταχύτητα & SEO | SGK",
-    metaDescription: "Γιατί το 2026 το e-shop σας πρέπει να είναι headless. Ταχύτητα sub-1s, Next.js και η τεχνολογία της SGK που εκτοξεύει τις πωλήσεις.",
+    metaTitle: "Headless eCommerce 2026 | Ταχύτητα & SEO | SGK Digital",
+    metaDescription: "Γιατί το 2026 το e-shop σας πρέπει να είναι headless. Ταχύτητα sub-1s, Next.js και η τεχνολογία της SGK Digital που εκτοξεύει τις πωλήσεις.",
     content: `
       <h2>Η Νέα Πραγματικότητα στο eCommerce του 2026</h2>
       <p>Μπαίνοντας στο 2026, οι απαιτήσεις των καταναλωτών έχουν αλλάξει ριζικά. Η υπομονή για sites που φορτώνουν "αργά" (πάνω από 2 δευτερόλεπτα) έχει μηδενιστεί. Στην <strong>SGK Software Development</strong>, προετοιμάζουμε τις επιχειρήσεις για αυτή τη νέα εποχή με <strong>Headless eCommerce</strong> λύσεις.</p>
@@ -907,7 +907,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Απόλυτη Σχεδιαστική Ελευθερία:</strong> Δεν περιοριζόμαστε από έτοιμα themes.</li>
       </ul>
 
-      <h3>Η Τεχνολογία της SGK: Το Δικό σας Πλεονέκτημα</h3>
+      <h3>Η Τεχνολογία της SGK Digital: Το Δικό σας Πλεονέκτημα</h3>
       <p>Δεν φτιάχνουμε απλά eshops. Φτιάχνουμε μηχανές πωλήσεων. Χρησιμοποιώντας <strong>React, TypeScript και Tailwind CSS</strong>, δημιουργούμε εμπειρίες που θυμίζουν native εφαρμογές κινητού μέσα στον browser.</p>
       
       <p>Αν το eshop σας δεν είναι έτοιμο για τις απαιτήσεις του 2026, χάνετε ήδη πελάτες. <a href="/estimate">Ζητήστε μας μια δωρεάν ανάλυση ταχύτητας</a> σήμερα.</p>
@@ -923,7 +923,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1200",
     metaTitle: "Αυτοματοποίηση Επιχειρήσεων με AI Agents | SGK Software",
-    metaDescription: "Πώς οι AI agents της SGK αυτοματοποιούν τις επιχειρήσεις. Τιμολόγηση, logistics και workflow automation με τεχνητή νοημοσύνη.",
+    metaDescription: "Πώς οι AI agents της SGK Digital αυτοματοποιούν τις επιχειρήσεις. Τιμολόγηση, logistics και workflow automation με τεχνητή νοημοσύνη.",
     content: `
       <h2>Αφήστε τα Robots να κάνουν τη "Βαρετή" Δουλειά</h2>
       <p>Πόσες ώρες ξοδεύει η ομάδα σας σε χειροκίνητη καταχώρηση τιμολογίων ή στον έλεγχο των logistics; Οι <strong>AI Agents</strong> που αναπτύσσουμε στην SGK Software Development έρχονται να αλλάξουν τα δεδομένα, αναλαμβάνοντας πλήρως αυτές τις διαδικασίες.</p>
@@ -936,7 +936,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Workflow Assistant:</strong> Συντονίζει τις εργασίες μεταξύ διαφορετικών τμημάτων, εξασφαλίζοντας ότι τίποτα δεν "ξεχνιέται".</li>
       </ul>
 
-      <h3>Γιατί να επιλέξετε AI λύσεις από την SGK;</h3>
+      <h3>Γιατί να επιλέξετε AI λύσεις από την SGK Digital;</h3>
       <p>Η εξειδίκευσή μας στο <strong>Agentic AI</strong> μας επιτρέπει να χτίζουμε συστήματα που δεν απαντούν απλά σε ερωτήσεις, αλλά <strong>εκτελούν εργασίες</strong>. Χρησιμοποιούμε frameworks όπως το LangChain και μοντέλα της OpenAI για να προσφέρουμε ασφαλείς και αποδοτικούς αυτοματισμούς.</p>
       
       <p>Η επένδυση στο AI δεν είναι κόστος, είναι το μέλλον της παραγωγικότητάς σας. Ανακαλύψτε πώς μπορούμε να δημιουργήσουμε το δικό σας <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">αυτόνομο ψηφιακό προσωπικό με custom AI agents</a> για το ERP και τις διαδικασίες σας.</p>
@@ -946,16 +946,16 @@ export const BLOG_POSTS: BlogPost[] = [
     id: "10",
     slug: "ai-customer-support-24-7",
     title: "24/7 Εξυπηρέτηση Πελατών με AI Agents: Η Εμπειρία που Αξίζουν οι Πελάτες σας",
-    excerpt: "Μειώστε το χρόνο αναμονής στο μηδέν. Οι AI Customer Support agents της SGK προσφέρουν άμεσες, ακριβείς απαντήσεις και κλείνουν πωλήσεις μέρα-νύχτα.",
+    excerpt: "Μειώστε το χρόνο αναμονής στο μηδέν. Οι AI Customer Support agents της SGK Digital προσφέρουν άμεσες, ακριβείς απαντήσεις και κλείνουν πωλήσεις μέρα-νύχτα.",
     date: "12 Μαΐου 2026",
     author: "sgk.gr",
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200",
-    metaTitle: "AI Customer Support 24/7 | Αυτοματισμός Εξυπηρέτησης | SGK",
+    metaTitle: "AI Customer Support 24/7 | Αυτοματισμός Εξυπηρέτησης | SGK Digital",
     metaDescription: "Βελτιώστε την εξυπηρέτηση πελατών με AI agents. 24/7 υποστήριξη στα ελληνικά, μείωση κόστους και αύξηση ικανοποίησης πελατών.",
     content: `
       <h2>Η Επανάσταση στην Εξυπηρέτηση Πελατών</h2>
-      <p>Οι πελάτες σήμερα δεν θέλουν να περιμένουν. Θέλουν απαντήσεις <strong>τώρα</strong>. Αν η επιχείρησή σας κλείνει στις 5 το απόγευμα, χάνετε τις πωλήσεις που θα γίνονταν το βράδυ. Οι AI Support Agents της SGK λειτουργούν αδιάκοπα.</p>
+      <p>Οι πελάτες σήμερα δεν θέλουν να περιμένουν. Θέλουν απαντήσεις <strong>τώρα</strong>. Αν η επιχείρησή σας κλείνει στις 5 το απόγευμα, χάνετε τις πωλήσεις που θα γίνονταν το βράδυ. Οι AI Support Agents της SGK Digital λειτουργούν αδιάκοπα.</p>
       
       <h3>Chatbot vs AI Agent: Η Μεγάλη Διαφορά</h3>
       <p>Τα παλιά chatbots ήταν εκνευριστικά γιατί δεν καταλάβαιναν. Οι δικοί μας <strong>AI Agents</strong> εκπαιδεύονται πάνω στα δικά σας δεδομένα (knowledge base) και μπορούν να απαντήσουν σε πολύπλοκες ερωτήσεις με φυσικότητα και ευγένεια, σαν ένας έμπειρος υπάλληλος.</p>
@@ -967,26 +967,26 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Πολυκαναλική Υποστήριξη:</strong> Ένας agent που λειτουργεί σε Website, WhatsApp και Messenger ταυτόχρονα.</li>
       </ul>
 
-      <p>Στην <strong>SGK Software Development</strong>, δημιουργούμε τον AI "υπάλληλο" που δεν κοιμάται ποτέ και προσφέρει πάντα την καλύτερη εξυπηρέτηση. Δείτε τις δυνατότητες των <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Voice & Chat AI Agents της SGK</a> για τηλεφωνικά κέντρα και eshops.</p>
+      <p>Στην <strong>SGK Software Development</strong>, δημιουργούμε τον AI "υπάλληλο" που δεν κοιμάται ποτέ και προσφέρει πάντα την καλύτερη εξυπηρέτηση. Δείτε τις δυνατότητες των <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Voice & Chat AI Agents της SGK Digital</a> για τηλεφωνικά κέντρα και eshops.</p>
     `
   },
   {
     id: "11",
     slug: "seo-strategy-2026-ai-search",
     title: "SEO Στρατηγική 2026: Πώς να Καταταγείτε στην Εποχή των AI Search Engines",
-    excerpt: "Το Google Search αλλάζει. Ανακαλύψτε πώς το AI Search (SGE) επηρεάζει το SEO and πώς οι τεχνολογίες της SGK σας κρατούν στην πρώτη σελίδα.",
+    excerpt: "Το Google Search αλλάζει. Ανακαλύψτε πώς το AI Search (SGE) επηρεάζει το SEO and πώς οι τεχνολογίες της SGK Digital σας κρατούν στην πρώτη σελίδα.",
     date: "10 Μαΐου 2026",
     author: "sgk.gr",
     category: "SEO",
     image: "https://images.unsplash.com/photo-1432888497205-40f18121f14b?q=80&w=1200",
-    metaTitle: "SEO Στρατηγική 2026 | AI Search & Google SGE | SGK",
+    metaTitle: "SEO Στρατηγική 2026 | AI Search & Google SGE | SGK Digital",
     metaDescription: "Πώς να βελτιστοποιήσετε το site σας για τις μηχανές αναζήτησης AI το 2026. Content quality, Core Web Vitals και SEO tips από την SGK.",
     content: `
       <h2>SEO: Το Τοπίο Αλλάζει Δραματικά</h2>
       <p>Με την έλευση του AI Search (Search Generative Experience), η παραδοσιακή αναζήτηση στη Google έχει μεταμορφωθεί. Το 2026, δεν αρκεί απλά να έχετε keywords. Πρέπει να έχετε <strong>αυθεντικότητα και τεχνική τελειότητα</strong>.</p>
       
       <h3>Core Web Vitals: Η Βάση των Πάντων</h3>
-      <p>Η Google δίνει πλέον τεράστια βαρύτητα στην εμπειρία του χρήστη. Τα sites που κατασκευάζουμε στην SGK χρησιμοποιούν <strong>Edge Computing</strong> και <strong>Static Site Generation (SSG)</strong>, εξασφαλίζοντας ότι οι σελίδες σας είναι οι πιο γρήγορες στον κλάδο σας.</p>
+      <p>Η Google δίνει πλέον τεράστια βαρύτητα στην εμπειρία του χρήστη. Τα sites που κατασκευάζουμε στην SGK Digital χρησιμοποιούν <strong>Edge Computing</strong> και <strong>Static Site Generation (SSG)</strong>, εξασφαλίζοντας ότι οι σελίδες σας είναι οι πιο γρήγορες στον κλάδο σας.</p>
 
       <h3>Content for Humans, Optimized for AI</h3>
       <p>Οι μηχανές αναζήτησης πλέον καταλαβαίνουν την πρόθεση του χρήστη. Η στρατηγική μας περιλαμβάνει:</p>
@@ -1073,7 +1073,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=1200",
-    metaTitle: "Mobile Commerce 2026 | Πέρα από το Responsive Eshop | SGK",
+    metaTitle: "Mobile Commerce 2026 | Πέρα από το Responsive Eshop | SGK Digital",
     metaDescription: "Το eCommerce το 2026 απαιτεί Mobile-First προσέγγιση και εμπειρία επιπέδου εφαρμογής. Γιατί το απλό responsive design ανήκει στο παρελθόν.",
     content: `
       <h2>Η Επανάσταση του Mobile Commerce το 2026</h2>
@@ -1090,7 +1090,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h3>Ταχύτητα και Αλληλεπίδραση</h3>
       <p>Η χρήση React και σύγχρονων frameworks επιτρέπει στο eshop σας να φορτώνει το περιεχόμενο αστραπιαία καθώς ο χρήστης σκρολάρει, εξαλείφοντας το λευκό background ανάμεσα στις σελίδες.</p>
       
-      <p>Επενδύστε στη σωστή <strong>τεχνολογία eshop</strong> και χαρίστε στους πελάτες σας την mobile εμπειρία του 2026. Η SGK είναι ο τεχνολογικός σας συνεργάτης σε αυτή τη μετάβαση.</p>
+      <p>Επενδύστε στη σωστή <strong>τεχνολογία eshop</strong> και χαρίστε στους πελάτες σας την mobile εμπειρία του 2026. Η SGK Digital είναι ο τεχνολογικός σας συνεργάτης σε αυτή τη μετάβαση.</p>
     `
   },
   {
@@ -1102,7 +1102,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "AI & Innovation",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1200",
-    metaTitle: "AI Agents 2026 | Γιατί να τους ενσωματώσετε | SGK Blog",
+    metaTitle: "AI Agents 2026 | Γιατί να τους ενσωματώσετε | SGK Digital Blog",
     metaDescription: "Η ενσωμάτωση AI Agents το 2026 αποτελεί στρατηγικό πλεονέκτημα. Πώς βοηθούν τις επιχειρήσεις να μειώσουν κόστη και να αυξήσουν την απόδοση.",
     content: `
       <h2>Η Αναγκαιότητα των AI Agents το 2026</h2>
@@ -1114,7 +1114,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h3>Αυτόνομη Λήψη Αποφάσεων</h3>
       <p>Σε αντίθεση με τα παραδοσιακά λογισμικά, ένας AI Agent μπορεί να κρίνει πότε το απόθεμα ενός προϊόντος τελειώνει και να δημιουργήσει αυτόματα μια παραγγελία προς τον προμηθευτή, ενημερώνοντας το ERP σας.</p>
       
-      <h3>Η SGK δημιουργεί τους δικούς σας Agents</h3>
+      <h3>Η SGK Digital δημιουργεί τους δικούς σας Agents</h3>
       <p>Δεν χρειάζεται να προσαρμόσετε την επιχείρησή σας σε έτοιμα εργαλεία. Στην <strong>SGK Software Development</strong> κατασκευάζουμε <strong>custom AI Agents</strong> εκπαιδευμένους στα δικά σας δεδομένα, απόλυτα ασφαλείς και σχεδιασμένους για τις δικές σας ανάγκες το 2026.</p>
     `
   },
@@ -1127,7 +1127,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "AI & Automation",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200",
-    metaTitle: "AI Sales Agents 2026 | Αύξηση Πωλήσεων 24/7 | SGK",
+    metaTitle: "AI Sales Agents 2026 | Αύξηση Πωλήσεων 24/7 | SGK Digital",
     metaDescription: "Οι AI Sales Agents μεταμορφώνουν τις πωλήσεις το 2026. Αυτόματο lead qualification, κλείσιμο ραντεβού και εξυπηρέτηση πελατών χωρίς ανθρώπινη παρέμβαση.",
     content: `
       <h2>Ο Πωλητής που δεν Κουράζεται Ποτέ</h2>
@@ -1232,7 +1232,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "eCommerce",
     image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1200",
-    metaTitle: "vaiacharms.gr Case Study | Κατασκευή Headless E-shop | SGK",
+    metaTitle: "vaiacharms.gr Case Study | Κατασκευή Headless E-shop | SGK Digital",
     metaDescription: "Πώς η SGK Digital σχεδίασε και υλοποίησε το premium eshop vaiacharms.gr με headless React αρχιτεκτονική και WooCommerce backend για απίστευτες ταχύτητες φόρτωσης.",
     content: `
       <h2>Premium Κοσμήματα με Premium eCommerce Τεχνολογία</h2>
@@ -1370,7 +1370,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "AI & Innovation",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200",
-    metaTitle: "AI Agency στην Ελλάδα 2026 | AI Agents & Custom Αυτοματισμοί | SGK",
+    metaTitle: "AI Agency στην Ελλάδα 2026 | AI Agents & Custom Αυτοματισμοί | SGK Digital",
     metaDescription: "Η κορυφαία AI Agency στην Ελλάδα (SGK Digital). Πλήρης οδηγός για AI agents, αυτοματισμούς επιχειρήσεων, διασύνδεση με ERP και 24/7 customer service. Δείτε use cases & τιμές.",
     content: `
       <h2>Γιατί κάθε Ελληνική Επιχείρηση Χρειάζεται μια Εξειδικευμένη AI Agency το 2026</h2>
@@ -1404,7 +1404,7 @@ export const BLOG_POSTS: BlogPost[] = [
             <tr style="background: #1e293b;">
               <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Χαρακτηριστικό</th>
               <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Κλασικό Chatbot</th>
-              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Αυτόνομος AI Agent (SGK)</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Αυτόνομος AI Agent (SGK Digital)</th>
             </tr>
           </thead>
           <tbody>
@@ -1470,7 +1470,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "sgk.gr",
     category: "AI & Business Automation",
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200",
-    metaTitle: "Κατασκευή Custom AI Agents: Voice, Chat, Video & Αυτοματισμοί Χωρίς Υπαλλήλους | SGK",
+    metaTitle: "Κατασκευή Custom AI Agents: Voice, Chat, Video & Αυτοματισμοί Χωρίς Υπαλλήλους | SGK Digital",
     metaDescription: "Πώς η κατασκευή custom AI agents επιτρέπει σε επιχειρήσεις να εκτελούν εργασίες αυτόνομα χωρίς υπαλλήλους. Εξυπηρέτηση πελατών με Voice AI (τηλεφωνία), Chat και Video Avatars.",
     content: `
       <h2>Η Επανάσταση του Agentic AI: Γιατί οι Επιχειρήσεις Επενδύουν σε Αυτόνομους AI Agents</h2>
@@ -1514,7 +1514,7 @@ export const BLOG_POSTS: BlogPost[] = [
             <tr style="background: #1e293b;">
               <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Χαρακτηριστικό</th>
               <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #ffffff;">Παραδοσιακό Chatbot</th>
-              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #60a5fa; font-weight: bold;">Custom AI Agent (SGK)</th>
+              <th style="padding: 14px 16px; border: 1px solid #334155; text-align: left; color: #60a5fa; font-weight: bold;">Custom AI Agent (SGK Digital)</th>
             </tr>
           </thead>
           <tbody>

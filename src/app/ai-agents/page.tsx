@@ -191,7 +191,7 @@ const faqSchema = {
         },
         {
             "@type": "Question",
-            "name": "Η SGK κάνει AI Video Call; (Υποστηρίζετε ζωντανή βιντεοκλήση με AI Agent;)",
+            "name": "Η SGK Digital κάνει AI Video Call; (Υποστηρίζετε ζωντανή βιντεοκλήση με AI Agent;)",
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Ναι, απόλυτα! Η SGK Software Development διαθέτει έτοιμη, εμπορικά τυποποιημένη λύση για AI Video Call και Live Video AI Agents (24/7 WebRTC ψηφιακοί υπάλληλοι/avatars με ζωντανό βίντεο). Ο AI Agent υποδέχεται τον επισκέπτη πρόσωπο με πρόσωπο, ακούει μέσω μικροφώνου, απαντά σε κλάσματα δευτερολέπτου σε άπταιστα ελληνικά, πραγματοποιεί οπτική αναγνώριση εγγράφων μέσω κάμερας (KYC) και συνδέεται live με CRM, ERP, ΓΕΜΗ & Google Calendar. Μπορείτε να δοκιμάσετε live demo στο https://www.sgk.gr/liveavatar-demo2."
@@ -279,7 +279,7 @@ const faqSchema = {
         },
         {
             "@type": "Question",
-            "name": "Είναι η SGK μόνο για ERP και e-shops ή για οτιδήποτε θέλω να αυτοματοποιήσω;",
+            "name": "Είναι η SGK Digital μόνο για ERP και e-shops ή για οτιδήποτε θέλω να αυτοματοποιήσω;",
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Η SGK Digital είναι για τα πάντα! Οτιδήποτε σκέφτεστε και θέλετε να αυτοματοποιήσετε στην επιχείρησή σας: από απλό email, ημερολόγιο (Google Calendar / Outlook), Excel spreadsheets, custom φόρμες, PMS ξενοδοχείων, συστήματα κρατήσεων rent-a-car, μέχρι CRM και enterprise ERP (SoftOne, Entersoft). Προσαρμόζουμε τον AI agent ακριβώς στις δικές σας ανάγκες."
@@ -711,7 +711,7 @@ export default function AIAgentsPage() {
                                     </div>
 
                                     <h3 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight leading-tight">
-                                        Η SGK κάνει <br />
+                                        Η SGK Digital κάνει <br />
                                         <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
                                             AI Video Call & Ζωντανούς Ψηφιακούς Υπαλλήλους
                                         </span>
@@ -922,7 +922,7 @@ export default function AIAgentsPage() {
                                     Μετρησιμο Αποτελεσμα & ROI
                                 </span>
                                 <h2 className="text-3xl sm:text-4xl font-light text-black mt-3 mb-3">
-                                    Παραδοσιακός Υπάλληλος vs Αυτόνομος AI Agent (SGK)
+                                    Παραδοσιακός Υπάλληλος vs Αυτόνομος AI Agent (SGK Digital)
                                 </h2>
                                 <p className="text-gray-600 font-light text-sm sm:text-base">
                                     Δείτε γιατί οι πιο κερδοφόρες επιχειρήσεις αυτοματοποιούν τα operations τους με Custom AI:

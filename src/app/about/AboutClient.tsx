@@ -49,7 +49,7 @@ export default function AboutClient() {
               </p>
               <h1 className="text-5xl md:text-7xl font-light tracking-tight text-black leading-tight">
                 Πίσω από{" "}
-                <span className="font-bold">την SGK</span>
+                <span className="font-bold">την SGK Digital</span>
               </h1>
             </motion.div>
           </div>
@@ -201,7 +201,7 @@ export default function AboutClient() {
               >
                 <Image
                   src="/sgk-team.webp"
-                  alt="Η ομάδα της SGK"
+                  alt="Η ομάδα της SGK Digital"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover object-center"

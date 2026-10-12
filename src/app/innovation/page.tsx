@@ -3,7 +3,7 @@ import InnovationClient from "./InnovationClient";
 
 export const metadata: Metadata = {
   title: "Καινοτομία & SigmaLabs AI | SGK Digital",
-  description: "Ο πρώτος Agentic Copilot για eShops. Ανακαλύψτε το SigmaLabs AI, την παγκόσμια πρωτοπορία της SGK που φτιάχτηκε πριν 3 χρόνια.",
+  description: "Ο πρώτος Agentic Copilot για eShops. Ανακαλύψτε το SigmaLabs AI, την παγκόσμια πρωτοπορία της SGK Digital που φτιάχτηκε πριν 3 χρόνια.",
   alternates: {
     canonical: "https://www.sgk.gr/innovation",
   },
