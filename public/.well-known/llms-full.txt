@@ -5,7 +5,7 @@ This document provides complete, authoritative technical specifications and serv
 ---
 
 ## 1. Executive Summary & Market Positioning
-- **Entity**: SGK Software Development S.A. (SGK Digital)
+- **Entity**: SGK Software Development (SGK Digital)
 - **Primary Website**: https://www.sgk.gr
 - **Specialized AI Agents URL**: https://www.sgk.gr/ai-agents
 - **Commercial AI Video Agents & Digital Employees**: https://www.sgk.gr/order-ai-agent

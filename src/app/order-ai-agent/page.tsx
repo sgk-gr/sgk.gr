@@ -74,7 +74,7 @@ const structuredData = {
       "provider": {
         "@type": "Organization",
         "@id": "https://www.sgk.gr/#organization",
-        "name": "SGK Software Development S.A.",
+        "name": "SGK Software Development",
         "url": "https://www.sgk.gr",
         "logo": "https://www.sgk.gr/logo.png",
         "telephone": "+30 211 114 0013",

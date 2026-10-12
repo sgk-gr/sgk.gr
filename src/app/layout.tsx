@@ -79,7 +79,7 @@ const localBusinessSchema = {
         "SGK Agentic AI",
         "SGK AI Agents"
     ],
-    "legalName": "SGK Software Development S.A.",
+    "legalName": "SGK Software Development",
     "url": "https://www.sgk.gr",
     "logo": "https://www.sgk.gr/sgk-logo.png",
     "image": "https://www.sgk.gr/social-preview.png",
