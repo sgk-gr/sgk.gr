@@ -251,40 +251,40 @@ const templates = [
   },
   {
     name: "🚀 Νέες Επιχειρήσεις (Ο.Ε., Ε.Ε., Α.Ε.): Πλήρης Online Παρουσία 200€ (με ΦΠΑ)",
-    subject: "Νέα επιχείρηση; Πλήρης Online Παρουσία, Google Maps & AI Αναγνωρισιμότητα (200€ με ΦΠΑ)",
+    subject: "Νέα επιχείρηση; Πλήρης Online Παρουσία, Google Maps & Συστάσεις ChatGPT (200€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
   Ξεκινήσατε νέα επιχείρηση; Αποκτήστε πλήρη online παρουσία από την 1η ημέρα.
 </h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.55;">
-  Συγχαρητήρια για το νέο σας ξεκίνημα! Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν απλώς στον επαγγελματικό οδηγό: <strong>αναζητούν στο Google Maps και ρωτούν τα νέα AI εργαλεία (ChatGPT, Claude)</strong>.
+  Συγχαρητήρια για το νέο σας ξεκίνημα! Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν πια σε οδηγούς: <strong>αναζητούν στο Google Maps και ρωτούν απευθείας το ChatGPT</strong>.
 </p>
 
 <!-- 3 Punchy Visual Cards (SGK Brand Colors: Blue, Emerald, Purple) -->
 <div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
   <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
-    🌐 1. Σύγχρονη Εταιρική Ιστοσελίδα (Mobile-First &amp; Ταχύτατη)
+    🌐 1. Σύγχρονη Εταιρική Ιστοσελίδα (Mobile &amp; Ταχύτατη)
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Έτοιμη σε λίγες ημέρες, απόλυτα προσαρμοσμένη στις ανάγκες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL και <strong>εταιρικά emails</strong> (π.χ. info@...).
+    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις ανάγκες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL και <strong>εταιρικά emails</strong> (π.χ. info@...).
   </div>
 </div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #10b981; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
   <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
-    📍 2. Google Business Profile &amp; Τοπικό SEO (Google Maps)
+    📍 2. Google Business Profile &amp; Χάρτες (Google Maps)
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Πλήρης ρύθμιση και βελτιστοποίηση της επαγγελματικής σας κάρτας στο Google, ώστε όταν πελάτες στην περιοχή σας ψάχνουν τις υπηρεσίες σας, να σας βρίσκουν πρώτους.
+    Πλήρης ρύθμιση στον χάρτη της Google, ώστε όταν πελάτες στην περιοχή σας ψάχνουν τις υπηρεσίες σας, να σας βρίσκουν πρώτους και να σας καλούν απευθείας.
   </div>
 </div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #8b5cf6; padding: 12px 14px; margin-bottom: 14px; border-radius: 0 8px 8px 0;">
   <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
-    🤖 3. AI &amp; LLM Αναγνωρισιμότητα (GEO / AEO - ChatGPT, Claude, Perplexity)
+    🤖 3. Συστάσεις απευθείας από το ChatGPT &amp; AI
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Βελτιστοποίηση περιεχομένου για τις μηχανές τεχνητής νοημοσύνης (Generative Engine Optimization), ώστε όταν οι χρήστες ζητούν προτάσεις επαγγελματιών στον κλάδο σας, τα AI μοντέλα να προτείνουν εσάς!
+    Οι πελάτες σας ρωτούν πλέον το ChatGPT: όταν λένε π.χ. <em>«θέλω υδραυλικό ή αξιόπιστο επαγγελματία στην περιοχή μου»</em>, η τεχνητή νοημοσύνη θα προτείνει <strong>εσάς αμέσως</strong> να σας καλέσουν και να σας προτιμήσουν!
   </div>
 </div>
 
