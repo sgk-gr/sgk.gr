@@ -118,3 +118,124 @@
   .admin-sidebar { display: none !important; }
   .admin-shell { display: block !important; background: #fff !important; }
 }
+
+/* ------------------------------------------------------------------
+   Unified Dashboard Components (Photo 2 style: clean, crisp, no neon)
+------------------------------------------------------------------- */
+.admin-shell .adm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+.admin-shell .adm-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.admin-shell .adm-btn-primary {
+  background-color: #3b5bdb;
+  color: #ffffff;
+  border-color: #3653c7;
+  box-shadow: 0 1px 2px rgba(59, 91, 219, 0.2);
+}
+.admin-shell .adm-btn-primary:hover:not(:disabled) {
+  background-color: #324ec7;
+}
+
+.admin-shell .adm-btn-dark {
+  background-color: #0b1530;
+  color: #ffffff;
+  border-color: #0b1530;
+  box-shadow: 0 1px 2px rgba(11, 21, 48, 0.2);
+}
+.admin-shell .adm-btn-dark:hover:not(:disabled) {
+  background-color: #172554;
+}
+
+.admin-shell .adm-btn-ghost {
+  background-color: #ffffff;
+  color: #334155;
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+.admin-shell .adm-btn-ghost:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.admin-shell .adm-btn-accent {
+  background-color: #f0f3ff;
+  color: #2b44b8;
+  border-color: #dbe4ff;
+}
+.admin-shell .adm-btn-accent:hover:not(:disabled) {
+  background-color: #e3ebff;
+  border-color: #bac8ff;
+  color: #1c339c;
+}
+
+.admin-shell .adm-btn-danger {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.admin-shell .adm-btn-danger:hover:not(:disabled) {
+  background-color: #fca5a5;
+  color: #7f1d1d;
+}
+
+.admin-shell .adm-btn-icon {
+  padding: 0.5rem;
+  background-color: #ffffff;
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+.admin-shell .adm-btn-icon:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.admin-shell .adm-select {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.admin-shell .adm-select:focus {
+  outline: none;
+  border-color: #3b5bdb;
+  box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12);
+}
+
+.admin-shell .adm-input {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8125rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  transition: all 0.15s ease;
+}
+.admin-shell .adm-input:focus {
+  outline: none;
+  border-color: #3b5bdb;
+  box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12);
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef, useDeferredValue } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
@@ -818,7 +818,7 @@ export function EmailsTab() {
     totalOldDate: 0,
   });
   const [scannedNewLeads, setScannedNewLeads] = useState<any[]>([]);
-  const [scanLogs, setScanLogs] = useState<Array<{
+  const [scanLogs, setScanLogsRaw] = useState<Array<{
     id: string;
     time: string;
     type: string;
@@ -1062,36 +1062,61 @@ function safeEncodeBase64(data: any): string {
   // Client-side mounted state for React Portal
   const [isClient, setIsClient] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const deferredSearch = useDeferredValue(searchTerm);
+  const [visibleCount, setVisibleCount] = useState(60);
   const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
   const [isSyncingGemi, setIsSyncingGemi] = useState(false);
   const [professionSubFilter, setProfessionSubFilter] = useState<string>('all');
 
+  // Cap scan log history so long scans do not slow the UI down
+  const setScanLogs = useCallback((updater: any) => {
+    setScanLogsRaw((prev: any) => {
+      const next = typeof updater === "function" ? updater(prev) : updater;
+      return Array.isArray(next) && next.length > 400 ? next.slice(-400) : next;
+    });
+  }, []);
+
+  // Only the columns the UI needs (first_email_body alone is ~3.6MB and is never displayed)
+  const LEAD_COLUMNS = "id, created_at, email, first_name, last_name, company, phone, source, marketing_consent, unsubscribed, unsubscribe_token, converted, email_sequence_step, last_email_sent_at, emails_opened, emails_clicked, type, afm, gemi_number";
+
   const fetchLeads = async () => {
     setLoading(true);
-    let allLeads: any[] = [];
-    let page = 0;
     const pageSize = 1000;
     let hasError = false;
+    let allLeads: any[] = [];
 
-    while (true) {
-      const { data, error } = await supabase
+    try {
+      const first = await supabase
         .from("sgk_mails")
-        .select("*")
+        .select(LEAD_COLUMNS, { count: "exact" })
         .order("created_at", { ascending: false })
-        .range(page * pageSize, (page + 1) * pageSize - 1);
+        .range(0, pageSize - 1);
 
-      if (error) {
-        hasError = true;
-        toast.error("Σφάλμα φόρτωσης λίστας email");
-        console.error(error);
-        break;
+      if (first.error) throw first.error;
+      allLeads = first.data || [];
+
+      const total = first.count ?? allLeads.length;
+      if (total > pageSize) {
+        const pageCount = Math.ceil(total / pageSize);
+        const rest = await Promise.all(
+          Array.from({ length: pageCount - 1 }, (_, i) =>
+            supabase
+              .from("sgk_mails")
+              .select(LEAD_COLUMNS)
+              .order("created_at", { ascending: false })
+              .range((i + 1) * pageSize, (i + 2) * pageSize - 1)
+          )
+        );
+        for (const r of rest) {
+          if (r.error) throw r.error;
+          allLeads.push(...(r.data || []));
+        }
       }
-
-      if (!data || data.length === 0) break;
-      allLeads.push(...data);
-      if (data.length < pageSize) break;
-      page++;
+    } catch (error: any) {
+      hasError = true;
+      toast.error("Σφάλμα φόρτωσης λίστας email");
+      console.error(error);
     }
 
     if (!hasError) {
@@ -1108,7 +1133,8 @@ function safeEncodeBase64(data: any): string {
 
   useEffect(() => {
     setSelectedLeads([]);
-  }, [statusFilter, searchTerm]);
+    setVisibleCount(60);
+  }, [statusFilter, searchTerm, professionSubFilter]);
 
   useEffect(() => {
     if (scanTerminalRef.current) {
@@ -1960,8 +1986,8 @@ function safeEncodeBase64(data: any): string {
 
   const filteredLeads = useMemo(() => {
     return leads.filter((lead) => {
-      if (searchTerm.trim()) {
-        const query = searchTerm.toLowerCase().trim();
+      if (deferredSearch.trim()) {
+        const query = deferredSearch.toLowerCase().trim();
         const emailMatch = (lead.email || "").toLowerCase().includes(query);
         const firstNameMatch = (lead.first_name || "").toLowerCase().includes(query);
         const lastNameMatch = (lead.last_name || "").toLowerCase().includes(query);
@@ -2019,14 +2045,14 @@ function safeEncodeBase64(data: any): string {
 
       return true;
     });
-  }, [leads, searchTerm, statusFilter, professionSubFilter]);
+  }, [leads, deferredSearch, statusFilter, professionSubFilter]);
 
   const uncontactedFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !l.converted && !isEmailBlacklisted(l.email) && (l.email_sequence_step || 0) === 0 && !l.last_email_sent_at);
   const selectableFilteredLeads = filteredLeads.filter(l => !l.unsubscribed && !isEmailBlacklisted(l.email));
   const tourismCount = leads.filter(l => l.type === 'tourism').length;
   const opsTechCount = leads.filter(l => l.type === 'operations_tech').length;
   const ftthTelecomCount = leads.filter(l => l.type === 'ftth_telecom').length;
-  const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && lead.created_at >= '2026-08-01')).length;
+  const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && (l.created_at ? l.created_at >= '2026-08-01' : false))).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0) && !l.last_email_sent_at).length;
   const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (((l.email_sequence_step || 0) >= 1) || Boolean(l.last_email_sent_at))).length;
@@ -2583,18 +2609,21 @@ function safeEncodeBase64(data: any): string {
       </div>
 
       {/* Leads Header / Actions */}
-      <div className="bg-white/40 backdrop-blur-xl border border-gray-200/50 p-6 rounded-2xl">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="space-y-1">
-            <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-              <Mail className="text-[#3b5bdb]" size={20} />
-              Λίστα Παραληπτών Email ({filteredLeads.length})
+      <div className="bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+          <div className="space-y-0.5">
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Mail className="text-[#3b5bdb]" size={18} />
+              Λίστα Παραληπτών Email
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                {filteredLeads.length}
+              </span>
             </h2>
-            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">
-              Διαχειριστείτε τη λίστα email και στείλτε καμπάνιες με Live Preview
+            <p className="text-xs text-slate-500">
+              Διαχείριση λίστας παραληπτών, μαζικές καμπάνιες & αυτοματισμοί Γ.Ε.ΜΗ.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             <EmailTimingIndicator />
             <button
               onClick={() => {
@@ -2605,133 +2634,136 @@ function safeEncodeBase64(data: any): string {
                 setButtonLink(templates[0].defaultButtonLink || "");
                 setIsCampaignModalOpen(true);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#3b5bdb] text-white rounded-xl hover:bg-[#3b5bdb]/90 transition-all text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
+              className="adm-btn adm-btn-primary"
             >
-              <Send size={12} />
-              Μαζικη Αποστολη {selectedLeads.length > 0 ? `(${selectedLeads.length})` : `(${uncontactedFilteredLeads.length})`}
+              <Send size={13} />
+              Μαζική αποστολή {selectedLeads.length > 0 ? `(${selectedLeads.length})` : `(${uncontactedFilteredLeads.length})`}
             </button>
             {selectedLeads.length > 0 && (
               <>
                 <button
                   onClick={() => setSelectedLeads([])}
-                  className="inline-flex items-center gap-1 px-3 py-2 bg-slate-200 text-slate-700 rounded-xl hover:bg-slate-300 transition-all text-xs font-bold cursor-pointer"
+                  className="adm-btn adm-btn-ghost text-xs"
                   title="Αποεπιλογή όλων"
                 >
-                  <X size={12} />
+                  <X size={13} />
                   Αποεπιλογή ({selectedLeads.length})
                 </button>
                 <button
                   onClick={handleDeleteSelectedLeads}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer"
+                  className="adm-btn adm-btn-danger text-xs"
                 >
-                  <Trash2 size={12} />
-                  Διαγραφη ({selectedLeads.length})
+                  <Trash2 size={13} />
+                  Διαγραφή ({selectedLeads.length})
                 </button>
               </>
             )}
             <button
               onClick={handleOpenCreateLead}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer"
+              className="adm-btn adm-btn-dark"
             >
               <UserPlus size={14} />
-              + Νεος Πελατης
+              Νέος πελάτης
             </button>
-            {/* Quick Sync Converted Clients from GEMI */}
-            <button
-              onClick={handleSyncAllConvertedFromGemi}
-              disabled={isSyncingGemi}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer disabled:opacity-50"
-              title="Αυτόματος έλεγχος και ενημέρωση όλων των πελατών απευθείας από το Γ.Ε.ΜΗ."
-            >
-              {isSyncingGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-amber-300" />}
-              <span>Ελεγχος Πελατων στο ΓΕΜΗ</span>
-            </button>
-
-            {/* Targeted GEMI Scanner Dual Selectors & Trigger */}
-            <div className="inline-flex items-center flex-wrap bg-[#0b1530] border border-[#1b2a55] rounded-xl p-1 gap-1">
-              <div className="flex items-center gap-1 pl-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
-                <Target size={12} className="text-yellow-400" />
-                <span className="hidden sm:inline">Μήνας:</span>
-              </div>
-
-              {/* Dynamic Month Selector */}
-              <select
-                value={scanMonth}
-                onChange={(e) => setScanMonth(e.target.value as any)}
-                disabled={isScanningGemi}
-                className="bg-slate-800 text-amber-300 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-amber-400 cursor-pointer"
-                title="Επιλογή Μήνα Ίδρυσης"
-              >
-                <option value="current">📅 {currentMonthName} {now.getFullYear()} (Τρέχων)</option>
-                <option value="previous">📅 {prevMonthName} {prevDate.getFullYear()}</option>
-                <option value="all_year">📅 Όλο το {now.getFullYear()}</option>
-              </select>
-
-              <button
-                onClick={handleScanGemiIkes}
-                disabled={isScanningGemi}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
-                title="Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."
-              >
-                {isScanningGemi && scanCategory === "all" ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} className="text-yellow-300" />}
-                <span>Ευρεση Νεων ΙΚΕ</span>
-              </button>
-
-              <button
-                onClick={handleScanGemiFtthIkes}
-                disabled={isScanningGemi}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
-                title="Live σάρωση στο Γ.Ε.ΜΗ. για Εταιρείες Τηλεπικοινωνιών & Καλωδιώσεων όλων των νομικών μορφών (ΚΑΔ 43210006 / 43211006)"
-              >
-                {isScanningGemi && scanCategory === "ftth_telecom" ? <Loader2 size={13} className="animate-spin" /> : <Target size={13} className="text-cyan-200" />}
-                <span>🔌 Ευρεση FTTH (Ολες οι Μορφες)</span>
-              </button>
-
-              <button
-                onClick={handleRunAutoFollowUpIkes}
-                disabled={isRunningAutoFollowUp}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white rounded-lg transition-all text-xs font-black uppercase tracking-wider shadow cursor-pointer disabled:opacity-50"
-                title="Αυτόματη αποστολή 2ου Email (Follow-Up 150€) σε όσες Ι.Κ.Ε. έλαβαν το 1ο email πριν από 3+ ημέρες"
-              >
-                {isRunningAutoFollowUp ? <Loader2 size={13} className="animate-spin" /> : <RefreshCcw size={13} />}
-                <span>🔁 Auto Follow-Up (3+ μέρες)</span>
-                {dueFollowUpIkeLeads.length > 0 && (
-                  <span className="px-1.5 py-0.5 rounded-full text-[10px] font-black bg-white text-orange-700 shadow-xs">
-                    {dueFollowUpIkeLeads.length}
-                  </span>
-                )}
-              </button>
-            </div>
             <button
               onClick={() => {
                 setImportData("");
                 setIsImportModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer"
+              className="adm-btn adm-btn-ghost"
             >
-              <Users size={12} />
-              Εισαγωγη απο Λιστα
+              <Users size={13} />
+              Εισαγωγή
             </button>
             <button
               onClick={handleRemoveDuplicates}
               disabled={cleaningDuplicates}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl transition-all text-xs font-black uppercase tracking-wider shadow-md cursor-pointer disabled:opacity-50"
+              className="adm-btn adm-btn-ghost"
+              title="Διαγραφή διπλότυπων email"
             >
-              {cleaningDuplicates ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
-              🧹 Διαγραφη Διπλοτυπων
+              {cleaningDuplicates ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
+              Διπλότυπα
             </button>
             <button 
               onClick={fetchLeads}
-              className="p-2.5 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors cursor-pointer text-slate-600"
+              className="adm-btn adm-btn-icon"
               title="Ανανέωση"
             >
-              <RefreshCcw size={16} />
+              <RefreshCcw size={14} />
             </button>
           </div>
         </div>
 
+        {/* Automation tools: GEMI scanner + follow-up */}
+        <div className="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center gap-2.5">
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider pr-1">
+            <Target size={13} className="text-[#3b5bdb]" />
+            <span>Γ.Ε.ΜΗ.:</span>
+          </div>
+
+          <select
+            value={scanMonth}
+            onChange={(e) => setScanMonth(e.target.value as any)}
+            disabled={isScanningGemi}
+            className="adm-select"
+            title="Επιλογή Μήνα Ίδρυσης"
+          >
+            <option value="current">{currentMonthName} {now.getFullYear()} (Τρέχων)</option>
+            <option value="previous">{prevMonthName} {prevDate.getFullYear()}</option>
+            <option value="all_year">Όλο το {now.getFullYear()}</option>
+          </select>
+
+          <button
+            onClick={handleScanGemiIkes}
+            disabled={isScanningGemi}
+            className="adm-btn adm-btn-accent"
+            title="Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."
+          >
+            {isScanningGemi && scanCategory === "all" ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
+            Εύρεση νέων Ι.Κ.Ε.
+          </button>
+
+          <button
+            onClick={handleScanGemiFtthIkes}
+            disabled={isScanningGemi}
+            className="adm-btn adm-btn-accent"
+            title="Live σάρωση στο Γ.Ε.ΜΗ. για Εταιρείες Τηλεπικοινωνιών & Καλωδιώσεων όλων των νομικών μορφών (ΚΑΔ 43210006 / 43211006)"
+          >
+            {isScanningGemi && scanCategory === "ftth_telecom" ? <Loader2 size={13} className="animate-spin" /> : <Target size={13} />}
+            Εύρεση FTTH
+          </button>
+
+          <button
+            onClick={handleSyncAllConvertedFromGemi}
+            disabled={isSyncingGemi}
+            className="adm-btn adm-btn-ghost"
+            title="Αυτόματος έλεγχος και ενημέρωση όλων των πελατών απευθείας από το Γ.Ε.ΜΗ."
+          >
+            {isSyncingGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
+            Έλεγχος στο ΓΕΜΗ
+          </button>
+
+          <button
+            onClick={handleRunAutoFollowUpIkes}
+            disabled={isRunningAutoFollowUp}
+            className="adm-btn adm-btn-ghost"
+            title="Αυτόματη αποστολή 2ου Email (Follow-Up 150€) σε όσες Ι.Κ.Ε. έλαβαν το 1ο email πριν από 3+ ημέρες"
+          >
+            {isRunningAutoFollowUp ? <Loader2 size={13} className="animate-spin" /> : <RefreshCcw size={13} />}
+            Auto Follow-Up
+            {dueFollowUpIkeLeads.length > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                {dueFollowUpIkeLeads.length}
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Table Card (Search, Filters, Leads Table & Pagination) */}
+      <div className="bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs mt-6">
         {/* Search Bar & Status Filter Badges */}
-        <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
@@ -2869,7 +2901,7 @@ function safeEncodeBase64(data: any): string {
                     </td>
                   </tr>
                 ) : (
-                  filteredLeads.map((lead) => {
+                  filteredLeads.slice(0, visibleCount).map((lead) => {
                     const isBlacklisted = isEmailBlacklisted(lead.email) || lead.unsubscribed || lead.marketing_consent === false;
                     return (
                       <tr key={lead.id} className={`transition-colors ${isBlacklisted ? 'bg-rose-50/20 opacity-90' : 'hover:bg-slate-50/50'}`}>
@@ -3134,6 +3166,27 @@ function safeEncodeBase64(data: any): string {
               </tbody>
             </table>
           </div>
+          {filteredLeads.length > visibleCount && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 border-t border-gray-200 bg-[#fafaf8] text-xs text-slate-500">
+              <span>
+                Εμφανίζονται <strong className="text-slate-800">{Math.min(visibleCount, filteredLeads.length)}</strong> από <strong className="text-slate-800">{filteredLeads.length}</strong> εγγραφές
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setVisibleCount(c => c + 100)}
+                  className="px-3 py-1.5 bg-white border border-gray-200 hover:border-gray-400 rounded-lg font-semibold text-slate-700 cursor-pointer"
+                >
+                  Εμφάνιση +100
+                </button>
+                <button
+                  onClick={() => setVisibleCount(filteredLeads.length)}
+                  className="px-3 py-1.5 bg-[#0b1530] hover:bg-[#13214a] text-white rounded-lg font-semibold cursor-pointer"
+                >
+                  Εμφάνιση όλων
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

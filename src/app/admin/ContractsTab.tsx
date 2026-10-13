@@ -923,58 +923,54 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
   return (
     <div className="space-y-8 no-print-wrapper">
       {/* Top Header Actions */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/80 backdrop-blur-xl border border-gray-200 p-6 rounded-3xl shadow-sm no-print">
-        <div>
-          <h2 className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
-            <FileCheck className="text-[#3b5bdb]" size={22} />
-            Ιδιωτικά Συμφωνητικά (ΓΕΜΗ)
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs no-print">
+        <div className="space-y-0.5">
+          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <FileCheck className="text-[#3b5bdb]" size={18} />
+            Ιδιωτικά Συμφωνητικά & Τιμολόγια (Γ.Ε.ΜΗ.)
           </h2>
-          <p className="text-xs text-slate-500 font-semibold mt-1">
-            Δημιουργία, Προεπισκόπηση, Αποστολή Email & Εκτύπωση Συμφωνητικού
+          <p className="text-xs text-slate-500">
+            Δημιουργία, ψηφιακή υπογραφή, αποστολή email & εκτύπωση
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm ${
-              isEditing 
-                ? "bg-slate-100 text-slate-700 hover:bg-slate-200 border border-gray-200" 
-                : "bg-amber-500 text-white hover:bg-amber-600 shadow-amber-500/20"
-            }`}
+            className="adm-btn adm-btn-ghost text-xs"
           >
-            {isEditing ? <Eye size={14} /> : <Edit3 size={14} />}
+            {isEditing ? <Eye size={13} /> : <Edit3 size={13} />}
             {isEditing ? "Προεπισκόπηση" : "Επεξεργασία"}
           </button>
 
           {/* Dedicated Contract Print */}
           <button
             onClick={handlePrintContract}
-            className="px-3.5 py-2.5 bg-blue-50 hover:bg-blue-100 text-[#3b5bdb] border border-blue-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="adm-btn adm-btn-ghost text-xs"
             title="Εκτύπωση ή λήψη μόνο του Συμφωνητικού (1 Σελίδα)"
           >
-            <Printer size={14} />
+            <Printer size={13} />
             Συμφωνητικό
           </button>
 
           {/* Dedicated Invoice Print */}
           <button
             onClick={handlePrintInvoice}
-            className="px-3.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="adm-btn adm-btn-ghost text-xs"
             title="Εκτύπωση ή λήψη μόνο του Τιμολογίου & Τεχνικής Προσφοράς (2 Σελίδες)"
           >
-            <Receipt size={14} />
+            <Receipt size={13} />
             Τιμολόγιο
           </button>
 
           {/* Highlighted COMBINED DOWNLOAD BUTTON (Both Documents in 1 PDF) */}
           <button
             onClick={handlePrintBoth}
-            className="px-4 py-2.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-[#3b5bdb] hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-indigo-500/25 ring-2 ring-indigo-400/30"
+            className="adm-btn adm-btn-primary text-xs"
             title="Λήψη και των δύο εγγράφων (Συμφωνητικό + Τιμολόγιο + Προσφορά) σε 1 ενιαίο PDF αρχείο"
           >
-            <Download size={14} />
-            ⚡ Λήψη Και των 2 (1 PDF)
+            <Download size={13} />
+            Λήψη Και των 2 (1 PDF)
           </button>
 
           {/* Live Link Button */}
@@ -987,7 +983,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
                 : `/doc/invoice?id=${toSave.id}&data=${encodeURIComponent(b64)}`;
               window.open(targetUrl, '_blank');
             }}
-            className="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="adm-btn adm-btn-ghost text-xs"
             title="Άνοιγμα δημόσιου link του ενεργού εγγράφου"
           >
             <ExternalLink size={13} />
@@ -996,25 +992,25 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
 
           <button
             onClick={handleSendContractByEmail}
-            className="px-3.5 py-2.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="adm-btn adm-btn-accent text-xs"
             title="Αποστολή του συμφωνητικού με email στον πελάτη"
           >
-            <Mail size={13} className="text-sky-600" />
+            <Mail size={13} />
             Email
           </button>
 
           <button
             onClick={handleCopyToGov}
-            className="px-3.5 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="adm-btn adm-btn-ghost text-xs"
             title="Αντιγραφή κειμένου & Άνοιγμα GOV.gr"
           >
-            <Landmark size={13} className="text-indigo-600" />
+            <Landmark size={13} />
             GOV.gr
           </button>
 
           <button
             onClick={handleSaveContract}
-            className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-600/20"
+            className="adm-btn adm-btn-ghost text-xs"
           >
             <Download size={13} />
             Αποθήκευση
@@ -1022,7 +1018,7 @@ ${currentContract.advanceAmountNum === 0 ? "4.4" : "4.5"} Οι πληρωμές 
 
           <button
             onClick={handleCreateNew}
-            className="px-3.5 py-2.5 bg-gray-900 hover:bg-black text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="adm-btn adm-btn-dark text-xs"
           >
             <Plus size={13} />
             Νέο
