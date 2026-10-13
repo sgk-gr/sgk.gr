@@ -257,7 +257,7 @@ const templates = [
 </h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.55;">
-  Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν πια σε παραδοσιακούς οδηγούς: <strong>αναζητούν στο Google Maps και ρωτούν απευθείας το ChatGPT</strong> για να επιλέξουν επαγγελματία.
+  Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν πια σε παραδοσιακούς οδηγούς: <strong>αναζητούν στο Google Maps και ρωτούν απευθείας το ChatGPT</strong>. Εάν η επιχείρησή σας δεν εμφανίζεται εκεί, οι πελάτες καταλήγουν αναπόφευκτα στους ανταγωνιστές σας.
 </p>
 
 <!-- 3 Punchy Visual Cards (SGK Brand Colors: Blue, Emerald, Purple) -->
@@ -266,7 +266,7 @@ const templates = [
     🌐 1. Σύγχρονη Εταιρική Ιστοσελίδα (Mobile &amp; Ταχύτατη)
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις ανάγκες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL, <strong>κατασκευή επαγγελματικού λογοτύπου</strong> και <strong>εταιρικά emails</strong> (π.χ. info@...).
+    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις υπηρεσίες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL, <strong>επαγγελματικό λογότυπο</strong>, εταιρικά emails και <strong>φόρμα επικοινωνίας</strong> για να λαμβάνετε άμεσα αιτήματα νέων πελατών στο κινητό σας!
     <div style="margin-top: 5px; font-size: 12px;">
       👉 <em>Δείτε πρόσφατο δείγμα πελάτη μας:</em> <a href="https://yolo8.eu/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">yolo8.eu</a>
     </div>
@@ -292,14 +292,17 @@ const templates = [
 </div>
 
 <!-- Price Card -->
-<div style="background-color: #eff6ff; border: 1.5px solid #bfdbfe; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; text-align: center;">
-  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #1e40af; margin-bottom: 2px;">
-    Ολοκληρωμενο Πακετο Εκκινησης
+<div style="background-color: #eff6ff; border: 1.5px solid #bfdbfe; padding: 13px 16px; border-radius: 10px; margin-bottom: 16px; text-align: center;">
+  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #1e40af; margin-bottom: 3px;">
+    Ολοκληρωμενο Πακετο Online Παρουσιας
   </div>
   <div style="font-size: 22px; font-weight: 900; color: #1e3a8a;">
     200 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική Τιμή με ΦΠΑ 24%)</span>
   </div>
-  <div style="font-size: 12px; color: #64748b; margin-top: 3px;">
+  <div style="font-size: 12.5px; color: #1e3a8a; font-weight: 700; margin-top: 5px; line-height: 1.4;">
+    🎯 Ξεχωρίζετε από τον ανταγωνισμό &amp; κερδίζετε νέους πελάτες (πλήρης απόσβεση από την 1η δουλειά!)
+  </div>
+  <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
     ✓ Επίσημο τιμολόγιο για τα έξοδα της επιχείρησής σας &nbsp;|&nbsp; ✓ Καμία κρυφή χρέωση
   </div>
 </div>
