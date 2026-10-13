@@ -251,9 +251,9 @@ const templates = [
   },
   {
     name: "🚀 Επιχειρήσεις & Ατομικές: Πλήρης Online Παρουσία 200€ (με ΦΠΑ)",
-    subject: "Πλήρης Online Παρουσία, Google Maps & Συστάσεις ChatGPT για την επιχείρησή σας (200€ με ΦΠΑ)",
+    subject: "Πλήρης Online Παρουσία, Google Maps & Αναγνώριση από ChatGPT (200€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
-  Αποκτήστε πλήρη online παρουσία, Google Maps &amp; συστάσεις από το ChatGPT.
+  Αποκτήστε πλήρη online παρουσία, Google Maps &amp; αναγνώριση από το ChatGPT.
 </h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.55;">
@@ -266,7 +266,7 @@ const templates = [
     🌐 1. Σύγχρονη Εταιρική Ιστοσελίδα (Mobile &amp; Ταχύτατη)
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις υπηρεσίες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL, <strong>επαγγελματικό λογότυπο</strong>, εταιρικά emails και <strong>φόρμα επικοινωνίας</strong> για να λαμβάνετε άμεσα αιτήματα νέων πελατών στο κινητό σας!
+    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις υπηρεσίες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain (π.χ. onomasas.gr)</strong>, Hosting 1 έτους, πιστοποιητικό SSL, <strong>επαγγελματικό λογότυπο</strong>, <strong>εταιρικά emails</strong> (π.χ. info@..., sales@... κ.λπ.) και <strong>φόρμα επικοινωνίας</strong> για να λαμβάνετε άμεσα αιτήματα νέων πελατών στο κινητό σας!
     <div style="margin-top: 5px; font-size: 12px;">
       👉 <em>Δείτε πρόσφατο δείγμα πελάτη μας:</em> <a href="https://yolo8.eu/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">yolo8.eu</a>
     </div>
@@ -278,16 +278,16 @@ const templates = [
     📍 2. Google Business Profile &amp; Χάρτες (Google Maps)
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Πλήρης ρύθμιση στον χάρτη της Google, ώστε όταν πελάτες στην περιοχή σας ψάχνουν τις υπηρεσίες σας, να σας βρίσκουν πρώτους και να σας καλούν απευθείας.
+    Πλήρης ρύθμιση στον χάρτη της Google με ωράρια λειτουργίας (πότε ανοίγετε &amp; πότε κλείνετε), τηλέφωνο και διεύθυνση, ώστε όταν πελάτες στην περιοχή σας ψάχνουν τις υπηρεσίες σας, να σας βρίσκουν πρώτους και να σας καλούν απευθείας.
   </div>
 </div>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #8b5cf6; padding: 12px 14px; margin-bottom: 14px; border-radius: 0 8px 8px 0;">
   <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
-    🤖 3. Συστάσεις απευθείας από το ChatGPT &amp; AI
+    🤖 3. Το ChatGPT θα γνωρίζει για εσάς και θα σας προτείνει
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Οι πελάτες σας ρωτούν πλέον το ChatGPT: όταν λένε π.χ. <em>«θέλω υδραυλικό ή αξιόπιστο επαγγελματία στην περιοχή μου»</em>, η τεχνητή νοημοσύνη θα προτείνει <strong>εσάς αμέσως</strong> να σας καλέσουν και να σας προτιμήσουν!
+    Όταν κάποιος ρωτάει στο ChatGPT (π.χ. <em>«θέλω υδραυλικό ή επαγγελματία στην περιοχή μου»</em>), η τεχνητή νοημοσύνη θα γνωρίζει την επιχείρησή σας και θα σας προτείνει αμέσως να σας καλέσουν και να σας προτιμήσουν!
   </div>
 </div>
 
@@ -300,10 +300,10 @@ const templates = [
     200 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική Τιμή με ΦΠΑ 24%)</span>
   </div>
   <div style="font-size: 12.5px; color: #1e3a8a; font-weight: 700; margin-top: 5px; line-height: 1.4;">
-    🎯 Ξεχωρίζετε από τον ανταγωνισμό &amp; κερδίζετε νέους πελάτες (πλήρης απόσβεση από την 1η δουλειά!)
+    🎯 Ξεχωρίζετε από τον ανταγωνισμό &amp; κερδίζετε νέους πελάτες
   </div>
   <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
-    ✓ Επίσημο τιμολόγιο για τα έξοδα της επιχείρησής σας &nbsp;|&nbsp; ✓ Καμία κρυφή χρέωση
+    ✓ Τιμολόγιο για τα έξοδα της επιχείρησής σας &nbsp;|&nbsp; ✓ Καμία κρυφή χρέωση
   </div>
 </div>
 
@@ -313,8 +313,8 @@ const templates = [
   <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14.5px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
   <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14.5px;">📱 6999 524 389</a>
 </div>`,
-    defaultButtonText: "Απαντήστε σε αυτό το email ή καλέστε μας",
-    defaultButtonLink: "mailto:info@sgk.gr?subject=Ενδιαφέρον%20για%20Online%20Παρουσία%20(200€)"
+    defaultButtonText: "",
+    defaultButtonLink: ""
   },
   {
     name: "Istoselida ike 150 ευρω",
