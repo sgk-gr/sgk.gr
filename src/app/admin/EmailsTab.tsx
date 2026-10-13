@@ -141,6 +141,15 @@ export const CLIENT_PROFESSIONS: Record<string, ProfessionConfig> = {
     text: "text-slate-800",
     border: "border-slate-300"
   },
+  new_business_presence: {
+    key: "new_business_presence",
+    label: "Νέα Επιχείρηση (Ο.Ε., Ε.Ε., Α.Ε.)",
+    shortLabel: "ΟΕ/ΕΕ/ΑΕ",
+    icon: "🚀",
+    badgeBg: "bg-purple-50",
+    text: "text-purple-800",
+    border: "border-purple-300"
+  },
   general_co: {
     key: "general_co",
     label: "Εταιρεία / Επιχείρηση",
@@ -170,6 +179,7 @@ export function getLeadProfession(lead: any): ProfessionConfig {
   if (t.includes('routis') || t.includes('services') || t.includes('υπηρεσι')) return CLIENT_PROFESSIONS.services;
   if (lead.type === 'ftth_telecom') return CLIENT_PROFESSIONS.ftth_telecom;
   if (lead.type === 'operations_tech') return CLIENT_PROFESSIONS.operations_tech;
+  if (lead.type === 'new_business_presence' || lead.type === 'non_ike') return CLIENT_PROFESSIONS.new_business_presence;
   if (lead.type === 'new_ike') return CLIENT_PROFESSIONS.new_ike;
   return CLIENT_PROFESSIONS.general_co;
 }
@@ -229,6 +239,67 @@ const templates = [
 </div>`,
     defaultButtonText: "Δείτε Live Demo (2 λεπτά)",
     defaultButtonLink: "https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta"
+  },
+  {
+    name: "🚀 Νέες Επιχειρήσεις (Ο.Ε., Ε.Ε., Α.Ε.): Πλήρης Online Παρουσία 200€ (με ΦΠΑ)",
+    subject: "Νέα επιχείρηση; Πλήρης Online Παρουσία, Google Maps & AI Αναγνωρισιμότητα (200€ με ΦΠΑ)",
+    body: `<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
+  Ξεκινήσατε νέα επιχείρηση; Αποκτήστε πλήρη online παρουσία από την 1η ημέρα.
+</h2>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.55;">
+  Συγχαρητήρια για το νέο σας ξεκίνημα! Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν απλώς στον επαγγελματικό οδηγό: <strong>αναζητούν στο Google Maps και ρωτούν τα νέα AI εργαλεία (ChatGPT, Claude)</strong>.
+</p>
+
+<!-- 3 Punchy Visual Cards (SGK Brand Colors: Blue, Emerald, Purple) -->
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    🌐 1. Σύγχρονη Εταιρική Ιστοσελίδα (Mobile-First &amp; Ταχύτατη)
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Έτοιμη σε λίγες ημέρες, απόλυτα προσαρμοσμένη στις ανάγκες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL και <strong>εταιρικά emails</strong> (π.χ. info@...).
+  </div>
+</div>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #10b981; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    📍 2. Google Business Profile &amp; Τοπικό SEO (Google Maps)
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Πλήρης ρύθμιση και βελτιστοποίηση της επαγγελματικής σας κάρτας στο Google, ώστε όταν πελάτες στην περιοχή σας ψάχνουν τις υπηρεσίες σας, να σας βρίσκουν πρώτους.
+  </div>
+</div>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #8b5cf6; padding: 12px 14px; margin-bottom: 14px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    🤖 3. AI &amp; LLM Αναγνωρισιμότητα (GEO / AEO - ChatGPT, Claude, Perplexity)
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Βελτιστοποίηση περιεχομένου για τις μηχανές τεχνητής νοημοσύνης (Generative Engine Optimization), ώστε όταν οι χρήστες ζητούν προτάσεις επαγγελματιών στον κλάδο σας, τα AI μοντέλα να προτείνουν εσάς!
+  </div>
+</div>
+
+<!-- Price Card -->
+<div style="background-color: #eff6ff; border: 1.5px solid #bfdbfe; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; text-align: center;">
+  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #1e40af; margin-bottom: 2px;">
+    Ολοκληρωμενο Πακετο Εκκινησης
+  </div>
+  <div style="font-size: 22px; font-weight: 900; color: #1e3a8a;">
+    200 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική Τιμή με ΦΠΑ 24%)</span>
+  </div>
+  <div style="font-size: 12px; color: #64748b; margin-top: 3px;">
+    ✓ Επίσημο τιμολόγιο για τα έξοδα της επιχείρησής σας &nbsp;|&nbsp; ✓ Καμία κρυφή χρέωση
+  </div>
+</div>
+
+<!-- Direct Phone Call Strip -->
+<div style="text-align: center; font-size: 13px; color: #64748b; margin-top: 14px; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+  Θέλετε άμεση έναρξη ή έχετε ερωτήσεις; Καλέστε μας απευθείας:<br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14px;">📱 6999 524 389</a>
+</div>`,
+    defaultButtonText: "Εκδήλωση Ενδιαφέροντος (200€ με ΦΠΑ)",
+    defaultButtonLink: "https://www.sgk.gr/website-offer"
   },
   {
     name: "Istoselida ike 150 ευρω",
@@ -805,8 +876,8 @@ export function EmailsTab() {
   // Live GEMI Scanner state & Real-time Live Modal
   const [isRunningAutoFollowUp, setIsRunningAutoFollowUp] = useState(false);
   const [isScanningGemi, setIsScanningGemi] = useState(false);
-  const [scanCategory, setScanCategory] = useState<"all" | "ftth_telecom">("all");
-  const [scanMonth, setScanMonth] = useState<"current" | "previous" | "all_year">("current");
+  const [scanCategory, setScanCategory] = useState<"all" | "ftth_telecom" | "non_ike">("all");
+  const [scanMonth, setScanMonth] = useState<string>("current");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
   const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
   const [scanStats, setScanStats] = useState({
@@ -1754,12 +1825,26 @@ function safeEncodeBase64(data: any): string {
     }
   };
 
-  const runGemiScan = async (category: "all" | "ftth_telecom" = "all") => {
+  const runGemiScan = async (category: "all" | "ftth_telecom" | "non_ike" = "all") => {
     setScanCategory(category);
     const isFtth = category === "ftth_telecom";
-    const monthLabel =
-      scanMonth === "current" ? `📅 ${currentMonthName} ${now.getFullYear()}` :
-      scanMonth === "previous" ? `📅 ${prevMonthName} ${prevDate.getFullYear()}` : `📅 Όλο το ${now.getFullYear()}`;
+    const isNonIke = category === "non_ike";
+
+    const monthNamesMap: Record<string, string> = {
+      "01": "Ιανουάριος", "02": "Φεβρουάριος", "03": "Μάρτιος", "04": "Απρίλιος",
+      "05": "Μάιος", "06": "Ιούνιος", "07": "Ιούλιος", "08": "Αύγουστος",
+      "09": "Σεπτέμβριος", "10": "Οκτώβριος", "11": "Νοέμβριος", "12": "Δεκέμβριος"
+    };
+
+    let monthLabel = `📅 Όλο το ${now.getFullYear()}`;
+    if (scanMonth === "current") {
+      monthLabel = `📅 ${currentMonthName} ${now.getFullYear()}`;
+    } else if (scanMonth === "previous") {
+      monthLabel = `📅 ${prevMonthName} ${prevDate.getFullYear()}`;
+    } else if (scanMonth && scanMonth.includes("-")) {
+      const [y, m] = scanMonth.split("-");
+      monthLabel = `📅 ${monthNamesMap[m] || m} ${y}`;
+    }
 
     setIsScanModalOpen(true);
     setIsScanningGemi(true);
@@ -1767,6 +1852,8 @@ function safeEncodeBase64(data: any): string {
     setScanStatusMessage(
       isFtth
         ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Εταιρείες FTTH & Τηλεπικοινωνιών (${monthLabel})...`
+        : isNonIke
+        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε.) (${monthLabel})...`
         : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
     );
     setScanStats({
@@ -1785,6 +1872,8 @@ function safeEncodeBase64(data: any): string {
         type: "init",
         message: isFtth
           ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για FTTH & Οπτικές Ίνες (${monthLabel})...`
+          : isNonIke
+          ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (${monthLabel})...`
           : `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
       }
     ]);
@@ -1797,7 +1886,7 @@ function safeEncodeBase64(data: any): string {
           stream: true, 
           limit: 50, 
           targetCategory: category,
-          targetLegalForm: "ike",
+          targetLegalForm: isNonIke ? "non_ike" : isFtth ? "all" : "ike",
           month: scanMonth,
         }),
       });
@@ -1938,6 +2027,7 @@ function safeEncodeBase64(data: any): string {
 
   const handleScanGemiIkes = () => runGemiScan("all");
   const handleScanGemiFtthIkes = () => runGemiScan("ftth_telecom");
+  const handleScanGemiNonIke = () => runGemiScan("non_ike");
 
   const dueFollowUpIkeLeads = useMemo(() => {
     const sequenceStartDate = "2026-10-11T00:00:00.000Z";
@@ -2784,7 +2874,7 @@ function safeEncodeBase64(data: any): string {
 
           <select
             value={scanMonth}
-            onChange={(e) => setScanMonth(e.target.value as any)}
+            onChange={(e) => setScanMonth(e.target.value)}
             disabled={isScanningGemi}
             className="adm-select"
             title="Επιλογή Μήνα Ίδρυσης"
@@ -2792,6 +2882,20 @@ function safeEncodeBase64(data: any): string {
             <option value="current">{currentMonthName} {now.getFullYear()} (Τρέχων)</option>
             <option value="previous">{prevMonthName} {prevDate.getFullYear()}</option>
             <option value="all_year">Όλο το {now.getFullYear()}</option>
+            <optgroup label={`Μήνες ${now.getFullYear()}`}>
+              <option value={`${now.getFullYear()}-12`}>Δεκέμβριος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-11`}>Νοέμβριος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-10`}>Οκτώβριος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-09`}>Σεπτέμβριος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-08`}>Αύγουστος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-07`}>Ιούλιος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-06`}>Ιούνιος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-05`}>Μάιος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-04`}>Απρίλιος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-03`}>Μάρτιος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-02`}>Φεβρουάριος {now.getFullYear()}</option>
+              <option value={`${now.getFullYear()}-01`}>Ιανουάριος {now.getFullYear()}</option>
+            </optgroup>
           </select>
 
           <button
@@ -2802,6 +2906,16 @@ function safeEncodeBase64(data: any): string {
           >
             {isScanningGemi && scanCategory === "all" ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
             Εύρεση νέων Ι.Κ.Ε.
+          </button>
+
+          <button
+            onClick={handleScanGemiNonIke}
+            disabled={isScanningGemi}
+            className="adm-btn adm-btn-accent"
+            title="Live σάρωση στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις εκτός Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές) για καμπάνια Online Παρουσίας & AI (200€ με ΦΠΑ)"
+          >
+            {isScanningGemi && scanCategory === "non_ike" ? <Loader2 size={13} className="animate-spin" /> : <Building2 size={13} />}
+            Εύρεση εκτός Ι.Κ.Ε.
           </button>
 
           <button
@@ -3542,18 +3656,28 @@ function safeEncodeBase64(data: any): string {
             {/* Modal Header */}
             <div className="bg-white px-6 py-4 border-b border-gray-200 flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className={`w-9 h-9 rounded-xl ${scanCategory === "ftth_telecom" ? "bg-cyan-600" : "bg-[#3b5bdb]"} flex items-center justify-center text-white shadow-sm`}>
+                <div className={`w-9 h-9 rounded-xl ${
+                  scanCategory === "ftth_telecom" ? "bg-cyan-600" :
+                  scanCategory === "non_ike" ? "bg-purple-600" :
+                  "bg-[#3b5bdb]"
+                } flex items-center justify-center text-white shadow-sm`}>
                   {isScanningGemi ? (
                     <Loader2 size={18} className="animate-spin text-white" />
                   ) : scanCategory === "ftth_telecom" ? (
                     <Target size={18} className="text-white" />
+                  ) : scanCategory === "non_ike" ? (
+                    <Building2 size={18} className="text-white" />
                   ) : (
                     <Sparkles size={18} className="text-white" />
                   )}
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900 text-base tracking-tight flex items-center gap-2">
-                    {scanCategory === "ftth_telecom" ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH & Δικτύων" : "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε."}
+                    {scanCategory === "ftth_telecom" 
+                      ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH & Δικτύων" 
+                      : scanCategory === "non_ike"
+                      ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Επιχειρήσεων (εκτός Ι.Κ.Ε.)"
+                      : "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε."}
                     {isScanningGemi && (
                       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
                         <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
@@ -3566,9 +3690,13 @@ function safeEncodeBase64(data: any): string {
                       ? `Ίδρυση τον τρέχοντα μήνα (${currentMonthName} ${now.getFullYear()})`
                       : scanMonth === "previous"
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
+                      : scanMonth.includes("-")
+                      ? `Ίδρυση τον επιλεγμένο μήνα (${scanMonth})`
                       : `Ίδρυση εντός του ${now.getFullYear()}`}
                     {scanCategory === "ftth_telecom"
                       ? " • Στοχευμένος ΚΑΔ: 43210006 / 43211006 • Όλες οι νομικές μορφές"
+                      : scanCategory === "non_ike"
+                      ? " • Όλες οι νομικές μορφές ΕΚΤΟΣ Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές) • Καμπάνια Online Παρουσίας (200€)"
                       : " • Μόνο Ι.Κ.Ε."}
                   </p>
                 </div>

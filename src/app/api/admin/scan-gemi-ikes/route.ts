@@ -250,7 +250,8 @@ export async function POST(req: NextRequest) {
   const maxResults = body.limit || 50;
   const targetCategory = body.targetCategory || "all";
   const isFtthMode = targetCategory === "ftth_telecom";
-  const targetLegalForm = isFtthMode ? "all" : "ike"; // In FTTH mode, scan ALL legal forms (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)
+  const isNonIkeMode = targetCategory === "non_ike" || targetCategory === "new_non_ike";
+  const targetLegalForm = isFtthMode ? "all" : isNonIkeMode ? "non_ike" : "ike";
   
   // Dynamic Month Handling: automatically follows current month (e.g. 2026-09 in September, 2026-10 in October)
   const now = new Date();
@@ -309,6 +310,8 @@ export async function POST(req: NextRequest) {
             type: "init",
             message: isFtthMode
               ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [ΚΑΔ 43210006/43211006 - Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών | Όλες οι Μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) | 📅 ${monthLabel}]...`
+              : isNonIkeMode
+              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές) | 📅 ${monthLabel}]...`
               : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
             minDate,
             maxResults,
@@ -373,20 +376,22 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = 0;
 
-          const maxOffset = isFtthMode ? 15000 : 4000;
+          const maxOffset = isFtthMode ? 15000 : 8000;
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor(offset / pageSize) + 1;
             emit({
               type: "page",
               message: isFtthMode
                 ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (έλεγχος ΚΑΔ 43210006 σε όλες τις μορφές ${offset + 1} έως ${offset + pageSize})...`
+                : isNonIkeMode
+                ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες εταιρείες εκτός ΙΚΕ ${offset + 1} έως ${offset + pageSize})...`
                 : `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες Ι.Κ.Ε. ${offset + 1} έως ${offset + pageSize})...`,
               offset,
               page: pageNum
             });
 
-            // Target only IKEs if general mode; in FTTH mode target ALL legal forms (AE, EE, OE, IKE, Ατομική)
-            const legalTypeParam = isFtthMode ? "" : "&legalTypes=19";
+            // Target only IKEs if general mode; in FTTH or Non-IKE mode query all legal types from GEMI
+            const legalTypeParam = (isFtthMode || isNonIkeMode) ? "" : "&legalTypes=19";
             const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}&resultsSortBy=-arGemi`;
 
             let results: any[] = [];
@@ -419,7 +424,7 @@ export async function POST(req: NextRequest) {
 
             for (const co of results) {
               totalExamined++;
-              const legalForm = co.legalType?.descr || (isFtthMode ? "Τηλεπικοινωνίες" : "Ι.Κ.Ε.");
+              const legalForm = co.legalType?.descr || (isFtthMode ? "Τηλεπικοινωνίες" : isNonIkeMode ? "Επιχείρηση" : "Ι.Κ.Ε.");
               const companyTitle = co.coNameEl || (co.coTitlesEl && co.coTitlesEl[0]) || `Νέα ${legalForm}`;
               const incDate = co.incorporationDate ? String(co.incorporationDate).split("T")[0].trim() : "";
               const email = (co.email || "").toLowerCase().trim();
@@ -427,6 +432,21 @@ export async function POST(req: NextRequest) {
               const phone = co.phone ? String(co.phone).trim() : null;
               const afm = co.afm ? String(co.afm).trim() : null;
               const arGemi = co.arGemi ? String(co.arGemi).trim() : null;
+
+              // Filter: In Non-IKE mode, strictly exclude any I.K.E. companies
+              const legalDescrUpper = (co.legalType?.descr || "").toUpperCase();
+              const isIke = (co.legalType?.id === 19) ||
+                legalDescrUpper.includes("ΙΚΕ") ||
+                legalDescrUpper.includes("Ι.Κ.Ε.") ||
+                legalDescrUpper.includes("ΙΔΙΩΤΙΚΗ ΚΕΦΑΛΑΙΟΥΧΙΚΗ") ||
+                companyTitle.toUpperCase().includes(" ΙΚΕ") ||
+                companyTitle.toUpperCase().includes(" Ι.Κ.Ε.") ||
+                companyTitle.toUpperCase().endsWith("ΙΚΕ") ||
+                companyTitle.toUpperCase().endsWith("Ι.Κ.Ε.");
+
+              if (isNonIkeMode && isIke) {
+                continue;
+              }
 
               // Filter: Check minimum incorporation date
               if (minDate && incDate && incDate < minDate) {
@@ -459,7 +479,7 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Filter: Check official website (Only in general IKE mode; FTTH contractors are targeted for autopsy software)
+              // Filter: Check official website (Only in general IKE/Non-IKE mode; FTTH contractors are targeted for autopsy software)
               if (!isFtthMode && hasOfficialWebsite(urlClean)) {
                 totalHasWebsite++;
                 emit({
@@ -502,7 +522,7 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Filter: Check Custom Corporate Domain (Only in general IKE mode)
+              // Filter: Check Custom Corporate Domain (Only in general IKE/Non-IKE mode)
               if (!isFtthMode && isCustomDomainEmail(email)) {
                 totalCustomDomain++;
                 emit({
@@ -545,7 +565,12 @@ export async function POST(req: NextRequest) {
               if (email) seenInBatch.add(email);
               if (afm) seenAfmInBatch.add(afm);
 
-              const leadType = isFtthMode || ftthCheck.isMatch ? "ftth_telecom" : "new_ike";
+              const leadType = isFtthMode || ftthCheck.isMatch 
+                ? "ftth_telecom" 
+                : isNonIkeMode 
+                ? "new_business_presence" 
+                : "new_ike";
+
               const newLead = {
                 email: email,
                 company: companyTitle,
@@ -575,6 +600,8 @@ export async function POST(req: NextRequest) {
                 date: incDate,
                 reason: isFtthMode || ftthCheck.isMatch
                   ? `🔌 ΕΤΑΙΡΕΙΑ FTTH / ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ (${ftthCheck.reason}) [${legalForm}]! Προστέθηκε για καμπάνια Αυτοψιών!`
+                  : isNonIkeMode
+                  ? `🏢 ΝΕΑ ΕΠΙΧΕΙΡΗΣΗ [${legalForm}] (Εκτός Ι.Κ.Ε.)! Προστέθηκε για καμπάνια Online Παρουσίας & AI (200€)!`
                   : `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
