@@ -1,0 +1,120 @@
+/* ------------------------------------------------------------------
+   SGK Admin theme — clean "dashboard" look (dark sidebar, white cards)
+   Scoped to .admin-shell so it never touches the public website.
+------------------------------------------------------------------- */
+
+.admin-shell {
+  --adm-bg: #f6f5f0;
+  --adm-card: #ffffff;
+  --adm-border: #e7e8ec;
+  --adm-border-strong: #d6d9e0;
+  --adm-text: #0f172a;
+  --adm-muted: #64748b;
+  --adm-navy: #0b1530;
+  --adm-blue: #3b5bdb;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--adm-text);
+}
+
+/* Typography: calmer, no heavy italic/black look */
+.admin-shell .italic { font-style: normal !important; }
+.admin-shell .font-black { font-weight: 700 !important; }
+.admin-shell .tracking-widest { letter-spacing: 0.06em !important; }
+.admin-shell .tracking-wider { letter-spacing: 0.04em !important; }
+.admin-shell h1, .admin-shell h2, .admin-shell h3 { letter-spacing: -0.01em; }
+
+/* Cards / panels: solid white, soft border, small radius, tiny shadow */
+.admin-shell [class*="rounded-3xl"],
+.admin-shell [class*="rounded-2xl"] {
+  border-radius: 14px !important;
+}
+.admin-shell [class*="rounded-xl"] {
+  border-radius: 10px !important;
+}
+.admin-shell [class*="backdrop-blur"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.admin-shell [class*="bg-white/40"],
+.admin-shell [class*="bg-white/50"],
+.admin-shell [class*="bg-white/60"],
+.admin-shell [class*="bg-white/70"],
+.admin-shell [class*="bg-white/80"] {
+  background-color: var(--adm-card) !important;
+}
+.admin-shell [class*="border-gray-200"] {
+  border-color: var(--adm-border) !important;
+}
+.admin-shell main [class*="rounded-2xl"][class*="border"],
+.admin-shell main [class*="rounded-3xl"][class*="border"] {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.admin-shell .shadow-lg,
+.admin-shell .shadow-xl,
+.admin-shell .shadow-2xl {
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important;
+}
+
+/* Page background stays warm (matches website) */
+.admin-shell { background-color: var(--adm-bg); }
+
+/* Tables: light header, roomy rows, quiet hover */
+.admin-shell table { border-collapse: separate; border-spacing: 0; }
+.admin-shell thead tr {
+  background: #fafaf8 !important;
+}
+.admin-shell thead th {
+  color: var(--adm-muted) !important;
+  font-weight: 600 !important;
+  font-size: 10.5px !important;
+  border-bottom: 1px solid var(--adm-border);
+}
+.admin-shell tbody tr { transition: background-color 0.12s ease; }
+.admin-shell tbody tr:hover { background-color: #fafaf8; }
+.admin-shell tbody td { border-bottom: 1px solid #f0f0ec; }
+.admin-shell tbody tr:last-child td { border-bottom: 0; }
+.admin-shell .divide-y > :not([hidden]) ~ :not([hidden]) { border-color: #f0f0ec !important; }
+
+/* Inputs */
+.admin-shell input[type="text"],
+.admin-shell input[type="email"],
+.admin-shell input[type="search"],
+.admin-shell input[type="number"],
+.admin-shell input[type="password"],
+.admin-shell input[type="date"],
+.admin-shell select,
+.admin-shell textarea {
+  border-radius: 10px;
+}
+.admin-shell input:focus,
+.admin-shell select:focus,
+.admin-shell textarea:focus {
+  outline: none;
+  border-color: var(--adm-blue) !important;
+  box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12);
+}
+
+/* Buttons: slightly smaller radius, no glowing shadows */
+.admin-shell button { border-radius: 10px; }
+.admin-shell button[class*="shadow-lg"],
+.admin-shell button[class*="shadow-md"] {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12) !important;
+}
+.admin-shell button[class*="uppercase"] { letter-spacing: 0.03em; }
+
+/* Sidebar */
+.admin-sidebar nav::-webkit-scrollbar { width: 4px; }
+.admin-sidebar nav::-webkit-scrollbar-track { background: transparent; }
+.admin-sidebar nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
+
+/* Content scrollbars */
+.admin-shell *::-webkit-scrollbar { width: 8px; height: 8px; }
+.admin-shell *::-webkit-scrollbar-thumb { background: #cfd3dc; border-radius: 10px; }
+.admin-shell *::-webkit-scrollbar-thumb:hover { background: #aab1bf; }
+.admin-shell *::-webkit-scrollbar-track { background: transparent; }
+
+/* Print: hide sidebar */
+@media print {
+  .admin-sidebar { display: none !important; }
+  .admin-shell { display: block !important; background: #fff !important; }
+}

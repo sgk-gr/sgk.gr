@@ -2586,9 +2586,9 @@ function safeEncodeBase64(data: any): string {
       <div className="bg-white/40 backdrop-blur-xl border border-gray-200/50 p-6 rounded-2xl">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="space-y-1">
-            <h2 className="text-xl font-black text-gray-900 italic tracking-wide uppercase flex items-center gap-2">
-              <Mail className="text-[#3b5bdb]" />
-              Λιστα Παραληπτων Email ({filteredLeads.length})
+            <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+              <Mail className="text-[#3b5bdb]" size={20} />
+              Λίστα Παραληπτών Email ({filteredLeads.length})
             </h2>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">
               Διαχειριστείτε τη λίστα email και στείλτε καμπάνιες με Live Preview
@@ -2648,7 +2648,7 @@ function safeEncodeBase64(data: any): string {
             </button>
 
             {/* Targeted GEMI Scanner Dual Selectors & Trigger */}
-            <div className="inline-flex items-center flex-wrap bg-slate-900 border border-slate-700/80 rounded-xl p-1 shadow-md gap-1">
+            <div className="inline-flex items-center flex-wrap bg-[#0b1530] border border-[#1b2a55] rounded-xl p-1 gap-1">
               <div className="flex items-center gap-1 pl-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
                 <Target size={12} className="text-yellow-400" />
                 <span className="hidden sm:inline">Μήνας:</span>

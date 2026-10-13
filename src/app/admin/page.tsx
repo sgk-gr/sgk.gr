@@ -995,38 +995,109 @@ export default function AdminVatDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f2ea] text-gray-800 font-sans antialiased pb-20 selection:bg-[#3b5bdb]/25">
-      
-      {/* BACKGROUND GLOW EFFECTS */}
-      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-[#3b5bdb]/5 to-transparent pointer-events-none z-0" />
-      <div className="absolute top-1/4 right-10 w-[300px] h-[300px] bg-[#3b5bdb]/3 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="absolute top-2/3 left-10 w-[350px] h-[350px] bg-[#f43f5e]/3 rounded-full blur-[140px] pointer-events-none z-0" />
+    <div className="admin-shell min-h-screen flex bg-[#f6f5f0] text-gray-800 font-sans antialiased selection:bg-[#3b5bdb]/25">
 
-      {/* HEADER SECTION */}
-      <header className="relative z-10 border-b border-gray-200/80 bg-gray-50/70 backdrop-blur-md sticky top-0 shadow-lg no-print">
-        <div className="max-w-7xl mx-auto px-6 h-[85px] flex items-center justify-between">
-          <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-1 shadow-md shrink-0">
-              <span className="font-heading font-black text-lg tracking-tighter text-white">
-                sgk<span className="text-[#3b5bdb]">.</span>
-              </span>
+      {/* LEFT SIDEBAR */}
+      <aside className="admin-sidebar no-print sticky top-0 h-screen shrink-0 w-[72px] lg:w-[250px] bg-[#0b1530] text-slate-300 flex flex-col z-30">
+        <div className="h-[72px] px-4 lg:px-5 flex items-center gap-3 border-b border-white/5">
+          <div className="w-9 h-9 rounded-lg bg-[#3b5bdb] flex items-center justify-center shrink-0 shadow-md shadow-blue-900/30">
+            <span className="font-heading font-black text-base tracking-tighter text-white">sgk<span className="text-white/70">.</span></span>
+          </div>
+          <div className="hidden lg:block leading-tight">
+            <div className="text-sm font-bold text-white">SGK Digital</div>
+            <div className="text-[10px] text-slate-400 font-medium">Admin Portal</div>
+          </div>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5 custom-scrollbar">
+          {[
+            {
+              group: "Marketing & Πωλήσεις",
+              items: [
+                { id: "emails", label: "Email Leads", icon: Mail },
+                { id: "contracts", label: "Συμφωνητικά (ΓΕΜΗ)", icon: FileCheck },
+              ],
+            },
+            {
+              group: "Οικονομικά",
+              items: [
+                { id: "ledger", label: "Φορολογικό Ledger & ΦΠΑ", icon: FileSpreadsheet },
+                { id: "aade", label: "Πρότυπο Τιμολογίου", icon: Calculator },
+                { id: "tax", label: "Εκτίμηση Φόρου", icon: Briefcase },
+                { id: "spyros", label: "Σπύρος (Financial)", icon: User },
+              ],
+            },
+          ].map((section) => (
+            <div key={section.group}>
+              <div className="hidden lg:block px-3 mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                {section.group}
+              </div>
+              <div className="space-y-1">
+                {section.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activePortalTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setActivePortalTab(item.id as any)}
+                      title={item.label}
+                      className={`w-full flex items-center justify-center lg:justify-start gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all ${
+                        isActive
+                          ? "bg-[#3b5bdb] text-white shadow-md shadow-blue-900/30"
+                          : "text-slate-300 hover:bg-white/5 hover:text-white"
+                      }`}
+                    >
+                      <Icon className="w-[18px] h-[18px] shrink-0" />
+                      <span className="hidden lg:inline truncate">{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
-                SGK SYSTEM PORTAL <span className="text-[10px] bg-blue-500/10 border border-blue-500/20 text-[#3b5bdb] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider">TAX & VAT</span>
-              </h1>
-              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">Διαχείριση ΦΠΑ & Παρακράτησης 20%</p>
+          ))}
+        </nav>
+
+        <div className="px-3 py-4 border-t border-white/5">
+          <div className="flex items-center justify-center lg:justify-start gap-3 px-2">
+            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[11px] font-bold text-white shrink-0">SG</div>
+            <div className="hidden lg:block leading-tight min-w-0">
+              <div className="text-xs font-semibold text-white truncate">SGK Admin</div>
+              <div className="text-[10px] text-emerald-400 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> Online
+              </div>
             </div>
           </div>
+        </div>
+      </aside>
 
-          <div className="flex items-center gap-4">
+      {/* MAIN CONTENT COLUMN */}
+      <div className="flex-1 min-w-0 flex flex-col pb-16">
+
+      {/* TOP BAR */}
+      <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-200 no-print">
+        <div className="px-8 h-[72px] flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold text-gray-900 tracking-tight truncate">
+              {{
+                emails: "Email Leads",
+                contracts: "Συμφωνητικά (ΓΕΜΗ)",
+                ledger: "Φορολογικό Ledger & ΦΠΑ",
+                aade: "Πρότυπο Τιμολογίου",
+                tax: "Εκτίμηση Φόρου",
+                spyros: "Σπύρος — Financial & Τειρεσίας",
+              }[activePortalTab as string] || "Admin"}
+            </h1>
+            <p className="text-xs text-slate-500 font-medium">SGK Digital · Διαχείριση ΦΠΑ & Παρακράτησης 20%</p>
+          </div>
+
+          <div className="flex items-center gap-3">
             {/* Year Selector */}
-            <div className="flex items-center bg-gray-100/90 border border-gray-200 rounded-xl px-3 py-1.5 shadow-sm">
+            <div className="flex items-center bg-white border border-gray-200 rounded-lg px-3 py-1.5">
               <Calendar className="w-4 h-4 text-slate-500 mr-2" />
-              <select 
+              <select
                 value={filterYear}
                 onChange={(e) => setFilterYear(e.target.value)}
-                className="bg-transparent text-sm font-bold text-gray-900 outline-none cursor-pointer"
+                className="bg-transparent text-sm font-semibold text-gray-900 outline-none cursor-pointer"
               >
                 <option value="2026" className="bg-white">Έτος 2026</option>
                 <option value="2025" className="bg-white">Έτος 2025</option>
@@ -1035,101 +1106,29 @@ export default function AdminVatDashboard() {
             </div>
 
             {/* Export JSON */}
-            <button 
+            <button
               onClick={handleExportJSON}
-              className="p-2.5 bg-gray-100 border border-gray-200 hover:border-slate-700 hover:text-gray-900 rounded-xl transition-all flex items-center gap-2 text-xs font-bold shadow-sm"
+              className="px-3 py-2 bg-white border border-gray-200 hover:border-gray-400 rounded-lg transition-all flex items-center gap-2 text-xs font-semibold text-gray-700"
               title="Εξαγωγή Ledger σε αρχείο JSON"
             >
-              <Download className="w-4 h-4 text-gray-600" />
+              <Download className="w-4 h-4" />
               <span className="hidden md:inline">Εξαγωγή</span>
             </button>
 
             {/* Import JSON */}
-            <label className="p-2.5 bg-gray-100 border border-gray-200 hover:border-slate-700 hover:text-gray-900 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer shadow-sm">
-              <Upload className="w-4 h-4 text-gray-600" />
+            <label className="px-3 py-2 bg-[#0b1530] hover:bg-[#13214a] text-white rounded-lg transition-all flex items-center gap-2 text-xs font-semibold cursor-pointer">
+              <Upload className="w-4 h-4" />
               <span className="hidden md:inline">Εισαγωγή</span>
-              <input 
-                type="file" 
-                accept=".json" 
-                onChange={handleImportJSON} 
-                className="hidden" 
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImportJSON}
+                className="hidden"
               />
             </label>
           </div>
         </div>
       </header>
-
-      {/* PORTAL NAVIGATION TABS */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 mt-8">
-        <div className="flex bg-white/70 border border-gray-200 p-1.5 rounded-2xl gap-2 w-full md:w-fit backdrop-blur-md">
-          <button
-            onClick={() => setActivePortalTab("ledger")}
-            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
-              activePortalTab === "ledger"
-                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
-                : "text-gray-600 hover:text-slate-200"
-            }`}
-          >
-            <FileSpreadsheet className="w-4 h-4" />
-            Φορολογικό Ledger & ΦΠΑ
-          </button>
-          <button
-            onClick={() => setActivePortalTab("aade")}
-            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
-              activePortalTab === "aade"
-                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
-                : "text-gray-600 hover:text-slate-200"
-            }`}
-          >
-            <Calculator className="w-4 h-4" />
-            Πρότυπο Τιμολογίου
-          </button>
-          <button
-            onClick={() => setActivePortalTab("contracts")}
-            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
-              activePortalTab === "contracts"
-                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
-                : "text-gray-600 hover:text-slate-200"
-            }`}
-          >
-            <FileCheck className="w-4 h-4" />
-            Συμφωνητικά (ΓΕΜΗ)
-          </button>
-          <button
-            onClick={() => setActivePortalTab("tax")}
-            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
-              activePortalTab === "tax"
-                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
-                : "text-gray-600 hover:text-slate-200"
-            }`}
-          >
-            <Briefcase className="w-4 h-4" />
-            Εκτίμηση Φόρου (Παράλληλη)
-          </button>
-          <button
-            onClick={() => setActivePortalTab("emails")}
-            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
-              activePortalTab === "emails"
-                ? "bg-[#3b5bdb] text-[#030712] shadow-lg shadow-blue-500/10"
-                : "text-gray-600 hover:text-slate-200"
-            }`}
-          >
-            <Mail className="w-4 h-4" />
-            Email Leads
-          </button>
-          <button
-            onClick={() => setActivePortalTab("spyros")}
-            className={`flex-1 md:flex-none px-6 py-3 rounded-xl text-xs font-black uppercase italic tracking-wider transition-all flex items-center justify-center gap-2 ${
-              activePortalTab === "spyros"
-                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-500/20"
-                : "text-emerald-700 hover:text-emerald-900 bg-emerald-50/50"
-            }`}
-          >
-            <User className="w-4 h-4 text-emerald-600" />
-            Σπύρος (Financial & Τειρεσίας)
-          </button>
-        </div>
-      </div>
 
       <AnimatePresence mode="wait">
         
@@ -1143,7 +1142,7 @@ export default function AdminVatDashboard() {
             transition={{ duration: 0.3 }}
             className="relative z-10"
           >
-            <main className="max-w-7xl mx-auto px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <main className="max-w-[1500px] mx-auto px-8 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               {/* LEFT COLUMN: STATS AND QUARTERS */}
               <div className="lg:col-span-8 space-y-8">
@@ -1732,7 +1731,7 @@ export default function AdminVatDashboard() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3 }}
-            className="relative z-10 max-w-7xl mx-auto px-6 mt-8"
+            className="relative z-10 max-w-[1500px] mx-auto px-8 mt-6"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
@@ -2368,7 +2367,7 @@ export default function AdminVatDashboard() {
             transition={{ duration: 0.3 }}
             className="relative z-10"
           >
-            <main className="max-w-7xl mx-auto px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <main className="max-w-[1500px] mx-auto px-8 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               {/* LEFT COLUMN: INPUTS */}
               <div className="lg:col-span-4 space-y-8">
@@ -2595,7 +2594,7 @@ export default function AdminVatDashboard() {
             transition={{ duration: 0.3 }}
             className="relative z-10"
           >
-            <main className="max-w-7xl mx-auto px-6 mt-8">
+            <main className="max-w-[1500px] mx-auto px-8 mt-6">
               <ContractsTab onSendToEmail={() => setActivePortalTab("emails")} />
             </main>
           </motion.div>
@@ -2611,7 +2610,7 @@ export default function AdminVatDashboard() {
             transition={{ duration: 0.3 }}
             className="relative z-10"
           >
-            <main className="max-w-7xl mx-auto px-6 mt-8">
+            <main className="max-w-[1500px] mx-auto px-8 mt-6">
               <EmailsTab />
             </main>
           </motion.div>
@@ -2627,7 +2626,7 @@ export default function AdminVatDashboard() {
             transition={{ duration: 0.2 }}
             className="relative z-10"
           >
-            <main className="max-w-7xl mx-auto px-6 mt-8">
+            <main className="max-w-[1500px] mx-auto px-8 mt-6">
               <SpyrosTab />
             </main>
           </motion.div>
@@ -2636,7 +2635,7 @@ export default function AdminVatDashboard() {
       </AnimatePresence>
 
       {/* FOOTER */}
-      <footer className="relative z-10 max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-gray-200/80 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-black tracking-widest uppercase italic gap-4">
+      <footer className="relative z-10 max-w-[1500px] mx-auto px-8 mt-12 pt-8 border-t border-gray-200/80 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-black tracking-widest uppercase italic gap-4">
         <div className="flex gap-6 items-center">
           <span className="flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 bg-[#3b5bdb] rounded-full animate-pulse" /> 
@@ -2657,6 +2656,7 @@ export default function AdminVatDashboard() {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #10b981; }
       `}</style>
 
+      </div>
     </div>
   );
 }
