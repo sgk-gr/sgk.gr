@@ -250,14 +250,14 @@ const templates = [
     defaultButtonLink: "https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta"
   },
   {
-    name: "🚀 Νέες Επιχειρήσεις (Ο.Ε., Ε.Ε., Α.Ε.): Πλήρης Online Παρουσία 200€ (με ΦΠΑ)",
-    subject: "Νέα επιχείρηση; Πλήρης Online Παρουσία, Google Maps & Συστάσεις ChatGPT (200€ με ΦΠΑ)",
+    name: "🚀 Επιχειρήσεις & Ατομικές: Πλήρης Online Παρουσία 200€ (με ΦΠΑ)",
+    subject: "Πλήρης Online Παρουσία, Google Maps & Συστάσεις ChatGPT για την επιχείρησή σας (200€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
-  Ξεκινήσατε νέα επιχείρηση; Αποκτήστε πλήρη online παρουσία από την 1η ημέρα.
+  Αποκτήστε πλήρη online παρουσία, Google Maps &amp; συστάσεις από το ChatGPT.
 </h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.55;">
-  Συγχαρητήρια για το νέο σας ξεκίνημα! Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν πια σε οδηγούς: <strong>αναζητούν στο Google Maps και ρωτούν απευθείας το ChatGPT</strong>.
+  Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν πια σε παραδοσιακούς οδηγούς: <strong>αναζητούν στο Google Maps και ρωτούν απευθείας το ChatGPT</strong> για να επιλέξουν επαγγελματία.
 </p>
 
 <!-- 3 Punchy Visual Cards (SGK Brand Colors: Blue, Emerald, Purple) -->
@@ -301,14 +301,14 @@ const templates = [
   </div>
 </div>
 
-<!-- Direct Phone Call Strip -->
-<div style="text-align: center; font-size: 13px; color: #64748b; margin-top: 14px; padding-top: 10px; border-top: 1px solid #e2e8f0;">
-  Θέλετε άμεση έναρξη ή έχετε ερωτήσεις; Καλέστε μας απευθείας:<br/>
-  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
-  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14px;">📱 6999 524 389</a>
+<!-- Direct Reply / Call Strip -->
+<div style="text-align: center; font-size: 14px; color: #334155; margin-top: 14px; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+  Απαντήστε σε αυτό το email ή καλέστε μας:<br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14.5px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14.5px;">📱 6999 524 389</a>
 </div>`,
-    defaultButtonText: "Εκδήλωση Ενδιαφέροντος (200€ με ΦΠΑ)",
-    defaultButtonLink: "https://www.sgk.gr/website-offer"
+    defaultButtonText: "Απαντήστε σε αυτό το email ή καλέστε μας",
+    defaultButtonLink: "mailto:info@sgk.gr?subject=Ενδιαφέρον%20για%20Online%20Παρουσία%20(200€)"
   },
   {
     name: "Istoselida ike 150 ευρω",
@@ -2366,66 +2366,7 @@ function safeEncodeBase64(data: any): string {
                 )}
               </div>
 
-              {/* Quick Document Insertion Toolbar */}
-              <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-1.5">
-                    <Sparkles size={12} className="text-[#3b5bdb]" />
-                    Εισαγωγη Επισήμου Εγγραφου
-                  </span>
-                  <span className="text-[9px] text-[#4ade80] font-bold">1-Click Auto-Fill</span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {/* Saved Contract Selector */}
-                  <div className="relative">
-                    <select
-                      onChange={(e) => {
-                        const cid = e.target.value;
-                        if (!cid) return;
-                        const found = savedContracts.find(c => c.id === cid);
-                        if (found) {
-                          handleInsertContract(found);
-                        } else if (cid === "current_lead" && singleLeadTarget) {
-                          const comp = singleLeadTarget.company || "";
-                          const name = singleLeadTarget.first_name || "";
-                          handleInsertContract({
-                            companyName: comp,
-                            tradeName: comp.replace(/ (ΜΟΝΟΠΡΟΣΩΠΗ|Ι\.Κ\.Ε\.|Ι K E|IKE)/gi, "").trim() || comp,
-                            representativeName: name,
-                            totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
-                            deliveryDaysText: "πέντε (5)",
-                            renewalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
-                            ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
-                            includeSignature: true
-                          });
-                        }
-                        e.target.value = "";
-                      }}
-                      className="w-full px-3 py-2 bg-slate-900 border border-slate-750 text-slate-200 text-xs font-bold rounded-lg focus:border-[#3b5bdb] outline-none cursor-pointer"
-                    >
-                      <option value="">📜 Εισαγωγή Συμφωνητικού...</option>
-                      {singleLeadTarget && (
-                        <option value="current_lead">✨ Συμφωνητικό για {singleLeadTarget.first_name || singleLeadTarget.company || singleLeadTarget.email}</option>
-                      )}
-                      {savedContracts.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {c.tradeName || c.companyName || "Συμφωνητικό"} ({c.totalAmountNum || 150}€)
-                        </option>
-                      ))}
-                    </select>
-                  </div>
 
-                  {/* Invoice Template Button */}
-                  <button
-                    type="button"
-                    onClick={handleInsertInvoice}
-                    className="px-3 py-2 bg-slate-900 hover:bg-slate-850 border border-slate-750 text-slate-200 hover:text-white text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                  >
-                    <Calculator size={13} className="text-amber-400" />
-                    <span>🧾 Εισαγωγή Τιμολογίου & Προσφοράς</span>
-                  </button>
-                </div>
-              </div>
 
               <div className="space-y-1.5">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Πρότυπο (Template)</label>
@@ -2479,57 +2420,7 @@ function safeEncodeBase64(data: any): string {
                 </div>
               </div>
 
-              {/* PDF Invoice Upload UI */}
-              <div className="space-y-1.5 p-4 rounded-xl border border-slate-800 bg-slate-950/40">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Επισύναψη Τιμολογίου (PDF)</label>
-                <div className="flex items-center gap-3">
-                  <input 
-                    type="file" 
-                    accept="application/pdf"
-                    onChange={handlePdfUpload}
-                    className="hidden" 
-                    id="pdf-upload-input"
-                    disabled={uploadingPdf}
-                  />
-                  <label 
-                    htmlFor="pdf-upload-input"
-                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 border border-slate-850 text-slate-300 hover:text-white rounded-xl text-xs font-bold cursor-pointer hover:border-slate-800 transition-all select-none"
-                  >
-                    {uploadingPdf ? (
-                      <>
-                        <Loader2 size={14} className="animate-spin text-[#3b5bdb]" />
-                        Γίνεται ανέβασμα...
-                      </>
-                    ) : pdfUrl ? (
-                      <>
-                        <CheckCircle2 size={14} className="text-emerald-500" />
-                        Το PDF ανέβηκε επιτυχώς
-                      </>
-                    ) : (
-                      <>
-                        <Plus size={14} />
-                        Επιλέξτε αρχείο PDF
-                      </>
-                    )}
-                  </label>
-                  {pdfUrl && (
-                    <button 
-                      type="button" 
-                      onClick={() => {
-                        setPdfUrl("");
-                        setButtonText("");
-                        setButtonLink("");
-                      }}
-                      className="text-xs text-rose-500 hover:text-rose-400 font-bold transition-colors cursor-pointer"
-                    >
-                      Κατάργηση αρχείου
-                    </button>
-                  )}
-                </div>
-                <p className="text-[9px] text-slate-500 leading-normal">
-                  💡 Ανεβάζοντας το PDF, θα δημιουργηθεί αυτόματα ένα κουμπί <strong>«Λήψη Τιμολογίου (PDF)»</strong> στο email σας, το οποίο θα οδηγεί απευθείας στο αρχείο για κατέβασμα.
-                </p>
-              </div>
+
 
               <div className="space-y-1.5 flex-1 flex flex-col min-h-0">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Περιεχόμενο Email (HTML ή απλό κείμενο)</label>
