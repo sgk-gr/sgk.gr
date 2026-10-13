@@ -293,11 +293,11 @@ const templates = [
 
 <!-- Price Card -->
 <div style="background-color: #eff6ff; border: 1.5px solid #bfdbfe; padding: 13px 16px; border-radius: 10px; margin-bottom: 16px; text-align: center;">
-  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #1e40af; margin-bottom: 3px;">
-    Ολοκληρωμενο Πακετο Online Παρουσιας
+  <div style="font-size: 13px; font-weight: 800; color: #1e40af; margin-bottom: 3px;">
+    Ολοκληρωμένο Πακέτο Online Παρουσίας
   </div>
   <div style="font-size: 22px; font-weight: 900; color: #1e3a8a;">
-    200 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική Τιμή με ΦΠΑ 24%)</span>
+    200 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική τιμή με ΦΠΑ 24%)</span>
   </div>
   <div style="font-size: 12.5px; color: #1e3a8a; font-weight: 700; margin-top: 5px; line-height: 1.4;">
     🎯 Ξεχωρίζετε από τον ανταγωνισμό &amp; κερδίζετε νέους πελάτες
