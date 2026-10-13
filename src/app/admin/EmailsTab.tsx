@@ -266,7 +266,10 @@ const templates = [
     🌐 1. Σύγχρονη Εταιρική Ιστοσελίδα (Mobile &amp; Ταχύτατη)
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις ανάγκες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL και <strong>εταιρικά emails</strong> (π.χ. info@...).
+    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις ανάγκες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain</strong>, Hosting 1 έτους, πιστοποιητικό SSL, <strong>κατασκευή επαγγελματικού λογοτύπου</strong> και <strong>εταιρικά emails</strong> (π.χ. info@...).
+    <div style="margin-top: 5px; font-size: 12px;">
+      👉 <em>Δείτε πρόσφατο δείγμα πελάτη μας:</em> <a href="https://yolo8.eu/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">yolo8.eu</a>
+    </div>
   </div>
 </div>
 
