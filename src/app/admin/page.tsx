@@ -1000,9 +1000,11 @@ export default function AdminVatDashboard() {
       {/* LEFT SIDEBAR */}
       <aside className="admin-sidebar no-print sticky top-0 h-screen shrink-0 w-[72px] lg:w-[250px] bg-[#0b1530] text-slate-300 flex flex-col z-30">
         <div className="h-[72px] px-4 lg:px-5 flex items-center gap-3 border-b border-white/5">
-          <div className="w-9 h-9 rounded-lg bg-[#3b5bdb] flex items-center justify-center shrink-0 shadow-md shadow-blue-900/30">
-            <span className="font-heading font-black text-base tracking-tighter text-white">sgk<span className="text-white/70">.</span></span>
-          </div>
+          <img 
+            src="/icon.png" 
+            alt="SGK Digital" 
+            className="w-8 h-8 rounded-lg shrink-0 object-contain shadow-sm" 
+          />
           <div className="hidden lg:block leading-tight">
             <div className="text-sm font-bold text-white">SGK Digital</div>
             <div className="text-[10px] text-slate-400 font-medium">Admin Portal</div>

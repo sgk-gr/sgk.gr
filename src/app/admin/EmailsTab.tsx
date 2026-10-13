@@ -6,7 +6,8 @@ import {
   Mail, CheckCircle2, AlertCircle, RefreshCcw, Send, Check, 
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
   FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
-  Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target
+  Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target,
+  ChevronDown, ChevronUp
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
@@ -1068,6 +1069,7 @@ function safeEncodeBase64(data: any): string {
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
   const [isSyncingGemi, setIsSyncingGemi] = useState(false);
   const [professionSubFilter, setProfessionSubFilter] = useState<string>('all');
+  const [isKpiExpanded, setIsKpiExpanded] = useState(false);
 
   // Cap scan log history so long scans do not slow the UI down
   const setScanLogs = useCallback((updater: any) => {
@@ -2493,120 +2495,199 @@ function safeEncodeBase64(data: any): string {
   return (
     <div className="space-y-8">
 
-      {/* Summary KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Όλα τα Emails */}
-        <div 
-          onClick={() => setStatusFilter('all')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'all' 
-              ? 'bg-white border-[#3b5bdb] ring-2 ring-[#3b5bdb]/20' 
-              : 'bg-white/60 backdrop-blur-xl border-gray-200/60 hover:border-gray-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Συνολικα Email</p>
-            <p className="text-xl font-black text-slate-900 mt-1">{leads.length}</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
-            <Mail size={18} />
-          </div>
+      {/* Compact Toggleable KPI Summary Bar */}
+      <div className="bg-white border border-gray-200/80 rounded-2xl p-2.5 shadow-xs flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => setStatusFilter('all')}
+            className={`px-3 py-1.5 rounded-xl font-semibold transition-all flex items-center gap-2 cursor-pointer border ${
+              statusFilter === 'all'
+                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+            }`}
+          >
+            <Mail size={13} className="text-[#3b5bdb]" />
+            <span>Συνολικά:</span>
+            <strong className="font-bold">{leads.length}</strong>
+          </button>
+
+          <button
+            onClick={() => setStatusFilter('new')}
+            className={`px-3 py-1.5 rounded-xl font-semibold transition-all flex items-center gap-2 cursor-pointer border ${
+              statusFilter === 'new'
+                ? 'bg-amber-600 text-white border-amber-700 shadow-xs'
+                : 'bg-amber-50/70 text-amber-800 border-amber-200/80 hover:bg-amber-100'
+            }`}
+          >
+            <Users size={13} className="text-amber-600" />
+            <span>Χωρίς Email:</span>
+            <strong className="font-bold">{newCount}</strong>
+          </button>
+
+          <button
+            onClick={() => setStatusFilter('active')}
+            className={`px-3 py-1.5 rounded-xl font-semibold transition-all flex items-center gap-2 cursor-pointer border ${
+              statusFilter === 'active'
+                ? 'bg-blue-600 text-white border-blue-700 shadow-xs'
+                : 'bg-blue-50/70 text-blue-800 border-blue-200/80 hover:bg-blue-100'
+            }`}
+          >
+            <Send size={13} className="text-blue-600" />
+            <span>Εστάλη:</span>
+            <strong className="font-bold">{activeCount}</strong>
+          </button>
+
+          <button
+            onClick={() => {
+              setStatusFilter('converted');
+              setProfessionSubFilter('all');
+            }}
+            className={`px-3 py-1.5 rounded-xl font-semibold transition-all flex items-center gap-2 cursor-pointer border ${
+              statusFilter === 'converted'
+                ? 'bg-emerald-600 text-white border-emerald-700 shadow-xs'
+                : 'bg-emerald-50/70 text-emerald-800 border-emerald-200/80 hover:bg-emerald-100'
+            }`}
+          >
+            <CheckCircle2 size={13} className="text-emerald-600" />
+            <span>Πελάτες:</span>
+            <strong className="font-bold">{convertedCount}</strong>
+          </button>
         </div>
 
-        {/* Card 2: Εκκρεμούν / Χωρίς Email */}
-        <div 
-          onClick={() => setStatusFilter('new')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'new' 
-              ? 'bg-white border-amber-500 ring-2 ring-amber-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-amber-200/60 hover:border-amber-300'
-          }`}
+        <button
+          onClick={() => setIsKpiExpanded(!isKpiExpanded)}
+          className="adm-btn adm-btn-ghost text-xs py-1 px-2.5 text-slate-600"
+          title={isKpiExpanded ? "Σύμπτυξη αναλυτικών καρτών" : "Προβολή αναλυτικών στατιστικών & κλάδων"}
         >
-          <div>
-            <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Χωρις Email (0/5)</p>
-            <p className="text-xl font-black text-amber-700 mt-1">{newCount}</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-            <Users size={18} />
-          </div>
-        </div>
+          {isKpiExpanded ? (
+            <>
+              <ChevronUp size={13} />
+              <span>Σύμπτυξη</span>
+            </>
+          ) : (
+            <>
+              <ChevronDown size={13} />
+              <span>Αναλυτικά ({convertedProfessionsSummary.length} κλάδοι)</span>
+            </>
+          )}
+        </button>
+      </div>
 
-        {/* Card 3: Εστάλη Email (1-5) */}
-        <div 
-          onClick={() => setStatusFilter('active')}
-          className={`p-4 rounded-2xl flex items-center justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'active' 
-              ? 'bg-white border-blue-500 ring-2 ring-blue-500/20' 
-              : 'bg-white/60 backdrop-blur-xl border-blue-200/60 hover:border-blue-300'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Εσταλη Email (1-5)</p>
-            <p className="text-xl font-black text-blue-700 mt-1">{activeCount}</p>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
-            <Send size={18} />
-          </div>
-        </div>
-
-        {/* Card 4: Πελάτες (με ανάλυση κλάδων & επαγγελμάτων) */}
-        <div 
-          onClick={() => {
-            setStatusFilter('converted');
-            setProfessionSubFilter('all');
-          }}
-          className={`p-4 rounded-2xl flex flex-col justify-between shadow-sm cursor-pointer transition-all border ${
-            statusFilter === 'converted' 
-              ? 'bg-white border-emerald-500 ring-2 ring-emerald-500/20 shadow-md' 
-              : 'bg-white/60 backdrop-blur-xl border-emerald-200/60 hover:border-emerald-300'
-          }`}
-        >
-          <div className="flex items-center justify-between">
+      {/* Expanded Detailed KPI Cards (Toggled) */}
+      {isKpiExpanded && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 animate-fade-in">
+          {/* Card 1: Όλα τα Emails */}
+          <div 
+            onClick={() => setStatusFilter('all')}
+            className={`p-3.5 rounded-xl flex items-center justify-between shadow-xs cursor-pointer transition-all border ${
+              statusFilter === 'all' 
+                ? 'bg-white border-[#3b5bdb] ring-1 ring-[#3b5bdb]/30' 
+                : 'bg-white border-gray-200 hover:border-gray-300'
+            }`}
+          >
             <div>
-              <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5">
-                <span>Πελατες</span>
-                <span>🎉</span>
-              </p>
-              <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-xl font-black text-emerald-700">{convertedCount}</span>
-                <span className="text-[10px] font-bold text-emerald-600/70">
-                  {convertedCount === 1 ? 'ενεργός' : 'ενεργοί'}
-                </span>
+              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Συνολικά Email</p>
+              <p className="text-lg font-bold text-slate-900 mt-0.5">{leads.length}</p>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-[#3b5bdb]/10 text-[#3b5bdb] flex items-center justify-center font-bold">
+              <Mail size={16} />
+            </div>
+          </div>
+
+          {/* Card 2: Εκκρεμούν / Χωρίς Email */}
+          <div 
+            onClick={() => setStatusFilter('new')}
+            className={`p-3.5 rounded-xl flex items-center justify-between shadow-xs cursor-pointer transition-all border ${
+              statusFilter === 'new' 
+                ? 'bg-white border-amber-500 ring-1 ring-amber-500/30' 
+                : 'bg-white border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div>
+              <p className="text-[10px] font-semibold text-amber-700 uppercase tracking-wider">Χωρίς Email (0/5)</p>
+              <p className="text-lg font-bold text-amber-800 mt-0.5">{newCount}</p>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+              <Users size={16} />
+            </div>
+          </div>
+
+          {/* Card 3: Εστάλη Email (1-5) */}
+          <div 
+            onClick={() => setStatusFilter('active')}
+            className={`p-3.5 rounded-xl flex items-center justify-between shadow-xs cursor-pointer transition-all border ${
+              statusFilter === 'active' 
+                ? 'bg-white border-blue-500 ring-1 ring-blue-500/30' 
+                : 'bg-white border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div>
+              <p className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Εστάλη Email (1-5)</p>
+              <p className="text-lg font-bold text-blue-800 mt-0.5">{activeCount}</p>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+              <Send size={16} />
+            </div>
+          </div>
+
+          {/* Card 4: Πελάτες (με ανάλυση κλάδων & επαγγελμάτων) */}
+          <div 
+            onClick={() => {
+              setStatusFilter('converted');
+              setProfessionSubFilter('all');
+            }}
+            className={`p-3.5 rounded-xl flex flex-col justify-between shadow-xs cursor-pointer transition-all border ${
+              statusFilter === 'converted' 
+                ? 'bg-white border-emerald-500 ring-1 ring-emerald-500/30' 
+                : 'bg-white border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
+                  <span>Πελάτες</span>
+                  <span>🎉</span>
+                </p>
+                <div className="flex items-baseline gap-1.5 mt-0.5">
+                  <span className="text-lg font-bold text-emerald-800">{convertedCount}</span>
+                  <span className="text-[10px] text-emerald-600">ενεργοί</span>
+                </div>
+              </div>
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold shrink-0">
+                <CheckCircle2 size={16} />
               </div>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
-              <CheckCircle2 size={18} />
-            </div>
-          </div>
 
-          {/* Breakdown Pills: Τι είναι οι πελάτες (Λογιστής, Τουριστικό, Real Estate κλπ.) */}
-          {convertedProfessionsSummary.length > 0 && (
-            <div className="mt-3 pt-2.5 border-t border-emerald-100/80 flex flex-wrap gap-1">
-              {convertedProfessionsSummary.map(({ prof, count, key }) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setStatusFilter('converted');
-                    setProfessionSubFilter(professionSubFilter === key ? 'all' : key);
-                  }}
-                  className={`inline-flex items-center gap-1 text-[9.5px] font-bold px-1.5 py-0.5 rounded transition-all cursor-pointer border ${
-                    statusFilter === 'converted' && professionSubFilter === key
-                      ? 'bg-emerald-600 text-white border-emerald-700 shadow-2xs'
-                      : 'bg-emerald-50/90 text-emerald-900 border-emerald-200/80 hover:bg-emerald-100'
-                  }`}
-                  title={`${count} ${prof.label} (Κάντε κλικ για φιλτράρισμα)`}
-                >
-                  <span>{prof.icon}</span>
-                  <span>{prof.shortLabel}:</span>
-                  <span className="font-black text-emerald-950">{count}</span>
-                </button>
-              ))}
-            </div>
-          )}
+            {/* Breakdown Pills */}
+            {convertedProfessionsSummary.length > 0 && (
+              <div className="mt-2.5 pt-2 border-t border-emerald-100 flex flex-wrap gap-1">
+                {convertedProfessionsSummary.map(({ prof, count, key }) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setStatusFilter('converted');
+                      setProfessionSubFilter(professionSubFilter === key ? 'all' : key);
+                    }}
+                    className={`inline-flex items-center gap-1 text-[9.5px] font-medium px-1.5 py-0.5 rounded transition-all cursor-pointer border ${
+                      statusFilter === 'converted' && professionSubFilter === key
+                        ? 'bg-emerald-600 text-white border-emerald-700'
+                        : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                    }`}
+                    title={`${count} ${prof.label} (Κάντε κλικ για φιλτράρισμα)`}
+                  >
+                    <span>{prof.icon}</span>
+                    <span>{prof.shortLabel}:</span>
+                    <strong className="font-bold">{count}</strong>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
 
       {/* Leads Header / Actions */}
       <div className="bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs">
@@ -3455,39 +3536,39 @@ function safeEncodeBase64(data: any): string {
 
       {/* Live GEMI IKE Scanner Modal */}
       {isScanModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-3 sm:p-6">
-          <div className="bg-slate-950 text-slate-100 rounded-3xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col border border-slate-800 overflow-hidden animate-scale-up">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-3 sm:p-6">
+          <div className="bg-white text-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col border border-gray-200 overflow-hidden animate-scale-up">
             
             {/* Modal Header */}
-            <div className="bg-slate-900/90 px-6 py-4 border-b border-slate-800 flex justify-between items-center">
+            <div className="bg-white px-6 py-4 border-b border-gray-200 flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-2xl ${scanCategory === "ftth_telecom" ? "bg-gradient-to-br from-cyan-500 to-blue-600 shadow-cyan-500/20" : "bg-gradient-to-br from-indigo-500 to-purple-600 shadow-indigo-500/20"} flex items-center justify-center text-white shadow-lg`}>
+                <div className={`w-9 h-9 rounded-xl ${scanCategory === "ftth_telecom" ? "bg-cyan-600" : "bg-[#3b5bdb]"} flex items-center justify-center text-white shadow-sm`}>
                   {isScanningGemi ? (
-                    <Loader2 size={20} className="animate-spin text-white" />
+                    <Loader2 size={18} className="animate-spin text-white" />
                   ) : scanCategory === "ftth_telecom" ? (
-                    <Target size={20} className="text-cyan-200" />
+                    <Target size={18} className="text-white" />
                   ) : (
-                    <Sparkles size={20} className="text-yellow-300" />
+                    <Sparkles size={18} className="text-white" />
                   )}
                 </div>
                 <div>
-                  <h3 className="font-black text-white text-base tracking-wide uppercase flex items-center gap-2">
-                    {scanCategory === "ftth_telecom" ? "🔌 Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH / Δικτύων" : "⚡ Live Σαρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε."}
+                  <h3 className="font-bold text-slate-900 text-base tracking-tight flex items-center gap-2">
+                    {scanCategory === "ftth_telecom" ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH & Δικτύων" : "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε."}
                     {isScanningGemi && (
-                      <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest ${scanCategory === "ftth_telecom" ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" : "bg-indigo-500/20 text-indigo-400 border-indigo-500/30"} border animate-pulse`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${scanCategory === "ftth_telecom" ? "bg-cyan-400" : "bg-indigo-400"} animate-ping`} />
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
                         Live Scrape
                       </span>
                     )}
                   </h3>
-                  <p className="text-xs text-slate-400 font-mono">
+                  <p className="text-xs text-slate-500">
                     {scanMonth === "current"
                       ? `Ίδρυση τον τρέχοντα μήνα (${currentMonthName} ${now.getFullYear()})`
                       : scanMonth === "previous"
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
                       : `Ίδρυση εντός του ${now.getFullYear()}`}
                     {scanCategory === "ftth_telecom"
-                      ? " • Στοχευμένος ΚΑΔ: 43210006 / 43211006 (Καλωδιώσεις & Τηλεπικοινωνίες) • Όλες οι νομικές μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)"
+                      ? " • Στοχευμένος ΚΑΔ: 43210006 / 43211006 • Όλες οι νομικές μορφές"
                       : " • Μόνο Ι.Κ.Ε."}
                   </p>
                 </div>
@@ -3503,79 +3584,79 @@ function safeEncodeBase64(data: any): string {
                     setIsScanModalOpen(false);
                   }
                 }}
-                className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800/80 transition-all cursor-pointer"
+                className="text-slate-400 hover:text-slate-700 p-2 rounded-xl hover:bg-slate-100 transition-all cursor-pointer"
                 title="Κλείσιμο"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             {/* Live KPI Badges Strip */}
-            <div className="bg-slate-900/50 p-3.5 border-b border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center">
+            <div className="bg-[#fafaf8] p-3.5 border-b border-gray-200 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center">
               {/* Examined */}
-              <div className="bg-slate-900/80 border border-slate-800 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Εξεταστηκαν</p>
-                <p className="text-lg font-black text-white mt-0.5">{scanStats.totalExamined}</p>
+              <div className="bg-white border border-gray-200 p-2.5 rounded-xl shadow-2xs">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-500">Εξετάστηκαν</p>
+                <p className="text-lg font-bold text-slate-900 mt-0.5">{scanStats.totalExamined}</p>
               </div>
 
               {/* Added */}
-              <div className="bg-emerald-950/40 border border-emerald-800/60 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-emerald-400">🟢 Προσθεθηκαν</p>
-                <p className="text-lg font-black text-emerald-300 mt-0.5">{scanStats.added}</p>
+              <div className="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl shadow-2xs">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-emerald-700">Προστέθηκαν</p>
+                <p className="text-lg font-bold text-emerald-800 mt-0.5">{scanStats.added}</p>
               </div>
 
               {/* Custom Domain Skipped */}
-              <div className="bg-indigo-950/40 border border-indigo-800/60 p-2.5 rounded-2xl" title="Εταιρείες με δικό τους domain email (@domain.gr)">
-                <p className="text-[9px] font-black uppercase tracking-wider text-indigo-400">🏢 Εταιρικο Domain</p>
-                <p className="text-lg font-black text-indigo-300 mt-0.5">{scanStats.totalCustomDomain || 0}</p>
+              <div className="bg-blue-50 border border-blue-200 p-2.5 rounded-xl shadow-2xs" title="Εταιρείες με δικό τους domain email (@domain.gr)">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-blue-700">Domain Email</p>
+                <p className="text-lg font-bold text-blue-800 mt-0.5">{scanStats.totalCustomDomain || 0}</p>
               </div>
 
               {/* Duplicates */}
-              <div className="bg-amber-950/40 border border-amber-800/60 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-amber-400">🟡 Διπλοτυπα</p>
-                <p className="text-lg font-black text-amber-300 mt-0.5">{scanStats.totalDuplicates}</p>
+              <div className="bg-amber-50 border border-amber-200 p-2.5 rounded-xl shadow-2xs">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-amber-700">Διπλότυπα</p>
+                <p className="text-lg font-bold text-amber-800 mt-0.5">{scanStats.totalDuplicates}</p>
               </div>
 
               {/* Has Website */}
-              <div className="bg-blue-950/40 border border-blue-800/60 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-blue-400">🔵 Εχουν Site</p>
-                <p className="text-lg font-black text-blue-300 mt-0.5">{scanStats.totalHasWebsite}</p>
+              <div className="bg-sky-50 border border-sky-200 p-2.5 rounded-xl shadow-2xs">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-sky-700">Έχουν Site</p>
+                <p className="text-lg font-bold text-sky-800 mt-0.5">{scanStats.totalHasWebsite}</p>
               </div>
 
               {/* No Email */}
-              <div className="bg-slate-800/50 border border-slate-700/60 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">⚪ Χωρις Email</p>
-                <p className="text-lg font-black text-slate-300 mt-0.5">{scanStats.totalNoEmail}</p>
+              <div className="bg-slate-100 border border-slate-200 p-2.5 rounded-xl shadow-2xs">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-600">Χωρίς Email</p>
+                <p className="text-lg font-bold text-slate-800 mt-0.5">{scanStats.totalNoEmail}</p>
               </div>
 
               {/* Old Date */}
-              <div className="bg-purple-950/40 border border-purple-800/60 p-2.5 rounded-2xl">
-                <p className="text-[9px] font-black uppercase tracking-wider text-purple-400">⏳ Παλια Ημ/νια</p>
-                <p className="text-lg font-black text-purple-300 mt-0.5">{scanStats.totalOldDate}</p>
+              <div className="bg-purple-50 border border-purple-200 p-2.5 rounded-xl shadow-2xs">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-purple-700">Παλιά Ημ/νία</p>
+                <p className="text-lg font-bold text-purple-800 mt-0.5">{scanStats.totalOldDate}</p>
               </div>
             </div>
 
             {/* Live Terminal Log Stream */}
-            <div className="p-4 flex-1 flex flex-col min-h-0 bg-slate-950">
+            <div className="p-4 flex-1 flex flex-col min-h-0 bg-[#fafaf8]">
               <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                  <Terminal size={14} className="text-indigo-400" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                  <Terminal size={14} className="text-[#3b5bdb]" />
                   <span>Real-time Scanner Log:</span>
                 </div>
-                <div className="text-[11px] font-mono text-indigo-400 truncate max-w-md">
+                <div className="text-[11px] font-medium text-slate-500 truncate max-w-md">
                   {scanStatusMessage}
                 </div>
               </div>
 
               <div 
                 ref={scanTerminalRef}
-                className="flex-1 min-h-[280px] max-h-[380px] bg-black/90 rounded-2xl p-4 overflow-y-auto font-mono text-xs border border-slate-800/80 space-y-2 shadow-inner"
+                className="flex-1 min-h-[280px] max-h-[380px] bg-white rounded-xl p-4 overflow-y-auto font-mono text-xs border border-gray-200 space-y-1.5 shadow-inner"
               >
                 {scanLogs.map((log) => {
                   if (log.type === "init" || log.type === "info" || log.type === "page") {
                     return (
-                      <div key={log.id} className="text-cyan-400/90 text-[11px] flex items-start gap-2 py-0.5">
-                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                      <div key={log.id} className="text-slate-700 text-[11px] flex items-start gap-2 py-0.5">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
                         <span>{log.message}</span>
                       </div>
                     );
@@ -3583,8 +3664,8 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.type === "warning") {
                     return (
-                      <div key={log.id} className="text-amber-400/90 text-[11px] flex items-start gap-2 py-0.5">
-                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                      <div key={log.id} className="text-amber-800 text-[11px] flex items-start gap-2 py-0.5">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
                         <span>{log.message}</span>
                       </div>
                     );
@@ -3592,8 +3673,8 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.type === "error") {
                     return (
-                      <div key={log.id} className="text-rose-400 text-[11px] flex items-start gap-2 py-1 bg-rose-950/30 px-2 rounded border border-rose-900/50">
-                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                      <div key={log.id} className="text-rose-700 text-[11px] flex items-start gap-2 py-1 bg-rose-50 px-2 rounded border border-rose-200">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
                         <span>{log.message}</span>
                       </div>
                     );
@@ -3601,8 +3682,8 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.type === "done") {
                     return (
-                      <div key={log.id} className="mt-3 p-3 rounded-xl bg-emerald-950/60 border border-emerald-700/80 text-emerald-300 text-xs flex items-center gap-2.5 font-bold shadow-lg shadow-emerald-950/50">
-                        <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
+                      <div key={log.id} className="mt-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center gap-2.5 font-bold shadow-xs">
+                        <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
                         <div>{log.message}</div>
                       </div>
                     );
@@ -3611,16 +3692,16 @@ function safeEncodeBase64(data: any): string {
                   // Log items per company
                   if (log.category === "added") {
                     return (
-                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-1 px-2 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-emerald-200">
-                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
-                        <span className="inline-block px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-black text-[9px] uppercase tracking-wider shrink-0 border border-emerald-500/30">
-                          🟢 ΠΡΟΣΘΗΚΗ
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-1 px-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-emerald-600 text-white font-bold text-[9px] uppercase tracking-wider shrink-0">
+                          ΠΡΟΣΘΗΚΗ
                         </span>
                         <div className="flex-1 min-w-0">
-                          <span className="font-bold text-white">{log.company}</span>
-                          {log.email && <span className="text-emerald-400 ml-1.5 font-semibold">({log.email})</span>}
-                          {log.afm && <span className="text-slate-400 ml-1.5 text-[10px]">ΑΦΜ: {log.afm}</span>}
-                          <p className="text-emerald-400/80 text-[10px] mt-0.5">{log.reason}</p>
+                          <span className="font-bold text-slate-900">{log.company}</span>
+                          {log.email && <span className="text-emerald-700 ml-1.5 font-semibold">({log.email})</span>}
+                          {log.afm && <span className="text-slate-500 ml-1.5 text-[10px]">ΑΦΜ: {log.afm}</span>}
+                          <p className="text-emerald-700 text-[10px] mt-0.5">{log.reason}</p>
                         </div>
                       </div>
                     );
@@ -3628,14 +3709,14 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.category === "custom_domain") {
                     return (
-                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-indigo-950/15 border border-indigo-900/30 text-indigo-200/80">
-                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
-                        <span className="inline-block px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
-                          🏢 ΕΤΑΙΡΙΚΟ DOMAIN
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-blue-50/70 border border-blue-200 text-blue-900">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-blue-100 text-blue-800 font-semibold text-[9px] uppercase tracking-wider shrink-0 border border-blue-200">
+                          DOMAIN
                         </span>
                         <div className="flex-1 min-w-0">
-                          <span className="text-slate-300 font-medium">{log.company}</span>
-                          {log.email && <span className="text-indigo-300 ml-1 font-mono">({log.email})</span>}
+                          <span className="text-slate-800 font-medium">{log.company}</span>
+                          {log.email && <span className="text-blue-700 ml-1 font-mono">({log.email})</span>}
                           <p className="text-slate-500 text-[10px]">{log.reason}</p>
                         </div>
                       </div>
@@ -3644,15 +3725,15 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.category === "blacklisted") {
                     return (
-                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-rose-950/20 border border-rose-900/40 text-rose-300/80">
-                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
-                        <span className="inline-block px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
-                          ⛔ BLACKLIST
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-rose-50/70 border border-rose-200 text-rose-900">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 font-semibold text-[9px] uppercase tracking-wider shrink-0 border border-rose-200">
+                          BLACKLIST
                         </span>
                         <div className="flex-1 min-w-0">
-                          <span className="text-slate-300 font-medium">{log.company}</span>
-                          {log.email && <span className="text-rose-400 ml-1 font-mono">({log.email})</span>}
-                          <p className="text-rose-400/70 text-[10px]">{log.reason}</p>
+                          <span className="text-slate-800 font-medium">{log.company}</span>
+                          {log.email && <span className="text-rose-700 ml-1 font-mono">({log.email})</span>}
+                          <p className="text-rose-600 text-[10px]">{log.reason}</p>
                         </div>
                       </div>
                     );
@@ -3660,14 +3741,14 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.category === "duplicate") {
                     return (
-                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-amber-950/10 border border-amber-900/20 text-amber-200/80">
-                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
-                        <span className="inline-block px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
-                          🟡 ΔΙΠΛΟΤΥΠΟ
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-amber-50/70 border border-amber-200 text-amber-900">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-semibold text-[9px] uppercase tracking-wider shrink-0 border border-amber-200">
+                          ΔΙΠΛΟΤΥΠΟ
                         </span>
                         <div className="flex-1 min-w-0">
-                          <span className="text-slate-300 font-medium">{log.company}</span>
-                          {log.email && <span className="text-slate-400 ml-1">({log.email})</span>}
+                          <span className="text-slate-800 font-medium">{log.company}</span>
+                          {log.email && <span className="text-slate-600 ml-1">({log.email})</span>}
                           <p className="text-slate-500 text-[10px]">{log.reason}</p>
                         </div>
                       </div>
@@ -3676,14 +3757,14 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.category === "has_website") {
                     return (
-                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-blue-950/10 border border-blue-900/20 text-blue-200/70">
-                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
-                        <span className="inline-block px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
-                          🔵 ΕΧΕΙ SITE
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-sky-50/70 border border-sky-200 text-sky-900">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-sky-100 text-sky-800 font-semibold text-[9px] uppercase tracking-wider shrink-0 border border-sky-200">
+                          SITE
                         </span>
                         <div className="flex-1 min-w-0">
-                          <span className="text-slate-400">{log.company}</span>
-                          {log.url && <span className="text-blue-400/80 ml-1">({log.url})</span>}
+                          <span className="text-slate-800">{log.company}</span>
+                          {log.url && <span className="text-sky-700 ml-1">({log.url})</span>}
                           <p className="text-slate-500 text-[10px]">{log.reason}</p>
                         </div>
                       </div>
@@ -3692,13 +3773,13 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.category === "no_email") {
                     return (
-                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-slate-900/30 text-slate-400">
-                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
-                        <span className="inline-block px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
-                          ⚪ ΧΩΡΙΣ EMAIL
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-slate-100/70 text-slate-600">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-slate-200 text-slate-700 font-semibold text-[9px] uppercase tracking-wider shrink-0">
+                          ΧΩΡΙΣ EMAIL
                         </span>
                         <div className="flex-1 min-w-0">
-                          <span className="text-slate-400">{log.company}</span>
+                          <span className="text-slate-700">{log.company}</span>
                           <span className="text-slate-500 ml-1 text-[10px]">— {log.reason}</span>
                         </div>
                       </div>
@@ -3707,14 +3788,14 @@ function safeEncodeBase64(data: any): string {
 
                   if (log.category === "old_date") {
                     return (
-                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-purple-950/10 text-purple-300/60">
-                        <span className="text-slate-600 shrink-0">[{log.time}]</span>
-                        <span className="inline-block px-1.5 py-0.2 rounded bg-purple-900/40 text-purple-400 font-bold text-[9px] uppercase tracking-wider shrink-0">
-                          ⏳ ΠΑΛΙΑ
+                      <div key={log.id} className="flex items-start gap-2 text-[11px] py-0.5 px-2 rounded bg-purple-50/70 text-purple-900">
+                        <span className="text-slate-400 shrink-0">[{log.time}]</span>
+                        <span className="inline-block px-1.5 py-0.2 rounded bg-purple-100 text-purple-800 font-semibold text-[9px] uppercase tracking-wider shrink-0">
+                          ΠΑΛΙΑ
                         </span>
                         <div className="flex-1 min-w-0">
-                          <span className="text-slate-400">{log.company}</span>
-                          {log.date && <span className="text-purple-400/70 ml-1">({log.date})</span>}
+                          <span className="text-slate-700">{log.company}</span>
+                          {log.date && <span className="text-purple-700 ml-1">({log.date})</span>}
                           <span className="text-slate-500 ml-1 text-[10px]">— {log.reason}</span>
                         </div>
                       </div>
@@ -3727,32 +3808,32 @@ function safeEncodeBase64(data: any): string {
             </div>
 
             {/* Modal Footer */}
-            <div className="bg-slate-900 px-6 py-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="text-xs text-slate-400 flex items-center gap-2">
+            <div className="bg-white px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="text-xs text-slate-500 flex items-center gap-2">
                 {isScanningGemi ? (
                   <>
-                    <Loader2 size={14} className="animate-spin text-indigo-400" />
+                    <Loader2 size={14} className="animate-spin text-[#3b5bdb]" />
                     <span>Η σάρωση βρίσκεται σε εξέλιξη...</span>
                   </>
                 ) : scanStats.added > 0 ? (
                   <>
-                    <CheckCircle2 size={14} className="text-emerald-400" />
-                    <span className="text-emerald-300 font-semibold">Προστέθηκαν {scanStats.added} νέες Ι.Κ.Ε.!</span>
+                    <CheckCircle2 size={14} className="text-emerald-600" />
+                    <span className="text-emerald-700 font-semibold">Προστέθηκαν {scanStats.added} νέες Ι.Κ.Ε.!</span>
                   </>
                 ) : (
                   <>
-                    <AlertCircle size={14} className="text-amber-400" />
-                    <span className="text-amber-300 font-semibold">Δεν βρέθηκαν νέες Ι.Κ.Ε. (υπάρχουν ήδη όλες στη βάση).</span>
+                    <AlertCircle size={14} className="text-amber-600" />
+                    <span className="text-amber-700 font-semibold">Δεν βρέθηκαν νέες Ι.Κ.Ε. (υπάρχουν ήδη όλες στη βάση).</span>
                   </>
                 )}
               </div>
 
-              <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                 <button
                   onClick={() => setIsScanModalOpen(false)}
-                  className="px-4 py-2 text-xs font-black uppercase tracking-wider text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition-all cursor-pointer"
+                  className="adm-btn adm-btn-ghost text-xs"
                 >
-                  {isScanningGemi ? "Ακυρωση" : "Κλεισιμο"}
+                  {isScanningGemi ? "Ακύρωση" : "Κλείσιμο"}
                 </button>
 
                 {!isScanningGemi && (scanStats.added > 0 || scannedNewLeads.length > 0) && (
@@ -3779,10 +3860,10 @@ function safeEncodeBase64(data: any): string {
                       setSearchTerm("");
                       setIsCampaignModalOpen(true);
                     }}
-                    className="px-5 py-2 text-xs font-black uppercase tracking-wider text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-xl shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 transition-all cursor-pointer"
+                    className="adm-btn adm-btn-primary text-xs"
                   >
-                    <Send size={12} />
-                    Μαζικη Αποστολη στα {scanStats.added > 0 ? scanStats.added : scannedNewLeads.length} Νεα Leads
+                    <Send size={13} />
+                    Μαζική αποστολή στα {scanStats.added > 0 ? scanStats.added : scannedNewLeads.length} νέα Leads
                   </button>
                 )}
               </div>

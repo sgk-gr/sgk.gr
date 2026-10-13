@@ -132,191 +132,185 @@ export function SpyrosTab() {
   ];
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6 pb-12">
 
-      {/* TOP HERO / EXECUTIVE BANNER */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-black uppercase tracking-widest">
-              <Sparkles size={12} className="text-yellow-400" />
-              Προσωπικο Οικονομικο Dashboard & Στρατηγικη Εξυγιανσης
+      {/* TOP HERO / EXECUTIVE BANNER (Clean White Dashboard Card) */}
+      <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs text-slate-900">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+          <div className="space-y-1.5">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-50 text-[#3b5bdb] border border-blue-200 text-[10px] font-bold uppercase tracking-wider">
+              <Sparkles size={12} className="text-[#3b5bdb]" />
+              Προσωπικό Οικονομικό Dashboard & Στρατηγική Εξυγίανσης
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-3">
               ΣΠΥΡΙΔΩΝ ΤΣΑΒΟΣ
-              <span className="text-xs font-mono font-normal px-2.5 py-1 rounded-xl bg-slate-800/80 text-slate-300 border border-slate-700">
+              <span className="text-xs font-mono font-medium px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
                 ΑΦΜ: 131398972
               </span>
             </h1>
-            <p className="text-xs text-slate-400 font-medium max-w-2xl leading-relaxed">
+            <p className="text-xs text-slate-500 max-w-2xl leading-relaxed">
               Αναλυτική απεικόνιση των πραγματικών τραπεζικών στοιχείων. 
               Οι 4 πληρωμές Σεπτεμβρίου (231,92 €) εξοφλήθηκαν πλήρως την 01/10/2026 και το εκτιμώμενο σκορ ανέρχεται στο 390!
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="bg-slate-900/90 border border-slate-800 px-4 py-3 rounded-2xl flex items-center gap-3 shadow-inner">
-              <Smartphone size={18} className="text-emerald-400" />
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="bg-slate-50 border border-slate-200 px-3.5 py-2.5 rounded-xl flex items-center gap-2.5 shadow-2xs">
+              <Smartphone size={16} className="text-emerald-600" />
               <div>
-                <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Live Statements</p>
-                <p className="text-xs font-bold text-emerald-400 font-mono">01/10/2026 (Live)</p>
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-500">Live Statements</p>
+                <p className="text-xs font-bold text-emerald-700 font-mono">01/10/2026 (Live)</p>
               </div>
             </div>
-            <div className="bg-emerald-950/40 border border-emerald-800/60 px-4 py-3 rounded-2xl flex items-center gap-3 shadow-inner">
-              <ShieldCheck size={20} className="text-emerald-400" />
+            <div className="bg-emerald-50 border border-emerald-200 px-3.5 py-2.5 rounded-xl flex items-center gap-2.5 shadow-2xs">
+              <ShieldCheck size={18} className="text-emerald-600" />
               <div>
-                <p className="text-[9px] font-black uppercase tracking-wider text-emerald-400">Μαυρη Λιστα (ΣΑΥ)</p>
-                <p className="text-xs font-black text-emerald-300 uppercase">100% Καθαρο</p>
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-emerald-700">Μαύρη Λίστα (ΣΑΥ)</p>
+                <p className="text-xs font-bold text-emerald-800 uppercase">100% Καθαρό</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* CRITICAL INTEREST TRANSPARENCY CARD (EUROBANK 18.75% vs NBG 0%) */}
-      <div className="bg-gradient-to-br from-amber-950/60 via-slate-900 to-rose-950/50 border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl text-white space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-amber-500/20 pb-4">
+      {/* CRITICAL INTEREST TRANSPARENCY CARD (Clean White Card) */}
+      <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-gray-100 pb-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-black uppercase tracking-widest">
-              <Flame size={12} className="text-amber-400" />
-              Αποκαλυψη & Διαφανεια Τοκων
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold uppercase tracking-wider">
+              <Flame size={12} className="text-rose-600" />
+              Αποκάλυψη & Διαφάνεια Τόκων
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              ⚠️ Γιατί η κάρτα Eurobank δεν έπεφτε με 50 € / μήνα;
+            <h2 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+              <span>⚠️ Γιατί η κάρτα Eurobank δεν έπεφτε με 50 € / μήνα;</span>
             </h2>
           </div>
 
-          <div className="bg-rose-950/80 border border-rose-800 px-4 py-2.5 rounded-2xl text-right">
-            <span className="text-[10px] text-rose-300 font-bold uppercase block">Επιτόκιο Eurobank</span>
-            <span className="text-lg font-black text-rose-400 font-mono">18,75% ετησίως</span>
+          <div className="bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-xl text-right">
+            <span className="text-[10px] text-rose-700 font-semibold uppercase block">Επιτόκιο Eurobank</span>
+            <span className="text-base font-bold text-rose-800 font-mono">18,75% ετησίως</span>
           </div>
         </div>
 
         {/* Math Breakdown Comparison Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Card 1: Eurobank Anatomy */}
-          <div className="bg-slate-900/90 p-5 rounded-2xl border border-rose-500/40 space-y-4">
+          <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 space-y-3">
             <div className="flex justify-between items-start">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-md border border-rose-500/20">
-                    🔴 ΤΟΚΟΦΟΡΟ ΥΠΟΛΟΙΠΟ (18,75%)
+                  <span className="text-[10px] font-bold uppercase text-rose-700 bg-rose-100 px-2 py-0.5 rounded border border-rose-200">
+                    🔴 Τοκοφόρο Υπόλοιπο (18,75%)
                   </span>
-                  <span className="text-[10px] font-bold text-slate-400">Ιστορικό Πρόβλημα</span>
+                  <span className="text-[10px] text-slate-500 font-medium">Ιστορικό Πρόβλημα</span>
                 </div>
-                <h4 className="font-black text-base text-white mt-1.5 flex items-center gap-2">
+                <h4 className="font-bold text-sm text-slate-900 mt-1 flex items-center gap-2">
                   <span>Eurobank Mastercard</span>
-                  <span className="text-xs font-mono font-normal text-rose-300">
-                    (Ήταν 1.934,90 € ➔ <strong className="text-emerald-400">1.888,35 €</strong>)
+                  <span className="text-xs font-mono font-normal text-rose-700">
+                    (Ήταν 1.934,90 € ➔ <strong className="text-emerald-700">1.888,35 €</strong>)
                   </span>
                 </h4>
               </div>
-              <span className="font-mono text-xs font-black text-rose-400">Παλιοί Τόκοι: ~33,80 € / μ.</span>
+              <span className="font-mono text-xs font-bold text-rose-700">Παλιοί Τόκοι: ~33,80 € / μ.</span>
             </div>
 
-            <div className="space-y-2 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-xs font-mono">
-              <div className="flex justify-between text-slate-300">
+            <div className="space-y-1.5 bg-white p-3 rounded-lg border border-rose-100 text-xs font-mono">
+              <div className="flex justify-between text-slate-600">
                 <span>Παλιά καταβολή (Πριν την 01/10):</span>
-                <span className="font-bold text-amber-400">50,00 € / μήνα</span>
+                <span className="font-bold text-slate-900">50,00 € / μήνα</span>
               </div>
-              <div className="flex justify-between text-rose-400">
+              <div className="flex justify-between text-rose-700">
                 <span>- Τόκοι περιόδου (18,75%):</span>
                 <span className="font-bold">-33,80 €</span>
               </div>
-              <div className="flex justify-between text-amber-400">
+              <div className="flex justify-between text-amber-700">
                 <span>- Άτοκη δόση Shopflix:</span>
                 <span className="font-bold">-13,66 €</span>
               </div>
-              <div className="pt-2 border-t border-slate-800 flex justify-between text-white font-black">
+              <div className="pt-1.5 border-t border-rose-100 flex justify-between text-slate-900 font-bold">
                 <span>= ΠΡΑΓΜΑΤΙΚΗ ΜΕΙΩΣΗ (ΠΑΛΙΑ):</span>
-                <span className="text-rose-400 font-black">+2,54 € μόλις!</span>
+                <span className="text-rose-700 font-black">+2,54 € μόλις!</span>
               </div>
             </div>
 
-            <p className="text-[11px] text-slate-300 leading-relaxed">
+            <p className="text-[11px] text-slate-600 leading-relaxed">
               💡 <strong>Συμπέρασμα:</strong> Είχατε απόλυτο δίκιο! Δίνοντας 50€, τα 34€ πήγαιναν κατευθείαν σε τόκους και το χρέος έμενε κολλημένο στα 1.934€. Με τα <strong>70€</strong> που βάλατε την 01/10, σπάσατε την παγίδα και έπεσε ήδη στα <strong>1.888,35 €</strong>!
             </p>
           </div>
 
           {/* Card 2: NBG Anatomy */}
-          <div className="bg-slate-900/90 p-5 rounded-2xl border border-emerald-500/40 space-y-4">
+          <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 space-y-3">
             <div className="flex justify-between items-start">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
-                    🟢 ΑΤΟΚΕΣ ΔΟΣΕΙΣ (0,00% ΤΟΚΟΣ)
+                  <span className="text-[10px] font-bold uppercase text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-200">
+                    🟢 Άτοκες Δόσεις (0,00% Τόκος)
                   </span>
-                  <span className="text-[10px] font-bold text-emerald-400/80">Άτοκη Αποπληρωμή</span>
+                  <span className="text-[10px] text-emerald-700 font-medium">Άτοκη Αποπληρωμή</span>
                 </div>
-                <h4 className="font-black text-base text-white mt-1.5 flex items-center gap-2">
+                <h4 className="font-bold text-sm text-slate-900 mt-1 flex items-center gap-2">
                   <span>Mastercard Εθνικής</span>
-                  <span className="text-xs font-mono font-normal text-emerald-300">
-                    (Ήταν 680,54 € ➔ <strong className="text-emerald-400">650,54 €</strong>)
+                  <span className="text-xs font-mono font-normal text-emerald-700">
+                    (Ήταν 680,54 € ➔ <strong className="text-emerald-800">650,54 €</strong>)
                   </span>
                 </h4>
               </div>
-              <span className="font-mono text-xs font-black text-emerald-400">Τόκοι: 0,00 €</span>
+              <span className="font-mono text-xs font-bold text-emerald-700">Τόκοι: 0,00 €</span>
             </div>
 
-            <div className="space-y-2 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-xs font-mono">
-              <div className="flex justify-between text-slate-300">
+            <div className="space-y-1.5 bg-white p-3 rounded-lg border border-emerald-100 text-xs font-mono">
+              <div className="flex justify-between text-slate-600">
                 <span>Καταβολή από εσάς:</span>
-                <span className="font-bold text-emerald-400">+50,00 €</span>
+                <span className="font-bold text-emerald-700">+50,00 €</span>
               </div>
-              <div className="flex justify-between text-emerald-400">
+              <div className="flex justify-between text-emerald-700">
                 <span>- Τόκοι περιόδου:</span>
                 <span className="font-bold">0,00 € (Άτοκο!)</span>
               </div>
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-slate-500">
                 <span>- Χρεώσεις/Έξοδα:</span>
                 <span className="font-bold">0,00 €</span>
               </div>
-              <div className="pt-2 border-t border-slate-800 flex justify-between text-white font-black">
+              <div className="pt-1.5 border-t border-emerald-100 flex justify-between text-slate-900 font-bold">
                 <span>= ΠΡΑΓΜΑΤΙΚΗ ΜΕΙΩΣΗ ΧΡΕΟΥΣ:</span>
-                <span className="text-emerald-400 font-black">+50,00 € ΚΑΘΑΡΑ!</span>
+                <span className="text-emerald-700 font-black">+50,00 € ΚΑΘΑΡΑ!</span>
               </div>
             </div>
 
-            <p className="text-[11px] text-slate-300 leading-relaxed">
+            <p className="text-[11px] text-slate-600 leading-relaxed">
               💡 <strong>Συμπέρασμα:</strong> Στην Εθνική, κάθε ευρώ που βάζετε αφαιρείται 100% από το κεφάλαιο. Γι&apos; αυτό έπεσε τόσο εύκολα από 905€ ➔ 680€ ➔ <strong>650,54 €</strong> σήμερα!
             </p>
           </div>
-
         </div>
 
         {/* THE SMART STRATEGY (HOW TO WIN) */}
-        <div className="bg-emerald-950/50 border border-emerald-500/30 p-5 rounded-2xl space-y-3">
-          <div className="flex items-center gap-2 text-emerald-400 font-black text-xs uppercase tracking-wider">
-            <Zap size={16} />
-            Η Εξυπνη Λυση (Smart Allocation Strategy)
+        <div className="bg-[#fafaf8] border border-gray-200 p-4 rounded-xl space-y-2.5">
+          <div className="flex items-center gap-2 text-[#3b5bdb] font-bold text-xs uppercase tracking-wider">
+            <Zap size={15} />
+            Η Έξυπνη Λύση (Smart Allocation Strategy)
           </div>
-          <p className="text-xs text-slate-200 leading-relaxed">
+          <p className="text-xs text-slate-600 leading-relaxed">
             Αντί να μοιράζετε 50€-50€, εφαρμόζουμε τη στρατηγική <strong>30 € στην Εθνική (αφού είναι άτοκη) και 70 € στη Eurobank</strong>:
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-            <div className="bg-slate-900/80 p-3 rounded-xl border border-emerald-500/20">
-              <span className="text-[10px] text-slate-400 block font-sans">Εθνική (30€/μήνα)</span>
-              <span className="text-emerald-400 font-bold">Πέφτει κατά 30€/μήνα</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+            <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-2xs">
+              <span className="text-[10px] text-slate-500 block font-sans">Εθνική (30€/μήνα)</span>
+              <span className="text-emerald-700 font-bold">Πέφτει κατά 30€/μήνα</span>
             </div>
-            <div className="bg-slate-900/80 p-3 rounded-xl border border-emerald-500/20">
-              <span className="text-[10px] text-slate-400 block font-sans">Eurobank (70€/μήνα)</span>
-              <span className="text-emerald-400 font-bold">40€ καθαρή μείωση κεφαλαίου!</span>
+            <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-2xs">
+              <span className="text-[10px] text-slate-500 block font-sans">Eurobank (70€/μήνα)</span>
+              <span className="text-emerald-700 font-bold">40€ καθαρή μείωση κεφαλαίου!</span>
             </div>
-            <div className="bg-slate-900/80 p-3 rounded-xl border border-emerald-500/20">
-              <span className="text-[10px] text-slate-400 block font-sans">Μάιος 2027 (Φάση 2)</span>
-              <span className="text-emerald-400 font-bold">100€ + 100€ (Τελειώνει το Shopflix)</span>
+            <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-2xs">
+              <span className="text-[10px] text-slate-500 block font-sans">Μάιος 2027 (Φάση 2)</span>
+              <span className="text-blue-700 font-bold">100€ + 100€ (Τελειώνει το Shopflix)</span>
             </div>
           </div>
         </div>
-
       </div>
 
       {/* MONTH-BY-MONTH REALISTIC SCHEDULE TABLE (INCLUDING INTEREST & PRINCIPAL) */}
-      <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-3xl p-6 sm:p-8 shadow-xl space-y-5">
+      <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs space-y-5">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#3b5bdb] border border-blue-200 text-[10px] font-black uppercase tracking-widest mb-1.5">
@@ -333,10 +327,10 @@ export function SpyrosTab() {
           </span>
         </div>
 
-        <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white">
+        <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-100 border-b border-gray-200 text-[10px] font-black uppercase tracking-wider text-slate-600">
+              <tr className="bg-slate-50 border-b border-gray-200 text-[10px] font-bold uppercase tracking-wider text-slate-600">
                 <th className="p-3">Μήνας</th>
                 <th className="p-3 text-emerald-700">Καταβολή Εθνικής</th>
                 <th className="p-3">Υπόλοιπο Εθνικής (Άτοκο)</th>
@@ -376,16 +370,16 @@ export function SpyrosTab() {
       </div>
 
       {/* TOP 3 SUMMARY KPI CARDS & BEHAVIOR SCORE GAUGE */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         
         {/* CARD 1: BEHAVIOR SCORE GAUGE */}
-        <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
+        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Δεικτης Συμπεριφορας (Τειρεσιας)</p>
               <h3 className="text-lg font-black text-gray-900 tracking-tight mt-0.5">Behavior Score</h3>
             </div>
-            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 flex items-center gap-1">
+            <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 flex items-center gap-1">
               <Sparkles size={11} className="text-emerald-600" />
               Score: 390 / 600 (+64 pts!)
             </span>
@@ -397,7 +391,7 @@ export function SpyrosTab() {
               <span className="text-emerald-600 font-mono font-black">390 (Live 01/10)</span>
               <span className="text-indigo-600 font-mono">590+ (Οκτ 2027)</span>
             </div>
-            <div className="h-4 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200 flex">
+            <div className="h-3.5 bg-gray-100 rounded-full overflow-hidden p-0.5 border border-gray-200 flex">
               <div 
                 className="h-full rounded-full bg-gradient-to-r from-amber-500 via-emerald-500 to-teal-500 transition-all duration-1000"
                 style={{ width: `${(currentScore / maxScore) * 100}%` }}
@@ -409,7 +403,7 @@ export function SpyrosTab() {
             </div>
           </div>
 
-          <div className="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200/60 text-xs text-emerald-950 space-y-1">
+          <div className="bg-emerald-50 rounded-xl p-3.5 border border-emerald-200/60 text-xs text-emerald-950 space-y-1">
             <div className="flex items-center justify-between font-bold">
               <span>Πραγματική Κατάσταση:</span>
               <span className="font-mono text-emerald-700 font-black text-sm">Τακτοποιημένη (01/10)</span>
@@ -421,13 +415,13 @@ export function SpyrosTab() {
         </div>
 
         {/* CARD 2: TOTAL OBLIGATIONS BREAKDOWN */}
-        <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
+        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Συνολικες Οφειλες (Live)</p>
               <h3 className="text-lg font-black text-gray-900 tracking-tight mt-0.5">Υπολοιπο Χρεων</h3>
             </div>
-            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-blue-500/10 text-blue-600 border border-blue-500/20">
+            <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
               4 Προϊόντα
             </span>
           </div>
@@ -442,13 +436,13 @@ export function SpyrosTab() {
               </span>
             </div>
             <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-gray-100">
+              <div className="bg-slate-50 p-2.5 rounded-xl border border-gray-150">
                 <span className="text-[10px] text-slate-500 font-bold uppercase block">Δανεια (2)</span>
                 <span className="font-black text-gray-800 text-sm font-mono">
                   {totalLoanBalance.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €
                 </span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-gray-100">
+              <div className="bg-slate-50 p-2.5 rounded-xl border border-gray-150">
                 <span className="text-[10px] text-slate-500 font-bold uppercase block">Καρτες (2)</span>
                 <span className="font-black text-emerald-700 text-sm font-mono">
                   {totalCardBalance.toLocaleString("el-GR", { minimumFractionDigits: 2 })} €
@@ -457,20 +451,20 @@ export function SpyrosTab() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-xs font-bold pt-3 border-t border-gray-150">
+          <div className="flex items-center justify-between text-xs font-bold pt-3 border-t border-gray-100">
             <span className="text-slate-500">Μηνιαίες Δόσεις Δανείων:</span>
             <span className="text-gray-900 font-mono">{(eurobankLoan.monthlyInstallment + tbiLoan.monthlyInstallment).toFixed(2)} € / μήνα</span>
           </div>
         </div>
 
         {/* CARD 3: CREDIT CARD UTILIZATION */}
-        <div className="bg-white/80 backdrop-blur-xl border border-gray-200/80 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
+        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Χρηση Πιστωτικων Οριων (Live)</p>
               <h3 className="text-lg font-black text-gray-900 tracking-tight mt-0.5">Card Utilization</h3>
             </div>
-            <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
+            <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
               {overallCardUtilization.toFixed(1)}% (&lt; 90%!)
             </span>
           </div>
@@ -491,7 +485,7 @@ export function SpyrosTab() {
             </p>
           </div>
 
-          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-2.5 flex items-center justify-between text-xs">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
               <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
               <span className="font-bold text-emerald-950">Κατάσταση Δόσεων:</span>
@@ -515,7 +509,7 @@ export function SpyrosTab() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           
           {/* 1. EUROBANK LOAN */}
-          <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
+          <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs relative overflow-hidden">
             <div className="absolute top-0 right-0 w-2 h-full bg-emerald-500" />
             <div className="flex justify-between items-start">
               <div>
@@ -533,7 +527,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 my-4 bg-slate-50 p-3 rounded-2xl border border-gray-150 text-xs">
+            <div className="grid grid-cols-3 gap-2 my-4 bg-slate-50 p-3 rounded-xl border border-gray-150 text-xs">
               <div>
                 <span className="text-[9px] text-slate-400 font-bold uppercase block">Αρχικό Ποσό</span>
                 <span className="font-bold text-gray-800 font-mono">{eurobankLoan.initialAmount} €</span>
@@ -548,7 +542,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="bg-emerald-50/80 border border-emerald-200/80 rounded-2xl p-3 text-xs text-emerald-950 space-y-1">
+            <div className="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-3 text-xs text-emerald-950 space-y-1">
               <p className="font-bold flex items-center gap-1.5 text-emerald-900">
                 <CheckCircle2 size={14} className="text-emerald-600" />
                 Στρατηγική Πληρωμής στην ώρα της (26/09):
@@ -560,7 +554,7 @@ export function SpyrosTab() {
           </div>
 
           {/* 2. TBI BANK LOAN */}
-          <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
+          <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs relative overflow-hidden">
             <div className="absolute top-0 right-0 w-2 h-full bg-emerald-500" />
             <div className="flex justify-between items-start">
               <div>
@@ -578,7 +572,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 my-4 bg-slate-50 p-3 rounded-2xl border border-gray-150 text-xs">
+            <div className="grid grid-cols-3 gap-2 my-4 bg-slate-50 p-3 rounded-xl border border-gray-150 text-xs">
               <div>
                 <span className="text-[9px] text-slate-400 font-bold uppercase block">Αρχικό Ποσό</span>
                 <span className="font-bold text-gray-800 font-mono">{tbiLoan.initialAmount.toFixed(2)} €</span>
@@ -593,7 +587,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-3 text-xs text-emerald-950 space-y-1">
+            <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-xl p-3 text-xs text-emerald-950 space-y-1">
               <p className="font-bold flex items-center gap-1.5">
                 <CheckCircle2 size={14} className="text-emerald-600" />
                 Στρατηγική:
@@ -605,7 +599,7 @@ export function SpyrosTab() {
           </div>
 
           {/* 3. NBG MASTERCARD (LIVE DATA FROM APP SCREENSHOT) */}
-          <div className="bg-white rounded-3xl p-6 border border-emerald-200 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
+          <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs relative overflow-hidden">
             <div className="absolute top-0 right-0 w-2 h-full bg-emerald-500" />
             <div className="flex justify-between items-start">
               <div>
@@ -635,7 +629,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-2xl border border-gray-150 text-xs mb-3">
+            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border border-gray-150 text-xs mb-3">
               <div>
                 <span className="text-[9px] text-slate-400 font-bold uppercase block">Πλάνο Πληρωμής</span>
                 <span className="font-bold text-emerald-600 font-mono">30,00 € / μήνα</span>
@@ -646,7 +640,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-xs space-y-1.5">
+            <div className="bg-emerald-50/80 border border-emerald-200 rounded-xl p-3 text-xs space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
                 <span className="text-emerald-900 font-medium">🎯 Στόχος Μάρτιος 2027 (50%):</span>
                 <span className="font-black text-emerald-800 font-mono">450 €</span>
@@ -659,7 +653,7 @@ export function SpyrosTab() {
           </div>
 
           {/* 4. EUROBANK MASTERCARD (DETAILED STATEMENT ANALYSIS) */}
-          <div className="bg-white rounded-3xl p-6 border border-amber-200 shadow-md hover:shadow-lg transition-all relative overflow-hidden">
+          <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs relative overflow-hidden">
             <div className="absolute top-0 right-0 w-2 h-full bg-rose-500" />
             <div className="flex justify-between items-start">
               <div>
@@ -688,7 +682,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-2xl border border-gray-150 text-xs mb-3">
+            <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl border border-gray-150 text-xs mb-3">
               <div>
                 <span className="text-[9px] text-slate-400 font-bold uppercase block">Πλάνο Πληρωμής</span>
                 <span className="font-bold text-indigo-600 font-mono">70,00 € / μήνα</span>
@@ -703,7 +697,7 @@ export function SpyrosTab() {
               </div>
             </div>
 
-            <div className="bg-amber-50/80 border border-amber-200 rounded-2xl p-3 text-xs space-y-1.5">
+            <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-xs space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
                 <span className="text-amber-900 font-medium">🛒 Δόσεις Shopflix:</span>
                 <span className="font-black text-amber-950 font-mono">Απομένουν 9 x 13,66€ (Τέλος Μάιος 27)</span>
@@ -722,7 +716,7 @@ export function SpyrosTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* CHECKLIST */}
-        <div className="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xl space-y-4">
+        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <h3 className="font-black text-base text-gray-900 uppercase flex items-center gap-2">
               <Calendar className="text-[#3b5bdb]" size={18} />
@@ -777,7 +771,7 @@ export function SpyrosTab() {
               {/* Task 1: NBG Card (Due 18/10) */}
               <div 
                 onClick={() => toggleTask("nbg_card_oct")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["nbg_card_oct"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
@@ -806,7 +800,7 @@ export function SpyrosTab() {
               {/* Task 2: Eurobank Card (Due 21/10) */}
               <div 
                 onClick={() => toggleTask("euro_card_oct")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["euro_card_oct"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
@@ -835,7 +829,7 @@ export function SpyrosTab() {
               {/* Task 3: Eurobank Personal Loan (Due 26/10) */}
               <div 
                 onClick={() => toggleTask("euro_loan_oct")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["euro_loan_oct"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
@@ -864,7 +858,7 @@ export function SpyrosTab() {
               {/* Task 4: TBI Bank Loan (Due 31/10) */}
               <div 
                 onClick={() => toggleTask("tbi_loan_oct")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["tbi_loan_oct"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800 hover:border-blue-300"
@@ -909,7 +903,7 @@ export function SpyrosTab() {
               {/* September Task 1 */}
               <div 
                 onClick={() => toggleTask("euro_loan_sept")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["euro_loan_sept"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800"
@@ -930,7 +924,7 @@ export function SpyrosTab() {
               {/* September Task 2 */}
               <div 
                 onClick={() => toggleTask("tbi_loan_sept")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["tbi_loan_sept"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800"
@@ -951,7 +945,7 @@ export function SpyrosTab() {
               {/* September Task 3 */}
               <div 
                 onClick={() => toggleTask("nbg_card_sept")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["nbg_card_sept"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800"
@@ -972,7 +966,7 @@ export function SpyrosTab() {
               {/* September Task 4 */}
               <div 
                 onClick={() => toggleTask("euro_card_sept")}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   checkedMonthlyTasks["euro_card_sept"]
                     ? "bg-emerald-50/80 border-emerald-300 text-emerald-950"
                     : "bg-slate-50 border-gray-200 text-gray-800"
@@ -999,10 +993,10 @@ export function SpyrosTab() {
         </div>
 
         {/* TIRESIA & MORTGAGE ADVANTAGE CARD */}
-        <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-3xl p-6 border border-blue-200/80 shadow-xl flex flex-col justify-between space-y-4">
+        <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs flex flex-col justify-between space-y-4">
           <div>
-            <div className="flex items-center gap-2 text-indigo-700 font-black text-xs uppercase tracking-wider mb-2">
-              <Home size={18} />
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold uppercase tracking-wider mb-2">
+              <Home size={15} />
               Ένδειξη Τειρεσία: Αγοραστής για Πρώτη Φορά (ΑΠΦ)
             </div>
             <h3 className="text-lg font-black text-gray-900 tracking-tight">
@@ -1011,23 +1005,23 @@ export function SpyrosTab() {
             <p className="text-xs text-slate-700 leading-relaxed mt-2">
               Στην έκθεσή σας υπάρχει ρητά καταγεγραμμένη η ένδειξη <strong>«Αγοραστής για Πρώτη Φορά (ΑΠΦ) / ΠΕΕ 227: ΝΑΙ»</strong>.
             </p>
-            <ul className="mt-3 space-y-1.5 text-xs text-slate-700">
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={14} className="text-indigo-600 shrink-0 mt-0.5" />
+            <ul className="mt-3 space-y-2 text-xs text-slate-700">
+              <li className="flex items-start gap-2 bg-slate-50 p-2.5 rounded-xl border border-gray-100">
+                <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
                 <span>Δεν έχετε ενεργό στεγαστικό δάνειο σε οικιστικό ακίνητο.</span>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={14} className="text-indigo-600 shrink-0 mt-0.5" />
+              <li className="flex items-start gap-2 bg-slate-50 p-2.5 rounded-xl border border-gray-100">
+                <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
                 <span>Δικαιούστε αυξημένα όρια δανειοδότησης (LTV έως 90% αντί για 80%).</span>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={14} className="text-indigo-600 shrink-0 mt-0.5" />
+              <li className="flex items-start gap-2 bg-slate-50 p-2.5 rounded-xl border border-gray-100">
+                <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
                 <span>Επιλεξιμότητα για επιδοτούμενα στεγαστικά προγράμματα (π.χ. Σπίτι Μου ΙΙ κ.α.).</span>
               </li>
             </ul>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-blue-200 text-xs text-slate-800">
+          <div className="bg-blue-50/70 p-4 rounded-xl border border-blue-200/80 text-xs text-slate-800">
             💡 <strong>Συμβουλή:</strong> Με τη στρατηγική Smart Allocation (30€ / 70€), σπάτε την παγίδα των τόκων της Eurobank, και το σκορ σας τον Μάιο 2027 θα έχει ξεπεράσει το <strong>540</strong> και τον Οκτώβριο το <strong>590+</strong>!
           </div>
         </div>
