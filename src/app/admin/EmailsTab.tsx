@@ -184,6 +184,15 @@ export function getLeadProfession(lead: any): ProfessionConfig {
   return CLIENT_PROFESSIONS.general_co;
 }
 
+export function isFtthLead(lead: any): boolean {
+  if (!lead) return false;
+  if (lead.type === 'ftth_telecom') return true;
+  const t = `${lead.company || ''} ${lead.email || ''} ${lead.first_name || ''} ${lead.last_name || ''}`.toLowerCase();
+  if (t.includes('οπτικ') || t.includes('ftth') || t.includes('fiber') || t.includes('καλωδιωσ') || t.includes('τηλεπικοινων')) return true;
+  const prof = getLeadProfession(lead);
+  return prof?.key === 'ftth_telecom';
+}
+
 const templates = [
   {
     name: "🔌 Οπτικές Ίνες & FTTH: Αυτοματισμός Αυτοψιών σε 5 Λεπτά",
@@ -2036,6 +2045,10 @@ function safeEncodeBase64(data: any): string {
       !l.unsubscribed && 
       !l.converted && 
       !isEmailBlacklisted(l.email) &&
+      !isFtthLead(l) &&
+      l.type !== 'ftth_telecom' &&
+      l.type !== 'non_ike' &&
+      l.type !== 'new_business_presence' &&
       (l.email_sequence_step === 1 || (!l.email_sequence_step && l.last_email_sent_at)) &&
       l.last_email_sent_at &&
       l.last_email_sent_at >= sequenceStartDate &&
@@ -3140,21 +3153,23 @@ function safeEncodeBase64(data: any): string {
                               <div className="inline-flex items-center gap-1 shrink-0">
                                 <span 
                                   className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
-                                  title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
+                                  title={isFtthLead(lead) ? "Email 1: Στάλθηκε (Μονομερής αποστολή FTTH — Δεν προβλέπεται Follow-Up)" : "Email 1: Στάλθηκε από εσάς (Αρχικό Email)"}
                                 >
                                   1
                                 </span>
-                                <span 
-                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
-                                  title={(() => {
-                                    if (!lead.last_email_sent_at) return "Email 2 (Follow-Up): Σε αναμονή (3 ημέρες)";
-                                    const sentDate = new Date(lead.last_email_sent_at);
-                                    const targetDate = new Date(sentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
-                                    return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα στις ${targetDate.toLocaleDateString("el-GR")} ${targetDate.toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}`;
-                                  })()}
-                                >
-                                  2
-                                </span>
+                                {!isFtthLead(lead) && (
+                                  <span 
+                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
+                                    title={(() => {
+                                      if (!lead.last_email_sent_at) return "Email 2 (Follow-Up): Σε αναμονή (3 ημέρες)";
+                                      const sentDate = new Date(lead.last_email_sent_at);
+                                      const targetDate = new Date(sentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+                                      return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα στις ${targetDate.toLocaleDateString("el-GR")} ${targetDate.toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}`;
+                                    })()}
+                                  >
+                                    2
+                                  </span>
+                                )}
                               </div>
                             )}
                             {(lead.email_sequence_step || 0) >= 2 && (

@@ -91,11 +91,26 @@ async function processFollowUp(days: number = 3, maxBatch: number = 25) {
       continue;
     }
 
+    // Skip FTTH (Fiber/Telecom) leads - FTTH leads NEVER receive follow-up emails
+    const checkText = `${lead.company || ""} ${lead.email || ""} ${lead.first_name || ""} ${lead.last_name || ""}`.toLowerCase();
+    const isFtth = lead.type === "ftth_telecom" || 
+      checkText.includes("ftth") || 
+      checkText.includes("fiber") || 
+      checkText.includes("οπτικ") || 
+      checkText.includes("καλωδιωσ") || 
+      checkText.includes("τηλεπικοινων");
+
+    if (isFtth || lead.type === "new_business_presence" || lead.type === "non_ike") {
+      results.push({ email: emailClean, status: "skipped_ftth_or_non_ike" });
+      continue;
+    }
+
     // Filter to ensure it's an IKE
-    const isIke = lead.type === "new_ike" || 
+    const isIke = (lead.type === "new_ike" || 
       lead.type === "imported" || 
       !lead.type || 
-      (lead.company && (lead.company.toUpperCase().includes("ΙΚΕ") || lead.company.toUpperCase().includes("Ι.Κ.Ε.")));
+      (lead.company && (lead.company.toUpperCase().includes("ΙΚΕ") || lead.company.toUpperCase().includes("Ι.Κ.Ε.")))) &&
+      !isFtth;
 
     if (!isIke) {
       results.push({ email: emailClean, status: "skipped_not_ike" });
