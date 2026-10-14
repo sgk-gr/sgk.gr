@@ -893,6 +893,7 @@ export function EmailsTab() {
   const [isScanningGemi, setIsScanningGemi] = useState(false);
   const [scanCategory, setScanCategory] = useState<"all" | "ftth_telecom" | "non_ike">("all");
   const [scanMonth, setScanMonth] = useState<string>("current");
+  const [scanNonIkeLegalType, setScanNonIkeLegalType] = useState<"companies_only" | "all" | "sole_only">("companies_only");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
   const [scanStatusMessage, setScanStatusMessage] = useState("Ετοιμασία σάρωσης...");
   const [scanStats, setScanStats] = useState({
@@ -1151,7 +1152,7 @@ function safeEncodeBase64(data: any): string {
   const [searchTerm, setSearchTerm] = useState("");
   const deferredSearch = useDeferredValue(searchTerm);
   const [visibleCount, setVisibleCount] = useState(60);
-  const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'non_ike' | 'due_followup' | 'ftth_telecom' | 'tourism' | 'operations_tech' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
   const [isSyncingGemi, setIsSyncingGemi] = useState(false);
   const [professionSubFilter, setProfessionSubFilter] = useState<string>('all');
@@ -1861,6 +1862,12 @@ function safeEncodeBase64(data: any): string {
       monthLabel = `📅 ${monthNamesMap[m] || m} ${y}`;
     }
 
+    const nonIkeLabel = scanNonIkeLegalType === "companies_only"
+      ? "Ο.Ε., Ε.Ε., Α.Ε."
+      : scanNonIkeLegalType === "sole_only"
+      ? "Ατομικές"
+      : "Ο.Ε., Ε.Ε., Α.Ε., Ατομικές";
+
     setIsScanModalOpen(true);
     setIsScanningGemi(true);
     setScannedNewLeads([]);
@@ -1868,7 +1875,7 @@ function safeEncodeBase64(data: any): string {
       isFtth
         ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Εταιρείες FTTH & Τηλεπικοινωνιών (${monthLabel})...`
         : isNonIke
-        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε.) (${monthLabel})...`
+        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις [${nonIkeLabel}] (${monthLabel})...`
         : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
     );
     setScanStats({
@@ -1888,7 +1895,7 @@ function safeEncodeBase64(data: any): string {
         message: isFtth
           ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για FTTH & Οπτικές Ίνες (${monthLabel})...`
           : isNonIke
-          ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (${monthLabel})...`
+          ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις [${nonIkeLabel}] (${monthLabel})...`
           : `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
       }
     ]);
@@ -1902,6 +1909,7 @@ function safeEncodeBase64(data: any): string {
           limit: 50, 
           targetCategory: category,
           targetLegalForm: isNonIke ? "non_ike" : isFtth ? "all" : "ike",
+          nonIkeLegalType: scanNonIkeLegalType,
           month: scanMonth,
         }),
       });
@@ -2000,9 +2008,21 @@ function safeEncodeBase64(data: any): string {
                 }
               ]);
               if (event.count > 0) {
-                toast.success(isFtth ? `🎉 Προστέθηκαν ${event.count} εταιρείες FTTH / Τηλεπικοινωνιών!` : `🎉 Προστέθηκαν ${event.count} νέες Ι.Κ.Ε. στη λίστα!`);
+                toast.success(
+                  isFtth
+                    ? `🎉 Προστέθηκαν ${event.count} εταιρείες FTTH / Τηλεπικοινωνιών!`
+                    : isNonIke
+                    ? `🎉 Προστέθηκαν ${event.count} νέες επιχειρήσεις [${nonIkeLabel}]!`
+                    : `🎉 Προστέθηκαν ${event.count} νέες Ι.Κ.Ε. στη λίστα!`
+                );
               } else {
-                toast.info(isFtth ? `Η σάρωση ολοκληρώθηκε. Δεν βρέθηκαν νέες επιχειρήσεις με τους επιλεγμένους ΚΑΔ.` : `Η σάρωση ολοκληρώθηκε. Όλες οι Ι.Κ.Ε. υπάρχουν ήδη στη βάση.`);
+                toast.info(
+                  isFtth
+                    ? `Η σάρωση ολοκληρώθηκε. Δεν βρέθηκαν νέες επιχειρήσεις με τους επιλεγμένους ΚΑΔ.`
+                    : isNonIke
+                    ? `Η σάρωση ολοκληρώθηκε. Δεν βρέθηκαν νέες επιχειρήσεις (${nonIkeLabel}) χωρίς site.`
+                    : `Η σάρωση ολοκληρώθηκε. Όλες οι Ι.Κ.Ε. υπάρχουν ήδη στη βάση.`
+                );
               }
               await fetchLeads();
             } else if (event.type === "error") {
@@ -2118,6 +2138,9 @@ function safeEncodeBase64(data: any): string {
       if (statusFilter === 'ftth_telecom') {
         return lead.type === 'ftth_telecom';
       }
+      if (statusFilter === 'non_ike') {
+        return lead.type === 'new_business_presence' || lead.type === 'non_ike';
+      }
       if (statusFilter === 'new_ike') {
         return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
       }
@@ -2163,6 +2186,7 @@ function safeEncodeBase64(data: any): string {
   const tourismCount = leads.filter(l => l.type === 'tourism').length;
   const opsTechCount = leads.filter(l => l.type === 'operations_tech').length;
   const ftthTelecomCount = leads.filter(l => l.type === 'ftth_telecom').length;
+  const nonIkeCount = leads.filter(l => l.type === 'new_business_presence' || l.type === 'non_ike').length;
   const newIkeCount = leads.filter(l => l.type === 'new_ike' || (!l.type && (l.created_at ? l.created_at >= '2026-08-01' : false))).length;
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0) && !l.last_email_sent_at).length;
@@ -2818,6 +2842,18 @@ function safeEncodeBase64(data: any): string {
             Εύρεση νέων Ι.Κ.Ε.
           </button>
 
+          <select
+            value={scanNonIkeLegalType}
+            onChange={(e) => setScanNonIkeLegalType(e.target.value as any)}
+            disabled={isScanningGemi}
+            className="adm-select"
+            title="Επιλογή Νομικής Μορφής για Εύρεση εκτός Ι.Κ.Ε."
+          >
+            <option value="companies_only">🏛️ Μόνο Εταιρείες (Ο.Ε., Ε.Ε., Α.Ε.)</option>
+            <option value="all">🏢 Όλες εκτός Ι.Κ.Ε. (ΟΕ, ΕΕ, ΑΕ, Ατομικές)</option>
+            <option value="sole_only">👤 Μόνο Ατομικές</option>
+          </select>
+
           <button
             onClick={handleScanGemiNonIke}
             disabled={isScanningGemi}
@@ -2937,6 +2973,19 @@ function safeEncodeBase64(data: any): string {
               <span>🔌 FTTH / Οπτικές Ίνες</span>
               <span className="text-[10px] px-1 rounded-full bg-white/40">{ftthTelecomCount}</span>
             </button>
+
+            <button
+              onClick={() => setStatusFilter(statusFilter === 'non_ike' ? 'all' : 'non_ike')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                statusFilter === 'non_ike'
+                  ? 'bg-purple-600 text-white border-purple-700 shadow-sm'
+                  : 'bg-purple-50 text-purple-800 border-purple-200 hover:bg-purple-100'
+              }`}
+              title="Επιχειρήσεις Εκτός Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές) για καμπάνια Online Παρουσίας (200€)"
+            >
+              <span>🚀 Εκτός Ι.Κ.Ε.</span>
+              <span className="text-[10px] px-1 rounded-full bg-white/40">{nonIkeCount}</span>
+            </button>
           </div>
 
           {/* Active Filter Indicator */}
@@ -2944,6 +2993,7 @@ function safeEncodeBase64(data: any): string {
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
               {statusFilter === 'ftth_telecom' && <span className="text-cyan-700 font-black">🔌 Οπτικές Ίνες / FTTH & Δίκτυα</span>}
+              {statusFilter === 'non_ike' && <span className="text-purple-700 font-black">🚀 Εκτός Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές)</span>}
               {statusFilter === 'tourism' && <span className="text-amber-700 font-black">✈️ Τουρισμός / Travel</span>}
               {statusFilter === 'operations_tech' && <span className="text-purple-700 font-black">⚡ Operations & Τεχνικές</span>}
               {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
@@ -3608,7 +3658,7 @@ function safeEncodeBase64(data: any): string {
                     {scanCategory === "ftth_telecom"
                       ? " • Στοχευμένος ΚΑΔ: 43210006 / 43211006 • Όλες οι νομικές μορφές"
                       : scanCategory === "non_ike"
-                      ? " • Όλες οι νομικές μορφές ΕΚΤΟΣ Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές) • Καμπάνια Online Παρουσίας (200€)"
+                      ? ` • ${scanNonIkeLegalType === "companies_only" ? "Μόνο Εταιρείες (Ο.Ε., Ε.Ε., Α.Ε.)" : scanNonIkeLegalType === "sole_only" ? "Μόνο Ατομικές Επιχειρήσεις" : "Όλες εκτός Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές)"} • Καμπάνια Online Παρουσίας (200€)`
                       : " • Μόνο Ι.Κ.Ε."}
                   </p>
                 </div>

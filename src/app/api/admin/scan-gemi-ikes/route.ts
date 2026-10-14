@@ -252,6 +252,12 @@ export async function POST(req: NextRequest) {
   const isFtthMode = targetCategory === "ftth_telecom";
   const isNonIkeMode = targetCategory === "non_ike" || targetCategory === "new_non_ike";
   const targetLegalForm = isFtthMode ? "all" : isNonIkeMode ? "non_ike" : "ike";
+  const nonIkeLegalType = body.nonIkeLegalType || "companies_only"; // "companies_only" (Ο.Ε., Ε.Ε., Α.Ε.), "all", "sole_only"
+  const nonIkeLabel = nonIkeLegalType === "companies_only"
+    ? "Ο.Ε., Ε.Ε., Α.Ε."
+    : nonIkeLegalType === "sole_only"
+    ? "Ατομικές"
+    : "Ο.Ε., Ε.Ε., Α.Ε., Ατομικές";
   
   // Dynamic Month Handling: automatically follows current month (e.g. 2026-09 in September, 2026-10 in October)
   const now = new Date();
@@ -311,12 +317,13 @@ export async function POST(req: NextRequest) {
             message: isFtthMode
               ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [ΚΑΔ 43210006/43211006 - Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών | Όλες οι Μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) | 📅 ${monthLabel}]...`
               : isNonIkeMode
-              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές) | 📅 ${monthLabel}]...`
+              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (${nonIkeLabel}) | 📅 ${monthLabel}]...`
               : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
             minDate,
             maxResults,
             targetCategory,
             targetLegalForm,
+            nonIkeLegalType,
             targetMonth
           });
 
@@ -384,14 +391,31 @@ export async function POST(req: NextRequest) {
               message: isFtthMode
                 ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (έλεγχος ΚΑΔ 43210006 σε όλες τις μορφές ${offset + 1} έως ${offset + pageSize})...`
                 : isNonIkeMode
-                ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες εταιρείες εκτός ΙΚΕ ${offset + 1} έως ${offset + pageSize})...`
+                ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες επιχειρήσεις [${nonIkeLabel}] ${offset + 1} έως ${offset + pageSize})...`
                 : `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες Ι.Κ.Ε. ${offset + 1} έως ${offset + pageSize})...`,
               offset,
               page: pageNum
             });
 
-            // Target only IKEs if general mode; in FTTH or Non-IKE mode query all legal types from GEMI
-            const legalTypeParam = (isFtthMode || isNonIkeMode) ? "" : "&legalTypes=19";
+            // Legal types configuration:
+            // - FTTH: all legal forms
+            // - Non-IKE: targeted forms based on nonIkeLegalType (companies_only: 1=AE, 2=OE, 4=EE | all: 1,2,4,16 | sole_only: 16)
+            // - Default: only IKEs (19)
+            let legalTypeParam = "";
+            if (isFtthMode) {
+              legalTypeParam = "";
+            } else if (isNonIkeMode) {
+              if (nonIkeLegalType === "sole_only") {
+                legalTypeParam = "&legalTypes=16";
+              } else if (nonIkeLegalType === "all") {
+                legalTypeParam = "&legalTypes=1,2,4,16";
+              } else {
+                // "companies_only" (default: Ο.Ε., Ε.Ε., Α.Ε.)
+                legalTypeParam = "&legalTypes=1,2,4";
+              }
+            } else {
+              legalTypeParam = "&legalTypes=19";
+            }
             const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}&resultsSortBy=-arGemi`;
 
             let results: any[] = [];
@@ -631,7 +655,9 @@ export async function POST(req: NextRequest) {
           if (newLeadsToInsert.length > 0) {
             emit({
               type: "info",
-              message: `💾 Αποθήκευση ${newLeadsToInsert.length} νέων Ι.Κ.Ε. στη βάση δεδομένων...`
+              message: isNonIkeMode
+                ? `💾 Αποθήκευση ${newLeadsToInsert.length} νέων επιχειρήσεων (${nonIkeLabel}) στη βάση δεδομένων...`
+                : `💾 Αποθήκευση ${newLeadsToInsert.length} νέων Ι.Κ.Ε. στη βάση δεδομένων...`
             });
 
             const { data: insertedData, error: insertErr } = await supabase
@@ -670,9 +696,13 @@ export async function POST(req: NextRequest) {
           const doneMessage = insertedCount > 0
             ? isFtthMode
               ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (όλες οι νομικές μορφές) και προστέθηκαν ${insertedCount} εταιρείες ΚΑΔ 43210006 (Καλωδιώσεις / Τηλεπικοινωνίες) στη βάση δεδομένων.`
+              : isNonIkeMode
+              ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (${nonIkeLabel}) και προστέθηκαν ${insertedCount} νέες επιχειρήσεις στη βάση δεδομένων.`
               : `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
             : isFtthMode
               ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις όλων των νομικών μορφών και δεν βρέθηκαν νέες μη-καταχωρημένες εταιρείες με τον ΚΑΔ 43210006 για το διάστημα αυτό.`
+              : isNonIkeMode
+              ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (${nonIkeLabel}) και ΔΕΝ βρέθηκαν νέες επιχειρήσεις χωρίς site για το διάστημα αυτό.`
               : `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις σε όλες τις σελίδες και ΔΕΝ βρέθηκαν νέες Ι.Κ.Ε. (όλες οι διαθέσιμες επιχειρήσεις υπάρχουν ήδη στη βάση δεδομένων ή διαθέτουν ήδη ιστοσελίδα/εταιρικό domain).`;
 
           emit({
