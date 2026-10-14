@@ -100,17 +100,29 @@ async function processFollowUp(days: number = 3, maxBatch: number = 25) {
       checkText.includes("καλωδιωσ") || 
       checkText.includes("τηλεπικοινων");
 
-    if (isFtth || lead.type === "new_business_presence" || lead.type === "non_ike") {
+    const isNonIke = lead.type === "new_business_presence" || 
+      lead.type === "non_ike" ||
+      checkText.includes("ατομικ") ||
+      checkText.includes("ομορρυθμ") ||
+      checkText.includes("ετερορρυθμ") ||
+      checkText.includes("ανωνυμ") ||
+      checkText.includes(" ο.ε") ||
+      checkText.includes(" οε") ||
+      checkText.includes(" ε.ε") ||
+      checkText.includes(" εε") ||
+      checkText.includes(" α.ε") ||
+      checkText.includes(" αε");
+
+    if (isFtth || isNonIke) {
       results.push({ email: emailClean, status: "skipped_ftth_or_non_ike" });
       continue;
     }
 
-    // Filter to ensure it's an IKE
+    // Filter to ensure it's STRICTLY an IKE
     const isIke = (lead.type === "new_ike" || 
-      lead.type === "imported" || 
-      !lead.type || 
       (lead.company && (lead.company.toUpperCase().includes("ΙΚΕ") || lead.company.toUpperCase().includes("Ι.Κ.Ε.")))) &&
-      !isFtth;
+      !isFtth &&
+      !isNonIke;
 
     if (!isIke) {
       results.push({ email: emailClean, status: "skipped_not_ike" });

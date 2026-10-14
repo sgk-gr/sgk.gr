@@ -193,6 +193,16 @@ export function isFtthLead(lead: any): boolean {
   return prof?.key === 'ftth_telecom';
 }
 
+export function isNonIkeLead(lead: any): boolean {
+  if (!lead) return false;
+  if (lead.type === 'new_business_presence' || lead.type === 'non_ike') return true;
+  const prof = getLeadProfession(lead);
+  if (prof?.key === 'new_business_presence') return true;
+  const t = `${lead.company || ''} ${lead.email || ''} ${lead.first_name || ''} ${lead.last_name || ''}`.toLowerCase();
+  if (t.includes('ατομικ') || t.includes('ομορρυθμ') || t.includes('ετερορρυθμ') || t.includes('ανωνυμ') || t.includes(' ο.ε') || t.includes(' οε') || t.includes(' ε.ε') || t.includes(' εε') || t.includes(' α.ε') || t.includes(' αε')) return true;
+  return false;
+}
+
 const templates = [
   {
     name: "🔌 Οπτικές Ίνες & FTTH: Αυτοματισμός Αυτοψιών σε 5 Λεπτά",
@@ -2072,6 +2082,7 @@ function safeEncodeBase64(data: any): string {
       !l.converted && 
       !isEmailBlacklisted(l.email) &&
       !isFtthLead(l) &&
+      !isNonIkeLead(l) &&
       l.type !== 'ftth_telecom' &&
       l.type !== 'non_ike' &&
       l.type !== 'new_business_presence' &&
@@ -2148,6 +2159,11 @@ function safeEncodeBase64(data: any): string {
         const sequenceStartDate = "2026-10-11T00:00:00.000Z";
         const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
         return !lead.unsubscribed && !lead.converted && !isEmailBlacklisted(lead.email) &&
+          !isFtthLead(lead) &&
+          !isNonIkeLead(lead) &&
+          lead.type !== 'ftth_telecom' &&
+          lead.type !== 'non_ike' &&
+          lead.type !== 'new_business_presence' &&
           (lead.email_sequence_step === 1 || (!lead.email_sequence_step && lead.last_email_sent_at)) &&
           lead.last_email_sent_at && 
           lead.last_email_sent_at >= sequenceStartDate &&
@@ -3100,11 +3116,15 @@ function safeEncodeBase64(data: any): string {
                               <div className="inline-flex items-center gap-1 shrink-0">
                                 <span 
                                   className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
-                                  title={isFtthLead(lead) ? "Email 1: Στάλθηκε (Μονομερής αποστολή FTTH — Δεν προβλέπεται Follow-Up)" : "Email 1: Στάλθηκε από εσάς (Αρχικό Email)"}
+                                  title={isFtthLead(lead) 
+                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή FTTH — Δεν προβλέπεται Follow-Up)" 
+                                    : isNonIkeLead(lead)
+                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή Online Παρουσίας — Δεν αποστέλλεται Follow-Up)"
+                                    : "Email 1: Στάλθηκε από εσάς (Αρχικό Email)"}
                                 >
                                   1
                                 </span>
-                                {!isFtthLead(lead) && (
+                                {!isFtthLead(lead) && !isNonIkeLead(lead) && (
                                   <span 
                                     className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
                                     title={(() => {
@@ -3246,7 +3266,7 @@ function safeEncodeBase64(data: any): string {
                             </div>
                           ) : ((lead.email_sequence_step || 0) === 1 || lead.last_email_sent_at) ? (
                             <div className="inline-flex flex-col items-center">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title="1ο Email: Αρχική αποστολή από εσάς">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title={isFtthLead(lead) || isNonIkeLead(lead) ? "Email 1: Στάλθηκε από εσάς (Μονομερής αποστολή — Δεν αποστέλλεται Follow-Up)" : "1ο Email: Αρχική αποστολή από εσάς"}>
                                 <Check size={11} className="text-emerald-600 stroke-[3]" />
                                 1ο Email (Εσείς)
                               </span>
