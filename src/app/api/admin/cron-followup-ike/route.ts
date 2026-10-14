@@ -4,8 +4,37 @@ import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted } from "@/lib/blacklist";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 export const IKE_FOLLOWUP_SUBJECT = "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 150€)";
+
+// Calculate calendar-based cutoff in Greek timezone (Europe/Athens)
+// If today is day D in Greece, any email sent on or before (D - days) calendar date is eligible on morning run!
+export function getCalendarCutoffIso(days: number = 3): string {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Athens",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const greekTodayStr = formatter.format(now); // e.g. "2026-10-15"
+  const [y, m, d] = greekTodayStr.split("-").map(Number);
+
+  // Target day in Greece: D - days (e.g. on Oct 15 with days=3, target is Oct 12)
+  // Any email sent up to the end of that day in Greece (23:59:59.999 local time) is eligible
+  const targetDate = new Date(Date.UTC(y, m - 1, d - days, 23, 59, 59, 999));
+  
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Athens",
+    timeZoneName: "shortOffset",
+  }).formatToParts(targetDate);
+  const tzPart = parts.find(p => p.type === "timeZoneName")?.value || "GMT+3";
+  const offsetHours = tzPart.includes("+3") ? 3 : 2;
+
+  const cutoffUtc = new Date(targetDate.getTime() - offsetHours * 60 * 60 * 1000);
+  return cutoffUtc.toISOString();
+}
 
 export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
   Υπενθύμιση: Προθεσμία 30 Ημερών για Ιστοσελίδα Ι.Κ.Ε. στο Γ.Ε.ΜΗ.
@@ -53,14 +82,14 @@ export const IKE_FOLLOWUP_BUTTON_LINK = "https://www.sgk.gr/ike-offer";
 // Strict rule: Follow-up is sent ONLY to IKEs that received Step 1 from today onwards!
 export const SEQUENCE_START_DATE = "2026-10-11T00:00:00.000Z";
 
-async function processFollowUp(days: number = 3, maxBatch: number = 25) {
+async function processFollowUp(days: number = 3, maxBatch: number = 100) {
   const supabase = getServiceSupabase();
   const supabaseUrl = SUPABASE_URL;
   const supabaseServiceKey = getSupabaseServiceRoleKey();
 
-  const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const cutoff = getCalendarCutoffIso(days);
 
-  // Find leads where Step 1 was sent FROM TODAY ONWARDS (>= 2026-10-11) AND >= 3 days ago
+  // Find leads where Step 1 was sent FROM TODAY ONWARDS (>= 2026-10-11) AND >= 3 calendar days ago
   const { data: leads, error } = await supabase
     .from("sgk_mails")
     .select("id, email, company, first_name, last_name, unsubscribe_token, type, email_sequence_step, last_email_sent_at, unsubscribed, marketing_consent, converted")
@@ -297,7 +326,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const days = parseInt(searchParams.get("days") || "3", 10);
-    const maxBatch = parseInt(searchParams.get("limit") || "25", 10);
+    const maxBatch = parseInt(searchParams.get("limit") || "100", 10);
     const forceReport = searchParams.get("report") === "true" || searchParams.get("forceReport") === "1";
 
     const data = await processFollowUp(days, maxBatch, forceReport);
@@ -311,7 +340,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     let days = 3;
-    let maxBatch = 25;
+    let maxBatch = 100;
     let forceReport = false;
     try {
       const body = await req.json();

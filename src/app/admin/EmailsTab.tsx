@@ -203,6 +203,27 @@ export function isNonIkeLead(lead: any): boolean {
   return false;
 }
 
+export function getCalendarCutoffIso(days: number = 3): string {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Athens",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const greekTodayStr = formatter.format(now);
+  const [y, m, d] = greekTodayStr.split("-").map(Number);
+  const targetDate = new Date(Date.UTC(y, m - 1, d - days, 23, 59, 59, 999));
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Athens",
+    timeZoneName: "shortOffset",
+  }).formatToParts(targetDate);
+  const tzPart = parts.find(p => p.type === "timeZoneName")?.value || "GMT+3";
+  const offsetHours = tzPart.includes("+3") ? 3 : 2;
+  const cutoffUtc = new Date(targetDate.getTime() - offsetHours * 60 * 60 * 1000);
+  return cutoffUtc.toISOString();
+}
+
 const templates = [
   {
     name: "🔌 Οπτικές Ίνες & FTTH: Αυτοματισμός Αυτοψιών σε 5 Λεπτά",
@@ -2076,7 +2097,7 @@ function safeEncodeBase64(data: any): string {
 
   const dueFollowUpIkeLeads = useMemo(() => {
     const sequenceStartDate = "2026-10-11T00:00:00.000Z";
-    const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
+    const cutoff = getCalendarCutoffIso(3);
     return leads.filter(l => 
       !l.unsubscribed && 
       !l.converted && 
@@ -2089,7 +2110,7 @@ function safeEncodeBase64(data: any): string {
       (l.email_sequence_step === 1 || (!l.email_sequence_step && l.last_email_sent_at)) &&
       l.last_email_sent_at &&
       l.last_email_sent_at >= sequenceStartDate &&
-      l.last_email_sent_at <= threeDaysAgo &&
+      l.last_email_sent_at <= cutoff &&
       (l.type === 'new_ike' || l.type === 'imported' || (!l.type && (l.company?.toUpperCase().includes('ΙΚΕ') || l.company?.toUpperCase().includes('Ι.Κ.Ε.'))))
     );
   }, [leads]);
@@ -2157,7 +2178,7 @@ function safeEncodeBase64(data: any): string {
       }
       if (statusFilter === 'due_followup') {
         const sequenceStartDate = "2026-10-11T00:00:00.000Z";
-        const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
+        const cutoff = getCalendarCutoffIso(3);
         return !lead.unsubscribed && !lead.converted && !isEmailBlacklisted(lead.email) &&
           !isFtthLead(lead) &&
           !isNonIkeLead(lead) &&
@@ -2167,7 +2188,7 @@ function safeEncodeBase64(data: any): string {
           (lead.email_sequence_step === 1 || (!lead.email_sequence_step && lead.last_email_sent_at)) &&
           lead.last_email_sent_at && 
           lead.last_email_sent_at >= sequenceStartDate &&
-          lead.last_email_sent_at <= threeDaysAgo &&
+          lead.last_email_sent_at <= cutoff &&
           (lead.type === 'new_ike' || lead.type === 'imported' || (!lead.type && (lead.company?.toUpperCase().includes('ΙΚΕ') || lead.company?.toUpperCase().includes('Ι.Κ.Ε.'))));
       }
       if (statusFilter === 'legacy') {
@@ -3131,7 +3152,7 @@ function safeEncodeBase64(data: any): string {
                                       if (!lead.last_email_sent_at) return "Email 2 (Follow-Up): Σε αναμονή (3 ημέρες)";
                                       const sentDate = new Date(lead.last_email_sent_at);
                                       const targetDate = new Date(sentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
-                                      return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα στις ${targetDate.toLocaleDateString("el-GR")} ${targetDate.toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}`;
+                                      return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα το πρωί στις ${targetDate.toLocaleDateString("el-GR")} (11:00 π.μ.)`;
                                     })()}
                                   >
                                     2
