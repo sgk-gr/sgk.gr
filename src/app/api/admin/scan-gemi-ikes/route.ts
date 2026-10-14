@@ -239,6 +239,63 @@ async function fetchGemiWithTimeout(url: string, apiKey: string) {
   }
 }
 
+// Lookup anchor benchmarks for GEMI OpenData API (descending -arGemi)
+const GEMI_IKE_ANCHORS: { ym: number; offset: number }[] = [
+  { ym: 202610, offset: 0 },
+  { ym: 202605, offset: 5000 },
+  { ym: 202601, offset: 10500 },
+  { ym: 202512, offset: 11500 },
+  { ym: 202509, offset: 15000 },
+  { ym: 202501, offset: 23500 },
+  { ym: 202412, offset: 25000 },
+  { ym: 202406, offset: 30500 },
+  { ym: 202401, offset: 37000 },
+  { ym: 202312, offset: 38000 },
+  { ym: 202306, offset: 44000 },
+  { ym: 202301, offset: 49000 },
+  { ym: 202212, offset: 50000 },
+  { ym: 202206, offset: 55000 },
+  { ym: 202201, offset: 61000 },
+  { ym: 202112, offset: 62000 },
+  { ym: 202108, offset: 65000 },
+  { ym: 202101, offset: 71000 },
+  { ym: 202012, offset: 72000 },
+  { ym: 202009, offset: 75000 },
+  { ym: 202001, offset: 80000 },
+  { ym: 201912, offset: 81000 },
+  { ym: 201906, offset: 85000 },
+  { ym: 201901, offset: 89000 },
+  { ym: 201812, offset: 89500 },
+  { ym: 201811, offset: 90000 },
+  { ym: 201806, offset: 94500 },
+  { ym: 201801, offset: 98000 },
+  { ym: 201704, offset: 100000 },
+];
+
+function getEstimatedOffset(year: number, targetMonth: string | null): number {
+  const monthNum = targetMonth ? Number(targetMonth.split("-")[1]) : 12;
+  const targetYM = year * 100 + monthNum;
+
+  if (targetYM >= GEMI_IKE_ANCHORS[0].ym) return 0;
+  if (targetYM <= GEMI_IKE_ANCHORS[GEMI_IKE_ANCHORS.length - 1].ym) {
+    return GEMI_IKE_ANCHORS[GEMI_IKE_ANCHORS.length - 1].offset;
+  }
+
+  for (let i = 0; i < GEMI_IKE_ANCHORS.length - 1; i++) {
+    const higher = GEMI_IKE_ANCHORS[i];     // Newer in time (lower offset)
+    const lower = GEMI_IKE_ANCHORS[i + 1];  // Older in time (higher offset)
+    if (targetYM <= higher.ym && targetYM >= lower.ym) {
+      const ymRange = higher.ym - lower.ym;
+      const progress = ymRange === 0 ? 0 : (higher.ym - targetYM) / ymRange;
+      const interpolated = higher.offset + progress * (lower.offset - higher.offset);
+      // Give a safe cushion of 300 records backwards so we never miss the beginning of the target period
+      return Math.max(0, Math.floor(interpolated - 300));
+    }
+  }
+
+  return 0;
+}
+
 export async function POST(req: NextRequest) {
   let body: any = {};
   try {
@@ -259,37 +316,68 @@ export async function POST(req: NextRequest) {
     ? "Ατομικές"
     : "Ο.Ε., Ε.Ε., Α.Ε., Ατομικές";
   
-  // Dynamic Month Handling: automatically follows current month (e.g. 2026-09 in September, 2026-10 in October)
+  // Dynamic Month & Year Handling (supports 2018 up to 2026)
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonthNum = String(now.getMonth() + 1).padStart(2, "0");
-  const currentMonthPrefix = `${currentYear}-${currentMonthNum}`; // e.g. "2026-09"
+  const currentMonthPrefix = `${currentYear}-${currentMonthNum}`; // e.g. "2026-10"
 
   const prevDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const prevMonthNum = String(prevDate.getMonth() + 1).padStart(2, "0");
-  const prevMonthPrefix = `${prevDate.getFullYear()}-${prevMonthNum}`; // e.g. "2026-08"
+  const prevMonthPrefix = `${prevDate.getFullYear()}-${prevMonthNum}`; // e.g. "2026-09"
+
+  let targetYear = body.year ? Number(body.year) : currentYear;
+  const rawMonth = body.month || "current";
 
   let targetMonth: string | null = null;
-  let minDate: string = `${currentMonthPrefix}-01`;
+  let minDate: string = "";
+  let maxDate: string = "";
 
-  if (body.month === "previous") {
-    targetMonth = prevMonthPrefix;
-    minDate = `${prevMonthPrefix}-01`;
-  } else if (body.month === "all_year") {
-    targetMonth = null;
-    minDate = `${currentYear}-01-01`;
-  } else if (body.month && typeof body.month === "string" && body.month.match(/^\d{4}-\d{2}$/)) {
-    targetMonth = body.month;
-    minDate = `${body.month}-01`;
-  } else {
-    // Default: current month!
+  if (rawMonth === "current") {
+    targetYear = currentYear;
     targetMonth = currentMonthPrefix;
     minDate = `${currentMonthPrefix}-01`;
+    maxDate = `${currentMonthPrefix}-31`;
+  } else if (rawMonth === "previous") {
+    targetYear = prevDate.getFullYear();
+    targetMonth = prevMonthPrefix;
+    minDate = `${prevMonthPrefix}-01`;
+    maxDate = `${prevMonthPrefix}-31`;
+  } else if (rawMonth === "all_year" || rawMonth === "all") {
+    targetMonth = null;
+    minDate = `${targetYear}-01-01`;
+    maxDate = `${targetYear}-12-31`;
+  } else if (typeof rawMonth === "string" && rawMonth.match(/^\d{4}-\d{2}$/)) {
+    targetYear = Number(rawMonth.split("-")[0]);
+    targetMonth = rawMonth;
+    minDate = `${rawMonth}-01`;
+    maxDate = `${rawMonth}-31`;
+  } else if (typeof rawMonth === "string" && rawMonth.match(/^\d{2}$/)) {
+    targetMonth = `${targetYear}-${rawMonth}`;
+    minDate = `${targetYear}-${rawMonth}-01`;
+    maxDate = `${targetYear}-${rawMonth}-31`;
+  } else {
+    if (targetYear < currentYear) {
+      targetMonth = null;
+      minDate = `${targetYear}-01-01`;
+      maxDate = `${targetYear}-12-31`;
+    } else {
+      targetMonth = currentMonthPrefix;
+      minDate = `${currentMonthPrefix}-01`;
+      maxDate = `${currentMonthPrefix}-31`;
+    }
   }
 
   if (body.minDate) {
     minDate = body.minDate;
   }
+  if (body.maxDate) {
+    maxDate = body.maxDate;
+  }
+
+  const isLegacyIke = !isFtthMode && !isNonIkeMode && targetYear < currentYear;
+  const computedStartOffset = isFtthMode || isNonIkeMode ? 0 : getEstimatedOffset(targetYear, targetMonth);
+  const startOffset = typeof body.startOffset === "number" ? body.startOffset : computedStartOffset;
 
   const isStream = body.stream !== false; // Default to streaming
   const pageSize = 50;
@@ -310,7 +398,7 @@ export async function POST(req: NextRequest) {
         };
 
         try {
-          const monthLabel = targetMonth ? `Μήνας: ${targetMonth}` : `Από ${minDate}`;
+          const monthLabel = targetMonth ? `Μήνας: ${targetMonth}` : `Έτος ${targetYear} (${minDate} έως ${maxDate})`;
 
           emit({
             type: "init",
@@ -318,13 +406,18 @@ export async function POST(req: NextRequest) {
               ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [ΚΑΔ 43210006/43211006 - Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών | Όλες οι Μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) | 📅 ${monthLabel}]...`
               : isNonIkeMode
               ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (${nonIkeLabel}) | 📅 ${monthLabel}]...`
+              : isLegacyIke
+              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Παλαιές Ι.Κ.Ε. (${targetYear}) χωρίς site | 📅 ${monthLabel} | Offset ~${startOffset}]...`
               : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
             minDate,
+            maxDate,
             maxResults,
             targetCategory,
             targetLegalForm,
             nonIkeLegalType,
-            targetMonth
+            targetMonth,
+            targetYear,
+            startOffset
           });
 
           // 1. Fetch ALL existing emails, AFMs, and GEMI numbers from Supabase (paginated to bypass 1000 limit)
@@ -381,17 +474,19 @@ export async function POST(req: NextRequest) {
           let totalCustomDomain = 0;
           let totalNoEmail = 0;
           let totalOldDate = 0;
-          let offset = 0;
+          let offset = startOffset;
 
-          const maxOffset = isFtthMode ? 15000 : 8000;
+          const maxOffset = offset + (isFtthMode ? 20000 : 15000);
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
-            const pageNum = Math.floor(offset / pageSize) + 1;
+            const pageNum = Math.floor((offset - startOffset) / pageSize) + 1;
             emit({
               type: "page",
               message: isFtthMode
                 ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (έλεγχος ΚΑΔ 43210006 σε όλες τις μορφές ${offset + 1} έως ${offset + pageSize})...`
                 : isNonIkeMode
                 ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες επιχειρήσεις [${nonIkeLabel}] ${offset + 1} έως ${offset + pageSize})...`
+                : isLegacyIke
+                ? `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (παλαιές Ι.Κ.Ε. ${targetYear} ${offset + 1} έως ${offset + pageSize})...`
                 : `📡 Λήψη παρτίδας #${pageNum} από ΓΕΜΗ (νέες Ι.Κ.Ε. ${offset + 1} έως ${offset + pageSize})...`,
               offset,
               page: pageNum
@@ -420,7 +515,20 @@ export async function POST(req: NextRequest) {
 
             let results: any[] = [];
             try {
-              const res = await fetchGemiWithTimeout(url, GEMI_API_KEY);
+              let res = await fetchGemiWithTimeout(url, GEMI_API_KEY);
+              let retryCount = 0;
+
+              // Handle GEMI API Rate Limit (HTTP 429) with backoff
+              while (res.status === 429 && retryCount < 3) {
+                retryCount++;
+                emit({
+                  type: "warning",
+                  message: `⏳ Όριο ρυθμού OpenData ΓΕΜΗ (rate limit). Αναμονή ${retryCount * 8} δευτερολέπτων πριν από νέα προσπάθεια...`
+                });
+                await new Promise((r) => setTimeout(r, retryCount * 8000));
+                res = await fetchGemiWithTimeout(url, GEMI_API_KEY);
+              }
+
               if (!res.ok) {
                 const errorText = await res.text();
                 emit({
@@ -472,6 +580,11 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
+              // Filter: If record is newer than maxDate (due to cushion offset), skip it
+              if (maxDate && incDate && incDate > maxDate) {
+                continue;
+              }
+
               // Filter: Check minimum incorporation date
               if (minDate && incDate && incDate < minDate) {
                 totalOldDate++;
@@ -488,7 +601,7 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Filter: Check target month if requested (e.g. "2026-09")
+              // Filter: Check target month if requested (e.g. "2018-05")
               if (targetMonth && (!incDate || !incDate.startsWith(targetMonth))) {
                 totalOldDate++;
                 if (incDate && incDate < targetMonth) {
@@ -593,6 +706,8 @@ export async function POST(req: NextRequest) {
                 ? "ftth_telecom" 
                 : isNonIkeMode 
                 ? "new_business_presence" 
+                : isLegacyIke
+                ? "legacy_ike"
                 : "new_ike";
 
               const newLead = {
@@ -626,6 +741,8 @@ export async function POST(req: NextRequest) {
                   ? `🔌 ΕΤΑΙΡΕΙΑ FTTH / ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ (${ftthCheck.reason}) [${legalForm}]! Προστέθηκε για καμπάνια Αυτοψιών!`
                   : isNonIkeMode
                   ? `🏢 ΝΕΑ ΕΠΙΧΕΙΡΗΣΗ [${legalForm}] (Εκτός Ι.Κ.Ε.)! Προστέθηκε για καμπάνια Online Παρουσίας & AI (200€)!`
+                  : isLegacyIke
+                  ? `🏛️ ΠΑΛΑΙΑ Ι.Κ.Ε. (${incDate || targetYear}) ΧΩΡΙΣ SITE! Προστέθηκε για τακτοποίηση ΓΕΜΗ (150€)!`
                   : `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
@@ -633,8 +750,8 @@ export async function POST(req: NextRequest) {
               if (newLeadsToInsert.length >= maxResults) break;
             }
 
-            // If more than 45 companies in this batch are older than minDate, stop paginating
-            if (minDate && olderCountInPage >= 45) {
+            // If more than 40 companies or 80% of page are older than minDate, stop paginating
+            if (minDate && results.length > 0 && olderCountInPage >= Math.min(results.length * 0.8, 40)) {
               emit({
                 type: "info",
                 message: `ℹ️ Εντοπίστηκαν παλαιότερες εγγραφές (πριν τις ${minDate}). Η σάρωση ολοκληρώθηκε επιτυχώς.`
@@ -645,8 +762,8 @@ export async function POST(req: NextRequest) {
             offset += results.length;
             if (results.length < pageSize) break;
 
-            // Small respectful delay between pages so GEMI API never throttles (HTTP 429)
-            await new Promise((r) => setTimeout(r, 600));
+            // Small respectful delay between pages so GEMI API never throttles
+            await new Promise((r) => setTimeout(r, 1000));
           }
 
           // Insert new leads into Supabase safely
@@ -657,6 +774,8 @@ export async function POST(req: NextRequest) {
               type: "info",
               message: isNonIkeMode
                 ? `💾 Αποθήκευση ${newLeadsToInsert.length} νέων επιχειρήσεων (${nonIkeLabel}) στη βάση δεδομένων...`
+                : isLegacyIke
+                ? `💾 Αποθήκευση ${newLeadsToInsert.length} παλαιών Ι.Κ.Ε. (${targetYear}) στη βάση δεδομένων...`
                 : `💾 Αποθήκευση ${newLeadsToInsert.length} νέων Ι.Κ.Ε. στη βάση δεδομένων...`
             });
 
@@ -698,11 +817,15 @@ export async function POST(req: NextRequest) {
               ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (όλες οι νομικές μορφές) και προστέθηκαν ${insertedCount} εταιρείες ΚΑΔ 43210006 (Καλωδιώσεις / Τηλεπικοινωνίες) στη βάση δεδομένων.`
               : isNonIkeMode
               ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (${nonIkeLabel}) και προστέθηκαν ${insertedCount} νέες επιχειρήσεις στη βάση δεδομένων.`
+              : isLegacyIke
+              ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} παλαιές Ι.Κ.Ε. (${targetYear}) χωρίς ιστοσελίδα στη βάση δεδομένων.`
               : `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
             : isFtthMode
               ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις όλων των νομικών μορφών και δεν βρέθηκαν νέες μη-καταχωρημένες εταιρείες με τον ΚΑΔ 43210006 για το διάστημα αυτό.`
               : isNonIkeMode
               ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (${nonIkeLabel}) και ΔΕΝ βρέθηκαν νέες επιχειρήσεις χωρίς site για το διάστημα αυτό.`
+              : isLegacyIke
+              ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και ΔΕΝ βρέθηκαν άλλες παλαιές Ι.Κ.Ε. (${targetYear}) χωρίς site (όλες υπάρχουν ήδη στη βάση ή διαθέτουν ήδη ιστοσελίδα).`
               : `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις σε όλες τις σελίδες και ΔΕΝ βρέθηκαν νέες Ι.Κ.Ε. (όλες οι διαθέσιμες επιχειρήσεις υπάρχουν ήδη στη βάση δεδομένων ή διαθέτουν ήδη ιστοσελίδα/εταιρικό domain).`;
 
           emit({

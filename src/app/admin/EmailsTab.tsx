@@ -7,7 +7,7 @@ import {
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
   FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
   Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target,
-  ChevronDown, ChevronUp
+  ChevronDown, ChevronUp, History
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
@@ -141,6 +141,15 @@ export const CLIENT_PROFESSIONS: Record<string, ProfessionConfig> = {
     text: "text-slate-800",
     border: "border-slate-300"
   },
+  legacy_ike: {
+    key: "legacy_ike",
+    label: "Παλαιά Ι.Κ.Ε. (2018–2025)",
+    shortLabel: "Παλαιά ΙΚΕ",
+    icon: "🏛️",
+    badgeBg: "bg-amber-50",
+    text: "text-amber-800",
+    border: "border-amber-300"
+  },
   new_business_presence: {
     key: "new_business_presence",
     label: "Νέα Επιχείρηση (Ο.Ε., Ε.Ε., Α.Ε.)",
@@ -180,8 +189,14 @@ export function getLeadProfession(lead: any): ProfessionConfig {
   if (lead.type === 'ftth_telecom') return CLIENT_PROFESSIONS.ftth_telecom;
   if (lead.type === 'operations_tech') return CLIENT_PROFESSIONS.operations_tech;
   if (lead.type === 'new_business_presence' || lead.type === 'non_ike') return CLIENT_PROFESSIONS.new_business_presence;
+  if (lead.type === 'legacy_ike') return CLIENT_PROFESSIONS.legacy_ike;
   if (lead.type === 'new_ike') return CLIENT_PROFESSIONS.new_ike;
   return CLIENT_PROFESSIONS.general_co;
+}
+
+export function isLegacyIkeLead(lead: any): boolean {
+  if (!lead) return false;
+  return lead.type === 'legacy_ike';
 }
 
 export function isFtthLead(lead: any): boolean {
@@ -393,6 +408,71 @@ const templates = [
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
   <strong>Διαφάνεια & GDPR:</strong> Επικοινωνούμε αποκλειστικά βάσει των δημοσίων στοιχείων (OpenData API) του Γ.Ε.ΜΗ.
 </div>`
+  },
+  {
+    name: "🏛️ Παλαιές Ι.Κ.Ε. (2018–2025): Εκπρόθεσμες χωρίς Ιστοσελίδα ΓΕΜΗ (150€)",
+    subject: "Έχετε Ι.Κ.Ε. χωρίς δηλωμένη ιστοσελίδα στο ΓΕΜΗ; | Τακτοποίηση σε 24 ώρες χωρίς πρόστιμο (150€)",
+    body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">
+  «Έχω Ι.Κ.Ε. και δεν έχω ιστοσελίδα στο Γ.Ε.ΜΗ. Τι κάνω;»
+</h2>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Αγαπητέ διαχειριστή, καλησπέρα σας.
+</p>
+
+<!-- Overdue & Fine Relief Box -->
+<div style="background-color: #fef2f2; border: 1px solid #fecaca; border-left: 5px solid #ef4444; border-radius: 8px; padding: 14px 16px; margin: 16px 0;">
+  <p style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 800; color: #991b1b;">
+    ⚠️ Είστε εκπρόθεσμος βάσει νόμου, αλλά η λύση είναι απλή:
+  </p>
+  <p style="margin: 0; font-size: 13.5px; color: #7f1d1d; line-height: 1.55;">
+    Σύμφωνα με το <strong>Άρθρο 47 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να διαθέτει εταιρική ιστοσελίδα δηλωμένη στη μερίδα της στο Γ.Ε.ΜΗ.<br/>
+    <strong>Το σημαντικό που πρέπει να γνωρίζετε:</strong> <u>Δεν υπάρχει αυτόματο «αναδρομικό» πρόστιμο</u>. Οι κυρώσεις ενεργοποιούνται συνήθως κατόπιν ελέγχου ή σχετικής ειδοποίησης. <strong>Όσο πιο γρήγορα συμμορφωθείτε δηλώνοντας το URL, τόσο μηδενίζετε οριστικά τον κίνδυνο!</strong>
+  </p>
+</div>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Στην <strong>SGK Digital</strong> αναλαμβάνουμε την άμεση τακτοποίηση της Ι.Κ.Ε. σας, αντλώντας όλα τα απαραίτητα εταιρικά στοιχεία απευθείας από το OpenData API του Γ.Ε.ΜΗ. χωρίς κανένα κόπο από εσάς.
+</p>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 14px 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 14px; color: #0f172a; font-weight: 700;">
+    Η ολοκληρωμένη λύση τακτοποίησης (150€ τελικό κόστος με ΦΠΑ):
+  </p>
+  <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.65;">
+    <li><strong>Έτοιμη ιστοσελίδα σε 24 ώρες</strong>, πλήρως εναρμονισμένη με τον Ν.4072/2012.</li>
+    <li><strong>Πιστοποιημένη Διασύνδεση (API):</strong> Η σελίδα σας συνδέεται και διαβάζεται απευθείας από το Γ.Ε.ΜΗ.</li>
+    <li><strong>Κατοχύρωση .gr Domain &amp; Hosting (1 έτος)</strong> σε ταχύτατους servers.</li>
+    <li><strong>Κατασκευή επαγγελματικού λογοτύπου</strong> &amp; Εταιρικό Email (info@...).</li>
+    <li><strong>Τιμολόγιο εξόδων</strong> που εκπίπτει κανονικά στα βιβλία της εταιρείας σας.</li>
+  </ul>
+  <p style="margin: 12px 0 0 0; font-size: 13px; color: #475569;">
+    👉 <strong>Δείτε πρόσφατο δείγμα ενεργής Ι.Κ.Ε.:</strong> <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
+  </p>
+</div>
+
+<p style="margin: 0 0 16px 0; color: #334155; font-size: 14.5px; line-height: 1.55;">
+  Μην περιμένετε κάποιον διοικητικό έλεγχο. Τακτοποιήστε την ιστοσελίδα της εταιρείας σας σήμερα εύκολα και οικονομικά:
+</p>
+
+<!-- Quick Action Box -->
+<div style="background-color: #eff6ff; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #1e3a8a;">
+  📞 Θέλετε να το αναλάβουμε άμεσα; Καλέστε μας:<br/>
+  <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
+</div>
+
+<div style="text-align: center; margin: 22px 0 12px;">
+  <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
+    Τακτοποίηση Ιστοσελίδας ΙΚΕ (150€)
+  </a>
+</div>
+
+<div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
+  <strong>Διαφάνεια &amp; GDPR:</strong> Η επικοινωνία πραγματοποιείται αποκλειστικά βάσει των δημόσιων στοιχείων (OpenData API) του Γ.Ε.ΜΗ. Αν έχετε ήδη τακτοποιήσει την ιστοσελίδα σας, παρακαλούμε αγνοήστε το παρόν.
+</div>`,
+    defaultButtonText: "Τακτοποίηση Ιστοσελίδας ΙΚΕ (150€)",
+    defaultButtonLink: "https://www.sgk.gr/ike-offer"
   },
   {
     name: "🔁 Follow-Up Ι.Κ.Ε. 150€ (3 ημέρες μετά)",
@@ -923,6 +1003,7 @@ export function EmailsTab() {
   const [isRunningAutoFollowUp, setIsRunningAutoFollowUp] = useState(false);
   const [isScanningGemi, setIsScanningGemi] = useState(false);
   const [scanCategory, setScanCategory] = useState<"all" | "ftth_telecom" | "non_ike">("all");
+  const [scanYear, setScanYear] = useState<number>(2026);
   const [scanMonth, setScanMonth] = useState<string>("current");
   const [scanNonIkeLegalType, setScanNonIkeLegalType] = useState<"companies_only" | "all" | "sole_only">("companies_only");
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
@@ -1883,11 +1964,15 @@ function safeEncodeBase64(data: any): string {
       "09": "Σεπτέμβριος", "10": "Οκτώβριος", "11": "Νοέμβριος", "12": "Δεκέμβριος"
     };
 
-    let monthLabel = `📅 Όλο το ${now.getFullYear()}`;
-    if (scanMonth === "current") {
-      monthLabel = `📅 ${currentMonthName} ${now.getFullYear()}`;
-    } else if (scanMonth === "previous") {
+    let monthLabel = `📅 Όλο το ${scanYear}`;
+    if (scanYear === 2026 && scanMonth === "current") {
+      monthLabel = `📅 ${currentMonthName} 2026`;
+    } else if (scanYear === 2026 && scanMonth === "previous") {
       monthLabel = `📅 ${prevMonthName} ${prevDate.getFullYear()}`;
+    } else if (scanMonth === "all_year" || scanMonth === "all") {
+      monthLabel = `📅 Όλο το ${scanYear}`;
+    } else if (scanMonth && monthNamesMap[scanMonth]) {
+      monthLabel = `📅 ${monthNamesMap[scanMonth]} ${scanYear}`;
     } else if (scanMonth && scanMonth.includes("-")) {
       const [y, m] = scanMonth.split("-");
       monthLabel = `📅 ${monthNamesMap[m] || m} ${y}`;
@@ -1907,6 +1992,8 @@ function safeEncodeBase64(data: any): string {
         ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Εταιρείες FTTH & Τηλεπικοινωνιών (${monthLabel})...`
         : isNonIke
         ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις [${nonIkeLabel}] (${monthLabel})...`
+        : scanYear < 2026
+        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. (${monthLabel}) [2018–2025]...`
         : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
     );
     setScanStats({
@@ -1927,6 +2014,8 @@ function safeEncodeBase64(data: any): string {
           ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για FTTH & Οπτικές Ίνες (${monthLabel})...`
           : isNonIke
           ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις [${nonIkeLabel}] (${monthLabel})...`
+          : scanYear < 2026
+          ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. ${scanYear} (${monthLabel})...`
           : `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
       }
     ]);
@@ -1941,6 +2030,7 @@ function safeEncodeBase64(data: any): string {
           targetCategory: category,
           targetLegalForm: isNonIke ? "non_ike" : isFtth ? "all" : "ike",
           nonIkeLegalType: scanNonIkeLegalType,
+          year: scanYear,
           month: scanMonth,
         }),
       });
@@ -2104,9 +2194,11 @@ function safeEncodeBase64(data: any): string {
       !isEmailBlacklisted(l.email) &&
       !isFtthLead(l) &&
       !isNonIkeLead(l) &&
+      !isLegacyIkeLead(l) &&
       l.type !== 'ftth_telecom' &&
       l.type !== 'non_ike' &&
       l.type !== 'new_business_presence' &&
+      l.type !== 'legacy_ike' &&
       (l.email_sequence_step === 1 || (!l.email_sequence_step && l.last_email_sent_at)) &&
       l.last_email_sent_at &&
       l.last_email_sent_at >= sequenceStartDate &&
@@ -2843,6 +2935,32 @@ function safeEncodeBase64(data: any): string {
             <span>Γ.Ε.ΜΗ.:</span>
           </div>
 
+          {/* Year Selector */}
+          <select
+            value={scanYear}
+            onChange={(e) => {
+              const y = Number(e.target.value);
+              setScanYear(y);
+              if (y < 2026 && (scanMonth === "current" || scanMonth === "previous")) {
+                setScanMonth("all_year");
+              }
+            }}
+            disabled={isScanningGemi}
+            className="adm-select font-bold"
+            title="Επιλογή Έτους Ίδρυσης στο ΓΕΜΗ (2018 - 2026)"
+          >
+            <option value={2026}>Έτος 2026 (Τρέχον)</option>
+            <option value={2025}>Έτος 2025</option>
+            <option value={2024}>Έτος 2024</option>
+            <option value={2023}>Έτος 2023</option>
+            <option value={2022}>Έτος 2022</option>
+            <option value={2021}>Έτος 2021</option>
+            <option value={2020}>Έτος 2020</option>
+            <option value={2019}>Έτος 2019</option>
+            <option value={2018}>Έτος 2018</option>
+          </select>
+
+          {/* Month Selector */}
           <select
             value={scanMonth}
             onChange={(e) => setScanMonth(e.target.value)}
@@ -2850,22 +2968,26 @@ function safeEncodeBase64(data: any): string {
             className="adm-select"
             title="Επιλογή Μήνα Ίδρυσης"
           >
-            <option value="current">{currentMonthName} {now.getFullYear()} (Τρέχων)</option>
-            <option value="previous">{prevMonthName} {prevDate.getFullYear()}</option>
-            <option value="all_year">Όλο το {now.getFullYear()}</option>
-            <optgroup label={`Μήνες ${now.getFullYear()}`}>
-              <option value={`${now.getFullYear()}-12`}>Δεκέμβριος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-11`}>Νοέμβριος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-10`}>Οκτώβριος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-09`}>Σεπτέμβριος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-08`}>Αύγουστος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-07`}>Ιούλιος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-06`}>Ιούνιος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-05`}>Μάιος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-04`}>Απρίλιος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-03`}>Μάρτιος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-02`}>Φεβρουάριος {now.getFullYear()}</option>
-              <option value={`${now.getFullYear()}-01`}>Ιανουάριος {now.getFullYear()}</option>
+            {scanYear === 2026 && (
+              <>
+                <option value="current">{currentMonthName} {scanYear} (Τρέχων)</option>
+                <option value="previous">{prevMonthName} {prevDate.getFullYear()}</option>
+              </>
+            )}
+            <option value="all_year">Όλο το {scanYear}</option>
+            <optgroup label={`Μήνες ${scanYear}`}>
+              <option value={`${scanYear}-12`}>Δεκέμβριος {scanYear}</option>
+              <option value={`${scanYear}-11`}>Νοέμβριος {scanYear}</option>
+              <option value={`${scanYear}-10`}>Οκτώβριος {scanYear}</option>
+              <option value={`${scanYear}-09`}>Σεπτέμβριος {scanYear}</option>
+              <option value={`${scanYear}-08`}>Αύγουστος {scanYear}</option>
+              <option value={`${scanYear}-07`}>Ιούλιος {scanYear}</option>
+              <option value={`${scanYear}-06`}>Ιούνιος {scanYear}</option>
+              <option value={`${scanYear}-05`}>Μάιος {scanYear}</option>
+              <option value={`${scanYear}-04`}>Απρίλιος {scanYear}</option>
+              <option value={`${scanYear}-03`}>Μάρτιος {scanYear}</option>
+              <option value={`${scanYear}-02`}>Φεβρουάριος {scanYear}</option>
+              <option value={`${scanYear}-01`}>Ιανουάριος {scanYear}</option>
             </optgroup>
           </select>
 
@@ -2873,10 +2995,16 @@ function safeEncodeBase64(data: any): string {
             onClick={handleScanGemiIkes}
             disabled={isScanningGemi}
             className="adm-btn adm-btn-accent"
-            title="Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."
+            title={scanYear < 2026 ? `Live σάρωση στο Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. (${scanYear}) χωρίς ιστοσελίδα` : "Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."}
           >
-            {isScanningGemi && scanCategory === "all" ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
-            Εύρεση νέων Ι.Κ.Ε.
+            {isScanningGemi && scanCategory === "all" ? (
+              <Loader2 size={13} className="animate-spin" />
+            ) : scanYear < 2026 ? (
+              <History size={13} />
+            ) : (
+              <Sparkles size={13} />
+            )}
+            {scanYear < 2026 ? `Εύρεση Ι.Κ.Ε. (${scanYear})` : "Εύρεση νέων Ι.Κ.Ε."}
           </button>
 
           <select
@@ -2925,7 +3053,7 @@ function safeEncodeBase64(data: any): string {
             onClick={handleRunAutoFollowUpIkes}
             disabled={isRunningAutoFollowUp}
             className="adm-btn adm-btn-ghost"
-            title="Αυτόματη αποστολή 2ου Email (Follow-Up 150€) σε όσες Ι.Κ.Ε. έλαβαν το 1ο email πριν από 3+ ημέρες"
+            title="Αυτόματη αποστολή 2ου Email (Follow-Up 150€) σε όσες νέες Ι.Κ.Ε. έλαβαν το 1ο email πριν από 3+ ημέρες"
           >
             {isRunningAutoFollowUp ? <Loader2 size={13} className="animate-spin" /> : <RefreshCcw size={13} />}
             Auto Follow-Up
@@ -2988,6 +3116,19 @@ function safeEncodeBase64(data: any): string {
             </button>
 
             <button
+              onClick={() => setStatusFilter(statusFilter === 'legacy' ? 'all' : 'legacy')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                statusFilter === 'legacy'
+                  ? 'bg-amber-600 text-white border-amber-700 shadow-sm'
+                  : 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
+              }`}
+              title="Παλαιές Ι.Κ.Ε. (2018–2025) χωρίς ιστοσελίδα στο ΓΕΜΗ"
+            >
+              <span>🏛️ Παλαιές ΙΚΕ</span>
+              <span className="text-[10px] px-1 rounded-full bg-white/40">{legacyCount}</span>
+            </button>
+
+            <button
               onClick={() => setStatusFilter(statusFilter === 'due_followup' ? 'all' : 'due_followup')}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
                 statusFilter === 'due_followup'
@@ -3034,7 +3175,7 @@ function safeEncodeBase64(data: any): string {
               {statusFilter === 'tourism' && <span className="text-amber-700 font-black">✈️ Τουρισμός / Travel</span>}
               {statusFilter === 'operations_tech' && <span className="text-purple-700 font-black">⚡ Operations & Τεχνικές</span>}
               {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
-              {statusFilter === 'legacy' && <span className="text-blue-600 font-black">🏢 Παλαιές ΙΚΕ</span>}
+              {statusFilter === 'legacy' && <span className="text-amber-700 font-black">🏛️ Παλαιές ΙΚΕ (2018–2025)</span>}
               {statusFilter === 'new' && <span className="text-blue-600 font-black">➕ Νέοι (0/5)</span>}
               {statusFilter === 'active' && <span className="text-teal-600 font-black">⚡ Ενεργοί (1-4/5)</span>}
               {statusFilter === 'completed' && <span className="text-amber-600 font-black">✅ Ολοκληρωμένοι (5/5)</span>}
@@ -3680,6 +3821,8 @@ function safeEncodeBase64(data: any): string {
                       ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH & Δικτύων" 
                       : scanCategory === "non_ike"
                       ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Επιχειρήσεων (εκτός Ι.Κ.Ε.)"
+                      : scanYear < 2026
+                      ? `Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Παλαιών Ι.Κ.Ε. (${scanYear})`
                       : "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Ι.Κ.Ε."}
                     {isScanningGemi && (
                       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
@@ -3689,13 +3832,13 @@ function safeEncodeBase64(data: any): string {
                     )}
                   </h3>
                   <p className="text-xs text-slate-500">
-                    {scanMonth === "current"
-                      ? `Ίδρυση τον τρέχοντα μήνα (${currentMonthName} ${now.getFullYear()})`
-                      : scanMonth === "previous"
+                    {scanYear === 2026 && scanMonth === "current"
+                      ? `Ίδρυση τον τρέχοντα μήνα (${currentMonthName} 2026)`
+                      : scanYear === 2026 && scanMonth === "previous"
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
                       : scanMonth.includes("-")
                       ? `Ίδρυση τον επιλεγμένο μήνα (${scanMonth})`
-                      : `Ίδρυση εντός του ${now.getFullYear()}`}
+                      : `Ίδρυση εντός του ${scanYear}`}
                     {scanCategory === "ftth_telecom"
                       ? " • Στοχευμένος ΚΑΔ: 43210006 / 43211006 • Όλες οι νομικές μορφές"
                       : scanCategory === "non_ike"
