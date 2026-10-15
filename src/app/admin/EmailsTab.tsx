@@ -363,7 +363,7 @@ const templates = [
     defaultButtonLink: ""
   },
   {
-    name: "Istoselida ike 150 ευρω",
+    name: "Istoselida ike 70 ευρω",
     subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Εταιρική ιστοσελίδα για το ΓΕΜΗ",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">Εταιρική Ιστοσελίδα ΙΚΕ (βάσει προδιαγραφών ΓΕΜΗ)</h2>
 
@@ -380,7 +380,7 @@ const templates = [
 </p>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 20px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Η ολοκληρωμένη λύση (150€ τελικό κόστος με ΦΠΑ):</p>
+  <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Η ολοκληρωμένη λύση (70€ τελικό κόστος με ΦΠΑ):</p>
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.6;">
     <li>Έτοιμη ιστοσελίδα σε 24 ώρες, απολύτως συμβατή με τον νόμο.</li>
     <li><strong>Πιστοποιημένη Διασύνδεση (API):</strong> Η σελίδα σας συνδέεται και διαβάζεται απευθείας από το ΓΕΜΗ, μηδενίζοντας λάθη και κινδύνους.</li>
@@ -410,8 +410,8 @@ const templates = [
 </div>`
   },
   {
-    name: "🏛️ Παλαιές Ι.Κ.Ε. (2018–2025): Εκπρόθεσμες χωρίς Ιστοσελίδα ΓΕΜΗ (150€)",
-    subject: "Έχετε Ι.Κ.Ε. χωρίς δηλωμένη ιστοσελίδα στο ΓΕΜΗ; | Τακτοποίηση σε 24 ώρες χωρίς πρόστιμο (150€)",
+    name: "🏛️ Παλαιές Ι.Κ.Ε. (2018–2025): Χωρίς Ιστοσελίδα ΓΕΜΗ (70€)",
+    subject: "Έχετε Ι.Κ.Ε. χωρίς δηλωμένη ιστοσελίδα στο ΓΕΜΗ; | Τακτοποίηση σε 24 ώρες χωρίς πρόστιμο (70€)",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">
   «Έχω Ι.Κ.Ε. και δεν έχω ιστοσελίδα στο Γ.Ε.ΜΗ. Τι κάνω;»
 </h2>
@@ -420,14 +420,14 @@ const templates = [
   Αγαπητέ διαχειριστή, καλησπέρα σας.
 </p>
 
-<!-- Overdue & Fine Relief Box -->
-<div style="background-color: #fef2f2; border: 1px solid #fecaca; border-left: 5px solid #ef4444; border-radius: 8px; padding: 14px 16px; margin: 16px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 800; color: #991b1b;">
-    ⚠️ Είστε εκπρόθεσμος βάσει νόμου, αλλά η λύση είναι απλή:
+<!-- Friendly Advisory Notice Box -->
+<div style="background-color: #f0f7ff; border: 1px solid #dbeafe; border-left: 5px solid #3b82f6; border-radius: 8px; padding: 14px 16px; margin: 16px 0;">
+  <p style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 800; color: #1e40af;">
+    💡 Χρήσιμη ενημέρωση για την εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ.:
   </p>
-  <p style="margin: 0; font-size: 13.5px; color: #7f1d1d; line-height: 1.55;">
-    Σύμφωνα με το <strong>Άρθρο 47 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να διαθέτει εταιρική ιστοσελίδα δηλωμένη στη μερίδα της στο Γ.Ε.ΜΗ.<br/>
-    <strong>Το σημαντικό που πρέπει να γνωρίζετε:</strong> <u>Δεν υπάρχει αυτόματο «αναδρομικό» πρόστιμο</u>. Οι κυρώσεις ενεργοποιούνται συνήθως κατόπιν ελέγχου ή σχετικής ειδοποίησης. <strong>Όσο πιο γρήγορα συμμορφωθείτε δηλώνοντας το URL, τόσο μηδενίζετε οριστικά τον κίνδυνο!</strong>
+  <p style="margin: 0; font-size: 13.5px; color: #1e3a8a; line-height: 1.55;">
+    Βάσει του <strong>Άρθρου 47 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. προβλέπεται να διαθέτει εταιρική ιστοσελίδα δηλωμένη στη μερίδα της στο Γ.Ε.ΜΗ.<br/>
+    <strong>Το καθησυχαστικό για εσάς:</strong> <u>Δεν υπάρχει αυτόματο «αναδρομικό» πρόστιμο</u>. Οι κυρώσεις ενεργοποιούνται συνήθως κατόπιν ελέγχου ή σχετικής ειδοποίησης. <strong>Όσο πιο γρήγορα συμμορφωθείτε δηλώνοντας το URL, τόσο μηδενίζετε οριστικά κάθε κίνδυνο!</strong>
   </p>
 </div>
 
@@ -437,7 +437,7 @@ const templates = [
 
 <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 14px 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
   <p style="margin: 0 0 8px 0; font-size: 14px; color: #0f172a; font-weight: 700;">
-    Η ολοκληρωμένη λύση τακτοποίησης (150€ τελικό κόστος με ΦΠΑ):
+    Η ολοκληρωμένη λύση τακτοποίησης (70€ τελικό κόστος με ΦΠΑ):
   </p>
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.65;">
     <li><strong>Έτοιμη ιστοσελίδα σε 24 ώρες</strong>, πλήρως εναρμονισμένη με τον Ν.4072/2012.</li>
@@ -464,19 +464,19 @@ const templates = [
 
 <div style="text-align: center; margin: 22px 0 12px;">
   <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
-    Τακτοποίηση Ιστοσελίδας ΙΚΕ (150€)
+    Τακτοποίηση Ιστοσελίδας ΙΚΕ (70€)
   </a>
 </div>
 
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
   <strong>Διαφάνεια &amp; GDPR:</strong> Η επικοινωνία πραγματοποιείται αποκλειστικά βάσει των δημόσιων στοιχείων (OpenData API) του Γ.Ε.ΜΗ. Αν έχετε ήδη τακτοποιήσει την ιστοσελίδα σας, παρακαλούμε αγνοήστε το παρόν.
 </div>`,
-    defaultButtonText: "Τακτοποίηση Ιστοσελίδας ΙΚΕ (150€)",
+    defaultButtonText: "Τακτοποίηση Ιστοσελίδας ΙΚΕ (70€)",
     defaultButtonLink: "https://www.sgk.gr/ike-offer"
   },
   {
-    name: "🔁 Follow-Up Ι.Κ.Ε. 150€ (3 ημέρες μετά)",
-    subject: "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 150€)",
+    name: "🔁 Follow-Up Ι.Κ.Ε. 70€ (3 ημέρες μετά)",
+    subject: "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 70€)",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
   Υπενθύμιση: Προθεσμία 30 Ημερών για Ιστοσελίδα Ι.Κ.Ε. στο Γ.Ε.ΜΗ.
 </h2>
@@ -496,7 +496,7 @@ const templates = [
 <!-- Value Box -->
 <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #3b5bdb; border-radius: 10px; padding: 14px 16px; margin: 16px 0;">
   <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 800; color: #1e3a8a;">
-    📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 150€ (τελική τιμή με ΦΠΑ):
+    📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 70€ (τελική τιμή με ΦΠΑ):
   </p>
   <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.55;">
     <li><strong>Έτοιμη σε 24 ώρες:</strong> Αντλούμε τα στοιχεία απευθείας από το API του Γ.Ε.ΜΗ., χωρίς να χρειάζεται να γράψετε κείμενα.</li>
@@ -516,7 +516,7 @@ const templates = [
   <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
   <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">📱 6999 524 389</a>
 </div>`,
-    defaultButtonText: "Έναρξη Ιστοσελίδας ΙΚΕ (150€)",
+    defaultButtonText: "Έναρξη Ιστοσελίδας ΙΚΕ (70€)",
     defaultButtonLink: "https://www.sgk.gr/ike-offer"
   },
   {
@@ -1084,7 +1084,7 @@ function safeEncodeBase64(data: any): string {
     const docUrl = `https://www.sgk.gr/doc/contract?id=${docId}&data=${b64}&download=1`;
 
     const companyLabel = contract.tradeName || contract.companyName || singleLeadTarget?.company || "";
-    const amountLabel = contract.totalAmountNum ? `${contract.totalAmountNum.toFixed(2).replace('.', ',')} €` : (contract.totalAmountText || "150,00 €");
+    const amountLabel = contract.totalAmountNum ? `${contract.totalAmountNum.toFixed(2).replace('.', ',')} €` : (contract.totalAmountText || "70,00 €");
 
     // Cloud document sync
     try {
@@ -1142,10 +1142,10 @@ function safeEncodeBase64(data: any): string {
     const docId = customData?.id || ("invoice_" + Date.now());
     const invoicePayload = customData || {
       clientName: singleLeadTarget?.company || singleLeadTarget?.first_name || "Πελάτης",
-      net: 120.97,
-      vat: 29.03,
-      gross: 150,
-      payable: 150,
+      net: 56.45,
+      vat: 13.55,
+      gross: 70,
+      payable: 70,
     };
     const b64 = safeEncodeBase64(invoicePayload);
     const docUrl = `https://www.sgk.gr/doc/invoice?id=${docId}&data=${b64}&download=1`;
@@ -1166,9 +1166,9 @@ function safeEncodeBase64(data: any): string {
       }).catch(e => console.error(e));
     } catch(e) {}
 
-    const netVal = invoicePayload.net || 120.97;
-    const vatVal = invoicePayload.vat || 29.03;
-    const grossVal = invoicePayload.gross || 150;
+    const netVal = invoicePayload.net || 56.45;
+    const vatVal = invoicePayload.vat || 13.55;
+    const grossVal = invoicePayload.gross || 70;
 
     const body = `<h2>Εξοφλημένο Τιμολόγιο 🧾</h2>
 <p>Αγαπητέ συνεργάτη,</p>
@@ -2214,7 +2214,7 @@ function safeEncodeBase64(data: any): string {
       return;
     }
 
-    if (!window.confirm(`Βρέθηκαν ${count} Ι.Κ.Ε. που έλαβαν το 1ο email πριν από 3+ ημέρες.\n\nΘέλετε να ξεκινήσει η αυτόματη αποστολή του Follow-Up (Βήμα 2 - 150€);`)) {
+    if (!window.confirm(`Βρέθηκαν ${count} Ι.Κ.Ε. που έλαβαν το 1ο email πριν από 3+ ημέρες.\n\nΘέλετε να ξεκινήσει η αυτόματη αποστολή του Follow-Up (Βήμα 2 - 70€);`)) {
       return;
     }
 
@@ -3053,7 +3053,7 @@ function safeEncodeBase64(data: any): string {
             onClick={handleRunAutoFollowUpIkes}
             disabled={isRunningAutoFollowUp}
             className="adm-btn adm-btn-ghost"
-            title="Αυτόματη αποστολή 2ου Email (Follow-Up 150€) σε όσες νέες Ι.Κ.Ε. έλαβαν το 1ο email πριν από 3+ ημέρες"
+            title="Αυτόματη αποστολή 2ου Email (Follow-Up 70€) σε όσες νέες Ι.Κ.Ε. έλαβαν το 1ο email πριν από 3+ ημέρες"
           >
             {isRunningAutoFollowUp ? <Loader2 size={13} className="animate-spin" /> : <RefreshCcw size={13} />}
             Auto Follow-Up
@@ -3264,59 +3264,6 @@ function safeEncodeBase64(data: any): string {
                         <td className="py-3 px-4">
                           <div className="font-bold text-gray-900 flex items-center gap-1.5 flex-wrap">
                             <span>{lead.email}</span>
-
-                            {/* Sequence Badges: 0 (Grey) = Not sent yet, 1 (Green) = Sent by user, 2 (Orange) = Sent automatically by system */}
-                            {((lead.email_sequence_step || 0) === 0 && !lead.last_email_sent_at) && (
-                              <span 
-                                className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[10.5px] font-black border border-slate-300 shrink-0 shadow-2xs"
-                                title="Κανένα email δεν έχει σταλεί ακόμη (Εκκρεμεί 1ο Email)"
-                              >
-                                0
-                              </span>
-                            )}
-                            {((lead.email_sequence_step || 0) === 1 || ((lead.email_sequence_step || 0) === 0 && lead.last_email_sent_at)) && (
-                              <div className="inline-flex items-center gap-1 shrink-0">
-                                <span 
-                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
-                                  title={isFtthLead(lead) 
-                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή FTTH — Δεν προβλέπεται Follow-Up)" 
-                                    : isNonIkeLead(lead)
-                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή Online Παρουσίας — Δεν αποστέλλεται Follow-Up)"
-                                    : "Email 1: Στάλθηκε από εσάς (Αρχικό Email)"}
-                                >
-                                  1
-                                </span>
-                                {!isFtthLead(lead) && !isNonIkeLead(lead) && (
-                                  <span 
-                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
-                                    title={(() => {
-                                      if (!lead.last_email_sent_at) return "Email 2 (Follow-Up): Σε αναμονή (3 ημέρες)";
-                                      const sentDate = new Date(lead.last_email_sent_at);
-                                      const targetDate = new Date(sentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
-                                      return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα το πρωί στις ${targetDate.toLocaleDateString("el-GR")} (11:00 π.μ.)`;
-                                    })()}
-                                  >
-                                    2
-                                  </span>
-                                )}
-                              </div>
-                            )}
-                            {(lead.email_sequence_step || 0) >= 2 && (
-                              <div className="inline-flex items-center gap-1 shrink-0" title="Email 1 (Εσείς) & Email 2 (Αυτόματο Follow-Up)">
-                                <span 
-                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600"
-                                  title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
-                                >
-                                  1
-                                </span>
-                                <span 
-                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-500 text-white text-[10.5px] font-black shadow-xs border border-amber-600"
-                                  title="Email 2: Στάλθηκε αυτόματα από το σύστημα (Follow-Up)"
-                                >
-                                  2
-                                </span>
-                              </div>
-                            )}
 
                             {isEmailBlacklisted(lead.email) && (
                               <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase bg-slate-900 text-rose-400 border border-rose-500/40">

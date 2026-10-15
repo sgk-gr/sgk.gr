@@ -59,14 +59,14 @@ const DEFAULT_CONTRACT: ContractData = {
   serviceType: "ike_gemi",
   serviceTitle: "Κατασκευή Ιστοσελίδας Εταιρικής Διαφάνειας (Στοιχεία ΓΕΜΗ) & Σχεδιασμός Λογότυπου",
   serviceDescription: "Σχεδιασμός εταιρικού λογοτύπου (Logo Design), σχεδίαση, ανάπτυξη και παράδοση ιστοσελίδας εταιρικής διαφάνειας με τα βασικά στοιχεία της επιχείρησης έναντι του Γ.Ε.ΜΗ. (βάσει Ν.4072/2012), καταχώριση domain name (.gr), δημιουργία 1 επαγγελματικού εταιρικού email (info@...gr) και φιλοξενία (hosting) 1ου έτους.",
-  totalAmountNum: 150,
-  totalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
+  totalAmountNum: 70,
+  totalAmountText: "εβδομήντα ευρώ (70,00 €)",
   advanceAmountNum: 0,
   advanceAmountText: "μηδέν ευρώ (0,00 €)",
   remainingAmountNum: 0,
   remainingAmountText: "μηδέν ευρώ (0,00 €)",
-  renewalAmountNum: 150,
-  renewalAmountText: "εκατόν πενήντα ευρώ (150,00 €)",
+  renewalAmountNum: 70,
+  renewalAmountText: "εβδομήντα ευρώ (70,00 €)",
   deliveryDaysNum: 5,
   deliveryDaysText: "πέντε (5)",
   ibanDetails: "GR4602601970000830201330337 (Eurobank), δικαιούχος Σπυρίδων Τσάβος",
@@ -310,7 +310,7 @@ function ContractViewer() {
               Το domain name και η φιλοξενία (hosting) της ιστοσελίδας περιλαμβάνονται στην αμοιβή του Άρθρου 4 για τον πρώτο χρόνο λειτουργίας.
             </p>
             <p>
-              Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>{contract.renewalAmountText || "εκατόν πενήντα ευρώ (150,00 €)"}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
+              Μετά την παρέλευση του πρώτου έτους, η ανανέωση του domain και του hosting θα χρεώνεται στον Εργοδότη με το ποσό των <strong>{contract.renewalAmountText || "εβδομήντα ευρώ (70,00 €)"}</strong> ετησίως, συμπεριλαμβανομένου Φ.Π.Α.
             </p>
           </div>
 
@@ -328,7 +328,7 @@ function ContractViewer() {
               Άρθρο 4 – Αμοιβή και τρόπος πληρωμής
             </h3>
             <p className="mb-1.5">
-              <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για τον σχεδιασμό του λογοτύπου, την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name, του εταιρικού email και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{contract.totalAmountText || "εκατόν πενήντα ευρώ (150,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
+              <strong>4.1</strong> Η συνολική συμφωνηθείσα αμοιβή για τον σχεδιασμό του λογοτύπου, την κατασκευή της ιστοσελίδας, συμπεριλαμβανομένων του domain name, του εταιρικού email και του hosting για τον πρώτο χρόνο, ανέρχεται στο ποσό των <strong>{contract.totalAmountText || "εβδομήντα ευρώ (70,00 €)"}</strong>, συμπεριλαμβανομένου Φ.Π.Α.
             </p>
 
             {contract.advanceAmountNum && contract.advanceAmountNum > 0 ? (

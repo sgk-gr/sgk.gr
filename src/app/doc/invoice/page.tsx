@@ -34,11 +34,11 @@ const DEFAULT_INVOICE: InvoiceDocData = {
   clientAddress: "Αθήνα",
   docNo: "1",
   date: new Date().toISOString().split("T")[0],
-  net: 120.97,
-  vat: 29.03,
-  gross: 150,
+  net: 56.45,
+  vat: 13.55,
+  gross: 70,
   withholding: 0,
-  payable: 150,
+  payable: 70,
   offerItems: [
     {
       id: "1",
@@ -179,9 +179,9 @@ function InvoiceViewer() {
     );
   }
 
-  const net = doc.net || 120.97;
-  const vat = doc.vat || 29.03;
-  const gross = doc.gross || 150;
+  const net = doc.net || 56.45;
+  const vat = doc.vat || 13.55;
+  const gross = doc.gross || 70;
   const withholding = doc.withholding || (gross >= 300 ? net * 0.2 : 0);
   const payable = doc.payable || (gross - withholding);
 

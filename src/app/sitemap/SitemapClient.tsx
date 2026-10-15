@@ -50,7 +50,7 @@ const links = [
         items: [
             { name: "Mendora Academy (English Showcase)", path: "/mendora" },
             { name: "Live Video AI Agent Demo", path: "/liveavatar-demo2" },
-            { name: "Προσφορά Ιστοσελίδας ΙΚΕ (150€)", path: "/ike-offer" },
+            { name: "Προσφορά Ιστοσελίδας ΙΚΕ (70€)", path: "/ike-offer" },
             { name: "Προσφορά Barbershop & Κομμωτήρια", path: "/promo/barbershop" },
         ]
     },

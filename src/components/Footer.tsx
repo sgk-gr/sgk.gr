@@ -180,7 +180,7 @@ const Footer = () => {
             <Link href="/order-ai-agent" className="text-sm text-emerald-400 font-bold hover:text-white transition-colors">Live Video AI Agents (24/7)</Link>
             <Link href="/web-development" className="text-sm text-white hover:text-primary transition-colors">Web Development & Custom Apps</Link>
             <Link href="/kataskevi-istoselidon" className="text-sm text-white hover:text-primary transition-colors">Κατασκευή Ιστοσελίδων</Link>
-            <Link href="/ike-offer" className="text-sm text-amber-400 font-bold hover:text-white transition-colors">Ιστοσελίδα ΙΚΕ 150€ (ΓΕΜΗ)</Link>
+            <Link href="/ike-offer" className="text-sm text-amber-400 font-bold hover:text-white transition-colors">Ιστοσελίδα ΙΚΕ 70€ (ΓΕΜΗ)</Link>
             <Link href="/estimate" className="text-sm text-primary hover:underline font-bold transition-colors mt-2">Δωρεάν Εκτίμηση</Link>
           </nav>
 

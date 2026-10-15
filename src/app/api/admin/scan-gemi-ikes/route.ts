@@ -742,7 +742,7 @@ export async function POST(req: NextRequest) {
                   : isNonIkeMode
                   ? `🏢 ΝΕΑ ΕΠΙΧΕΙΡΗΣΗ [${legalForm}] (Εκτός Ι.Κ.Ε.)! Προστέθηκε για καμπάνια Online Παρουσίας & AI (200€)!`
                   : isLegacyIke
-                  ? `🏛️ ΠΑΛΑΙΑ Ι.Κ.Ε. (${incDate || targetYear}) ΧΩΡΙΣ SITE! Προστέθηκε για τακτοποίηση ΓΕΜΗ (150€)!`
+                  ? `🏛️ ΠΑΛΑΙΑ Ι.Κ.Ε. (${incDate || targetYear}) ΧΩΡΙΣ SITE! Προστέθηκε για τακτοποίηση ΓΕΜΗ (70€)!`
                   : `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
                 stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
