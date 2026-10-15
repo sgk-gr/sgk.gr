@@ -10,7 +10,9 @@ export function buildProfessionalEmailHtml(opts: {
   const { bodyHtml, buttonText, buttonLink, unsubscribeToken } = opts;
   const unsubLink = `https://www.sgk.gr/unsubscribe?token=${unsubscribeToken}`;
   
-  const ctaButton = buttonText && buttonLink ? `
+  // Prevent duplicate CTA button if bodyHtml already includes a link to buttonLink or the button text
+  const alreadyHasButton = Boolean(buttonLink && bodyHtml.includes(buttonLink)) || Boolean(buttonText && bodyHtml.includes(buttonText));
+  const ctaButton = buttonText && buttonLink && !alreadyHasButton ? `
   <div style="text-align: center; margin: 20px 0 10px;">
       <a href="${buttonLink}" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
         ${buttonText}

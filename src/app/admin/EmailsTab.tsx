@@ -407,7 +407,9 @@ const templates = [
 
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
   <strong>Διαφάνεια & GDPR:</strong> Επικοινωνούμε αποκλειστικά βάσει των δημοσίων στοιχείων (OpenData API) του Γ.Ε.ΜΗ.
-</div>`
+</div>`,
+    defaultButtonText: "",
+    defaultButtonLink: ""
   },
   {
     name: "🏛️ Παλαιές Ι.Κ.Ε. (2018–2025): Χωρίς Ιστοσελίδα ΓΕΜΗ (80€)",
@@ -471,8 +473,8 @@ const templates = [
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
   <strong>Διαφάνεια &amp; GDPR:</strong> Η επικοινωνία πραγματοποιείται αποκλειστικά βάσει των δημόσιων στοιχείων (OpenData API) του Γ.Ε.ΜΗ. Αν έχετε ήδη τακτοποιήσει την ιστοσελίδα σας, παρακαλούμε αγνοήστε το παρόν.
 </div>`,
-    defaultButtonText: "Τακτοποίηση Ιστοσελίδας ΙΚΕ (80€)",
-    defaultButtonLink: "https://www.sgk.gr/ike-offer"
+    defaultButtonText: "",
+    defaultButtonLink: ""
   },
   {
     name: "🔁 Follow-Up Ι.Κ.Ε. 80€ (3 ημέρες μετά)",
