@@ -2950,17 +2950,19 @@ function safeEncodeBase64(data: any): string {
             }}
             disabled={isScanningGemi}
             className="adm-select font-bold"
-            title="Επιλογή Έτους Ίδρυσης στο ΓΕΜΗ (2018 - 2026)"
+            title="Επιλογή Έτους Ίδρυσης στο ΓΕΜΗ (Νέες 2026 ή Παλαιές 2018-2025)"
           >
-            <option value={2026}>Έτος 2026 (Τρέχον)</option>
-            <option value={2025}>Έτος 2025</option>
-            <option value={2024}>Έτος 2024</option>
-            <option value={2023}>Έτος 2023</option>
-            <option value={2022}>Έτος 2022</option>
-            <option value={2021}>Έτος 2021</option>
-            <option value={2020}>Έτος 2020</option>
-            <option value={2019}>Έτος 2019</option>
-            <option value={2018}>Έτος 2018</option>
+            <option value={2026}>✨ Έτος 2026 (Νέες Ι.Κ.Ε.)</option>
+            <optgroup label="🏛️ Παλαιές Ι.Κ.Ε. (Χωρίς Site)">
+              <option value={2025}>🏛️ Έτος 2025 (Παλαιές Ι.Κ.Ε.)</option>
+              <option value={2024}>🏛️ Έτος 2024 (Παλαιές Ι.Κ.Ε.)</option>
+              <option value={2023}>🏛️ Έτος 2023 (Παλαιές Ι.Κ.Ε.)</option>
+              <option value={2022}>🏛️ Έτος 2022 (Παλαιές Ι.Κ.Ε.)</option>
+              <option value={2021}>🏛️ Έτος 2021 (Παλαιές Ι.Κ.Ε.)</option>
+              <option value={2020}>🏛️ Έτος 2020 (Παλαιές Ι.Κ.Ε.)</option>
+              <option value={2019}>🏛️ Έτος 2019 (Παλαιές Ι.Κ.Ε.)</option>
+              <option value={2018}>🏛️ Έτος 2018 (Παλαιές Ι.Κ.Ε.)</option>
+            </optgroup>
           </select>
 
           {/* Month Selector */}
@@ -2997,8 +2999,8 @@ function safeEncodeBase64(data: any): string {
           <button
             onClick={handleScanGemiIkes}
             disabled={isScanningGemi}
-            className="adm-btn adm-btn-accent"
-            title={scanYear < 2026 ? `Live σάρωση στο Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. (${scanYear}) χωρίς ιστοσελίδα` : "Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."}
+            className={`adm-btn ${scanYear < 2026 ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-700' : 'adm-btn-accent'}`}
+            title={scanYear < 2026 ? `Live σάρωση στο Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. (${scanYear}) χωρίς ιστοσελίδα (τακτοποίηση 80€)` : "Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."}
           >
             {isScanningGemi && scanCategory === "all" ? (
               <Loader2 size={13} className="animate-spin" />
@@ -3007,7 +3009,7 @@ function safeEncodeBase64(data: any): string {
             ) : (
               <Sparkles size={13} />
             )}
-            {scanYear < 2026 ? `Εύρεση Ι.Κ.Ε. (${scanYear})` : "Εύρεση νέων Ι.Κ.Ε."}
+            {scanYear < 2026 ? `🏛️ Εύρεση Παλαιών Ι.Κ.Ε. (${scanYear})` : "Εύρεση νέων Ι.Κ.Ε."}
           </button>
 
           <select
