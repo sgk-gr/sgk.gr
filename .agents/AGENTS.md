@@ -1,18 +1,9 @@
 # SGK Digital Coding & Business Rules
 
-## 1. Pay As You Grow (PAYG) Model Specifications
-Whenever representing the "Pay As You Grow" model of SGK Digital in any website content, slider descriptions, chatbot prompt, email template, or advertising campaign (Google Ads, Facebook Ads, etc.), you must strictly adhere to the following specifications:
-* **Initial Cost / Setup Fee**: Exactly **250€** (one-off, covers server for 1 year, .gr domain for 2 years, SSL, and setup).
-* **Payment Model / Commission**: **5% commission** on sales for **12 months** only.
-* **Zero Risk**: If the client makes zero sales, they pay **0€** commission.
-* **Ownership**: After 12 months, the E-shop is **100% owned by the client** with zero monthly fees or commission.
-* **Early Buyout / No Commitments**: The client can fully pay off the remaining value of the eshop (e.g. total value 2800€ minus what they have already paid in setup/commissions) at any time before the 12 months to stop the 5% commission, without any penalty, extra fees, or hidden charges.
-* **CRITICAL**: Do NOT mix or represent this model with progressive project milestones (50-25-25%).
-
-## 2. Standard Payment Terms (Milestone Model)
-* This is for custom projects (standard pricing).
-* **Payment Terms**: 50% deposit (προκαταβολή), 25% on Design approval, 25% before launch (live).
-* **CRITICAL**: Keep this distinct from the "Pay As You Grow" model.
+## 1. Services & Pricing Structure
+* **IKE / Business Compliance & GEMI Website**: 80€ + VAT (one-off, covers setup, domain, and 1-year hosting/compliance).
+* **Custom Projects / Web Development**: Standard Milestone Model: 50% deposit (προκαταβολή), 25% on Design approval, 25% before launch (live).
+* **NOTE**: The old "Pay As You Grow" (PAYG) model has been permanently removed / discontinued. Do NOT propose or mention it.
 
 ## 3. Standard Email Template for Client Notifications
 Whenever the user asks to write, generate, or format an HTML email template for clients, you must strictly use the branding layout defined in [emailTemplates.ts](file:///d:/sgk-digital/src/lib/emailTemplates.ts) (incorporating the top logo, the color strip, the content card, the primary button styles, the blue footer with SGK details, and the unsubscribe section).
