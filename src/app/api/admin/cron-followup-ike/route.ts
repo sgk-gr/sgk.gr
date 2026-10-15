@@ -92,7 +92,7 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
   // Find leads where Step 1 was sent FROM TODAY ONWARDS (>= 2026-10-11) AND >= 3 calendar days ago
   const { data: leads, error } = await supabase
     .from("sgk_mails")
-    .select("id, email, company, first_name, last_name, unsubscribe_token, type, email_sequence_step, last_email_sent_at, unsubscribed, marketing_consent, converted")
+    .select("id, email, company, first_name, last_name, unsubscribe_token, type, email_sequence_step, last_email_sent_at, unsubscribed, marketing_consent, converted, first_email_subject")
     .eq("marketing_consent", true)
     .eq("unsubscribed", false)
     .eq("converted", false)
@@ -142,16 +142,21 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
       checkText.includes(" α.ε") ||
       checkText.includes(" αε");
 
-    if (isFtth || isNonIke) {
+    const isLegacyIke = lead.type === "legacy_ike" || lead.type === "old_ike";
+
+    if (isFtth || isNonIke || isLegacyIke) {
       results.push({ email: emailClean, status: "skipped_ftth_or_non_ike" });
       continue;
     }
 
-    // Filter to ensure it's STRICTLY an IKE
-    const isIke = (lead.type === "new_ike" || 
-      (lead.company && (lead.company.toUpperCase().includes("ΙΚΕ") || lead.company.toUpperCase().includes("Ι.Κ.Ε.")))) &&
-      !isFtth &&
-      !isNonIke;
+    // Filter to ensure it's an IKE lead eligible for follow-up (matches frontend dueFollowUpIkeLeads)
+    const isIke = (
+      lead.type === "new_ike" ||
+      lead.type === "imported" ||
+      !lead.type ||
+      (lead.company && (lead.company.toUpperCase().includes("ΙΚΕ") || lead.company.toUpperCase().includes("Ι.Κ.Ε."))) ||
+      (lead.first_email_subject && (lead.first_email_subject.includes("Ι.Κ.Ε.") || lead.first_email_subject.includes("ΓΕΜΗ")))
+    ) && !isFtth && !isNonIke && !isLegacyIke;
 
     if (!isIke) {
       results.push({ email: emailClean, status: "skipped_not_ike" });
