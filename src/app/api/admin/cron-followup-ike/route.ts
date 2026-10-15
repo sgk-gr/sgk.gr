@@ -66,7 +66,8 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
 </div>
 
 <p style="margin: 0 0 14px 0; font-size: 13.5px; color: #475569;">
-  👉 <strong>Δείτε πρόσφατο δείγμα μας:</strong> 
+  👉 <strong>Δείτε πρόσφατα δείγματα πελατών μας:</strong> 
+  <a href="https://meltech-ike.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; 
   <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
 </p>
 

@@ -63,6 +63,14 @@ const projects = [
     websiteLink: "https://www.elv8now.com/",
   },
   {
+    title: "MELTECH Ι.Κ.Ε.",
+    category: "Ενέργεια & ΓΕΜΗ Corporate Website ΙΚΕ",
+    description: "Κατασκευή σύγχρονης εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ για τη MELTECH Ι.Κ.Ε. (Εμπορία Ενέργειας, Ηλεκτροκίνηση & Φωτοβολταϊκά) με αυτόματη διασύνδεση στοιχείων ΓΕΜΗ.",
+    tags: ["ΓΕΜΗ Compliance", "Green Energy", "Corporate Website", "SSL"],
+    link: "https://meltech-ike.gr/",
+    websiteLink: "https://meltech-ike.gr/",
+  },
+  {
     title: "Sellas Country Houses IKE",
     category: "ΓΕΜΗ & Corporate Website ΙΚΕ",
     description: "Κατασκευή σύγχρονης εταιρικής ιστοσελίδας & ψηφιακής πλατφόρμας δημοσιότητας ΓΕΜΗ για τη SELLAS COUNTRY HOUSES ΜΟΝΟΠΡΟΣΩΠΗ Ι.Κ.Ε., με SSL ασφάλεια και αυτόματη διασύνδεση δεδομένων ΓΕΜΗ.",

@@ -151,16 +151,26 @@ function IkeOfferContent() {
             {/* Showcase Case Study CTA Button */}
             <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-6 text-center shadow-sm">
               <p className="text-xs md:text-sm font-extrabold text-gray-800 mb-3 tracking-wider">
-                Θέλετε να δείτε ένα ζωντανό δείγμα ιστοσελίδας Ι.Κ.Ε.;
+                Θέλετε να δείτε ζωντανά δείγματα ιστοσελίδων Ι.Κ.Ε.;
               </p>
-              <a 
-                href="https://www.sellascountryhouses.gr/"
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-full bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-300 gap-1.5 text-xs shadow-sm"
-              >
-                Δείτε πρόσφατο δείγμα μας ↗
-              </a>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <a 
+                  href="https://meltech-ike.gr/"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center flex-1 bg-[#3b5bdb] hover:bg-[#2b4bba] text-white font-bold py-2.5 px-3 rounded-xl transition-all duration-300 gap-1.5 text-xs shadow-sm"
+                >
+                  ⚡ MELTECH Ι.Κ.Ε. ↗
+                </a>
+                <a 
+                  href="https://www.sellascountryhouses.gr/"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center flex-1 bg-white hover:bg-gray-100 text-gray-800 border border-gray-200 font-bold py-2.5 px-3 rounded-xl transition-all duration-300 gap-1.5 text-xs shadow-sm"
+                >
+                  🏡 Sellas Houses ↗
+                </a>
+              </div>
             </div>
 
             <button onClick={() => setShowModal(false)} className="w-full bg-[#3b5bdb]/10 hover:bg-[#3b5bdb]/20 text-[#3b5bdb] font-bold py-2.5 rounded-xl transition-colors text-sm">

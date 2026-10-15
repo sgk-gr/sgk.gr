@@ -390,7 +390,7 @@ const templates = [
     <li>Νόμιμο τιμολόγιο για τα έξοδα της εταιρείας σας.</li>
   </ul>
   <p style="margin: 10px 0 0 0; font-size: 13px; color: #475569;">
-    👉 <strong>Δείτε ένα πρόσφατο δείγμα μας:</strong> <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; text-decoration: underline;">sellascountryhouses.gr</a>
+    👉 <strong>Δείτε πρόσφατα δείγματα πελατών μας:</strong> <a href="https://meltech-ike.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; text-decoration: underline;">sellascountryhouses.gr</a>
   </p>
 </div>
 
@@ -449,7 +449,7 @@ const templates = [
     <li><strong>Τιμολόγιο εξόδων</strong> που εκπίπτει κανονικά στα βιβλία της εταιρείας σας.</li>
   </ul>
   <p style="margin: 12px 0 0 0; font-size: 13px; color: #475569;">
-    👉 <strong>Δείτε πρόσφατο δείγμα ενεργής Ι.Κ.Ε.:</strong> <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
+    👉 <strong>Δείτε πρόσφατα δείγματα ενεργών Ι.Κ.Ε.:</strong> <a href="https://meltech-ike.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
   </p>
 </div>
 
@@ -509,7 +509,8 @@ const templates = [
 </div>
 
 <p style="margin: 0 0 14px 0; font-size: 13.5px; color: #475569;">
-  👉 <strong>Δείτε πρόσφατο δείγμα μας:</strong> 
+  👉 <strong>Δείτε πρόσφατα δείγματα πελατών μας:</strong> 
+  <a href="https://meltech-ike.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; 
   <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
 </p>
 
