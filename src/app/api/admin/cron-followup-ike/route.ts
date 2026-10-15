@@ -82,7 +82,7 @@ export const IKE_FOLLOWUP_BUTTON_LINK = "https://www.sgk.gr/ike-offer";
 // Strict rule: Follow-up is sent ONLY to IKEs that received Step 1 from today onwards!
 export const SEQUENCE_START_DATE = "2026-10-11T00:00:00.000Z";
 
-async function processFollowUp(days: number = 3, maxBatch: number = 100) {
+async function processFollowUp(days: number = 3, maxBatch: number = 100, forceReport: boolean = false) {
   const supabase = getServiceSupabase();
   const supabaseUrl = SUPABASE_URL;
   const supabaseServiceKey = getSupabaseServiceRoleKey();
