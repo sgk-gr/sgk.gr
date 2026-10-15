@@ -3265,6 +3265,61 @@ function safeEncodeBase64(data: any): string {
                           <div className="font-bold text-gray-900 flex items-center gap-1.5 flex-wrap">
                             <span>{lead.email}</span>
 
+                            {/* Sequence Badges: 0 (Grey) = Not sent yet, 1 (Green) = Sent by user, 2 (Orange) = Sent automatically by system */}
+                            {((lead.email_sequence_step || 0) === 0 && !lead.last_email_sent_at) && (
+                              <span 
+                                className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[10.5px] font-black border border-slate-300 shrink-0 shadow-2xs"
+                                title="Κανένα email δεν έχει σταλεί ακόμη (Εκκρεμεί 1ο Email)"
+                              >
+                                0
+                              </span>
+                            )}
+                            {((lead.email_sequence_step || 0) === 1 || ((lead.email_sequence_step || 0) === 0 && lead.last_email_sent_at)) && (
+                              <div className="inline-flex items-center gap-1 shrink-0">
+                                <span 
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600 shrink-0"
+                                  title={isFtthLead(lead) 
+                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή FTTH — Δεν προβλέπεται Follow-Up)" 
+                                    : isNonIkeLead(lead)
+                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή Online Παρουσίας — Δεν αποστέλλεται Follow-Up)"
+                                    : isLegacyIkeLead(lead)
+                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή Παλαιάς ΙΚΕ — Δεν αποστέλλεται Follow-Up)"
+                                    : "Email 1: Στάλθηκε από εσάς (Αρχικό Email)"}
+                                >
+                                  1
+                                </span>
+                                {!isFtthLead(lead) && !isNonIkeLead(lead) && !isLegacyIkeLead(lead) && (
+                                  <span 
+                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
+                                    title={(() => {
+                                      if (!lead.last_email_sent_at) return "Email 2 (Follow-Up): Σε αναμονή (3 ημέρες)";
+                                      const sentDate = new Date(lead.last_email_sent_at);
+                                      const targetDate = new Date(sentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+                                      return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα το πρωί στις ${targetDate.toLocaleDateString("el-GR")} (11:00 π.μ.)`;
+                                    })()}
+                                  >
+                                    2
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                            {(lead.email_sequence_step || 0) >= 2 && (
+                              <div className="inline-flex items-center gap-1 shrink-0" title="Email 1 (Εσείς) & Email 2 (Αυτόματο Follow-Up)">
+                                <span 
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600"
+                                  title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
+                                >
+                                  1
+                                </span>
+                                <span 
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-500 text-white text-[10.5px] font-black shadow-xs border border-amber-600"
+                                  title="Email 2: Στάλθηκε αυτόματα από το σύστημα (Follow-Up)"
+                                >
+                                  2
+                                </span>
+                              </div>
+                            )}
+
                             {isEmailBlacklisted(lead.email) && (
                               <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase bg-slate-900 text-rose-400 border border-rose-500/40">
                                 Blacklist
