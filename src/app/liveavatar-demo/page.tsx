@@ -159,7 +159,7 @@ export default function LiveAvatarVideoCallPage() {
         { 
             id: "3", 
             sender: "agent", 
-            text: "Βάσει του Ν.4072/2012, κάθε ΙΚΕ υποχρεούται εντός 30 ημερών να έχει ιστοσελίδα για δημοσίευση ισολογισμών. Στην SGK Digital την παραδίδουμε σε μόλις 24 ώρες με μόνο 70€ τελική τιμή με ΦΠΑ!", 
+            text: "Βάσει του Ν.4072/2012, κάθε ΙΚΕ υποχρεούται εντός 30 ημερών να έχει ιστοσελίδα για δημοσίευση ισολογισμών. Στην SGK Digital την παραδίδουμε σε μόλις 24 ώρες με μόνο 80€ τελική τιμή με ΦΠΑ!", 
             time: "3:02 μμ" 
         },
         { 
@@ -378,7 +378,7 @@ export default function LiveAvatarVideoCallPage() {
                     {
                         id: (Date.now() + 1).toString(),
                         sender: "agent",
-                        text: "Σας ακούω! Για την κατασκευή ιστοσελίδας της ΙΚΕ σας (70€ με ΦΠΑ), χρειαζόμαστε μόνο το ΑΦΜ σας και παραδίδεται σε 24 ώρες.",
+                        text: "Σας ακούω! Για την κατασκευή ιστοσελίδας της ΙΚΕ σας (80€ με ΦΠΑ), χρειαζόμαστε μόνο το ΑΦΜ σας και παραδίδεται σε 24 ώρες.",
                         time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
                     }
                 ]);
@@ -548,7 +548,7 @@ export default function LiveAvatarVideoCallPage() {
                                     Bryan (Tech Expert)
                                     <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">AI Consultant</span>
                                 </h2>
-                                <span className="text-[11px] text-white/80 font-normal truncate block">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (70€)</span>
+                                <span className="text-[11px] text-white/80 font-normal truncate block">Υπηρεσία Ιστοσελίδας Ι.Κ.Ε. (80€)</span>
                             </div>
                         </div>
 
@@ -568,7 +568,7 @@ export default function LiveAvatarVideoCallPage() {
                         <span className="flex items-center gap-1 text-emerald-600 font-semibold truncate">
                             <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" /> Νόμος 4072/2012 Γ.Ε.ΜΗ.
                         </span>
-                        <span className="font-bold text-[#5b36f5] flex-shrink-0">70€ • 24 Ώρες</span>
+                        <span className="font-bold text-[#5b36f5] flex-shrink-0">80€ • 24 Ώρες</span>
                     </div>
 
                     {/* Chat Messages Body */}

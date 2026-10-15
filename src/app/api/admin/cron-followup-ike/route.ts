@@ -6,7 +6,7 @@ import { isEmailBlacklisted } from "@/lib/blacklist";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-export const IKE_FOLLOWUP_SUBJECT = "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 70€)";
+export const IKE_FOLLOWUP_SUBJECT = "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 80€)";
 
 // Calculate calendar-based cutoff in Greek timezone (Europe/Athens)
 // If today is day D in Greece, any email sent on or before (D - days) calendar date is eligible on morning run!
@@ -55,7 +55,7 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
 <!-- Value Box -->
 <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #3b5bdb; border-radius: 10px; padding: 14px 16px; margin: 16px 0;">
   <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 800; color: #1e3a8a;">
-    📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 70€ (τελική τιμή με ΦΠΑ):
+    📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 80€ (τελική τιμή με ΦΠΑ):
   </p>
   <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.55;">
     <li><strong>Έτοιμη σε 24 ώρες:</strong> Αντλούμε τα στοιχεία απευθείας από το API του Γ.Ε.ΜΗ., χωρίς να χρειάζεται να γράψετε κείμενα.</li>
@@ -76,7 +76,7 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
   <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">📱 6999 524 389</a>
 </div>`;
 
-export const IKE_FOLLOWUP_BUTTON_TEXT = "Έναρξη Ιστοσελίδας ΙΚΕ (70€)";
+export const IKE_FOLLOWUP_BUTTON_TEXT = "Έναρξη Ιστοσελίδας ΙΚΕ (80€)";
 export const IKE_FOLLOWUP_BUTTON_LINK = "https://www.sgk.gr/ike-offer";
 
 // Strict rule: Follow-up is sent ONLY to IKEs that received Step 1 from today onwards!
@@ -277,7 +277,7 @@ async function sendAdminReport({
         📈 Σύνοψη Αποστολής:
       </p>
       <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.6;">
-        <li><strong>Απεστάλησαν Follow-Up (Βήμα 2 - 70€):</strong> <span style="color: #059669; font-weight: 800; font-size: 15px;">${sentCount}</span></li>
+        <li><strong>Απεστάλησαν Follow-Up (Βήμα 2 - 80€):</strong> <span style="color: #059669; font-weight: 800; font-size: 15px;">${sentCount}</span></li>
         <li><strong>Σφάλματα:</strong> ${failCount}</li>
         <li><strong>Συνολικές Εγγραφές που Ελέγχθηκαν:</strong> ${totalChecked}</li>
       </ul>
