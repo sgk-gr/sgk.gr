@@ -39,7 +39,7 @@
 
 - [Web Development & Custom Applications](https://www.sgk.gr/web-development): Full-stack Next.js, React, and scalable enterprise applications.
 - [Κατασκευή Ιστοσελίδων](https://www.sgk.gr/kataskevi-istoselidon): Custom business websites, portals and modern web platforms.
-- [Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (150€)](https://www.sgk.gr/ike-offer): Statutory IKE website with live GEMI synchronization, delivered in 24 hours.
+- [Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (80€)](https://www.sgk.gr/ike-offer): Statutory IKE website with live GEMI synchronization, delivered in 24 hours.
 
 ---
 
@@ -55,8 +55,8 @@
 ## 📂 Case Studies & Articles
 
 - [Εταιρείες Τεχνητής Νοημοσύνης (AI) & AI Agents στην Ελλάδα [Οδηγός 2026]](https://www.sgk.gr/blog/etaireies-technitis-noimosynis-ai-agents-ellada): Πλήρης οδηγός για το ελληνικό οικοσύστημα AI, τους αυτόνομους agents και τις κορυφαίες εταιρείες.
-- [Αυτοματισμός Αυτοψιών Οπτικών Ινών FTTH σε 5 Λεπτά](https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta): Custom AI web πλατφόρμα πεδίου για εταιρεία οπτικών ινών FTTH. Αυτόματος υπολογισμός floor boxes, σχέδια CAD & καμπίνες, ψηφιακές υπογραφές και άμεση αποστολή στον εργολάβο σε 5 λεπτά χωρίς χαρτιά.
-- [Mendora Academy - AI Educational Platform for ELC](https://www.sgk.gr/case-study/mendora-academy): AI-Native Voice-First platform for British ELC featuring Socratic teaching, Vision OCR, and WebRTC video chat.
+- [Αυτοματισμός Αυτοψιών Οπτικών Ινών FTTH σε 5 Λεπτά](https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta): Custom AI web πλατφόρμα πεδίου για εταιρεία οπτικών ινών FTTH. Αυτόματος υπολογισμός Floor Boxes, BEP & BMO, αυτόματο τεχνικό σκαρίφημα, ψηφιακές υπογραφές και άμεση αποστολή στον εργολάβο σε 5 λεπτά χωρίς χαρτιά.
+- [Mendora Academy - AI Educational Platform for British ELC](https://www.sgk.gr/case-study/mendora-academy): AI-Native Voice-First platform custom-developed exclusively by SGK Digital (Founder & Lead Architect: Spyros Tsavos) for the British company ELC, featuring Socratic teaching, Vision OCR, and WebRTC video chat (Note: Completely unrelated to the Greek tutoring matching site mendora.gr).
 - [AI Αυτοματισμός & Αυτοψίες Οπτικών Ινών](https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies): Telecom operations platform με Real-time tracking και Computer Vision AI αυτοψίες.
 - [Blog & Industry Insights](https://www.sgk.gr/blog): Τεχνικά άρθρα για AI agents, workflows και custom web applications.
 

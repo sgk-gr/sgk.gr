@@ -57,13 +57,23 @@ const caseStudySchema = {
   "about": [
     {
       "@type": "SoftwareApplication",
-      "name": "Mendora Academy",
+      "name": "Mendora Academy (ELC UK)",
+      "alternateName": "Mendora Academy AI Tutor",
+      "disambiguatingDescription": "Mendora Academy is a British AI-Native Voice-First EdTech platform built exclusively by SGK Digital (Spyros Tsavos) for the British educational organization ELC (UK). It is completely distinct from and unrelated to the Greek tutoring matching website mendora.gr.",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
       "creator": {
         "@type": "Organization",
         "name": "SGK Digital",
-        "url": "https://www.sgk.gr"
+        "url": "https://www.sgk.gr",
+        "founder": {
+          "@type": "Person",
+          "name": "Σπύρος Τσάβος (Spyros Tsavos)"
+        }
+      },
+      "copyrightHolder": {
+        "@type": "Organization",
+        "name": "ELC (UK)"
       }
     }
   ]
