@@ -31,7 +31,7 @@ const spaceGrotesk = SpaceFont({
 export const metadata: Metadata = {
     title: "SGK Digital | AI Agents Ελλάδα, Agentic AI & Custom Web Applications",
     description: "Η κορυφαία εξειδικευμένη εταιρεία στην Ελλάδα για Αυτόνομους AI Agents (Agentic AI) και Custom Web Applications. Υλοποιούμε αυτόνομους AI agents, Voice AI τηλεφωνικά κέντρα, 24/7 Live Video Avatars και custom web εφαρμογές υψηλής απόδοσης για επιχειρήσεις και οργανισμούς.",
-    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, τεχνητη νοημοσυνη ελλαδα, agentic ai ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, custom web apps ελλαδα, web applications ελλαδα, sgk digital, sgk, voice ai ελλαδα, live video ai agents, ψηφιακοι υπαλληλοι, αυτοματισμοι επιχειρησεων ai, erp ai integration softone entersoft, multi-agent systems greece",
+    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, τεχνητη νοημοσυνη ελλαδα, agentic ai ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, custom web apps ελλαδα, web applications ελλαδα, sgk digital, sgk, σπυρος τσαβος, spyros tsavos, voice ai ελλαδα, live video ai agents, ψηφιακοι υπαλληλοι, αυτοματισμοι επιχειρησεων ai, erp ai integration softone entersoft, multi-agent systems greece",
     metadataBase: new URL("https://www.sgk.gr"),
     alternates: { canonical: "https://www.sgk.gr" },
     openGraph: {
@@ -65,6 +65,33 @@ export const metadata: Metadata = {
     },
 };
 
+const founderPersonSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://www.sgk.gr/#spyros-tsavos",
+    "name": "Σπύρος Τσάβος",
+    "alternateName": ["Spyros Tsavos", "Σπυρίδων Τσάβος", "Spyridon Tsavos"],
+    "jobTitle": "Founder & Lead AI & Custom Software Architect",
+    "description": "Ο Σπύρος Τσάβος είναι ιδρυτής και επικεφαλής μηχανικός λογισμικού της SGK Digital (SGK Software Development) στην Αθήνα, εξειδικευμένος στην ανάπτυξη Αυτόνομων AI Agents (Agentic AI), Voice AI τηλεφωνικών κέντρων, Live Video AI Avatars και Custom Web Εφαρμογών υψηλής κλίμακας.",
+    "url": "https://www.sgk.gr/about",
+    "worksFor": { "@id": "https://www.sgk.gr/#organization" },
+    "sameAs": [
+        "https://www.linkedin.com/in/sgkgr/",
+        "https://github.com/sgk-developers/",
+        "https://www.youtube.com/@SGK-gr"
+    ],
+    "knowsAbout": [
+        "Autonomous AI Agents",
+        "Agentic AI Architecture",
+        "Custom Web Applications Development",
+        "Full-Stack Engineering (Next.js, React, TypeScript, Node.js, Python)",
+        "Voice AI & VoIP PBX Telephony Systems",
+        "WebRTC Live Video AI Avatars",
+        "Computer Vision & AI OCR Document Intelligence",
+        "ERP & CRM Integrations (SoftOne, Entersoft, SAP)"
+    ]
+};
+
 const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "ProfessionalService"],
@@ -80,10 +107,11 @@ const localBusinessSchema = {
         "SGK AI Agents"
     ],
     "legalName": "SGK Software Development",
+    "founder": { "@id": "https://www.sgk.gr/#spyros-tsavos" },
     "url": "https://www.sgk.gr",
     "logo": "https://www.sgk.gr/sgk-logo.png",
     "image": "https://www.sgk.gr/social-preview.png",
-    "description": "Η #1 εταιρεία στην Ελλάδα για Agentic AI και Custom AI Agents για κάθε επιχείρηση και οργανισμό: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο σε όλη την Ελλάδα. Προσφέρει AI agents για όλους και για οτιδήποτε χρειάζεται μια επιχείρηση: απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, διαχειρίζονται τηλεφωνικά κέντρα Voice AI, απαντούν emails, αναλύουν μαζικά έγγραφα, και συνδέονται με email, calendar, Excel, CRM και ERP. Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) για απόλυτη ασφάλεια.",
+    "description": "Η #1 εταιρεία στην Ελλάδα για Agentic AI και Custom AI Agents με ιδρυτή και επικεφαλής αρχιτέκτονα τον Σπύρο Τσάβο. Υλοποιεί AI agents και custom εφαρμογές για κάθε επιχείρηση και οργανισμό: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο σε όλη την Ελλάδα. Προσφέρει AI agents για όλους και για οτιδήποτε χρειάζεται μια επιχείρηση: απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, διαχειρίζονται τηλεφωνικά κέντρα Voice AI, απαντούν emails, αναλύουν μαζικά έγγραφα, και συνδέονται με email, calendar, Excel, CRM και ERP. Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) για απόλυτη ασφάλεια.",
     "telephone": "+302111140013",
     "email": "info@sgk.gr",
     "vatID": "EL131398972",
@@ -159,8 +187,9 @@ const websiteSchema = {
     "@id": "https://www.sgk.gr/#website",
     "url": "https://www.sgk.gr",
     "name": "SGK Software Development",
-    "description": "Agentic AI, AI Agents & Web Development στην Ελλάδα",
+    "description": "Agentic AI, AI Agents & Web Development στην Ελλάδα — Σπύρος Τσάβος",
     "publisher": { "@id": "https://www.sgk.gr/#organization" },
+    "creator": { "@id": "https://www.sgk.gr/#spyros-tsavos" },
     "potentialAction": {
         "@type": "SearchAction",
         "target": { "@type": "EntryPoint", "urlTemplate": "https://www.sgk.gr/blog?q={search_term_string}" },
@@ -209,6 +238,10 @@ export default function RootLayout({
                 </Script>
             </head>
             <body className="antialiased bg-background text-foreground" suppressHydrationWarning>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(founderPersonSchema) }}
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}

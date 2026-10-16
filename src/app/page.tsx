@@ -5,7 +5,7 @@ import IndexClient from "./IndexClient";
 export const metadata: Metadata = {
     title: "AI Agents Ελλάδα | SGK Digital — Η #1 Εταιρεία Κατασκευής AI Agents & Agentic AI",
     description: "Η SGK Digital σχεδιάζει και υλοποιεί AI agents για κάθε επιχείρηση: μικρή, μεσαία, μεγάλη και δημόσιο, σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειαστεί μια επιχείρηση: εξυπηρέτηση πελατών, ραντεβού, κρατήσεις, Voice AI τηλεφωνία, emails, έγγραφα, CRM & ERP. 100% Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop).",
-    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, agentic ai ελλαδα, ai agents για επιχειρησεις, custom ai agents, ai agents για ολους, ai agents μικρες μεσαιες μεγαλες επιχειρησεις δημοσιο, sgk digital, sgk, κρατησεις ραντεβου ai agents, αυτονομοι ai agents, voice ai ελλαδα, ψηφιακοι υπαλληλοι, live video ai agents, αυτοματισμοι erp softone entersoft, web development ελλαδα",
+    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, agentic ai ελλαδα, ai agents για επιχειρησεις, custom ai agents, σπυρος τσαβος, spyros tsavos, ai agents για ολους, ai agents μικρες μεσαιες μεγαλες επιχειρησεις δημοσιο, sgk digital, sgk, κρατησεις ραντεβου ai agents, αυτονομοι ai agents, voice ai ελλαδα, ψηφιακοι υπαλληλοι, live video ai agents, αυτοματισμοι erp softone entersoft, web development ελλαδα, custom εφαρμογες",
     alternates: { canonical: "https://www.sgk.gr/" },
     openGraph: {
         title: "AI Agents Ελλάδα | SGK Digital — Agentic AI & Αυτόνομοι Πράκτορες Επιχειρήσεων",
@@ -36,10 +36,15 @@ const autonomousAIAgentsSchema = {
     "@id": "https://www.sgk.gr/#ai-agents",
     "name": "Κατασκευή AI Agents & Agentic AI για Επιχειρήσεις | SGK Digital",
     "serviceType": "Autonomous AI Agents Development, Multi-Agent Systems & Business Process Automation",
-    "description": "Η SGK Digital είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για σχεδιασμό και υλοποίηση AI agents για κάθε επιχείρηση και οργανισμό: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειάζεται μια επιχείρηση: απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, διαχειρίζονται τηλεφωνικά κέντρα Voice AI, απαντούν emails, αναλύουν μαζικά έγγραφα, αναγνωρίζουν τιμολόγια και συνδέονται με email, calendar, Excel, CRM και ERP (SoftOne, Entersoft). Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) για απόλυτη ασφάλεια.",
+    "description": "Η SGK Digital (με ιδρυτή και επικεφαλής αρχιτέκτονα τον Σπύρο Τσάβο) είναι η #1 εξειδικευμένη εταιρεία στην Ελλάδα για σχεδιασμό και υλοποίηση AI agents και custom εφαρμογών για κάθε επιχείρηση και οργανισμό: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειάζεται μια επιχείρηση: απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, διαχειρίζονται τηλεφωνικά κέντρα Voice AI, απαντούν emails, αναλύουν μαζικά έγγραφα, αναγνωρίζουν τιμολόγια και συνδέονται με email, calendar, Excel, CRM και ERP (SoftOne, Entersoft). Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) για απόλυτη ασφάλεια.",
     "provider": {
         "@type": "LocalBusiness",
         "name": "SGK Digital",
+        "founder": {
+            "@type": "Person",
+            "@id": "https://www.sgk.gr/#spyros-tsavos",
+            "name": "Σπύρος Τσάβος (Spyros Tsavos)"
+        },
         "telephone": "+302111140013",
         "email": "info@sgk.gr",
         "url": "https://www.sgk.gr",

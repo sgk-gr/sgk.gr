@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = {
     title: "AI Agents Ελλάδα | Agentic AI & Αυτόνομοι Πράκτορες Τεχνητής Νοημοσύνης | SGK Digital",
     description: "Η SGK Digital σχεδιάζει και υλοποιεί AI agents για επιχειρήσεις σε όλη την Ελλάδα — από μικρές επιχειρήσεις και ενοικιάσεις αυτοκινήτων (rent a car) μέχρι μεγάλους οργανισμούς. Οι agents απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις και συνδέονται με email, ημερολόγιο, CRM και ERP. Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop). Αυτοματοποιούμε τα πάντα.",
-    keywords: "ai agents ελλαδα, ai agents μικρες επιχειρησεις, ai agents rent a car ενοικιασεις αυτοκινητων, κρατησεις ραντεβου ai agents, εταιρειες ai agents ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, agentic ai greece, ai agency ελλαδα, custom ai agents, ai ψηφιακοι υπαλληλοι, voice ai agents ελλαδα, human in the loop ai, erp ai integration softone entersoft, video ai customer support",
+    keywords: "ai agents ελλαδα, σπυρος τσαβος, spyros tsavos, ai agents μικρες επιχειρησεις, ai agents rent a car ενοικιασεις αυτοκινητων, κρατησεις ραντεβου ai agents, εταιρειες ai agents ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, agentic ai greece, ai agency ελλαδα, custom ai agents, custom εφαρμογες, ai ψηφιακοι υπαλληλοι, voice ai agents ελλαδα, human in the loop ai, erp ai integration softone entersoft, video ai customer support",
     alternates: {
         canonical: "https://www.sgk.gr/ai-agents",
     },
@@ -37,6 +37,12 @@ const agencySchema = {
     "@context": "https://schema.org",
     "@type": ["ProfessionalService", "Organization"],
     "name": "SGK Digital - AI Agency & Custom AI Agents Greece",
+    "founder": {
+        "@type": "Person",
+        "@id": "https://www.sgk.gr/#spyros-tsavos",
+        "name": "Σπύρος Τσάβος (Spyros Tsavos)",
+        "jobTitle": "Founder & Lead AI & Custom Software Architect"
+    },
     "url": "https://www.sgk.gr/ai-agents",
     "logo": "https://www.sgk.gr/logo.png",
     "image": "https://www.sgk.gr/social-preview.png",
