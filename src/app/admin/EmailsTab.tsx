@@ -980,7 +980,16 @@ export function EmailsTab() {
   const [campaignBody, setCampaignBody] = useState(templates[0].body);
   const [buttonText, setButtonText] = useState(templates[0].defaultButtonText);
   const [buttonLink, setButtonLink] = useState(templates[0].defaultButtonLink);
-  const [sendingProgress, setSendingProgress] = useState<{ current: number; total: number; active: boolean; statusText: string } | null>(null);
+  const [sendingProgress, setSendingProgress] = useState<{ 
+    current: number; 
+    total: number; 
+    active: boolean; 
+    statusText: string;
+    provider?: "resend" | "brevo";
+    providerSwitched?: boolean;
+    resendCount?: number;
+    brevoCount?: number;
+  } | null>(null);
   const [singleLeadTarget, setSingleLeadTarget] = useState<any | null>(null);
   const [savedContracts, setSavedContracts] = useState<any[]>([]);
   
@@ -1762,18 +1771,28 @@ function safeEncodeBase64(data: any): string {
       current: 0,
       total: targets.length,
       active: true,
-      statusText: `Προετοιμασία αποστολής σε ${targets.length} παραλήπτες...`
+      statusText: `🚀 Έναρξη αποστολής μέσω Resend... (0/${targets.length})`,
+      provider: "resend",
+      providerSwitched: false,
+      resendCount: 0,
+      brevoCount: 0,
     });
 
     let successCount = 0;
     let failCount = 0;
+    let resendSent = 0;
+    let brevoSent = 0;
+    let hasSwitchedToBrevo = false;
 
     for (let i = 0; i < targets.length; i++) {
       const lead = targets[i];
+      const currentProvider = hasSwitchedToBrevo ? "Brevo" : "Resend";
+      const providerIcon = hasSwitchedToBrevo ? "⚡ Brevo" : "✉️ Resend";
+      
       setSendingProgress(prev => prev ? {
         ...prev,
         current: i + 1,
-        statusText: `Αποστολή στο ${lead.email}... (${i + 1}/${targets.length})`
+        statusText: `${providerIcon}: Αποστολή στο ${lead.email}... (${i + 1}/${targets.length})`
       } : null);
 
       try {
@@ -1809,9 +1828,21 @@ function safeEncodeBase64(data: any): string {
           })
         });
 
+        const resData = await response.json().catch(() => ({}));
+
         if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          throw new Error(errData.error || `HTTP ${response.status}`);
+          throw new Error(resData.error || `HTTP ${response.status}`);
+        }
+
+        const sentProvider = resData.provider || (hasSwitchedToBrevo ? "brevo" : "resend");
+        if (sentProvider === "brevo") {
+          brevoSent++;
+          if (!hasSwitchedToBrevo) {
+            hasSwitchedToBrevo = true;
+            toast.warn(`⚠️ Η Resend έπιασε ημερήσιο όριο (100). Συνέχιση αυτόματα μέσω Brevo! ⚡`, { duration: 5000 });
+          }
+        } else {
+          resendSent++;
         }
 
         const sentTime = new Date().toISOString();
@@ -1820,6 +1851,19 @@ function safeEncodeBase64(data: any): string {
           : item
         ));
         successCount++;
+
+        setSendingProgress(prev => prev ? {
+          ...prev,
+          current: i + 1,
+          provider: hasSwitchedToBrevo ? "brevo" : "resend",
+          providerSwitched: hasSwitchedToBrevo,
+          resendCount: resendSent,
+          brevoCount: brevoSent,
+          statusText: hasSwitchedToBrevo
+            ? `⚡ Brevo: Εστάλη στο ${lead.email} (${i + 1}/${targets.length}) [Resend: ${resendSent} | Brevo: ${brevoSent}]`
+            : `✉️ Resend: Εστάλη στο ${lead.email} (${i + 1}/${targets.length}) [Resend: ${resendSent}]`
+        } : null);
+
       } catch (error: any) {
         console.error("Error sending to:", lead.email, error);
         toast.error(`Αποτυχία αποστολής στο ${lead.email}: ${error.message || "Σφάλμα"}`);
@@ -1829,10 +1873,10 @@ function safeEncodeBase64(data: any): string {
 
     setSendingProgress(prev => prev ? {
       ...prev,
-      statusText: `Ολοκληρώθηκε! Επιτυχία: ${successCount}, Αποτυχία: ${failCount}`
+      statusText: `🎉 Ολοκληρώθηκε! Επιτυχία: ${successCount} (Resend: ${resendSent}, Brevo: ${brevoSent}), Αποτυχία: ${failCount}`
     } : null);
 
-    toast.success(`Η αποστολή ολοκληρώθηκε! (${successCount} επιτυχείς, ${failCount} αποτυχίες)`);
+    toast.success(`Η αποστολή ολοκληρώθηκε! (${successCount} επιτυχείς [Resend: ${resendSent}, Brevo: ${brevoSent}], ${failCount} αποτυχίες)`);
     setSelectedLeads([]);
     setCampaignSubject(templates[0].subject);
     setCampaignBody(templates[0].body);
@@ -2404,10 +2448,22 @@ function safeEncodeBase64(data: any): string {
             ) : (
               <CheckCircle2 className="text-emerald-500 w-16 h-16 animate-bounce" />
             )}
+            {/* Provider Badge & Alert */}
+            {sendingProgress.providerSwitched ? (
+              <div className="bg-amber-950/80 border border-amber-500/50 text-amber-300 px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 animate-pulse">
+                <span>⚠️ Η Resend έπιασε ημερήσιο όριο (100). Η αποστολή συνεχίζεται αυτόματα μέσω Brevo! ⚡</span>
+              </div>
+            ) : (
+              <div className="bg-blue-950/60 border border-blue-500/30 text-blue-300 px-3.5 py-1.5 rounded-full text-[11px] font-bold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                <span>Πάροχος: <strong>Resend API</strong> (Όριο: 100/ημ. &bull; Brevo Fallback Έτοιμο)</span>
+              </div>
+            )}
+
             <p className="font-black text-sm uppercase tracking-widest italic">{sendingProgress.statusText}</p>
             <div className="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700">
               <div 
-                className="bg-[#3b5bdb] h-full transition-all duration-300 shadow-glow"
+                className={`${sendingProgress.providerSwitched ? "bg-amber-500" : "bg-[#3b5bdb]"} h-full transition-all duration-300 shadow-glow`}
                 style={{ width: `${(sendingProgress.current / sendingProgress.total) * 100}%` }}
               />
             </div>
