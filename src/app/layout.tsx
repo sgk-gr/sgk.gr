@@ -31,7 +31,7 @@ const spaceGrotesk = SpaceFont({
 export const metadata: Metadata = {
     title: "SGK Digital | AI Agents Ελλάδα, Agentic AI & Custom Web Applications",
     description: "Η κορυφαία εξειδικευμένη εταιρεία στην Ελλάδα για Αυτόνομους AI Agents (Agentic AI) και Custom Web Applications. Υλοποιούμε αυτόνομους AI agents, Voice AI τηλεφωνικά κέντρα, 24/7 Live Video Avatars και custom web εφαρμογές υψηλής απόδοσης για επιχειρήσεις και οργανισμούς.",
-    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, τεχνητη νοημοσυνη ελλαδα, agentic ai ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, custom web apps ελλαδα, web applications ελλαδα, sgk digital, sgk, σπυρος τσαβος, spyros tsavos, voice ai ελλαδα, live video ai agents, ψηφιακοι υπαλληλοι, αυτοματισμοι επιχειρησεων ai, erp ai integration softone entersoft, multi-agent systems greece",
+    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, τεχνητη νοημοσυνη ελλαδα, agentic ai ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, custom web apps ελλαδα, web applications ελλαδα, εφαρμογες οπτικων ινων ftth, αυτοψιες οπτικων ινων ftth εφαρμογη, λογισμικο οπτικων ινων τηλεπικοινωνιων, κατασκευη ιστοσελιδας ικε, υποχρεωτικη ιστοσελιδα ικε γεμη 80 ευρω, ιστοσελιδα ικε σε 24 ωρες, sgk digital, sgk, σπυρος τσαβος, spyros tsavos, voice ai ελλαδα, live video ai agents, ψηφιακοι υπαλληλοι, αυτοματισμοι επιχειρησεων ai, erp ai integration softone entersoft, multi-agent systems greece",
     metadataBase: new URL("https://www.sgk.gr"),
     alternates: { canonical: "https://www.sgk.gr" },
     openGraph: {
@@ -72,7 +72,7 @@ const founderPersonSchema = {
     "name": "Σπύρος Τσάβος",
     "alternateName": ["Spyros Tsavos", "Σπυρίδων Τσάβος", "Spyridon Tsavos"],
     "jobTitle": "Founder & Lead AI & Custom Software Architect",
-    "description": "Ο Σπύρος Τσάβος είναι ιδρυτής και επικεφαλής μηχανικός λογισμικού της SGK Digital (SGK Software Development) στην Αθήνα, εξειδικευμένος στην ανάπτυξη Αυτόνομων AI Agents (Agentic AI), Voice AI τηλεφωνικών κέντρων, Live Video AI Avatars και Custom Web Εφαρμογών υψηλής κλίμακας.",
+    "description": "Ο Σπύρος Τσάβος είναι ιδρυτής και επικεφαλής μηχανικός λογισμικού της SGK Digital (SGK Software Development) στην Αθήνα, εξειδικευμένος στην ανάπτυξη Αυτόνομων AI Agents (Agentic AI), εφαρμογών πεδίου & αυτοψιών Οπτικών Ινών (FTTH), Voice AI τηλεφωνικών κέντρων, Live Video AI Avatars και Custom Web Εφαρμογών υψηλής κλίμακας.",
     "url": "https://www.sgk.gr/about",
     "worksFor": { "@id": "https://www.sgk.gr/#organization" },
     "sameAs": [
@@ -83,7 +83,9 @@ const founderPersonSchema = {
     "knowsAbout": [
         "Autonomous AI Agents",
         "Agentic AI Architecture",
+        "FTTH Fiber Optics Field Inspection & Telecom Operations Software",
         "Custom Web Applications Development",
+        "Statutory IKE Corporate Websites & GEMI API Integration",
         "Full-Stack Engineering (Next.js, React, TypeScript, Node.js, Python)",
         "Voice AI & VoIP PBX Telephony Systems",
         "WebRTC Live Video AI Avatars",
@@ -111,7 +113,7 @@ const localBusinessSchema = {
     "url": "https://www.sgk.gr",
     "logo": "https://www.sgk.gr/sgk-logo.png",
     "image": "https://www.sgk.gr/social-preview.png",
-    "description": "Η #1 εταιρεία στην Ελλάδα για Agentic AI και Custom AI Agents με ιδρυτή και επικεφαλής αρχιτέκτονα τον Σπύρο Τσάβο. Υλοποιεί AI agents και custom εφαρμογές για κάθε επιχείρηση και οργανισμό: μικρές, μεσαίες, μεγάλες επιχειρήσεις και δημόσιο σε όλη την Ελλάδα. Προσφέρει AI agents για όλους και για οτιδήποτε χρειάζεται μια επιχείρηση: απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις, διαχειρίζονται τηλεφωνικά κέντρα Voice AI, απαντούν emails, αναλύουν μαζικά έγγραφα, και συνδέονται με email, calendar, Excel, CRM και ERP. Προσφέρει 100% δωρεάν αρχική αξιολόγηση και ανθρώπινη έγκριση (Human-in-the-Loop) για απόλυτη ασφάλεια.",
+    "description": "Η #1 εταιρεία στην Ελλάδα για Agentic AI, Custom AI Agents, εξειδικευμένες Εφαρμογές Οπτικών Ινών (FTTH Αυτοψίες & Διαχείριση Έργων) και Κατασκευή Υποχρεωτικής Ιστοσελίδας Ι.Κ.Ε. Γ.Ε.ΜΗ. (80€ σε 24 ώρες), με ιδρυτή και επικεφαλής αρχιτέκτονα τον Σπύρο Τσάβο. Υλοποιεί AI agents και custom εφαρμογές για κάθε επιχείρηση και οργανισμό σε όλη την Ελλάδα.",
     "telephone": "+302111140013",
     "email": "info@sgk.gr",
     "vatID": "EL131398972",
@@ -146,6 +148,10 @@ const localBusinessSchema = {
         "Εταιρείες AI Agents Ελλάδα",
         "Κατασκευή AI Agents",
         "Αυτόνομοι AI Agents",
+        "Εφαρμογές Οπτικών Ινών FTTH & Αυτοψίες Πολυκατοικιών σε 5 Λεπτά",
+        "Λογισμικό Τηλεπικοινωνιών & Διαχείρισης Συνεργείων FTTH (Floor Boxes, BEP, BMO, CAD)",
+        "Κατασκευή Υποχρεωτικής Ιστοσελίδας ΙΚΕ ΓΕΜΗ (80€ σε 24 Ώρες)",
+        "Συμμόρφωση ΙΚΕ ΓΕΜΗ Άρθρο 47 Ν.4072/2012 & ΚΥΑ 46982/2025",
         "AI Agents για Μικρές Επιχειρήσεις",
         "AI Agents για Rent a Car & Ενοικιάσεις Αυτοκινήτων",
         "AI Agents Κρατήσεων & Ραντεβού",
@@ -171,12 +177,12 @@ const localBusinessSchema = {
         "name": "Software & AI Solutions",
         "itemListElement": [
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents για Μικρές & Μεγάλες Επιχειρήσεις (Κρατήσεις, Rent-a-Car, Ραντεβού)", "description": "AI agents που απαντούν σε πελάτες, ελέγχουν διαθεσιμότητα, υπολογίζουν τιμές και κλείνουν κρατήσεις με ανθρώπινη έγκριση (Human-in-the-Loop) και δωρεάν αρχική αξιολόγηση.", "url": "https://www.sgk.gr/ai-agents" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Εφαρμογές Οπτικών Ινών (FTTH) — Αυτοψίες Κτιρίων σε 5 Λεπτά & Διαχείριση Τεχνικών Συνεργείων", "description": "Εξειδικευμένες mobile & web εφαρμογές πεδίου για εργολάβους και τεχνικές εταιρείες οπτικών ινών (FTTH): αυτόματος υπολογισμός Floor Boxes, BEP & BMO, αυτόματο τεχνικό σκαρίφημα CAD, ψηφιακή υπογραφή διαχειριστή στο κινητό, AI Vision ποιοτικός έλεγχος και άμεση αποστολή πλήρους φακέλου PDF/ZIP στον εργολάβο χωρίς back-office.", "url": "https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta" } },
+            { "@type": "Offer", "price": "80.00", "priceCurrency": "EUR", "itemOffered": { "@type": "Service", "name": "Κατασκευή Υποχρεωτικής Ιστοσελίδας Ι.Κ.Ε. Γ.Ε.ΜΗ. σε 24 Ώρες (80€ τελική τιμή με ΦΠΑ)", "description": "Πλήρες πακέτο κατασκευής εταιρικής ιστοσελίδας Ι.Κ.Ε. 100% συμβατής με το Άρθρο 47 του Ν.4072/2012 και την ΚΥΑ 46982/2025 για το Γ.Ε.ΜΗ. Περιλαμβάνει άντληση στοιχείων από το API του ΓΕΜΗ, κατοχύρωση .gr domain, φιλοξενία (hosting) 1 έτους, SSL, εταιρικό email και παράδοση σε 24 ώρες με 80€ (συμπεριλαμβανομένου ΦΠΑ).", "url": "https://www.sgk.gr/ike-offer" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή AI Agents & Agentic AI Επιχειρήσεων", "description": "Ανάπτυξη αυτόνομων AI agents για back-office, ERP SoftOne/Entersoft, emails, τιμολόγια και mass PDFs.", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Voice AI Telephony (Τηλεφωνικά Κέντρα VoIP PBX)", "description": "Φωνητικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία για 24/7 διαχείριση εισερχόμενων και εξερχόμενων κλήσεων.", "url": "https://www.sgk.gr/ai-agents" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Live Video AI Agents & Ψηφιακοί Υπάλληλοι (24/7 WebRTC)", "description": "Ρεαλιστικό Video WebRTC, φυσικός ελληνικός διάλογος, live σύνδεση με CRM/ERP/ΓΕΜΗ και οπτική ταυτοποίηση μέσω κάμερας.", "url": "https://www.sgk.gr/order-ai-agent" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Αυτόνομοι Πράκτορες Χωρίς Υπαλλήλους", "url": "https://www.sgk.gr/ai-agents" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Κατασκευή Ιστοσελίδας ΙΚΕ ΓΕΜΗ (80€)", "url": "https://www.sgk.gr/ike-offer" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Web Applications & Software", "url": "https://www.sgk.gr/services" } }
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Web Applications & Enterprise Software", "url": "https://www.sgk.gr/web-development" } }
         ]
     }
 };

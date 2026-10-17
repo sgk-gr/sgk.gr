@@ -23,9 +23,12 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
 
     // Parse Greek date string to ISO format
     const greekMonths: Record<string, string> = {
-        'Ιανουαρίου': '01', 'Φεβρουαρίου': '02', 'Μαρτίου': '03', 'Απριλίου': '04',
-        'Μαΐου': '05', 'Ιουνίου': '06', 'Ιουλίου': '07', 'Αυγούστου': '08',
-        'Σεπτεμβρίου': '09', 'Οκτωβρίου': '10', 'Νοεμβρίου': '11', 'Δεκεμβρίου': '12',
+        'Ιανουαρίου': '01', 'Ιαν': '01', 'Φεβρουαρίου': '02', 'Φεβ': '02',
+        'Μαρτίου': '03', 'Μαρ': '03', 'Απριλίου': '04', 'Απρ': '04',
+        'Μαΐου': '05', 'Μαϊ': '05', 'Ιουνίου': '06', 'Ιουν': '06',
+        'Ιουλίου': '07', 'Ιουλ': '07', 'Αυγούστου': '08', 'Αυγ': '08',
+        'Σεπτεμβρίου': '09', 'Σεπ': '09', 'Οκτωβρίου': '10', 'Οκτ': '10',
+        'Νοεμβρίου': '11', 'Νοε': '11', 'Δεκεμβρίου': '12', 'Δεκ': '12',
         'January': '01', 'February': '02', 'March': '03', 'April': '04',
         'May': '05', 'June': '06', 'July': '07', 'August': '08',
         'September': '09', 'October': '10', 'November': '11', 'December': '12'
@@ -44,8 +47,9 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
         "image": post.image,
         "author": {
             "@type": "Person",
-            "@id": "https://www.sgk.gr/#founder",
-            "name": post.author,
+            "@id": "https://www.sgk.gr/#spyros-tsavos",
+            "name": "Σπύρος Τσάβος (Spyros Tsavos)",
+            "jobTitle": "Founder & Lead AI & Custom Software Architect",
             "url": "https://www.sgk.gr/about",
             "worksFor": { "@id": "https://www.sgk.gr/#organization" }
         },
@@ -58,7 +62,7 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
         "publisher": {
             "@type": "Organization",
             "@id": "https://www.sgk.gr/#organization",
-            "name": "SGK Software Development",
+            "name": "SGK Digital (SGK Software Development)",
             "logo": {
                 "@type": "ImageObject",
                 "url": "https://www.sgk.gr/sgk-logo.png"

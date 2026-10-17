@@ -5,7 +5,7 @@ import IndexClient from "./IndexClient";
 export const metadata: Metadata = {
     title: "AI Agents Ελλάδα | SGK Digital — Η #1 Εταιρεία Κατασκευής AI Agents & Agentic AI",
     description: "Η SGK Digital σχεδιάζει και υλοποιεί AI agents για κάθε επιχείρηση: μικρή, μεσαία, μεγάλη και δημόσιο, σε όλη την Ελλάδα. Προσφέρουμε AI agents για όλους και για οτιδήποτε χρειαστεί μια επιχείρηση: εξυπηρέτηση πελατών, ραντεβού, κρατήσεις, Voice AI τηλεφωνία, emails, έγγραφα, CRM & ERP. 100% Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop).",
-    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, agentic ai ελλαδα, ai agents για επιχειρησεις, custom ai agents, σπυρος τσαβος, spyros tsavos, ai agents για ολους, ai agents μικρες μεσαιες μεγαλες επιχειρησεις δημοσιο, sgk digital, sgk, κρατησεις ραντεβου ai agents, αυτονομοι ai agents, voice ai ελλαδα, ψηφιακοι υπαλληλοι, live video ai agents, αυτοματισμοι erp softone entersoft, web development ελλαδα, custom εφαρμογες",
+    keywords: "ai agents ελλαδα, εταιρειες ai agents ελλαδα, κατασκευη ai agents, agentic ai ελλαδα, ai agents για επιχειρησεις, custom ai agents, σπυρος τσαβος, spyros tsavos, εφαρμογες οπτικων ινων ftth, αυτοψιες οπτικων ινων ftth σε 5 λεπτα, λογισμικο οπτικων ινων τηλεπικοινωνιων, κατασκευη ιστοσελιδας ικε, ιστοσελιδα ικε γεμη 80 ευρω, υποχρεωτικη ιστοσελιδα ικε σε 24 ωρες, ai agents για ολους, ai agents μικρες μεσαιες μεγαλες επιχειρησεις δημοσιο, sgk digital, sgk, κρατησεις ραντεβου ai agents, αυτονομοι ai agents, voice ai ελλαδα, ψηφιακοι υπαλληλοι, live video ai agents, αυτοματισμοι erp softone entersoft, web development ελλαδα, custom εφαρμογες",
     alternates: { canonical: "https://www.sgk.gr/" },
     openGraph: {
         title: "AI Agents Ελλάδα | SGK Digital — Agentic AI & Αυτόνομοι Πράκτορες Επιχειρήσεων",
@@ -107,6 +107,44 @@ const liveVideoAgentSchema = {
     "url": "https://www.sgk.gr/order-ai-agent"
 };
 
+const ftthSoftwareSchema = {
+    "@context": "https://schema.org",
+    "@type": ["SoftwareApplication", "Service"],
+    "@id": "https://www.sgk.gr/#ftth-fiber-optics-software",
+    "name": "Εφαρμογές Οπτικών Ινών (FTTH) — Αυτοψίες Πολυκατοικιών σε 5 Λεπτά & Διαχείριση Τεχνικών Συνεργείων",
+    "applicationCategory": "BusinessApplication, TelecomFieldOperationsApplication",
+    "operatingSystem": "Web, iOS, Android",
+    "serviceType": "FTTH Fiber Optics Field Inspection & Telecom Contractor Management Software",
+    "description": "Η SGK Digital (Σπύρος Τσάβος) αναπτύσσει εξειδικευμένες mobile & web εφαρμογές πεδίου για τεχνικές εταιρείες και εργολάβους οπτικών ινών (FTTH) στην Ελλάδα (συνεργάτες Cosmote, Vodafone, Nova, ΔΕΗ FiberGrid). Περιλαμβάνει 100% paperless ολοκλήρωση αυτοψίας πολυκατοικίας σε 5 λεπτά από το κινητό, αυτόματο υπολογισμό Floor Boxes, BEP & BMO, αυτόματη παραγωγή τεχνικού σκαριφήματος όδευσης CAD, ψηφιακή υπογραφή διαχειριστή επί τόπου, AI Computer Vision ποιοτικό έλεγχο και άμεση αποστολή πλήρους φακέλου (PDF + ZIP) στον εργολάβο χωρίς back-office.",
+    "creator": { "@id": "https://www.sgk.gr/#spyros-tsavos" },
+    "provider": { "@id": "https://www.sgk.gr/#organization" },
+    "areaServed": { "@type": "Country", "name": "Greece" },
+    "url": "https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta",
+    "sameAs": [
+        "https://www.sgk.gr/case-study/km-fiber",
+        "https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies"
+    ]
+};
+
+const ikeWebsiteServiceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://www.sgk.gr/#ike-gemi-website-service",
+    "name": "Κατασκευή Υποχρεωτικής Ιστοσελίδας Ι.Κ.Ε. για το Γ.Ε.ΜΗ. σε 24 Ώρες (80€)",
+    "serviceType": "Statutory I.K.E. Corporate Website Development & GEMI Compliance",
+    "description": "Πλήρης κατασκευή της υποχρεωτικής εταιρικής ιστοσελίδας Ι.Κ.Ε. σύμφωνα με το Άρθρο 47 §2 του Ν.4072/2012 και την ΚΥΑ 46982/2025 για το Γ.Ε.ΜΗ. Παραδίδεται εντός 24 ωρών με τελικό κόστος 80€ (συμπεριλαμβανομένου ΦΠΑ 24%) και περιλαμβάνει αυτόματη άντληση στοιχείων από το API του ΓΕΜΗ, κατοχύρωση .gr domain, φιλοξενία (hosting) 1 έτους, SSL, εταιρικό email και όλα τα υποχρεωτικά στοιχεία δημοσιότητας.",
+    "provider": { "@id": "https://www.sgk.gr/#organization" },
+    "areaServed": { "@type": "Country", "name": "Greece" },
+    "offers": {
+        "@type": "Offer",
+        "price": "80.00",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.sgk.gr/ike-offer"
+    },
+    "url": "https://www.sgk.gr/ike-offer"
+};
+
 export default function Home() {
     return (
         <>
@@ -119,6 +157,16 @@ export default function Home() {
                 id="live-video-agent-schema"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(liveVideoAgentSchema) }}
+            />
+            <Script
+                id="ftth-software-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(ftthSoftwareSchema) }}
+            />
+            <Script
+                id="ike-website-service-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(ikeWebsiteServiceSchema) }}
             />
             <IndexClient />
         </>
