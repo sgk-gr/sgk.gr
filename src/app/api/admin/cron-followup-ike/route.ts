@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceSupabase, getSupabaseServiceRoleKey, SUPABASE_URL } from "@/lib/supabase";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted } from "@/lib/blacklist";
+import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -177,25 +178,20 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
     });
 
     try {
-      const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": supabaseServiceKey,
-          "Authorization": `Bearer ${supabaseServiceKey}`,
-        },
-        body: JSON.stringify({
-          email: emailClean,
-          unsubscribe_token: unsubscribeToken,
-          customSubject: IKE_FOLLOWUP_SUBJECT,
-          customHtml: finalHtml,
+      const dispatchResult = await dispatchEmailWithFallback(
+        {
+          to: emailClean,
+          subject: IKE_FOLLOWUP_SUBJECT,
+          html: finalHtml,
+          unsubscribeToken: unsubscribeToken,
           step: 2,
-        }),
-      });
+        },
+        supabaseUrl,
+        supabaseServiceKey
+      );
 
-      if (!edgeResponse.ok) {
-        const errTxt = await edgeResponse.text();
-        throw new Error(errTxt || `HTTP ${edgeResponse.status}`);
+      if (!dispatchResult.success) {
+        throw new Error(dispatchResult.error || "Failed to dispatch email");
       }
 
       const now = new Date().toISOString();
@@ -312,20 +308,16 @@ async function sendAdminReport({
     buttonLink: "https://www.sgk.gr/admin",
   });
 
-  await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": supabaseServiceKey,
-      "Authorization": `Bearer ${supabaseServiceKey}`,
-    },
-    body: JSON.stringify({
-      email: "info@sgk.gr",
-      customSubject: `📊 Αναφορά Follow-Up Ι.Κ.Ε.: Εστάλησαν ${sentCount} emails`,
-      customHtml: reportEmailHtml,
+  await dispatchEmailWithFallback(
+    {
+      to: "info@sgk.gr",
+      subject: `📊 Αναφορά Follow-Up Ι.Κ.Ε.: Εστάλησαν ${sentCount} emails`,
+      html: reportEmailHtml,
       step: 2,
-    }),
-  });
+    },
+    supabaseUrl,
+    supabaseServiceKey
+  );
 }
 
 export async function GET(req: Request) {

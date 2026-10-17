@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServiceSupabase, getSupabaseServiceRoleKey, SUPABASE_URL } from "@/lib/supabase";
 import { isEmailBlacklisted } from "@/lib/blacklist";
+import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
 
 export async function POST(req: Request) {
   try {
@@ -54,38 +55,25 @@ export async function POST(req: Request) {
       }, { status: 403 });
     }
 
-    let edgeFnSuccess = false;
-    let edgeFnError = "";
+    const dispatchResult = await dispatchEmailWithFallback(
+      {
+        to: cleanEmail,
+        subject: customSubject,
+        html: customHtml,
+        unsubscribeToken: unsubscribe_token,
+        firstEmailSubject,
+        firstEmailBody,
+        step,
+      },
+      supabaseUrl,
+      supabaseServiceKey
+    );
 
-    try {
-      const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": supabaseServiceKey,
-          "Authorization": `Bearer ${supabaseServiceKey}`,
-        },
-        body: JSON.stringify({
-          email: cleanEmail,
-          unsubscribe_token,
-          customSubject,
-          customHtml,
-          firstEmailSubject,
-          firstEmailBody,
-          step,
-        }),
-      });
-
-      if (edgeResponse.ok) {
-        edgeFnSuccess = true;
-      } else {
-        const errorText = await edgeResponse.text();
-        console.warn("send-nurture-email notice:", edgeResponse.status, errorText);
-        edgeFnError = errorText;
-      }
-    } catch (e: any) {
-      console.error("Fetch to send-nurture-email failed:", e);
-      edgeFnError = e.message;
+    if (!dispatchResult.success) {
+      return NextResponse.json({
+        success: false,
+        error: dispatchResult.error || "Failed to dispatch email via Resend and Brevo",
+      }, { status: 500 });
     }
 
     const now = new Date().toISOString();
@@ -105,16 +93,10 @@ export async function POST(req: Request) {
       await supabase.from("sgk_mails").update(updatePayload).eq("email", cleanEmail);
     }
 
-    if (!edgeFnSuccess && edgeFnError) {
-      return NextResponse.json({
-        success: false,
-        error: edgeFnError || "Failed to dispatch email",
-      }, { status: 500 });
-    }
-
     return NextResponse.json({
       success: true,
       email: cleanEmail,
+      provider: dispatchResult.provider,
       sentAt: now,
     });
   } catch (err: any) {
