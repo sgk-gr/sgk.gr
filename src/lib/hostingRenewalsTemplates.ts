@@ -29,60 +29,69 @@ export const MANDATORY_RED_WARNING_HTML = `
 `;
 
 /**
+ * Cleans the display price to avoid clutter like '(συμπ. ΦΠΑ)' and verbose decimals.
+ */
+export function cleanDisplayPrice(rawPrice?: string): string {
+  if (!rawPrice) return "80€";
+  const cleaned = rawPrice
+    .replace(/\s*\((?:συμπ\.?|συμπεριλαμβανομένου)\s*φπα\)/gi, "")
+    .replace(/\s*(?:συμπ\.?|συμπεριλαμβανομένου)\s*φπα/gi, "")
+    .replace(/,00\b/g, "")
+    .replace(/\s*€/g, "€")
+    .trim();
+  return cleaned || "80€";
+}
+
+/**
  * Bank Details Card for Payment (Manual processing: up to 3 business days)
  */
 export const BANK_DETAILS_HTML = `
-<div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-left: 5px solid #64748b; border-radius: 10px; padding: 16px 18px; margin: 18px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #1e293b;">
+<div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #64748b; border-radius: 8px; padding: 12px 14px; margin: 14px 0;">
+  <p style="margin: 0 0 4px 0; font-size: 13.5px; font-weight: 800; color: #1e293b;">
     🏦 Στοιχεία Τραπεζικής Κατάθεσης:
   </p>
-  <div style="font-size: 13px; color: #1e293b; line-height: 1.6; margin-bottom: 10px;">
-    <strong>Τράπεζα:</strong> Eurobank<br/>
-    <strong>IBAN:</strong> <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; font-weight: 700;">GR4602601970000830201330337</code><br/>
-    <strong>Δικαιούχος:</strong> Σπυρίδων Τσάβος (SGK Digital)<br/>
-    <strong>Αιτιολογία:</strong> Ανανέωση Hosting [Επωνυμία Εταιρείας σας ή Domain]
+  <div style="font-size: 12.5px; color: #1e293b; line-height: 1.5; margin-bottom: 8px;">
+    <strong>Τράπεζα:</strong> Eurobank &bull; <strong>IBAN:</strong> <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 700;">GR4602601970000830201330337</code><br/>
+    <strong>Δικαιούχος:</strong> Σπυρίδων Τσάβος (SGK Digital) &bull; <strong>Αιτιολογία:</strong> Hosting [Domain ή Επωνυμία]
   </div>
-  <div style="background-color: #fff7ed; border: 1px solid #fed7aa; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #9a3412; line-height: 1.45;">
-    ⏳ <strong>Χρόνος Επεξεργασίας:</strong> Η τραπεζική κατάθεση απαιτεί <strong>έως και 3 εργάσιμες ημέρες</strong> για την εκκαθάριση και τη χειροκίνητη ανανέωση του ιστότοπου. Απαιτείται η αποστολή του αποδεικτικού κατάθεσης στο <a href="mailto:info@sgk.gr" style="color: #c2410c; font-weight: 700;">info@sgk.gr</a>.
+  <div style="background-color: #fff7ed; border: 1px solid #fed7aa; border-radius: 6px; padding: 6px 10px; font-size: 11.5px; color: #9a3412; line-height: 1.4;">
+    ⏳ <strong>Χρόνος Επεξεργασίας:</strong> Η τραπεζική κατάθεση απαιτεί <strong>έως και 3 εργάσιμες ημέρες</strong> για την εκκαθάριση. Αποστολή αποδεικτικού στο <a href="mailto:info@sgk.gr" style="color: #c2410c; font-weight: 700;">info@sgk.gr</a>.
   </div>
 </div>
 `;
 
 /**
- * Stripe Online Payment Card (Instant real-time unblocking)
+ * Stripe Online Payment Card (Instant real-time unblocking - Compact & Sleek)
  */
 export function getStripePaymentCardHtml(client: HostingClientData): string {
-  const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
+  const price = cleanDisplayPrice(client.renewalPrice);
   const checkoutUrl = client.id 
     ? `https://www.sgk.gr/api/hosting/checkout?client=${encodeURIComponent(client.id)}`
     : `https://www.sgk.gr/api/hosting/checkout?domain=${encodeURIComponent(client.domainName || "")}`;
 
   return `
-<!-- STRIPE ONLINE PAYMENT CARD -->
-<div style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 2px solid #3b5bdb; border-radius: 12px; padding: 22px 20px; margin: 22px 0; text-align: center;">
-  <div style="display: inline-block; background-color: #dcfce7; border: 1px solid #86efac; color: #166534; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
-    ⚡ ΑΜΕΣΗ ΕΝΕΡΓΟΠΟΙΗΣΗ &bull; ΣΕ ΠΡΑΓΜΑΤΙΚΟ ΧΡΟΝΟ
-  </div>
-  <p style="margin: 0 0 6px 0; font-size: 16px; font-weight: 800; color: #1e3a8a;">
-    💳 Άμεση Εξόφληση Online με Κάρτα / Apple Pay / Google Pay
+<!-- STRIPE ONLINE PAYMENT CARD (COMPACT) -->
+<div style="background: #f8fafc; border: 1.5px solid #3b5bdb; border-radius: 10px; padding: 14px 16px; margin: 16px 0; text-align: center;">
+  <p style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 800; color: #1e3a8a;">
+    💳 Άμεση Πληρωμή Online με Κάρτα
   </p>
-  <p style="margin: 0 0 16px 0; font-size: 13.5px; color: #334155; line-height: 1.5; max-width: 500px; margin-left: auto; margin-right: auto;">
-    Με πληρωμή μέσω κάρτας, η ανανέωση και η ενημέρωση του συστήματος πραγματοποιούνται <strong>ΑΜΕΣΑ (σε 0 δευτερόλεπτα)</strong>, διασφαλίζοντας ότι η ιστοσελίδα σας παραμένει πλήρως ενεργή χωρίς καμία διακοπή.
+  <p style="margin: 0 0 10px 0; font-size: 12px; color: #475569; line-height: 1.4;">
+    ⚡ <strong>Σε πραγματικό χρόνο (0 δευτερόλεπτα)</strong> &bull; Η ιστοσελίδα παραμένει άμεσα ενεργή.
   </p>
-  <div style="margin: 14px 0;">
+  <div>
     <a href="${checkoutUrl}" 
-       style="display: inline-block; background-color: #3b5bdb; background: linear-gradient(135deg, #3b5bdb 0%, #2563eb 100%); color: #ffffff; font-size: 15px; font-weight: 800; text-decoration: none; padding: 14px 34px; border-radius: 10px; box-shadow: 0 4px 14px rgba(59, 91, 219, 0.35); letter-spacing: 0.3px;">
-      🔒 Άμεση Πληρωμή Online (${price}) &rarr;
+       style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 13.5px; font-weight: 700; text-decoration: none; padding: 10px 24px; border-radius: 8px;">
+      🔒 Πληρωμή ${price} Online &rarr;
     </a>
   </div>
-  <p style="margin: 10px 0 0 0; font-size: 12px; color: #64748b; line-height: 1.4;">
-    🛡️ Ασφαλής κρυπτογραφημένη συναλλαγή μέσω <strong>Stripe</strong> &bull; Άμεση αυτόματη έκδοση τιμολογίου
+  <p style="margin: 7px 0 0 0; font-size: 11px; color: #64748b; line-height: 1.3;">
+    Apple Pay &bull; Google Pay &bull; Stripe &bull; Αυτόματη έκδοση τιμολογίου
   </p>
 </div>
 
-<div style="text-align: center; margin: 18px 0 10px 0;">
-  <span style="display: inline-block; background-color: #f1f5f9; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #64748b;">
-    — ή Εναλλακτικά μέσω Τραπεζικής Κατάθεσης —
+<div style="text-align: center; margin: 12px 0 8px 0;">
+  <span style="display: inline-block; background-color: #f1f5f9; padding: 3px 12px; border-radius: 16px; font-size: 11px; font-weight: 600; color: #64748b;">
+    — ή μέσω Τραπεζικής Κατάθεσης —
   </span>
 </div>
 `;
@@ -94,7 +103,7 @@ export function getStripePaymentCardHtml(client: HostingClientData): string {
 export function getHostingRenewalEmail(client: HostingClientData, stage: HostingReminderStage): { subject: string; html: string; bodyHtml: string } {
   const company = client.companyName || "Αξιότιμε συνεργάτη";
   const domain = client.domainName || "την ιστοσελίδα σας";
-  const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
+  const price = cleanDisplayPrice(client.renewalPrice);
   const renewalDateFormatted = client.renewalDate;
 
   let subject = "";
@@ -267,7 +276,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
     businessName: company,
     subject,
     bodyHtml,
-    buttonText: `💳 Άμεση Εξόφληση Online (${price})`,
+    buttonText: `🔒 Πληρωμή ${price} Online`,
     buttonLink: checkoutUrl,
     unsubscribeToken: client.id || "hosting-renewal",
   });
@@ -286,7 +295,7 @@ export function getAdminHeadsUpBriefingEmail(
 ): { subject: string; html: string } {
   const company = client.companyName || "Πελάτης";
   const domain = client.domainName || "domain";
-  const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
+  const price = cleanDisplayPrice(client.renewalPrice);
   const email = client.email;
 
   const stageLabels: Record<HostingReminderStage, string> = {
