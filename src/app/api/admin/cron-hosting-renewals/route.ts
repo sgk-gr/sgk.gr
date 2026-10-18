@@ -48,18 +48,22 @@ export function setLastHostingCronStatus(status: {
  */
 export function calculateRenewalDate(createdAtStr: string, customExpiresAt?: string): { renewalDate: string; daysRemaining: number } {
   const now = new Date();
-  
-  if (customExpiresAt) {
+  const created = new Date(createdAtStr);
+  const createdDateOnly = createdAtStr.split("T")[0];
+
+  // If a valid custom expiry date is set that is distinct from the registration date
+  if (customExpiresAt && customExpiresAt !== createdDateOnly) {
     const exp = new Date(customExpiresAt);
-    const diffMs = exp.getTime() - now.getTime();
-    const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-    return {
-      renewalDate: exp.toISOString().split("T")[0],
-      daysRemaining: days
-    };
+    if (exp.getTime() > created.getTime()) {
+      const diffMs = exp.getTime() - now.getTime();
+      const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      return {
+        renewalDate: exp.toISOString().split("T")[0],
+        daysRemaining: days
+      };
+    }
   }
 
-  const created = new Date(createdAtStr);
   const nextRenewal = new Date(created);
   
   // Advance by 1 year until nextRenewal is after or around now
