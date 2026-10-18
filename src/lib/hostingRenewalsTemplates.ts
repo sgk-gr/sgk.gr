@@ -59,10 +59,10 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
 
   switch (stage) {
     case "20_days":
-      subject = `Ειδοποίηση Ανανέωσης Hosting & Domain (.gr): 20 ημέρες μέχρι τη λήξη — ${company}`;
+      subject = `Ειδοποίηση Ανανέωσης Hosting & Domain: 20 ημέρες μέχρι τη λήξη — ${company}`;
       bodyHtml = `
         <h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
-          Ετήσια Ανανέωση Φιλοξενίας (Hosting) &amp; Domain Name (.gr)
+          Ετήσια Ανανέωση Φιλοξενίας (Hosting) &amp; Domain Name
         </h2>
         <p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
           Αγαπητέ συνεργάτη,
@@ -81,7 +81,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
           </p>
           <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #334155; line-height: 1.55;">
             <li><strong>High-Speed Cloud Hosting</strong> για 1 επιπλέον έτος (99.9% Uptime).</li>
-            <li><strong>Ανανέωση Domain Name (.gr)</strong> στο Εθνικό Μητρώο.</li>
+            <li><strong>Ανανέωση Domain Name (${domain})</strong> στο αρμόδιο Μητρώο.</li>
             <li><strong>Πιστοποιητικό Ασφαλείας SSL</strong> (HTTPS encryption).</li>
             <li><strong>Εταιρικά Emails</strong> (π.χ. info@${domain}).</li>
             <li><strong>Συνεχής Τεχνική Υποστήριξη &amp; Συμμόρφωση Γ.Ε.ΜΗ.</strong></li>
