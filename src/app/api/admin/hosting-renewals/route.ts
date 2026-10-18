@@ -12,6 +12,13 @@ import {
 } from "@/lib/hostingRenewalsTemplates";
 import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
+import {
+  addPaymentToHistory,
+  computeNewExpiry,
+  getPayments,
+  parseAmount,
+  sendClientPaymentConfirmation,
+} from "@/lib/hostingPayments";
 
 export const dynamic = "force-dynamic";
 
@@ -85,6 +92,7 @@ export async function GET(req: NextRequest) {
         notes: hosting.notes || "",
         lastStageSent: hosting.lastStageSent || null,
         lastStageSentAt: hosting.lastStageSentAt || null,
+        payments: [...getPayments(hosting)].sort((a, b) => b.paidAt.localeCompare(a.paidAt)),
       };
     });
 
@@ -222,40 +230,115 @@ export async function POST(req: NextRequest) {
 
     const hosting = metadata.hosting || {};
 
-    // ACTION: Toggle Paid Status
+    // ACTION: Toggle Paid Status (manual payment: cash / bank transfer / card taken by hand)
     if (action === "toggle_paid") {
       const newPaidState = body.paid !== undefined ? Boolean(body.paid) : !hosting.paid;
-      hosting.paid = newPaidState;
-      if (newPaidState) {
-        hosting.paidAt = new Date().toISOString();
-        // If paid, advance renewal to next year
-        const currentExp = hosting.customExpiresAt ? new Date(hosting.customExpiresAt) : new Date(client.created_at);
-        currentExp.setFullYear(currentExp.getFullYear() + 1);
-        hosting.customExpiresAt = currentExp.toISOString().split("T")[0];
-        hosting.lastStageSent = null; // reset stage for next cycle
-      }
-      metadata.hosting = hosting;
+      const domainForEmail =
+        hosting.domainName || ((client.company || "").toLowerCase().replace(/[^a-z0-9]/g, "") + ".gr");
+      let emailSent = false;
+      let emailError: string | undefined;
 
-      await supabase
-        .from("sgk_mails")
-        .update({ first_email_body: JSON.stringify(metadata) })
-        .eq("id", clientId);
+      if (newPaidState && hosting.paid) {
+        // Already marked as paid - do not add another year
+        return NextResponse.json({ success: true, isPaid: true, customExpiresAt: hosting.customExpiresAt, alreadyPaid: true });
+      }
+
+      if (newPaidState) {
+        const prevExpiry = hosting.customExpiresAt || null;
+        const newExpiry = computeNewExpiry(prevExpiry, client.created_at);
+        const amount = parseAmount(body.amount || hosting.renewalPrice);
+
+        hosting.paid = true;
+        hosting.paidAt = new Date().toISOString();
+        hosting.paidVia = "manual";
+        hosting.customExpiresAt = newExpiry;
+        hosting.lastStageSent = null; // reset stage for next cycle
+        addPaymentToHistory(hosting, { amount, method: "manual", prevExpiry, newExpiry });
+        metadata.hosting = hosting;
+
+        const { error: saveErr } = await supabase
+          .from("sgk_mails")
+          .update({ first_email_body: JSON.stringify(metadata) })
+          .eq("id", clientId);
+        if (saveErr) {
+          return NextResponse.json({ success: false, error: saveErr.message }, { status: 500 });
+        }
+
+        // Confirmation email to the customer (same as card payments)
+        if (body.sendEmail !== false && client.email) {
+          const res = await sendClientPaymentConfirmation({
+            clientId,
+            email: client.email,
+            company: client.company || "Πελάτης",
+            domain: domainForEmail,
+            amount,
+            newExpiry,
+          });
+          emailSent = Boolean(res.success);
+          emailError = res.error;
+        }
+
+        // Notify admin
+        await dispatchEmailWithFallback({
+          to: "info@sgk.gr",
+          subject: `✋ [Χειροκίνητη Πληρωμή] ${amount}€ από ${client.company} (${domainForEmail})`,
+          html: buildProfessionalEmailHtml({
+            businessName: "SGK System",
+            subject: `Χειροκίνητη Πληρωμή Hosting: ${client.company}`,
+            bodyHtml: `
+              <h2 style="color: #10b981; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">✅ Καταχωρήθηκε χειροκίνητη πληρωμή</h2>
+              <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #1e293b; line-height: 1.6;">
+                <li><strong>Πελάτης:</strong> ${client.company}</li>
+                <li><strong>Domain:</strong> ${domainForEmail}</li>
+                <li><strong>Ποσό:</strong> ${amount} €</li>
+                <li><strong>Νέα Λήξη:</strong> ${newExpiry}</li>
+                <li><strong>Email επιβεβαίωσης στον πελάτη:</strong> ${emailSent ? "Εστάλη" : "Δεν εστάλη"}</li>
+              </ul>
+            `,
+            buttonText: "Άνοιγμα Admin Portal",
+            buttonLink: "https://www.sgk.gr/admin?tab=hosting",
+            unsubscribeToken: "admin-alert",
+          }),
+          fromName: "SGK System (Payments)",
+          fromEmail: "info@sgk.gr",
+        });
+      } else {
+        // Undo: void the last manual payment and restore the previous expiry
+        const history = getPayments(hosting);
+        for (let i = history.length - 1; i >= 0; i--) {
+          if (!history[i].voided && history[i].method === "manual") {
+            history[i].voided = true;
+            if (history[i].prevExpiry) hosting.customExpiresAt = history[i].prevExpiry;
+            break;
+          }
+        }
+        hosting.payments = history;
+        hosting.paid = false;
+        metadata.hosting = hosting;
+
+        const { error: saveErr } = await supabase
+          .from("sgk_mails")
+          .update({ first_email_body: JSON.stringify(metadata) })
+          .eq("id", clientId);
+        if (saveErr) {
+          return NextResponse.json({ success: false, error: saveErr.message }, { status: 500 });
+        }
+      }
 
       return NextResponse.json({
         success: true,
         isPaid: newPaidState,
         customExpiresAt: hosting.customExpiresAt,
+        emailSent,
+        emailError,
       });
     }
 
     // ACTION: Simulate Payment (Demo Test - Updates Supabase DB and notifies)
     if (action === "simulate_payment") {
-      const currentExp = hosting.customExpiresAt ? new Date(hosting.customExpiresAt) : new Date(client.created_at);
-      if (currentExp.getTime() < Date.now()) {
-        currentExp.setTime(Date.now());
-      }
-      currentExp.setFullYear(currentExp.getFullYear() + 1);
-      const newExpFormatted = currentExp.toISOString().split("T")[0];
+      const prevExpiry = hosting.customExpiresAt || null;
+      const newExpFormatted = computeNewExpiry(prevExpiry, client.created_at);
+      const demoAmount = parseAmount(hosting.renewalPrice);
 
       hosting.paid = true;
       hosting.paidAt = new Date().toISOString();
@@ -263,6 +346,13 @@ export async function POST(req: NextRequest) {
       hosting.stripeSessionId = "demo_session_" + Date.now();
       hosting.customExpiresAt = newExpFormatted;
       hosting.lastStageSent = null;
+      addPaymentToHistory(hosting, {
+        amount: demoAmount,
+        method: "demo",
+        sessionId: hosting.stripeSessionId,
+        prevExpiry,
+        newExpiry: newExpFormatted,
+      });
 
       metadata.hosting = hosting;
 
@@ -323,6 +413,7 @@ export async function POST(req: NextRequest) {
       delete hosting.stripeSessionId;
       hosting.customExpiresAt = expDate;
       hosting.lastStageSent = "3_days";
+      hosting.payments = getPayments(hosting).filter((p) => p.method !== "demo");
 
       metadata.hosting = hosting;
 

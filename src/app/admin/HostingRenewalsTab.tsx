@@ -36,6 +36,18 @@ interface ClientHostingItem {
   notes: string;
   lastStageSent: string | null;
   lastStageSentAt: string | null;
+  payments: HostingPayment[];
+}
+
+interface HostingPayment {
+  id: string;
+  paidAt: string;
+  amount: string;
+  method: "stripe_live" | "stripe_sandbox" | "demo" | "manual";
+  sessionId?: string;
+  prevExpiry: string | null;
+  newExpiry: string;
+  voided?: boolean;
 }
 
 interface HostingStats {
@@ -88,6 +100,7 @@ export function HostingRenewalsTab() {
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
   const [adminMode, setAdminMode] = useState<"demo" | "live">("live");
   const [reminderMenu, setReminderMenu] = useState<{ client: ClientHostingItem; top: number; right: number } | null>(null);
+  const [historyClient, setHistoryClient] = useState<ClientHostingItem | null>(null);
 
   // Fetch data
   const fetchData = async () => {
@@ -181,6 +194,12 @@ export function HostingRenewalsTab() {
 
   // Toggle Paid Status
   const handleTogglePaid = async (client: ClientHostingItem) => {
+    const markingPaid = !client.isPaid;
+    const question = markingPaid
+      ? `Δήλωση πληρωμής για "${client.companyName}":\n\n• Η λήξη θα μετακινηθεί +1 έτος\n• Θα σταλεί email επιβεβαίωσης στον πελάτη (${client.email})\n• Θα καταγραφεί στο ιστορικό πληρωμών\n\nΣυνέχεια;`
+      : `Ακύρωση της τελευταίας χειροκίνητης πληρωμής για "${client.companyName}";\n\nΘα επανέλθει η προηγούμενη ημερομηνία λήξης. Δεν θα σταλεί email.`;
+    if (!confirm(question)) return;
+
     try {
       setActionLoadingId(client.id);
       const res = await fetch("/api/admin/hosting-renewals", {
@@ -189,16 +208,21 @@ export function HostingRenewalsTab() {
         body: JSON.stringify({
           action: "toggle_paid",
           clientId: client.id,
-          paid: !client.isPaid,
+          paid: markingPaid,
         }),
       });
       const data = await res.json();
       if (data.success) {
-        toast.success(
-          data.isPaid 
-            ? `Ο πελάτης ${client.companyName} σημειώθηκε ως ΠΛΗΡΩΜΕΝΟΣ! Οι υπενθυμίσεις σταμάτησαν και η ανανέωση μεταφέρθηκε στο επόμενο έτος.` 
-            : `Ο πελάτης ${client.companyName} σημειώθηκε ως ΣΕ ΕΚΚΡΕΜΟΤΗΤΑ.`
-        );
+        if (data.isPaid) {
+          toast.success(
+            `Η πληρωμή του ${client.companyName} καταγράφηκε. Νέα λήξη: ${data.customExpiresAt}. ` +
+              (data.emailSent
+                ? `Στάλθηκε email επιβεβαίωσης στο ${client.email}.`
+                : `⚠️ Το email επιβεβαίωσης ΔΕΝ στάλθηκε${data.emailError ? ` (${data.emailError})` : ""}.`)
+          );
+        } else {
+          toast.success(`Η πληρωμή του ${client.companyName} ακυρώθηκε και επανήλθε η προηγούμενη λήξη.`);
+        }
         fetchData();
       } else {
         toast.error("Σφάλμα ενημέρωσης: " + data.error);
@@ -906,6 +930,20 @@ export function HostingRenewalsTab() {
                             <Mail className="w-3.5 h-3.5" />
                           </button>
 
+                          {/* Payment history */}
+                          <button
+                            onClick={() => setHistoryClient(client)}
+                            title="Ιστορικό Πληρωμών"
+                            className="relative p-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors cursor-pointer"
+                          >
+                            <Wallet className="w-3.5 h-3.5" />
+                            {(client.payments?.length || 0) > 0 && (
+                              <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-emerald-600 text-white text-[9px] font-bold flex items-center justify-center">
+                                {client.payments.length}
+                              </span>
+                            )}
+                          </button>
+
                           {/* Copy Stripe Payment Link */}
                           <button
                             onClick={() => handleCopyPaymentLink(client)}
@@ -933,6 +971,116 @@ export function HostingRenewalsTab() {
           </div>
         )}
       </div>
+
+      {/* --- PAYMENT HISTORY MODAL --- */}
+      {mounted && typeof document !== "undefined" && historyClient && createPortal(
+        <div
+          className="fixed inset-0 z-[99999] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+          onClick={() => setHistoryClient(null)}
+        >
+          <div
+            className="bg-white rounded-2xl max-w-3xl w-full p-6 shadow-2xl border border-gray-200 my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between pb-3 border-b border-gray-100">
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Ιστορικό Πληρωμών</h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {historyClient.companyName} · {historyClient.domainName}
+                </p>
+              </div>
+              <button
+                onClick={() => setHistoryClient(null)}
+                className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {(() => {
+              const payments = historyClient.payments || [];
+              const realTotal = payments
+                .filter((p) => !p.voided && (p.method === "stripe_live" || p.method === "manual"))
+                .reduce((acc, p) => acc + parseFloat(p.amount || "0"), 0);
+
+              if (payments.length === 0) {
+                return (
+                  <div className="py-10 text-center text-sm text-slate-500">
+                    Δεν έχει καταγραφεί ακόμα καμία πληρωμή για αυτόν τον πελάτη.
+                  </div>
+                );
+              }
+
+              const methodLabel: Record<string, { text: string; cls: string }> = {
+                stripe_live: { text: "💳 Κάρτα (Stripe)", cls: "bg-emerald-100 text-emerald-800" },
+                stripe_sandbox: { text: "🧪 Stripe Sandbox", cls: "bg-amber-100 text-amber-800" },
+                demo: { text: "🧪 Demo", cls: "bg-amber-100 text-amber-800" },
+                manual: { text: "✋ Χειροκίνητη", cls: "bg-blue-100 text-blue-800" },
+              };
+
+              return (
+                <>
+                  <div className="mt-4 flex items-center gap-3 text-xs">
+                    <span className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 font-bold">
+                      Σύνολο εισπράξεων: {realTotal.toFixed(2)} €
+                    </span>
+                    <span className="text-slate-500">{payments.length} εγγραφές</span>
+                  </div>
+                  <div className="mt-3 overflow-x-auto border border-gray-200 rounded-xl">
+                    <table className="w-full text-left text-xs">
+                      <thead>
+                        <tr className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                          <th className="py-2.5 px-3">Ημερομηνία</th>
+                          <th className="py-2.5 px-3">Ποσό</th>
+                          <th className="py-2.5 px-3">Τρόπος</th>
+                          <th className="py-2.5 px-3">Λήξη (πριν → μετά)</th>
+                          <th className="py-2.5 px-3">Αναφορά</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {payments.map((p) => {
+                          const m = methodLabel[p.method] || { text: p.method, cls: "bg-slate-100 text-slate-700" };
+                          return (
+                            <tr key={p.id} className={p.voided ? "opacity-50" : ""}>
+                              <td className="py-2.5 px-3 whitespace-nowrap font-medium text-slate-800">
+                                {new Date(p.paidAt).toLocaleString("el-GR", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </td>
+                              <td className={`py-2.5 px-3 whitespace-nowrap font-bold text-slate-900 ${p.voided ? "line-through" : ""}`}>
+                                {parseFloat(p.amount).toFixed(2)} €
+                              </td>
+                              <td className="py-2.5 px-3 whitespace-nowrap">
+                                <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${m.cls}`}>{m.text}</span>
+                                {p.voided && (
+                                  <span className="ml-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-700">
+                                    Ακυρώθηκε
+                                  </span>
+                                )}
+                              </td>
+                              <td className="py-2.5 px-3 whitespace-nowrap text-slate-600">
+                                {p.prevExpiry || "—"} → <strong className="text-slate-900">{p.newExpiry}</strong>
+                              </td>
+                              <td className="py-2.5 px-3 text-[11px] text-slate-500 max-w-[180px] truncate" title={p.sessionId || ""}>
+                                {p.sessionId || "—"}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        </div>,
+        document.body
+      )}
 
       {/* --- REMINDER MENU (portal, never clipped by table) --- */}
       {mounted && typeof document !== "undefined" && reminderMenu && createPortal(

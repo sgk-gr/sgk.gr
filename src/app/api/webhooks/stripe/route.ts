@@ -3,6 +3,12 @@ import { getStripe } from "@/lib/stripe";
 import { getServiceSupabase } from "@/lib/supabase";
 import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
+import {
+  addPaymentToHistory,
+  computeNewExpiry,
+  getPayments,
+  sendClientPaymentConfirmation,
+} from "@/lib/hostingPayments";
 
 export const dynamic = "force-dynamic";
 
@@ -71,24 +77,32 @@ export async function POST(req: NextRequest) {
 
           const hosting = metadata.hosting || {};
 
-          // Advance renewal date by 1 year
-          const currentExp = hosting.customExpiresAt ? new Date(hosting.customExpiresAt) : new Date(client.created_at);
-          const newExp = new Date(currentExp);
-          // If current was in the past, renew 1 year from today; otherwise add 1 year to current
-          if (newExp.getTime() < Date.now()) {
-            newExp.setTime(Date.now());
+          // Idempotency: Stripe may deliver the same event more than once
+          if (getPayments(hosting).some((p) => p.sessionId === session.id)) {
+            console.log(`[Stripe Webhook] Session ${session.id} already processed, skipping.`);
+            return NextResponse.json({ received: true, duplicate: true });
           }
-          newExp.setFullYear(newExp.getFullYear() + 1);
-          const newExpFormatted = newExp.toISOString().split("T")[0];
+
+          // Advance renewal date by 1 year (from today if already expired)
+          const prevExpiry = hosting.customExpiresAt || null;
+          const newExpFormatted = computeNewExpiry(prevExpiry, client.created_at);
+          const paymentMethod = isSandbox ? "stripe_sandbox" : "stripe_live";
 
           // Update hosting metadata
           hosting.paid = true;
           hosting.paidAt = new Date().toISOString();
-          hosting.paidVia = isSandbox ? "stripe_sandbox" : "stripe_live";
+          hosting.paidVia = paymentMethod;
           hosting.stripeSessionId = session.id;
           hosting.stripePaymentIntent = session.payment_intent;
           hosting.customExpiresAt = newExpFormatted;
           hosting.lastStageSent = null; // reset reminders for next annual cycle
+          addPaymentToHistory(hosting, {
+            amount: amountPaid,
+            method: paymentMethod,
+            sessionId: session.id,
+            prevExpiry,
+            newExpiry: newExpFormatted,
+          });
 
           metadata.hosting = hosting;
 
@@ -148,43 +162,13 @@ export async function POST(req: NextRequest) {
 
             // 2. Send Receipt / Confirmation to Client
             if (client.email) {
-              const confirmSubj = `Επιβεβαίωση Πληρωμής & Ανανέωση Φιλοξενίας: ${domain} — SGK Digital`;
-              await dispatchEmailWithFallback({
-                to: client.email,
-                subject: confirmSubj,
-                html: buildProfessionalEmailHtml({
-                  businessName: company,
-                  subject: confirmSubj,
-                  bodyHtml: `
-                  <h2 style="color: #0f172a; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
-                    Σας ευχαριστούμε για την ανανέωση της συνδρομής σας!
-                  </h2>
-                  <p style="font-size: 15px; color: #334155; line-height: 1.6;">
-                    Αξιότιμε συνεργάτη,
-                  </p>
-                  <p style="font-size: 15px; color: #334155; line-height: 1.6;">
-                    Επιβεβαιώνουμε ότι η πληρωμή σας ποσού <strong>${amountPaid} €</strong> για την ετήσια ανανέωση της φιλοξενίας (hosting) και του domain <strong>${domain}</strong> ολοκληρώθηκε επιτυχώς.
-                  </p>
-                  <div style="background-color: #f8fafc; border-left: 5px solid #10b981; border-radius: 8px; padding: 14px 18px; margin: 18px 0;">
-                    <p style="margin: 0 0 6px 0; font-weight: 800; color: #0f172a; font-size: 14px;">
-                      📋 Στοιχεία Ανανεωμένου Πακέτου:
-                    </p>
-                    <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #334155; line-height: 1.6;">
-                      <li><strong>Ιστοσελίδα:</strong> https://${domain}</li>
-                      <li><strong>Νέα Ημερομηνία Λήξης:</strong> ${newExpFormatted}</li>
-                      <li><strong>Κατάσταση:</strong> Ενεργή &amp; Πλήρως Συμμορφωμένη με το Γ.Ε.ΜΗ.</li>
-                      <li><strong>Τεχνική Υποστήριξη &amp; SSL:</strong> Σε ισχύ για 1 επιπλέον έτος</li>
-                    </ul>
-                  </div>
-                  <p style="font-size: 13.5px; color: #475569; line-height: 1.6;">
-                    Το νόμιμο φορολογικό παραστατικό / τιμολόγιο θα εκδοθεί και θα σας αποσταλεί στο παρόν email. Για οποιαδήποτε απορία, παραμένουμε στη διάθεσή σας στο <a href="mailto:info@sgk.gr" style="color: #3b5bdb; font-weight: 700;">info@sgk.gr</a> και στο 211 114 0013.
-                  </p>
-                `,
-                  unsubscribeToken: clientId,
-                }),
-                fromName: "SGK Digital (Hosting)",
-                fromEmail: "info@sgk.gr",
-                replyTo: "info@sgk.gr",
+              await sendClientPaymentConfirmation({
+                clientId,
+                email: client.email,
+                company,
+                domain,
+                amount: amountPaid,
+                newExpiry: newExpFormatted,
               });
             }
           }
