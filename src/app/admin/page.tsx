@@ -14,6 +14,7 @@ import { supabase } from "@/lib/supabase";
 import { EmailsTab } from "./EmailsTab";
 import { ContractsTab } from "./ContractsTab";
 import { SpyrosTab } from "./SpyrosTab";
+import { HostingRenewalsTab } from "./HostingRenewalsTab";
 
 // --- Types ---
 interface Transaction {
@@ -82,7 +83,7 @@ export default function AdminVatDashboard() {
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "contracts" | "tax" | "emails" | "spyros">("ledger");
+  const [activePortalTab, setActivePortalTab] = useState<"ledger" | "aade" | "contracts" | "tax" | "emails" | "spyros" | "hosting">("ledger");
   
   // Year & Ledger State
   const [filterYear, setFilterYear] = useState<string>(() => String(new Date().getFullYear()));
@@ -1018,6 +1019,7 @@ export default function AdminVatDashboard() {
             {
               group: "Marketing & Πωλήσεις",
               items: [
+                { id: "hosting", label: "Ανανεώσεις Hosting", icon: RefreshCcw },
                 { id: "emails", label: "Email Leads", icon: Mail },
                 { id: "contracts", label: "Συμφωνητικά (ΓΕΜΗ)", icon: FileCheck },
               ],
@@ -1083,6 +1085,7 @@ export default function AdminVatDashboard() {
           <div className="min-w-0">
             <h1 className="text-xl font-bold text-gray-900 tracking-tight truncate">
               {{
+                hosting: "Ανανεώσεις Hosting & Domain (.gr)",
                 emails: "Email Leads",
                 contracts: "Συμφωνητικά (ΓΕΜΗ)",
                 ledger: "Φορολογικό Ledger & ΦΠΑ",
@@ -2632,6 +2635,22 @@ export default function AdminVatDashboard() {
           >
             <main className="max-w-[1500px] mx-auto px-8 mt-6">
               <SpyrosTab />
+            </main>
+          </motion.div>
+        )}
+
+        {/* --- TAB 7: HOSTING RENEWALS PORTAL --- */}
+        {activePortalTab === "hosting" && (
+          <motion.div
+            key="hosting-tab"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
+            className="relative z-10"
+          >
+            <main className="max-w-[1500px] mx-auto px-8 mt-6">
+              <HostingRenewalsTab />
             </main>
           </motion.div>
         )}
