@@ -29,24 +29,27 @@ export const MANDATORY_RED_WARNING_HTML = `
 `;
 
 /**
- * Bank Details Card for Payment
+ * Bank Details Card for Payment (Manual processing: up to 3 business days)
  */
 export const BANK_DETAILS_HTML = `
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin: 20px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #1e3a8a;">
-    💳 Στοιχεία Τραπεζικού Λογαριασμού για την Ανανέωση:
+<div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-left: 5px solid #64748b; border-radius: 10px; padding: 16px 18px; margin: 18px 0;">
+  <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #1e293b;">
+    🏦 Στοιχεία Τραπεζικής Κατάθεσης:
   </p>
-  <div style="font-size: 13.5px; color: #1e293b; line-height: 1.6;">
+  <div style="font-size: 13px; color: #1e293b; line-height: 1.6; margin-bottom: 10px;">
     <strong>Τράπεζα:</strong> Eurobank<br/>
-    <strong>IBAN:</strong> <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px;">GR4602601970000830201330337</code><br/>
+    <strong>IBAN:</strong> <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; font-weight: 700;">GR4602601970000830201330337</code><br/>
     <strong>Δικαιούχος:</strong> Σπυρίδων Τσάβος (SGK Digital)<br/>
     <strong>Αιτιολογία:</strong> Ανανέωση Hosting [Επωνυμία Εταιρείας σας ή Domain]
+  </div>
+  <div style="background-color: #fff7ed; border: 1px solid #fed7aa; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #9a3412; line-height: 1.45;">
+    ⏳ <strong>Χρόνος Επεξεργασίας:</strong> Η τραπεζική κατάθεση απαιτεί <strong>έως και 3 εργάσιμες ημέρες</strong> για την εκκαθάριση και τη χειροκίνητη ανανέωση του ιστότοπου. Απαιτείται η αποστολή του αποδεικτικού κατάθεσης στο <a href="mailto:info@sgk.gr" style="color: #c2410c; font-weight: 700;">info@sgk.gr</a>.
   </div>
 </div>
 `;
 
 /**
- * Stripe Online Payment Card
+ * Stripe Online Payment Card (Instant real-time unblocking)
  */
 export function getStripePaymentCardHtml(client: HostingClientData): string {
   const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
@@ -57,26 +60,29 @@ export function getStripePaymentCardHtml(client: HostingClientData): string {
   return `
 <!-- STRIPE ONLINE PAYMENT CARD -->
 <div style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 2px solid #3b5bdb; border-radius: 12px; padding: 22px 20px; margin: 22px 0; text-align: center;">
-  <p style="margin: 0 0 6px 0; font-size: 15px; font-weight: 800; color: #1e3a8a;">
+  <div style="display: inline-block; background-color: #dcfce7; border: 1px solid #86efac; color: #166534; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+    ⚡ ΑΜΕΣΗ ΕΝΕΡΓΟΠΟΙΗΣΗ &bull; ΣΕ ΠΡΑΓΜΑΤΙΚΟ ΧΡΟΝΟ
+  </div>
+  <p style="margin: 0 0 6px 0; font-size: 16px; font-weight: 800; color: #1e3a8a;">
     💳 Άμεση Εξόφληση Online με Κάρτα / Apple Pay / Google Pay
   </p>
-  <p style="margin: 0 0 16px 0; font-size: 13px; color: #475569; line-height: 1.5;">
-    Ολοκληρώστε την ανανέωση άμεσα online για αδιάλειπτη λειτουργία της ιστοσελίδας σας:
+  <p style="margin: 0 0 16px 0; font-size: 13.5px; color: #334155; line-height: 1.5; max-width: 500px; margin-left: auto; margin-right: auto;">
+    Με πληρωμή μέσω κάρτας, η ανανέωση και η ενημέρωση του συστήματος πραγματοποιούνται <strong>ΑΜΕΣΑ (σε 0 δευτερόλεπτα)</strong>, διασφαλίζοντας ότι η ιστοσελίδα σας παραμένει πλήρως ενεργή χωρίς καμία διακοπή.
   </p>
   <div style="margin: 14px 0;">
     <a href="${checkoutUrl}" 
        style="display: inline-block; background-color: #3b5bdb; background: linear-gradient(135deg, #3b5bdb 0%, #2563eb 100%); color: #ffffff; font-size: 15px; font-weight: 800; text-decoration: none; padding: 14px 34px; border-radius: 10px; box-shadow: 0 4px 14px rgba(59, 91, 219, 0.35); letter-spacing: 0.3px;">
-      🔒 Πληρωμή Online (${price}) &rarr;
+      🔒 Άμεση Πληρωμή Online (${price}) &rarr;
     </a>
   </div>
   <p style="margin: 10px 0 0 0; font-size: 12px; color: #64748b; line-height: 1.4;">
-    🛡️ Ασφαλής κρυπτογραφημένη συναλλαγή μέσω <strong>Stripe</strong> • Άμεση αυτόματη ενεργοποίηση
+    🛡️ Ασφαλής κρυπτογραφημένη συναλλαγή μέσω <strong>Stripe</strong> &bull; Άμεση αυτόματη έκδοση τιμολογίου
   </p>
 </div>
 
 <div style="text-align: center; margin: 18px 0 10px 0;">
   <span style="display: inline-block; background-color: #f1f5f9; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #64748b;">
-    ή εναλλακτικά μέσω Τραπεζικής Κατάθεσης
+    — ή Εναλλακτικά μέσω Τραπεζικής Κατάθεσης —
   </span>
 </div>
 `;

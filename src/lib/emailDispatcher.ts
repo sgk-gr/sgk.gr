@@ -85,15 +85,16 @@ export async function sendEmailViaBrevo(opts: {
  */
 export async function dispatchEmailWithFallback(
   opts: EmailDispatchOptions,
-  supabaseUrl: string,
-  supabaseServiceKey: string
+  supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+  supabaseServiceKey: string = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
 ): Promise<EmailDispatchResult> {
   const cleanEmail = opts.to.toLowerCase().trim();
 
-  // 1. Try Resend via Supabase Edge Function
+  // 1. Try Resend via Supabase Edge Function (if Supabase credentials are present)
   let edgeFnError = "";
-  try {
-    const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
+  if (supabaseUrl && supabaseServiceKey) {
+    try {
+      const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -121,6 +122,7 @@ export async function dispatchEmailWithFallback(
   } catch (e: any) {
     edgeFnError = e.message;
     console.warn(`[dispatchEmailWithFallback] Resend fetch exception for ${cleanEmail}: ${e.message}. Falling back to Brevo...`);
+  }
   }
 
   // 2. Fallback to Brevo

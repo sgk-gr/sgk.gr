@@ -98,7 +98,10 @@ export async function POST(req: NextRequest) {
             await dispatchEmailWithFallback({
               to: "info@sgk.gr",
               subject: `💰 [Stripe] Νέα Πληρωμή Hosting: ${amountPaid}€ από ${company} (${domain})`,
-              html: buildProfessionalEmailHtml(`
+              html: buildProfessionalEmailHtml({
+                businessName: "SGK System",
+                subject: `💰 [Stripe] Νέα Πληρωμή Hosting: ${amountPaid}€ από ${company} (${domain})`,
+                bodyHtml: `
                 <h2 style="color: #10b981; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
                   ✅ Επιτυχής Πληρωμή Hosting μέσω Stripe!
                 </h2>
@@ -119,7 +122,11 @@ export async function POST(req: NextRequest) {
                 <p style="font-size: 13px; color: #64748b; margin-top: 14px;">
                   Το σύστημα ανανέωσε αυτόματα τη συνδρομή του πελάτη στη βάση δεδομένων και ξεμπλόκαρε την ιστοσελίδα.
                 </p>
-              `),
+              `,
+                buttonText: "Άνοιγμα Admin Portal",
+                buttonLink: "https://www.sgk.gr/admin?tab=hosting",
+                unsubscribeToken: "admin-alert",
+              }),
               fromName: "SGK System (Payments)",
               fromEmail: "info@sgk.gr",
               replyTo: client.email || "info@sgk.gr",
@@ -127,10 +134,14 @@ export async function POST(req: NextRequest) {
 
             // 2. Send Receipt / Confirmation to Client
             if (client.email) {
+              const confirmSubj = `Επιβεβαίωση Πληρωμής & Ανανέωση Φιλοξενίας: ${domain} — SGK Digital`;
               await dispatchEmailWithFallback({
                 to: client.email,
-                subject: `Επιβεβαίωση Πληρωμής & Ανανέωση Φιλοξενίας: ${domain} — SGK Digital`,
-                html: buildProfessionalEmailHtml(`
+                subject: confirmSubj,
+                html: buildProfessionalEmailHtml({
+                  businessName: company,
+                  subject: confirmSubj,
+                  bodyHtml: `
                   <h2 style="color: #0f172a; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
                     Σας ευχαριστούμε για την ανανέωση της συνδρομής σας!
                   </h2>
@@ -154,7 +165,9 @@ export async function POST(req: NextRequest) {
                   <p style="font-size: 13.5px; color: #475569; line-height: 1.6;">
                     Το νόμιμο φορολογικό παραστατικό / τιμολόγιο θα εκδοθεί και θα σας αποσταλεί στο παρόν email. Για οποιαδήποτε απορία, παραμένουμε στη διάθεσή σας στο <a href="mailto:info@sgk.gr" style="color: #3b5bdb; font-weight: 700;">info@sgk.gr</a> και στο 211 114 0013.
                   </p>
-                `),
+                `,
+                  unsubscribeToken: clientId,
+                }),
                 fromName: "SGK Digital (Hosting)",
                 fromEmail: "info@sgk.gr",
                 replyTo: "info@sgk.gr",

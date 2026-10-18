@@ -306,6 +306,7 @@ async function sendAdminReport({
     bodyHtml,
     buttonText: "Μετάβαση στο Admin Leads",
     buttonLink: "https://www.sgk.gr/admin",
+    unsubscribeToken: "admin-report",
   });
 
   await dispatchEmailWithFallback(
