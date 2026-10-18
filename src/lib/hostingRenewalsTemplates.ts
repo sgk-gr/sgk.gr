@@ -9,7 +9,7 @@ export interface HostingClientData {
   domainName: string;
   registrationDate: string; // YYYY-MM-DD
   renewalDate: string;      // YYYY-MM-DD
-  renewalPrice?: string;    // e.g. "80€ + ΦΠΑ" or "80€"
+  renewalPrice?: string;    // e.g. "80€"
   daysRemaining: number;
 }
 
@@ -34,6 +34,8 @@ export const MANDATORY_RED_WARNING_HTML = `
 export function cleanDisplayPrice(rawPrice?: string): string {
   if (!rawPrice) return "80€";
   const cleaned = rawPrice
+    .replace(/\s*\+\s*φπα/gi, "")
+    .replace(/\s*\+\s*vat/gi, "")
     .replace(/\s*\((?:συμπ\.?|συμπεριλαμβανομένου)\s*φπα\)/gi, "")
     .replace(/\s*(?:συμπ\.?|συμπεριλαμβανομένου)\s*φπα/gi, "")
     .replace(/,00\b/g, "")

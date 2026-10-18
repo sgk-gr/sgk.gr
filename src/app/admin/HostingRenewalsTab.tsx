@@ -846,7 +846,7 @@ export function HostingRenewalsTab() {
                   type="text"
                   value={editPrice}
                   onChange={(e) => setEditPrice(e.target.value)}
-                  placeholder="80,00 € (+ ΦΠΑ)"
+                  placeholder="80,00 € (με ΦΠΑ)"
                   className="w-full px-3 py-2 border border-gray-200 rounded-xl outline-none font-medium text-slate-800"
                 />
               </div>

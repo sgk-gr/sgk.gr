@@ -17,13 +17,13 @@ export const BLOG_POSTS: BlogPost[] = [
     id: "ike-definitive-guide-nomos-4072-2012-gemi-prostima",
     slug: "ypoxreotiki-istoselida-ike-nomos-4072-2012-prostima-gemi",
     title: "Υποχρεωτική Ιστοσελίδα ΙΚΕ (Νόμος 4072/2012 & ΓΕΜΗ): Τα 10 Υποχρεωτικά Στοιχεία, τα Πρόστιμα 2026 & το Πλεονέκτημα του OpenData API",
-    excerpt: "Πλήρης νομικός και τεχνικός οδηγός για την υποχρεωτική ιστοσελίδα Ι.Κ.Ε. βάσει του Άρθρου 47 Ν.4072/2012, της ΚΥΑ 46982/2025 και της ΚΥΑ 104666/2025. Τα 10 υποχρεωτικά πεδία δημοσιότητας, τα πρόστιμα έως 100.000€ από 2 Φεβρουαρίου 2026 και γιατί η SGK Digital ξεχωρίζει με ζωντανή σύνδεση στο επίσημο OpenData API του Γ.Ε.ΜΗ. (80€ + ΦΠΑ σε 24h).",
+    excerpt: "Πλήρης νομικός και τεχνικός οδηγός για την υποχρεωτική ιστοσελίδα Ι.Κ.Ε. βάσει του Άρθρου 47 Ν.4072/2012, της ΚΥΑ 46982/2025 και της ΚΥΑ 104666/2025. Τα 10 υποχρεωτικά πεδία δημοσιότητας, τα πρόστιμα έως 100.000€ από 2 Φεβρουαρίου 2026 και γιατί η SGK Digital ξεχωρίζει με ζωντανή σύνδεση στο επίσημο OpenData API του Γ.Ε.ΜΗ. (μόνο 80€ σε 24h).",
     date: "18 Οκτωβρίου 2026",
     author: "Σπύρος Τσάβος — SGK Digital",
     category: "Νομοθεσία & Εταιρική Συμμόρφωση ΓΕΜΗ",
     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200",
     metaTitle: "Υποχρεωτική Ιστοσελίδα ΙΚΕ Ν.4072/12 & Πρόστιμα ΓΕΜΗ 2026 (Έως 100.000€) | SGK Digital",
-    metaDescription: "Πλήρης οδηγός για την υποχρεωτική ιστοσελίδα ΙΚΕ (Άρθρο 47 Ν.4072/2012, ΚΥΑ 46982/2025 & ΚΥΑ 104666/2025). Τα 10 υποχρεωτικά στοιχεία, πρόστιμα έως 100.000€, προθεσμίες και γιατί η SGK Digital ξεχωρίζει με ζωντανή σύνδεση OpenData API ΓΕΜΗ (80€ + ΦΠΑ σε 24h).",
+    metaDescription: "Πλήρης οδηγός για την υποχρεωτική ιστοσελίδα ΙΚΕ (Άρθρο 47 Ν.4072/2012, ΚΥΑ 46982/2025 & ΚΥΑ 104666/2025). Τα 10 υποχρεωτικά στοιχεία, πρόστιμα έως 100.000€, προθεσμίες και γιατί η SGK Digital ξεχωρίζει με ζωντανή σύνδεση OpenData API ΓΕΜΗ (μόνο 80€ σε 24h).",
     content: `
       <div style="background: linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(15,23,42,0.85) 100%); border: 1px solid rgba(59,130,246,0.3); border-radius: 16px; padding: 28px; margin: 24px 0 36px 0; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);">
         <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.4); border-radius: 9999px; padding: 4px 14px; font-size: 13px; font-weight: 700; color: #93c5fd; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
@@ -37,7 +37,7 @@ export const BLOG_POSTS: BlogPost[] = [
         </p>
         <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px;">
           <div style="color: #38bdf8; font-weight: 700; font-size: 15px;">
-            Η SGK Digital παραδίδει νόμιμη ιστοσελίδα ΙΚΕ σε 24 ώρες με μόνο 80€ + ΦΠΑ.
+            Η SGK Digital παραδίδει νόμιμη ιστοσελίδα ΙΚΕ σε 24 ώρες με μόνο 80€ (τελική τιμή με ΦΠΑ).
           </div>
           <a href="/ike-offer" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 13px; transition: background 0.2s;">
             Άμεση Παραγγελία Ιστοσελίδας ΙΚΕ &rarr;
@@ -366,7 +366,7 @@ export const BLOG_POSTS: BlogPost[] = [
             </tr>
             <tr>
               <td style="padding: 12px 16px; font-weight: 600;">Τελικό Κόστος</td>
-              <td style="padding: 12px 16px; color: #60a5fa; font-weight: 700;">Μόνο 80€ + ΦΠΑ (All-inclusive)</td>
+              <td style="padding: 12px 16px; color: #60a5fa; font-weight: 700;">Μόνο 80€ (Τελική τιμή με ΦΠΑ)</td>
               <td style="padding: 12px 16px; color: #f87171;">250€ - 600€ + έξτρα κόστη hosting/domain</td>
             </tr>
           </tbody>
@@ -375,11 +375,11 @@ export const BLOG_POSTS: BlogPost[] = [
 
       <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
 
-      <h2>Ολοκληρωμένο Πακέτο Συμμόρφωσης ΙΚΕ SGK Digital: 80€ + ΦΠΑ σε 24 Ώρες</h2>
-      <p>Η <strong>SGK Digital</strong>, υπό την καθοδήγηση του επικεφαλής software architect <strong>Σπύρου Τσάβου</strong>, έχει δημιουργήσει την πιο αξιόπιστη και ολοκληρωμένη λύση στην ελληνική αγορά. Με κόστος μόλις <strong>80€ + ΦΠΑ</strong> (εφάπαξ), παραδίδουμε την ιστοσελίδα σας έτοιμη προς καταχώριση στο ΓΕΜΗ μέσα σε 24 ώρες.</p>
+      <h2>Ολοκληρωμένο Πακέτο Συμμόρφωσης ΙΚΕ SGK Digital: Μόνο 80€ σε 24 Ώρες</h2>
+      <p>Η <strong>SGK Digital</strong>, υπό την καθοδήγηση του επικεφαλής software architect <strong>Σπύρου Τσάβου</strong>, έχει δημιουργήσει την πιο αξιόπιστη και ολοκληρωμένη λύση στην ελληνική αγορά. Με τελικό κόστος μόλις <strong>80€ (με ΦΠΑ)</strong> (εφάπαξ), παραδίδουμε την ιστοσελίδα σας έτοιμη προς καταχώριση στο ΓΕΜΗ μέσα σε 24 ώρες.</p>
 
       <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; margin: 24px 0;">
-        <h4 style="color: #ffffff; margin-top: 0; font-size: 18px;">Τι Περιλαμβάνει το Πακέτο των 80€ + ΦΠΑ:</h4>
+        <h4 style="color: #ffffff; margin-top: 0; font-size: 18px;">Τι Περιλαμβάνει το Πακέτο των 80€ (με ΦΠΑ):</h4>
         <ul style="color: #cbd5e1; line-height: 1.8; margin-bottom: 0;">
           <li><strong>Κατοχύρωση Επίσημου Domain Name .gr</strong> για 1 πλήρες έτος στο όνομα της εταιρείας σας.</li>
           <li><strong>Ταχύτατη Cloud Φιλοξενία (Hosting) 1 έτους</strong> σε ευρωπαϊκά datacenters υψηλής διαθεσιμότητας (99.9% uptime).</li>
@@ -413,7 +413,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Επειδή συνδέεται απευθείας με το επίσημο <code>opendata-api.businessportal.gr</code> του Γ.Ε.ΜΗ. Τα στοιχεία της εταιρείας, οι εκπρόσωποι, η καταστατική έδρα, όλοι οι ΚΑΔ και τα δημοσιευμένα αρχεία PDF (ισολογισμοί, τροποποιήσεις) αντλούνται και ανανεώνονται ζωντανά. Δεν χρειάζεται να πληρώνετε προγραμματιστή για κάθε μελλοντική αλλαγή στο καταστατικό σας!</p>
 
       <h3>6. Πόσο κοστίζει η κατασκευή της ιστοσελίδας ΙΚΕ στην SGK Digital;</h3>
-      <p>Το κόστος είναι <strong>80€ + ΦΠΑ</strong> (εφάπαξ πληρωμή για το 1ο έτος). Περιλαμβάνει τα πάντα: σχεδιασμό, κατοχύρωση .gr domain, ταχύτατο cloud hosting 1 έτους, SSL πιστοποιητικό, διασύνδεση με OpenData API ΓΕΜΗ, εταιρικό email και επίσημο τιμολόγιο.</p>
+      <p>Το τελικό κόστος είναι <strong>80€ (με ΦΠΑ)</strong> (εφάπαξ πληρωμή για το 1ο έτος). Περιλαμβάνει τα πάντα: σχεδιασμό, κατοχύρωση .gr domain, ταχύτατο cloud hosting 1 έτους, SSL πιστοποιητικό, διασύνδεση με OpenData API ΓΕΜΗ, εταιρικό email και επίσημο τιμολόγιο.</p>
 
       <h3>7. Σε πόσο χρόνο παραδίδεται η ιστοσελίδα για να τη δηλώσω στο ΓΕΜΗ;</h3>
       <p>Η ιστοσελίδα παραδίδεται πλήρως λειτουργική <strong>εντός 24 ωρών</strong> από τη στιγμή παραλαβής του Αριθμού ΓΕΜΗ ή του ΑΦΜ της εταιρείας σας. Σας αποστέλλουμε το τελικό link για άμεση ανάρτηση στη μερίδα σας.</p>
@@ -430,7 +430,7 @@ export const BLOG_POSTS: BlogPost[] = [
         </p>
         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
           <a href="/ike-offer" style="background: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; box-shadow: 0 4px 14px rgba(37,99,235,0.4);">
-            Παραγγελία Ιστοσελίδας ΙΚΕ (80€ + ΦΠΑ) &rarr;
+            Παραγγελία Ιστοσελίδας ΙΚΕ (80€) &rarr;
           </a>
           <a href="tel:2111140013" style="background: rgba(255,255,255,0.08); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 14px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px;">
             📞 211 114 0013 / 6999 524 389
