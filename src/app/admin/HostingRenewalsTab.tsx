@@ -75,6 +75,7 @@ export function HostingRenewalsTab() {
   const [sendingTest, setSendingTest] = useState(false);
   const [testStage, setTestStage] = useState<HostingReminderStage>("20_days");
   const [testEmail, setTestEmail] = useState("info@sgk.gr");
+  const [selectedTestClientId, setSelectedTestClientId] = useState<string>("");
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
 
   // Fetch data
@@ -185,7 +186,7 @@ export function HostingRenewalsTab() {
     }
   };
 
-  // Send Test Email to info@sgk.gr
+  // Send Test Email to info@sgk.gr (Uses selected client data or default)
   const handleSendTestEmail = async () => {
     try {
       setSendingTest(true);
@@ -194,13 +195,14 @@ export function HostingRenewalsTab() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "send_test_email",
+          clientId: selectedTestClientId || undefined,
           to: testEmail,
           stage: testStage,
         }),
       });
       const data = await res.json();
       if (data.success) {
-        toast.success(`Το δοκιμαστικό email (${testStage}) στάλθηκε επιτυχώς μέσω ${data.provider?.toUpperCase()} στο ${testEmail}! Ελέγξτε τα εισερχόμενά σας.`);
+        toast.success(`Το δοκιμαστικό email (${testStage}) για "${data.clientUsed || "πελάτη"}" με ποσό ${data.priceUsed || "80€"} στάλθηκε επιτυχώς στο ${testEmail}!`);
       } else {
         toast.error("Σφάλμα αποστολής δοκιμαστικού: " + (data.error || "Άγνωστο"));
       }
@@ -208,6 +210,33 @@ export function HostingRenewalsTab() {
       toast.error("Σφάλμα: " + err.message);
     } finally {
       setSendingTest(false);
+    }
+  };
+
+  // Send Direct Test for this specific Client to info@sgk.gr
+  const handleSendClientTestToAdmin = async (client: ClientHostingItem, stage: HostingReminderStage = "20_days") => {
+    try {
+      setActionLoadingId(client.id);
+      const res = await fetch("/api/admin/hosting-renewals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "send_test_email",
+          clientId: client.id,
+          stage,
+          to: "info@sgk.gr",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Δοκιμαστικό για "${client.companyName}" με ποσό ${data.priceUsed || client.renewalPrice} στάλθηκε στο info@sgk.gr!`);
+      } else {
+        toast.error("Σφάλμα: " + (data.error || "Άγνωστο"));
+      }
+    } catch (err: any) {
+      toast.error("Σφάλμα: " + err.message);
+    } finally {
+      setActionLoadingId(null);
     }
   };
 
@@ -411,6 +440,21 @@ export function HostingRenewalsTab() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+            {/* Client Selector (Uses declared custom price) */}
+            <select
+              value={selectedTestClientId}
+              onChange={(e) => setSelectedTestClientId(e.target.value)}
+              className="bg-white border border-blue-300 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl outline-none shadow-sm cursor-pointer max-w-[200px]"
+              title="Επιλέξτε πελάτη για να χρησιμοποιηθεί το πραγματικό ποσό και στοιχεία του"
+            >
+              <option value="">-- Προεπιλογή (80€) --</option>
+              {clients.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.companyName} ({c.renewalPrice})
+                </option>
+              ))}
+            </select>
+
             {/* Stage Selector */}
             <select
               value={testStage}
@@ -722,6 +766,16 @@ export function HostingRenewalsTab() {
                               >
                                 ⛔ Ημέρα Λήξης (0d)
                               </button>
+
+                              <div className="pt-1.5 mt-1 border-t border-slate-100">
+                                <button
+                                  onClick={() => handleSendClientTestToAdmin(client, "20_days")}
+                                  className="w-full text-left text-xs px-2 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold flex items-center gap-1.5"
+                                  title="Αποστολή δοκιμαστικού με το πραγματικό δηλωμένο ποσό αυτού του πελάτη στο info@sgk.gr"
+                                >
+                                  <span>🧪 Δοκιμή στο info@sgk.gr</span>
+                                </button>
+                              </div>
                             </div>
                           </div>
 

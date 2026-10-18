@@ -121,20 +121,53 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, cronResult });
     }
 
-    // ACTION: Send Test Email to info@sgk.gr
+    // ACTION: Send Test Email to info@sgk.gr (Supports selecting any client to use their exact declared price & details)
     if (action === "send_test_email") {
       const targetEmail = body.to || "info@sgk.gr";
       const stage: HostingReminderStage = body.stage || "20_days";
 
+      let companyName = body.companyName || "MELTECH Ι.Κ.Ε.";
+      let domainName = body.domainName || "meltech-ike.gr";
+      let renewalPrice = body.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
+      let registrationDate = "2025-02-06";
+      let renewalDate = new Date(Date.now() + (stage === "20_days" ? 20 : stage === "15_days" ? 15 : stage === "5_days" ? 5 : stage === "3_days" ? 3 : 0) * 86400000).toISOString().split("T")[0];
+      let daysRemaining = stage === "20_days" ? 20 : stage === "15_days" ? 15 : stage === "5_days" ? 5 : stage === "3_days" ? 3 : 0;
+
+      // If a specific client is requested, fetch their real metadata from Supabase
+      if (body.clientId) {
+        const { data: dbClient } = await supabase
+          .from("sgk_mails")
+          .select("id, email, company, first_email_body, created_at")
+          .eq("id", body.clientId)
+          .single();
+
+        if (dbClient) {
+          let meta: any = {};
+          try {
+            if (dbClient.first_email_body && dbClient.first_email_body.startsWith("{")) {
+              meta = JSON.parse(dbClient.first_email_body);
+            }
+          } catch (e) {}
+          const h = meta.hosting || {};
+          companyName = dbClient.company || companyName;
+          domainName = h.domainName || (companyName.toLowerCase().replace(/[^a-z0-9]/g, "") + ".gr");
+          renewalPrice = h.renewalPrice || renewalPrice;
+          registrationDate = dbClient.created_at.split("T")[0];
+          const calc = calculateRenewalDate(dbClient.created_at, h.customExpiresAt);
+          renewalDate = calc.renewalDate;
+          daysRemaining = calc.daysRemaining;
+        }
+      }
+
       const sampleClient: HostingClientData = {
-        id: "test-client",
-        companyName: body.companyName || "MELTECH Ι.Κ.Ε.",
+        id: body.clientId || "test-client",
+        companyName,
         email: targetEmail,
-        domainName: body.domainName || "meltech-ike.gr",
-        registrationDate: "2025-02-06",
-        renewalDate: new Date(Date.now() + (stage === "20_days" ? 20 : stage === "15_days" ? 15 : stage === "5_days" ? 5 : stage === "3_days" ? 3 : 0) * 86400000).toISOString().split("T")[0],
-        renewalPrice: "80,00 € (συμπ. ΦΠΑ)",
-        daysRemaining: stage === "20_days" ? 20 : stage === "15_days" ? 15 : stage === "5_days" ? 5 : stage === "3_days" ? 3 : 0,
+        domainName,
+        registrationDate,
+        renewalDate,
+        renewalPrice,
+        daysRemaining,
       };
 
       const { subject, html } = getHostingRenewalEmail(sampleClient, stage);
@@ -153,6 +186,8 @@ export async function POST(req: NextRequest) {
         provider: dispatchRes.provider,
         sentTo: targetEmail,
         stage,
+        clientUsed: companyName,
+        priceUsed: renewalPrice,
         subject,
         error: dispatchRes.error,
       });
