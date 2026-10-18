@@ -215,5 +215,107 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
     unsubscribeToken: client.id || "hosting-renewal",
   });
 
+  return { subject, html: fullHtml, bodyHtml };
+}
+
+/**
+ * Admin Pre-Dispatch Heads-Up Email
+ * Sent to info@sgk.gr 1 day BEFORE an email is sent to any client
+ */
+export function getAdminHeadsUpBriefingEmail(
+  client: HostingClientData, 
+  stageToDispatchTomorrow: HostingReminderStage,
+  dispatchDateFormatted: string
+): { subject: string; html: string } {
+  const company = client.companyName || "Πελάτης";
+  const domain = client.domainName || "domain";
+  const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
+  const email = client.email;
+
+  const stageLabels: Record<HostingReminderStage, string> = {
+    "20_days": "1η Ειδοποίηση (20 ημέρες πριν τη λήξη)",
+    "15_days": "2η Υπενθύμιση (15 ημέρες πριν τη λήξη)",
+    "5_days": "3η Επείγουσα Ειδοποίηση (5 ημέρες πριν τη λήξη)",
+    "3_days": "4η Τελική Προειδοποίηση (72 Ώρες Countdown)",
+    "0_days": "5η Άμεση Διακοπή (Ημέρα Λήξης)",
+  };
+
+  const stageText = stageLabels[stageToDispatchTomorrow] || stageToDispatchTomorrow;
+  const clientDraft = getHostingRenewalEmail(client, stageToDispatchTomorrow);
+
+  const subject = `[ΕΝΗΜΕΡΩΣΗ SGK] Αύριο θα σταλεί email πληρωμής σε: ${company} (${price})`;
+
+  const bodyHtml = `
+    <div style="background-color: #f0fdf4; border: 2px solid #22c55e; border-left: 6px solid #16a34a; border-radius: 10px; padding: 16px 18px; margin: 0 0 20px 0;">
+      <h2 style="color: #166534; font-size: 18px; font-weight: 800; margin: 0 0 6px 0;">
+        🔔 Ενημέρωση Διαχειριστή: Προγραμματισμένη Αποστολή Αύριο
+      </h2>
+      <p style="margin: 0; color: #15803d; font-size: 14px; line-height: 1.5;">
+        Το αυτοματοποιημένο σύστημα ανανεώσεων της SGK Digital θα αποστείλει <strong>αύριο (${dispatchDateFormatted}) στις 11:00 π.μ.</strong> email υπενθύμισης πληρωμής στον παρακάτω πελάτη.
+      </p>
+    </div>
+
+    <!-- Client & Pricing Summary Table -->
+    <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin: 18px 0;">
+      <p style="margin: 0 0 12px 0; font-size: 15px; font-weight: 800; color: #0f172a;">
+        📋 Στοιχεία Επερχόμενης Χρέωσης &amp; Αποστολής:
+      </p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; line-height: 1.6;">
+        <tr>
+          <td style="padding: 6px 0; color: #64748b; width: 35%;"><strong>Επωνυμία Πελάτη:</strong></td>
+          <td style="padding: 6px 0; color: #0f172a; font-weight: 700;">${company}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; color: #64748b;"><strong>Email Παραλήπτη:</strong></td>
+          <td style="padding: 6px 0; color: #2563eb; font-weight: 700;">${email}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; color: #64748b;"><strong>Ιστοσελίδα / Domain:</strong></td>
+          <td style="padding: 6px 0; color: #0f172a; font-weight: 700;"><a href="https://${domain}" target="_blank" style="color: #3b5bdb; text-decoration: underline;">${domain}</a></td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; color: #64748b;"><strong>Ποσό Χρέωσης:</strong></td>
+          <td style="padding: 6px 0; color: #16a34a; font-weight: 800; font-size: 15px;">${price}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; color: #64748b;"><strong>Στάδιο που θα σταλεί:</strong></td>
+          <td style="padding: 6px 0; color: #b45309; font-weight: 700;">${stageText}</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 0; color: #64748b;"><strong>Ημερομηνία Λήξης:</strong></td>
+          <td style="padding: 6px 0; color: #dc2626; font-weight: 700;">${client.renewalDate} (απομένουν ${client.daysRemaining} ημέρες)</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Action Prompt for Admin -->
+    <div style="background-color: #fffbeb; border: 1px solid #fef08a; border-radius: 8px; padding: 14px 16px; margin: 18px 0; font-size: 13.5px; color: #854d0e; line-height: 1.55;">
+      💡 <strong>Σημείωση για τον Διαχειριστή:</strong><br/>
+      Εάν ο πελάτης έχει ήδη πληρώσει με μετρητά, κατάθεση ή άλλη συμφωνία, μπείτε στο <strong>Admin ➔ Ανανεώσεις Hosting</strong> και πατήστε <strong>«Δήλωση Πληρωμής»</strong> ώστε η αυριανή αποστολή να ακυρωθεί αυτόματα.
+    </div>
+
+    <!-- Actual Email Preview Box -->
+    <div style="margin: 24px 0 10px 0; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 18px; background-color: #ffffff;">
+      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 800; color: #334155;">
+        ✉️ Προεπισκόπηση Email που θα λάβει ο πελάτης:
+      </p>
+      <div style="background-color: #f1f5f9; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #1e293b; margin-bottom: 14px; font-family: monospace;">
+        <strong>Subject:</strong> ${clientDraft.subject}
+      </div>
+      <div style="border-top: 1px solid #e2e8f0; padding-top: 14px;">
+        ${clientDraft.bodyHtml}
+      </div>
+    </div>
+  `;
+
+  const fullHtml = buildProfessionalEmailHtml({
+    businessName: "SGK Admin Portal",
+    subject,
+    bodyHtml,
+    buttonText: "Άνοιγμα Admin Portal",
+    buttonLink: "https://www.sgk.gr/admin?tab=hosting",
+    unsubscribeToken: "admin-alert",
+  });
+
   return { subject, html: fullHtml };
 }

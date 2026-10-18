@@ -3,6 +3,7 @@ import { getServiceSupabase } from "@/lib/supabase";
 import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
 import { 
   getHostingRenewalEmail, 
+  getAdminHeadsUpBriefingEmail,
   HostingClientData, 
   HostingReminderStage 
 } from "@/lib/hostingRenewalsTemplates";
@@ -106,6 +107,34 @@ export function determineEligibleStage(daysRemaining: number, lastStageSent?: st
 }
 
 /**
+ * Determines if tomorrow the client will hit a reminder dispatch stage,
+ * so that a heads-up email can be sent to info@sgk.gr 1 day earlier.
+ */
+export function determineAdminWarningStage(daysRemaining: number, lastAdminWarningSent?: string | null): HostingReminderStage | null {
+  // If tomorrow daysRemaining will be 20 (so today is 21)
+  if (daysRemaining === 21) {
+    return lastAdminWarningSent === "20_days" ? null : "20_days";
+  }
+  // If tomorrow daysRemaining will be 15 (so today is 16)
+  if (daysRemaining === 16) {
+    return lastAdminWarningSent === "15_days" ? null : "15_days";
+  }
+  // If tomorrow daysRemaining will be 5 (so today is 6)
+  if (daysRemaining === 6) {
+    return lastAdminWarningSent === "5_days" ? null : "5_days";
+  }
+  // If tomorrow daysRemaining will be 3 (so today is 4)
+  if (daysRemaining === 4) {
+    return lastAdminWarningSent === "3_days" ? null : "3_days";
+  }
+  // If tomorrow daysRemaining will be 0 (so today is 1)
+  if (daysRemaining === 1) {
+    return lastAdminWarningSent === "0_days" ? null : "0_days";
+  }
+  return null;
+}
+
+/**
  * Main Cron Execution Routine
  */
 export async function runHostingRenewalsCron(options?: {
@@ -203,21 +232,6 @@ export async function runHostingRenewalsCron(options?: {
       hostingMeta.customExpiresAt
     );
 
-    const eligibleStage = options?.forceSendClientId === client.id 
-      ? (options.testStage || "20_days")
-      : determineEligibleStage(daysRemaining, hostingMeta.lastStageSent);
-
-    if (!eligibleStage) {
-      results.push({
-        id: client.id,
-        company: client.company,
-        daysRemaining,
-        status: "skipped_not_eligible",
-        lastStageSent: hostingMeta.lastStageSent || "none",
-      });
-      continue;
-    }
-
     // Prepare client data for email template
     const cleanCompany = client.company || "Εταιρεία";
     const domainName = hostingMeta.domainName || (cleanCompany.toLowerCase().replace(/[^a-z0-9]/g, "") + ".gr");
@@ -232,25 +246,94 @@ export async function runHostingRenewalsCron(options?: {
       daysRemaining,
     };
 
-    const { subject, html } = getHostingRenewalEmail(clientData, eligibleStage);
+    let clientUpdated = false;
 
-    // Dispatch email with fallback (Resend -> Brevo)
-    const dispatchRes = await dispatchEmailWithFallback({
-      to: client.email,
-      subject,
-      html,
-      fromName: "SGK Digital (Hosting)",
-      fromEmail: "info@sgk.gr",
-      replyTo: "info@sgk.gr",
-    });
+    // 1. Check if client is due for a reminder TODAY
+    const eligibleStage = options?.forceSendClientId === client.id 
+      ? (options.testStage || "20_days")
+      : determineEligibleStage(daysRemaining, hostingMeta.lastStageSent);
 
-    if (dispatchRes.success) {
-      sentCount++;
-      // Update hosting metadata
-      hostingMeta.lastStageSent = eligibleStage;
-      hostingMeta.lastStageSentAt = nowIso;
+    if (eligibleStage) {
+      const { subject, html } = getHostingRenewalEmail(clientData, eligibleStage);
+
+      // Dispatch email to client
+      const dispatchRes = await dispatchEmailWithFallback({
+        to: client.email,
+        subject,
+        html,
+        fromName: "SGK Digital (Hosting)",
+        fromEmail: "info@sgk.gr",
+        replyTo: "info@sgk.gr",
+      });
+
+      if (dispatchRes.success) {
+        sentCount++;
+        hostingMeta.lastStageSent = eligibleStage;
+        hostingMeta.lastStageSentAt = nowIso;
+        clientUpdated = true;
+
+        results.push({
+          id: client.id,
+          company: cleanCompany,
+          email: client.email,
+          stage: eligibleStage,
+          daysRemaining,
+          status: "sent_to_client",
+          provider: dispatchRes.provider,
+        });
+      } else {
+        results.push({
+          id: client.id,
+          company: cleanCompany,
+          email: client.email,
+          stage: eligibleStage,
+          status: "error",
+          error: dispatchRes.error,
+        });
+      }
+    } else {
+      results.push({
+        id: client.id,
+        company: cleanCompany,
+        daysRemaining,
+        status: "skipped_client_not_due_today",
+        lastStageSent: hostingMeta.lastStageSent || "none",
+      });
+    }
+
+    // 2. Check if an Admin Heads-Up Briefing needs to be sent to info@sgk.gr (1 day before tomorrow's dispatch)
+    const adminWarningStage = determineAdminWarningStage(daysRemaining, hostingMeta.lastAdminWarningSent);
+    if (adminWarningStage) {
+      const tomorrow = new Date(Date.now() + 86400000);
+      const tomorrowFormatted = tomorrow.toLocaleDateString("el-GR", { day: "2-digit", month: "2-digit", year: "numeric" });
+      const adminBriefing = getAdminHeadsUpBriefingEmail(clientData, adminWarningStage, tomorrowFormatted);
+
+      const adminDispatchRes = await dispatchEmailWithFallback({
+        to: "info@sgk.gr",
+        subject: adminBriefing.subject,
+        html: adminBriefing.html,
+        fromName: "SGK System Alert",
+        fromEmail: "info@sgk.gr",
+        replyTo: "info@sgk.gr",
+      });
+
+      if (adminDispatchRes.success) {
+        hostingMeta.lastAdminWarningSent = adminWarningStage;
+        hostingMeta.lastAdminWarningSentAt = nowIso;
+        clientUpdated = true;
+
+        results.push({
+          id: client.id,
+          company: cleanCompany,
+          status: "admin_heads_up_sent",
+          stageForTomorrow: adminWarningStage,
+          to: "info@sgk.gr",
+        });
+      }
+    }
+
+    if (clientUpdated) {
       metadata.hosting = hostingMeta;
-
       await supabase
         .from("sgk_mails")
         .update({
@@ -258,25 +341,6 @@ export async function runHostingRenewalsCron(options?: {
           last_email_sent_at: nowIso,
         })
         .eq("id", client.id);
-
-      results.push({
-        id: client.id,
-        company: cleanCompany,
-        email: client.email,
-        stage: eligibleStage,
-        daysRemaining,
-        status: "sent",
-        provider: dispatchRes.provider,
-      });
-    } else {
-      results.push({
-        id: client.id,
-        company: cleanCompany,
-        email: client.email,
-        stage: eligibleStage,
-        status: "error",
-        error: dispatchRes.error,
-      });
     }
   }
 
