@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { 
   RefreshCcw, Server, Globe, AlertTriangle, CheckCircle2, Clock, 
   Send, Search, Filter, ShieldAlert, Edit2, Check, X, ExternalLink,
@@ -55,6 +56,7 @@ interface CronStatus {
 }
 
 export function HostingRenewalsTab() {
+  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [clients, setClients] = useState<ClientHostingItem[]>([]);
   const [stats, setStats] = useState<HostingStats>({ total: 0, paid: 0, expiringSoon: 0, expired: 0, active: 0 });
@@ -106,6 +108,7 @@ export function HostingRenewalsTab() {
   };
 
   useEffect(() => {
+    setMounted(true);
     fetchData();
   }, []);
 
@@ -781,16 +784,16 @@ export function HostingRenewalsTab() {
       </div>
 
       {/* --- EDIT CLIENT MODAL --- */}
-      {editingClient && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-200">
+      {mounted && typeof document !== "undefined" && editingClient && createPortal(
+        <div className="fixed inset-0 z-[99999] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-200 my-auto">
             <div className="flex items-center justify-between pb-3 border-b border-gray-100">
               <h3 className="font-bold text-slate-900 text-sm">
                 Επεξεργασία Φιλοξενίας: {editingClient.companyName}
               </h3>
               <button 
                 onClick={() => setEditingClient(null)}
-                className="text-slate-400 hover:text-slate-600 p-1"
+                className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -843,20 +846,21 @@ export function HostingRenewalsTab() {
             <div className="flex items-center justify-end gap-2 mt-6 pt-3 border-t border-gray-100">
               <button
                 onClick={() => setEditingClient(null)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 Ακύρωση
               </button>
               <button
                 onClick={handleSaveEdit}
                 disabled={actionLoadingId === editingClient.id}
-                className="px-4 py-2 rounded-xl text-xs font-bold bg-[#3b5bdb] hover:bg-blue-600 text-white transition-all shadow-md shadow-blue-500/20 disabled:opacity-50"
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-[#3b5bdb] hover:bg-blue-600 text-white transition-all shadow-md shadow-blue-500/20 disabled:opacity-50 cursor-pointer"
               >
                 Αποθήκευση
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

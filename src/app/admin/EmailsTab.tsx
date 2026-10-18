@@ -3664,10 +3664,10 @@ function safeEncodeBase64(data: any): string {
       {/* Campaign Email Modal - Ported to body level to fix z-index issues */}
       {isClient && typeof document !== "undefined" && createPortal(campaignModal, document.body)}
 
-      {/* Edit / Create Lead Modal */}
-      {isEditModalOpen && editingLead && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-xl w-full overflow-hidden border border-gray-100 animate-scale-up">
+      {/* Edit / Create Lead Modal - Ported to body level with z-[99999] to prevent stacking context click blocking */}
+      {isClient && typeof document !== "undefined" && isEditModalOpen && editingLead && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[99999] p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-xl w-full overflow-hidden border border-gray-100 animate-scale-up my-auto">
             
             {/* Modal Header */}
             <div className="bg-slate-900 px-6 py-4 text-white flex justify-between items-center">
@@ -3853,13 +3853,14 @@ function safeEncodeBase64(data: any): string {
             </form>
 
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* Import Leads Modal */}
-      {isImportModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-gray-100 animate-scale-up">
+      {/* Import Leads Modal - Ported to body level with z-[99999] */}
+      {isClient && typeof document !== "undefined" && isImportModalOpen && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[99999] p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-gray-100 animate-scale-up my-auto">
             {/* Header */}
             <div className="bg-slate-50 px-6 py-4 border-b border-gray-150 flex justify-between items-center">
               <h3 className="font-black text-gray-900 text-sm uppercase tracking-wider italic flex items-center gap-2">
@@ -3921,13 +3922,14 @@ function safeEncodeBase64(data: any): string {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* Live GEMI IKE Scanner Modal */}
-      {isScanModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-3 sm:p-6">
-          <div className="bg-white text-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col border border-gray-200 overflow-hidden animate-scale-up">
+      {/* Live GEMI IKE Scanner Modal - Ported to body level with z-[99999] */}
+      {isClient && typeof document !== "undefined" && isScanModalOpen && createPortal(
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-[99999] p-3 sm:p-6 overflow-y-auto">
+          <div className="bg-white text-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col border border-gray-200 overflow-hidden animate-scale-up my-auto">
             
             {/* Modal Header */}
             <div className="bg-white px-6 py-4 border-b border-gray-200 flex justify-between items-center">
@@ -4276,7 +4278,8 @@ function safeEncodeBase64(data: any): string {
             </div>
 
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
