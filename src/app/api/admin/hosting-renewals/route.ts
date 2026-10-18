@@ -19,6 +19,7 @@ import {
   parseAmount,
   sendClientPaymentConfirmation,
 } from "@/lib/hostingPayments";
+import { getStripe } from "@/lib/stripe";
 
 export const dynamic = "force-dynamic";
 
@@ -334,22 +335,64 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ACTION: Simulate Payment (Demo Test - Updates Supabase DB and notifies)
+    // ACTION: Simulate Payment (Demo Test - Creates real Stripe Sandbox transaction, updates Supabase DB and notifies)
     if (action === "simulate_payment") {
       const prevExpiry = hosting.customExpiresAt || null;
       const newExpFormatted = computeNewExpiry(prevExpiry, client.created_at);
       const demoAmount = parseAmount(hosting.renewalPrice);
+      const domainForDemo =
+        hosting.domainName || ((client.company || "").toLowerCase().replace(/[^a-z0-9]/g, "") + ".gr");
+
+      let stripePaymentId = "demo_session_" + Date.now();
+      try {
+        const testStripe = getStripe("test");
+        const amountCents = Math.max(50, Math.round(parseFloat(demoAmount) * 100));
+
+        let customerId: string | undefined;
+        if (client.email) {
+          const existing = await testStripe.customers.list({ email: client.email, limit: 1 });
+          if (existing.data.length > 0) {
+            customerId = existing.data[0].id;
+          } else {
+            const created = await testStripe.customers.create({
+              email: client.email,
+              name: client.company || "Πελάτης",
+            });
+            customerId = created.id;
+          }
+        }
+
+        const pi = await testStripe.paymentIntents.create({
+          amount: amountCents,
+          currency: "eur",
+          customer: customerId,
+          payment_method: "pm_card_visa",
+          confirm: true,
+          automatic_payment_methods: { enabled: true, allow_redirects: "never" },
+          description: `Ετήσια Ανανέωση Hosting & Domain (${domainForDemo})`,
+          metadata: {
+            clientId: client.id,
+            domain: domainForDemo,
+            company: client.company || "",
+            type: "hosting_renewal",
+            stripeMode: "test",
+          },
+        });
+        stripePaymentId = pi.id;
+      } catch (stripeErr: any) {
+        console.warn("[Demo Simulate Payment] Stripe Sandbox PI warning:", stripeErr.message);
+      }
 
       hosting.paid = true;
       hosting.paidAt = new Date().toISOString();
-      hosting.paidVia = "demo_test";
-      hosting.stripeSessionId = "demo_session_" + Date.now();
+      hosting.paidVia = "stripe_sandbox";
+      hosting.stripeSessionId = stripePaymentId;
       hosting.customExpiresAt = newExpFormatted;
       hosting.lastStageSent = null;
       addPaymentToHistory(hosting, {
         amount: demoAmount,
-        method: "demo",
-        sessionId: hosting.stripeSessionId,
+        method: "stripe_sandbox",
+        sessionId: stripePaymentId,
         prevExpiry,
         newExpiry: newExpFormatted,
       });
@@ -365,26 +408,39 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ success: false, error: updateErr.message }, { status: 500 });
       }
 
+      // Send confirmation email to client
+      if (client.email) {
+        await sendClientPaymentConfirmation({
+          clientId: client.id,
+          email: client.email,
+          company: client.company || "Πελάτης",
+          domain: domainForDemo,
+          amount: demoAmount,
+          newExpiry: newExpFormatted,
+        });
+      }
+
       // Send test notification email to info@sgk.gr
       await dispatchEmailWithFallback({
         to: "info@sgk.gr",
-        subject: `🧪 [DEMO TEST] Δοκιμαστική Πληρωμή Hosting: 80€ από ${client.company}`,
+        subject: `🧪 [STRIPE SANDBOX] Δοκιμαστική Πληρωμή Hosting: ${demoAmount}€ από ${client.company}`,
         html: buildProfessionalEmailHtml({
           businessName: "SGK System",
-          subject: `🧪 [DEMO TEST] Δοκιμαστική Πληρωμή Hosting: 80€ από ${client.company}`,
+          subject: `🧪 [STRIPE SANDBOX] Δοκιμαστική Πληρωμή Hosting: ${demoAmount}€ από ${client.company}`,
           bodyHtml: `
             <h2 style="color: #f59e0b; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
-              🧪 Επιτυχής Δοκιμαστική Πληρωμή (DEMO)!
+              🧪 Επιτυχής Δοκιμαστική Πληρωμή (Stripe Sandbox)!
             </h2>
             <p style="font-size: 15px; color: #1e293b;">
-              Η δοκιμή πληρωμής για την εταιρεία <strong>${client.company}</strong> εκτελέστηκε επιτυχώς.
+              Η δοκιμή πληρωμής για την εταιρεία <strong>${client.company}</strong> εκτελέστηκε επιτυχώς και καταγράφηκε στο Stripe Sandbox.
             </p>
             <div style="background-color: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 14px; margin: 14px 0;">
               <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #1e293b; line-height: 1.6;">
                 <li><strong>Πελάτης:</strong> ${client.company}</li>
-                <li><strong>Κατάσταση:</strong> ΠΛΗΡΩΘΗΚΕ (DEMO TEST)</li>
+                <li><strong>Ποσό:</strong> ${demoAmount} €</li>
+                <li><strong>Stripe Payment ID:</strong> ${stripePaymentId}</li>
+                <li><strong>Κατάσταση:</strong> ΠΛΗΡΩΘΗΚΕ (STRIPE SANDBOX)</li>
                 <li><strong>Νέα Λήξη στη Βάση:</strong> ${newExpFormatted}</li>
-                <li><strong>Database Updated:</strong> Ναι (Supabase)</li>
               </ul>
             </div>
           `,
@@ -392,13 +448,14 @@ export async function POST(req: NextRequest) {
           buttonLink: "https://www.sgk.gr/admin?tab=hosting",
           unsubscribeToken: "admin-alert",
         }),
-        fromName: "SGK System (Demo Test)",
+        fromName: "SGK System (Sandbox Test)",
         fromEmail: "info@sgk.gr",
       });
 
       return NextResponse.json({
         success: true,
         isDemo: true,
+        stripePaymentId,
         newExpFormatted,
         company: client.company,
       });
