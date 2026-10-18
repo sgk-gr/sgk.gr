@@ -5,10 +5,17 @@ import {
   RefreshCcw, Server, Globe, AlertTriangle, CheckCircle2, Clock, 
   Send, Search, Filter, ShieldAlert, Edit2, Check, X, ExternalLink,
   Mail, Calendar, ArrowUpRight, Play, Eye, Sparkles, Building2,
-  FileCheck, AlertCircle, Phone, Info
+  FileCheck, AlertCircle, Phone, Info, Wallet, Coins
 } from "lucide-react";
 import { toast } from "sonner";
 import { HostingReminderStage } from "@/lib/hostingRenewalsTemplates";
+
+function parsePrice(str: string): number {
+  if (!str) return 80;
+  const match = str.replace(/\s+/g, "").match(/(\d+[\.,]?\d*)/);
+  if (!match) return 80;
+  return parseFloat(match[1].replace(",", "."));
+}
 
 interface ClientHostingItem {
   id: string;
@@ -163,7 +170,34 @@ export function HostingRenewalsTab() {
     }
   };
 
-  // Run Cron Manually Now
+  // Quick Inline Update Domain
+  const handleQuickUpdateDomain = async (client: ClientHostingItem, newDomain: string) => {
+    const trimmed = newDomain.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/$/, "");
+    if (!trimmed || trimmed === client.domainName) return;
+    try {
+      setActionLoadingId(client.id);
+      const res = await fetch("/api/admin/hosting-renewals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update_client",
+          clientId: client.id,
+          domainName: trimmed,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Το domain για ${client.companyName} ενημερώθηκε σε ${trimmed}!`);
+        fetchData();
+      } else {
+        toast.error("Σφάλμα: " + data.error);
+      }
+    } catch (err: any) {
+      toast.error("Σφάλμα: " + err.message);
+    } finally {
+      setActionLoadingId(null);
+    }
+  };
   const handleRunCron = async () => {
     try {
       setRunningCron(true);
@@ -331,10 +365,14 @@ export function HostingRenewalsTab() {
     return true;
   });
 
+  const totalProjectedRevenue = clients.reduce((acc, c) => acc + parsePrice(c.renewalPrice), 0);
+  const collectedRevenue = clients.filter((c) => c.isPaid).reduce((acc, c) => acc + parsePrice(c.renewalPrice), 0);
+  const pendingRevenue = clients.filter((c) => !c.isPaid).reduce((acc, c) => acc + parsePrice(c.renewalPrice), 0);
+
   return (
     <div className="space-y-6 pb-12">
       {/* --- TOP HEADER & OVERVIEW CARDS --- */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
         {/* Total Clients Card */}
         <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between">
@@ -349,10 +387,31 @@ export function HostingRenewalsTab() {
           </div>
         </div>
 
+        {/* Projected Hosting Revenue Card */}
+        <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-100">
+              Έσοδα Ανανεώσεων
+            </span>
+            <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-bold">
+              <Wallet className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <div className="text-2xl font-black tracking-tight text-white">
+              {totalProjectedRevenue.toLocaleString("el-GR", { minimumFractionDigits: 0 })} €
+            </div>
+            <div className="mt-1 flex items-center justify-between text-[11px] font-semibold text-emerald-100/90 pt-1 border-t border-white/20">
+              <span>Εισπράχθηκαν: <strong className="text-white">{collectedRevenue.toFixed(0)}€</strong></span>
+              <span>Εκκρεμούν: <strong className="text-white">{pendingRevenue.toFixed(0)}€</strong></span>
+            </div>
+          </div>
+        </div>
+
         {/* Paid / Renewed */}
         <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">Ανανεωμένα / Πληρωμένα</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">Ανανεωμένα</span>
             <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4" />
             </div>
@@ -366,28 +425,28 @@ export function HostingRenewalsTab() {
         {/* Expiring Soon (<20 Days) */}
         <div className="bg-white border border-amber-200/80 bg-amber-50/20 rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-600">Λήγουν Σύντομα (&le; 20 μέρες)</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-600">Λήγουν Σύντομα</span>
             <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
               <Clock className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-2xl font-black text-amber-700">{stats.expiringSoon}</span>
-            <span className="text-xs font-semibold text-amber-600">σε αποστολή reminders</span>
+            <span className="text-xs font-semibold text-amber-600">reminders</span>
           </div>
         </div>
 
         {/* Expired / Critical */}
         <div className="bg-white border border-rose-200/80 bg-rose-50/20 rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-600">Έληξαν / Σε Κίνδυνο</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-rose-600">Έληξαν</span>
             <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
               <ShieldAlert className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-2xl font-black text-rose-700">{stats.expired}</span>
-            <span className="text-xs font-semibold text-rose-600">κίνδυνος προστίμου ΓΕΜΗ</span>
+            <span className="text-xs font-semibold text-rose-600">σε κίνδυνο</span>
           </div>
         </div>
 
@@ -399,111 +458,23 @@ export function HostingRenewalsTab() {
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 Cron Engine
               </span>
-              <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-full text-slate-300 font-medium">Daily 09:00</span>
+              <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-full text-slate-300 font-medium">Daily 11:00</span>
             </div>
-            <div className="mt-2 text-sm font-semibold text-slate-200">
+            <div className="mt-2 text-xs font-semibold text-slate-200 line-clamp-1">
               {cronStatus.lastRunAt 
-                ? `Τελευταία εκτέλεση: ${new Date(cronStatus.lastRunAt).toLocaleDateString('el-GR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}`
-                : "Αναμονή επόμενου κύκλου"}
-            </div>
-            <div className="text-[11px] text-slate-400 mt-0.5">
-              Ελέγχθηκαν {cronStatus.clientsChecked || stats.total} πελάτες
+                ? `${new Date(cronStatus.lastRunAt).toLocaleDateString('el-GR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}`
+                : "Αναμονή"}
             </div>
           </div>
 
           <button
             onClick={handleRunCron}
             disabled={runningCron}
-            className="mt-3 w-full flex items-center justify-center gap-2 bg-[#3b5bdb] hover:bg-blue-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-50"
+            className="mt-3 w-full flex items-center justify-center gap-2 bg-[#3b5bdb] hover:bg-blue-600 text-white text-xs font-bold py-1.5 px-3 rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-50"
           >
-            <Play className={`w-3.5 h-3.5 ${runningCron ? "animate-spin" : ""}`} />
-            <span>{runningCron ? "Εκτελείται Έλεγχος..." : "Εκτέλεση Ελέγχου Τώρα"}</span>
+            <Play className={`w-3 h-3 ${runningCron ? "animate-spin" : ""}`} />
+            <span>{runningCron ? "Έλεγχος..." : "Έλεγχος Τώρα"}</span>
           </button>
-        </div>
-      </div>
-
-      {/* --- SNAPPY EMAIL PREVIEW & TEST CONSOLE --- */}
-      <div className="bg-gradient-to-r from-blue-50/70 via-indigo-50/50 to-white border border-blue-200/80 rounded-2xl p-6 shadow-sm">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-[#3b5bdb] text-white rounded-lg">
-                <Mail className="w-4 h-4" />
-              </div>
-              <h3 className="text-base font-bold text-slate-900">
-                Δοκιμαστική Αποστολή Email Υπενθύμισης (Snapy Design &amp; Κόκκινα Γράμματα)
-              </h3>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed max-w-2xl">
-              Δοκιμάστε ζωντανά πώς φαίνεται το email που θα λαμβάνουν οι πελάτες σε κάθε στάδιο (<strong>20, 15, 5, 3 μέρες πριν και την Ημέρα Λήξης</strong>), μαζί με το επίσημο template της SGK και την έντονη κόκκινη προειδοποίηση για το Γ.Ε.ΜΗ.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-            {/* Client Selector (Uses declared custom price) */}
-            <select
-              value={selectedTestClientId}
-              onChange={(e) => setSelectedTestClientId(e.target.value)}
-              className="bg-white border border-blue-300 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl outline-none shadow-sm cursor-pointer max-w-[200px]"
-              title="Επιλέξτε πελάτη για να χρησιμοποιηθεί το πραγματικό ποσό και στοιχεία του"
-            >
-              <option value="">-- Προεπιλογή (80€) --</option>
-              {clients.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.companyName} ({c.renewalPrice})
-                </option>
-              ))}
-            </select>
-
-            {/* Stage Selector */}
-            <select
-              value={testStage}
-              onChange={(e) => setTestStage(e.target.value as HostingReminderStage)}
-              className="bg-white border border-blue-300 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl outline-none shadow-sm cursor-pointer"
-            >
-              <option value="20_days">⏳ 20 Ημέρες πριν τη Λήξη</option>
-              <option value="15_days">⚠️ 15 Ημέρες πριν τη Λήξη</option>
-              <option value="5_days">🚨 5 Ημέρες πριν τη Λήξη (Επείγον)</option>
-              <option value="3_days">⏰ 3 Ημέρες πριν (72 Ώρες Countdown)</option>
-              <option value="0_days">⛔ Σήμερα Λήγει (Άμεση Διακοπή)</option>
-            </select>
-
-            {/* Target Email */}
-            <input
-              type="email"
-              value={testEmail}
-              onChange={(e) => setTestEmail(e.target.value)}
-              placeholder="info@sgk.gr"
-              className="bg-white border border-blue-300 text-slate-800 text-xs font-medium px-3 py-2 rounded-xl outline-none shadow-sm w-44"
-            />
-
-            {/* Send Test Button */}
-            <button
-              onClick={handleSendTestEmail}
-              disabled={sendingTest}
-              className="flex items-center gap-2 bg-[#3b5bdb] hover:bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md shadow-blue-500/20 active:scale-95 disabled:opacity-50"
-            >
-              <Send className={`w-3.5 h-3.5 ${sendingTest ? "animate-spin" : ""}`} />
-              <span>{sendingTest ? "Αποστολή..." : "Αποστολή Δοκιμαστικού"}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Visual Badge showing the 5 stages */}
-        <div className="mt-4 pt-4 border-t border-blue-100 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
-          <span className="text-slate-400 uppercase tracking-wider text-[10px] font-bold">Αυτοματοποιημένα Στάδια:</span>
-          <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-lg">1. 20 Ημέρες</span>
-          <span className="text-slate-300">&rarr;</span>
-          <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-lg">2. 15 Ημέρες</span>
-          <span className="text-slate-300">&rarr;</span>
-          <span className="bg-amber-50 border border-amber-200 text-amber-700 px-2.5 py-1 rounded-lg">3. 5 Ημέρες</span>
-          <span className="text-slate-300">&rarr;</span>
-          <span className="bg-orange-50 border border-orange-200 text-orange-700 px-2.5 py-1 rounded-lg">4. 3 Ημέρες</span>
-          <span className="text-slate-300">&rarr;</span>
-          <span className="bg-rose-50 border border-rose-200 text-rose-700 px-2.5 py-1 rounded-lg">5. Ημέρα Λήξης (0d)</span>
-          <span className="ml-auto text-[11px] text-emerald-700 font-bold bg-emerald-100/60 px-2.5 py-1 rounded-lg">
-            ✓ Μόλις δηλωθεί Πληρωμένο, τα reminders διακόπτονται αυτόματα
-          </span>
         </div>
       </div>
 
@@ -623,16 +594,27 @@ export function HostingRenewalsTab() {
 
                       {/* Domain & Email */}
                       <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-1.5 font-bold text-blue-600">
-                          <Globe className="w-3.5 h-3.5 text-blue-500" />
+                        <div className="flex items-center gap-1.5">
+                          <Globe className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                          <input
+                            type="text"
+                            defaultValue={client.domainName}
+                            key={client.domainName}
+                            onBlur={(e) => handleQuickUpdateDomain(client, e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                            }}
+                            className="w-32 px-1.5 py-0.5 border border-slate-200 rounded text-xs font-bold text-blue-600 bg-white hover:border-blue-400 focus:border-blue-600 outline-none transition-colors"
+                            title="Επεξεργασία Domain πελάτη (Enter ή κλικ έξω για αποθήκευση)"
+                          />
                           <a 
                             href={`https://${client.domainName}`} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="hover:underline flex items-center gap-1"
+                            className="p-1 text-slate-400 hover:text-blue-600 transition-colors"
+                            title="Άνοιγμα ιστοσελίδας σε νέα καρτέλα"
                           >
-                            <span>{client.domainName}</span>
-                            <ArrowUpRight className="w-3 h-3 text-slate-400" />
+                            <ArrowUpRight className="w-3.5 h-3.5" />
                           </a>
                         </div>
                         <div className="text-[11px] text-slate-500 mt-0.5">
