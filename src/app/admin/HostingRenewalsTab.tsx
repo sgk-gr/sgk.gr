@@ -87,6 +87,7 @@ export function HostingRenewalsTab() {
   const [selectedTestClientId, setSelectedTestClientId] = useState<string>("");
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
   const [adminMode, setAdminMode] = useState<"demo" | "live">("live");
+  const [reminderMenu, setReminderMenu] = useState<{ client: ClientHostingItem; top: number; right: number } | null>(null);
 
   // Fetch data
   const fetchData = async () => {
@@ -879,58 +880,31 @@ export function HostingRenewalsTab() {
                       {/* Action Buttons */}
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5">
-                          {/* Send specific stage reminder */}
-                          <div className="relative group">
-                            <button
-                              title="Αποστολή Email Υπενθύμισης Τώρα"
-                              className="p-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
-                            >
-                              <Mail className="w-3.5 h-3.5" />
-                            </button>
-                            <div className="hidden group-hover:block absolute right-0 top-full mt-1 z-30 bg-white border border-gray-200 rounded-xl shadow-xl p-2 w-48 text-left space-y-1">
-                              <div className="text-[10px] font-bold uppercase text-slate-400 px-2 py-0.5">Άμεση Αποστολή:</div>
-                              <button
-                                onClick={() => handleSendSingleReminder(client, "20_days")}
-                                className="w-full text-left text-xs px-2 py-1.5 rounded-lg hover:bg-blue-50 text-slate-700 font-medium"
-                              >
-                                ⏳ 20 Ημέρες πριν
-                              </button>
-                              <button
-                                onClick={() => handleSendSingleReminder(client, "15_days")}
-                                className="w-full text-left text-xs px-2 py-1.5 rounded-lg hover:bg-blue-50 text-slate-700 font-medium"
-                              >
-                                ⚠️ 15 Ημέρες πριν
-                              </button>
-                              <button
-                                onClick={() => handleSendSingleReminder(client, "5_days")}
-                                className="w-full text-left text-xs px-2 py-1.5 rounded-lg hover:bg-amber-50 text-amber-700 font-medium"
-                              >
-                                🚨 5 Ημέρες πριν
-                              </button>
-                              <button
-                                onClick={() => handleSendSingleReminder(client, "3_days")}
-                                className="w-full text-left text-xs px-2 py-1.5 rounded-lg hover:bg-orange-50 text-orange-700 font-medium"
-                              >
-                                ⏰ 3 Ημέρες πριν
-                              </button>
-                              <button
-                                onClick={() => handleSendSingleReminder(client, "0_days")}
-                                className="w-full text-left text-xs px-2 py-1.5 rounded-lg hover:bg-rose-50 text-rose-700 font-bold"
-                              >
-                                ⛔ Ημέρα Λήξης (0d)
-                              </button>
-
-                              <div className="pt-1.5 mt-1 border-t border-slate-100">
-                                <button
-                                  onClick={() => handleSendClientTestToAdmin(client, "20_days")}
-                                  className="w-full text-left text-xs px-2 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold flex items-center gap-1.5"
-                                  title="Αποστολή δοκιμαστικού με το πραγματικό δηλωμένο ποσό αυτού του πελάτη στο info@sgk.gr"
-                                >
-                                  <span>🧪 Δοκιμή στο info@sgk.gr</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
+                          {/* Send specific stage reminder (click menu, rendered in portal) */}
+                          <button
+                            onClick={(e) => {
+                              if (reminderMenu?.client.id === client.id) {
+                                setReminderMenu(null);
+                                return;
+                              }
+                              const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
+                              const menuHeight = 330;
+                              const openUp = window.innerHeight - rect.bottom < menuHeight;
+                              setReminderMenu({
+                                client,
+                                top: openUp ? Math.max(8, rect.top - menuHeight - 4) : rect.bottom + 4,
+                                right: Math.max(8, window.innerWidth - rect.right),
+                              });
+                            }}
+                            title="Αποστολή Email Υπενθύμισης Τώρα"
+                            className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                              reminderMenu?.client.id === client.id
+                                ? "bg-blue-600 text-white"
+                                : "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                            }`}
+                          >
+                            <Mail className="w-3.5 h-3.5" />
+                          </button>
 
                           {/* Copy Stripe Payment Link */}
                           <button
@@ -959,6 +933,64 @@ export function HostingRenewalsTab() {
           </div>
         )}
       </div>
+
+      {/* --- REMINDER MENU (portal, never clipped by table) --- */}
+      {mounted && typeof document !== "undefined" && reminderMenu && createPortal(
+        <>
+          <div className="fixed inset-0 z-[99998]" onClick={() => setReminderMenu(null)} />
+          <div
+            className="fixed z-[99999] bg-white border border-gray-200 rounded-xl shadow-2xl p-2 w-64 text-left"
+            style={{ top: reminderMenu.top, right: reminderMenu.right }}
+          >
+            <div className="px-2 pt-1 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              Άμεση Αποστολή
+            </div>
+            <div className="px-2 pb-1.5 text-[11px] font-semibold text-slate-700 truncate">
+              {reminderMenu.client.companyName}
+            </div>
+            <div className={`mx-1 mb-1.5 px-2 py-1 rounded-md text-[10px] font-bold ${
+              adminMode === "demo" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"
+            }`}>
+              {adminMode === "demo" ? "🧪 DEMO: link πληρωμής Stripe Sandbox" : "🟢 LIVE: link πληρωμής Stripe Live"}
+            </div>
+            <div className="space-y-0.5">
+              {([
+                { stage: "20_days", label: "⏳ 20 Ημέρες πριν", cls: "hover:bg-blue-50 text-slate-700" },
+                { stage: "15_days", label: "⚠️ 15 Ημέρες πριν", cls: "hover:bg-blue-50 text-slate-700" },
+                { stage: "5_days", label: "🚨 5 Ημέρες πριν", cls: "hover:bg-amber-50 text-amber-700" },
+                { stage: "3_days", label: "⏰ 3 Ημέρες πριν", cls: "hover:bg-orange-50 text-orange-700" },
+                { stage: "0_days", label: "⛔ Ημέρα Λήξης (0d)", cls: "hover:bg-rose-50 text-rose-700 font-bold" },
+              ] as { stage: HostingReminderStage; label: string; cls: string }[]).map((item) => (
+                <button
+                  key={item.stage}
+                  onClick={() => {
+                    const c = reminderMenu.client;
+                    setReminderMenu(null);
+                    handleSendSingleReminder(c, item.stage);
+                  }}
+                  className={`w-full text-left text-xs px-2.5 py-2 rounded-lg font-medium cursor-pointer ${item.cls}`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <div className="pt-1.5 mt-1.5 border-t border-slate-100">
+              <button
+                onClick={() => {
+                  const c = reminderMenu.client;
+                  setReminderMenu(null);
+                  handleSendClientTestToAdmin(c, "20_days");
+                }}
+                className="w-full text-left text-xs px-2.5 py-2 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold cursor-pointer"
+                title="Αποστολή δοκιμαστικού με το πραγματικό δηλωμένο ποσό αυτού του πελάτη στο info@sgk.gr"
+              >
+                🧪 Δοκιμή στο info@sgk.gr
+              </button>
+            </div>
+          </div>
+        </>,
+        document.body
+      )}
 
       {/* --- EDIT CLIENT MODAL --- */}
       {mounted && typeof document !== "undefined" && editingClient && createPortal(
