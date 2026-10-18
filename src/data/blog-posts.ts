@@ -14,6 +14,432 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: "ike-definitive-guide-nomos-4072-2012-gemi-prostima",
+    slug: "ypoxreotiki-istoselida-ike-nomos-4072-2012-prostima-gemi",
+    title: "Υποχρεωτική Ιστοσελίδα ΙΚΕ (Νόμος 4072/2012 & ΓΕΜΗ): Τα 10 Υποχρεωτικά Στοιχεία, τα Πρόστιμα 2026 & το Πλεονέκτημα του OpenData API",
+    excerpt: "Πλήρης νομικός και τεχνικός οδηγός για την υποχρεωτική ιστοσελίδα Ι.Κ.Ε. βάσει του Άρθρου 47 Ν.4072/2012, της ΚΥΑ 46982/2025 και της ΚΥΑ 104666/2025. Τα 10 υποχρεωτικά πεδία δημοσιότητας, τα πρόστιμα έως 100.000€ από 2 Φεβρουαρίου 2026 και γιατί η SGK Digital ξεχωρίζει με ζωντανή σύνδεση στο επίσημο OpenData API του Γ.Ε.ΜΗ. (80€ + ΦΠΑ σε 24h).",
+    date: "18 Οκτωβρίου 2026",
+    author: "Σπύρος Τσάβος — SGK Digital",
+    category: "Νομοθεσία & Εταιρική Συμμόρφωση ΓΕΜΗ",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200",
+    metaTitle: "Υποχρεωτική Ιστοσελίδα ΙΚΕ Ν.4072/12 & Πρόστιμα ΓΕΜΗ 2026 (Έως 100.000€) | SGK Digital",
+    metaDescription: "Πλήρης οδηγός για την υποχρεωτική ιστοσελίδα ΙΚΕ (Άρθρο 47 Ν.4072/2012, ΚΥΑ 46982/2025 & ΚΥΑ 104666/2025). Τα 10 υποχρεωτικά στοιχεία, πρόστιμα έως 100.000€, προθεσμίες και γιατί η SGK Digital ξεχωρίζει με ζωντανή σύνδεση OpenData API ΓΕΜΗ (80€ + ΦΠΑ σε 24h).",
+    content: `
+      <div style="background: linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(15,23,42,0.85) 100%); border: 1px solid rgba(59,130,246,0.3); border-radius: 16px; padding: 28px; margin: 24px 0 36px 0; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.4); border-radius: 9999px; padding: 4px 14px; font-size: 13px; font-weight: 700; color: #93c5fd; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em;">
+          <span>⚡</span> Σύνοψη Συμμόρφωσης 2026
+        </div>
+        <h3 style="color: #ffffff; font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 12px; line-height: 1.4;">
+          Υποχρεωτική Εταιρική Ιστοσελίδα ΙΚΕ &amp; Νέο Ποινολόγιο Γ.Ε.ΜΗ.
+        </h3>
+        <p style="color: #cbd5e1; font-size: 15px; line-height: 1.7; margin-bottom: 16px;">
+          Βάσει του <strong>Άρθρου 47 §2 του Ν. 4072/2012</strong>, της <strong>ΚΥΑ 46982/2025</strong> και της τελικής παράτασης της <strong>ΚΥΑ 104666/31.12.2025 (ΦΕΚ 7204/Β/31.12.2025)</strong>, κάθε Ιδιωτική Κεφαλαιουχική Εταιρεία στην Ελλάδα οφείλει να διαθέτει ενεργή ιστοσελίδα με 10 συγκεκριμένα νομικά στοιχεία εντός <strong>30 ημερών</strong> από τη σύστασή της. Από τις <strong>2 Φεβρουαρίου 2026</strong>, οι παραβάσεις επισύρουν κλιμακωτά πρόστιμα <strong>από 500€ έως 100.000€</strong>, αυτόματη αναστολή καταχώρισης στο ΓΕΜΗ και τραπεζικό μπλοκάρισμα.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px;">
+          <div style="color: #38bdf8; font-weight: 700; font-size: 15px;">
+            Η SGK Digital παραδίδει νόμιμη ιστοσελίδα ΙΚΕ σε 24 ώρες με μόνο 80€ + ΦΠΑ.
+          </div>
+          <a href="/ike-offer" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 13px; transition: background 0.2s;">
+            Άμεση Παραγγελία Ιστοσελίδας ΙΚΕ &rarr;
+          </a>
+        </div>
+      </div>
+
+      <h2>Εισαγωγή: Η Μεγαλύτερη Νομοθετική &amp; Ελεγκτική Αλλαγή για 108.000+ ΙΚΕ στην Ελλάδα</h2>
+      <p>Στην Ελλάδα λειτουργούν αυτή τη στιγμή <strong>περισσότερες από 108.000 Ιδιωτικές Κεφαλαιουχικές Εταιρείες (Ι.Κ.Ε.)</strong>. Η ευελιξία του εταιρικού τύπου, το ελάχιστο αρχικό κεφάλαιο (ακόμη και από 1€) και ο περιορισμός της ευθύνης των εταίρων κατέστησαν την ΙΚΕ τη δεύτερη δημοφιλέστερη μορφή επιχείρησης στη χώρα, αμέσως μετά τις ατομικές επιχειρήσεις.</p>
+
+      <p>Ωστόσο, υπάρχει ένα κρίσιμο σημείο που πολλοί ιδρυτές και διαχειριστές παραβλέπουν: <strong>Ο νομοθέτης αντιστάθμισε την απουσία υποχρεωτικού εγγυητικού κεφαλαίου με την αρχή της απόλυτης ηλεκτρονικής διαφάνειας</strong>. Για τον λόγο αυτό, από την πρώτη στιγμή ψήφισης του Νόμου 4072/2012 τέθηκε η αυστηρή υποχρέωση κάθε ΙΚΕ να διαθέτει δική της, αυτόνομη εταιρική ιστοσελίδα, όπου θα δημοσιεύονται όλα τα ουσιώδη εταιρικά και οικονομικά στοιχεία.</p>
+
+      <p>Μέχρι πρόσφατα, η υποχρέωση αυτή παρέμενε σε μεγάλο βαθμό ανεφάρμοστη στην πράξη λόγω απουσίας αυτοματοποιημένου μηχανισμού ελέγχου. <strong>Αυτή η περίοδος ανοχής έληξε οριστικά.</strong> Με την έκδοση της <strong>ΚΥΑ 46982/2025</strong> και την τελευταία καταληκτική παράταση της <strong>ΚΥΑ 104666/31.12.2025 (ΦΕΚ 7204/Β/31.12.2025)</strong>, ενεργοποιήθηκε το ολοκληρωμένο ψηφιακό σύστημα κυρώσεων του Γ.Ε.ΜΗ. Από τις <strong>2 Φεβρουαρίου 2026</strong>, κάθε μη συμμορφούμενη εταιρεία βρίσκεται αντιμέτωπη με αυτόματα πρόστιμα έως και 100.000 ευρώ, δέσμευση του ΑΦΜ στο μητρώο και τραπεζικό αποκλεισμό.</p>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Η ΙΚΕ σε Αριθμούς: Γιατί η Συμμόρφωση Αφορά το 70% των Ελληνικών Εταιρειών</h2>
+      <p>Από τον Απρίλιο του 2012, όταν ο <strong>Ν. 4072/2012</strong> εισήγαγε την ΙΚΕ στην ελληνική έννομη τάξη, η ανάπτυξή της υπήρξε ραγδαία:</p>
+      <ul>
+        <li><strong>108.000+ ενεργές ΙΚΕ</strong> καταγεγραμμένες σήμερα στο Γενικό Εμπορικό Μητρώο.</li>
+        <li><strong>Πάνω από 8 στις 10 νέες επιχειρήσεις</strong> που συστήνονται στην Ελλάδα (εκτός ατομικών) επιλέγουν τη μορφή της ΙΚΕ.</li>
+        <li><strong>Πάνω από 65% των υφιστάμενων ΙΚΕ</strong> είτε δεν διαθέτουν καθόλου εταιρική ιστοσελίδα, είτε έχουν δηλώσει ψευδή / προσωρινά URLs, είτε έχουν αναρτήσει σελίδες που παραλείπουν βασικά υποχρεωτικά στοιχεία του νόμου.</li>
+      </ul>
+
+      <p>Το μέγεθος της μη συμμόρφωσης οδήγησε τα Υπουργεία Εθνικής Οικονομίας &amp; Οικονομικών και Ανάπτυξης στην ψήφιση του Ν. 4919/2022 και των εφαρμοστικών ΚΥΑ του 2025-2026, εγκαθιδρύοντας έναν πλήρως ψηφιοποιημένο ελεγκτικό μηχανισμό με απευθείας διασύνδεση ΓΕΜΗ, ΑΑΔΕ και Τραπεζών.</p>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Χρονολόγιο Νομοθεσίας: Από τη Γέννηση της ΙΚΕ στα Πρόστιμα του 2026</h2>
+      <p>Για να γίνει κατανοητή η αυστηρότητα του πλαισίου, αξίζει να δούμε τη νομοθετική πορεία των τελευταίων 14 ετών που οδήγησε στο σημερινό καθεστώς:</p>
+
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+          <thead>
+            <tr style="background-color: #0f172a; color: #f8fafc; border-bottom: 2px solid #3b82f6;">
+              <th style="padding: 12px 16px;">Έτος</th>
+              <th style="padding: 12px 16px;">Νόμος / Διάταξη</th>
+              <th style="padding: 12px 16px;">Τι Όρισε για την Ιστοσελίδα &amp; τη Δημοσιότητα</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #1e293b;">
+              <td style="padding: 12px 16px; font-weight: 700; color: #60a5fa;">2012</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Νόμος 4072/2012 (ΦΕΚ Α' 86)</td>
+              <td style="padding: 12px 16px; color: #cbd5e1;">Θέσπιση της ΙΚΕ. Το <strong>Άρθρο 47 §2</strong> ορίζει την υποχρέωση απόκτησης ιστοσελίδας εντός ενός (1) μηνός από τη σύσταση. Το <strong>Άρθρο 98 §2</strong> και το <strong>Άρθρο 232</strong> καθιερώνουν τη δημοσίευση ισολογισμών στο site αντί για εφημερίδες.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b; background-color: rgba(15,23,42,0.4);">
+              <td style="padding: 12px 16px; font-weight: 700; color: #60a5fa;">2013</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Εγκύκλιος Κ2-3683/2013</td>
+              <td style="padding: 12px 16px; color: #cbd5e1;">Το Υπουργείο Ανάπτυξης ξεκαθαρίζει ότι απαιτείται <strong>αυτόνομο domain name</strong>. Αποκλείονται ρητά σελίδες σε Social Media (Facebook, LinkedIn) και δωρεάν subdomains.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b;">
+              <td style="padding: 12px 16px; font-weight: 700; color: #60a5fa;">2014</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Νόμος 4308/2014 (ΕΛΠ)</td>
+              <td style="padding: 12px 16px; color: #cbd5e1;">Καθιέρωση των Ελληνικών Λογιστικών Προτύπων. Υποχρέωση ανάρτησης χρηματοοικονομικών καταστάσεων των πολυμερών και πολύ μικρών οντοτήτων.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b; background-color: rgba(15,23,42,0.4);">
+              <td style="padding: 12px 16px; font-weight: 700; color: #60a5fa;">2018-2019</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Ν. 4541/2018 &amp; Ν. 4635/2019</td>
+              <td style="padding: 12px 16px; color: #cbd5e1;">Ψηφιοποίηση των διαδικασιών σύστασης μέσω e-ΥΜΣ και ενίσχυση των υποχρεώσεων ηλεκτρονικής δημοσιότητας στο ΓΕΜΗ.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b;">
+              <td style="padding: 12px 16px; font-weight: 700; color: #60a5fa;">2022</td>
+              <td style="padding: 12px 16px; font-weight: 600;">Νόμος 4919/2022</td>
+              <td style="padding: 12px 16px; color: #cbd5e1;">Ριζικός εκσυγχρονισμός του Γ.Ε.ΜΗ. Θέσπιση της <strong>αυτόματης αναστολής καταχώρισης</strong> και εξουσιοδότηση έκδοσης ΚΥΑ για χρηματικά πρόστιμα.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b; background-color: rgba(15,23,42,0.4);">
+              <td style="padding: 12px 16px; font-weight: 700; color: #60a5fa;">2025</td>
+              <td style="padding: 12px 16px; font-weight: 600;">ΚΥΑ 46982/2025 (ΦΕΚ Β' 3097)</td>
+              <td style="padding: 12px 16px; color: #cbd5e1;">Καθορισμός των ειδικών κλιμάκων προστίμων ανά παράβαση (500€ - 100.000€). Αρχική προθεσμία εφαρμογής: 01.01.2026.</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 16px; font-weight: 700; color: #ef4444;">2026</td>
+              <td style="padding: 12px 16px; font-weight: 600;">ΚΥΑ 104666/31.12.2025 &amp; 02.02.2026</td>
+              <td style="padding: 12px 16px; color: #cbd5e1;"><strong>Τελευταία καταληκτική παράταση έως 31 Ιανουαρίου 2026 (ΦΕΚ 7204/Β/31.12.2025). Από τη Δευτέρα 2 Φεβρουαρίου 2026, έναρξη μαζικών κυρώσεων και επιβολής προστίμων.</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Άρθρο 47 Νόμου 4072/2012: Τα 10 Υποχρεωτικά Στοιχεία της Ιστοσελίδας ΙΚΕ</h2>
+      <p>Το <strong>Άρθρο 47 («Δικτυακός τόπος της ιδιωτικής κεφαλαιουχικής εταιρείας και έντυπα»)</strong> αποτελεί τη ραχοκοκαλιά της υποχρέωσης. Σύμφωνα με την παράγραφο 2 του άρθρου, η εταιρεία οφείλει μέσα σε <strong>έναν (1) μήνα από τη σύστασή της</strong> να αποκτήσει δικό της ιστότοπο, ο οποίος καταχωρίζεται στη μερίδα της στο Γ.Ε.ΜΗ.</p>
+
+      <p>Μια έγκυρη ιστοσελίδα ΙΚΕ δεν αρκεί να υπάρχει. Πρέπει να προβάλλει <strong>υποχρεωτικά και ευκρινώς τα ακόλουθα 10 στοιχεία</strong>:</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 24px 0;">
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">1. Εταιρική Επωνυμία &amp; Διακριτικός Τίτλος</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Βάσει του <strong>Άρθρου 44</strong>, η επωνυμία σχηματίζεται από το όνομα εταίρων ή το αντικείμενο της επιχείρησης και συνοδεύεται υποχρεωτικά από τις λέξεις <em>«Ιδιωτική Κεφαλαιουχική Εταιρεία»</em> ή τη συντομογραφία <em>«Ι.Κ.Ε.»</em>. Εάν είναι μονοπρόσωπη, πρέπει να αναγράφεται ρητά <em>«Μονοπρόσωπη Ι.Κ.Ε.»</em> (Άρθρο 44 §3). Στις διεθνείς συναλλαγές, αποδίδεται ως <em>«Private Company»</em> ή <em>«P.C.»</em> (Άρθρο 44 §4).
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">2. Αριθμός Γ.Ε.ΜΗ.</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Ο μοναδικός 12ψήφιος κωδικός καταχώρισης στο Γενικό Εμπορικό Μητρώο. Αποτελεί τη βασική ταυτότητα της εταιρείας απέναντι σε δημόσιες αρχές, τράπεζες και πελάτες.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">3. Α.Φ.Μ. &amp; Αρμόδια Δ.Ο.Υ.</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Ο 9ψήφιος Αριθμός Φορολογικού Μητρώου και η αρμόδια Δημόσια Οικονομική Υπηρεσία όπου υπάγεται η εταιρική έδρα.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">4. Καταστατική Έδρα</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Η πλήρης γεωγραφική διεύθυνση όπως έχει δηλωθεί στο καταστατικό και στο μητρώο (Οδός, Αριθμός, Ταχυδρομικός Κώδικας, Δήμος/Πόλη).
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">5. Συνολικό Εταιρικό Κεφάλαιο</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Το συνολικό ποσό του κεφαλαίου της ΙΚΕ, ακριβώς όπως διαμορφώνεται μετά από τυχόν αυξήσεις ή μειώσεις κεφαλαίου.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">6. Οι 3 Κατηγορίες Εισφορών</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Ο Ν. 4072/2012 εισήγαγε 3 είδη εισφορών που πρέπει να αναγράφονται ρητά: <strong>Κεφαλαιακές</strong> (σε χρήμα ή είδος - άρθρο 77), <strong>Εξωκεφαλαιακές</strong> (εργασία/υπηρεσίες - άρθρο 78) και <strong>Εγγυητικές</strong> (ανάληψη ευθύνης για χρέη έως συγκεκριμένο ποσό - άρθρο 79).
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">7. Στοιχεία Εταίρων &amp; Εισφορές</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Ονοματεπώνυμο, διεύθυνση κατοικίας, αριθμός εταιρικών μεριδίων και το είδος της εισφοράς που αντιστοιχεί σε κάθε εταίρο.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">8. Στοιχεία Διαχειριστή / Διαχειριστών</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Βάσει του <strong>Άρθρου 63</strong>, αναγράφονται τα ονόματα των νόμιμων διαχειριστών και εκπροσώπων που δεσμεύουν την εταιρεία έναντι τρίτων.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">9. Κατάσταση της Εταιρείας</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Υποχρεωτική ένδειξη αν η εταιρεία είναι ενεργή, εάν τελεί <em>«υπό εκκαθάριση»</em> (άρθρα 103-105) ή εάν έχει υπαχθεί σε πτωχευτική διαδικασία.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #60a5fa; font-weight: 700; font-size: 16px; margin-bottom: 8px;">10. Δημοσίευση Ισολογισμών &amp; Οικονομικών Καταστάσεων</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Βάσει του <strong>Άρθρου 98 §2</strong> και του <strong>Άρθρου 232</strong>, η ανάρτηση των ετήσιων οικονομικών καταστάσεων στην ιστοσελίδα αντικαθιστά τις παλιές δαπανηρές δημοσιεύσεις σε εφημερίδες και ΦΕΚ.
+          </p>
+        </div>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Η Αρχή της Τριπλής Συμφωνίας &amp; τα Triggers Ανανέωσης της Ιστοσελίδας</h2>
+      <p>Ένα από τα πιο κρίσιμα σημεία του εταιρικού δικαίου είναι η <strong>Αρχή της Τριπλής Συμφωνίας</strong>:</p>
+      
+      <div style="background: rgba(15,23,42,0.8); border-left: 4px solid #3b82f6; padding: 18px 24px; margin: 20px 0; border-radius: 0 12px 12px 0;">
+        <p style="color: #f8fafc; font-size: 16px; font-weight: 600; margin: 0;">
+          Βιβλίο Εταίρων &amp; Πρακτικά = Εταιρική Ιστοσελίδα = Μερίδα Γ.Ε.ΜΗ.
+        </p>
+        <p style="color: #94a3b8; font-size: 14px; margin: 8px 0 0 0;">
+          Οποιαδήποτε ασυμφωνία μεταξύ των τριών αυτών πηγών συνιστά παράβαση υποχρέωσης δημοσιότητας και καθιστά τις εταιρικές πράξεις νομικά ευάλωτες έναντι κακόπιστων τρίτων.
+        </p>
+      </div>
+
+      <p>Πότε ενεργοποιείται η υποχρέωση επικαιροποίησης της ιστοσελίδας (Triggers του Νόμου);</p>
+      <ul>
+        <li><strong>Αλλαγή Διαχειριστή (Άρθρο 63 §1):</strong> Ο διορισμός, η παραίτηση ή η αντικατάσταση διαχειριστή απαιτεί ταυτόχρονη ενημέρωση του ΓΕΜΗ και της ιστοσελίδας.</li>
+        <li><strong>Μεταβίβαση Μεριδίων &amp; Αλλαγή Εταίρων (Άρθρα 84, 92, 93):</strong> Κάθε μεταβίβαση, έξοδος ή αποκλεισμός εταίρου πρέπει να αποτυπώνεται άμεσα στον ιστότοπο.</li>
+        <li><strong>Μεταβολές Εγγυητικών Εισφορών (Άρθρο 79 §7):</strong> Εάν λήξει ή μεταβληθεί το ποσό της εγγύησης που παρέχει ένας εταίρος, η διπλή υποχρέωση δημοσίευσης επιτάσσει άμεση ενημέρωση.</li>
+        <li><strong>Αλλαγή Εταιρικής Έδρας / Προσθήκη Υποκαταστήματος:</strong> Απαιτείται αναγραφή της νέας ταχυδρομικής διεύθυνσης.</li>
+        <li><strong>Έγκριση Ετήσιου Ισολογισμού (Άρθρο 98 §2):</strong> Ανάρτηση εντός των προβλεπόμενων προθεσμιών κάθε διαχειριστικής χρήσης.</li>
+      </ul>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Γιατί τα Social Media &amp; τα Δωρεάν Subdomains ΑΠΟΡΡΙΠΤΟΝΤΑΙ Κατηγορηματικά</h2>
+      <p>Πολλοί επιχειρηματίες αναρωτιούνται: <em>«Μπορώ να δηλώσω στο ΓΕΜΗ τη σελίδα της εταιρείας μου στο Facebook, στο LinkedIn ή ένα δωρεάν site στο Wix;»</em></p>
+
+      <p><strong>Η απάντηση είναι κατηγορηματικά ΟΧΙ.</strong></p>
+
+      <p>Σύμφωνα με την <strong>Εγκύκλιο Κ2-3683/2013 της Γενικής Γραμματείας Εμπορίου &amp; Προστασίας Καταναλωτή</strong>, καθώς και τις πάγιες οδηγίες των Επιμελητηρίων:</p>
+      <ul>
+        <li><strong>Τα Social Media δεν αποτελούν εταιρικό ιστότοπο:</strong> Ένα προφίλ στο Facebook, Instagram, TikTok ή LinkedIn ανήκει στην εκάστοτε πλατφόρμα, υπόκειται στους δικούς της όρους χρήσης και δεν παρέχει εγγύηση αδιάλειπτης πρόσβασης και διαρκούς δημόσιας αρχειοθέτησης εταιρικών εγγράφων. Οι ελεγκτές του ΓΕΜΗ απορρίπτουν αμέσως τέτοιους συνδέσμους.</li>
+        <li><strong>Τα Δωρεάν Subdomains (wixsite.com, wordpress.com, blogspot.com):</strong> Δεν συνιστούν επίσημο εταιρικό domain name, στερούνται συνήθως νομικής κυριότητας από την εταιρεία, εμφανίζουν διαφημίσεις τρίτων και δεν πληρούν τις προδιαγραφές ασφαλείας (SSL) και επιχειρηματικής ταυτότητας.</li>
+        <li><strong>Απαιτείται Αυτόνομο Domain Name:</strong> Η εταιρεία οφείλει να διαθέτει δικό της domain (κατά προτίμηση με κατάληξη <code>.gr</code>) το οποίο ανήκει νομικά στην ίδια την Ι.Κ.Ε.</li>
+      </ul>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Τα Πρόστιμα Γ.Ε.ΜΗ. 2026 (ΚΥΑ 46982/2025 &amp; ΚΥΑ 104666/2025)</h2>
+      <p>Η εφαρμογή του νέου πλαισίου κυρώσεων από τις <strong>2 Φεβρουαρίου 2026</strong> επιβάλλει αυστηρά πρόστιμα που δεν μπορούν πλέον να παρακαμφθούν. Οι έλεγχοι διεξάγονται πλέον με <strong>αυτοματοποιημένα ψηφιακά scripts διασταύρωσης</strong> του ΓΕΜΗ.</p>
+
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+          <thead>
+            <tr style="background-color: #0f172a; color: #f8fafc; border-bottom: 2px solid #ef4444;">
+              <th style="padding: 12px 16px;">Είδος Παράβασης</th>
+              <th style="padding: 12px 16px;">Νομική Βάση</th>
+              <th style="padding: 12px 16px;">Χρηματικό Πρόστιμο</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #1e293b;">
+              <td style="padding: 12px 16px; font-weight: 600;">Μη δήλωση ιστοσελίδας εντός 30 ημερών από τη σύσταση</td>
+              <td style="padding: 12px 16px; color: #94a3b8;">Άρθρο 47 §2 Ν.4072/12 &amp; ΚΥΑ 46982/25</td>
+              <td style="padding: 12px 16px; font-weight: 700; color: #f87171;">500€ έως 2.000€</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b; background-color: rgba(15,23,42,0.4);">
+              <td style="padding: 12px 16px; font-weight: 600;">Δήλωση ψευδούς, ανενεργού ή μη λειτουργικού link (Broken URL)</td>
+              <td style="padding: 12px 16px; color: #94a3b8;">Άρθρο 47 §2 &amp; Ν. 4919/2022</td>
+              <td style="padding: 12px 16px; font-weight: 700; color: #f87171;">1.000€ έως 5.000€</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b;">
+              <td style="padding: 12px 16px; font-weight: 600;">Μη δημοσίευση ετήσιων οικονομικών καταστάσεων (ισολογισμών)</td>
+              <td style="padding: 12px 16px; color: #94a3b8;">Άρθρο 98 §2 &amp; Άρθρο 232</td>
+              <td style="padding: 12px 16px; font-weight: 700; color: #f87171;">1.000€ έως 10.000€</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b; background-color: rgba(15,23,42,0.4);">
+              <td style="padding: 12px 16px; font-weight: 600;">Επανειλημμένη μη συμμόρφωση / Υποτροπή</td>
+              <td style="padding: 12px 16px; color: #94a3b8;">ΚΥΑ 46982/2025 &amp; ΚΥΑ 104666/2025</td>
+              <td style="padding: 12px 16px; font-weight: 700; color: #ef4444;">Έως και 100.000€</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Οι 5 Βαθμίδες Επιπτώσεων στην Καθημερινότητα της Επιχείρησης</h3>
+      <p>Το χρηματικό πρόστιμο είναι μόνο το πρώτο στάδιο. Οι πρακτικές συνέπειες για τη λειτουργία της ΙΚΕ είναι καταστροφικές:</p>
+      
+      <ol style="color: #cbd5e1; line-height: 1.8; padding-left: 20px;">
+        <li><strong>Βαθμίδα 1 — Ηλεκτρονική Προειδοποίηση (Warning):</strong> Το σύστημα του ΓΕΜΗ στέλνει αυτοματοποιημένη ειδοποίηση στον διαχειριστή και στον λογιστή με προθεσμία συμμόρφωσης 30 ημερών.</li>
+        <li><strong>Βαθμίδα 2 — Επιβολή &amp; Βεβαίωση Προστίμου:</strong> Το ποσό του προστίμου βεβαιώνεται στην ΑΑΔΕ και αναρτάται στο Taxisnet ως άμεσα απαιτητή οφειλή.</li>
+        <li><strong>Βαθμίδα 3 — Αυτόματη Αναστολή Καταχώρισης (Flagged Status):</strong> Η μερίδα της εταιρείας «παγώνει». Δεν μπορεί να γίνει καμία νέα καταχώριση, τροποποίηση καταστατικού, αλλαγή ΚΑΔ ή αλλαγή διαχειριστή.</li>
+        <li><strong>Βαθμίδα 4 — Τραπεζικό Μπλοκάρισμα (KYC Failure):</strong> Οι ελληνικές συστημικές τράπεζες (Εθνική, Alpha, Eurobank, Πειραιώς) διενεργούν υποχρεωτικό έλεγχο νομιμοποίησης. Εάν η εταιρεία βρίσκεται σε αναστολή στο ΓΕΜΗ ή δεν μπορεί να εκδώσει Πιστοποιητικό Καλής Λειτουργίας (Good Standing), <strong>οι εταιρικοί λογαριασμοί και οι κάρτες μπλοκάρονται</strong>.</li>
+        <li><strong>Βαθμίδα 5 — Αποκλεισμός από ΕΣΠΑ, Αναπτυξιακό &amp; Δημόσιους Διαγωνισμούς:</strong> Η έλλειψη νομιμότητας στο ΓΕΜΗ καθιστά την εταιρεία αυτόματα μη επιλέξιμη για επιδοτήσεις, κονδύλια του Ταμείου Ανάκαμψης ή συμμετοχή σε διαγωνισμούς του Δημοσίου.</li>
+      </ol>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Το Τεχνολογικό Πλεονέκτημα της SGK Digital: Ζωντανή Διασύνδεση με το OpenData API του Γ.Ε.ΜΗ.</h2>
+      
+      <div style="background: linear-gradient(135deg, rgba(30,58,138,0.2) 0%, rgba(15,23,42,0.9) 100%); border: 1px solid #3b82f6; border-radius: 16px; padding: 28px; margin: 28px 0;">
+        <h3 style="color: #60a5fa; margin-top: 0; font-size: 22px;">Γιατί η Υλοποίηση της SGK Digital Ξεχωρίζει από Οτιδήποτε Άλλο στην Αγορά</h3>
+        <p style="color: #e2e8f0; font-size: 16px; line-height: 1.7;">
+          <strong>Μάλιστα, η υλοποίηση που έχει γίνει στις ιστοσελίδες της SGK Digital είναι πολύ ανώτερη από τα συνηθισμένα sites ΙΚΕ της αγοράς, διότι συνδέεται απευθείας με το επίσημο OpenData API του Γ.Ε.ΜΗ. (<code>opendata-api.businessportal.gr</code>) και αντλεί ζωντανά τα επίσημα στοιχεία, ΚΑΔ και αρχεία PDF. Γι’ αυτό και ξεχωρίζουμε!</strong>
+        </p>
+      </div>
+
+      <p>Στη συμβατική αγορά, οι περισσότερες εταιρείες web design κατασκευάζουν «στατικά» sites σε WordPress ή απλό HTML. Αυτό σημαίνει ότι:</p>
+      <ul>
+        <li>Κάθε φορά που αλλάζει ένας διαχειριστής, ένας εταίρος ή η έδρα, πρέπει να ψάχνετε τον προγραμματιστή, να πληρώνετε έξτρα χρεώσεις και να περιμένετε εβδομάδες για μια απλή αλλαγή.</li>
+        <li>Αν αλλάξει ένας ΚΑΔ στο μητρώο, η ιστοσελίδα παραμένει με τους παλιούς, παραβιάζοντας την «Αρχή της Τριπλής Συμφωνίας».</li>
+        <li>Τα PDF των ισολογισμών συχνά μένουν ξεχασμένα σε τοπικούς υπολογιστές και δεν αναρτώνται ποτέ στην ιστοσελίδα.</li>
+      </ul>
+
+      <h3>Πώς Λειτουργεί η Direct OpenData API Αρχιτεκτονική της SGK Digital:</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 24px 0;">
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #38bdf8; font-weight: 700; font-size: 16px; margin-bottom: 8px;">🔄 Live Real-Time Συγχρονισμός</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Η ιστοσελίδα επικοινωνεί σε πραγματικό χρόνο με τη δημόσια βάση δεδομένων του Γ.Ε.ΜΗ. Οποιαδήποτε επίσημη μεταβολή εγκρίνεται από το Επιμελητήριο αποτυπώνεται αυτόματα στη σελίδα.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #38bdf8; font-weight: 700; font-size: 16px; margin-bottom: 8px;">📊 Αυτόματη Άντληση ΚΑΔ</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Όλοι οι Κύριοι και Δευτερεύοντες Κωδικοί Αριθμοί Δραστηριότητας (ΚΑΔ) αντλούνται ζωντανά μέσω API και προβάλλονται σε δομημένους, καλαίσθητους πίνακες χωρίς καμία χειροκίνητη πληκτρολόγηση.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #38bdf8; font-weight: 700; font-size: 16px; margin-bottom: 8px;">📑 Αυτόματη Ανάρτηση Επίσημων PDF</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Οι δημοσιευμένες οικονομικές καταστάσεις, οι ισολογισμοί, τα πρακτικά Γενικών Συνελεύσεων και οι τροποποιήσεις καταστατικού προβάλλονται μέσα από ενσωματωμένο ασφαλές PDF viewer με επίσημα links επαλήθευσης.
+          </p>
+        </div>
+
+        <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+          <div style="color: #38bdf8; font-weight: 700; font-size: 16px; margin-bottom: 8px;">🛡️ Μηδενικό Άγχος για τον Λογιστή</div>
+          <p style="color: #94a3b8; font-size: 14px; margin: 0; line-height: 1.6;">
+            Ο λογιστής της εταιρείας δεν χρειάζεται να ασχολείται με κώδικα, FTP ή web designers. Η ιστοσελίδα συντηρείται αυτόματα, διασφαλίζοντας 100% συμμόρφωση 365 ημέρες τον χρόνο.
+          </p>
+        </div>
+      </div>
+
+      <h3>Σύγκριση: SGK Digital OpenData API vs Συμβατικά Sites της Αγοράς</h3>
+      <div style="overflow-x: auto; margin: 24px 0;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+          <thead>
+            <tr style="background-color: #0f172a; color: #f8fafc; border-bottom: 2px solid #3b82f6;">
+              <th style="padding: 12px 16px;">Χαρακτηριστικό</th>
+              <th style="padding: 12px 16px; color: #60a5fa;">SGK Digital (Live OpenData API)</th>
+              <th style="padding: 12px 16px; color: #94a3b8;">Συνηθισμένα Sites Αγοράς (WordPress / HTML)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #1e293b;">
+              <td style="padding: 12px 16px; font-weight: 600;">Ενημέρωση Στοιχείων Μεταβολών</td>
+              <td style="padding: 12px 16px; color: #4ade80; font-weight: 700;">Αυτόματη σε πραγματικό χρόνο (API)</td>
+              <td style="padding: 12px 16px; color: #f87171;">Χειροκίνητη με καθυστερήσεις &amp; έξτρα χρέωση</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b; background-color: rgba(15,23,42,0.4);">
+              <td style="padding: 12px 16px; font-weight: 600;">Προβολή ΚΑΔ</td>
+              <td style="padding: 12px 16px; color: #4ade80; font-weight: 700;">Ζωντανή άντληση κυρίων &amp; δευτερευόντων</td>
+              <td style="padding: 12px 16px; color: #f87171;">Στατικό κείμενο που ξεχνιέται</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b;">
+              <td style="padding: 12px 16px; font-weight: 600;">Ανάρτηση Ισολογισμών &amp; PDF</td>
+              <td style="padding: 12px 16px; color: #4ade80; font-weight: 700;">Ενσωματωμένο ασφαλές PDF viewer</td>
+              <td style="padding: 12px 16px; color: #f87171;">Σπασμένα links ή απουσία αρχείων</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #1e293b; background-color: rgba(15,23,42,0.4);">
+              <td style="padding: 12px 16px; font-weight: 600;">Χρόνος Παράδοσης</td>
+              <td style="padding: 12px 16px; color: #4ade80; font-weight: 700;">Εντός 24 ωρών (Ready-to-Submit)</td>
+              <td style="padding: 12px 16px; color: #f87171;">5 έως 15 εργάσιμες ημέρες</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 16px; font-weight: 600;">Τελικό Κόστος</td>
+              <td style="padding: 12px 16px; color: #60a5fa; font-weight: 700;">Μόνο 80€ + ΦΠΑ (All-inclusive)</td>
+              <td style="padding: 12px 16px; color: #f87171;">250€ - 600€ + έξτρα κόστη hosting/domain</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Ολοκληρωμένο Πακέτο Συμμόρφωσης ΙΚΕ SGK Digital: 80€ + ΦΠΑ σε 24 Ώρες</h2>
+      <p>Η <strong>SGK Digital</strong>, υπό την καθοδήγηση του επικεφαλής software architect <strong>Σπύρου Τσάβου</strong>, έχει δημιουργήσει την πιο αξιόπιστη και ολοκληρωμένη λύση στην ελληνική αγορά. Με κόστος μόλις <strong>80€ + ΦΠΑ</strong> (εφάπαξ), παραδίδουμε την ιστοσελίδα σας έτοιμη προς καταχώριση στο ΓΕΜΗ μέσα σε 24 ώρες.</p>
+
+      <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; margin: 24px 0;">
+        <h4 style="color: #ffffff; margin-top: 0; font-size: 18px;">Τι Περιλαμβάνει το Πακέτο των 80€ + ΦΠΑ:</h4>
+        <ul style="color: #cbd5e1; line-height: 1.8; margin-bottom: 0;">
+          <li><strong>Κατοχύρωση Επίσημου Domain Name .gr</strong> για 1 πλήρες έτος στο όνομα της εταιρείας σας.</li>
+          <li><strong>Ταχύτατη Cloud Φιλοξενία (Hosting) 1 έτους</strong> σε ευρωπαϊκά datacenters υψηλής διαθεσιμότητας (99.9% uptime).</li>
+          <li><strong>Πιστοποιητικό Ασφαλείας SSL (HTTPS)</strong> για πλήρη ασφάλεια και κρυπτογράφηση.</li>
+          <li><strong>Ζωντανή Σύνδεση με το OpenData API του Γ.Ε.ΜΗ.</strong> για αυτόματη άντληση στοιχείων, ΚΑΔ και PDF.</li>
+          <li><strong>Πλήρη εναρμόνιση με τα 10 υποχρεωτικά στοιχεία</strong> του Άρθρου 47 §2 Ν.4072/2012.</li>
+          <li><strong>Επαγγελματικό Εταιρικό Email</strong> (π.χ. <code>info@company.gr</code>) με webmail και υποστήριξη IMAP/POP3.</li>
+          <li><strong>Σχεδιασμό Καθαρού Εταιρικού Λογότυπου</strong> (εάν δεν διαθέτετε ήδη).</li>
+          <li><strong>Άμεση Έκδοση Επίσημου Τιμολογίου Εξόδων</strong> για πλήρη φορολογική έκπτωση.</li>
+          <li><strong>Παράδοση URL εντός 24 ωρών</strong> για άμεση υποβολή στη μερίδα σας στο ΓΕΜΗ πριν την εκπνοή των προθεσμιών.</li>
+        </ul>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Συχνές Ερωτήσεις (FAQ) για την Υποχρεωτική Ιστοσελίδα ΙΚΕ &amp; το ΓΕΜΗ</h2>
+
+      <h3>1. Είναι νομικά υποχρεωτική η ιστοσελίδα για κάθε ΙΚΕ στην Ελλάδα;</h3>
+      <p><strong>Ναι, 100%.</strong> Βάσει του Άρθρου 47 §2 του Νόμου 4072/2012 και των διατάξεων του Ν. 4919/2022, κάθε Ι.Κ.Ε. υποχρεούται να διαθέτει εταιρικό ιστότοπο. Δεν υπάρχει καμία εξαίρεση, ανεξαρτήτως εάν η εταιρεία έχει μηδενικό κύκλο εργασιών, αν είναι μονοπρόσωπη ή αν δραστηριοποιείται μόνο σε τοπικό επίπεδο.</p>
+
+      <h3>2. Ποια είναι η προθεσμία απόκτησης και δήλωσης της ιστοσελίδας;</h3>
+      <p>Για κάθε νέα Ι.Κ.Ε., η νόμιμη προθεσμία είναι <strong>ένας (1) μήνας (30 ημέρες) από την ημερομηνία σύστασής της</strong> στο Γ.Ε.ΜΗ. Για τις ήδη υφιστάμενες εταιρείες που δεν διαθέτουν ιστοσελίδα, η τελευταία προθεσμία της ΚΥΑ 104666/2025 έληξε στις <strong>31 Ιανουαρίου 2026</strong>. Από τις <strong>2 Φεβρουαρίου 2026</strong>, η συμμόρφωση πρέπει να γίνει άμεσα για την αποφυγή προστίμων.</p>
+
+      <h3>3. Ποια είναι τα πρόστιμα αν δεν έχω δηλώσει ιστοσελίδα στο ΓΕΜΗ;</h3>
+      <p>Βάσει της ΚΥΑ 46982/2025 και της ΚΥΑ 104666/2025, τα πρόστιμα κυμαίνονται από <strong>500€ έως 2.000€</strong> για μη δήλωση ιστοσελίδας, από <strong>1.000€ έως 5.000€</strong> για δήλωση ψευδούς ή ανενεργού συνδέσμου, και μπορούν να φτάσουν <strong>έως και τις 100.000€</strong> σε περιπτώσεις υποτροπής. Επιπλέον, ενεργοποιείται αυτόματη αναστολή καταχώρισης στο ΓΕΜΗ και πάγωμα τραπεζικών λογαριασμών.</p>
+
+      <h3>4. Μπορώ να δηλώσω τη σελίδα μου στο Facebook ή στο Instagram αντί για ιστοσελίδα;</h3>
+      <p><strong>Όχι.</strong> Η Εγκύκλιος Κ2-3683/2013 ορίζει ρητά ότι τα social media και τα προφίλ σε πλατφόρμες τρίτων δεν συνιστούν εταιρική ιστοσελίδα. Οι υπηρεσίες ΓΕΜΗ απορρίπτουν τέτοιους συνδέσμους και η εταιρεία θεωρείται ότι δεν διαθέτει ιστοσελίδα.</p>
+
+      <h3>5. Γιατί η λύση της SGK Digital με το OpenData API υπερέχει των άλλων εταιρειών;</h3>
+      <p>Επειδή συνδέεται απευθείας με το επίσημο <code>opendata-api.businessportal.gr</code> του Γ.Ε.ΜΗ. Τα στοιχεία της εταιρείας, οι εκπρόσωποι, η καταστατική έδρα, όλοι οι ΚΑΔ και τα δημοσιευμένα αρχεία PDF (ισολογισμοί, τροποποιήσεις) αντλούνται και ανανεώνονται ζωντανά. Δεν χρειάζεται να πληρώνετε προγραμματιστή για κάθε μελλοντική αλλαγή στο καταστατικό σας!</p>
+
+      <h3>6. Πόσο κοστίζει η κατασκευή της ιστοσελίδας ΙΚΕ στην SGK Digital;</h3>
+      <p>Το κόστος είναι <strong>80€ + ΦΠΑ</strong> (εφάπαξ πληρωμή για το 1ο έτος). Περιλαμβάνει τα πάντα: σχεδιασμό, κατοχύρωση .gr domain, ταχύτατο cloud hosting 1 έτους, SSL πιστοποιητικό, διασύνδεση με OpenData API ΓΕΜΗ, εταιρικό email και επίσημο τιμολόγιο.</p>
+
+      <h3>7. Σε πόσο χρόνο παραδίδεται η ιστοσελίδα για να τη δηλώσω στο ΓΕΜΗ;</h3>
+      <p>Η ιστοσελίδα παραδίδεται πλήρως λειτουργική <strong>εντός 24 ωρών</strong> από τη στιγμή παραλαβής του Αριθμού ΓΕΜΗ ή του ΑΦΜ της εταιρείας σας. Σας αποστέλλουμε το τελικό link για άμεση ανάρτηση στη μερίδα σας.</p>
+
+      <hr style="border: 0; border-top: 1px solid #334155; margin: 36px 0;" />
+
+      <h2>Μην Ρισκάρετε Πρόστιμα &amp; Τραπεζικό Μπλοκάρισμα — Αποκτήστε Νόμιμη Ιστοσελίδα Σήμερα</h2>
+      <p>Η προθεσμία των προστίμων ΓΕΜΗ έχει ήδη ενεργοποιηθεί. Μην επιτρέψετε σε μια παράλειψη των 80€ να θέσει σε κίνδυνο την επιχείρησή σας, τους τραπεζικούς σας λογαριασμούς και τη φορολογική σας ενημερότητα.</p>
+
+      <div style="background: linear-gradient(135deg, rgba(37,99,235,0.15) 0%, rgba(15,23,42,0.95) 100%); border: 1px solid rgba(59,130,246,0.3); border-radius: 16px; padding: 32px; text-align: center; margin: 32px 0;">
+        <h3 style="color: #ffffff; font-size: 24px; margin-top: 0; margin-bottom: 12px;">Έτοιμοι να θωρακίσετε την ΙΚΕ σας σε 24 Ώρες;</h3>
+        <p style="color: #cbd5e1; max-width: 600px; margin: 0 auto 24px auto; font-size: 15px; line-height: 1.6;">
+          Συμπληρώστε τη σύντομη φόρμα παραγγελίας με τον Αριθμό ΓΕΜΗ ή το ΑΦΜ σας και η ομάδα της SGK Digital θα δημιουργήσει την ιστοσελίδα σας με ζωντανή σύνδεση OpenData API αυθημερόν.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+          <a href="/ike-offer" style="background: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; box-shadow: 0 4px 14px rgba(37,99,235,0.4);">
+            Παραγγελία Ιστοσελίδας ΙΚΕ (80€ + ΦΠΑ) &rarr;
+          </a>
+          <a href="tel:2111140013" style="background: rgba(255,255,255,0.08); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 14px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px;">
+            📞 211 114 0013 / 6999 524 389
+          </a>
+        </div>
+      </div>
+    `,
+  },
+  {
     id: "ftth-autopsia-case-study-2026",
     slug: "pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta",
     title: "Πώς Αυτοματοποιήσαμε τις Αυτοψίες Οπτικών Ινών (FTTH) σε 5 Λεπτά: Custom AI Web Platform για Εταιρεία Τηλεπικοινωνιών",
