@@ -11,6 +11,7 @@ import {
   HostingReminderStage 
 } from "@/lib/hostingRenewalsTemplates";
 import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
+import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 
 export const dynamic = "force-dynamic";
 
@@ -243,6 +244,101 @@ export async function POST(req: NextRequest) {
         success: true,
         isPaid: newPaidState,
         customExpiresAt: hosting.customExpiresAt,
+      });
+    }
+
+    // ACTION: Simulate Payment (Demo Test - Updates Supabase DB and notifies)
+    if (action === "simulate_payment") {
+      const currentExp = hosting.customExpiresAt ? new Date(hosting.customExpiresAt) : new Date(client.created_at);
+      if (currentExp.getTime() < Date.now()) {
+        currentExp.setTime(Date.now());
+      }
+      currentExp.setFullYear(currentExp.getFullYear() + 1);
+      const newExpFormatted = currentExp.toISOString().split("T")[0];
+
+      hosting.paid = true;
+      hosting.paidAt = new Date().toISOString();
+      hosting.paidVia = "demo_test";
+      hosting.stripeSessionId = "demo_session_" + Date.now();
+      hosting.customExpiresAt = newExpFormatted;
+      hosting.lastStageSent = null;
+
+      metadata.hosting = hosting;
+
+      const { error: updateErr } = await supabase
+        .from("sgk_mails")
+        .update({ first_email_body: JSON.stringify(metadata) })
+        .eq("id", clientId);
+
+      if (updateErr) {
+        return NextResponse.json({ success: false, error: updateErr.message }, { status: 500 });
+      }
+
+      // Send test notification email to info@sgk.gr
+      await dispatchEmailWithFallback({
+        to: "info@sgk.gr",
+        subject: `🧪 [DEMO TEST] Δοκιμαστική Πληρωμή Hosting: 80€ από ${client.company}`,
+        html: buildProfessionalEmailHtml({
+          businessName: "SGK System",
+          subject: `🧪 [DEMO TEST] Δοκιμαστική Πληρωμή Hosting: 80€ από ${client.company}`,
+          bodyHtml: `
+            <h2 style="color: #f59e0b; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
+              🧪 Επιτυχής Δοκιμαστική Πληρωμή (DEMO)!
+            </h2>
+            <p style="font-size: 15px; color: #1e293b;">
+              Η δοκιμή πληρωμής για την εταιρεία <strong>${client.company}</strong> εκτελέστηκε επιτυχώς.
+            </p>
+            <div style="background-color: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 14px; margin: 14px 0;">
+              <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #1e293b; line-height: 1.6;">
+                <li><strong>Πελάτης:</strong> ${client.company}</li>
+                <li><strong>Κατάσταση:</strong> ΠΛΗΡΩΘΗΚΕ (DEMO TEST)</li>
+                <li><strong>Νέα Λήξη στη Βάση:</strong> ${newExpFormatted}</li>
+                <li><strong>Database Updated:</strong> Ναι (Supabase)</li>
+              </ul>
+            </div>
+          `,
+          buttonText: "Άνοιγμα Admin Portal",
+          buttonLink: "https://www.sgk.gr/admin?tab=hosting",
+          unsubscribeToken: "admin-alert",
+        }),
+        fromName: "SGK System (Demo Test)",
+        fromEmail: "info@sgk.gr",
+      });
+
+      return NextResponse.json({
+        success: true,
+        isDemo: true,
+        newExpFormatted,
+        company: client.company,
+      });
+    }
+
+    // ACTION: Reset Client Demo State (Sets to unpaid with urgent expiry for re-testing)
+    if (action === "reset_client_demo") {
+      const expDate = new Date(Date.now() + 3 * 86400000).toISOString().split("T")[0];
+      hosting.paid = false;
+      delete hosting.paidAt;
+      delete hosting.paidVia;
+      delete hosting.stripeSessionId;
+      hosting.customExpiresAt = expDate;
+      hosting.lastStageSent = "3_days";
+
+      metadata.hosting = hosting;
+
+      const { error: resetErr } = await supabase
+        .from("sgk_mails")
+        .update({ first_email_body: JSON.stringify(metadata) })
+        .eq("id", clientId);
+
+      if (resetErr) {
+        return NextResponse.json({ success: false, error: resetErr.message }, { status: 500 });
+      }
+
+      return NextResponse.json({
+        success: true,
+        isDemo: true,
+        resetTo: expDate,
+        company: client.company,
       });
     }
 

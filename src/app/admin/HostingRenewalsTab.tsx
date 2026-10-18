@@ -86,6 +86,7 @@ export function HostingRenewalsTab() {
   const [testEmail, setTestEmail] = useState("info@sgk.gr");
   const [selectedTestClientId, setSelectedTestClientId] = useState<string>("");
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
+  const [adminMode, setAdminMode] = useState<"demo" | "live">("live");
 
   // Fetch data
   const fetchData = async () => {
@@ -109,8 +110,73 @@ export function HostingRenewalsTab() {
 
   useEffect(() => {
     setMounted(true);
+    const savedMode = localStorage.getItem("sgk_hosting_admin_mode");
+    if (savedMode === "demo" || savedMode === "live") {
+      setAdminMode(savedMode);
+    }
     fetchData();
   }, []);
+
+  const toggleAdminMode = (newMode: "demo" | "live") => {
+    setAdminMode(newMode);
+    localStorage.setItem("sgk_hosting_admin_mode", newMode);
+    toast.success(newMode === "demo"
+      ? "🧪 Ενεργοποιήθηκε η Δοκιμαστική Λειτουργία (DEMO MODE)! Μπορείτε να κάνετε δοκιμαστικές πληρωμές με άμεση ενημέρωση της βάσης δεδομένων (Supabase)."
+      : "🟢 Ενεργοποιήθηκε η Πραγματική Λειτουργία (LIVE MODE)! Συνδεδεμένο με Live Stripe (SGK DIGITAL) & Live Database."
+    );
+  };
+
+  // Demo: Simulate Successful Payment (Updates Supabase DB +1 year and notifies)
+  const handleSimulatePayment = async (client: ClientHostingItem) => {
+    try {
+      setActionLoadingId(client.id);
+      const res = await fetch("/api/admin/hosting-renewals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "simulate_payment",
+          clientId: client.id,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`🧪 [DEMO TEST] Η πληρωμή για ${client.companyName} καταγράφηκε επιτυχώς στη βάση δεδομένων! Νέα λήξη: ${data.newExpFormatted} (+1 έτος).`);
+        fetchData();
+      } else {
+        toast.error("Σφάλμα δοκιμής: " + data.error);
+      }
+    } catch (err: any) {
+      toast.error("Σφάλμα: " + err.message);
+    } finally {
+      setActionLoadingId(null);
+    }
+  };
+
+  // Demo: Reset Client Back to Unpaid (3 days left) for re-testing
+  const handleResetClientDemo = async (client: ClientHostingItem) => {
+    try {
+      setActionLoadingId(client.id);
+      const res = await fetch("/api/admin/hosting-renewals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "reset_client_demo",
+          clientId: client.id,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`↩️ [DEMO] Ο πελάτης ${client.companyName} επανήλθε σε εκκρεμότητα (λήξη: ${data.resetTo}) για νέες δοκιμές!`);
+        fetchData();
+      } else {
+        toast.error("Σφάλμα: " + data.error);
+      }
+    } catch (err: any) {
+      toast.error("Σφάλμα: " + err.message);
+    } finally {
+      setActionLoadingId(null);
+    }
+  };
 
   // Toggle Paid Status
   const handleTogglePaid = async (client: ClientHostingItem) => {
@@ -492,6 +558,65 @@ export function HostingRenewalsTab() {
         </div>
       </div>
 
+      {/* --- MODE SWITCHER: DEMO vs LIVE --- */}
+      <div className={`p-4 rounded-2xl border transition-all ${
+        adminMode === "demo" 
+          ? "bg-amber-500/10 border-amber-500/30 text-amber-950" 
+          : "bg-emerald-500/10 border-emerald-500/30 text-emerald-950"
+      }`}>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg ${
+              adminMode === "demo" ? "bg-amber-500 text-white shadow-md shadow-amber-500/30" : "bg-emerald-600 text-white shadow-md shadow-emerald-600/30"
+            }`}>
+              {adminMode === "demo" ? "🧪" : "🟢"}
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sm tracking-wide">
+                  {adminMode === "demo" ? "ΔΟΚΙΜΑΣΤΙΚΗ ΛΕΙΤΟΥΡΓΙΑ (DEMO MODE)" : "ΠΡΑΓΜΑΤΙΚΗ ΛΕΙΤΟΥΡΓΙΑ (LIVE PRODUCTION)"}
+                </span>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  adminMode === "demo" ? "bg-amber-200 text-amber-800" : "bg-emerald-200 text-emerald-800"
+                }`}>
+                  {adminMode === "demo" ? "Database Test Mode" : "Stripe Live Active"}
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 mt-0.5">
+                {adminMode === "demo" 
+                  ? "Στο DEMO mode μπορείτε να δοκιμάσετε τη ροή πληρωμής: πατώντας «Test Πληρωμή (Demo)» η βάση δεδομένων (Supabase) ενημερώνεται κανονικά (+1 έτος) για να κάνετε τεστ χωρίς χρέωση πραγματικής κάρτας!"
+                  : "Στο LIVE mode το σύστημα είναι συνδεδεμένο με το Live Stripe API (SGK DIGITAL). Κάθε πραγματική πληρωμή πελάτη ενημερώνει αυτόματα τη βάση και στέλνει τα επίσημα emails."
+                }
+              </p>
+            </div>
+          </div>
+
+          {/* Mode Switch Buttons */}
+          <div className="flex items-center bg-white p-1 rounded-xl border border-gray-200 shadow-sm self-end sm:self-auto">
+            <button
+              onClick={() => toggleAdminMode("demo")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                adminMode === "demo" 
+                  ? "bg-amber-500 text-white shadow-sm" 
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              <span>🧪 DEMO</span>
+            </button>
+            <button
+              onClick={() => toggleAdminMode("live")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                adminMode === "live" 
+                  ? "bg-emerald-600 text-white shadow-sm" 
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              <span>🟢 LIVE</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* --- SEARCH, FILTERS & CONTROLS --- */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-gray-200/80 shadow-sm">
         {/* Search Input */}
@@ -696,20 +821,49 @@ export function HostingRenewalsTab() {
 
                       {/* Status & Last Reminder Sent */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => handleTogglePaid(client)}
-                            disabled={actionLoadingId === client.id}
-                            title={client.isPaid ? "Κλικ για επιστροφή σε εκκρεμότητα" : "Κλικ για δήλωση πληρωμής"}
-                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs transition-all active:scale-95 ${
-                              client.isPaid 
-                                ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm" 
-                                : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200"
-                            }`}
-                          >
-                            <Check className="w-3.5 h-3.5" />
-                            <span>{client.isPaid ? "Πληρώθηκε" : "Δήλωση Πληρωμής"}</span>
-                          </button>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {adminMode === "demo" ? (
+                            <>
+                              <button
+                                onClick={() => handleSimulatePayment(client)}
+                                disabled={actionLoadingId === client.id}
+                                title="Δοκιμή Πληρωμής: Ενημερώνει άμεσα τη βάση δεδομένων (+1 έτος) για δοκιμή"
+                                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl font-bold text-xs transition-all active:scale-95 shadow-sm ${
+                                  client.isPaid 
+                                    ? "bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200"
+                                    : "bg-amber-500 hover:bg-amber-600 text-white"
+                                }`}
+                              >
+                                <Sparkles className="w-3.5 h-3.5" />
+                                <span>{client.isPaid ? "Test OK (+1 έτος)" : "⚡ Test Πληρωμή"}</span>
+                              </button>
+
+                              {client.isPaid && (
+                                <button
+                                  onClick={() => handleResetClientDemo(client)}
+                                  disabled={actionLoadingId === client.id}
+                                  title="Επαναφορά σε εκκρεμότητα για νέο τεστ"
+                                  className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs transition-all"
+                                >
+                                  <RefreshCcw className="w-3 h-3" />
+                                </button>
+                              )}
+                            </>
+                          ) : (
+                            <button
+                              onClick={() => handleTogglePaid(client)}
+                              disabled={actionLoadingId === client.id}
+                              title={client.isPaid ? "Κλικ για επιστροφή σε εκκρεμότητα" : "Κλικ για δήλωση πληρωμής"}
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs transition-all active:scale-95 ${
+                                client.isPaid 
+                                  ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm" 
+                                  : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200"
+                              }`}
+                            >
+                              <Check className="w-3.5 h-3.5" />
+                              <span>{client.isPaid ? "Πληρώθηκε" : "Δήλωση Πληρωμής"}</span>
+                            </button>
+                          )}
                         </div>
                         {client.lastStageSent && (
                           <div className="text-[10px] text-slate-500 mt-1 flex items-center gap-1">

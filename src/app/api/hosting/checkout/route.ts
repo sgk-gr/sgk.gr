@@ -5,28 +5,19 @@ import { getServiceSupabase } from "@/lib/supabase";
 export const dynamic = "force-dynamic";
 
 /**
- * Calculates total renewal price in Euro cents (including 24% VAT if not included)
+ * Calculates total renewal price in Euro cents (80€ final price with VAT included)
  */
 function calculateAmountCents(priceStr?: string): number {
-  if (!priceStr) return 9920; // Default 80€ + 24% VAT = 99.20€
+  if (!priceStr) return 8000; // 80.00€ τελική τιμή με ΦΠΑ
 
   const clean = priceStr.toLowerCase().replace(/\s+/g, "");
   const numMatch = clean.match(/(\d+[\.,]?\d*)/);
-  if (!numMatch) return 9920;
+  if (!numMatch) return 8000;
 
   const num = parseFloat(numMatch[1].replace(",", "."));
-  if (isNaN(num) || num <= 0) return 9920;
+  if (isNaN(num) || num <= 0) return 8000;
 
-  // Check if VAT is already included or needs to be added
-  const hasVatIncluded = clean.includes("συμπ") || clean.includes("μεφπα") || clean.includes("incl");
-  const plusVat = clean.includes("+φπα") || clean.includes("+vat");
-
-  let totalEur = num;
-  if (plusVat || (!hasVatIncluded && num === 80)) {
-    totalEur = num * 1.24;
-  }
-
-  return Math.round(totalEur * 100);
+  return Math.round(num * 100);
 }
 
 export async function GET(req: NextRequest) {

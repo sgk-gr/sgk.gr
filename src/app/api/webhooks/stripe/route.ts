@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     const clientId = session.metadata?.clientId || session.client_reference_id;
     const domain = session.metadata?.domain || "";
     const company = session.metadata?.company || "Πελάτης";
-    const amountPaid = session.amount_total ? (session.amount_total / 100).toFixed(2) : "99.20";
+    const amountPaid = session.amount_total ? (session.amount_total / 100).toFixed(2) : "80.00";
 
     console.log(`[Stripe Webhook] Received payment for client: ${clientId} (${company} - ${domain}) - Amount: ${amountPaid}€`);
 
