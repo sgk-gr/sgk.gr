@@ -51,7 +51,7 @@ export const BANK_DETAILS_HTML = `
 export function getHostingRenewalEmail(client: HostingClientData, stage: HostingReminderStage): { subject: string; html: string } {
   const company = client.companyName || "Αξιότιμε συνεργάτη";
   const domain = client.domainName || "την ιστοσελίδα σας";
-  const price = client.renewalPrice || "80,00 € (+ ΦΠΑ)";
+  const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
   const renewalDateFormatted = client.renewalDate;
 
   let subject = "";
@@ -210,7 +210,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
     businessName: company,
     subject,
     bodyHtml,
-    buttonText: "Εξόφληση Ανανέωσης (80€)",
+    buttonText: `Εξόφληση Ανανέωσης (${client.renewalPrice || "80€"})`,
     buttonLink: "https://www.sgk.gr/terms",
     unsubscribeToken: client.id || "hosting-renewal",
   });

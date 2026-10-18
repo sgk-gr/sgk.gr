@@ -123,7 +123,7 @@ export async function runHostingRenewalsCron(options?: {
       domainName: "meltech-ike.gr",
       registrationDate: "2025-02-06",
       renewalDate: new Date(Date.now() + (testStage === "20_days" ? 20 : testStage === "15_days" ? 15 : testStage === "5_days" ? 5 : testStage === "3_days" ? 3 : 0) * 86400000).toISOString().split("T")[0],
-      renewalPrice: "80,00 € (+ ΦΠΑ)",
+      renewalPrice: "80,00 € (συμπ. ΦΠΑ)",
       daysRemaining: testStage === "20_days" ? 20 : testStage === "15_days" ? 15 : testStage === "5_days" ? 5 : testStage === "3_days" ? 3 : 0,
     };
 
@@ -224,7 +224,7 @@ export async function runHostingRenewalsCron(options?: {
       domainName,
       registrationDate: client.created_at.split("T")[0],
       renewalDate,
-      renewalPrice: hostingMeta.renewalPrice || "80,00 € (+ ΦΠΑ)",
+      renewalPrice: hostingMeta.renewalPrice || "80,00 € (συμπ. ΦΠΑ)",
       daysRemaining,
     };
 

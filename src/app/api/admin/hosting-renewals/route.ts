@@ -80,7 +80,7 @@ export async function GET(req: NextRequest) {
         daysRemaining,
         isPaid,
         statusCategory,
-        renewalPrice: hosting.renewalPrice || "80,00 € (+ ΦΠΑ)",
+        renewalPrice: hosting.renewalPrice || "80,00 € (συμπ. ΦΠΑ)",
         notes: hosting.notes || "",
         lastStageSent: hosting.lastStageSent || null,
         lastStageSentAt: hosting.lastStageSentAt || null,
@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
         domainName: body.domainName || "meltech-ike.gr",
         registrationDate: "2025-02-06",
         renewalDate: new Date(Date.now() + (stage === "20_days" ? 20 : stage === "15_days" ? 15 : stage === "5_days" ? 5 : stage === "3_days" ? 3 : 0) * 86400000).toISOString().split("T")[0],
-        renewalPrice: "80,00 € (+ ΦΠΑ)",
+        renewalPrice: "80,00 € (συμπ. ΦΠΑ)",
         daysRemaining: stage === "20_days" ? 20 : stage === "15_days" ? 15 : stage === "5_days" ? 5 : stage === "3_days" ? 3 : 0,
       };
 
@@ -243,7 +243,7 @@ export async function POST(req: NextRequest) {
         domainName,
         registrationDate: client.created_at.split("T")[0],
         renewalDate,
-        renewalPrice: hosting.renewalPrice || "80,00 € (+ ΦΠΑ)",
+        renewalPrice: hosting.renewalPrice || "80,00 € (συμπ. ΦΠΑ)",
         daysRemaining,
       };
 

@@ -7,7 +7,7 @@ import {
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
   FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
   Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target,
-  ChevronDown, ChevronUp, History
+  ChevronDown, ChevronUp, History, Server
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
@@ -992,6 +992,7 @@ export function EmailsTab() {
   } | null>(null);
   const [singleLeadTarget, setSingleLeadTarget] = useState<any | null>(null);
   const [savedContracts, setSavedContracts] = useState<any[]>([]);
+  const [clientHostingPrices, setClientHostingPrices] = useState<Record<string, string>>({});
   
   // Single Add Lead form state
   const [newEmail, setNewEmail] = useState("");
@@ -1334,9 +1335,58 @@ function safeEncodeBase64(data: any): string {
 
     if (!hasError) {
       setLeads(allLeads);
+      
+      // Fetch hosting prices for converted clients
+      try {
+        const { data: conv } = await supabase
+          .from("sgk_mails")
+          .select("id, first_email_body")
+          .eq("converted", true);
+        const prices: Record<string, string> = {};
+        (conv || []).forEach((c: any) => {
+          try {
+            if (c.first_email_body && c.first_email_body.startsWith("{")) {
+              const meta = JSON.parse(c.first_email_body);
+              if (meta.hosting?.renewalPrice) {
+                prices[c.id] = meta.hosting.renewalPrice;
+              } else if (meta.hosting?.priceNum) {
+                prices[c.id] = `${meta.hosting.priceNum}€`;
+              }
+            }
+          } catch (e) {}
+          if (!prices[c.id]) prices[c.id] = "80,00 € (συμπ. ΦΠΑ)";
+        });
+        setClientHostingPrices(prices);
+      } catch (e) {}
     }
     setLoading(false);
     return allLeads;
+  };
+
+  const handleUpdateLeadHostingPrice = async (leadId: string, newPriceStr: string) => {
+    const trimmed = newPriceStr.trim();
+    if (!trimmed) return;
+    const formatted = trimmed.includes("ΦΠΑ") ? trimmed : `${trimmed} (συμπ. ΦΠΑ)`;
+    setClientHostingPrices((prev) => ({ ...prev, [leadId]: formatted }));
+    try {
+      const res = await fetch("/api/admin/hosting-renewals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update_client",
+          clientId: leadId,
+          renewalPrice: formatted,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Η τιμή ανανέωσης hosting ενημερώθηκε σε ${formatted}!`);
+      } else {
+        toast.error("Σφάλμα ενημέρωσης: " + data.error);
+      }
+    } catch (e: any) {
+      toast.error("Σφάλμα: " + e.message);
+    }
   };
 
   useEffect(() => {
@@ -3517,6 +3567,25 @@ function safeEncodeBase64(data: any): string {
                               <CheckCircle2 size={12} />
                               {lead.converted ? "Πελάτης 🎉" : "Έγινε Πελάτης"}
                             </button>
+                            {lead.converted && (
+                              <div 
+                                className="inline-flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-xl px-2 py-1 shadow-2xs"
+                                title="Ορίστε το ετήσιο ποσό ανανέωσης Hosting για αυτόν τον πελάτη (το διαβάζει το Cron για τα email υπενθύμισης)"
+                              >
+                                <Server className="w-3 h-3 text-[#3b5bdb]" />
+                                <span className="text-[10px] font-bold text-slate-500 uppercase">Host:</span>
+                                <input
+                                  type="text"
+                                  defaultValue={clientHostingPrices[lead.id] || "80€"}
+                                  key={clientHostingPrices[lead.id] || "80€"}
+                                  onBlur={(e) => handleUpdateLeadHostingPrice(lead.id, e.target.value)}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                                  }}
+                                  className="w-20 px-1 py-0.5 bg-white border border-slate-300 rounded text-xs font-bold text-blue-700 text-center outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                />
+                              </div>
+                            )}
                             {!isBlacklisted && (
                               <button
                                 onClick={() => {

@@ -132,6 +132,36 @@ export function HostingRenewalsTab() {
     }
   };
 
+  // Quick Inline Update Price
+  const handleQuickUpdatePrice = async (client: ClientHostingItem, newPrice: string) => {
+    const trimmed = newPrice.trim();
+    if (!trimmed || trimmed === client.renewalPrice) return;
+    const formatted = trimmed.includes("ΦΠΑ") ? trimmed : `${trimmed} (συμπ. ΦΠΑ)`;
+    try {
+      setActionLoadingId(client.id);
+      const res = await fetch("/api/admin/hosting-renewals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update_client",
+          clientId: client.id,
+          renewalPrice: formatted,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Η τιμή ανανέωσης για ${client.companyName} ενημερώθηκε σε ${formatted}!`);
+        fetchData();
+      } else {
+        toast.error("Σφάλμα: " + data.error);
+      }
+    } catch (err: any) {
+      toast.error("Σφάλμα: " + err.message);
+    } finally {
+      setActionLoadingId(null);
+    }
+  };
+
   // Run Cron Manually Now
   const handleRunCron = async () => {
     try {
@@ -577,8 +607,19 @@ export function HostingRenewalsTab() {
                           <Calendar className="w-3.5 h-3.5 text-slate-400" />
                           <span>{client.renewalDate}</span>
                         </div>
-                        <div className="text-[10px] text-slate-500 font-medium">
-                          Ετήσια (80€ + ΦΠΑ)
+                        <div className="mt-1 flex items-center gap-1.5">
+                          <span className="text-[10px] font-bold text-slate-400">Ποσό:</span>
+                          <input
+                            type="text"
+                            defaultValue={client.renewalPrice}
+                            key={client.renewalPrice}
+                            onBlur={(e) => handleQuickUpdatePrice(client, e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                            }}
+                            className="w-36 px-2 py-0.5 border border-slate-200 rounded text-xs font-bold text-blue-700 bg-white hover:border-blue-400 focus:border-blue-600 outline-none transition-colors"
+                            title="Επεξεργασία ποσού ανανέωσης hosting για αυτόν τον πελάτη (Enter ή κλικ έξω για αποθήκευση)"
+                          />
                         </div>
                       </td>
 
