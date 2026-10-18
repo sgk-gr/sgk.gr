@@ -46,9 +46,46 @@ export const BANK_DETAILS_HTML = `
 `;
 
 /**
+ * Stripe Online Payment Card
+ */
+export function getStripePaymentCardHtml(client: HostingClientData): string {
+  const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
+  const checkoutUrl = client.id 
+    ? `https://www.sgk.gr/api/hosting/checkout?client=${encodeURIComponent(client.id)}`
+    : `https://www.sgk.gr/api/hosting/checkout?domain=${encodeURIComponent(client.domainName || "")}`;
+
+  return `
+<!-- STRIPE ONLINE PAYMENT CARD -->
+<div style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 2px solid #3b5bdb; border-radius: 12px; padding: 22px 20px; margin: 22px 0; text-align: center;">
+  <p style="margin: 0 0 6px 0; font-size: 15px; font-weight: 800; color: #1e3a8a;">
+    💳 Άμεση Εξόφληση Online με Κάρτα / Apple Pay / Google Pay
+  </p>
+  <p style="margin: 0 0 16px 0; font-size: 13px; color: #475569; line-height: 1.5;">
+    Ολοκληρώστε την ανανέωση άμεσα online για αδιάλειπτη λειτουργία της ιστοσελίδας σας:
+  </p>
+  <div style="margin: 14px 0;">
+    <a href="${checkoutUrl}" 
+       style="display: inline-block; background-color: #3b5bdb; background: linear-gradient(135deg, #3b5bdb 0%, #2563eb 100%); color: #ffffff; font-size: 15px; font-weight: 800; text-decoration: none; padding: 14px 34px; border-radius: 10px; box-shadow: 0 4px 14px rgba(59, 91, 219, 0.35); letter-spacing: 0.3px;">
+      🔒 Πληρωμή Online (${price}) &rarr;
+    </a>
+  </div>
+  <p style="margin: 10px 0 0 0; font-size: 12px; color: #64748b; line-height: 1.4;">
+    🛡️ Ασφαλής κρυπτογραφημένη συναλλαγή μέσω <strong>Stripe</strong> • Άμεση αυτόματη ενεργοποίηση
+  </p>
+</div>
+
+<div style="text-align: center; margin: 18px 0 10px 0;">
+  <span style="display: inline-block; background-color: #f1f5f9; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #64748b;">
+    ή εναλλακτικά μέσω Τραπεζικής Κατάθεσης
+  </span>
+</div>
+`;
+}
+
+/**
  * Generate Subject & HTML Body for each of the 5 Snappy Reminder Stages
  */
-export function getHostingRenewalEmail(client: HostingClientData, stage: HostingReminderStage): { subject: string; html: string } {
+export function getHostingRenewalEmail(client: HostingClientData, stage: HostingReminderStage): { subject: string; html: string; bodyHtml: string } {
   const company = client.companyName || "Αξιότιμε συνεργάτη";
   const domain = client.domainName || "την ιστοσελίδα σας";
   const price = client.renewalPrice || "80,00 € (συμπ. ΦΠΑ)";
@@ -90,10 +127,12 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
 
         ${MANDATORY_RED_WARNING_HTML}
 
+        ${getStripePaymentCardHtml(client)}
+
         ${BANK_DETAILS_HTML}
 
         <p style="margin: 16px 0 0 0; font-size: 13.5px; color: #475569; line-height: 1.5;">
-          Μόλις ολοκληρώσετε την κατάθεση, παρακαλούμε αποστείλετε το αποδεικτικό στο <a href="mailto:info@sgk.gr" style="color: #3b5bdb; font-weight: 700;">info@sgk.gr</a> για την άμεση έκδοση του τιμολογίου σας.
+          Σε περίπτωση τραπεζικής κατάθεσης, παρακαλούμε αποστείλετε το αποδεικτικό στο <a href="mailto:info@sgk.gr" style="color: #3b5bdb; font-weight: 700;">info@sgk.gr</a> για την άμεση έκδοση του τιμολογίου σας.
         </p>
       `;
       break;
@@ -116,10 +155,12 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
 
         ${MANDATORY_RED_WARNING_HTML}
 
+        ${getStripePaymentCardHtml(client)}
+
         ${BANK_DETAILS_HTML}
 
         <p style="margin: 16px 0 0 0; font-size: 13.5px; color: #475569;">
-          Αν έχετε ήδη πραγματοποιήσει την κατάθεση εντός της ημέρας, παρακαλούμε αγνοήστε το παρόν μήνυμα ή προωθήστε μας το αποδεικτικό.
+          Αν έχετε ήδη πραγματοποιήσει την πληρωμή εντός της ημέρας, παρακαλούμε αγνοήστε το παρόν μήνυμα.
         </p>
       `;
       break;
@@ -143,6 +184,8 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
           Το ποσό ανανέωσης ανέρχεται σε <strong>${price}</strong>. Παρακαλούμε να προβείτε στην εξόφληση άμεσα προς αποφυγή αυτόματης αναστολής λειτουργίας των servers.
         </p>
 
+        ${getStripePaymentCardHtml(client)}
+
         ${BANK_DETAILS_HTML}
       `;
       break;
@@ -163,8 +206,10 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
         ${MANDATORY_RED_WARNING_HTML}
 
         <div style="background-color: #fff7ed; border-left: 5px solid #ea580c; border-radius: 8px; padding: 12px 16px; margin: 16px 0; font-size: 14px; color: #9a3412;">
-          ⏰ <strong>Χρονικό Όριο Εξόφλησης:</strong> Για να αποφευχθεί η αυτόματη απενεργοποίηση του domain και των εταιρικών σας emails, η κατάθεση των <strong>${price}</strong> πρέπει να καταχωρηθεί εντός 72 ωρών.
+          ⏰ <strong>Χρονικό Όριο Εξόφλησης:</strong> Για να αποφευχθεί η αυτόματη απενεργοποίηση του domain και των εταιρικών σας emails, η εξόφληση των <strong>${price}</strong> πρέπει να καταχωρηθεί εντός 72 ωρών.
         </div>
+
+        ${getStripePaymentCardHtml(client)}
 
         ${BANK_DETAILS_HTML}
 
@@ -192,8 +237,10 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
 
         <div style="background-color: #fef2f2; border: 1px dashed #ef4444; border-radius: 8px; padding: 14px 16px; margin: 16px 0; font-size: 14px; color: #991b1b; line-height: 1.55;">
           🛑 <strong>ΑΥΤΟΜΑΤΗ ΑΝΑΣΤΟΛΗ ΥΠΗΡΕΣΙΩΝ:</strong><br/>
-          Εάν δεν αποσταλεί αποδεικτικό κατάθεσης των <strong>${price}</strong> εντός των επόμενων ωρών, το σύστημα θα θέσει τον ιστότοπο εκτός λειτουργίας (Suspended) και τα εταιρικά emails θα πάψουν να λαμβάνουν μηνύματα.
+          Εάν δεν ολοκληρωθεί η εξόφληση των <strong>${price}</strong> εντός των επόμενων ωρών, το σύστημα θα θέσει τον ιστότοπο εκτός λειτουργίας (Suspended) και τα εταιρικά emails θα πάψουν να λαμβάνουν μηνύματα.
         </div>
+
+        ${getStripePaymentCardHtml(client)}
 
         ${BANK_DETAILS_HTML}
 
@@ -205,13 +252,17 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
       break;
   }
 
+  const checkoutUrl = client.id 
+    ? `https://www.sgk.gr/api/hosting/checkout?client=${encodeURIComponent(client.id)}`
+    : `https://www.sgk.gr/api/hosting/checkout?domain=${encodeURIComponent(client.domainName || "")}`;
+
   // Wrap in official SGK Email layout
   const fullHtml = buildProfessionalEmailHtml({
     businessName: company,
     subject,
     bodyHtml,
-    buttonText: `Εξόφληση Ανανέωσης (${client.renewalPrice || "80€"})`,
-    buttonLink: "https://www.sgk.gr/terms",
+    buttonText: `💳 Άμεση Εξόφληση Online (${price})`,
+    buttonLink: checkoutUrl,
     unsubscribeToken: client.id || "hosting-renewal",
   });
 

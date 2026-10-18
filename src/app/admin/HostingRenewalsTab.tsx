@@ -6,7 +6,7 @@ import {
   RefreshCcw, Server, Globe, AlertTriangle, CheckCircle2, Clock, 
   Send, Search, Filter, ShieldAlert, Edit2, Check, X, ExternalLink,
   Mail, Calendar, ArrowUpRight, Play, Eye, Sparkles, Building2,
-  FileCheck, AlertCircle, Phone, Info, Wallet, Coins
+  FileCheck, AlertCircle, Phone, Info, Wallet, Coins, CreditCard, Copy
 } from "lucide-react";
 import { toast } from "sonner";
 import { HostingReminderStage } from "@/lib/hostingRenewalsTemplates";
@@ -201,6 +201,17 @@ export function HostingRenewalsTab() {
       setActionLoadingId(null);
     }
   };
+
+  const handleCopyPaymentLink = (client: ClientHostingItem) => {
+    const link = `https://www.sgk.gr/api/hosting/checkout?client=${client.id}`;
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(link);
+      toast.success(`Το Stripe Link αντιγράφηκε: ${link}`);
+    } else {
+      prompt("Αντιγράψτε το Stripe Link:", link);
+    }
+  };
+
   const handleRunCron = async () => {
     try {
       setRunningCron(true);
@@ -763,6 +774,15 @@ export function HostingRenewalsTab() {
                               </div>
                             </div>
                           </div>
+
+                          {/* Copy Stripe Payment Link */}
+                          <button
+                            onClick={() => handleCopyPaymentLink(client)}
+                            title="Αντιγραφή Stripe Payment Link (Κάρτα / Apple Pay / Google Pay)"
+                            className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors cursor-pointer"
+                          >
+                            <CreditCard className="w-3.5 h-3.5" />
+                          </button>
 
                           {/* Edit Details */}
                           <button
