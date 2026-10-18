@@ -111,24 +111,24 @@ export function determineEligibleStage(daysRemaining: number, lastStageSent?: st
  * so that a heads-up email can be sent to info@sgk.gr 1 day earlier.
  */
 export function determineAdminWarningStage(daysRemaining: number, lastAdminWarningSent?: string | null): HostingReminderStage | null {
-  // If tomorrow daysRemaining will be 20 (so today is 21)
-  if (daysRemaining === 21) {
+  // 1 day before 20_days stage (e.g. 21 days remaining)
+  if (daysRemaining <= 21 && daysRemaining > 20) {
     return lastAdminWarningSent === "20_days" ? null : "20_days";
   }
-  // If tomorrow daysRemaining will be 15 (so today is 16)
-  if (daysRemaining === 16) {
+  // 1 day before 15_days stage (e.g. 16 days remaining)
+  if (daysRemaining <= 16 && daysRemaining > 15) {
     return lastAdminWarningSent === "15_days" ? null : "15_days";
   }
-  // If tomorrow daysRemaining will be 5 (so today is 6)
-  if (daysRemaining === 6) {
+  // 1 day before 5_days stage (e.g. 6 days remaining)
+  if (daysRemaining <= 6 && daysRemaining > 5) {
     return lastAdminWarningSent === "5_days" ? null : "5_days";
   }
-  // If tomorrow daysRemaining will be 3 (so today is 4)
-  if (daysRemaining === 4) {
+  // 1 day before 3_days stage (e.g. 4 days remaining)
+  if (daysRemaining <= 4 && daysRemaining > 3) {
     return lastAdminWarningSent === "3_days" ? null : "3_days";
   }
-  // If tomorrow daysRemaining will be 0 (so today is 1)
-  if (daysRemaining === 1) {
+  // 1 day before 0_days stage (e.g. 1 day remaining)
+  if (daysRemaining <= 1 && daysRemaining > 0) {
     return lastAdminWarningSent === "0_days" ? null : "0_days";
   }
   return null;
