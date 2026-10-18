@@ -4236,10 +4236,10 @@ function safeEncodeBase64(data: any): string {
                 )}
               </div>
 
-              <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+              <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
                 <button
                   onClick={() => setIsScanModalOpen(false)}
-                  className="adm-btn adm-btn-ghost text-xs"
+                  className="adm-btn adm-btn-ghost inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-xs transition-all cursor-pointer"
                 >
                   {isScanningGemi ? "Ακύρωση" : "Κλείσιμο"}
                 </button>
@@ -4268,10 +4268,10 @@ function safeEncodeBase64(data: any): string {
                       setSearchTerm("");
                       setIsCampaignModalOpen(true);
                     }}
-                    className="adm-btn adm-btn-primary text-xs"
+                    className="adm-btn adm-btn-primary inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#3b5bdb] hover:bg-[#324ec7] text-white shadow-sm transition-all cursor-pointer"
                   >
                     <Send size={13} />
-                    Μαζική αποστολή στα {scanStats.added > 0 ? scanStats.added : scannedNewLeads.length} νέα Leads
+                    <span>Μαζική αποστολή στα {scanStats.added > 0 ? scanStats.added : scannedNewLeads.length} νέα Leads</span>
                   </button>
                 )}
               </div>

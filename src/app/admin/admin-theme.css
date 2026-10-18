@@ -122,6 +122,7 @@
 /* ------------------------------------------------------------------
    Unified Dashboard Components (Photo 2 style: clean, crisp, no neon)
 ------------------------------------------------------------------- */
+.adm-btn,
 .admin-shell .adm-btn {
   display: inline-flex;
   align-items: center;
@@ -138,76 +139,90 @@
   white-space: nowrap;
   user-select: none;
 }
+.adm-btn:disabled,
 .admin-shell .adm-btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
+.adm-btn-primary,
 .admin-shell .adm-btn-primary {
   background-color: #3b5bdb;
   color: #ffffff;
   border-color: #3653c7;
   box-shadow: 0 1px 2px rgba(59, 91, 219, 0.2);
 }
+.adm-btn-primary:hover:not(:disabled),
 .admin-shell .adm-btn-primary:hover:not(:disabled) {
   background-color: #324ec7;
 }
 
+.adm-btn-dark,
 .admin-shell .adm-btn-dark {
   background-color: #0b1530;
   color: #ffffff;
   border-color: #0b1530;
   box-shadow: 0 1px 2px rgba(11, 21, 48, 0.2);
 }
+.adm-btn-dark:hover:not(:disabled),
 .admin-shell .adm-btn-dark:hover:not(:disabled) {
   background-color: #172554;
 }
 
+.adm-btn-ghost,
 .admin-shell .adm-btn-ghost {
   background-color: #ffffff;
   color: #334155;
   border-color: #e2e8f0;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
 }
+.adm-btn-ghost:hover:not(:disabled),
 .admin-shell .adm-btn-ghost:hover:not(:disabled) {
   background-color: #f8fafc;
   border-color: #cbd5e1;
   color: #0f172a;
 }
 
+.adm-btn-accent,
 .admin-shell .adm-btn-accent {
   background-color: #f0f3ff;
   color: #2b44b8;
   border-color: #dbe4ff;
 }
+.adm-btn-accent:hover:not(:disabled),
 .admin-shell .adm-btn-accent:hover:not(:disabled) {
   background-color: #e3ebff;
   border-color: #bac8ff;
   color: #1c339c;
 }
 
+.adm-btn-danger,
 .admin-shell .adm-btn-danger {
   background-color: #fee2e2;
   color: #b91c1c;
   border-color: #fecaca;
 }
+.adm-btn-danger:hover:not(:disabled),
 .admin-shell .adm-btn-danger:hover:not(:disabled) {
   background-color: #fca5a5;
   color: #7f1d1d;
 }
 
+.adm-btn-icon,
 .admin-shell .adm-btn-icon {
   padding: 0.5rem;
   background-color: #ffffff;
   color: #64748b;
   border-color: #e2e8f0;
 }
+.adm-btn-icon:hover:not(:disabled),
 .admin-shell .adm-btn-icon:hover:not(:disabled) {
   background-color: #f8fafc;
   border-color: #cbd5e1;
   color: #0f172a;
 }
 
+.adm-select,
 .admin-shell .adm-select {
   padding: 0.45rem 0.75rem;
   font-size: 0.8125rem;
@@ -219,12 +234,14 @@
   cursor: pointer;
   transition: all 0.15s ease;
 }
+.adm-select:focus,
 .admin-shell .adm-select:focus {
   outline: none;
   border-color: #3b5bdb;
   box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12);
 }
 
+.adm-input,
 .admin-shell .adm-input {
   padding: 0.5rem 0.85rem;
   font-size: 0.8125rem;
@@ -234,6 +251,7 @@
   border-radius: 9px;
   transition: all 0.15s ease;
 }
+.adm-input:focus,
 .admin-shell .adm-input:focus {
   outline: none;
   border-color: #3b5bdb;
