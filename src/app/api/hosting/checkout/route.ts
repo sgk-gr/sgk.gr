@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
     const domainQuery = searchParams.get("domain") || "";
     const emailQuery = searchParams.get("email") || "";
     const returnJson = searchParams.get("json") === "1" || req.headers.get("accept")?.includes("application/json");
+    const modeParam = searchParams.get("mode") || searchParams.get("sandbox");
+    const isTestMode = modeParam === "test" || modeParam === "sandbox" || modeParam === "demo";
 
     const supabase = getServiceSupabase();
 
@@ -76,7 +78,8 @@ export async function GET(req: NextRequest) {
     const domainName = hosting.domainName || (companyName.toLowerCase().replace(/[^a-z0-9]/g, "") + ".gr");
     const amountCents = calculateAmountCents(hosting.renewalPrice);
 
-    const stripe = getStripe();
+    // Get appropriate Stripe client (Sandbox vs Live)
+    const stripe = getStripe(isTestMode ? "test" : "live");
 
     // Create Stripe Checkout Session (Dynamic Payment Methods enabled)
     const session = await stripe.checkout.sessions.create({
@@ -86,8 +89,12 @@ export async function GET(req: NextRequest) {
             currency: "eur",
             unit_amount: amountCents,
             product_data: {
-              name: `Ετήσια Ανανέωση Hosting & Domain (${domainName})`,
-              description: `Ετήσια Φιλοξενία Cloud Υψηλής Ταχύτητας, Πιστοποιητικό SSL, Domain Name & Συμμόρφωση Γ.Ε.ΜΗ. για το ${domainName}`,
+              name: isTestMode
+                ? `[TEST SANDBOX] Ετήσια Ανανέωση Hosting & Domain (${domainName})`
+                : `Ετήσια Ανανέωση Hosting & Domain (${domainName})`,
+              description: isTestMode
+                ? `Δοκιμαστική πληρωμή (Stripe Test Mode / Sandbox) για ${domainName}`
+                : `Ετήσια Φιλοξενία Cloud Υψηλής Ταχύτητας, Πιστοποιητικό SSL, Domain Name & Συμμόρφωση Γ.Ε.ΜΗ. για το ${domainName}`,
               images: ["https://www.sgk.gr/images/sgk-hosting-badge.png"],
             },
           },
@@ -102,8 +109,9 @@ export async function GET(req: NextRequest) {
         domain: domainName,
         company: companyName,
         type: "hosting_renewal",
+        stripeMode: isTestMode ? "test" : "live",
       },
-      success_url: `https://www.sgk.gr/payment-success?session_id={CHECKOUT_SESSION_ID}&domain=${encodeURIComponent(domainName)}`,
+      success_url: `https://www.sgk.gr/payment-success?session_id={CHECKOUT_SESSION_ID}&domain=${encodeURIComponent(domainName)}&mode=${isTestMode ? "test" : "live"}`,
       cancel_url: `https://www.sgk.gr/`,
     });
 
@@ -112,6 +120,7 @@ export async function GET(req: NextRequest) {
         success: true,
         url: session.url,
         sessionId: session.id,
+        mode: isTestMode ? "test" : "live",
         amountEur: (amountCents / 100).toFixed(2),
         domain: domainName,
       });

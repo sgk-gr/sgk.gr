@@ -269,10 +269,10 @@ export function HostingRenewalsTab() {
   };
 
   const handleCopyPaymentLink = (client: ClientHostingItem) => {
-    const link = `https://www.sgk.gr/api/hosting/checkout?client=${client.id}`;
+    const link = `https://www.sgk.gr/api/hosting/checkout?client=${client.id}${adminMode === "demo" ? "&mode=test" : ""}`;
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(link);
-      toast.success(`Το Stripe Link αντιγράφηκε: ${link}`);
+      toast.success(`${adminMode === "demo" ? "🧪 Sandbox" : "🟢 Live"} Stripe Link αντιγράφηκε: ${link}`);
     } else {
       prompt("Αντιγράψτε το Stripe Link:", link);
     }
@@ -312,6 +312,7 @@ export function HostingRenewalsTab() {
           clientId: selectedTestClientId || undefined,
           to: testEmail,
           stage: testStage,
+          mode: adminMode === "demo" ? "test" : "live",
         }),
       });
       const data = await res.json();
@@ -339,6 +340,7 @@ export function HostingRenewalsTab() {
           clientId: client.id,
           stage,
           to: "info@sgk.gr",
+          mode: adminMode === "demo" ? "test" : "live",
         }),
       });
       const data = await res.json();
@@ -369,6 +371,7 @@ export function HostingRenewalsTab() {
           action: "send_stage_reminder",
           clientId: client.id,
           stage,
+          mode: adminMode === "demo" ? "test" : "live",
         }),
       });
       const data = await res.json();

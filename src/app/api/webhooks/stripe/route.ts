@@ -7,26 +7,35 @@ import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  const stripe = getStripe();
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  if (!webhookSecret) {
-    console.error("Missing STRIPE_WEBHOOK_SECRET in environment");
-    return NextResponse.json({ error: "Webhook secret unconfigured" }, { status: 500 });
-  }
-
   const signature = req.headers.get("stripe-signature");
   if (!signature) {
     return NextResponse.json({ error: "Missing stripe-signature header" }, { status: 400 });
   }
 
-  let event: any;
+  const liveStripe = getStripe("live");
+  const testStripe = getStripe("test");
+  const liveSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
+  const testSecret = process.env.STRIPE_TEST_WEBHOOK_SECRET || "";
+  if (!liveSecret) {
+    console.error("Missing STRIPE_WEBHOOK_SECRET in environment");
+    return NextResponse.json({ error: "Webhook secret unconfigured" }, { status: 500 });
+  }
+
+  let event: any = null;
+  let isSandbox = false;
+  const rawBody = await req.text();
+
   try {
-    const rawBody = await req.text();
-    event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
-  } catch (err: any) {
-    console.error("Stripe Webhook Signature Verification Failed:", err.message);
-    return NextResponse.json({ error: `Webhook signature verification failed: ${err.message}` }, { status: 400 });
+    event = liveStripe.webhooks.constructEvent(rawBody, signature, liveSecret);
+    isSandbox = !event.livemode;
+  } catch (liveErr: any) {
+    try {
+      event = testStripe.webhooks.constructEvent(rawBody, signature, testSecret);
+      isSandbox = true;
+    } catch (testErr: any) {
+      console.error("Stripe Webhook Signature Verification Failed:", liveErr.message, testErr.message);
+      return NextResponse.json({ error: `Webhook signature verification failed: ${liveErr.message}` }, { status: 400 });
+    }
   }
 
   // Handle Event
@@ -37,7 +46,7 @@ export async function POST(req: NextRequest) {
     const company = session.metadata?.company || "Πελάτης";
     const amountPaid = session.amount_total ? (session.amount_total / 100).toFixed(2) : "80.00";
 
-    console.log(`[Stripe Webhook] Received payment for client: ${clientId} (${company} - ${domain}) - Amount: ${amountPaid}€`);
+    console.log(`[Stripe Webhook] Received payment for client: ${clientId} (${company} - ${domain}) - Amount: ${amountPaid}€ (Sandbox: ${isSandbox})`);
 
     if (clientId) {
       try {
@@ -75,7 +84,7 @@ export async function POST(req: NextRequest) {
           // Update hosting metadata
           hosting.paid = true;
           hosting.paidAt = new Date().toISOString();
-          hosting.paidVia = "stripe";
+          hosting.paidVia = isSandbox ? "stripe_sandbox" : "stripe_live";
           hosting.stripeSessionId = session.id;
           hosting.stripePaymentIntent = session.payment_intent;
           hosting.customExpiresAt = newExpFormatted;
@@ -94,19 +103,23 @@ export async function POST(req: NextRequest) {
           } else {
             console.log(`[Stripe Webhook] Client ${company} successfully updated. Renewed until: ${newExpFormatted}`);
 
+            const adminSubject = isSandbox
+              ? `🧪 [STRIPE SANDBOX] Δοκιμαστική Πληρωμή Hosting: ${amountPaid}€ από ${company} (${domain})`
+              : `💰 [STRIPE LIVE] Νέα Πληρωμή Hosting: ${amountPaid}€ από ${company} (${domain})`;
+
             // 1. Send Admin Notification to info@sgk.gr
             await dispatchEmailWithFallback({
               to: "info@sgk.gr",
-              subject: `💰 [Stripe] Νέα Πληρωμή Hosting: ${amountPaid}€ από ${company} (${domain})`,
+              subject: adminSubject,
               html: buildProfessionalEmailHtml({
                 businessName: "SGK System",
-                subject: `💰 [Stripe] Νέα Πληρωμή Hosting: ${amountPaid}€ από ${company} (${domain})`,
+                subject: adminSubject,
                 bodyHtml: `
-                <h2 style="color: #10b981; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
-                  ✅ Επιτυχής Πληρωμή Hosting μέσω Stripe!
+                <h2 style="color: ${isSandbox ? "#f59e0b" : "#10b981"}; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
+                  ${isSandbox ? "🧪 Επιτυχής Δοκιμαστική Πληρωμή (Stripe Sandbox)!" : "✅ Επιτυχής Πληρωμή Hosting μέσω Stripe!"}
                 </h2>
-                <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 16px; margin: 16px 0;">
-                  <p style="margin: 0 0 8px 0; font-size: 15px; color: #166534; font-weight: 700;">
+                <div style="background-color: ${isSandbox ? "#fffbeb" : "#f0fdf4"}; border: 1px solid ${isSandbox ? "#fef3c7" : "#bbf7d0"}; border-radius: 10px; padding: 16px; margin: 16px 0;">
+                  <p style="margin: 0 0 8px 0; font-size: 15px; color: ${isSandbox ? "#92400e" : "#166534"}; font-weight: 700;">
                     Στοιχεία Συναλλαγής:
                   </p>
                   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #1e293b; line-height: 1.6;">
@@ -114,6 +127,7 @@ export async function POST(req: NextRequest) {
                     <li><strong>Domain:</strong> ${domain}</li>
                     <li><strong>Ποσό που Εισπράχθηκε:</strong> ${amountPaid} €</li>
                     <li><strong>Email Πελάτη:</strong> ${client.email}</li>
+                    <li><strong>Stripe Mode:</strong> ${isSandbox ? "SANDBOX (Test Mode)" : "LIVE PRODUCTION"}</li>
                     <li><strong>Νέα Ημερομηνία Λήξης:</strong> ${newExpFormatted} (+1 Έτος)</li>
                     <li><strong>Stripe Session ID:</strong> ${session.id}</li>
                     <li><strong>Κατάσταση Ιστοσελίδας:</strong> Πλήρως Ενεργή (Active)</li>

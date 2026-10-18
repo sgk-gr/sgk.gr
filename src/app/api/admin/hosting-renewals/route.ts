@@ -171,11 +171,12 @@ export async function POST(req: NextRequest) {
         daysRemaining,
       };
 
-      const { subject, html } = getHostingRenewalEmail(sampleClient, stage);
+      const stripeMode: "live" | "test" = body.mode === "test" ? "test" : "live";
+      const { subject, html } = getHostingRenewalEmail(sampleClient, stage, stripeMode);
 
       const dispatchRes = await dispatchEmailWithFallback({
         to: targetEmail,
-        subject: `[ΔΟΚΙΜΑΣΤΙΚΟ SGK - ${stage}] ${subject}`,
+        subject: `[ΔΟΚΙΜΑΣΤΙΚΟ SGK${stripeMode === "test" ? " - SANDBOX" : ""} - ${stage}] ${subject}`,
         html,
         fromName: "SGK Digital (Hosting)",
         fromEmail: "info@sgk.gr",
@@ -378,7 +379,7 @@ export async function POST(req: NextRequest) {
         daysRemaining,
       };
 
-      const { subject, html } = getHostingRenewalEmail(clientData, stage);
+      const { subject, html } = getHostingRenewalEmail(clientData, stage, body.mode === "test" ? "test" : "live");
 
       const dispatchRes = await dispatchEmailWithFallback({
         to: client.email,

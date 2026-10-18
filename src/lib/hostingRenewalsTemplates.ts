@@ -65,29 +65,30 @@ export const BANK_DETAILS_HTML = `
 /**
  * Stripe Online Payment Card (Instant real-time unblocking - Compact & Sleek)
  */
-export function getStripePaymentCardHtml(client: HostingClientData): string {
+export function getStripePaymentCardHtml(client: HostingClientData, mode: "live" | "test" = "live"): string {
   const price = cleanDisplayPrice(client.renewalPrice);
+  const isTest = mode === "test";
   const checkoutUrl = client.id 
-    ? `https://www.sgk.gr/api/hosting/checkout?client=${encodeURIComponent(client.id)}`
-    : `https://www.sgk.gr/api/hosting/checkout?domain=${encodeURIComponent(client.domainName || "")}`;
+    ? `https://www.sgk.gr/api/hosting/checkout?client=${encodeURIComponent(client.id)}${isTest ? "&mode=test" : ""}`
+    : `https://www.sgk.gr/api/hosting/checkout?domain=${encodeURIComponent(client.domainName || "")}${isTest ? "&mode=test" : ""}`;
 
   return `
 <!-- STRIPE ONLINE PAYMENT CARD (COMPACT) -->
-<div style="background: #f8fafc; border: 1.5px solid #3b5bdb; border-radius: 10px; padding: 14px 16px; margin: 16px 0; text-align: center;">
-  <p style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 800; color: #1e3a8a;">
-    💳 Άμεση Πληρωμή Online με Κάρτα
+<div style="background: #f8fafc; border: 1.5px solid ${isTest ? "#f59e0b" : "#3b5bdb"}; border-radius: 10px; padding: 14px 16px; margin: 16px 0; text-align: center;">
+  <p style="margin: 0 0 4px 0; font-size: 14.5px; font-weight: 800; color: ${isTest ? "#b45309" : "#1e3a8a"};">
+    💳 ${isTest ? "Δοκιμαστική Πληρωμή (Stripe Sandbox)" : "Άμεση Πληρωμή Online με Κάρτα"}
   </p>
   <p style="margin: 0 0 10px 0; font-size: 12px; color: #475569; line-height: 1.4;">
     ⚡ <strong>Σε πραγματικό χρόνο (0 δευτερόλεπτα)</strong> &bull; Η ιστοσελίδα παραμένει άμεσα ενεργή.
   </p>
   <div>
     <a href="${checkoutUrl}" 
-       style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 13.5px; font-weight: 700; text-decoration: none; padding: 10px 24px; border-radius: 8px;">
-      🔒 Πληρωμή ${price} Online &rarr;
+       style="display: inline-block; background-color: ${isTest ? "#d97706" : "#2563eb"}; color: #ffffff; font-size: 13.5px; font-weight: 700; text-decoration: none; padding: 10px 24px; border-radius: 8px;">
+      🔒 ${isTest ? `Δοκιμαστική Πληρωμή ${price} (Sandbox) &rarr;` : `Πληρωμή ${price} Online &rarr;`}
     </a>
   </div>
   <p style="margin: 7px 0 0 0; font-size: 11px; color: #64748b; line-height: 1.3;">
-    Apple Pay &bull; Google Pay &bull; Stripe &bull; Αυτόματη έκδοση τιμολογίου
+    ${isTest ? "Δοκιμή με κάρτα 4242 4242... &bull; Sandbox Mode" : "Apple Pay &bull; Google Pay &bull; Stripe &bull; Αυτόματη έκδοση τιμολογίου"}
   </p>
 </div>
 
@@ -102,7 +103,7 @@ export function getStripePaymentCardHtml(client: HostingClientData): string {
 /**
  * Generate Subject & HTML Body for each of the 5 Snappy Reminder Stages
  */
-export function getHostingRenewalEmail(client: HostingClientData, stage: HostingReminderStage): { subject: string; html: string; bodyHtml: string } {
+export function getHostingRenewalEmail(client: HostingClientData, stage: HostingReminderStage, mode: "live" | "test" = "live"): { subject: string; html: string; bodyHtml: string } {
   const company = client.companyName || "Αξιότιμε συνεργάτη";
   const domain = client.domainName || "την ιστοσελίδα σας";
   const price = cleanDisplayPrice(client.renewalPrice);
@@ -144,7 +145,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
 
         ${MANDATORY_RED_WARNING_HTML}
 
-        ${getStripePaymentCardHtml(client)}
+        ${getStripePaymentCardHtml(client, mode)}
 
         ${BANK_DETAILS_HTML}
 
@@ -172,7 +173,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
 
         ${MANDATORY_RED_WARNING_HTML}
 
-        ${getStripePaymentCardHtml(client)}
+        ${getStripePaymentCardHtml(client, mode)}
 
         ${BANK_DETAILS_HTML}
 
@@ -201,7 +202,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
           Το ποσό ανανέωσης ανέρχεται σε <strong>${price}</strong>. Παρακαλούμε να προβείτε στην εξόφληση άμεσα προς αποφυγή αυτόματης αναστολής λειτουργίας των servers.
         </p>
 
-        ${getStripePaymentCardHtml(client)}
+        ${getStripePaymentCardHtml(client, mode)}
 
         ${BANK_DETAILS_HTML}
       `;
@@ -226,7 +227,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
           ⏰ <strong>Χρονικό Όριο Εξόφλησης:</strong> Για να αποφευχθεί η αυτόματη απενεργοποίηση του domain και των εταιρικών σας emails, η εξόφληση των <strong>${price}</strong> πρέπει να καταχωρηθεί εντός 72 ωρών.
         </div>
 
-        ${getStripePaymentCardHtml(client)}
+        ${getStripePaymentCardHtml(client, mode)}
 
         ${BANK_DETAILS_HTML}
 
@@ -257,7 +258,7 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
           Εάν δεν ολοκληρωθεί η εξόφληση των <strong>${price}</strong> εντός των επόμενων ωρών, το σύστημα θα θέσει τον ιστότοπο εκτός λειτουργίας (Suspended) και τα εταιρικά emails θα πάψουν να λαμβάνουν μηνύματα.
         </div>
 
-        ${getStripePaymentCardHtml(client)}
+        ${getStripePaymentCardHtml(client, mode)}
 
         ${BANK_DETAILS_HTML}
 
@@ -269,16 +270,17 @@ export function getHostingRenewalEmail(client: HostingClientData, stage: Hosting
       break;
   }
 
+  const isTest = mode === "test";
   const checkoutUrl = client.id 
-    ? `https://www.sgk.gr/api/hosting/checkout?client=${encodeURIComponent(client.id)}`
-    : `https://www.sgk.gr/api/hosting/checkout?domain=${encodeURIComponent(client.domainName || "")}`;
+    ? `https://www.sgk.gr/api/hosting/checkout?client=${encodeURIComponent(client.id)}${isTest ? "&mode=test" : ""}`
+    : `https://www.sgk.gr/api/hosting/checkout?domain=${encodeURIComponent(client.domainName || "")}${isTest ? "&mode=test" : ""}`;
 
   // Wrap in official SGK Email layout
   const fullHtml = buildProfessionalEmailHtml({
     businessName: company,
     subject,
     bodyHtml,
-    buttonText: `🔒 Πληρωμή ${price} Online`,
+    buttonText: isTest ? `🔒 Δοκιμαστική Πληρωμή ${price} (Sandbox)` : `🔒 Πληρωμή ${price} Online`,
     buttonLink: checkoutUrl,
     unsubscribeToken: client.id || "hosting-renewal",
   });
