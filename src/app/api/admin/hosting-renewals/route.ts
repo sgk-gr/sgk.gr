@@ -413,7 +413,7 @@ export async function POST(req: NextRequest) {
       delete hosting.stripeSessionId;
       hosting.customExpiresAt = expDate;
       hosting.lastStageSent = "3_days";
-      hosting.payments = getPayments(hosting).filter((p) => p.method !== "demo");
+      hosting.payments = getPayments(hosting).filter((p) => p.method !== "demo" && p.method !== "stripe_sandbox");
 
       metadata.hosting = hosting;
 
