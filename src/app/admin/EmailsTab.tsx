@@ -1819,7 +1819,36 @@ function safeEncodeBase64(data: any): string {
       return;
     }
 
-    const isStartingWithBrevo = emailProviderChoice === "brevo";
+    let isStartingWithBrevo = emailProviderChoice === "brevo";
+
+    // 0. Pre-flight Check: If "auto", verify if Resend has capacity today before sending the 1st email!
+    if (emailProviderChoice === "auto") {
+      setSendingProgress({
+        current: 0,
+        total: targets.length,
+        active: true,
+        statusText: `🔍 Έλεγχος διαθεσιμότητας παρόχου (Resend vs Brevo)...`,
+        provider: "resend",
+        providerSwitched: false,
+        resendCount: 0,
+        brevoCount: 0,
+      });
+
+      try {
+        const checkRes = await fetch("/api/admin/check-email-provider");
+        const checkData = await checkRes.json();
+        if (checkData.recommended === "brevo" || checkData.resend?.hasCapacity === false) {
+          isStartingWithBrevo = true;
+          toast.info(
+            `⚡ Η Resend έφτασε το όριο (${checkData.totalSentToday || 100}/100 σήμερα). Η αποστολή ξεκινάει άμεσα μέσω Brevo!`,
+            { duration: 5000 }
+          );
+        }
+      } catch (e) {
+        console.warn("Pre-flight provider check error:", e);
+      }
+    }
+
     setSendingProgress({
       current: 0,
       total: targets.length,
@@ -1900,7 +1929,7 @@ function safeEncodeBase64(data: any): string {
           brevoSent++;
           if (!hasSwitchedToBrevo && emailProviderChoice === "auto") {
             hasSwitchedToBrevo = true;
-            toast.warn(`⚠️ Η Resend έπιασε ημερήσιο όριο. Η αποστολή συνεχίζεται αυτόματα μέσω Brevo! ⚡`, { duration: 5000 });
+            toast.warning(`⚠️ Η Resend έπιασε ημερήσιο όριο. Η αποστολή συνεχίζεται αυτόματα μέσω Brevo! ⚡`, { duration: 5000 });
           }
         } else {
           resendSent++;
@@ -1934,7 +1963,7 @@ function safeEncodeBase64(data: any): string {
         // If Resend failed during auto, immediately switch to Brevo for remaining leads!
         if (!hasSwitchedToBrevo && emailProviderChoice === "auto") {
           hasSwitchedToBrevo = true;
-          toast.warn(`⚠️ Εναλλαγή σε Brevo για τους επόμενους παραλήπτες! ⚡`, { duration: 4000 });
+          toast.warning(`⚠️ Εναλλαγή σε Brevo για τους επόμενους παραλήπτες! ⚡`, { duration: 4000 });
         }
       }
     }
