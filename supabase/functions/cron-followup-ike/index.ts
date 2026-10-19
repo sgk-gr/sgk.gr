@@ -13,7 +13,10 @@ serve(async (req) => {
 
   try {
     console.log("🚀 [Supabase Cron] Triggering Follow-Up IKE from Supabase Edge Function...");
-    const targetUrl = "https://www.sgk.gr/api/admin/cron-followup-ike?days=3&limit=100";
+    const reqUrl = new URL(req.url);
+    const days = reqUrl.searchParams.get("days") || "3";
+    const limit = reqUrl.searchParams.get("limit") || "25";
+    const targetUrl = `https://www.sgk.gr/api/admin/cron-followup-ike?days=${days}&limit=${limit}`;
     const res = await fetch(targetUrl, {
       method: "GET",
       headers: {

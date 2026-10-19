@@ -83,32 +83,107 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
 export const IKE_FOLLOWUP_BUTTON_TEXT = "Έναρξη Ιστοσελίδας ΙΚΕ (80€)";
 export const IKE_FOLLOWUP_BUTTON_LINK = "https://www.sgk.gr/ike-offer";
 
-// Strict rule: Follow-up is sent ONLY to IKEs that received Step 1 from today onwards!
-export const SEQUENCE_START_DATE = "2026-10-11T00:00:00.000Z";
+export const IKE_FINAL_SUBJECT = "Τελευταία ενημέρωση: δήλωση εταιρικής ιστοσελίδας στο Γ.Ε.ΜΗ. (80€ με ΦΠΑ)";
+
+export const IKE_FINAL_BODY = `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
+  Τελευταία ενημέρωση για την εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ.
+</h2>
+
+<p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Αγαπητέ διαχειριστή,
+</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Σας έχουμε ενημερώσει με δύο προηγούμενα μηνύματα για την υποχρέωση δήλωσης εταιρικής ιστοσελίδας στη μερίδα της Ι.Κ.Ε. σας στο Γ.Ε.ΜΗ. <strong>Αυτό είναι το τελευταίο μήνυμα που θα λάβετε από εμάς για το θέμα.</strong>
+</p>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
+  Αν το έχετε ήδη τακτοποιήσει με άλλον συνεργάτη, αγνοήστε το παρόν και σας ευχόμαστε καλή συνέχεια. Αν εκκρεμεί, το αναλαμβάνουμε εμείς ολοκληρωμένα:
+</p>
+
+<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #3b5bdb; border-radius: 10px; padding: 14px 16px; margin: 16px 0;">
+  <p style="margin: 0 0 8px 0; font-size: 14.5px; font-weight: 800; color: #1e3a8a;">
+    📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 80€ (τελική τιμή με ΦΠΑ):
+  </p>
+  <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.55;">
+    <li><strong>Έτοιμη σε 24 ώρες</strong> με στοιχεία απευθείας από το Γ.Ε.ΜΗ.</li>
+    <li><strong>Domain .gr &amp; Hosting για 1 έτος</strong> συμπεριλαμβάνονται.</li>
+    <li><strong>Επίσημο Τιμολόγιο Εξόδων</strong> για τα βιβλία της εταιρείας.</li>
+  </ul>
+</div>
+
+<div style="background-color: #f1f5f9; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
+  📞 <strong>Αν θέλετε να το κλείσετε τώρα:</strong><br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
+  <div style="font-size: 12.5px; color: #64748b; margin-top: 4px;">(ή απαντήστε απευθείας σε αυτό το email με το ΑΦΜ σας)</div>
+</div>`;
+
+// Days to wait after Step 2 before sending the final Step 3 notice
+export const STEP3_WAIT_DAYS = 4;
+
+type LeadRow = {
+  id: string;
+  email: string;
+  company: string | null;
+  first_name: string | null;
+  last_name: string | null;
+  unsubscribe_token: string | null;
+  type: string | null;
+  email_sequence_step: number;
+  last_email_sent_at: string | null;
+  unsubscribed: boolean;
+  marketing_consent: boolean;
+  converted: boolean;
+  first_email_subject: string | null;
+};
 
 async function processFollowUp(days: number = 3, maxBatch: number = 100, forceReport: boolean = false) {
   const supabase = getServiceSupabase();
   const supabaseUrl = SUPABASE_URL;
   const supabaseServiceKey = getSupabaseServiceRoleKey();
 
-  const cutoff = getCalendarCutoffIso(days);
+  const cutoffStep1 = getCalendarCutoffIso(days);
+  const cutoffStep2 = getCalendarCutoffIso(STEP3_WAIT_DAYS);
+  const selectCols = "id, email, company, first_name, last_name, unsubscribe_token, type, email_sequence_step, last_email_sent_at, unsubscribed, marketing_consent, converted, first_email_subject";
 
-  // Find leads where Step 1 was sent FROM TODAY ONWARDS (>= 2026-10-11) AND >= 3 calendar days ago
-  const { data: leads, error } = await supabase
+  // Stage A: leads that already got Step 2 -> due for the final Step 3 (finish sequences first)
+  const { data: step2Leads, error: err2 } = await supabase
     .from("sgk_mails")
-    .select("id, email, company, first_name, last_name, unsubscribe_token, type, email_sequence_step, last_email_sent_at, unsubscribed, marketing_consent, converted, first_email_subject")
+    .select(selectCols)
     .eq("marketing_consent", true)
     .eq("unsubscribed", false)
     .eq("converted", false)
-    .eq("email_sequence_step", 1)
-    .gte("last_email_sent_at", SEQUENCE_START_DATE)
-    .lte("last_email_sent_at", cutoff)
+    .eq("email_sequence_step", 2)
+    .lte("last_email_sent_at", cutoffStep2)
     .order("last_email_sent_at", { ascending: true })
     .limit(maxBatch);
 
-  if (error) {
-    throw new Error(`Database query error: ${error.message}`);
+  if (err2) {
+    throw new Error(`Database query error: ${err2.message}`);
   }
+
+  // Stage B: leads that got only Step 1 (any date) -> due for Step 2
+  const remaining = Math.max(0, maxBatch - (step2Leads?.length || 0));
+  let step1Leads: LeadRow[] = [];
+  if (remaining > 0) {
+    const { data, error } = await supabase
+      .from("sgk_mails")
+      .select(selectCols)
+      .eq("marketing_consent", true)
+      .eq("unsubscribed", false)
+      .eq("converted", false)
+      .eq("email_sequence_step", 1)
+      .lte("last_email_sent_at", cutoffStep1)
+      .order("last_email_sent_at", { ascending: true })
+      .limit(remaining);
+    if (error) {
+      throw new Error(`Database query error: ${error.message}`);
+    }
+    step1Leads = (data || []) as LeadRow[];
+  }
+
+  const leads: LeadRow[] = [...((step2Leads || []) as LeadRow[]), ...step1Leads];
 
   const results: any[] = [];
   let sentCount = 0;
@@ -169,11 +244,14 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
     }
 
     const unsubscribeToken = lead.unsubscribe_token || crypto.randomUUID();
+    const targetStep = lead.email_sequence_step === 2 ? 3 : 2;
+    const isFinal = targetStep === 3;
+    const stepSubject = isFinal ? IKE_FINAL_SUBJECT : IKE_FOLLOWUP_SUBJECT;
 
     const finalHtml = buildProfessionalEmailHtml({
       businessName: lead.first_name || lead.company || "Συνεργάτη",
-      subject: IKE_FOLLOWUP_SUBJECT,
-      bodyHtml: IKE_FOLLOWUP_BODY,
+      subject: stepSubject,
+      bodyHtml: isFinal ? IKE_FINAL_BODY : IKE_FOLLOWUP_BODY,
       buttonText: IKE_FOLLOWUP_BUTTON_TEXT,
       buttonLink: IKE_FOLLOWUP_BUTTON_LINK,
       unsubscribeToken: unsubscribeToken,
@@ -184,10 +262,10 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
       const dispatchResult = await dispatchEmailWithFallback(
         {
           to: emailClean,
-          subject: IKE_FOLLOWUP_SUBJECT,
+          subject: stepSubject,
           html: finalHtml,
           unsubscribeToken: unsubscribeToken,
-          step: 2,
+          step: targetStep,
         },
         supabaseUrl,
         supabaseServiceKey
@@ -201,13 +279,13 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
       await supabase
         .from("sgk_mails")
         .update({
-          email_sequence_step: 2,
+          email_sequence_step: targetStep,
           last_email_sent_at: now,
         })
         .eq("id", lead.id);
 
       sentCount++;
-      results.push({ email: emailClean, company: lead.company, status: "sent", step: 2 });
+      results.push({ email: emailClean, company: lead.company, status: "sent", step: targetStep });
     } catch (e: any) {
       console.error(`Follow-up failed for ${emailClean}:`, e);
       failCount++;
@@ -277,7 +355,7 @@ async function sendAdminReport({
         📈 Σύνοψη Αποστολής:
       </p>
       <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.6;">
-        <li><strong>Απεστάλησαν Follow-Up (Βήμα 2 - 80€):</strong> <span style="color: #059669; font-weight: 800; font-size: 15px;">${sentCount}</span></li>
+        <li><strong>Απεστάλησαν Follow-Up (Βήμα 2 & 3):</strong> <span style="color: #059669; font-weight: 800; font-size: 15px;">${sentCount}</span></li>
         <li><strong>Σφάλματα:</strong> ${failCount}</li>
         <li><strong>Συνολικές Εγγραφές που Ελέγχθηκαν:</strong> ${totalChecked}</li>
       </ul>
@@ -299,7 +377,7 @@ async function sendAdminReport({
     `}
 
     <p style="margin: 16px 0 0 0; font-size: 12px; color: #64748b; line-height: 1.5; border-top: 1px solid #e2e8f0; padding-top: 10px;">
-      💡 <em>Κανόνας ασφαλείας: Το follow-up αποστέλλεται αποκλειστικά σε Ι.Κ.Ε. που έλαβαν το 1ο email από 11/10/2026 και έπειτα.</em>
+      💡 <em>Κανόνας ασφαλείας: Δεν αποστέλλονται emails σε blacklist, unsubscribed ή πελάτες που έχουν μετατραπεί. Μετά το 3ο email η ακολουθία τερματίζεται.</em>
     </p>
   `;
 
@@ -360,3 +438,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
+
