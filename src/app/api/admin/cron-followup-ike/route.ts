@@ -7,7 +7,7 @@ import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-export const IKE_FOLLOWUP_SUBJECT = "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 80€)";
+export const IKE_FOLLOWUP_SUBJECT = "Re: Σχετικά με τη δήλωση εταιρικής ιστοσελίδας στο Γ.Ε.ΜΗ. (80€ με ΦΠΑ)";
 
 // Calculate calendar-based cutoff in Greek timezone (Europe/Athens)
 // If today is day D in Greece, any email sent on or before (D - days) calendar date is eligible on morning run!
@@ -38,7 +38,7 @@ export function getCalendarCutoffIso(days: number = 3): string {
 }
 
 export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
-  Υπενθύμιση: Προθεσμία 30 Ημερών για Ιστοσελίδα Ι.Κ.Ε. στο Γ.Ε.ΜΗ.
+  Υπενθύμιση: Υποχρεωτική Εταιρική Ιστοσελίδα Ι.Κ.Ε. στο Γ.Ε.ΜΗ.
 </h2>
 
 <p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
@@ -46,11 +46,11 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Επικοινωνούμε σύντομα ως υπενθύμιση, καθώς σύμφωνα με το <strong>Άρθρο 47 του Ν.4072/2012</strong>, κάθε νέα Ι.Κ.Ε. οφείλει να αποκτήσει και να δηλώσει εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ. <strong>εντός 1 μηνός από τη σύστασή της</strong>.
+  Επικοινωνούμε σύντομα σε συνέχεια του προηγούμενου μηνύματός μας. Σύμφωνα με το <strong>Άρθρο 47 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να διαθέτει και να δηλώσει εταιρική ιστοσελίδα στη μερίδα της στο Γ.Ε.ΜΗ.
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Γνωρίζουμε ότι αυτές τις πρώτες μέρες τρέχετε με λογιστήρια και τράπεζες. Γι' αυτό στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
+  Γνωρίζουμε ότι η καθημερινότητα μιας επιχείρησης είναι απαιτητική. Γι' αυτό στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
 </p>
 
 <!-- Value Box -->
@@ -72,10 +72,9 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
   <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
 </p>
 
-<div style="background-color: #f1f5f9; border-radius: 8px; padding: 10px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
-  📞 Θέλετε να το κλείσουμε άμεσα τηλεφωνικά; Καλέστε μας:<br/>
-  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
-  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">📱 6999 524 389</a>
+<div style="background-color: #f1f5f9; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
+  📩 <strong>Θέλετε να το αναλάβουμε άμεσα;</strong><br/>
+  Απαντήστε απλώς σε αυτό το email με το ΑΦΜ σας, ή ολοκληρώστε την online αίτηση παρακάτω:
 </div>`;
 
 export const IKE_FOLLOWUP_BUTTON_TEXT = "Έναρξη Ιστοσελίδας ΙΚΕ (80€)";
@@ -144,9 +143,8 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
       checkText.includes(" α.ε") ||
       checkText.includes(" αε");
 
-    const isLegacyIke = lead.type === "legacy_ike" || lead.type === "old_ike";
-
-    if (isFtth || isNonIke || isLegacyIke) {
+    // Do NOT skip legacy_ike! Both new_ike and legacy_ike are IKE companies requiring GEMI website (80€).
+    if (isFtth || isNonIke) {
       results.push({ email: emailClean, status: "skipped_ftth_or_non_ike" });
       continue;
     }
@@ -154,11 +152,13 @@ async function processFollowUp(days: number = 3, maxBatch: number = 100, forceRe
     // Filter to ensure it's an IKE lead eligible for follow-up (matches frontend dueFollowUpIkeLeads)
     const isIke = (
       lead.type === "new_ike" ||
+      lead.type === "legacy_ike" ||
+      lead.type === "old_ike" ||
       lead.type === "imported" ||
       !lead.type ||
       (lead.company && (lead.company.toUpperCase().includes("ΙΚΕ") || lead.company.toUpperCase().includes("Ι.Κ.Ε."))) ||
       (lead.first_email_subject && (lead.first_email_subject.includes("Ι.Κ.Ε.") || lead.first_email_subject.includes("ΓΕΜΗ")))
-    ) && !isFtth && !isNonIke && !isLegacyIke;
+    ) && !isFtth && !isNonIke;
 
     if (!isIke) {
       results.push({ email: emailClean, status: "skipped_not_ike" });

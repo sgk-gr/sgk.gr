@@ -364,27 +364,27 @@ const templates = [
   },
   {
     name: "Istoselida ike 80 ευρω",
-    subject: "Συγχαρητήρια για τη νέα σας Ι.Κ.Ε. | Εταιρική ιστοσελίδα για το ΓΕΜΗ",
+    subject: "Σχετικά με τη δήλωση εταιρικής ιστοσελίδας στο Γ.Ε.ΜΗ. (80€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">Εταιρική Ιστοσελίδα ΙΚΕ (βάσει προδιαγραφών ΓΕΜΗ)</h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Αγαπητέ διαχειριστή, καλησπέρα. Είδαμε τη σύσταση της νέας σας εταιρείας στο ΓΕΜΗ και σας ευχόμαστε καλή επιτυχία.
+  Αγαπητέ διαχειριστή, καλησπέρα σας.
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Σκοπός της επικοινωνίας μας είναι να σας βοηθήσουμε να τακτοποιήσετε εύκολα τη νομική εκκρεμότητα: σύμφωνα με το <strong>Άρθρο 47 παρ. 2 του Ν.4072/2012</strong>, κάθε νέα Ι.Κ.Ε. οφείλει να αποκτήσει εταιρική ιστοσελίδα εντός ενός μηνός από τη σύστασή της και να την καταχωρίσει στο ΓΕΜΗ.
+  Σκοπός της επικοινωνίας μας είναι να σας βοηθήσουμε να τακτοποιήσετε εύκολα τη νομική εκκρεμότητα: σύμφωνα με το <strong>Άρθρο 47 παρ. 2 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να αποκτήσει εταιρική ιστοσελίδα και να την καταχωρίσει στη μερίδα της στο Γ.Ε.ΜΗ.
 </p>
 
 <p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Στην <strong>SGK Digital</strong> μπορούμε να το αναλάβουμε εμείς με μηδενικό κόπο από εσάς, αντλώντας τα στοιχεία απευθείας από το ΓΕΜΗ. 
+  Στην <strong>SGK Digital</strong> μπορούμε να το αναλάβουμε εμείς με μηδενικό κόπο από εσάς, αντλώντας τα στοιχεία απευθείας από το OpenData API του Γ.Ε.ΜΗ. 
 </p>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 20px 0;">
   <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Η ολοκληρωμένη λύση (80€ τελικό κόστος με ΦΠΑ):</p>
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.6;">
     <li>Έτοιμη ιστοσελίδα σε 24 ώρες, απολύτως συμβατή με τον νόμο.</li>
-    <li><strong>Πιστοποιημένη Διασύνδεση (API):</strong> Η σελίδα σας συνδέεται και διαβάζεται απευθείας από το ΓΕΜΗ, μηδενίζοντας λάθη και κινδύνους.</li>
-    <li>Κατοχύρωση .gr Domain & Hosting (για 1 έτος).</li>
+    <li><strong>Πιστοποιημένη Διασύνδεση (API):</strong> Η σελίδα σας συνδέεται και διαβάζεται απευθείας από το Γ.Ε.ΜΗ., μηδενίζοντας λάθη και κινδύνους.</li>
+    <li>Κατοχύρωση .gr Domain &amp; Hosting (για 1 έτος).</li>
     <li>Κατασκευή επαγγελματικού λογοτύπου.</li>
     <li>Εταιρικό Email (π.χ. info@...).</li>
     <li>Νόμιμο τιμολόγιο για τα έξοδα της εταιρείας σας.</li>
@@ -394,26 +394,26 @@ const templates = [
   </p>
 </div>
 
-<p style="margin: 0 0 20px 0; color: #475569; font-size: 14px; line-height: 1.5;">
-  Αν θέλετε να το αναλάβουμε, πατήστε το παρακάτω κουμπί για λεπτομέρειες, ή καλέστε μας στο <strong>211 114 0013</strong>.<br/><br/>
-  <em>(Αν πάλι το έχετε ήδη τακτοποιήσει, παρακαλώ αγνοήστε αυτό το μήνυμα και καλή συνέχεια στα νέα σας βήματα!)</em>
+<p style="margin: 0 0 16px 0; color: #475569; font-size: 14px; line-height: 1.5;">
+  Αν θέλετε να το αναλάβουμε άμεσα, <strong>απαντήστε απλώς σε αυτό το email</strong> με το ΑΦΜ ή την επωνυμία σας, ή πατήστε το παρακάτω κουμπί για online καταχώρηση.<br/><br/>
+  <em>(Αν το έχετε ήδη τακτοποιήσει, παρακαλώ αγνοήστε αυτό το μήνυμα και καλή συνέχεια στα νέα σας βήματα!)</em>
 </p>
 
 <div style="text-align: center; margin: 20px 0 10px;">
   <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
-    Εκδήλωση Ενδιαφέροντος
+    Έναρξη Ιστοσελίδας ΙΚΕ (80€)
   </a>
 </div>
 
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  <strong>Διαφάνεια & GDPR:</strong> Επικοινωνούμε αποκλειστικά βάσει των δημοσίων στοιχείων (OpenData API) του Γ.Ε.ΜΗ.
+  <strong>Διαφάνεια &amp; GDPR:</strong> Επικοινωνούμε αποκλειστικά βάσει των δημοσίων στοιχείων (OpenData API) του Γ.Ε.ΜΗ.
 </div>`,
     defaultButtonText: "",
     defaultButtonLink: ""
   },
   {
     name: "🏛️ Παλαιές Ι.Κ.Ε. (2018–2025): Χωρίς Ιστοσελίδα ΓΕΜΗ (80€)",
-    subject: "Έχετε Ι.Κ.Ε. χωρίς δηλωμένη ιστοσελίδα στο ΓΕΜΗ; | Τακτοποίηση σε 24 ώρες χωρίς πρόστιμο (80€)",
+    subject: "Ενημέρωση μερίδας Γ.Ε.ΜΗ.: Έλεγχος & τακτοποίηση εταιρικής ιστοσελίδας (80€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">
   «Έχω Ι.Κ.Ε. και δεν έχω ιστοσελίδα στο Γ.Ε.ΜΗ. Τι κάνω;»
 </h2>
@@ -459,9 +459,7 @@ const templates = [
 
 <!-- Quick Action Box -->
 <div style="background-color: #eff6ff; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #1e3a8a;">
-  📞 Θέλετε να το αναλάβουμε άμεσα; Καλέστε μας:<br/>
-  <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
-  <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
+  📩 <strong>Άμεση τακτοποίηση:</strong> Απαντήστε απλώς σε αυτό το email με το ΑΦΜ σας, ή πατήστε το παρακάτω κουμπί:
 </div>
 
 <div style="text-align: center; margin: 22px 0 12px;">
@@ -478,9 +476,9 @@ const templates = [
   },
   {
     name: "🔁 Follow-Up Ι.Κ.Ε. 80€ (3 ημέρες μετά)",
-    subject: "Υπενθύμιση: Προθεσμία 30 ημερών Γ.Ε.ΜΗ. για τη νέα σας Ι.Κ.Ε. (Ιστοσελίδα 80€)",
+    subject: "Re: Σχετικά με τη δήλωση εταιρικής ιστοσελίδας στο Γ.Ε.ΜΗ. (80€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 14px 0;">
-  Υπενθύμιση: Προθεσμία 30 Ημερών για Ιστοσελίδα Ι.Κ.Ε. στο Γ.Ε.ΜΗ.
+  Υπενθύμιση: Υποχρεωτική Εταιρική Ιστοσελίδα Ι.Κ.Ε. στο Γ.Ε.ΜΗ.
 </h2>
 
 <p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
@@ -488,11 +486,11 @@ const templates = [
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Επικοινωνούμε σύντομα ως υπενθύμιση, καθώς σύμφωνα με το <strong>Άρθρο 47 του Ν.4072/2012</strong>, κάθε νέα Ι.Κ.Ε. οφείλει να αποκτήσει και να δηλώσει εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ. <strong>εντός 1 μηνός από τη σύστασή της</strong>.
+  Επικοινωνούμε σύντομα σε συνέχεια του προηγούμενου μηνύματός μας. Σύμφωνα με το <strong>Άρθρο 47 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να διαθέτει και να δηλώσει εταιρική ιστοσελίδα στη μερίδα της στο Γ.Ε.ΜΗ.
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Γνωρίζουμε ότι αυτές τις πρώτες μέρες τρέχετε με λογιστήρια και τράπεζες. Γι' αυτό στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
+  Γνωρίζουμε ότι η καθημερινότητα μιας επιχείρησης είναι απαιτητική. Γι' αυτό στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
 </p>
 
 <!-- Value Box -->
@@ -514,10 +512,9 @@ const templates = [
   <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
 </p>
 
-<div style="background-color: #f1f5f9; border-radius: 8px; padding: 10px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
-  📞 Θέλετε να το κλείσουμε άμεσα τηλεφωνικά; Καλέστε μας:<br/>
-  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
-  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none;">📱 6999 524 389</a>
+<div style="background-color: #f1f5f9; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
+  📩 <strong>Θέλετε να το αναλάβουμε άμεσα;</strong><br/>
+  Απαντήστε απλώς σε αυτό το email με το ΑΦΜ σας, ή ολοκληρώστε την online αίτηση παρακάτω:
 </div>`,
     defaultButtonText: "Έναρξη Ιστοσελίδας ΙΚΕ (80€)",
     defaultButtonLink: "https://www.sgk.gr/ike-offer"
@@ -2351,16 +2348,14 @@ function safeEncodeBase64(data: any): string {
       !isEmailBlacklisted(l.email) &&
       !isFtthLead(l) &&
       !isNonIkeLead(l) &&
-      !isLegacyIkeLead(l) &&
       l.type !== 'ftth_telecom' &&
       l.type !== 'non_ike' &&
       l.type !== 'new_business_presence' &&
-      l.type !== 'legacy_ike' &&
       (l.email_sequence_step === 1 || (!l.email_sequence_step && l.last_email_sent_at)) &&
       l.last_email_sent_at &&
       l.last_email_sent_at >= sequenceStartDate &&
       l.last_email_sent_at <= cutoff &&
-      (l.type === 'new_ike' || l.type === 'imported' || (!l.type && (l.company?.toUpperCase().includes('ΙΚΕ') || l.company?.toUpperCase().includes('Ι.Κ.Ε.'))))
+      (l.type === 'new_ike' || l.type === 'legacy_ike' || l.type === 'imported' || (!l.type && (l.company?.toUpperCase().includes('ΙΚΕ') || l.company?.toUpperCase().includes('Ι.Κ.Ε.'))))
     );
   }, [leads]);
 
@@ -2438,7 +2433,7 @@ function safeEncodeBase64(data: any): string {
           lead.last_email_sent_at && 
           lead.last_email_sent_at >= sequenceStartDate &&
           lead.last_email_sent_at <= cutoff &&
-          (lead.type === 'new_ike' || lead.type === 'imported' || (!lead.type && (lead.company?.toUpperCase().includes('ΙΚΕ') || lead.company?.toUpperCase().includes('Ι.Κ.Ε.'))));
+          (lead.type === 'new_ike' || lead.type === 'legacy_ike' || lead.type === 'imported' || (!lead.type && (lead.company?.toUpperCase().includes('ΙΚΕ') || lead.company?.toUpperCase().includes('Ι.Κ.Ε.'))));
       }
       if (statusFilter === 'legacy') {
         return lead.type === 'legacy_ike';
