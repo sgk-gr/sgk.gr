@@ -365,53 +365,43 @@ const templates = [
   {
     name: "Istoselida ike 80 ευρω",
     subject: "Σχετικά με τη δήλωση εταιρικής ιστοσελίδας στο Γ.Ε.ΜΗ. (80€ με ΦΠΑ)",
-    body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">Εταιρική Ιστοσελίδα ΙΚΕ (βάσει προδιαγραφών ΓΕΜΗ)</h2>
+    body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">Η νέα σας Ι.Κ.Ε. χρειάζεται εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ.</h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
   Αγαπητέ διαχειριστή, καλησπέρα σας.
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Σκοπός της επικοινωνίας μας είναι να σας βοηθήσουμε να τακτοποιήσετε εύκολα τη νομική εκκρεμότητα: σύμφωνα με το <strong>Άρθρο 47 παρ. 2 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να αποκτήσει εταιρική ιστοσελίδα και να την καταχωρίσει στη μερίδα της στο Γ.Ε.ΜΗ.
+  Σύμφωνα με το <strong>Άρθρο 47 παρ. 2 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να αποκτήσει εταιρική ιστοσελίδα και να την καταχωρίσει στη μερίδα της στο Γ.Ε.ΜΗ. <strong>Αν μείνει εκκρεμότητα, μπορεί να σας δημιουργήσει πρόβλημα σε έναν έλεγχο. Αξίζει να κλείσει από την αρχή.</strong>
 </p>
 
 <p style="margin: 0 0 12px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Στην <strong>SGK Digital</strong> μπορούμε να το αναλάβουμε εμείς με μηδενικό κόπο από εσάς, αντλώντας τα στοιχεία απευθείας από το OpenData API του Γ.Ε.ΜΗ. 
+  Στην <strong>SGK Digital</strong> το αναλαμβάνουμε εμείς, <strong>χωρίς κόπο από εσάς</strong>:
 </p>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 20px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Η ολοκληρωμένη λύση (80€ τελικό κόστος με ΦΠΑ):</p>
+  <p style="margin: 0 0 6px 0; font-size: 14px; color: #0f172a; font-weight: 700;">Πλήρης λύση για 80€ (τελική τιμή με ΦΠΑ):</p>
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.6;">
-    <li>Έτοιμη ιστοσελίδα σε 24 ώρες, απολύτως συμβατή με τον νόμο.</li>
-    <li><strong>Πιστοποιημένη Διασύνδεση (API):</strong> Η σελίδα σας συνδέεται και διαβάζεται απευθείας από το Γ.Ε.ΜΗ., μηδενίζοντας λάθη και κινδύνους.</li>
-    <li>Κατοχύρωση .gr Domain &amp; Hosting (για 1 έτος).</li>
-    <li>Κατασκευή επαγγελματικού λογοτύπου.</li>
-    <li>Εταιρικό Email (π.χ. info@...).</li>
-    <li>Νόμιμο τιμολόγιο για τα έξοδα της εταιρείας σας.</li>
+    <li><strong>Έτοιμη ιστοσελίδα σε 24 ώρες</strong>, απολύτως συμβατή με τον νόμο.</li>
+    <li><strong>Πιστοποιημένη διασύνδεση με το Γ.Ε.ΜΗ. (API)</strong> μέσω επίσημης πρόσβασης gov.gr.</li>
+    <li><strong>.gr Domain &amp; Hosting για 1 έτος</strong>, λογότυπο και εταιρικό email.</li>
+    <li><strong>Νόμιμο τιμολόγιο</strong> για τα έξοδα της εταιρείας σας.</li>
   </ul>
-  <p style="margin: 10px 0 0 0; font-size: 13px; color: #475569;">
-    👉 <strong>Δείτε πρόσφατα δείγματα πελατών μας:</strong> <a href="https://meltech-ike.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; text-decoration: underline;">sellascountryhouses.gr</a>
-  </p>
 </div>
 
-<p style="margin: 0 0 16px 0; color: #475569; font-size: 14px; line-height: 1.5;">
-  Αν θέλετε να το αναλάβουμε άμεσα, <strong>απαντήστε απλώς σε αυτό το email</strong> με το ΑΦΜ ή την επωνυμία σας, καλέστε μας στα παρακάτω τηλέφωνα, ή πατήστε το παρακάτω κουμπί για online καταχώρηση.<br/><br/>
-  <em>(Αν το έχετε ήδη τακτοποιήσει, παρακαλώ αγνοήστε αυτό το μήνυμα και καλή συνέχεια στα νέα σας βήματα!)</em>
+<p style="margin: 0 0 14px 0; color: #475569; font-size: 14px; line-height: 1.5;">
+  <em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα και καλή συνέχεια!)</em>
 </p>
-
-<!-- Quick Action Box with Phone & Reply -->
-<div style="background-color: #eff6ff; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #1e3a8a;">
-  📞 <strong>Επικοινωνία &amp; Άμεση Τακτοποίηση:</strong><br/>
-  <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
-  <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
-  <div style="font-size: 12.5px; color: #475569; margin-top: 4px;">(ή απαντήστε απευθείας σε αυτό το μήνυμα με το ΑΦΜ σας)</div>
-</div>
 
 <div style="text-align: center; margin: 20px 0 10px;">
   <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
     Έναρξη Ιστοσελίδας ΙΚΕ (80€)
   </a>
 </div>
+
+<p style="margin: 0 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
+  Ή καλέστε μας: <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none;">☎️ 211 114 0013</a> &nbsp;|&nbsp; <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none;">📱 6999 524 389</a> &nbsp;|&nbsp; ή απαντήστε με το ΑΦΜ σας.
+</p>
 
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
   <strong>Διαφάνεια &amp; GDPR:</strong> Επικοινωνούμε αποκλειστικά βάσει των δημοσίων στοιχείων (OpenData API) του Γ.Ε.ΜΗ.
@@ -423,55 +413,39 @@ const templates = [
     name: "🏛️ Παλαιές Ι.Κ.Ε. (2018–2025): Χωρίς Ιστοσελίδα ΓΕΜΗ (80€)",
     subject: "Ενημέρωση μερίδας Γ.Ε.ΜΗ.: Έλεγχος & τακτοποίηση εταιρικής ιστοσελίδας (80€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">
-  «Έχω Ι.Κ.Ε. και δεν έχω ιστοσελίδα στο Γ.Ε.ΜΗ. Τι κάνω;»
+  Η Ι.Κ.Ε. σας δεν έχει δηλωμένη ιστοσελίδα στο Γ.Ε.ΜΗ.
 </h2>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
   Αγαπητέ διαχειριστή, καλησπέρα σας.
 </p>
 
-<!-- Friendly Advisory Notice Box -->
-<div style="background-color: #f0f7ff; border: 1px solid #dbeafe; border-left: 5px solid #3b82f6; border-radius: 8px; padding: 14px 16px; margin: 16px 0;">
-  <p style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 800; color: #1e40af;">
-    💡 Χρήσιμη ενημέρωση για την εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ.:
-  </p>
-  <p style="margin: 0; font-size: 13.5px; color: #1e3a8a; line-height: 1.55;">
-    Βάσει του <strong>Άρθρου 47 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. προβλέπεται να διαθέτει εταιρική ιστοσελίδα δηλωμένη στη μερίδα της στο Γ.Ε.ΜΗ.<br/>
-    <strong>Το καθησυχαστικό για εσάς:</strong> <u>Δεν υπάρχει αυτόματο «αναδρομικό» πρόστιμο</u>. Οι κυρώσεις ενεργοποιούνται συνήθως κατόπιν ελέγχου ή σχετικής ειδοποίησης. <strong>Όσο πιο γρήγορα συμμορφωθείτε δηλώνοντας το URL, τόσο μηδενίζετε οριστικά κάθε κίνδυνο!</strong>
+<!-- Advisory Notice Box -->
+<div style="background-color: #fff7ed; border: 1px solid #fed7aa; border-left: 5px solid #f97316; border-radius: 8px; padding: 14px 16px; margin: 16px 0;">
+  <p style="margin: 0; font-size: 14.5px; color: #7c2d12; line-height: 1.55;">
+    ⚠️ Βάσει του <strong>Άρθρου 47 του Ν.4072/2012</strong>, κάθε Ι.Κ.Ε. οφείλει να έχει εταιρική ιστοσελίδα δηλωμένη στη μερίδα της στο Γ.Ε.ΜΗ. Στη μερίδα της εταιρείας σας <strong>δεν εμφανίζεται</strong> ιστοσελίδα, και η εκκρεμότητα είναι ορατή δημόσια. <strong>Σε έναν έλεγχο, μπορεί να σας δημιουργήσει πρόβλημα. Αξίζει να κλείσει τώρα.</strong>
   </p>
 </div>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Στην <strong>SGK Digital</strong> αναλαμβάνουμε την άμεση τακτοποίηση της Ι.Κ.Ε. σας, αντλώντας όλα τα απαραίτητα εταιρικά στοιχεία απευθείας από το OpenData API του Γ.Ε.ΜΗ. χωρίς κανένα κόπο από εσάς.
+  Στην <strong>SGK Digital</strong> το αναλαμβάνουμε ολοκληρωτικά, <strong>χωρίς κόπο από εσάς</strong>:
 </p>
 
 <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 14px 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
   <p style="margin: 0 0 8px 0; font-size: 14px; color: #0f172a; font-weight: 700;">
-    Η ολοκληρωμένη λύση τακτοποίησης (80€ τελικό κόστος με ΦΠΑ):
+    Πλήρης τακτοποίηση για 80€ (τελική τιμή με ΦΠΑ):
   </p>
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.65;">
-    <li><strong>Έτοιμη ιστοσελίδα σε 24 ώρες</strong>, πλήρως εναρμονισμένη με τον Ν.4072/2012.</li>
-    <li><strong>Πιστοποιημένη Διασύνδεση (API):</strong> Η σελίδα σας συνδέεται και διαβάζεται απευθείας από το Γ.Ε.ΜΗ.</li>
-    <li><strong>Κατοχύρωση .gr Domain &amp; Hosting (1 έτος)</strong> σε ταχύτατους servers.</li>
-    <li><strong>Κατασκευή επαγγελματικού λογοτύπου</strong> &amp; Εταιρικό Email (info@...).</li>
-    <li><strong>Τιμολόγιο εξόδων</strong> που εκπίπτει κανονικά στα βιβλία της εταιρείας σας.</li>
+    <li><strong>Έτοιμη ιστοσελίδα σε 24 ώρες</strong>, συμβατή με τον Ν.4072/2012.</li>
+    <li><strong>Πιστοποιημένη διασύνδεση με το Γ.Ε.ΜΗ. (API)</strong> μέσω επίσημης πρόσβασης gov.gr.</li>
+    <li><strong>.gr Domain &amp; Hosting για 1 έτος</strong>, λογότυπο και εταιρικό email.</li>
+    <li><strong>Νόμιμο τιμολόγιο</strong> για τα έξοδα της εταιρείας.</li>
   </ul>
-  <p style="margin: 12px 0 0 0; font-size: 13px; color: #475569;">
-    👉 <strong>Δείτε πρόσφατα δείγματα ενεργών Ι.Κ.Ε.:</strong> <a href="https://meltech-ike.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
-  </p>
 </div>
 
-<p style="margin: 0 0 16px 0; color: #334155; font-size: 14.5px; line-height: 1.55;">
-  Μην περιμένετε κάποιον διοικητικό έλεγχο. Τακτοποιήστε την ιστοσελίδα της εταιρείας σας σήμερα εύκολα και οικονομικά:
+<p style="margin: 0 0 12px 0; color: #475569; font-size: 14px; line-height: 1.55;">
+  <em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα.)</em>
 </p>
-
-<!-- Quick Action Box with Phone & Reply -->
-<div style="background-color: #eff6ff; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #1e3a8a;">
-  📞 <strong>Επικοινωνία &amp; Άμεση Τακτοποίηση:</strong><br/>
-  <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
-  <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
-  <div style="font-size: 12.5px; color: #475569; margin-top: 4px;">(ή απαντήστε απευθείας σε αυτό το μήνυμα με το ΑΦΜ σας)</div>
-</div>
 
 <div style="text-align: center; margin: 22px 0 12px;">
   <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
@@ -479,8 +453,12 @@ const templates = [
   </a>
 </div>
 
+<p style="margin: 0 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
+  Ή καλέστε μας: <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none;">☎️ 211 114 0013</a> &nbsp;|&nbsp; <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none;">📱 6999 524 389</a> &nbsp;|&nbsp; ή απαντήστε με το ΑΦΜ σας.
+</p>
+
 <div style="font-size: 11px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; line-height: 1.5;">
-  <strong>Διαφάνεια &amp; GDPR:</strong> Η επικοινωνία πραγματοποιείται αποκλειστικά βάσει των δημόσιων στοιχείων (OpenData API) του Γ.Ε.ΜΗ. Αν έχετε ήδη τακτοποιήσει την ιστοσελίδα σας, παρακαλούμε αγνοήστε το παρόν.
+  <strong>Διαφάνεια &amp; GDPR:</strong> Η επικοινωνία πραγματοποιείται αποκλειστικά βάσει των δημόσιων στοιχείων (OpenData API) του Γ.Ε.ΜΗ.
 </div>`,
     defaultButtonText: "",
     defaultButtonLink: ""
