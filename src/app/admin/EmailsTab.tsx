@@ -2373,6 +2373,8 @@ function safeEncodeBase64(data: any): string {
     );
   }, [leads]);
 
+  const dueFollowUpIdsSet = useMemo(() => new Set(dueFollowUpIkeLeads.map(l => l.id)), [dueFollowUpIkeLeads]);
+
   const handleRunAutoFollowUpIkes = async () => {
     const count = dueFollowUpIkeLeads.length;
     if (count === 0) {
@@ -3400,6 +3402,7 @@ function safeEncodeBase64(data: any): string {
           {statusFilter !== 'all' && (
             <div className="flex items-center gap-2 bg-white border border-gray-200 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
               <span className="text-slate-500">Φίλτρο:</span>
+              {statusFilter === 'due_followup' && <span className="text-amber-800 font-black">🔁 Follow-Up Έτοιμα (3+ ημέρες)</span>}
               {statusFilter === 'ftth_telecom' && <span className="text-cyan-700 font-black">🔌 Οπτικές Ίνες / FTTH & Δίκτυα</span>}
               {statusFilter === 'non_ike' && <span className="text-purple-700 font-black">🚀 Εκτός Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές)</span>}
               {statusFilter === 'tourism' && <span className="text-amber-700 font-black">✈️ Τουρισμός / Travel</span>}
@@ -3421,6 +3424,52 @@ function safeEncodeBase64(data: any): string {
             </div>
           )}
         </div>
+
+        {/* Follow-Up Schedule & Instant Action Banner */}
+        {statusFilter === 'due_followup' && (
+          <div className="mt-4 p-4 rounded-2xl border border-amber-300 bg-linear-to-r from-amber-50 via-orange-50/70 to-amber-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm animate-in fade-in duration-200">
+            <div className="flex items-start gap-3">
+              <div className="p-2.5 bg-amber-500 text-white rounded-xl shadow-xs shrink-0 mt-0.5">
+                <RefreshCcw size={20} className={isRunningAutoFollowUp ? "animate-spin" : ""} />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h4 className="font-black text-amber-950 text-sm">
+                    {dueFollowUpIkeLeads.length} Ι.Κ.Ε. Έτοιμες για Follow-Up (Βήμα 2 - 80€)
+                  </h4>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-200/90 text-amber-900 uppercase tracking-wide">
+                    3+ Ημέρες από το 1ο email
+                  </span>
+                </div>
+                <p className="text-xs text-amber-950/90 mt-1 leading-relaxed">
+                  ⏰ <strong>Πότε αποστέλλεται αυτόματα;</strong> Κάθε πρωί στις <strong>11:00 π.μ. (08:00 UTC)</strong> μέσω του αυτόματου Cron. Δεν χρειάζεται καμία δική σας ενέργεια.
+                </p>
+                <p className="text-[11px] text-amber-900/80 mt-0.5 font-medium">
+                  💡 Αν θέλετε να φύγουν <em>αμέσως τώρα</em> χωρίς να περιμένετε το πρωί, πατήστε το διπλανό κουμπί.
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={handleRunAutoFollowUpIkes}
+              disabled={isRunningAutoFollowUp || dueFollowUpIkeLeads.length === 0}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 active:scale-95 text-white text-xs font-black rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer shrink-0 disabled:opacity-50"
+              title="Άμεση εκτέλεση αποστολής Follow-Up σε όλες τις επιλέξιμες ΙΚΕ"
+            >
+              {isRunningAutoFollowUp ? (
+                <>
+                  <Loader2 size={15} className="animate-spin" />
+                  <span>Αποστολή σε εξέλιξη...</span>
+                </>
+              ) : (
+                <>
+                  <Send size={15} />
+                  <span>Άμεση Αποστολή Τώρα ({dueFollowUpIkeLeads.length})</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
 
         {/* Table View */}
         <div className="mt-6 rounded-xl border border-gray-200/80 overflow-hidden bg-white/80">
@@ -3659,12 +3708,24 @@ function safeEncodeBase64(data: any): string {
                               </span>
                             </div>
                           ) : ((lead.email_sequence_step || 0) === 1 || lead.last_email_sent_at) ? (
-                            <div className="inline-flex flex-col items-center">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title={isFtthLead(lead) || isNonIkeLead(lead) ? "Email 1: Στάλθηκε από εσάς (Μονομερής αποστολή — Δεν αποστέλλεται Follow-Up)" : "1ο Email: Αρχική αποστολή από εσάς"}>
-                                <Check size={11} className="text-emerald-600 stroke-[3]" />
-                                1ο Email (Εσείς)
-                              </span>
-                            </div>
+                            dueFollowUpIdsSet.has(lead.id) ? (
+                              <div className="inline-flex flex-col items-center">
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-900 border border-amber-300 shadow-sm" title="Συμπληρώθηκαν 3+ ημέρες. Το lead είναι έτοιμο για Follow-Up (Βήμα 2 - 80€)">
+                                  <RefreshCcw size={10} className="text-amber-700 animate-spin-slow" />
+                                  Έτοιμο για Follow-Up
+                                </span>
+                                <span className="text-[9.5px] text-amber-800 font-bold mt-1">
+                                  ⏰ Αύριο 11:00 π.μ. (ή Τώρα)
+                                </span>
+                              </div>
+                            ) : (
+                              <div className="inline-flex flex-col items-center">
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title={isFtthLead(lead) || isNonIkeLead(lead) ? "Email 1: Στάλθηκε από εσάς (Μονομερής αποστολή — Δεν αποστέλλεται Follow-Up)" : "1ο Email: Αρχική αποστολή από εσάς"}>
+                                  <Check size={11} className="text-emerald-600 stroke-[3]" />
+                                  1ο Email (Εσείς)
+                                </span>
+                              </div>
+                            )
                           ) : (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-600 border border-slate-200 shadow-2xs">
                               <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
@@ -3674,6 +3735,23 @@ function safeEncodeBase64(data: any): string {
                         </td>
                         <td className="py-3 px-4 text-center">
                           <div className="flex items-center justify-center gap-2">
+                            {dueFollowUpIdsSet.has(lead.id) && !isBlacklisted && (
+                              <button
+                                onClick={() => {
+                                  setSingleLeadTarget(lead);
+                                  setCampaignSubject(templates[3].subject);
+                                  setCampaignBody(templates[3].body);
+                                  setButtonText(templates[3].defaultButtonText || "Έναρξη Ιστοσελίδας ΙΚΕ (80€)");
+                                  setButtonLink(templates[3].defaultButtonLink || "https://www.sgk.gr/ike-offer");
+                                  setIsCampaignModalOpen(true);
+                                }}
+                                className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-xl transition-all text-xs font-black uppercase cursor-pointer shadow-xs"
+                                title="Άμεση αποστολή Follow-Up (Βήμα 2 - 80€) σε αυτή την Ι.Κ.Ε."
+                              >
+                                <Send size={11} />
+                                Follow-Up
+                              </button>
+                            )}
                             <button
                               onClick={() => handleToggleConverted(lead.id, lead.converted || false, lead.email)}
                               className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer border ${
