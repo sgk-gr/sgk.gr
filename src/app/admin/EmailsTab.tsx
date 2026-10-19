@@ -3774,15 +3774,15 @@ function safeEncodeBase64(data: any): string {
                             </span>
                           ) : (lead.email_sequence_step || 0) >= 3 ? (
                             <div className="inline-flex flex-col items-center">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-rose-100 text-rose-800 border border-rose-300 shadow-sm" title="3ο Email: Τελική ειδοποίηση. Η ακολουθία ολοκληρώθηκε.">
-                                <Check size={11} className="text-rose-600 stroke-[3]" />
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title="3ο Email: Τελική ειδοποίηση. Η ακολουθία ολοκληρώθηκε.">
+                                <Check size={11} className="text-emerald-600 stroke-[3]" />
                                 3ο Email (Τελικό)
                               </span>
                             </div>
                           ) : (lead.email_sequence_step || 0) >= 2 ? (
                             <div className="inline-flex flex-col items-center">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300 shadow-sm" title="2ο Email: Αυτόματο Follow-Up από το σύστημα">
-                                <Check size={11} className="text-amber-600 stroke-[3]" />
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title="2ο Email: Αυτόματο Follow-Up από το σύστημα">
+                                <Check size={11} className="text-emerald-600 stroke-[3]" />
                                 2ο Email (Auto)
                               </span>
                               {dueFollowUpIdsSet.has(lead.id) && (
