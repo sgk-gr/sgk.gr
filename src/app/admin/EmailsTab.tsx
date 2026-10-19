@@ -395,9 +395,17 @@ const templates = [
 </div>
 
 <p style="margin: 0 0 16px 0; color: #475569; font-size: 14px; line-height: 1.5;">
-  Αν θέλετε να το αναλάβουμε άμεσα, <strong>απαντήστε απλώς σε αυτό το email</strong> με το ΑΦΜ ή την επωνυμία σας, ή πατήστε το παρακάτω κουμπί για online καταχώρηση.<br/><br/>
+  Αν θέλετε να το αναλάβουμε άμεσα, <strong>απαντήστε απλώς σε αυτό το email</strong> με το ΑΦΜ ή την επωνυμία σας, καλέστε μας στα παρακάτω τηλέφωνα, ή πατήστε το παρακάτω κουμπί για online καταχώρηση.<br/><br/>
   <em>(Αν το έχετε ήδη τακτοποιήσει, παρακαλώ αγνοήστε αυτό το μήνυμα και καλή συνέχεια στα νέα σας βήματα!)</em>
 </p>
+
+<!-- Quick Action Box with Phone & Reply -->
+<div style="background-color: #eff6ff; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #1e3a8a;">
+  📞 <strong>Επικοινωνία &amp; Άμεση Τακτοποίηση:</strong><br/>
+  <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
+  <div style="font-size: 12.5px; color: #475569; margin-top: 4px;">(ή απαντήστε απευθείας σε αυτό το μήνυμα με το ΑΦΜ σας)</div>
+</div>
 
 <div style="text-align: center; margin: 20px 0 10px;">
   <a href="https://www.sgk.gr/ike-offer" target="_blank" style="display:inline-block;background:#4ade80;color:#111;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;padding:12px 28px;border-radius:20px;text-decoration:none;">
@@ -457,9 +465,12 @@ const templates = [
   Μην περιμένετε κάποιον διοικητικό έλεγχο. Τακτοποιήστε την ιστοσελίδα της εταιρείας σας σήμερα εύκολα και οικονομικά:
 </p>
 
-<!-- Quick Action Box -->
+<!-- Quick Action Box with Phone & Reply -->
 <div style="background-color: #eff6ff; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #1e3a8a;">
-  📩 <strong>Άμεση τακτοποίηση:</strong> Απαντήστε απλώς σε αυτό το email με το ΑΦΜ σας, ή πατήστε το παρακάτω κουμπί:
+  📞 <strong>Επικοινωνία &amp; Άμεση Τακτοποίηση:</strong><br/>
+  <a href="tel:2111140013" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #1d4ed8; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
+  <div style="font-size: 12.5px; color: #475569; margin-top: 4px;">(ή απαντήστε απευθείας σε αυτό το μήνυμα με το ΑΦΜ σας)</div>
 </div>
 
 <div style="text-align: center; margin: 22px 0 12px;">
@@ -512,9 +523,12 @@ const templates = [
   <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
 </p>
 
+<!-- Quick Action Box with Phone & Reply -->
 <div style="background-color: #f1f5f9; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
-  📩 <strong>Θέλετε να το αναλάβουμε άμεσα;</strong><br/>
-  Απαντήστε απλώς σε αυτό το email με το ΑΦΜ σας, ή ολοκληρώστε την online αίτηση παρακάτω:
+  📞 <strong>Επικοινωνία &amp; Άμεση Τακτοποίηση:</strong><br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
+  <div style="font-size: 12.5px; color: #64748b; margin-top: 4px;">(ή απαντήστε απευθείας σε αυτό το email με το ΑΦΜ σας)</div>
 </div>`,
     defaultButtonText: "Έναρξη Ιστοσελίδας ΙΚΕ (80€)",
     defaultButtonLink: "https://www.sgk.gr/ike-offer"

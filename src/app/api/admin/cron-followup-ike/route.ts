@@ -72,9 +72,12 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
   <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
 </p>
 
+<!-- Quick Action Box with Phone & Reply -->
 <div style="background-color: #f1f5f9; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
-  📩 <strong>Θέλετε να το αναλάβουμε άμεσα;</strong><br/>
-  Απαντήστε απλώς σε αυτό το email με το ΑΦΜ σας, ή ολοκληρώστε την online αίτηση παρακάτω:
+  📞 <strong>Επικοινωνία &amp; Άμεση Τακτοποίηση:</strong><br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 800; text-decoration: none; font-size: 15px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 800; text-decoration: none; font-size: 15px;">📱 6999 524 389</a>
+  <div style="font-size: 12.5px; color: #64748b; margin-top: 4px;">(ή απαντήστε απευθείας σε αυτό το email με το ΑΦΜ σας)</div>
 </div>`;
 
 export const IKE_FOLLOWUP_BUTTON_TEXT = "Έναρξη Ιστοσελίδας ΙΚΕ (80€)";
