@@ -2354,8 +2354,8 @@ function safeEncodeBase64(data: any): string {
   const handleScanGemiNonIke = () => runGemiScan("non_ike");
 
   const dueFollowUpIkeLeads = useMemo(() => {
-    const sequenceStartDate = "2026-10-11T00:00:00.000Z";
     const cutoff = getCalendarCutoffIso(3);
+    const cutoff3 = getCalendarCutoffIso(4);
     return leads.filter(l => 
       !l.unsubscribed && 
       !l.converted && 
@@ -2365,15 +2365,65 @@ function safeEncodeBase64(data: any): string {
       l.type !== 'ftth_telecom' &&
       l.type !== 'non_ike' &&
       l.type !== 'new_business_presence' &&
-      (l.email_sequence_step === 1 || (!l.email_sequence_step && l.last_email_sent_at)) &&
-      l.last_email_sent_at &&
-      l.last_email_sent_at >= sequenceStartDate &&
-      l.last_email_sent_at <= cutoff &&
+      !!l.last_email_sent_at &&
+      (
+        ((l.email_sequence_step === 1 || !l.email_sequence_step) && l.last_email_sent_at <= cutoff) ||
+        (l.email_sequence_step === 2 && l.last_email_sent_at <= cutoff3)
+      ) &&
       (l.type === 'new_ike' || l.type === 'legacy_ike' || l.type === 'imported' || (!l.type && (l.company?.toUpperCase().includes('ΙΚΕ') || l.company?.toUpperCase().includes('Ι.Κ.Ε.'))))
     );
   }, [leads]);
 
   const dueFollowUpIdsSet = useMemo(() => new Set(dueFollowUpIkeLeads.map(l => l.id)), [dueFollowUpIkeLeads]);
+
+  // Estimated send slot per due lead. Mirrors the cron: step-2 leads (→ 3rd email) first, then step-1 leads,
+  // oldest first; 25 emails per hour, hourly runs 10:00-17:00 (Athens time) => 200 emails/day.
+  const dueScheduleLabels = useMemo(() => {
+    const PER_HOUR = 25;
+    const FIRST_HOUR = 10;
+    const LAST_HOUR = 17;
+    const SLOTS_PER_DAY = LAST_HOUR - FIRST_HOUR + 1;
+    const nowAthens = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Athens" }));
+    let dayOffset = 0;
+    let startHour = FIRST_HOUR;
+    if (nowAthens.getHours() >= LAST_HOUR) {
+      dayOffset = 1;
+    } else if (nowAthens.getHours() >= FIRST_HOUR) {
+      startHour = nowAthens.getHours() + 1 > LAST_HOUR ? FIRST_HOUR : nowAthens.getHours() + 1;
+      if (nowAthens.getHours() + 1 > LAST_HOUR) dayOffset = 1;
+    }
+    const firstDaySlots = dayOffset === 0 ? LAST_HOUR - startHour + 1 : SLOTS_PER_DAY;
+    const sorted = [...dueFollowUpIkeLeads].sort((a, b) => {
+      const sa = a.email_sequence_step === 2 ? 0 : 1;
+      const sb = b.email_sequence_step === 2 ? 0 : 1;
+      if (sa !== sb) return sa - sb;
+      return (a.last_email_sent_at || "").localeCompare(b.last_email_sent_at || "");
+    });
+    const dayNames = ["Σήμερα", "Αύριο", "Μεθαύριο"];
+    const map = new Map<string, string>();
+    sorted.forEach((l, i) => {
+      const slotIndex = Math.floor(i / PER_HOUR);
+      let day: number;
+      let hour: number;
+      if (slotIndex < firstDaySlots) {
+        day = dayOffset;
+        hour = (dayOffset === 0 ? startHour : FIRST_HOUR) + slotIndex;
+      } else {
+        const rest = slotIndex - firstDaySlots;
+        day = dayOffset + 1 + Math.floor(rest / SLOTS_PER_DAY);
+        hour = FIRST_HOUR + (rest % SLOTS_PER_DAY);
+      }
+      let dayLabel: string;
+      if (day < dayNames.length) {
+        dayLabel = dayNames[day];
+      } else {
+        const d = new Date(Date.now() + day * 86400000);
+        dayLabel = d.toLocaleDateString("el-GR", { day: "2-digit", month: "2-digit", timeZone: "Europe/Athens" });
+      }
+      map.set(l.id, `${dayLabel} ~${String(hour).padStart(2, "0")}:00`);
+    });
+    return map;
+  }, [dueFollowUpIkeLeads]);
 
   const handleRunAutoFollowUpIkes = async () => {
     const count = dueFollowUpIkeLeads.length;
@@ -2437,18 +2487,19 @@ function safeEncodeBase64(data: any): string {
         return lead.type === 'new_ike' || (!lead.type && lead.created_at >= '2026-08-01');
       }
       if (statusFilter === 'due_followup') {
-        const sequenceStartDate = "2026-10-11T00:00:00.000Z";
         const cutoff = getCalendarCutoffIso(3);
+        const cutoff3 = getCalendarCutoffIso(4);
         return !lead.unsubscribed && !lead.converted && !isEmailBlacklisted(lead.email) &&
           !isFtthLead(lead) &&
           !isNonIkeLead(lead) &&
           lead.type !== 'ftth_telecom' &&
           lead.type !== 'non_ike' &&
           lead.type !== 'new_business_presence' &&
-          (lead.email_sequence_step === 1 || (!lead.email_sequence_step && lead.last_email_sent_at)) &&
-          lead.last_email_sent_at && 
-          lead.last_email_sent_at >= sequenceStartDate &&
-          lead.last_email_sent_at <= cutoff &&
+          !!lead.last_email_sent_at &&
+          (
+            ((lead.email_sequence_step === 1 || !lead.email_sequence_step) && lead.last_email_sent_at <= cutoff) ||
+            (lead.email_sequence_step === 2 && lead.last_email_sent_at <= cutoff3)
+          ) &&
           (lead.type === 'new_ike' || lead.type === 'legacy_ike' || lead.type === 'imported' || (!lead.type && (lead.company?.toUpperCase().includes('ΙΚΕ') || lead.company?.toUpperCase().includes('Ι.Κ.Ε.'))));
       }
       if (statusFilter === 'legacy') {
@@ -2465,7 +2516,7 @@ function safeEncodeBase64(data: any): string {
         return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) === 0) && !lead.last_email_sent_at;
       }
       if (statusFilter === 'completed') {
-        return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) >= 5);
+        return !lead.unsubscribed && !lead.converted && ((lead.email_sequence_step || 0) >= 3);
       }
       if (statusFilter === 'active') {
         return !lead.unsubscribed && !lead.converted && (((lead.email_sequence_step || 0) >= 1) || Boolean(lead.last_email_sent_at));
@@ -2488,7 +2539,7 @@ function safeEncodeBase64(data: any): string {
   const legacyCount = leads.filter(l => l.type === 'legacy_ike').length;
   const newCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) === 0) && !l.last_email_sent_at).length;
   const activeCount = leads.filter(l => !l.unsubscribed && !l.converted && (((l.email_sequence_step || 0) >= 1) || Boolean(l.last_email_sent_at))).length;
-  const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 5)).length;
+  const completedCount = leads.filter(l => !l.unsubscribed && !l.converted && ((l.email_sequence_step || 0) >= 3)).length;
   const convertedCount = leads.filter(l => l.converted).length;
   const convertedLeads = useMemo(() => leads.filter(l => l.converted), [leads]);
   const convertedProfessionsSummary = useMemo(() => {
@@ -3435,14 +3486,14 @@ function safeEncodeBase64(data: any): string {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <h4 className="font-black text-amber-950 text-sm">
-                    {dueFollowUpIkeLeads.length} Ι.Κ.Ε. Έτοιμες για Follow-Up (Βήμα 2 - 80€)
+                    {dueFollowUpIkeLeads.length} Ι.Κ.Ε. Έτοιμες για Follow-Up (Βήμα 2 & 3)
                   </h4>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-200/90 text-amber-900 uppercase tracking-wide">
-                    3+ Ημέρες από το 1ο email
+                    2ο: 3+ ημέρες από το 1ο • 3ο: 4+ ημέρες από το 2ο
                   </span>
                 </div>
                 <p className="text-xs text-amber-950/90 mt-1 leading-relaxed">
-                  ⏰ <strong>Πότε αποστέλλεται αυτόματα;</strong> Κάθε πρωί στις <strong>11:00 π.μ. (08:00 UTC)</strong> μέσω του αυτόματου Cron. Δεν χρειάζεται καμία δική σας ενέργεια.
+                  ⏰ <strong>Πότε αποστέλλεται αυτόματα;</strong> Κάθε ώρα από <strong>10:00 έως 17:00</strong> (25 emails ανά ώρα) μέσω του αυτόματου Cron της Supabase. Δεν χρειάζεται καμία δική σας ενέργεια.
                 </p>
                 <p className="text-[11px] text-amber-900/80 mt-0.5 font-medium">
                   💡 Αν θέλετε να φύγουν <em>αμέσως τώρα</em> χωρίς να περιμένετε το πρωί, πατήστε το διπλανό κουμπί.
@@ -3561,29 +3612,35 @@ function safeEncodeBase64(data: any): string {
                                     ? "Email 1: Στάλθηκε (Μονομερής αποστολή FTTH — Δεν προβλέπεται Follow-Up)" 
                                     : isNonIkeLead(lead)
                                     ? "Email 1: Στάλθηκε (Μονομερής αποστολή Online Παρουσίας — Δεν αποστέλλεται Follow-Up)"
-                                    : isLegacyIkeLead(lead)
-                                    ? "Email 1: Στάλθηκε (Μονομερής αποστολή Παλαιάς ΙΚΕ — Δεν αποστέλλεται Follow-Up)"
-                                    : "Email 1: Στάλθηκε από εσάς (Αρχικό Email)"}
+                                     : "Email 1: Στάλθηκε από εσάς (Αρχικό Email)"}
                                 >
                                   1
                                 </span>
-                                {!isFtthLead(lead) && !isNonIkeLead(lead) && !isLegacyIkeLead(lead) && (
+                                {!isFtthLead(lead) && !isNonIkeLead(lead) && (
+                                  <>
                                   <span 
                                     className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
                                     title={(() => {
                                       if (!lead.last_email_sent_at) return "Email 2 (Follow-Up): Σε αναμονή (3 ημέρες)";
                                       const sentDate = new Date(lead.last_email_sent_at);
                                       const targetDate = new Date(sentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
-                                      return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα το πρωί στις ${targetDate.toLocaleDateString("el-GR")} (11:00 π.μ.)`;
+                                      return `Email 2 (Follow-Up): Σε αναμονή — θα σταλεί αυτόματα από ${targetDate.toLocaleDateString("el-GR")} (10:00-17:00)`;
                                     })()}
                                   >
                                     2
                                   </span>
+                                  <span 
+                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 shrink-0 cursor-help"
+                                    title="Email 3 (Τελική ειδοποίηση): Σε αναμονή — 4 ημέρες μετά το 2ο"
+                                  >
+                                    3
+                                  </span>
+                                  </>
                                 )}
                               </div>
                             )}
                             {(lead.email_sequence_step || 0) >= 2 && (
-                              <div className="inline-flex items-center gap-1 shrink-0" title="Email 1 (Εσείς) & Email 2 (Αυτόματο Follow-Up)">
+                              <div className="inline-flex items-center gap-1 shrink-0" title="Email 1 (Εσείς) & Email 2 (Αυτόματο Follow-Up) & Email 3 (Τελικό)">
                                 <span 
                                   className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600"
                                   title="Email 1: Στάλθηκε από εσάς (Αρχικό Email)"
@@ -3596,6 +3653,21 @@ function safeEncodeBase64(data: any): string {
                                 >
                                   2
                                 </span>
+                                {(lead.email_sequence_step || 0) >= 3 ? (
+                                  <span 
+                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-500 text-white text-[10.5px] font-black shadow-xs border border-rose-600"
+                                    title="Email 3: Στάλθηκε αυτόματα (Τελική ειδοποίηση)"
+                                  >
+                                    3
+                                  </span>
+                                ) : (
+                                  <span 
+                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-slate-400 text-[10.5px] font-black border border-dashed border-slate-300 cursor-help"
+                                    title="Email 3 (Τελική ειδοποίηση): Σε αναμονή — 4 ημέρες μετά το 2ο"
+                                  >
+                                    3
+                                  </span>
+                                )}
                               </div>
                             )}
 
@@ -3700,12 +3772,24 @@ function safeEncodeBase64(data: any): string {
                             <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm">
                               🎉 Πελάτης
                             </span>
+                          ) : (lead.email_sequence_step || 0) >= 3 ? (
+                            <div className="inline-flex flex-col items-center">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-rose-100 text-rose-800 border border-rose-300 shadow-sm" title="3ο Email: Τελική ειδοποίηση. Η ακολουθία ολοκληρώθηκε.">
+                                <Check size={11} className="text-rose-600 stroke-[3]" />
+                                3ο Email (Τελικό)
+                              </span>
+                            </div>
                           ) : (lead.email_sequence_step || 0) >= 2 ? (
                             <div className="inline-flex flex-col items-center">
                               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300 shadow-sm" title="2ο Email: Αυτόματο Follow-Up από το σύστημα">
                                 <Check size={11} className="text-amber-600 stroke-[3]" />
                                 2ο Email (Auto)
                               </span>
+                              {dueFollowUpIdsSet.has(lead.id) && (
+                                <span className="text-[9.5px] text-rose-800 font-bold mt-1">
+                                  ⏰ 3ο Email: {dueScheduleLabels.get(lead.id)}
+                                </span>
+                              )}
                             </div>
                           ) : ((lead.email_sequence_step || 0) === 1 || lead.last_email_sent_at) ? (
                             dueFollowUpIdsSet.has(lead.id) ? (
@@ -3715,7 +3799,7 @@ function safeEncodeBase64(data: any): string {
                                   Έτοιμο για Follow-Up
                                 </span>
                                 <span className="text-[9.5px] text-amber-800 font-bold mt-1">
-                                  ⏰ Αύριο 11:00 π.μ. (ή Τώρα)
+                                  ⏰ {dueScheduleLabels.get(lead.id)}
                                 </span>
                               </div>
                             ) : (
@@ -3735,7 +3819,7 @@ function safeEncodeBase64(data: any): string {
                         </td>
                         <td className="py-3 px-4 text-center">
                           <div className="flex items-center justify-center gap-2">
-                            {dueFollowUpIdsSet.has(lead.id) && !isBlacklisted && (
+                            {dueFollowUpIdsSet.has(lead.id) && !isBlacklisted && (lead.email_sequence_step || 0) < 2 && (
                               <button
                                 onClick={() => {
                                   setSingleLeadTarget(lead);
