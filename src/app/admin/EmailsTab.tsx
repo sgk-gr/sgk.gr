@@ -3648,14 +3648,14 @@ function safeEncodeBase64(data: any): string {
                                   1
                                 </span>
                                 <span 
-                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-500 text-white text-[10.5px] font-black shadow-xs border border-amber-600"
+                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600"
                                   title="Email 2: Στάλθηκε αυτόματα από το σύστημα (Follow-Up)"
                                 >
                                   2
                                 </span>
                                 {(lead.email_sequence_step || 0) >= 3 ? (
                                   <span 
-                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-500 text-white text-[10.5px] font-black shadow-xs border border-rose-600"
+                                    className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-[10.5px] font-black shadow-xs border border-emerald-600"
                                     title="Email 3: Στάλθηκε αυτόματα (Τελική ειδοποίηση)"
                                   >
                                     3
