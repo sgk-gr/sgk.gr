@@ -15,6 +15,7 @@ export async function POST(req: Request) {
       firstEmailBody,
       step = 1,
       leadId,
+      preferredProvider,
     } = payload;
 
     const supabaseUrl = SUPABASE_URL;
@@ -64,6 +65,7 @@ export async function POST(req: Request) {
         firstEmailSubject,
         firstEmailBody,
         step,
+        preferredProvider,
       },
       supabaseUrl,
       supabaseServiceKey

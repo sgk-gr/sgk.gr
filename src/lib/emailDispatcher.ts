@@ -20,6 +20,7 @@ export interface EmailDispatchOptions {
   firstEmailSubject?: string;
   firstEmailBody?: string;
   step?: number;
+  preferredProvider?: "auto" | "resend" | "brevo";
 }
 
 export interface EmailDispatchResult {
@@ -89,43 +90,79 @@ export async function dispatchEmailWithFallback(
   supabaseServiceKey: string = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
 ): Promise<EmailDispatchResult> {
   const cleanEmail = opts.to.toLowerCase().trim();
+  const preferred = opts.preferredProvider || "auto";
 
-  // 1. Try Resend via Supabase Edge Function (if Supabase credentials are present)
+  // 1. Direct Brevo send if preferred is 'brevo'
+  if (preferred === "brevo") {
+    const brevoResult = await sendEmailViaBrevo({
+      to: cleanEmail,
+      subject: opts.subject,
+      html: opts.html,
+      fromName: opts.fromName || "SGK Digital",
+      fromEmail: opts.fromEmail || "info@sgk.gr",
+      replyTo: opts.replyTo || "info@sgk.gr",
+    });
+
+    if (brevoResult.success) {
+      console.log(`[dispatchEmailWithFallback] Direct delivery to ${cleanEmail} via Brevo!`);
+      return {
+        success: true,
+        provider: "brevo",
+        messageId: brevoResult.messageId,
+      };
+    }
+    return {
+      success: false,
+      provider: "brevo",
+      error: `Brevo failed: ${brevoResult.error}`,
+    };
+  }
+
+  // 2. Try Resend via Supabase Edge Function (if Supabase credentials are present)
   let edgeFnError = "";
   if (supabaseUrl && supabaseServiceKey) {
     try {
       const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": supabaseServiceKey,
-        "Authorization": `Bearer ${supabaseServiceKey}`,
-      },
-      body: JSON.stringify({
-        email: cleanEmail,
-        unsubscribe_token: opts.unsubscribeToken,
-        customSubject: opts.subject,
-        customHtml: opts.html,
-        firstEmailSubject: opts.firstEmailSubject,
-        firstEmailBody: opts.firstEmailBody,
-        step: opts.step || 1,
-      }),
-    });
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": supabaseServiceKey,
+          "Authorization": `Bearer ${supabaseServiceKey}`,
+        },
+        body: JSON.stringify({
+          email: cleanEmail,
+          unsubscribe_token: opts.unsubscribeToken,
+          customSubject: opts.subject,
+          customHtml: opts.html,
+          firstEmailSubject: opts.firstEmailSubject,
+          firstEmailBody: opts.firstEmailBody,
+          step: opts.step || 1,
+        }),
+      });
 
-    if (edgeResponse.ok) {
-      return { success: true, provider: "resend" };
+      if (edgeResponse.ok) {
+        return { success: true, provider: "resend" };
+      }
+
+      const errText = await edgeResponse.text();
+      edgeFnError = errText;
+      console.warn(`[dispatchEmailWithFallback] Resend/EdgeFunction failed for ${cleanEmail}: ${errText}. Falling back to Brevo...`);
+    } catch (e: any) {
+      edgeFnError = e.message;
+      console.warn(`[dispatchEmailWithFallback] Resend fetch exception for ${cleanEmail}: ${e.message}. Falling back to Brevo...`);
     }
-
-    const errText = await edgeResponse.text();
-    edgeFnError = errText;
-    console.warn(`[dispatchEmailWithFallback] Resend/EdgeFunction failed for ${cleanEmail}: ${errText}. Falling back to Brevo...`);
-  } catch (e: any) {
-    edgeFnError = e.message;
-    console.warn(`[dispatchEmailWithFallback] Resend fetch exception for ${cleanEmail}: ${e.message}. Falling back to Brevo...`);
-  }
   }
 
-  // 2. Fallback to Brevo
+  // If user only wanted resend and it failed
+  if (preferred === "resend") {
+    return {
+      success: false,
+      provider: "resend",
+      error: `Resend failed: ${edgeFnError}`,
+    };
+  }
+
+  // 3. Fallback to Brevo
   const brevoResult = await sendEmailViaBrevo({
     to: cleanEmail,
     subject: opts.subject,

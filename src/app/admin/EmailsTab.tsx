@@ -7,7 +7,7 @@ import {
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
   FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
   Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target,
-  ChevronDown, ChevronUp, History, Server
+  ChevronDown, ChevronUp, History, Server, Zap
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
@@ -991,6 +991,7 @@ export function EmailsTab() {
     brevoCount?: number;
   } | null>(null);
   const [singleLeadTarget, setSingleLeadTarget] = useState<any | null>(null);
+  const [emailProviderChoice, setEmailProviderChoice] = useState<"auto" | "brevo" | "resend">("auto");
   const [savedContracts, setSavedContracts] = useState<any[]>([]);
   const [clientHostingPrices, setClientHostingPrices] = useState<Record<string, string>>({});
   
@@ -1817,13 +1818,16 @@ function safeEncodeBase64(data: any): string {
       return;
     }
 
+    const isStartingWithBrevo = emailProviderChoice === "brevo";
     setSendingProgress({
       current: 0,
       total: targets.length,
       active: true,
-      statusText: `🚀 Έναρξη αποστολής μέσω Resend... (0/${targets.length})`,
-      provider: "resend",
-      providerSwitched: false,
+      statusText: isStartingWithBrevo
+        ? `⚡ Έναρξη αποστολής μέσω Brevo... (0/${targets.length})`
+        : `🚀 Έναρξη αποστολής μέσω Resend... (0/${targets.length})`,
+      provider: isStartingWithBrevo ? "brevo" : "resend",
+      providerSwitched: isStartingWithBrevo,
       resendCount: 0,
       brevoCount: 0,
     });
@@ -1832,16 +1836,19 @@ function safeEncodeBase64(data: any): string {
     let failCount = 0;
     let resendSent = 0;
     let brevoSent = 0;
-    let hasSwitchedToBrevo = false;
+    let hasSwitchedToBrevo = isStartingWithBrevo;
 
     for (let i = 0; i < targets.length; i++) {
       const lead = targets[i];
-      const currentProvider = hasSwitchedToBrevo ? "Brevo" : "Resend";
-      const providerIcon = hasSwitchedToBrevo ? "⚡ Brevo" : "✉️ Resend";
+      const isBrevoNow = hasSwitchedToBrevo || emailProviderChoice === "brevo";
+      const currentProvider = isBrevoNow ? "Brevo" : "Resend";
+      const providerIcon = isBrevoNow ? "⚡ Brevo" : "✉️ Resend";
       
       setSendingProgress(prev => prev ? {
         ...prev,
         current: i + 1,
+        provider: isBrevoNow ? "brevo" : "resend",
+        providerSwitched: isBrevoNow,
         statusText: `${providerIcon}: Αποστολή στο ${lead.email}... (${i + 1}/${targets.length})`
       } : null);
 
@@ -1861,6 +1868,8 @@ function safeEncodeBase64(data: any): string {
           industry: lead.company,
         });
 
+        const activePreferred = isBrevoNow ? "brevo" : emailProviderChoice;
+
         const response = await fetch("/api/admin/send-email", {
           method: "POST",
           headers: {
@@ -1875,6 +1884,7 @@ function safeEncodeBase64(data: any): string {
             firstEmailSubject: campaignSubject,
             firstEmailBody: campaignBody,
             step: 1,
+            preferredProvider: activePreferred,
           })
         });
 
@@ -1884,12 +1894,12 @@ function safeEncodeBase64(data: any): string {
           throw new Error(resData.error || `HTTP ${response.status}`);
         }
 
-        const sentProvider = resData.provider || (hasSwitchedToBrevo ? "brevo" : "resend");
+        const sentProvider = resData.provider || (isBrevoNow ? "brevo" : "resend");
         if (sentProvider === "brevo") {
           brevoSent++;
-          if (!hasSwitchedToBrevo) {
+          if (!hasSwitchedToBrevo && emailProviderChoice === "auto") {
             hasSwitchedToBrevo = true;
-            toast.warn(`⚠️ Η Resend έπιασε ημερήσιο όριο (100). Συνέχιση αυτόματα μέσω Brevo! ⚡`, { duration: 5000 });
+            toast.warn(`⚠️ Η Resend έπιασε ημερήσιο όριο. Η αποστολή συνεχίζεται αυτόματα μέσω Brevo! ⚡`, { duration: 5000 });
           }
         } else {
           resendSent++;
@@ -1902,22 +1912,29 @@ function safeEncodeBase64(data: any): string {
         ));
         successCount++;
 
+        const isCurrentlyBrevo = hasSwitchedToBrevo || emailProviderChoice === "brevo";
         setSendingProgress(prev => prev ? {
           ...prev,
           current: i + 1,
-          provider: hasSwitchedToBrevo ? "brevo" : "resend",
-          providerSwitched: hasSwitchedToBrevo,
+          provider: isCurrentlyBrevo ? "brevo" : "resend",
+          providerSwitched: isCurrentlyBrevo,
           resendCount: resendSent,
           brevoCount: brevoSent,
-          statusText: hasSwitchedToBrevo
+          statusText: isCurrentlyBrevo
             ? `⚡ Brevo: Εστάλη στο ${lead.email} (${i + 1}/${targets.length}) [Resend: ${resendSent} | Brevo: ${brevoSent}]`
-            : `✉️ Resend: Εστάλη στο ${lead.email} (${i + 1}/${targets.length}) [Resend: ${resendSent}]`
+            : `✉️ Resend: Εστάλη στο ${lead.email} (${i + 1}/${targets.length}) [Resend: ${resendSent} | Brevo: ${brevoSent}]`
         } : null);
 
       } catch (error: any) {
         console.error("Error sending to:", lead.email, error);
         toast.error(`Αποτυχία αποστολής στο ${lead.email}: ${error.message || "Σφάλμα"}`);
         failCount++;
+
+        // If Resend failed during auto, immediately switch to Brevo for remaining leads!
+        if (!hasSwitchedToBrevo && emailProviderChoice === "auto") {
+          hasSwitchedToBrevo = true;
+          toast.warn(`⚠️ Εναλλαγή σε Brevo για τους επόμενους παραλήπτες! ⚡`, { duration: 4000 });
+        }
       }
     }
 
@@ -2501,12 +2518,12 @@ function safeEncodeBase64(data: any): string {
             {/* Provider Badge & Alert */}
             {sendingProgress.providerSwitched ? (
               <div className="bg-amber-950/80 border border-amber-500/50 text-amber-300 px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 animate-pulse">
-                <span>⚠️ Η Resend έπιασε ημερήσιο όριο (100). Η αποστολή συνεχίζεται αυτόματα μέσω Brevo! ⚡</span>
+                <span>⚡ Αποστολή μέσω Brevo API (Όριο: 300/ημ.) • Resend: {sendingProgress.resendCount || 0} | Brevo: {sendingProgress.brevoCount || 0}</span>
               </div>
             ) : (
               <div className="bg-blue-950/60 border border-blue-500/30 text-blue-300 px-3.5 py-1.5 rounded-full text-[11px] font-bold flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
-                <span>Πάροχος: <strong>Resend API</strong> (Όριο: 100/ημ. &bull; Brevo Fallback Έτοιμο)</span>
+                <span>Πάροχος: <strong>Resend API</strong> (Όριο: 100/ημ. &bull; Brevo Fallback Έτοιμο) [Resend: {sendingProgress.resendCount || 0} | Brevo: {sendingProgress.brevoCount || 0}]</span>
               </div>
             )}
 
@@ -2632,6 +2649,56 @@ function safeEncodeBase64(data: any): string {
                     <span className="text-[9px] text-[#3b5bdb] font-bold uppercase">Μαζικη Καμπανια</span>
                   </div>
                 )}
+              </div>
+
+              {/* Provider Selection Section */}
+              <div className="p-3.5 bg-slate-950/90 border border-slate-800 rounded-xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-1.5">
+                    <Zap size={13} className="text-amber-400" />
+                    Πάροχος Αποστολής
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    {emailProviderChoice === "auto" && "Resend (100) ➜ Brevo (300)"}
+                    {emailProviderChoice === "brevo" && "⚡ Brevo API (300/ημ.)"}
+                    {emailProviderChoice === "resend" && "✉️ Resend API (100/ημ.)"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-1.5 bg-slate-900 p-1 rounded-lg border border-slate-800 text-[10px] font-bold">
+                  <button
+                    type="button"
+                    onClick={() => setEmailProviderChoice("auto")}
+                    className={`py-1.5 px-2 rounded-md transition-all text-center cursor-pointer ${
+                      emailProviderChoice === "auto"
+                        ? "bg-[#3b5bdb] text-white shadow-sm font-black"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    🔄 Αυτόματο
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEmailProviderChoice("brevo")}
+                    className={`py-1.5 px-2 rounded-md transition-all text-center cursor-pointer ${
+                      emailProviderChoice === "brevo"
+                        ? "bg-amber-600 text-white shadow-sm font-black"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    ⚡ Μόνο Brevo
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEmailProviderChoice("resend")}
+                    className={`py-1.5 px-2 rounded-md transition-all text-center cursor-pointer ${
+                      emailProviderChoice === "resend"
+                        ? "bg-blue-600 text-white shadow-sm font-black"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    ✉️ Μόνο Resend
+                  </button>
+                </div>
               </div>
 
 
