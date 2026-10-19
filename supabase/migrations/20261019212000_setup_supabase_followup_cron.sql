@@ -24,7 +24,7 @@ SELECT cron.schedule(
   '0 8 * * *',
   $$
     SELECT net.http_get(
-      url := 'https://www.sgk.gr/api/admin/cron-followup-ike?days=3&limit=100'
+      url := 'https://fgyecckvlbkgclsehcgf.supabase.co/functions/v1/cron-followup-ike?days=3&limit=100'
     );
   $$
 );

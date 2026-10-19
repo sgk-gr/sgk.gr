@@ -2,7 +2,8 @@
 CREATE EXTENSION IF NOT EXISTS pg_net;
 
 -- Διαγράφουμε το παλιό cron αν υπάρχει
-SELECT cron.unschedule('sgk_daily_results');
+SELECT cron.unschedule('sgk_daily_results')
+WHERE EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'sgk_daily_results');
 
 -- Φτιάχνουμε το νέο cron να τρέχει κάθε μέρα στις 23:55 (Server Time)
 SELECT cron.schedule(
