@@ -1787,9 +1787,10 @@ function safeEncodeBase64(data: any): string {
         unsubscribe_token: singleLeadTarget.unsubscribe_token || crypto.randomUUID()
       }];
     } else {
+      const selectedSet = new Set(selectedLeads.map(s => String(s).toLowerCase().trim()));
       const uncontactedFiltered = filteredLeads.filter(l => !l.unsubscribed && !l.converted && !isEmailBlacklisted(l.email) && (l.email_sequence_step || 0) === 0);
       const rawTargets = selectedLeads.length > 0 
-        ? leads.filter(l => selectedLeads.includes(l.id)) 
+        ? leads.filter(l => selectedSet.has(String(l.id).toLowerCase()) || selectedSet.has((l.email || "").toLowerCase().trim())) 
         : uncontactedFiltered;
 
       targets = rawTargets.filter(l => !l.unsubscribed && l.marketing_consent !== false && !isEmailBlacklisted(l.email));
@@ -2207,6 +2208,19 @@ function safeEncodeBase64(data: any): string {
                   reason: event.reason,
                 }
               ]);
+
+              if (event.category === "added" && event.lead) {
+                const newLeadObj = event.lead;
+                const emailClean = (newLeadObj.email || "").toLowerCase().trim();
+                setScannedNewLeads(prev => {
+                  if (prev.some(l => (l.email || "").toLowerCase().trim() === emailClean)) return prev;
+                  return [...prev, newLeadObj];
+                });
+                setLeads(prev => {
+                  if (prev.some(l => (l.email || "").toLowerCase().trim() === emailClean)) return prev;
+                  return [newLeadObj, ...prev];
+                });
+              }
             } else if (event.type === "page" || event.type === "info" || event.type === "warning") {
               setScanLogs(prev => [
                 ...prev,
@@ -4305,7 +4319,10 @@ function safeEncodeBase64(data: any): string {
 
               <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
                 <button
-                  onClick={() => setIsScanModalOpen(false)}
+                  onClick={() => {
+                    setIsScanModalOpen(false);
+                    fetchLeads();
+                  }}
                   className="adm-btn adm-btn-ghost inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-xs transition-all cursor-pointer"
                 >
                   {isScanningGemi ? "Ακύρωση" : "Κλείσιμο"}
@@ -4313,7 +4330,7 @@ function safeEncodeBase64(data: any): string {
 
                 {!isScanningGemi && (scanStats.added > 0 || scannedNewLeads.length > 0) && (
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       setIsScanModalOpen(false);
                       setCampaignSubject(templates[0].subject);
                       setCampaignBody(templates[0].body);
@@ -4321,13 +4338,17 @@ function safeEncodeBase64(data: any): string {
                       setButtonLink(templates[0].defaultButtonLink || "");
                       setSingleLeadTarget(null);
 
+                      // 1. Fetch latest leads from database
+                      const freshLeads = await fetchLeads();
+                      const pool = (freshLeads && freshLeads.length > 0) ? freshLeads : leads;
+
                       const scannedEmails = new Set(scannedNewLeads.map((l: any) => (l.email || "").toLowerCase().trim()));
-                      let targetIds = leads
-                        .filter((l: any) => scannedEmails.has((l.email || "").toLowerCase().trim()))
+                      let targetIds = pool
+                        .filter((l: any) => scannedEmails.has((l.email || "").toLowerCase().trim()) || scannedNewLeads.some((sl: any) => sl.id && sl.id === l.id))
                         .map((l: any) => l.id);
 
                       if (targetIds.length === 0) {
-                        targetIds = scannedNewLeads.map((l: any) => l.id).filter(Boolean);
+                        targetIds = scannedNewLeads.map((l: any) => l.id || l.email).filter(Boolean);
                       }
 
                       setSelectedLeads(targetIds);

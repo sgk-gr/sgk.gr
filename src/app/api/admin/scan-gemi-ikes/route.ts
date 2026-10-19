@@ -466,6 +466,8 @@ export async function POST(req: NextRequest) {
           });
 
           const newLeadsToInsert: any[] = [];
+          const insertedRecords: any[] = [];
+          let insertedCount = 0;
           const seenInBatch = new Set<string>();
           const seenAfmInBatch = new Set<string>();
           let totalExamined = 0;
@@ -727,7 +729,23 @@ export async function POST(req: NextRequest) {
                 created_at: new Date().toISOString()
               };
 
-              newLeadsToInsert.push(newLead);
+              let savedLead = newLead;
+              try {
+                const { data: dbData, error: dbErr } = await supabase
+                  .from("sgk_mails")
+                  .upsert([newLead], { onConflict: "email", ignoreDuplicates: true })
+                  .select();
+
+                if (!dbErr && dbData && dbData.length > 0) {
+                  savedLead = dbData[0];
+                }
+              } catch (e: any) {
+                console.error("Direct lead insert error:", e);
+              }
+
+              newLeadsToInsert.push(savedLead);
+              insertedRecords.push(savedLead);
+              insertedCount++;
 
               emit({
                 type: "log",
@@ -737,6 +755,7 @@ export async function POST(req: NextRequest) {
                 afm,
                 phone,
                 date: incDate,
+                lead: savedLead,
                 reason: isFtthMode || ftthCheck.isMatch
                   ? `🔌 ΕΤΑΙΡΕΙΑ FTTH / ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ (${ftthCheck.reason}) [${legalForm}]! Προστέθηκε για καμπάνια Αυτοψιών!`
                   : isNonIkeMode
@@ -744,7 +763,7 @@ export async function POST(req: NextRequest) {
                   : isLegacyIke
                   ? `🏛️ ΠΑΛΑΙΑ Ι.Κ.Ε. (${incDate || targetYear}) ΧΩΡΙΣ SITE! Προστέθηκε για τακτοποίηση ΓΕΜΗ (80€)!`
                   : `🏢 ΝΕΑ Ι.Κ.Ε. ΧΩΡΙΣ SITE! Προστέθηκε στα υποψήφια leads!`,
-                stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
+                stats: { totalExamined, added: insertedCount, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
               });
 
               if (newLeadsToInsert.length >= maxResults) break;
@@ -766,50 +785,12 @@ export async function POST(req: NextRequest) {
             await new Promise((r) => setTimeout(r, 1000));
           }
 
-          // Insert new leads into Supabase safely
-          let insertedCount = 0;
-          let insertedRecords: any[] = [];
-          if (newLeadsToInsert.length > 0) {
+          // All leads were already safely inserted into Supabase in real-time as they were discovered.
+          if (insertedCount > 0) {
             emit({
               type: "info",
-              message: isNonIkeMode
-                ? `💾 Αποθήκευση ${newLeadsToInsert.length} νέων επιχειρήσεων (${nonIkeLabel}) στη βάση δεδομένων...`
-                : isLegacyIke
-                ? `💾 Αποθήκευση ${newLeadsToInsert.length} παλαιών Ι.Κ.Ε. (${targetYear}) στη βάση δεδομένων...`
-                : `💾 Αποθήκευση ${newLeadsToInsert.length} νέων Ι.Κ.Ε. στη βάση δεδομένων...`
+              message: `✅ Αποθηκεύτηκαν επιτυχώς ${insertedCount} νέα leads στη βάση δεδομένων.`
             });
-
-            const { data: insertedData, error: insertErr } = await supabase
-              .from("sgk_mails")
-              .upsert(newLeadsToInsert, { onConflict: "email", ignoreDuplicates: true })
-              .select();
-
-            if (insertErr) {
-              console.error("Supabase upsert error:", insertErr);
-              emit({
-                type: "warning",
-                message: `⚠️ Σφάλμα μαζικής αποθήκευσης: ${insertErr.message}`
-              });
-              for (const lead of newLeadsToInsert) {
-                try {
-                  const { data: singleData, error: singleErr } = await supabase.from("sgk_mails").insert([lead]).select();
-                  if (!singleErr && singleData && singleData.length > 0) {
-                    insertedRecords.push(singleData[0]);
-                    insertedCount++;
-                  } else if (!singleErr) {
-                    insertedRecords.push(lead);
-                    insertedCount++;
-                  } else {
-                    console.error("Single insert error:", singleErr);
-                  }
-                } catch (e: any) {
-                  console.error("Single insert error:", e);
-                }
-              }
-            } else {
-              insertedRecords = insertedData || newLeadsToInsert;
-              insertedCount = insertedRecords.length || newLeadsToInsert.length;
-            }
           }
 
           const doneMessage = insertedCount > 0
