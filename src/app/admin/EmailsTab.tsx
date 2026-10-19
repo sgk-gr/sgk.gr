@@ -390,7 +390,7 @@ const templates = [
 </div>
 
 <p style="margin: 0 0 14px 0; color: #475569; font-size: 14px; line-height: 1.5;">
-  <em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα και καλή συνέχεια!)</em>
+  👉 <strong>Δείτε πρόσφατα δείγματα πελατών μας:</strong> <a href="https://meltech-ike.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a><br/><br/><em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα και καλή συνέχεια!)</em>
 </p>
 
 <div style="text-align: center; margin: 20px 0 10px;">
@@ -444,7 +444,7 @@ const templates = [
 </div>
 
 <p style="margin: 0 0 12px 0; color: #475569; font-size: 14px; line-height: 1.55;">
-  <em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα.)</em>
+  👉 <strong>Δείτε πρόσφατα δείγματα πελατών μας:</strong> <a href="https://meltech-ike.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a><br/><br/><em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα.)</em>
 </p>
 
 <div style="text-align: center; margin: 22px 0 12px;">
@@ -479,7 +479,7 @@ const templates = [
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Γνωρίζουμε ότι η καθημερινότητα μιας επιχείρησης είναι απαιτητική. Γι' αυτό στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
+  Η εκκρεμότητα δεν φεύγει από μόνη της και είναι ορατή δημόσια στη μερίδα σας. <strong>Σε έναν έλεγχο, μπορεί να σας δημιουργήσει πρόβλημα.</strong> Στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
 </p>
 
 <!-- Value Box -->
@@ -488,7 +488,7 @@ const templates = [
     📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 80€ (τελική τιμή με ΦΠΑ):
   </p>
   <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.55;">
-    <li><strong>Έτοιμη σε 24 ώρες:</strong> Αντλούμε τα στοιχεία απευθείας από το API του Γ.Ε.ΜΗ., χωρίς να χρειάζεται να γράψετε κείμενα.</li>
+    <li><strong>Έτοιμη σε 24 ώρες:</strong> Πιστοποιημένη διασύνδεση με το Γ.Ε.ΜΗ. (API) μέσω επίσημης πρόσβασης gov.gr, χωρίς να γράψετε κείμενα.</li>
     <li><strong>Κατοχύρωση .gr Domain &amp; Hosting για 1 έτος.</strong></li>
     <li><strong>Επαγγελματικό Λογότυπο &amp; Εταιρικό Email</strong> (π.χ. info@...).</li>
     <li><strong>Επίσημο Τιμολόγιο Εξόδων</strong> για τα βιβλία της εταιρείας σας.</li>

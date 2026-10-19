@@ -50,7 +50,7 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Γνωρίζουμε ότι η καθημερινότητα μιας επιχείρησης είναι απαιτητική. Γι' αυτό στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
+  Η εκκρεμότητα δεν φεύγει από μόνη της και είναι ορατή δημόσια στη μερίδα σας. <strong>Σε έναν έλεγχο, μπορεί να σας δημιουργήσει πρόβλημα.</strong> Στην <strong>SGK Digital</strong> το αναλαμβάνουμε <strong>με 0 κόπο από εσάς</strong>:
 </p>
 
 <!-- Value Box -->
@@ -59,7 +59,7 @@ export const IKE_FOLLOWUP_BODY = `<h2 style="color: #0f172a; font-size: 19px; fo
     📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 80€ (τελική τιμή με ΦΠΑ):
   </p>
   <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.55;">
-    <li><strong>Έτοιμη σε 24 ώρες:</strong> Αντλούμε τα στοιχεία απευθείας από το API του Γ.Ε.ΜΗ., χωρίς να χρειάζεται να γράψετε κείμενα.</li>
+    <li><strong>Έτοιμη σε 24 ώρες:</strong> Πιστοποιημένη διασύνδεση με το Γ.Ε.ΜΗ. (API) μέσω επίσημης πρόσβασης gov.gr, χωρίς να γράψετε κείμενα.</li>
     <li><strong>Κατοχύρωση .gr Domain &amp; Hosting για 1 έτος.</strong></li>
     <li><strong>Επαγγελματικό Λογότυπο &amp; Εταιρικό Email</strong> (π.χ. info@...).</li>
     <li><strong>Επίσημο Τιμολόγιο Εξόδων</strong> για τα βιβλία της εταιρείας σας.</li>
@@ -94,7 +94,7 @@ export const IKE_FINAL_BODY = `<h2 style="color: #0f172a; font-size: 19px; font-
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
-  Σας έχουμε ενημερώσει με δύο προηγούμενα μηνύματα για την υποχρέωση δήλωσης εταιρικής ιστοσελίδας στη μερίδα της Ι.Κ.Ε. σας στο Γ.Ε.ΜΗ. <strong>Αυτό είναι το τελευταίο μήνυμα που θα λάβετε από εμάς για το θέμα.</strong>
+  Σας έχουμε ενημερώσει με δύο προηγούμενα μηνύματα για την υποχρέωση δήλωσης εταιρικής ιστοσελίδας στη μερίδα της Ι.Κ.Ε. σας στο Γ.Ε.ΜΗ. <strong>Αυτό είναι το τελευταίο μήνυμα που θα λάβετε από εμάς για το θέμα.</strong> Η εκκρεμότητα παραμένει ορατή δημόσια στη μερίδα σας και <strong>σε έναν έλεγχο μπορεί να σας δημιουργήσει πρόβλημα.</strong>
 </p>
 
 <p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.6;">
@@ -106,11 +106,15 @@ export const IKE_FINAL_BODY = `<h2 style="color: #0f172a; font-size: 19px; font-
     📦 Πλήρες Πακέτο Γ.Ε.ΜΗ. στα 80€ (τελική τιμή με ΦΠΑ):
   </p>
   <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: #1e293b; line-height: 1.55;">
-    <li><strong>Έτοιμη σε 24 ώρες</strong> με στοιχεία απευθείας από το Γ.Ε.ΜΗ.</li>
+    <li><strong>Έτοιμη σε 24 ώρες</strong> με πιστοποιημένη διασύνδεση (API) μέσω επίσημης πρόσβασης gov.gr.</li>
     <li><strong>Domain .gr &amp; Hosting για 1 έτος</strong> συμπεριλαμβάνονται.</li>
     <li><strong>Επίσημο Τιμολόγιο Εξόδων</strong> για τα βιβλία της εταιρείας.</li>
   </ul>
 </div>
+
+<p style="margin: 0 0 14px 0; font-size: 13.5px; color: #475569;">
+  👉 <strong>Δείτε πρόσφατα δείγματα πελατών μας:</strong> <a href="https://meltech-ike.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">meltech-ike.gr</a> &nbsp;|&nbsp; <a href="https://www.sellascountryhouses.gr/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">sellascountryhouses.gr</a>
+</p>
 
 <div style="background-color: #f1f5f9; border-radius: 8px; padding: 12px 14px; margin: 16px 0 12px 0; text-align: center; font-size: 13.5px; color: #334155;">
   📞 <strong>Αν θέλετε να το κλείσετε τώρα:</strong><br/>
