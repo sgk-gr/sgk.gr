@@ -7,10 +7,12 @@ import {
   Users, Loader2, X, Trash2, Plus, Search, Building2, 
   FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
   Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target,
-  ChevronDown, ChevronUp, History, Server, Zap
+  ChevronDown, ChevronUp, History, Server, Zap,
+  Eye, Code, FileText, Copy, ExternalLink, Inbox
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
+import { CAMPAIGN_TEMPLATES } from "@/lib/dailyAutoCampaigns";
 
 
 export interface ProfessionConfig {
@@ -1237,8 +1239,17 @@ function safeEncodeBase64(data: any): string {
     });
   }, []);
 
-  // Only the columns the UI needs (first_email_body alone is ~3.6MB and is never displayed)
-  const LEAD_COLUMNS = "id, created_at, email, first_name, last_name, company, phone, source, marketing_consent, unsubscribed, unsubscribe_token, converted, email_sequence_step, last_email_sent_at, emails_opened, emails_clicked, type, afm, gemi_number";
+  // Resend-style Sent Emails Log & Inspector State
+  const [emailTableView, setEmailTableView] = useState<'sent_log' | 'leads'>('sent_log');
+  const [selectedSentLead, setSelectedSentLead] = useState<any | null>(null);
+  const [inspectorTab, setInspectorTab] = useState<'preview' | 'text' | 'html' | 'company'>('preview');
+  const [sentLeadHtml, setSentLeadHtml] = useState<string>('');
+  const [loadingSentEmailBody, setLoadingSentEmailBody] = useState<boolean>(false);
+  const [sentCategoryFilter, setSentCategoryFilter] = useState<string>('all');
+  const [sentSearchTerm, setSentSearchTerm] = useState<string>('');
+
+  // Only the columns the UI needs (first_email_body is loaded on-demand per inspector modal)
+  const LEAD_COLUMNS = "id, created_at, email, first_name, last_name, company, phone, source, marketing_consent, unsubscribed, unsubscribe_token, converted, email_sequence_step, last_email_sent_at, emails_opened, emails_clicked, type, afm, gemi_number, first_email_subject";
 
   const fetchLeads = async () => {
     setLoading(true);
@@ -2391,6 +2402,122 @@ function safeEncodeBase64(data: any): string {
   }, [convertedLeads]);
   const unsubscribedCount = leads.filter(l => l.unsubscribed).length;
 
+  // Memoized Sent Leads (chronologically newest sent first)
+  const sentLeads = useMemo(() => {
+    return leads
+      .filter((l) => Boolean(l.last_email_sent_at) || ((l.email_sequence_step || 0) >= 1))
+      .sort((a, b) => {
+        const timeA = a.last_email_sent_at ? new Date(a.last_email_sent_at).getTime() : new Date(a.created_at).getTime();
+        const timeB = b.last_email_sent_at ? new Date(b.last_email_sent_at).getTime() : new Date(b.created_at).getTime();
+        return timeB - timeA;
+      });
+  }, [leads]);
+
+  const filteredSentLeads = useMemo(() => {
+    return sentLeads.filter((l) => {
+      if (sentCategoryFilter !== "all") {
+        if (sentCategoryFilter === "ftth_telecom" && l.type !== "ftth_telecom") return false;
+        if (sentCategoryFilter === "new_ike" && l.type !== "new_ike") return false;
+        if (sentCategoryFilter === "legacy_ike" && l.type !== "legacy_ike") return false;
+      }
+      if (!sentSearchTerm.trim()) return true;
+      const q = sentSearchTerm.toLowerCase().trim();
+      return (
+        (l.email || "").toLowerCase().includes(q) ||
+        (l.company || "").toLowerCase().includes(q) ||
+        (l.first_email_subject || "").toLowerCase().includes(q) ||
+        (l.afm || "").includes(q)
+      );
+    });
+  }, [sentLeads, sentCategoryFilter, sentSearchTerm]);
+
+  const formatRelativeTime = (dateString?: string | null): string => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+
+    if (diffSec < 60) return "Just now";
+    if (diffMin === 1) return "1min ago";
+    if (diffMin < 60) return `${diffMin}min ago`;
+    if (diffHour === 1) return "1h ago";
+    if (diffHour < 24) return `${diffHour}h ago`;
+    if (diffDay === 1) return "1d ago";
+    return date.toLocaleDateString("el-GR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+  };
+
+  const formatEventTime = (dateString?: string | null): string => {
+    const date = dateString ? new Date(dateString) : new Date();
+    return date.toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+  const openSentEmailInspector = async (lead: any) => {
+    setSelectedSentLead(lead);
+    setInspectorTab("preview");
+    setLoadingSentEmailBody(true);
+
+    try {
+      let subject = lead.first_email_subject;
+      let body = lead.first_email_body;
+
+      if (!body) {
+        const { data } = await supabase
+          .from("sgk_mails")
+          .select("first_email_subject, first_email_body")
+          .eq("id", lead.id)
+          .single();
+        if (data?.first_email_body) body = data.first_email_body;
+        if (data?.first_email_subject) subject = data.first_email_subject;
+      }
+
+      let buttonText = "Έναρξη Ιστοσελίδας ΙΚΕ (80€)";
+      let buttonLink = "https://www.sgk.gr/ike-offer";
+
+      if (lead.type === "ftth_telecom") {
+        subject = subject || CAMPAIGN_TEMPLATES.ftth.subject;
+        body = body || CAMPAIGN_TEMPLATES.ftth.body;
+        buttonText = CAMPAIGN_TEMPLATES.ftth.buttonText;
+        buttonLink = CAMPAIGN_TEMPLATES.ftth.buttonLink;
+      } else if (lead.type === "legacy_ike") {
+        subject = subject || CAMPAIGN_TEMPLATES.legacy_ike.subject;
+        body = body || CAMPAIGN_TEMPLATES.legacy_ike.body;
+        buttonText = CAMPAIGN_TEMPLATES.legacy_ike.buttonText;
+        buttonLink = CAMPAIGN_TEMPLATES.legacy_ike.buttonLink;
+      } else {
+        subject = subject || CAMPAIGN_TEMPLATES.new_ike.subject;
+        body = body || CAMPAIGN_TEMPLATES.new_ike.body;
+        buttonText = CAMPAIGN_TEMPLATES.new_ike.buttonText;
+        buttonLink = CAMPAIGN_TEMPLATES.new_ike.buttonLink;
+      }
+
+      const finalHtml = buildProfessionalEmailHtml({
+        businessName: lead.first_name || lead.company || "Συνεργάτη",
+        subject: subject || "Ενημέρωση SGK Digital",
+        bodyHtml: body || "<p>Ενημέρωση από την SGK Digital</p>",
+        buttonText: buttonText,
+        buttonLink: buttonLink,
+        unsubscribeToken: lead.unsubscribe_token || "sample",
+        industry: lead.company,
+      });
+
+      setSentLeadHtml(finalHtml);
+    } catch (err) {
+      console.error("Error loading email body:", err);
+    } finally {
+      setLoadingSentEmailBody(false);
+    }
+  };
+
   const now = useMemo(() => new Date(), []);
   const greekMonths = useMemo(() => [
     "Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος",
@@ -3226,8 +3353,203 @@ function safeEncodeBase64(data: any): string {
 
       {/* Table Card (Search, Filters, Leads Table & Pagination) */}
       <div className="bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs mt-6">
-        {/* Search Bar & Status Filter Badges */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        {/* Top View Selector: Resend Live Sent Log vs All Leads CRM */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-100 pb-4 mb-5 gap-3">
+          <div className="inline-flex p-1 bg-slate-950 rounded-xl border border-slate-800 shadow-md">
+            <button
+              onClick={() => setEmailTableView("sent_log")}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                emailTableView === "sent_log"
+                  ? "bg-emerald-500 text-slate-950 shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <Send size={13} className={emailTableView === "sent_log" ? "text-slate-950" : "text-emerald-400"} />
+              <span>📤 Απεσταλμένα Emails (Resend Live Log)</span>
+              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${
+                emailTableView === "sent_log" ? "bg-slate-950/20 text-slate-950" : "bg-slate-800 text-emerald-400"
+              }`}>
+                {sentLeads.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setEmailTableView("leads")}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                emailTableView === "leads"
+                  ? "bg-blue-600 text-white shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <Users size={13} className={emailTableView === "leads" ? "text-white" : "text-slate-500"} />
+              <span>👥 Όλα τα Leads (CRM)</span>
+              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${
+                emailTableView === "leads" ? "bg-white/20 text-white" : "bg-slate-800 text-slate-400"
+              }`}>
+                {leads.length}
+              </span>
+            </button>
+          </div>
+
+          <div className="text-xs text-slate-500 flex items-center gap-2">
+            {emailTableView === "sent_log" ? (
+              <span className="flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Πατήστε σε οποιοδήποτε email για άμεση προεπισκόπηση & Resend Inspector
+              </span>
+            ) : (
+              <span>Συνολικά {leads.length} leads στη βάση δεδομένων</span>
+            )}
+          </div>
+        </div>
+
+        {emailTableView === "sent_log" ? (
+          <div className="space-y-4">
+            {/* Top Toolbar matching Resend Screenshot 1 */}
+            <div className="bg-[#0b0c0e] p-4 rounded-xl border border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-white">
+              <div className="flex items-center gap-2">
+                <div className="px-3 py-1 rounded-lg bg-zinc-800/90 text-zinc-200 text-xs font-bold border border-zinc-700/60 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  Sending ({filteredSentLeads.length})
+                </div>
+                <div className="text-xs text-zinc-400 hidden sm:block">
+                  Emails delivered through Resend & Brevo
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <div className="relative w-full sm:w-64">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+                  <input
+                    type="text"
+                    placeholder="Search by email, company..."
+                    value={sentSearchTerm}
+                    onChange={(e) => setSentSearchTerm(e.target.value)}
+                    className="w-full pl-8 pr-3 py-1.5 bg-[#121316] border border-zinc-700/80 rounded-lg text-xs text-zinc-200 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500"
+                  />
+                  {sentSearchTerm && (
+                    <button onClick={() => setSentSearchTerm("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white">
+                      <X size={12} />
+                    </button>
+                  )}
+                </div>
+
+                <select
+                  value={sentCategoryFilter}
+                  onChange={(e) => setSentCategoryFilter(e.target.value)}
+                  className="px-2.5 py-1.5 bg-[#121316] border border-zinc-700/80 rounded-lg text-xs font-bold text-zinc-300 focus:outline-none focus:border-zinc-500 cursor-pointer"
+                >
+                  <option value="all">All Categories</option>
+                  <option value="ftth_telecom">🔌 FTTH / Οπτικές Ίνες</option>
+                  <option value="new_ike">🏢 Νέες ΙΚΕ (80€)</option>
+                  <option value="legacy_ike">🏛️ Παλαιές ΙΚΕ (2018–2024)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Dark Resend Table */}
+            <div className="rounded-xl border border-zinc-800 overflow-hidden bg-[#0a0a0c] text-white">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-zinc-800/80 bg-zinc-950/60 text-[10px] font-mono uppercase tracking-wider text-zinc-400">
+                      <th className="py-3 px-4">To</th>
+                      <th className="py-3 px-4">Status</th>
+                      <th className="py-3 px-4">Subject</th>
+                      <th className="py-3 px-4">Category</th>
+                      <th className="py-3 px-4 text-right">Sent</th>
+                      <th className="py-3 px-4 text-center w-16">Inspect</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-800/60 text-xs font-medium">
+                    {filteredSentLeads.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="py-12 text-center text-zinc-500 font-normal">
+                          <Inbox className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                          Δεν βρέθηκαν απεσταλμένα emails με αυτά τα κριτήρια
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredSentLeads.slice(0, 100).map((lead) => {
+                        const subject = lead.first_email_subject || (
+                          lead.type === "ftth_telecom" ? CAMPAIGN_TEMPLATES.ftth.subject :
+                          lead.type === "legacy_ike" ? CAMPAIGN_TEMPLATES.legacy_ike.subject :
+                          CAMPAIGN_TEMPLATES.new_ike.subject
+                        );
+                        return (
+                          <tr
+                            key={lead.id}
+                            onClick={() => openSentEmailInspector(lead)}
+                            className="transition-colors hover:bg-zinc-900/80 cursor-pointer group"
+                          >
+                            <td className="py-3 px-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/60 flex items-center justify-center shrink-0 text-emerald-400 group-hover:border-emerald-500/80 transition-colors">
+                                  <Mail size={14} />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="font-semibold text-zinc-100 group-hover:text-emerald-300 transition-colors">
+                                    {lead.email}
+                                  </div>
+                                  <div className="text-[11px] text-zinc-400 truncate max-w-[220px]">
+                                    {lead.company || lead.first_name || "Επιχείρηση"}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                Delivered
+                              </span>
+                            </td>
+                            <td className="py-3 px-4 max-w-md">
+                              <div className="text-zinc-300 truncate font-normal group-hover:text-white transition-colors" title={subject}>
+                                {subject}
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              {lead.type === "ftth_telecom" ? (
+                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-300 border border-cyan-800">
+                                  🔌 FTTH
+                                </span>
+                              ) : lead.type === "legacy_ike" ? (
+                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950 text-amber-300 border border-amber-800">
+                                  🏛️ Παλαιά ΙΚΕ
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-950 text-blue-300 border border-blue-800">
+                                  🏢 Νέα ΙΚΕ
+                                </span>
+                              )}
+                            </td>
+                            <td className="py-3 px-4 text-right font-mono text-[11px] text-zinc-400 whitespace-nowrap">
+                              {formatRelativeTime(lead.last_email_sent_at || lead.created_at)}
+                            </td>
+                            <td className="py-3 px-4 text-center">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openSentEmailInspector(lead);
+                                }}
+                                className="p-1.5 rounded-lg bg-zinc-800 hover:bg-emerald-500 hover:text-slate-950 text-zinc-300 transition-all cursor-pointer"
+                                title="Προβολή Απεσταλμένου Email"
+                              >
+                                <Eye size={13} />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>
+            {/* Search Bar & Status Filter Badges */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
@@ -3532,10 +3854,15 @@ function safeEncodeBase64(data: any): string {
                             </span>
                           ) : ((lead.email_sequence_step || 0) >= 1 || lead.last_email_sent_at) ? (
                             <div className="inline-flex flex-col items-center">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm" title="Email: Στάλθηκε από εσάς">
+                              <button
+                                onClick={() => openSentEmailInspector(lead)}
+                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm hover:bg-emerald-200 transition-colors cursor-pointer"
+                                title="Κάντε κλικ για προβολή του απεσταλμένου email (Resend Inspector)"
+                              >
                                 <Check size={11} className="text-emerald-600 stroke-[3]" />
                                 Εστάλη
-                              </span>
+                                <Eye size={10} className="ml-0.5 text-emerald-700" />
+                              </button>
                             </div>
                           ) : (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-600 border border-slate-200 shadow-2xs">
@@ -3576,6 +3903,16 @@ function safeEncodeBase64(data: any): string {
                                   className="w-20 px-1 py-0.5 bg-white border border-slate-300 rounded text-xs font-bold text-blue-700 text-center outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                                 />
                               </div>
+                            )}
+                            {Boolean(lead.last_email_sent_at || (lead.email_sequence_step || 0) >= 1) && (
+                              <button
+                                onClick={() => openSentEmailInspector(lead)}
+                                className="inline-flex items-center gap-1 px-2 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 rounded-xl transition-all text-xs font-bold uppercase cursor-pointer"
+                                title="Προβολή Απεσταλμένου Email (Resend Inspector)"
+                              >
+                                <Eye size={12} />
+                                Προβολη
+                              </button>
                             )}
                             {!isBlacklisted && (
                               <button
@@ -3651,6 +3988,215 @@ function safeEncodeBase64(data: any): string {
           )}
         </div>
       </div>
+      )}
+    </div>
+
+      {/* Resend-Style Sent Email Inspector Modal */}
+      {selectedSentLead && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-[#0b0c0e] text-white rounded-2xl border border-zinc-800 shadow-2xl overflow-hidden animate-scale-up">
+            {/* Top Bar (matching Screenshot 2) */}
+            <div className="p-5 border-b border-zinc-800 flex items-start justify-between gap-4 bg-[#090a0c]">
+              <div className="space-y-1">
+                <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                  <span>REPLY-TO:</span>
+                  <span className="text-zinc-200 font-bold">info@sgk.gr</span>
+                </div>
+                <div className="text-sm font-bold text-white flex items-center gap-2 flex-wrap">
+                  <span className="text-zinc-400 font-normal">To:</span>
+                  <span>{selectedSentLead.company || selectedSentLead.first_name || "Επιχείρηση"}</span>
+                  <span className="text-emerald-400 font-mono text-xs">({selectedSentLead.email})</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="hidden sm:flex flex-col text-right text-[11px] font-mono text-zinc-400">
+                  <span className="uppercase tracking-wider">LOG</span>
+                  <span className="text-zinc-300 font-bold">POST /emails</span>
+                </div>
+                <button
+                  onClick={() => setSelectedSentLead(null)}
+                  className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                  title="Κλείσιμο"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+
+            {/* Email Events Timeline (matching Screenshot 2) */}
+            <div className="px-6 py-4 border-b border-zinc-800 bg-[#0d0e12]">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                EMAIL EVENTS
+              </div>
+              <div className="flex items-center gap-3">
+                {/* Sent Node */}
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-300">
+                    <Send size={11} />
+                  </div>
+                  <div className="text-xs">
+                    <div className="font-bold text-zinc-300">Sent</div>
+                    <div className="text-[10px] text-zinc-400 font-mono">
+                      {formatEventTime(selectedSentLead.last_email_sent_at || selectedSentLead.created_at)}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connecting Line */}
+                <div className="flex-1 h-[2px] bg-gradient-to-r from-zinc-700 to-emerald-500 max-w-[80px] sm:max-w-[120px]"></div>
+
+                {/* Delivered Node */}
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.4)]">
+                    <Check size={12} strokeWidth={3} />
+                  </div>
+                  <div className="text-xs">
+                    <div className="font-bold text-emerald-400">Delivered</div>
+                    <div className="text-[10px] text-emerald-400/80 font-mono">
+                      {formatEventTime(selectedSentLead.last_email_sent_at || selectedSentLead.created_at)}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="ml-auto hidden sm:block">
+                  <span className="text-xs font-mono text-zinc-400">
+                    ID: {selectedSentLead.id.slice(0, 8)}...
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Sub-Navigation Tabs Bar */}
+            <div className="px-6 py-3 border-b border-zinc-800 flex items-center justify-between gap-2 bg-[#090a0c] flex-wrap">
+              <div className="flex items-center gap-1.5 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
+                <button
+                  onClick={() => setInspectorTab("preview")}
+                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "preview" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  <Eye size={12} />
+                  <span>Preview</span>
+                </button>
+                <button
+                  onClick={() => setInspectorTab("text")}
+                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "text" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  <FileText size={12} />
+                  <span>Plain Text</span>
+                </button>
+                <button
+                  onClick={() => setInspectorTab("html")}
+                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "html" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  <Code size={12} />
+                  <span>HTML</span>
+                </button>
+                <button
+                  onClick={() => setInspectorTab("company")}
+                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "company" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  <Building2 size={12} />
+                  <span>Στοιχεία</span>
+                </button>
+              </div>
+
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(sentLeadHtml);
+                  toast.success("Το HTML του email αντιγράφηκε στο clipboard!");
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-xs font-bold transition-colors cursor-pointer border border-zinc-700/60"
+              >
+                <Copy size={12} />
+                <span>Αντιγραφή</span>
+              </button>
+            </div>
+
+            {/* Inspector Modal Body */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#08080a]">
+              {loadingSentEmailBody ? (
+                <div className="flex flex-col items-center justify-center py-24 text-zinc-400">
+                  <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-3" />
+                  <span className="font-bold text-sm">Φόρτωση ακριβούς προεπισκόπησης email...</span>
+                </div>
+              ) : inspectorTab === "preview" ? (
+                <div className="bg-white rounded-xl overflow-hidden shadow-2xl border border-zinc-700 max-w-2xl mx-auto">
+                  <iframe
+                    srcDoc={sentLeadHtml}
+                    title="Sent Email Render"
+                    className="w-full h-[620px] border-0 bg-white"
+                    sandbox="allow-same-origin allow-popups"
+                  />
+                </div>
+              ) : inspectorTab === "text" ? (
+                <div className="max-w-2xl mx-auto bg-[#121316] rounded-xl p-6 border border-zinc-800 text-zinc-300 font-mono text-xs whitespace-pre-wrap leading-relaxed max-h-[620px] overflow-y-auto">
+                  {sentLeadHtml.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+                    .replace(/<[^>]+>/g, '\n')
+                    .replace(/\n\s*\n\s*\n/g, '\n\n')
+                    .trim()}
+                </div>
+              ) : inspectorTab === "html" ? (
+                <div className="max-w-3xl mx-auto bg-[#121316] rounded-xl p-5 border border-zinc-800 text-emerald-400 font-mono text-xs whitespace-pre-wrap leading-relaxed max-h-[620px] overflow-y-auto">
+                  {sentLeadHtml}
+                </div>
+              ) : (
+                <div className="max-w-2xl mx-auto space-y-4">
+                  <div className="p-4 bg-zinc-900/80 rounded-xl border border-zinc-800 space-y-3">
+                    <h4 className="text-sm font-black text-white flex items-center gap-2">
+                      <Building2 size={16} className="text-emerald-400" />
+                      Στοιχεία Επιχείρησης
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Επωνυμία</span>
+                        <span className="font-bold text-zinc-200">{selectedSentLead.company || selectedSentLead.first_name || "-"}</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Email</span>
+                        <span className="font-mono text-emerald-400">{selectedSentLead.email}</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">ΑΦΜ</span>
+                        <span className="font-mono text-zinc-200">{selectedSentLead.afm || "-"}</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Αρ. Γ.Ε.ΜΗ.</span>
+                        <span className="font-mono text-zinc-200">{selectedSentLead.gemi_number || "-"}</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Τηλέφωνο</span>
+                        <span className="font-mono text-zinc-200">{selectedSentLead.phone || "-"}</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Κατηγορία</span>
+                        <span className="font-bold text-zinc-200">{selectedSentLead.type || "-"}</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Ημερομηνία Αποστολής</span>
+                        <span className="font-mono text-zinc-200">
+                          {selectedSentLead.last_email_sent_at ? new Date(selectedSentLead.last_email_sent_at).toLocaleString("el-GR") : "-"}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Unsubscribe Token</span>
+                        <span className="font-mono text-[10px] text-zinc-400">{selectedSentLead.unsubscribe_token || "-"}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Campaign Email Modal - Ported to body level to fix z-index issues */}
       {isClient && typeof document !== "undefined" && createPortal(campaignModal, document.body)}

@@ -54,7 +54,7 @@ export function isDailyCronRunning(): boolean {
   return Boolean(globalThis.__isDailyCronRunning);
 }
 
-const CAMPAIGN_TEMPLATES = {
+export const CAMPAIGN_TEMPLATES = {
   new_ike: {
     subject: "Σχετικά με τη δήλωση εταιρικής ιστοσελίδας στο Γ.Ε.ΜΗ. (80€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 16px 0;">Η νέα σας Ι.Κ.Ε. χρειάζεται εταιρική ιστοσελίδα στο Γ.Ε.ΜΗ.</h2>
