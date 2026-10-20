@@ -19,7 +19,8 @@ export async function GET() {
 
     const totalSentToday = typeof sentTodayCount === "number" ? sentTodayCount : 0;
     const resendDailyLimit = 100;
-    const resendHasCapacity = totalSentToday < resendDailyLimit;
+    // Resend handles live error fallback directly at send time (so Brevo emails do not block Resend)
+    const resendHasCapacity = true;
 
     // 2. Check Brevo remaining credits
     let brevoCredits = 300;
@@ -46,10 +47,8 @@ export async function GET() {
       brevoAvailable = false;
     }
 
-    const recommended = resendHasCapacity ? "resend" : "brevo";
-    const reason = resendHasCapacity
-      ? `Η Resend διαθέτει υπόλοιπο (${totalSentToday}/${resendDailyLimit} σήμερα).`
-      : `Η Resend έφτασε το όριο (${totalSentToday}/${resendDailyLimit} σήμερα). Προτείνεται Brevo (${brevoCredits} διαθέσιμα).`;
+    const recommended = "resend";
+    const reason = `Η Resend είναι ο κύριος πάροχος αποστολής. Αν εξαντληθεί το ημερήσιο όριο των 100, η αποστολή γυρίζει αυτόματα σε Brevo (${brevoCredits} διαθέσιμα).`;
 
     return NextResponse.json({
       success: true,
