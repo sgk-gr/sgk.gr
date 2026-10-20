@@ -393,6 +393,9 @@ async function getReadyLeadsForCategory(
 export async function runDailyAutoCampaigns(options?: {
   force?: boolean;
   dryRun?: boolean;
+  newIkeTarget?: number;
+  legacyIkeTarget?: number;
+  ftthTarget?: number;
 }): Promise<DailyCronReport> {
   if (globalThis.__isDailyCronRunning) {
     throw new Error("Η ημερήσια αυτόματη αποστολή εκτελείται ήδη αυτή τη στιγμή.");
@@ -403,15 +406,19 @@ export async function runDailyAutoCampaigns(options?: {
   const supabase = getServiceSupabase();
   const errors: string[] = [];
 
+  const newTarget = typeof options?.newIkeTarget === "number" ? options.newIkeTarget : 100;
+  const legacyTarget = typeof options?.legacyIkeTarget === "number" ? options.legacyIkeTarget : 100;
+  const ftthTarget = typeof options?.ftthTarget === "number" ? options.ftthTarget : 99;
+
   const report: DailyCronReport = {
     timestamp: new Date().toISOString(),
     durationMs: 0,
-    totalTarget: 299,
+    totalTarget: newTarget + legacyTarget + ftthTarget,
     totalSent: 0,
     totalFailed: 0,
-    newIke: { target: 100, sent: 0, failed: 0, samples: [] },
-    legacyIke: { target: 100, sent: 0, failed: 0, samples: [] },
-    ftth: { target: 99, sent: 0, failed: 0, samples: [] },
+    newIke: { target: newTarget, sent: 0, failed: 0, samples: [] },
+    legacyIke: { target: legacyTarget, sent: 0, failed: 0, samples: [] },
+    ftth: { target: ftthTarget, sent: 0, failed: 0, samples: [] },
     providers: { resend: 0, brevo: 0 },
     adminNotified: false,
     errors: [],
@@ -458,16 +465,16 @@ export async function runDailyAutoCampaigns(options?: {
     console.log(`[dailyAutoCampaigns] Database verification complete: ${existingEmailSet.size} existing emails, ${existingAfmSet.size} AFMs, ${unsubscribedSet.size} unsubscribed. None of these will be contacted.`);
 
     // 1. Gather all fresh leads sequentially from GEMI OpenData API (Zero DB duplicates & prevents GEMI 429)
-    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 100 New IKE (current month)...");
-    const newIkeLeads = await getReadyLeadsForCategory("new_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet);
+    console.log(`[dailyAutoCampaigns] Gathering fresh leads from GEMI: ${newTarget} New IKE (current month)...`);
+    const newIkeLeads = await getReadyLeadsForCategory("new_ike", newTarget, existingEmailSet, existingAfmSet, unsubscribedSet);
 
     await new Promise(r => setTimeout(r, 600));
-    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 100 Legacy IKE (2018–2024)...");
-    const legacyIkeLeads = await getReadyLeadsForCategory("legacy_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet);
+    console.log(`[dailyAutoCampaigns] Gathering fresh leads from GEMI: ${legacyTarget} Legacy IKE (2018–2024)...`);
+    const legacyIkeLeads = await getReadyLeadsForCategory("legacy_ike", legacyTarget, existingEmailSet, existingAfmSet, unsubscribedSet);
 
     await new Promise(r => setTimeout(r, 600));
-    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 99 FTTH (KAD 43210006)...");
-    const ftthLeads = await getReadyLeadsForCategory("ftth_telecom", 99, existingEmailSet, existingAfmSet, unsubscribedSet);
+    console.log(`[dailyAutoCampaigns] Gathering fresh leads from GEMI: ${ftthTarget} FTTH (KAD 43210006)...`);
+    const ftthLeads = await getReadyLeadsForCategory("ftth_telecom", ftthTarget, existingEmailSet, existingAfmSet, unsubscribedSet);
 
     report.newIke.target = newIkeLeads.length;
     report.legacyIke.target = legacyIkeLeads.length;

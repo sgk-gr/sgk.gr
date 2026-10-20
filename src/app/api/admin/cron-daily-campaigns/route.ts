@@ -14,6 +14,11 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     const force = url.searchParams.get("force") === "true";
     const dryRun = url.searchParams.get("dryRun") === "true";
+    const body: any = {
+      newIkeTarget: url.searchParams.get("newIkeTarget") ? Number(url.searchParams.get("newIkeTarget")) : undefined,
+      legacyIkeTarget: url.searchParams.get("legacyIkeTarget") ? Number(url.searchParams.get("legacyIkeTarget")) : undefined,
+      ftthTarget: url.searchParams.get("ftthTarget") ? Number(url.searchParams.get("ftthTarget")) : undefined,
+    };
 
     // Prevent duplicate daily runs unless force=true
     const lastReport = getLastDailyCronReport();
@@ -37,7 +42,13 @@ export async function GET(req: NextRequest) {
       }, { status: 429 });
     }
 
-    const report = await runDailyAutoCampaigns({ force, dryRun });
+    const report = await runDailyAutoCampaigns({ 
+      force, 
+      dryRun,
+      newIkeTarget: typeof body.newIkeTarget === "number" ? body.newIkeTarget : undefined,
+      legacyIkeTarget: typeof body.legacyIkeTarget === "number" ? body.legacyIkeTarget : undefined,
+      ftthTarget: typeof body.ftthTarget === "number" ? body.ftthTarget : undefined,
+    });
 
     return NextResponse.json({
       success: true,
@@ -67,7 +78,13 @@ export async function POST(req: NextRequest) {
       }, { status: 429 });
     }
 
-    const report = await runDailyAutoCampaigns({ force, dryRun });
+    const report = await runDailyAutoCampaigns({ 
+      force, 
+      dryRun,
+      newIkeTarget: typeof body.newIkeTarget === "number" ? body.newIkeTarget : undefined,
+      legacyIkeTarget: typeof body.legacyIkeTarget === "number" ? body.legacyIkeTarget : undefined,
+      ftthTarget: typeof body.ftthTarget === "number" ? body.ftthTarget : undefined,
+    });
 
     return NextResponse.json({
       success: true,
