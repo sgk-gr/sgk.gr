@@ -375,6 +375,14 @@ export async function POST(req: NextRequest) {
     maxDate = body.maxDate;
   }
 
+  // FTTH software (Autopsia) targets ALL telecommunications & wiring contractors (both old and new companies)
+  if (isFtthMode) {
+    targetYear = 0;
+    targetMonth = null;
+    minDate = null;
+    maxDate = null;
+  }
+
   const isLegacyIke = !isFtthMode && !isNonIkeMode && targetYear < currentYear;
   const computedStartOffset = isFtthMode || isNonIkeMode ? 0 : getEstimatedOffset(targetYear, targetMonth);
   const startOffset = typeof body.startOffset === "number" ? body.startOffset : computedStartOffset;
@@ -398,7 +406,11 @@ export async function POST(req: NextRequest) {
         };
 
         try {
-          const monthLabel = targetMonth ? `Μήνας: ${targetMonth}` : `Έτος ${targetYear} (${minDate} έως ${maxDate})`;
+          const monthLabel = isFtthMode
+            ? "Όλα τα Έτη (Παλαιές & Νέες Επιχειρήσεις)"
+            : targetMonth 
+            ? `Μήνας: ${targetMonth}` 
+            : `Έτος ${targetYear} (${minDate} έως ${maxDate})`;
 
           emit({
             type: "init",
@@ -478,7 +490,7 @@ export async function POST(req: NextRequest) {
           let totalOldDate = 0;
           let offset = startOffset;
 
-          const maxOffset = offset + (isFtthMode ? 20000 : 15000);
+          const maxOffset = offset + (isFtthMode ? 50000 : 15000);
           while (newLeadsToInsert.length < maxResults && offset < maxOffset) {
             const pageNum = Math.floor((offset - startOffset) / pageSize) + 1;
             emit({
@@ -567,6 +579,12 @@ export async function POST(req: NextRequest) {
               const afm = co.afm ? String(co.afm).trim() : null;
               const arGemi = co.arGemi ? String(co.arGemi).trim() : null;
 
+              // Filter: In FTTH mode, check if the company matches telecom / fiber / wiring targeting FIRST
+              const ftthCheck = checkFtthTelecomTarget(co);
+              if (isFtthMode && !ftthCheck.isMatch) {
+                continue; // Silently skip companies that do not match FTTH/telecom
+              }
+
               // Filter: In Non-IKE mode, strictly exclude any I.K.E. companies
               const legalDescrUpper = (co.legalType?.descr || "").toUpperCase();
               const isIke = (co.legalType?.id === 19) ||
@@ -582,40 +600,37 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Filter: If record is newer than maxDate (due to cushion offset), skip it
-              if (maxDate && incDate && incDate > maxDate) {
-                continue;
-              }
-
-              // Filter: Check minimum incorporation date
-              if (minDate && incDate && incDate < minDate) {
-                totalOldDate++;
-                olderCountInPage++;
-                emit({
-                  type: "log",
-                  category: "old_date",
-                  company: companyTitle,
-                  afm,
-                  date: incDate,
-                  reason: `Σύσταση (${incDate}) πριν τις ${minDate} (παραλείφθηκε)`,
-                  stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
-                });
-                continue;
-              }
-
-              // Filter: Check target month if requested (e.g. "2018-05")
-              if (targetMonth && (!incDate || !incDate.startsWith(targetMonth))) {
-                totalOldDate++;
-                if (incDate && incDate < targetMonth) {
-                  olderCountInPage++;
+              // Date filtering: ONLY for non-FTTH modes (FTTH targets ALL businesses, both old and new)
+              if (!isFtthMode) {
+                // Filter: If record is newer than maxDate (due to cushion offset), skip it
+                if (maxDate && incDate && incDate > maxDate) {
+                  continue;
                 }
-                continue;
-              }
 
-              // Filter: Check FTTH targeting if in FTTH mode
-              const ftthCheck = checkFtthTelecomTarget(co);
-              if (isFtthMode && !ftthCheck.isMatch) {
-                continue;
+                // Filter: Check minimum incorporation date
+                if (minDate && incDate && incDate < minDate) {
+                  totalOldDate++;
+                  olderCountInPage++;
+                  emit({
+                    type: "log",
+                    category: "old_date",
+                    company: companyTitle,
+                    afm,
+                    date: incDate,
+                    reason: `Σύσταση (${incDate}) πριν τις ${minDate} (παραλείφθηκε)`,
+                    stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
+                  });
+                  continue;
+                }
+
+                // Filter: Check target month if requested (e.g. "2018-05")
+                if (targetMonth && (!incDate || !incDate.startsWith(targetMonth))) {
+                  totalOldDate++;
+                  if (incDate && incDate < targetMonth) {
+                    olderCountInPage++;
+                  }
+                  continue;
+                }
               }
 
               // Filter: Check official website (Only in general IKE/Non-IKE mode; FTTH contractors are targeted for autopsy software)
@@ -641,7 +656,9 @@ export async function POST(req: NextRequest) {
                   category: "no_email",
                   company: companyTitle,
                   afm,
-                  reason: `Δεν έχει δηλώσει email στο ΓΕΜΗ (παραλείφθηκε)`,
+                  reason: isFtthMode
+                    ? `⚠️ Χωρίς Email: ${companyTitle} (${ftthCheck.reason}) - Δεν έχει δηλώσει email στο ΓΕΜΗ (παραλείφθηκε)`
+                    : `Δεν έχει δηλώσει email στο ΓΕΜΗ (παραλείφθηκε)`,
                   stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
                 continue;
@@ -769,8 +786,8 @@ export async function POST(req: NextRequest) {
               if (newLeadsToInsert.length >= maxResults) break;
             }
 
-            // If more than 40 companies or 80% of page are older than minDate, stop paginating
-            if (minDate && results.length > 0 && olderCountInPage >= Math.min(results.length * 0.8, 40)) {
+            // If more than 40 companies or 80% of page are older than minDate, stop paginating (only for date-restricted non-FTTH scans)
+            if (!isFtthMode && minDate && results.length > 0 && olderCountInPage >= Math.min(results.length * 0.8, 40)) {
               emit({
                 type: "info",
                 message: `ℹ️ Εντοπίστηκαν παλαιότερες εγγραφές (πριν τις ${minDate}). Η σάρωση ολοκληρώθηκε επιτυχώς.`
@@ -802,7 +819,7 @@ export async function POST(req: NextRequest) {
               ? `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} παλαιές Ι.Κ.Ε. (${targetYear}) χωρίς ιστοσελίδα στη βάση δεδομένων.`
               : `🎉 Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις και προστέθηκαν ${insertedCount} νέες Ι.Κ.Ε. στη βάση δεδομένων.`
             : isFtthMode
-              ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις όλων των νομικών μορφών και δεν βρέθηκαν νέες μη-καταχωρημένες εταιρείες με τον ΚΑΔ 43210006 για το διάστημα αυτό.`
+              ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις όλων των νομικών μορφών (παλαιές & νέες) και δεν βρέθηκαν άλλες νέες μη-καταχωρημένες εταιρείες με τον ΚΑΔ 43210006 σε αυτή την παρτίδα.`
               : isNonIkeMode
               ? `ℹ️ Η σάρωση ολοκληρώθηκε! Εξετάστηκαν ${totalExamined} επιχειρήσεις (${nonIkeLabel}) και ΔΕΝ βρέθηκαν νέες επιχειρήσεις χωρίς site για το διάστημα αυτό.`
               : isLegacyIke

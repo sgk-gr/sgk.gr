@@ -2163,8 +2163,8 @@ function safeEncodeBase64(data: any): string {
           targetCategory: category,
           targetLegalForm: isNonIke ? "non_ike" : isFtth ? "all" : "ike",
           nonIkeLegalType: scanNonIkeLegalType,
-          year: scanYear,
-          month: scanMonth,
+          year: isFtth ? "all" : scanYear,
+          month: isFtth ? "all" : scanMonth,
         }),
       });
 
@@ -4225,7 +4225,7 @@ function safeEncodeBase64(data: any): string {
                     )}
                   </h3>
                   <p className="text-xs text-slate-500">
-                    {scanYear === 2026 && scanMonth === "current"
+                    {scanCategory === "ftth_telecom" ? "Όλες οι ημερομηνίες ίδρυσης (Παλαιές & Νέες Επιχειρήσεις)" : scanYear === 2026 && scanMonth === "current"
                       ? `Ίδρυση τον τρέχοντα μήνα (${currentMonthName} 2026)`
                       : scanYear === 2026 && scanMonth === "previous"
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
