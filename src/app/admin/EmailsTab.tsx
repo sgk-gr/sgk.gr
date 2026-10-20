@@ -2077,9 +2077,7 @@ function safeEncodeBase64(data: any): string {
         ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Εταιρείες FTTH & Τηλεπικοινωνιών (${monthLabel})...`
         : isNonIke
         ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις [${nonIkeLabel}] (${monthLabel})...`
-        : scanYear < 2026
-        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. (${monthLabel}) [2018–2025]...`
-        : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
+        : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Ι.Κ.Ε. [ΚΑΔ 43210006 | 2018–Σήμερα | Χωρίς Site | Με Εταιρικό & Προσωπικό Email]...`
     );
     setScanStats({
       totalExamined: 0,
@@ -2111,12 +2109,12 @@ function safeEncodeBase64(data: any): string {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           stream: true, 
-          limit: 50, 
+          limit: 100, 
           targetCategory: category,
           targetLegalForm: isNonIke ? "non_ike" : isFtth ? "all" : "ike",
           nonIkeLegalType: scanNonIkeLegalType,
-          year: isFtth ? "all" : scanYear,
-          month: isFtth ? "all" : scanMonth,
+          year: isFtth ? "all" : category === "all" ? "all" : scanYear,
+          month: isFtth ? "all" : category === "all" ? "all" : scanMonth,
         }),
       });
 
@@ -3104,7 +3102,7 @@ function safeEncodeBase64(data: any): string {
             onClick={handleScanGemiIkes}
             disabled={isScanningGemi}
             className={`adm-btn ${scanYear < 2026 ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-700' : 'adm-btn-accent'}`}
-            title={scanYear < 2026 ? `Live σάρωση στο Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. (${scanYear}) χωρίς ιστοσελίδα (τακτοποίηση 80€)` : "Live σάρωση στο Γ.Ε.ΜΗ. για νέες Ι.Κ.Ε."}
+            title="Live σάρωση στο Γ.Ε.ΜΗ. για Ι.Κ.Ε. με ΚΑΔ 43210006 (2018–Σήμερα) χωρίς ιστοσελίδα (περιλαμβάνει και εταιρικά emails)"
           >
             {isScanningGemi && scanCategory === "all" ? (
               <Loader2 size={13} className="animate-spin" />
@@ -3113,7 +3111,7 @@ function safeEncodeBase64(data: any): string {
             ) : (
               <Sparkles size={13} />
             )}
-            {scanYear < 2026 ? `🏛️ Εύρεση Παλαιών Ι.Κ.Ε. (${scanYear})` : "Εύρεση νέων Ι.Κ.Ε."}
+            Εύρεση Ι.Κ.Ε. (ΚΑΔ 43210006)
           </button>
 
           <select

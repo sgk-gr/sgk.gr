@@ -383,8 +383,19 @@ export async function POST(req: NextRequest) {
     maxDate = null;
   }
 
-  const isLegacyIke = !isFtthMode && !isNonIkeMode && targetYear < currentYear;
-  const computedStartOffset = isFtthMode || isNonIkeMode ? 0 : getEstimatedOffset(targetYear, targetMonth);
+  const isIkeMode = !isFtthMode && !isNonIkeMode;
+
+  // IKE Mode: Strictly KAD 43210006 from 2018 to today per user instructions
+  if (isIkeMode) {
+    if (body.year === "all" || !body.minDate) {
+      minDate = "2018-01-01";
+      maxDate = "";
+      targetMonth = null;
+    }
+  }
+
+  const isLegacyIke = isIkeMode && targetYear < currentYear;
+  const computedStartOffset = isIkeMode || isFtthMode || isNonIkeMode ? 0 : getEstimatedOffset(targetYear, targetMonth);
   const startOffset = typeof body.startOffset === "number" ? body.startOffset : computedStartOffset;
 
   const isStream = body.stream !== false; // Default to streaming
@@ -418,9 +429,7 @@ export async function POST(req: NextRequest) {
               ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [ΚΑΔ 43210006/43211006 - Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών | Όλες οι Μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) | 📅 ${monthLabel}]...`
               : isNonIkeMode
               ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (${nonIkeLabel}) | 📅 ${monthLabel}]...`
-              : isLegacyIke
-              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Παλαιές Ι.Κ.Ε. (${targetYear}) χωρίς site | 📅 ${monthLabel} | Offset ~${startOffset}]...`
-              : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Μόνο Νέες Ι.Κ.Ε. | 📅 ${monthLabel}]...`,
+              : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Ι.Κ.Ε. ΚΑΔ 43210006 | 📅 2018 έως Σήμερα | Χωρίς Website στο ΓΕΜΗ | Με Προσωπικό & Εταιρικό Email]...`,
             minDate,
             maxDate,
             maxResults,
@@ -511,21 +520,30 @@ export async function POST(req: NextRequest) {
             // - Non-IKE: targeted forms based on nonIkeLegalType (companies_only: 1=AE, 2=OE, 4=EE | all: 1,2,4,16 | sole_only: 16)
             // - Default: only IKEs (19)
             let legalTypeParam = "";
+            let activitiesParam = "";
+            let sortByParam = "-incorporationDate";
+
             if (isFtthMode) {
               legalTypeParam = "";
+              activitiesParam = "&activities=43210006";
+              sortByParam = "-incorporationDate";
             } else if (isNonIkeMode) {
               if (nonIkeLegalType === "sole_only") {
                 legalTypeParam = "&legalTypes=16";
               } else if (nonIkeLegalType === "all") {
                 legalTypeParam = "&legalTypes=1,2,4,16";
               } else {
-                // "companies_only" (default: Ο.Ε., Ε.Ε., Α.Ε.)
                 legalTypeParam = "&legalTypes=1,2,4";
               }
+              activitiesParam = "";
+              sortByParam = "-arGemi";
             } else {
+              // IKE Mode: strictly KAD 43210006 per user specification ("ΓΙΑ ΤΙΣ ΙΚΕ ΘΕΛΩ ΜΟΝΟ ΑΥΤΟ ΤΟ KAD 43210006")
               legalTypeParam = "&legalTypes=19";
+              activitiesParam = "&activities=43210006";
+              sortByParam = "-incorporationDate";
             }
-            const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}&resultsSortBy=-arGemi`;
+            const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}${activitiesParam}&resultsSortBy=${sortByParam}`;
 
             let results: any[] = [];
             try {
@@ -678,19 +696,19 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Filter: Check Custom Corporate Domain (Only in general IKE/Non-IKE mode)
-              if (!isFtthMode && isCustomDomainEmail(email)) {
+              // Check Custom Corporate Domain: User explicitly instructed to INCLUDE corporate email leads ("ΑΛΛΑ ΕΑΝ ΕΧΟΥΝ ΕΤΑΙΡΙΚΟ EMAIL ΝΑ ΤΟΥΣ ΒΑΖΕΙ ΑΥΤΟΥΣ")
+              const isCorporateEmail = isCustomDomainEmail(email);
+              if (isCorporateEmail) {
                 totalCustomDomain++;
                 emit({
                   type: "log",
-                  category: "custom_domain",
+                  category: "custom_domain_accepted",
                   company: companyTitle,
                   email,
                   afm,
-                  reason: `🏢 Εταιρικό Domain (${email}): Η επιχείρηση διαθέτει ήδη δικό της εταιρικό domain/email (παραλείφθηκε)`,
+                  reason: `🏢 Εταιρικό Email (${email}): Έχει εταιρικό email αλλά ΧΩΡΙΣ δηλωμένη ιστοσελίδα στο ΓΕΜΗ (επιλέξιμο - προστέθηκε)`,
                   stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
                 });
-                continue;
               }
 
               // Check if already in Supabase or already seen in current batch (Email, AFM, GEMI)
