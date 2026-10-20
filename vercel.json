@@ -1,8 +1,3 @@
 {
-    "crons": [
-        {
-            "path": "/api/admin/cron-followup-ike",
-            "schedule": "0 8 * * *"
-        }
-    ]
+    "crons": []
 }

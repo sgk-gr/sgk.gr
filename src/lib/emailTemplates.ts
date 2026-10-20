@@ -35,9 +35,9 @@ export function buildProfessionalEmailHtml(opts: {
 </head>
 <body style="margin:0;padding:0;background-color:#f0f2f5;">
 <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
-    <!-- Top Link -->
+    <!-- Brand Header -->
     <div style="text-align: right; padding: 8px 20px;">
-        <a href="https://www.sgk.gr" style="color: #3b5bdb; text-decoration: none; font-size: 10px;">sgk.gr</a>
+        <span style="color: #94a3b8; font-size: 10px; font-weight: 600; letter-spacing: 0.5px;">sgk.gr</span>
     </div>
 
     <!-- Logo -->
@@ -53,7 +53,7 @@ export function buildProfessionalEmailHtml(opts: {
     </div>
 
     <!-- Content Area -->
-    <div style="padding: 24px 20px; color: #333333; font-size: 15px; line-height: 1.5;">
+    <div style="padding: 24px 20px; color: #334155; font-size: 15px; line-height: 1.55;">
         ${bodyHtml}
         ${ctaButton}
     </div>
@@ -66,35 +66,26 @@ export function buildProfessionalEmailHtml(opts: {
             <div style="width: 25%; background-color: #facc15;"></div>
         </div>
         
-        <div style="background-color: #3b5bdb; color: #ffffff; padding: 30px 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
+        <div style="background-color: #3b5bdb; color: #ffffff; padding: 26px 20px; text-align: center;">
+            <h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -2px; color: #ffffff;">sgk<span style="color:#4ade80;">.</span></h1>
             
-            <div style="margin: 15px 0;">
-                <a href="https://www.facebook.com/profile.php?id=61552383862787" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 4px 9px; font-size: 12px;">f</a>
-                <a href="https://www.tiktok.com/@sgk.gr?is_from_webapp=1&sender_device=pc" target="_blank" style="color: #ffffff; text-decoration: none; margin: 0 8px; font-weight: bold; border: 1px solid white; border-radius: 50%; padding: 4px 9px; font-size: 12px;">t</a>
-            </div>
-            
-            <div style="font-size: 11px; margin: 15px 0; color: #ffffff; line-height: 1.5;">
+            <div style="font-size: 11px; margin: 14px 0 0 0; color: #ffffff; line-height: 1.6;">
                 <strong>SGK Digital</strong><br/>
                 ΑΦΜ: 131398972 | ΔΟΥ: ΚΕΦΟΔΕ ΑΤΤΙΚΗΣ<br/>
-                Ερμού 1 & Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
-                ☎️ 211 114 0013 | 📱 6999 524 389 | ✉️ <a href="mailto:info@sgk.gr" target="_blank" style="color: #ffffff; text-decoration: none;">info@sgk.gr</a>
+                Ερμού 1 &amp; Λυκοβρύσεως 14, 14452 Μεταμόρφωση, Αττικής<br/>
+                Τηλ: 211 114 0013 | 6999 524 389 | info@sgk.gr
             </div>
 
-            <p style="font-size: 11px; margin: 15px 0 0 0; color: #ffffff;">
-                <a href="https://www.sgk.gr/terms" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Όροι Χρήσης</a> | 
-                <a href="https://www.sgk.gr/privacy" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">Πολιτική Απορρήτου</a>
-            </p>
-            <p style="font-size: 11px; margin: 5px 0 0 0; color: #ffffff;">
-                Copyright ${new Date().getFullYear()}. All rights reserved.
+            <p style="font-size: 11px; margin: 10px 0 0 0; color: #e0e7ff;">
+                &copy; ${new Date().getFullYear()} SGK Digital. All rights reserved.
             </p>
         </div>
     </div>
 
     <!-- Unsubscribe -->
-    <div style="background-color: #f4f4f5; padding: 15px 20px; text-align: left; font-size: 11px; color: #666666;">
-        If you have reason to believe that you are not the intended recipient or you wish to unsubscribe from this mailing list please visit the following link 
-        <br/><a href="${unsubLink}" target="_blank" style="color: #3b5bdb; text-decoration: underline;">${unsubLink}</a>
+    <div style="background-color: #f4f4f5; padding: 14px 20px; text-align: left; font-size: 11px; color: #666666; line-height: 1.4;">
+        Αν δεν επιθυμείτε να λαμβάνετε μελλοντική επικοινωνία, μπορείτε να διαγραφείτε εδώ: 
+        <br/><a href="${unsubLink}" target="_blank" style="color: #3b5bdb; text-decoration: underline;">Διαγραφή από τη λίστα</a>
     </div>
 </div>
 </body>

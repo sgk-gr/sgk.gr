@@ -11,31 +11,12 @@ serve(async (req) => {
     return new Response("ok", { headers: corsHeaders, status: 200 });
   }
 
-  try {
-    console.log("🚀 [Supabase Cron] Triggering Follow-Up IKE from Supabase Edge Function...");
-    const reqUrl = new URL(req.url);
-    const days = reqUrl.searchParams.get("days") || "3";
-    const limit = reqUrl.searchParams.get("limit") || "25";
-    const targetUrl = `https://www.sgk.gr/api/admin/cron-followup-ike?days=${days}&limit=${limit}`;
-    const res = await fetch(targetUrl, {
-      method: "GET",
-      headers: {
-        "User-Agent": "Supabase-Cron-Agent/1.0",
-      },
-    });
-
-    const data = await res.json();
-    console.log("✅ [Supabase Cron] Execution result:", JSON.stringify(data));
-
-    return new Response(JSON.stringify({ success: true, triggeredBy: "supabase-edge-function", data }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 200,
-    });
-  } catch (err: any) {
-    console.error("❌ [Supabase Cron] Execution error:", err.message);
-    return new Response(JSON.stringify({ success: false, error: err.message }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
-    });
-  }
+  return new Response(JSON.stringify({
+    success: true,
+    disabled: true,
+    message: "Follow-up email sequences are permanently disabled by administrator request."
+  }), {
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    status: 200,
+  });
 });
