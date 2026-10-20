@@ -2509,7 +2509,12 @@ function safeEncodeBase64(data: any): string {
         industry: lead.company,
       });
 
-      setSentLeadHtml(finalHtml);
+      // Inject <base target="_blank"> so clicking any link opens safely in a new tab without iframe sandbox blocking
+      const safePreviewHtml = finalHtml.includes("<head>")
+        ? finalHtml.replace("<head>", '<head><base target="_blank">')
+        : `<base target="_blank">${finalHtml}`;
+
+      setSentLeadHtml(safePreviewHtml);
     } catch (err) {
       console.error("Error loading email body:", err);
     } finally {
@@ -3083,34 +3088,34 @@ function safeEncodeBase64(data: any): string {
 
 
       {/* 🤖 Daily Automated Campaigns Banner (300 Emails: 100 New IKE, 100 Legacy IKE, 99 FTTH) */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-indigo-900/60 p-4 sm:p-5 rounded-2xl shadow-md text-white mb-6">
+      <div className="bg-gradient-to-r from-indigo-50/90 via-blue-50/80 to-emerald-50/90 border-2 border-indigo-200/90 p-5 rounded-2xl shadow-sm text-slate-800 mb-6">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <h3 className="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <h3 className="text-sm sm:text-base font-black tracking-tight text-slate-900 flex items-center gap-2">
                 🤖 Αυτόματη Ημερήσια Αποστολή — 300 Emails / Ημέρα
               </h3>
-              <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+              <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 border border-indigo-300">
                 Live Cron (09:30)
               </span>
             </div>
             
-            <p className="text-xs text-indigo-200/90 leading-relaxed max-w-3xl">
+            <p className="text-xs text-slate-600 leading-relaxed max-w-3xl font-medium">
               Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>100 Νέες ΙΚΕ</strong> (τρέχοντος μήνα - 80€), <strong>100 Παλαιές ΙΚΕ</strong> (2018–2024 - 80€) και <strong>99 FTTH / Καλωδιώσεις</strong> (2018–σήμερα: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-blue-900/50 text-blue-200 border border-blue-700/50 font-bold">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 font-bold shadow-xs">
                 🏢 100 Νέες Ι.Κ.Ε. (Τρέχοντος Μήνα)
               </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-amber-900/50 text-amber-200 border border-amber-700/50 font-bold">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 font-bold shadow-xs">
                 🏛️ 100 Παλαιές Ι.Κ.Ε. (2018–2024)
               </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-cyan-900/50 text-cyan-200 border border-cyan-700/50 font-bold">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-800 border border-cyan-200 font-bold shadow-xs">
                 🔌 99 FTTH / Δίκτυα
               </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-900/50 text-emerald-200 border border-emerald-700/50 font-bold">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold shadow-xs">
                 ✉️ Αναφορά στο info@sgk.gr
               </span>
             </div>
@@ -3120,7 +3125,7 @@ function safeEncodeBase64(data: any): string {
             <button
               onClick={handleTriggerDailyCampaignNow}
               disabled={isRunningDailyCampaign}
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl font-black text-xs bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-black text-xs bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               title="Άμεση εκτέλεση της ημερήσιας αποστολής 300 emails τώρα και αποστολή αναφοράς στο info@sgk.gr"
             >
               {isRunningDailyCampaign ? (
@@ -3139,42 +3144,28 @@ function safeEncodeBase64(data: any): string {
         </div>
       </div>
 
-      {/* Leads Header / Actions */}
+      {/* Leads Header / Actions - Clean & Ultra-Focused */}
       <div className="bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="space-y-0.5">
-            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <h2 className="text-base font-black text-slate-900 flex items-center gap-2">
               <Mail className="text-[#3b5bdb]" size={18} />
-              Λίστα Παραληπτών Email
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
-                {filteredLeads.length}
+              <span>Βάση Δεδομένων Leads &amp; Παραληπτών</span>
+              <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                {leads.length}
               </span>
             </h2>
-            <p className="text-xs text-slate-500">
-              Διαχείριση λίστας παραληπτών, μαζικές καμπάνιες & αυτοματισμοί Γ.Ε.ΜΗ.
+            <p className="text-xs text-slate-500 font-medium">
+              Αυτόματη ημερήσια αποστολή 300 emails &bull; Χειροκίνητη διαχείριση &amp; εισαγωγή νέων παραληπτών
             </p>
           </div>
+
           <div className="flex flex-wrap items-center gap-2">
-            <EmailTimingIndicator />
-            <button
-              onClick={() => {
-                setSingleLeadTarget(null);
-                setCampaignSubject(templates[0].subject);
-                setCampaignBody(templates[0].body);
-                setButtonText(templates[0].defaultButtonText || "");
-                setButtonLink(templates[0].defaultButtonLink || "");
-                setIsCampaignModalOpen(true);
-              }}
-              className="adm-btn adm-btn-primary"
-            >
-              <Send size={13} />
-              Μαζική αποστολή {selectedLeads.length > 0 ? `(${selectedLeads.length})` : `(${uncontactedFilteredLeads.length})`}
-            </button>
             {selectedLeads.length > 0 && (
               <>
                 <button
                   onClick={() => setSelectedLeads([])}
-                  className="adm-btn adm-btn-ghost text-xs"
+                  className="adm-btn adm-btn-ghost text-xs font-bold"
                   title="Αποεπιλογή όλων"
                 >
                   <X size={13} />
@@ -3182,207 +3173,77 @@ function safeEncodeBase64(data: any): string {
                 </button>
                 <button
                   onClick={handleDeleteSelectedLeads}
-                  className="adm-btn adm-btn-danger text-xs"
+                  className="adm-btn adm-btn-danger text-xs font-bold"
                 >
                   <Trash2 size={13} />
                   Διαγραφή ({selectedLeads.length})
                 </button>
               </>
             )}
+
             <button
               onClick={handleOpenCreateLead}
-              className="adm-btn adm-btn-dark"
+              className="adm-btn bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-sm shadow-emerald-600/20 px-3.5 py-2 rounded-xl transition-all"
             >
               <UserPlus size={14} />
-              Νέος πελάτης
+              <span>+ Προσθήκη Email</span>
             </button>
+
             <button
               onClick={() => {
                 setImportData("");
                 setIsImportModalOpen(true);
               }}
-              className="adm-btn adm-btn-ghost"
+              className="adm-btn bg-[#3b5bdb] hover:bg-[#2f49b5] text-white font-black text-xs shadow-sm shadow-blue-500/20 px-3.5 py-2 rounded-xl transition-all"
             >
-              <Users size={13} />
-              Εισαγωγή
+              <Users size={14} />
+              <span>📥 Εισαγωγή Emails</span>
             </button>
-            <button
-              onClick={handleRemoveDuplicates}
-              disabled={cleaningDuplicates}
-              className="adm-btn adm-btn-ghost"
-              title="Διαγραφή διπλότυπων email"
-            >
-              {cleaningDuplicates ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
-              Διπλότυπα
-            </button>
+
             <button 
               onClick={fetchLeads}
-              className="adm-btn adm-btn-icon"
-              title="Ανανέωση"
+              className="adm-btn adm-btn-icon bg-slate-100 hover:bg-slate-200 text-slate-700 p-2 rounded-xl transition-all"
+              title="Ανανέωση λίστας"
             >
               <RefreshCcw size={14} />
             </button>
           </div>
         </div>
-
-        {/* Automation tools: GEMI scanner + follow-up */}
-        <div className="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center gap-2.5">
-          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider pr-1">
-            <Target size={13} className="text-[#3b5bdb]" />
-            <span>Γ.Ε.ΜΗ.:</span>
-          </div>
-
-          {/* Year Selector */}
-          <select
-            value={scanYear}
-            onChange={(e) => {
-              const y = Number(e.target.value);
-              setScanYear(y);
-              if (y < 2026 && (scanMonth === "current" || scanMonth === "previous")) {
-                setScanMonth("all_year");
-              }
-            }}
-            disabled={isScanningGemi}
-            className="adm-select font-bold"
-            title="Επιλογή Έτους Ίδρυσης στο ΓΕΜΗ (Νέες 2026 ή Παλαιές 2018-2025)"
-          >
-            <option value={2026}>✨ Έτος 2026 (Νέες Ι.Κ.Ε.)</option>
-            <optgroup label="🏛️ Παλαιές Ι.Κ.Ε. (Χωρίς Site)">
-              <option value={2025}>🏛️ Έτος 2025 (Παλαιές Ι.Κ.Ε.)</option>
-              <option value={2024}>🏛️ Έτος 2024 (Παλαιές Ι.Κ.Ε.)</option>
-              <option value={2023}>🏛️ Έτος 2023 (Παλαιές Ι.Κ.Ε.)</option>
-              <option value={2022}>🏛️ Έτος 2022 (Παλαιές Ι.Κ.Ε.)</option>
-              <option value={2021}>🏛️ Έτος 2021 (Παλαιές Ι.Κ.Ε.)</option>
-              <option value={2020}>🏛️ Έτος 2020 (Παλαιές Ι.Κ.Ε.)</option>
-              <option value={2019}>🏛️ Έτος 2019 (Παλαιές Ι.Κ.Ε.)</option>
-              <option value={2018}>🏛️ Έτος 2018 (Παλαιές Ι.Κ.Ε.)</option>
-            </optgroup>
-          </select>
-
-          {/* Month Selector */}
-          <select
-            value={scanMonth}
-            onChange={(e) => setScanMonth(e.target.value)}
-            disabled={isScanningGemi}
-            className="adm-select"
-            title="Επιλογή Μήνα Ίδρυσης"
-          >
-            {scanYear === 2026 && (
-              <>
-                <option value="current">{currentMonthName} {scanYear} (Τρέχων)</option>
-                <option value="previous">{prevMonthName} {prevDate.getFullYear()}</option>
-              </>
-            )}
-            <option value="all_year">Όλο το {scanYear}</option>
-            <optgroup label={`Μήνες ${scanYear}`}>
-              <option value={`${scanYear}-12`}>Δεκέμβριος {scanYear}</option>
-              <option value={`${scanYear}-11`}>Νοέμβριος {scanYear}</option>
-              <option value={`${scanYear}-10`}>Οκτώβριος {scanYear}</option>
-              <option value={`${scanYear}-09`}>Σεπτέμβριος {scanYear}</option>
-              <option value={`${scanYear}-08`}>Αύγουστος {scanYear}</option>
-              <option value={`${scanYear}-07`}>Ιούλιος {scanYear}</option>
-              <option value={`${scanYear}-06`}>Ιούνιος {scanYear}</option>
-              <option value={`${scanYear}-05`}>Μάιος {scanYear}</option>
-              <option value={`${scanYear}-04`}>Απρίλιος {scanYear}</option>
-              <option value={`${scanYear}-03`}>Μάρτιος {scanYear}</option>
-              <option value={`${scanYear}-02`}>Φεβρουάριος {scanYear}</option>
-              <option value={`${scanYear}-01`}>Ιανουάριος {scanYear}</option>
-            </optgroup>
-          </select>
-
-          <button
-            onClick={handleScanGemiIkes}
-            disabled={isScanningGemi}
-            className={`adm-btn ${scanYear < 2026 ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-700' : 'adm-btn-primary'}`}
-            title="Live σάρωση στο Γ.Ε.ΜΗ. για Ι.Κ.Ε. (Συμμόρφωση Ιστοσελίδας 80€ τελική τιμή)"
-          >
-            {isScanningGemi && scanCategory === "all" ? (
-              <Loader2 size={13} className="animate-spin" />
-            ) : scanYear < 2026 ? (
-              <History size={13} />
-            ) : (
-              <Sparkles size={13} />
-            )}
-            {scanYear < 2026 ? `Εύρεση Παλαιών Ι.Κ.Ε. (${scanYear})` : "Εύρεση Νέων Ι.Κ.Ε."}
-          </button>
-
-          <select
-            value={scanNonIkeLegalType}
-            onChange={(e) => setScanNonIkeLegalType(e.target.value as any)}
-            disabled={isScanningGemi}
-            className="adm-select"
-            title="Επιλογή Νομικής Μορφής για Εύρεση εκτός Ι.Κ.Ε."
-          >
-            <option value="companies_only">🏛️ Μόνο Εταιρείες (Ο.Ε., Ε.Ε., Α.Ε.)</option>
-            <option value="all">🏢 Όλες εκτός Ι.Κ.Ε. (ΟΕ, ΕΕ, ΑΕ, Ατομικές)</option>
-            <option value="sole_only">👤 Μόνο Ατομικές</option>
-          </select>
-
-          <button
-            onClick={handleScanGemiNonIke}
-            disabled={isScanningGemi}
-            className="adm-btn adm-btn-accent"
-            title="Live σάρωση στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις εκτός Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές) για καμπάνια Online Παρουσίας & AI (200€ με ΦΠΑ)"
-          >
-            {isScanningGemi && scanCategory === "non_ike" ? <Loader2 size={13} className="animate-spin" /> : <Building2 size={13} />}
-            Εύρεση εκτός Ι.Κ.Ε.
-          </button>
-
-          <button
-            onClick={handleScanGemiFtthAllForms}
-            disabled={isScanningGemi}
-            className="adm-btn adm-btn-accent"
-            title="Live σάρωση στο Γ.Ε.ΜΗ. για Εταιρείες Τηλεπικοινωνιών & Καλωδιώσεων σε ΟΛΕΣ τις νομικές μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές (ΚΑΔ 43210006 / 2018–Σήμερα)"
-          >
-            {isScanningGemi && scanCategory === "ftth_telecom" ? <Loader2 size={13} className="animate-spin" /> : <Target size={13} />}
-            Εύρεση FTTH (Όλες οι Μορφές)
-          </button>
-
-          <button
-            onClick={handleSyncAllConvertedFromGemi}
-            disabled={isSyncingGemi}
-            className="adm-btn adm-btn-ghost"
-            title="Αυτόματος έλεγχος και ενημέρωση όλων των πελατών απευθείας από το Γ.Ε.ΜΗ."
-          >
-            {isSyncingGemi ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
-            Έλεγχος στο ΓΕΜΗ
-          </button>
-        </div>
       </div>
 
       {/* Table Card (Search, Filters, Leads Table & Pagination) */}
       <div className="bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs mt-6">
-        {/* Top View Selector: Resend Live Sent Log vs All Leads CRM */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-100 pb-4 mb-5 gap-3">
-          <div className="inline-flex p-1 bg-slate-950 rounded-xl border border-slate-800 shadow-md">
+        {/* Top View Selector: Live Sent Log vs All Leads CRM */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-200 pb-4 mb-5 gap-3">
+          <div className="inline-flex p-1 bg-slate-100 rounded-2xl border border-slate-200/80 shadow-inner">
             <button
               onClick={() => setEmailTableView("sent_log")}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                 emailTableView === "sent_log"
-                  ? "bg-emerald-500 text-slate-950 shadow-sm"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-white text-emerald-700 shadow-sm border border-emerald-200"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              <Send size={13} className={emailTableView === "sent_log" ? "text-slate-950" : "text-emerald-400"} />
-              <span>📤 Απεσταλμένα Emails (Resend Live Log)</span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${
-                emailTableView === "sent_log" ? "bg-slate-950/20 text-slate-950" : "bg-slate-800 text-emerald-400"
+              <Send size={14} className={emailTableView === "sent_log" ? "text-emerald-600" : "text-slate-400"} />
+              <span>📤 Απεσταλμένα Emails (Live Log)</span>
+              <span className={`px-2 py-0.5 rounded-full text-[10.5px] font-black ${
+                emailTableView === "sent_log" ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-600"
               }`}>
                 {sentLeads.length}
               </span>
             </button>
             <button
               onClick={() => setEmailTableView("leads")}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                 emailTableView === "leads"
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-white text-[#3b5bdb] shadow-sm border border-blue-200"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              <Users size={13} className={emailTableView === "leads" ? "text-white" : "text-slate-500"} />
+              <Users size={14} className={emailTableView === "leads" ? "text-[#3b5bdb]" : "text-slate-400"} />
               <span>👥 Όλα τα Leads (CRM)</span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${
-                emailTableView === "leads" ? "bg-white/20 text-white" : "bg-slate-800 text-slate-400"
+              <span className={`px-2 py-0.5 rounded-full text-[10.5px] font-black ${
+                emailTableView === "leads" ? "bg-blue-100 text-blue-800" : "bg-slate-200 text-slate-600"
               }`}>
                 {leads.length}
               </span>
@@ -3391,42 +3252,42 @@ function safeEncodeBase64(data: any): string {
 
           <div className="text-xs text-slate-500 flex items-center gap-2">
             {emailTableView === "sent_log" ? (
-              <span className="flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+              <span className="flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-3 py-1 rounded-xl border border-emerald-200">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Πατήστε σε οποιοδήποτε email για άμεση προεπισκόπηση & Resend Inspector
+                Πατήστε σε οποιοδήποτε email για άμεση προεπισκόπηση & Inspector
               </span>
             ) : (
-              <span>Συνολικά {leads.length} leads στη βάση δεδομένων</span>
+              <span className="font-medium">Συνολικά {leads.length} leads στη βάση δεδομένων</span>
             )}
           </div>
         </div>
 
         {emailTableView === "sent_log" ? (
           <div className="space-y-4">
-            {/* Top Toolbar matching Resend Screenshot 1 */}
-            <div className="bg-[#0b0c0e] p-4 rounded-xl border border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-white">
+            {/* Top Toolbar - Snappy Modern SaaS Style */}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-slate-800">
               <div className="flex items-center gap-2">
-                <div className="px-3 py-1 rounded-lg bg-zinc-800/90 text-zinc-200 text-xs font-bold border border-zinc-700/60 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  Sending ({filteredSentLeads.length})
+                <div className="px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 text-xs font-black border border-emerald-200 flex items-center gap-2 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>Απεσταλμένα ({filteredSentLeads.length})</span>
                 </div>
-                <div className="text-xs text-zinc-400 hidden sm:block">
-                  Emails delivered through Resend & Brevo
+                <div className="text-xs text-slate-500 hidden sm:block font-medium">
+                  Ζωντανή καταγραφή Resend &amp; Brevo API
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 <div className="relative w-full sm:w-64">
-                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input
                     type="text"
-                    placeholder="Search by email, company..."
+                    placeholder="Αναζήτηση email, εταιρείας..."
                     value={sentSearchTerm}
                     onChange={(e) => setSentSearchTerm(e.target.value)}
-                    className="w-full pl-8 pr-3 py-1.5 bg-[#121316] border border-zinc-700/80 rounded-lg text-xs text-zinc-200 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500"
+                    className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-[#3b5bdb] focus:ring-2 focus:ring-[#3b5bdb]/15 transition-all shadow-xs"
                   />
                   {sentSearchTerm && (
-                    <button onClick={() => setSentSearchTerm("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white">
+                    <button onClick={() => setSentSearchTerm("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                       <X size={12} />
                     </button>
                   )}
@@ -3435,9 +3296,9 @@ function safeEncodeBase64(data: any): string {
                 <select
                   value={sentCategoryFilter}
                   onChange={(e) => setSentCategoryFilter(e.target.value)}
-                  className="px-2.5 py-1.5 bg-[#121316] border border-zinc-700/80 rounded-lg text-xs font-bold text-zinc-300 focus:outline-none focus:border-zinc-500 cursor-pointer"
+                  className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:bg-white focus:border-[#3b5bdb] cursor-pointer shadow-xs transition-all"
                 >
-                  <option value="all">All Categories</option>
+                  <option value="all">Όλες οι Κατηγορίες</option>
                   <option value="ftth_telecom">🔌 FTTH / Οπτικές Ίνες</option>
                   <option value="new_ike">🏢 Νέες ΙΚΕ (80€)</option>
                   <option value="legacy_ike">🏛️ Παλαιές ΙΚΕ (2018–2024)</option>
@@ -3445,25 +3306,25 @@ function safeEncodeBase64(data: any): string {
               </div>
             </div>
 
-            {/* Dark Resend Table */}
-            <div className="rounded-xl border border-zinc-800 overflow-hidden bg-[#0a0a0c] text-white">
+            {/* Snappy Modern Light Table (No Black Background) */}
+            <div className="rounded-2xl border border-slate-200 overflow-hidden bg-white shadow-xs">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-zinc-800/80 bg-zinc-950/60 text-[10px] font-mono uppercase tracking-wider text-zinc-400">
-                      <th className="py-3 px-4">To</th>
-                      <th className="py-3 px-4">Status</th>
-                      <th className="py-3 px-4">Subject</th>
-                      <th className="py-3 px-4">Category</th>
-                      <th className="py-3 px-4 text-right">Sent</th>
-                      <th className="py-3 px-4 text-center w-16">Inspect</th>
+                    <tr className="border-b border-slate-200/80 bg-slate-50/80 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                      <th className="py-3.5 px-4">Παραλήπτης</th>
+                      <th className="py-3.5 px-4">Κατάσταση</th>
+                      <th className="py-3.5 px-4">Θέμα Email</th>
+                      <th className="py-3.5 px-4">Κατηγορία</th>
+                      <th className="py-3.5 px-4 text-right">Ώρα Αποστολής</th>
+                      <th className="py-3.5 px-4 text-center w-16">Προβολή</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-800/60 text-xs font-medium">
+                  <tbody className="divide-y divide-slate-100 text-xs font-medium">
                     {filteredSentLeads.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="py-12 text-center text-zinc-500 font-normal">
-                          <Inbox className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                        <td colSpan={6} className="py-12 text-center text-slate-400 font-normal">
+                          <Inbox className="w-8 h-8 mx-auto mb-2 opacity-40 text-slate-400" />
                           Δεν βρέθηκαν απεσταλμένα emails με αυτά τα κριτήρια
                         </td>
                       </tr>
@@ -3478,59 +3339,59 @@ function safeEncodeBase64(data: any): string {
                           <tr
                             key={lead.id}
                             onClick={() => openSentEmailInspector(lead)}
-                            className="transition-colors hover:bg-zinc-900/80 cursor-pointer group"
+                            className="transition-all hover:bg-indigo-50/40 cursor-pointer group"
                           >
-                            <td className="py-3 px-4">
+                            <td className="py-3.5 px-4">
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/60 flex items-center justify-center shrink-0 text-emerald-400 group-hover:border-emerald-500/80 transition-colors">
+                                <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0 text-emerald-600 group-hover:scale-105 group-hover:bg-emerald-100 group-hover:border-emerald-300 transition-all shadow-xs">
                                   <Mail size={14} />
                                 </div>
                                 <div className="min-w-0">
-                                  <div className="font-semibold text-zinc-100 group-hover:text-emerald-300 transition-colors">
+                                  <div className="font-bold text-slate-900 group-hover:text-[#3b5bdb] transition-colors text-[13px]">
                                     {lead.email}
                                   </div>
-                                  <div className="text-[11px] text-zinc-400 truncate max-w-[220px]">
+                                  <div className="text-[11px] text-slate-500 truncate max-w-[220px] font-medium">
                                     {lead.company || lead.first_name || "Επιχείρηση"}
                                   </div>
                                 </div>
                               </div>
                             </td>
-                            <td className="py-3 px-4 whitespace-nowrap">
-                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <td className="py-3.5 px-4 whitespace-nowrap">
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                                 Delivered
                               </span>
                             </td>
-                            <td className="py-3 px-4 max-w-md">
-                              <div className="text-zinc-300 truncate font-normal group-hover:text-white transition-colors" title={subject}>
+                            <td className="py-3.5 px-4 max-w-md">
+                              <div className="text-slate-700 truncate font-semibold group-hover:text-slate-900 transition-colors" title={subject}>
                                 {subject}
                               </div>
                             </td>
-                            <td className="py-3 px-4 whitespace-nowrap">
+                            <td className="py-3.5 px-4 whitespace-nowrap">
                               {lead.type === "ftth_telecom" ? (
-                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-300 border border-cyan-800">
-                                  🔌 FTTH
+                                <span className="px-2.5 py-1 rounded-lg text-[10.5px] font-black bg-cyan-50 text-cyan-800 border border-cyan-200 shadow-xs">
+                                  🔌 FTTH / Δίκτυα
                                 </span>
                               ) : lead.type === "legacy_ike" ? (
-                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950 text-amber-300 border border-amber-800">
+                                <span className="px-2.5 py-1 rounded-lg text-[10.5px] font-black bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
                                   🏛️ Παλαιά ΙΚΕ
                                 </span>
                               ) : (
-                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-950 text-blue-300 border border-blue-800">
-                                  🏢 Νέα ΙΚΕ
+                                <span className="px-2.5 py-1 rounded-lg text-[10.5px] font-black bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
+                                  🏢 Νέα ΙΚΕ (80€)
                                 </span>
                               )}
                             </td>
-                            <td className="py-3 px-4 text-right font-mono text-[11px] text-zinc-400 whitespace-nowrap">
+                            <td className="py-3.5 px-4 text-right font-mono text-[11px] text-slate-500 font-bold whitespace-nowrap">
                               {formatRelativeTime(lead.last_email_sent_at || lead.created_at)}
                             </td>
-                            <td className="py-3 px-4 text-center">
+                            <td className="py-3.5 px-4 text-center">
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   openSentEmailInspector(lead);
                                 }}
-                                className="p-1.5 rounded-lg bg-zinc-800 hover:bg-emerald-500 hover:text-slate-950 text-zinc-300 transition-all cursor-pointer"
+                                className="p-1.5 rounded-xl bg-slate-100 hover:bg-[#3b5bdb] hover:text-white text-slate-600 transition-all cursor-pointer shadow-xs group-hover:bg-[#3b5bdb] group-hover:text-white"
                                 title="Προβολή Απεσταλμένου Email"
                               >
                                 <Eye size={13} />
@@ -3990,32 +3851,32 @@ function safeEncodeBase64(data: any): string {
       )}
     </div>
 
-      {/* Resend-Style Sent Email Inspector Modal */}
+      {/* Snappy Modern Light Sent Email Inspector Modal (No Black Theme) */}
       {selectedSentLead && (
-        <div className="fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in">
-          <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-[#0b0c0e] text-white rounded-2xl border border-zinc-800 shadow-2xl overflow-hidden animate-scale-up">
-            {/* Top Bar (matching Screenshot 2) */}
-            <div className="p-5 border-b border-zinc-800 flex items-start justify-between gap-4 bg-[#090a0c]">
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xs animate-in fade-in">
+          <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-white text-slate-900 rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-scale-up">
+            {/* Top Bar */}
+            <div className="p-5 border-b border-slate-200 flex items-start justify-between gap-4 bg-white">
               <div className="space-y-1">
-                <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-200 text-[10.5px] font-mono text-blue-700 font-black uppercase tracking-wider">
                   <span>REPLY-TO:</span>
-                  <span className="text-zinc-200 font-bold">info@sgk.gr</span>
+                  <span>info@sgk.gr</span>
                 </div>
-                <div className="text-sm font-bold text-white flex items-center gap-2 flex-wrap">
-                  <span className="text-zinc-400 font-normal">To:</span>
-                  <span>{selectedSentLead.company || selectedSentLead.first_name || "Επιχείρηση"}</span>
-                  <span className="text-emerald-400 font-mono text-xs">({selectedSentLead.email})</span>
+                <div className="text-sm font-bold text-slate-900 flex items-center gap-2 flex-wrap pt-0.5">
+                  <span className="text-slate-500 font-normal">To:</span>
+                  <span className="font-black text-slate-900">{selectedSentLead.company || selectedSentLead.first_name || "Επιχείρηση"}</span>
+                  <span className="text-[#3b5bdb] font-mono text-xs font-bold">({selectedSentLead.email})</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="hidden sm:flex flex-col text-right text-[11px] font-mono text-zinc-400">
-                  <span className="uppercase tracking-wider">LOG</span>
-                  <span className="text-zinc-300 font-bold">POST /emails</span>
+                <div className="hidden sm:flex flex-col text-right text-[11px] font-mono">
+                  <span className="uppercase tracking-wider text-slate-400 font-bold">LOG STATUS</span>
+                  <span className="text-emerald-700 font-black bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">200 OK &bull; POST /emails</span>
                 </div>
                 <button
                   onClick={() => setSelectedSentLead(null)}
-                  className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                  className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors cursor-pointer"
                   title="Κλείσιμο"
                 >
                   <X size={18} />
@@ -4023,43 +3884,43 @@ function safeEncodeBase64(data: any): string {
               </div>
             </div>
 
-            {/* Email Events Timeline (matching Screenshot 2) */}
-            <div className="px-6 py-4 border-b border-zinc-800 bg-[#0d0e12]">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">
-                EMAIL EVENTS
+            {/* Email Events Timeline */}
+            <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/80">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold mb-2">
+                EMAIL EVENTS (DELIVERY STATUS)
               </div>
               <div className="flex items-center gap-3">
                 {/* Sent Node */}
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-300">
+                  <div className="w-6 h-6 rounded-full bg-blue-100 border border-blue-300 flex items-center justify-center text-blue-700">
                     <Send size={11} />
                   </div>
                   <div className="text-xs">
-                    <div className="font-bold text-zinc-300">Sent</div>
-                    <div className="text-[10px] text-zinc-400 font-mono">
+                    <div className="font-bold text-slate-800">Sent</div>
+                    <div className="text-[10px] text-slate-500 font-mono">
                       {formatEventTime(selectedSentLead.last_email_sent_at || selectedSentLead.created_at)}
                     </div>
                   </div>
                 </div>
 
                 {/* Connecting Line */}
-                <div className="flex-1 h-[2px] bg-gradient-to-r from-zinc-700 to-emerald-500 max-w-[80px] sm:max-w-[120px]"></div>
+                <div className="flex-1 h-[2px] bg-gradient-to-r from-blue-300 to-emerald-400 max-w-[80px] sm:max-w-[120px]"></div>
 
                 {/* Delivered Node */}
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.4)]">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md shadow-emerald-500/30">
                     <Check size={12} strokeWidth={3} />
                   </div>
                   <div className="text-xs">
-                    <div className="font-bold text-emerald-400">Delivered</div>
-                    <div className="text-[10px] text-emerald-400/80 font-mono">
+                    <div className="font-black text-emerald-700">Delivered</div>
+                    <div className="text-[10px] text-emerald-600 font-mono font-bold">
                       {formatEventTime(selectedSentLead.last_email_sent_at || selectedSentLead.created_at)}
                     </div>
                   </div>
                 </div>
 
                 <div className="ml-auto hidden sm:block">
-                  <span className="text-xs font-mono text-zinc-400">
+                  <span className="text-xs font-mono text-slate-500 bg-white px-2 py-1 rounded-md border border-slate-200 font-medium">
                     ID: {selectedSentLead.id.slice(0, 8)}...
                   </span>
                 </div>
@@ -4067,12 +3928,12 @@ function safeEncodeBase64(data: any): string {
             </div>
 
             {/* Sub-Navigation Tabs Bar */}
-            <div className="px-6 py-3 border-b border-zinc-800 flex items-center justify-between gap-2 bg-[#090a0c] flex-wrap">
-              <div className="flex items-center gap-1.5 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
+            <div className="px-6 py-3 border-b border-slate-200 flex items-center justify-between gap-2 bg-white flex-wrap">
+              <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200">
                 <button
                   onClick={() => setInspectorTab("preview")}
-                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                    inspectorTab === "preview" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "preview" ? "bg-[#3b5bdb] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   <Eye size={12} />
@@ -4080,8 +3941,8 @@ function safeEncodeBase64(data: any): string {
                 </button>
                 <button
                   onClick={() => setInspectorTab("text")}
-                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                    inspectorTab === "text" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "text" ? "bg-[#3b5bdb] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   <FileText size={12} />
@@ -4089,8 +3950,8 @@ function safeEncodeBase64(data: any): string {
                 </button>
                 <button
                   onClick={() => setInspectorTab("html")}
-                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                    inspectorTab === "html" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "html" ? "bg-[#3b5bdb] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   <Code size={12} />
@@ -4098,8 +3959,8 @@ function safeEncodeBase64(data: any): string {
                 </button>
                 <button
                   onClick={() => setInspectorTab("company")}
-                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                    inspectorTab === "company" ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-400 hover:text-zinc-200"
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                    inspectorTab === "company" ? "bg-[#3b5bdb] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   <Building2 size={12} />
@@ -4112,81 +3973,81 @@ function safeEncodeBase64(data: any): string {
                   navigator.clipboard.writeText(sentLeadHtml);
                   toast.success("Το HTML του email αντιγράφηκε στο clipboard!");
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-xs font-bold transition-colors cursor-pointer border border-zinc-700/60"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black transition-colors cursor-pointer border border-slate-200 shadow-xs"
               >
                 <Copy size={12} />
-                <span>Αντιγραφή</span>
+                <span>Αντιγραφή HTML</span>
               </button>
             </div>
 
             {/* Inspector Modal Body */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#08080a]">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-50/60">
               {loadingSentEmailBody ? (
-                <div className="flex flex-col items-center justify-center py-24 text-zinc-400">
-                  <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-3" />
+                <div className="flex flex-col items-center justify-center py-24 text-slate-500">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#3b5bdb] mb-3" />
                   <span className="font-bold text-sm">Φόρτωση ακριβούς προεπισκόπησης email...</span>
                 </div>
               ) : inspectorTab === "preview" ? (
-                <div className="bg-white rounded-xl overflow-hidden shadow-2xl border border-zinc-700 max-w-2xl mx-auto">
+                <div className="bg-white rounded-2xl overflow-hidden shadow-md border border-slate-200 max-w-2xl mx-auto">
                   <iframe
                     srcDoc={sentLeadHtml}
                     title="Sent Email Render"
                     className="w-full h-[620px] border-0 bg-white"
-                    sandbox="allow-same-origin allow-popups"
+                    sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-scripts"
                   />
                 </div>
               ) : inspectorTab === "text" ? (
-                <div className="max-w-2xl mx-auto bg-[#121316] rounded-xl p-6 border border-zinc-800 text-zinc-300 font-mono text-xs whitespace-pre-wrap leading-relaxed max-h-[620px] overflow-y-auto">
+                <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 border border-slate-200 text-slate-800 font-mono text-xs whitespace-pre-wrap leading-relaxed max-h-[620px] overflow-y-auto shadow-xs">
                   {sentLeadHtml.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
                     .replace(/<[^>]+>/g, '\n')
                     .replace(/\n\s*\n\s*\n/g, '\n\n')
                     .trim()}
                 </div>
               ) : inspectorTab === "html" ? (
-                <div className="max-w-3xl mx-auto bg-[#121316] rounded-xl p-5 border border-zinc-800 text-emerald-400 font-mono text-xs whitespace-pre-wrap leading-relaxed max-h-[620px] overflow-y-auto">
+                <div className="max-w-3xl mx-auto bg-white rounded-2xl p-5 border border-slate-200 text-emerald-700 font-mono text-xs whitespace-pre-wrap leading-relaxed max-h-[620px] overflow-y-auto shadow-xs">
                   {sentLeadHtml}
                 </div>
               ) : (
                 <div className="max-w-2xl mx-auto space-y-4">
-                  <div className="p-4 bg-zinc-900/80 rounded-xl border border-zinc-800 space-y-3">
-                    <h4 className="text-sm font-black text-white flex items-center gap-2">
-                      <Building2 size={16} className="text-emerald-400" />
-                      Στοιχεία Επιχείρησης
+                  <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-3">
+                    <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
+                      <Building2 size={16} className="text-[#3b5bdb]" />
+                      <span>Στοιχεία Επιχείρησης</span>
                     </h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Επωνυμία</span>
-                        <span className="font-bold text-zinc-200">{selectedSentLead.company || selectedSentLead.first_name || "-"}</span>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Επωνυμία</span>
+                        <span className="font-black text-slate-900 text-[13px]">{selectedSentLead.company || selectedSentLead.first_name || "-"}</span>
                       </div>
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Email</span>
-                        <span className="font-mono text-emerald-400">{selectedSentLead.email}</span>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Email</span>
+                        <span className="font-mono text-emerald-700 font-bold">{selectedSentLead.email}</span>
                       </div>
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">ΑΦΜ</span>
-                        <span className="font-mono text-zinc-200">{selectedSentLead.afm || "-"}</span>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">ΑΦΜ</span>
+                        <span className="font-mono text-slate-900 font-bold">{selectedSentLead.afm || "-"}</span>
                       </div>
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Αρ. Γ.Ε.ΜΗ.</span>
-                        <span className="font-mono text-zinc-200">{selectedSentLead.gemi_number || "-"}</span>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Αρ. Γ.Ε.ΜΗ.</span>
+                        <span className="font-mono text-slate-900 font-bold">{selectedSentLead.gemi_number || "-"}</span>
                       </div>
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Τηλέφωνο</span>
-                        <span className="font-mono text-zinc-200">{selectedSentLead.phone || "-"}</span>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Τηλέφωνο</span>
+                        <span className="font-mono text-slate-900 font-bold">{selectedSentLead.phone || "-"}</span>
                       </div>
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Κατηγορία</span>
-                        <span className="font-bold text-zinc-200">{selectedSentLead.type || "-"}</span>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Κατηγορία</span>
+                        <span className="font-black text-indigo-700">{selectedSentLead.type || "-"}</span>
                       </div>
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Ημερομηνία Αποστολής</span>
-                        <span className="font-mono text-zinc-200">
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Ημερομηνία Αποστολής</span>
+                        <span className="font-mono text-slate-700 font-bold">
                           {selectedSentLead.last_email_sent_at ? new Date(selectedSentLead.last_email_sent_at).toLocaleString("el-GR") : "-"}
                         </span>
                       </div>
                       <div>
-                        <span className="text-zinc-500 block text-[10px] uppercase font-bold">Unsubscribe Token</span>
-                        <span className="font-mono text-[10px] text-zinc-400">{selectedSentLead.unsubscribe_token || "-"}</span>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Unsubscribe Token</span>
+                        <span className="font-mono text-[10px] text-slate-400">{selectedSentLead.unsubscribe_token || "-"}</span>
                       </div>
                     </div>
                   </div>
@@ -4830,23 +4691,23 @@ function safeEncodeBase64(data: any): string {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 max-w-lg w-full overflow-hidden animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 py-5 text-white flex justify-between items-center">
+            <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-[#3b5bdb] px-6 py-5 text-white flex justify-between items-center shadow-md">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-white/20 text-white border border-white/30 flex items-center justify-center">
                   <CheckCircle2 size={20} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base tracking-tight text-white flex items-center gap-2">
-                    Ημερήσια Αναφορά Αποστολής (300 Emails)
+                  <h3 className="font-black text-base tracking-tight text-white flex items-center gap-2">
+                    📊 Ημερήσια Αναφορά Αποστολής (300 Emails)
                   </h3>
-                  <p className="text-xs text-indigo-200">
+                  <p className="text-xs text-emerald-100 font-medium">
                     Ολοκληρώθηκε σε {Math.round(dailyCampaignReport.durationMs / 1000)} δευτερόλεπτα
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsDailyReportModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1.5 rounded-lg transition-colors cursor-pointer"
+                className="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-xl transition-colors cursor-pointer"
               >
                 <X size={18} />
               </button>
