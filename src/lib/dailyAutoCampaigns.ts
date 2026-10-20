@@ -20,7 +20,7 @@ function hasOfficialWebsite(url?: string | null): boolean {
 
 function isValidEmail(email?: string | null): boolean {
   if (!email) return false;
-  const trimmed = email.toLowerCase().trim();
+  const trimmed = email.toLowerCase().replace(/^mailto:/i, "").trim();
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!regex.test(trimmed)) return false;
   const domain = trimmed.split("@")[1] || "";
@@ -277,7 +277,7 @@ async function autoFetchGemiLeads(
       if (results.length === 0) break;
 
       for (const co of results) {
-        const email = (co.email || "").toLowerCase().trim();
+        const email = (co.email || "").toLowerCase().replace(/^mailto:/i, "").trim();
         const urlClean = co.url || "";
         const afm = co.afm ? String(co.afm).trim() : null;
         const incDate = co.incorporationDate ? String(co.incorporationDate).split("T")[0] : "";
