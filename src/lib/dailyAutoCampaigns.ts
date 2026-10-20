@@ -251,12 +251,13 @@ async function autoFetchGemiLeads(
         cache: "no-store",
       });
 
-      // Handle GEMI rate limit (HTTP 429) with backoff
+      // Handle GEMI rate limit (HTTP 429) with exponential backoff
       let retryCount = 0;
-      while (res.status === 429 && retryCount < 3) {
+      while (res.status === 429 && retryCount < 4) {
         retryCount++;
-        console.warn(`[dailyAutoCampaigns] GEMI rate limit 429 for ${category}. Waiting ${retryCount * 4}s...`);
-        await new Promise(r => setTimeout(r, retryCount * 4000));
+        const waitTime = retryCount * 5000;
+        console.warn(`[dailyAutoCampaigns] GEMI rate limit 429 for ${category}. Waiting ${waitTime / 1000}s...`);
+        await new Promise(r => setTimeout(r, waitTime));
         res = await fetch(url, {
           headers: { 
             api_key: GEMI_API_KEY, 
@@ -353,7 +354,7 @@ async function autoFetchGemiLeads(
       }
 
       offset += results.length;
-      await new Promise(r => setTimeout(r, 200)); // Respectful pacing
+      await new Promise(r => setTimeout(r, 350)); // Respectful pacing between GEMI pages
     } catch (err: any) {
       console.error(`[dailyAutoCampaigns] GEMI fetch error for ${category}:`, err.message);
       break;
@@ -456,13 +457,17 @@ export async function runDailyAutoCampaigns(options?: {
 
     console.log(`[dailyAutoCampaigns] Database verification complete: ${existingEmailSet.size} existing emails, ${existingAfmSet.size} AFMs, ${unsubscribedSet.size} unsubscribed. None of these will be contacted.`);
 
-    // 1. Gather all fresh leads directly from GEMI OpenData API (Zero DB duplicates)
-    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 100 New IKE (current month), 100 Legacy IKE, 99 FTTH...");
-    const [newIkeLeads, legacyIkeLeads, ftthLeads] = await Promise.all([
-      getReadyLeadsForCategory("new_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet),
-      getReadyLeadsForCategory("legacy_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet),
-      getReadyLeadsForCategory("ftth_telecom", 99, existingEmailSet, existingAfmSet, unsubscribedSet),
-    ]);
+    // 1. Gather all fresh leads sequentially from GEMI OpenData API (Zero DB duplicates & prevents GEMI 429)
+    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 100 New IKE (current month)...");
+    const newIkeLeads = await getReadyLeadsForCategory("new_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet);
+
+    await new Promise(r => setTimeout(r, 600));
+    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 100 Legacy IKE (2018–2024)...");
+    const legacyIkeLeads = await getReadyLeadsForCategory("legacy_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet);
+
+    await new Promise(r => setTimeout(r, 600));
+    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 99 FTTH (KAD 43210006)...");
+    const ftthLeads = await getReadyLeadsForCategory("ftth_telecom", 99, existingEmailSet, existingAfmSet, unsubscribedSet);
 
     report.newIke.target = newIkeLeads.length;
     report.legacyIke.target = legacyIkeLeads.length;
@@ -673,16 +678,25 @@ export async function runDailyAutoCampaigns(options?: {
         unsubscribeToken: "admin-notification",
       });
 
-      await dispatchEmailWithFallback({
+      const reportResult = await dispatchEmailWithFallback({
         to: "info@sgk.gr",
+        fromName: "SGK System Reports",
+        fromEmail: "reports@sgk.gr",
+        replyTo: "info@sgk.gr",
         subject: `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (100 Νέες, 100 Παλαιές, 99 FTTH)`,
         html: notificationHtml,
         unsubscribeToken: "admin-notification",
-        preferredProvider: "auto",
+        preferredProvider: isResendQuotaReached() ? "brevo" : "auto",
       });
 
-      report.adminNotified = true;
-      console.log("[dailyAutoCampaigns] Admin notification email sent successfully to info@sgk.gr!");
+      if (reportResult.success) {
+        report.adminNotified = true;
+        console.log(`[dailyAutoCampaigns] Admin notification email sent successfully via ${reportResult.provider} (msgId: ${reportResult.messageId || "ok"}) to info@sgk.gr!`);
+      } else {
+        report.adminNotified = false;
+        console.error(`[dailyAutoCampaigns] Admin notification failed: ${reportResult.error}`);
+        errors.push(`Admin notification failed: ${reportResult.error}`);
+      }
     } catch (adminErr: any) {
       console.error("[dailyAutoCampaigns] Failed to send admin report email:", adminErr.message);
       report.adminNotified = false;

@@ -1225,7 +1225,7 @@ function safeEncodeBase64(data: any): string {
   const [searchTerm, setSearchTerm] = useState("");
   const deferredSearch = useDeferredValue(searchTerm);
   const [visibleCount, setVisibleCount] = useState(60);
-  const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'non_ike' | 'ftth_telecom' | 'tourism' | 'operations_tech' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'new_ike' | 'non_ike' | 'ftth_telecom' | 'tourism' | 'operations_tech' | 'legacy' | 'new' | 'active' | 'completed' | 'converted' | 'unsubscribed' | 'due_followup'>('all');
   const [cleaningDuplicates, setCleaningDuplicates] = useState(false);
   const [isSyncingGemi, setIsSyncingGemi] = useState(false);
   const [professionSubFilter, setProfessionSubFilter] = useState<string>('all');
@@ -1760,7 +1760,6 @@ function safeEncodeBase64(data: any): string {
           `\n\nΘέλετε να τους στείλετε email; (Η κατάσταση "ΠΕΛΑΤΗΣ" θα ΔΙΑΤΗΡΗΘΕΙ)`
         );
         if (!confirmSend) {
-          setIsSending(false);
           return;
         }
       }
