@@ -2074,10 +2074,12 @@ function safeEncodeBase64(data: any): string {
     setScannedNewLeads([]);
     setScanStatusMessage(
       isFtth
-        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Εταιρείες FTTH & Τηλεπικοινωνιών (${monthLabel})...`
+        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για FTTH σε ΟΛΕΣ τις μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) [ΚΑΔ 43210006 | 2018–Σήμερα]...`
         : isNonIke
         ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις [${nonIkeLabel}] (${monthLabel})...`
-        : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Ι.Κ.Ε. [ΚΑΔ 43210006 | 2018–Σήμερα | Χωρίς Site | Με Εταιρικό & Προσωπικό Email]...`
+        : scanYear < 2026
+        ? `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Παλαιές Ι.Κ.Ε. ${scanYear} (${monthLabel})...`
+        : `⚡ Έναρξη live σάρωσης στο Γ.Ε.ΜΗ. για Νέες Ι.Κ.Ε. (${monthLabel})...`
     );
     setScanStats({
       totalExamined: 0,
@@ -2094,7 +2096,7 @@ function safeEncodeBase64(data: any): string {
         time: new Date().toLocaleTimeString("el-GR"),
         type: "init",
         message: isFtth
-          ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για FTTH & Οπτικές Ίνες (${monthLabel})...`
+          ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για FTTH σε όλες τις μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) [ΚΑΔ 43210006 | 2018–Σήμερα]...`
           : isNonIke
           ? `🚀 Εκκίνηση ασφαλούς σύνδεσης με OpenData API Γ.Ε.ΜΗ. για Νέες Επιχειρήσεις [${nonIkeLabel}] (${monthLabel})...`
           : scanYear < 2026
@@ -2113,8 +2115,8 @@ function safeEncodeBase64(data: any): string {
           targetCategory: category,
           targetLegalForm: isNonIke ? "non_ike" : isFtth ? "all" : "ike",
           nonIkeLegalType: scanNonIkeLegalType,
-          year: isFtth ? "all" : category === "all" ? "all" : scanYear,
-          month: isFtth ? "all" : category === "all" ? "all" : scanMonth,
+          year: isFtth ? "all" : scanYear,
+          month: isFtth ? "all" : scanMonth,
         }),
       });
 
@@ -2278,7 +2280,7 @@ function safeEncodeBase64(data: any): string {
   };
 
   const handleScanGemiIkes = () => runGemiScan("all");
-  const handleScanGemiFtthIkes = () => runGemiScan("ftth_telecom");
+  const handleScanGemiFtthAllForms = () => runGemiScan("ftth_telecom");
   const handleScanGemiNonIke = () => runGemiScan("non_ike");
 
   const filteredLeads = useMemo(() => {
@@ -3101,8 +3103,8 @@ function safeEncodeBase64(data: any): string {
           <button
             onClick={handleScanGemiIkes}
             disabled={isScanningGemi}
-            className={`adm-btn ${scanYear < 2026 ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-700' : 'adm-btn-accent'}`}
-            title="Live σάρωση στο Γ.Ε.ΜΗ. για Ι.Κ.Ε. με ΚΑΔ 43210006 (2018–Σήμερα) χωρίς ιστοσελίδα (περιλαμβάνει και εταιρικά emails)"
+            className={`adm-btn ${scanYear < 2026 ? 'bg-amber-600 hover:bg-amber-700 text-white border-amber-700' : 'adm-btn-primary'}`}
+            title="Live σάρωση στο Γ.Ε.ΜΗ. για Ι.Κ.Ε. (Συμμόρφωση Ιστοσελίδας 80€ τελική τιμή)"
           >
             {isScanningGemi && scanCategory === "all" ? (
               <Loader2 size={13} className="animate-spin" />
@@ -3111,7 +3113,7 @@ function safeEncodeBase64(data: any): string {
             ) : (
               <Sparkles size={13} />
             )}
-            Εύρεση Ι.Κ.Ε. (ΚΑΔ 43210006)
+            {scanYear < 2026 ? `Εύρεση Παλαιών Ι.Κ.Ε. (${scanYear})` : "Εύρεση Νέων Ι.Κ.Ε."}
           </button>
 
           <select
@@ -3137,13 +3139,13 @@ function safeEncodeBase64(data: any): string {
           </button>
 
           <button
-            onClick={handleScanGemiFtthIkes}
+            onClick={handleScanGemiFtthAllForms}
             disabled={isScanningGemi}
             className="adm-btn adm-btn-accent"
-            title="Live σάρωση στο Γ.Ε.ΜΗ. για Εταιρείες Τηλεπικοινωνιών & Καλωδιώσεων όλων των νομικών μορφών (ΚΑΔ 43210006 / 43211006)"
+            title="Live σάρωση στο Γ.Ε.ΜΗ. για Εταιρείες Τηλεπικοινωνιών & Καλωδιώσεων σε ΟΛΕΣ τις νομικές μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές (ΚΑΔ 43210006 / 2018–Σήμερα)"
           >
             {isScanningGemi && scanCategory === "ftth_telecom" ? <Loader2 size={13} className="animate-spin" /> : <Target size={13} />}
-            Εύρεση FTTH
+            Εύρεση FTTH (Όλες οι Μορφές)
           </button>
 
           <button
@@ -3877,7 +3879,7 @@ function safeEncodeBase64(data: any): string {
                 <div>
                   <h3 className="font-bold text-slate-900 text-base tracking-tight flex items-center gap-2">
                     {scanCategory === "ftth_telecom" 
-                      ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH & Δικτύων" 
+                      ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Εταιρειών FTTH & Δικτύων (Όλες οι Μορφές: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)" 
                       : scanCategory === "non_ike"
                       ? "Live Σάρωση Γ.Ε.ΜΗ. — Εύρεση Νέων Επιχειρήσεων (εκτός Ι.Κ.Ε.)"
                       : scanYear < 2026
@@ -3891,7 +3893,7 @@ function safeEncodeBase64(data: any): string {
                     )}
                   </h3>
                   <p className="text-xs text-slate-500">
-                    {scanCategory === "ftth_telecom" ? "Όλες οι ημερομηνίες ίδρυσης (Παλαιές & Νέες Επιχειρήσεις)" : scanYear === 2026 && scanMonth === "current"
+                    {scanCategory === "ftth_telecom" ? "2018 έως Σήμερα • Στοχευμένος ΚΑΔ: 43210006 • Όλες οι νομικές μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)" : scanYear === 2026 && scanMonth === "current"
                       ? `Ίδρυση τον τρέχοντα μήνα (${currentMonthName} 2026)`
                       : scanYear === 2026 && scanMonth === "previous"
                       ? `Ίδρυση τον προηγούμενο μήνα (${prevMonthName} ${prevDate.getFullYear()})`
@@ -3899,10 +3901,10 @@ function safeEncodeBase64(data: any): string {
                       ? `Ίδρυση τον επιλεγμένο μήνα (${scanMonth})`
                       : `Ίδρυση εντός του ${scanYear}`}
                     {scanCategory === "ftth_telecom"
-                      ? " • Στοχευμένος ΚΑΔ: 43210006 / 43211006 • Όλες οι νομικές μορφές"
+                      ? " • Χωρίς Website στο ΓΕΜΗ • Με Εταιρικό & Προσωπικό Email"
                       : scanCategory === "non_ike"
                       ? ` • ${scanNonIkeLegalType === "companies_only" ? "Μόνο Εταιρείες (Ο.Ε., Ε.Ε., Α.Ε.)" : scanNonIkeLegalType === "sole_only" ? "Μόνο Ατομικές Επιχειρήσεις" : "Όλες εκτός Ι.Κ.Ε. (Ο.Ε., Ε.Ε., Α.Ε., Ατομικές)"} • Καμπάνια Online Παρουσίας (200€)`
-                      : " • Μόνο Ι.Κ.Ε."}
+                      : " • Μόνο Ι.Κ.Ε. • Συμμόρφωση 80€"}
                   </p>
                 </div>
               </div>

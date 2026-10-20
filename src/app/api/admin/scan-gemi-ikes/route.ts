@@ -375,27 +375,18 @@ export async function POST(req: NextRequest) {
     maxDate = body.maxDate;
   }
 
-  // FTTH software (Autopsia) targets ALL telecommunications & wiring contractors (both old and new companies)
+  // FTTH software (Autopsia) targets ALL telecommunications & wiring contractors (both old and new companies, 2018 to today)
   if (isFtthMode) {
     targetYear = 0;
     targetMonth = null;
-    minDate = null;
-    maxDate = null;
+    minDate = "2018-01-01";
+    maxDate = "";
   }
 
   const isIkeMode = !isFtthMode && !isNonIkeMode;
 
-  // IKE Mode: Strictly KAD 43210006 from 2018 to today per user instructions
-  if (isIkeMode) {
-    if (body.year === "all" || !body.minDate) {
-      minDate = "2018-01-01";
-      maxDate = "";
-      targetMonth = null;
-    }
-  }
-
   const isLegacyIke = isIkeMode && targetYear < currentYear;
-  const computedStartOffset = isIkeMode || isFtthMode || isNonIkeMode ? 0 : getEstimatedOffset(targetYear, targetMonth);
+  const computedStartOffset = isFtthMode ? 0 : getEstimatedOffset(targetYear, targetMonth);
   const startOffset = typeof body.startOffset === "number" ? body.startOffset : computedStartOffset;
 
   const isStream = body.stream !== false; // Default to streaming
@@ -426,10 +417,12 @@ export async function POST(req: NextRequest) {
           emit({
             type: "init",
             message: isFtthMode
-              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [ΚΑΔ 43210006/43211006 - Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών | Όλες οι Μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) | 📅 ${monthLabel}]...`
+              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [ΚΑΔ 43210006 - Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών | Όλες οι Μορφές (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) | 📅 2018 έως Σήμερα]...`
               : isNonIkeMode
               ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Νέες Επιχειρήσεις ΕΚΤΟΣ Ι.Κ.Ε. (${nonIkeLabel}) | 📅 ${monthLabel}]...`
-              : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Ι.Κ.Ε. ΚΑΔ 43210006 | 📅 2018 έως Σήμερα | Χωρίς Website στο ΓΕΜΗ | Με Προσωπικό & Εταιρικό Email]...`,
+              : isLegacyIke
+              ? `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Παλαιές Ι.Κ.Ε. ${targetYear} | 📅 ${monthLabel}]...`
+              : `⚡ Σύνδεση με OpenData API Γ.Ε.ΜΗ. [Νέες Ι.Κ.Ε. (Συμμόρφωση 80€) | 📅 ${monthLabel}]...`,
             minDate,
             maxDate,
             maxResults,
@@ -538,10 +531,10 @@ export async function POST(req: NextRequest) {
               activitiesParam = "";
               sortByParam = "-arGemi";
             } else {
-              // IKE Mode: strictly KAD 43210006 per user specification ("ΓΙΑ ΤΙΣ ΙΚΕ ΘΕΛΩ ΜΟΝΟ ΑΥΤΟ ΤΟ KAD 43210006")
+              // IKE Mode: standard compliance offer for all IKEs (19) across all activities
               legalTypeParam = "&legalTypes=19";
-              activitiesParam = "&activities=43210006";
-              sortByParam = "-incorporationDate";
+              activitiesParam = "";
+              sortByParam = "-arGemi";
             }
             const url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}${legalTypeParam}${activitiesParam}&resultsSortBy=${sortByParam}`;
 
@@ -598,7 +591,9 @@ export async function POST(req: NextRequest) {
               const arGemi = co.arGemi ? String(co.arGemi).trim() : null;
 
               // Filter: In FTTH mode, check if the company matches telecom / fiber / wiring targeting FIRST
-              const ftthCheck = checkFtthTelecomTarget(co);
+              const ftthCheck = isFtthMode
+                ? { isMatch: true, reason: "ΚΑΔ 43210006 (Εγκατάσταση Καλωδιώσεων & Τηλεπικοινωνιών)" }
+                : checkFtthTelecomTarget(co);
               if (isFtthMode && !ftthCheck.isMatch) {
                 continue; // Silently skip companies that do not match FTTH/telecom
               }
@@ -618,8 +613,24 @@ export async function POST(req: NextRequest) {
                 continue;
               }
 
-              // Date filtering: ONLY for non-FTTH modes (FTTH targets ALL businesses, both old and new)
-              if (!isFtthMode) {
+              // Date filtering:
+              if (isFtthMode) {
+                // FTTH: Search from 2018 to today per user instructions ("ΝΑ ΨΑΧΝΕΙ ΑΠΟ ΤΟ 18 ΕΩς ΣΗΜΕΡΑ")
+                if (incDate && incDate < "2018-01-01") {
+                  totalOldDate++;
+                  olderCountInPage++;
+                  emit({
+                    type: "log",
+                    category: "old_date",
+                    company: companyTitle,
+                    afm,
+                    date: incDate,
+                    reason: `Σύσταση (${incDate}) πριν το 2018 (παραλείφθηκε)`,
+                    stats: { totalExamined, added: newLeadsToInsert.length, totalDuplicates, totalHasWebsite, totalNoEmail, totalOldDate, totalCustomDomain }
+                  });
+                  continue;
+                }
+              } else {
                 // Filter: If record is newer than maxDate (due to cushion offset), skip it
                 if (maxDate && incDate && incDate > maxDate) {
                   continue;
@@ -651,8 +662,8 @@ export async function POST(req: NextRequest) {
                 }
               }
 
-              // Filter: Check official website (Only in general IKE/Non-IKE mode; FTTH contractors are targeted for autopsy software)
-              if (!isFtthMode && hasOfficialWebsite(urlClean)) {
+              // Filter: Check official website ("ΕΑΝ ΕΧΟΥΝ ΣΕΛΙΔΑ ΝΑ ΜΗΝ ΤΟΥΣ ΒΑΖΕΙ")
+              if (hasOfficialWebsite(urlClean)) {
                 totalHasWebsite++;
                 emit({
                   type: "log",
@@ -804,8 +815,8 @@ export async function POST(req: NextRequest) {
               if (newLeadsToInsert.length >= maxResults) break;
             }
 
-            // If more than 40 companies or 80% of page are older than minDate, stop paginating (only for date-restricted non-FTTH scans)
-            if (!isFtthMode && minDate && results.length > 0 && olderCountInPage >= Math.min(results.length * 0.8, 40)) {
+            // If more than 40 companies or 80% of page are older than minDate, stop paginating
+            if (minDate && results.length > 0 && olderCountInPage >= Math.min(results.length * 0.8, 40)) {
               emit({
                 type: "info",
                 message: `ℹ️ Εντοπίστηκαν παλαιότερες εγγραφές (πριν τις ${minDate}). Η σάρωση ολοκληρώθηκε επιτυχώς.`
