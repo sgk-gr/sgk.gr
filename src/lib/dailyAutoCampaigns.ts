@@ -1,5 +1,5 @@
 import { getServiceSupabase } from "@/lib/supabase";
-import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
+import { dispatchEmailWithFallback, isResendQuotaReached } from "@/lib/emailDispatcher";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted } from "@/lib/blacklist";
 
@@ -471,97 +471,104 @@ export async function runDailyAutoCampaigns(options?: {
 
     console.log(`[dailyAutoCampaigns] Ready to dispatch: ${newIkeLeads.length} New IKE, ${legacyIkeLeads.length} Legacy IKE, ${ftthLeads.length} FTTH. (Total: ${report.totalTarget})`);
 
-    // Helper to send a batch of leads
+    // Helper to send a batch of leads using concurrent worker chunks (prevents Vercel 60s timeout)
     const dispatchCategoryList = async (
       categoryKey: "newIke" | "legacyIke" | "ftth",
       leads: any[],
       template: { subject: string; body: string; buttonText: string; buttonLink: string }
     ) => {
-      for (const lead of leads) {
-        const cleanEmail = lead.email?.toLowerCase().trim();
-        if (!isValidEmail(cleanEmail) || isEmailBlacklisted(cleanEmail) || unsubscribedSet.has(cleanEmail)) {
-          report[categoryKey].failed++;
-          report.totalFailed++;
-          continue;
-        }
-
-        if (options?.dryRun) {
-          report[categoryKey].sent++;
-          report.totalSent++;
-          if (report[categoryKey].samples.length < 3) {
-            report[categoryKey].samples.push(`${lead.company || cleanEmail} (${cleanEmail})`);
+      const CONCURRENCY = 4;
+      for (let i = 0; i < leads.length; i += CONCURRENCY) {
+        const chunk = leads.slice(i, i + CONCURRENCY);
+        await Promise.all(chunk.map(async (lead) => {
+          const cleanEmail = lead.email?.toLowerCase().trim();
+          if (!isValidEmail(cleanEmail) || isEmailBlacklisted(cleanEmail) || unsubscribedSet.has(cleanEmail)) {
+            report[categoryKey].failed++;
+            report.totalFailed++;
+            return;
           }
-          continue;
-        }
 
-        try {
-          const unsubscribeToken = lead.unsubscribe_token || crypto.randomUUID();
-          const finalHtml = buildProfessionalEmailHtml({
-            businessName: lead.first_name || lead.company || "Συνεργάτη",
-            subject: template.subject,
-            bodyHtml: template.body,
-            buttonText: template.buttonText,
-            buttonLink: template.buttonLink,
-            unsubscribeToken,
-            industry: lead.company,
-          });
-
-          const result = await dispatchEmailWithFallback({
-            to: cleanEmail,
-            subject: template.subject,
-            html: finalHtml,
-            unsubscribeToken,
-            firstEmailSubject: template.subject,
-            firstEmailBody: template.body,
-            step: 1,
-            preferredProvider: "auto",
-          });
-
-          if (result.success) {
+          if (options?.dryRun) {
             report[categoryKey].sent++;
             report.totalSent++;
-            if (result.provider === "brevo") report.providers.brevo++;
-            else report.providers.resend++;
-
             if (report[categoryKey].samples.length < 3) {
               report[categoryKey].samples.push(`${lead.company || cleanEmail} (${cleanEmail})`);
             }
+            return;
+          }
 
-            // Save contact record in DB so future runs will NEVER contact this email again
-            const nowIso = new Date().toISOString();
-            await supabase.from("sgk_mails").upsert([{
-              email: cleanEmail,
-              company: lead.company || lead.first_name || "Επιχείρηση",
-              first_name: lead.first_name || lead.company || "Επιχείρηση",
-              last_name: lead.last_name || "Επιχείρηση",
-              phone: lead.phone || null,
-              afm: lead.afm || null,
-              gemi_number: lead.gemi_number || null,
-              marketing_consent: true,
-              unsubscribe_token: unsubscribeToken,
-              email_sequence_step: 1,
-              last_email_sent_at: nowIso,
-              first_email_subject: template.subject,
-              first_email_body: template.body,
-              unsubscribed: false,
-              converted: false,
-              type: lead.type || categoryKey,
-              created_at: nowIso,
-            }], { onConflict: "email" });
+          try {
+            const unsubscribeToken = lead.unsubscribe_token || crypto.randomUUID();
+            const finalHtml = buildProfessionalEmailHtml({
+              businessName: lead.first_name || lead.company || "Συνεργάτη",
+              subject: template.subject,
+              bodyHtml: template.body,
+              buttonText: template.buttonText,
+              buttonLink: template.buttonLink,
+              unsubscribeToken,
+              industry: lead.company,
+            });
 
-          } else {
+            // Hard stop on Resend at 100/day: if report already has >= 100 on Resend or quota is reached, route to Brevo!
+            const preferred = (report.providers.resend >= 100 || isResendQuotaReached()) ? "brevo" : "auto";
+
+            const result = await dispatchEmailWithFallback({
+              to: cleanEmail,
+              subject: template.subject,
+              html: finalHtml,
+              unsubscribeToken,
+              firstEmailSubject: template.subject,
+              firstEmailBody: template.body,
+              step: 1,
+              preferredProvider: preferred,
+            });
+
+            if (result.success) {
+              report[categoryKey].sent++;
+              report.totalSent++;
+              if (result.provider === "brevo") report.providers.brevo++;
+              else report.providers.resend++;
+
+              if (report[categoryKey].samples.length < 3) {
+                report[categoryKey].samples.push(`${lead.company || cleanEmail} (${cleanEmail})`);
+              }
+
+              // Save contact record in DB so future runs will NEVER contact this email again
+              const nowIso = new Date().toISOString();
+              await supabase.from("sgk_mails").upsert([{
+                email: cleanEmail,
+                company: lead.company || lead.first_name || "Επιχείρηση",
+                first_name: lead.first_name || lead.company || "Επιχείρηση",
+                last_name: lead.last_name || "Επιχείρηση",
+                phone: lead.phone || null,
+                afm: lead.afm || null,
+                gemi_number: lead.gemi_number || null,
+                marketing_consent: true,
+                unsubscribe_token: unsubscribeToken,
+                email_sequence_step: 1,
+                last_email_sent_at: nowIso,
+                first_email_subject: template.subject,
+                first_email_body: template.body,
+                unsubscribed: false,
+                converted: false,
+                type: lead.type || categoryKey,
+                created_at: nowIso,
+              }], { onConflict: "email" });
+
+            } else {
+              report[categoryKey].failed++;
+              report.totalFailed++;
+              errors.push(`${cleanEmail}: ${result.error}`);
+            }
+          } catch (err: any) {
             report[categoryKey].failed++;
             report.totalFailed++;
-            errors.push(`${cleanEmail}: ${result.error}`);
+            errors.push(`${cleanEmail}: ${err.message}`);
           }
-        } catch (err: any) {
-          report[categoryKey].failed++;
-          report.totalFailed++;
-          errors.push(`${cleanEmail}: ${err.message}`);
-        }
+        }));
 
-        // Polite delay (250ms)
-        await new Promise(r => setTimeout(r, 250));
+        // Respectful 80ms pacing between concurrent micro-chunks
+        await new Promise(r => setTimeout(r, 80));
       }
     };
 

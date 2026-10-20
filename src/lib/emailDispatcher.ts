@@ -80,9 +80,31 @@ export async function sendEmailViaBrevo(opts: {
   }
 }
 
+declare global {
+  var __resendExhaustedToday: boolean | undefined;
+  var __resendSentCountToday: number | undefined;
+}
+
+/**
+ * Check if Resend daily quota (100 emails/day) is already reached
+ */
+export function isResendQuotaReached(): boolean {
+  if (globalThis.__resendExhaustedToday) return true;
+  if ((globalThis.__resendSentCountToday || 0) >= 100) return true;
+  return false;
+}
+
+/**
+ * Flag Resend as exhausted for the remainder of the day so zero further requests hit Resend
+ */
+export function markResendExhausted(): void {
+  globalThis.__resendExhaustedToday = true;
+}
+
 /**
  * Dispatches an email trying Resend first (via Supabase Edge Function).
- * If Resend fails or hits daily rate limits, automatically falls back to Brevo.
+ * - Strictly stops Resend at 100 emails/day ("Θέλω να σταματάει στο Resend")
+ * - If Resend reaches 100 or errors, switches instantly to Brevo with ZERO wasted latency
  */
 export async function dispatchEmailWithFallback(
   opts: EmailDispatchOptions,
@@ -92,8 +114,8 @@ export async function dispatchEmailWithFallback(
   const cleanEmail = opts.to.toLowerCase().trim();
   const preferred = opts.preferredProvider || "auto";
 
-  // 1. Direct Brevo send if preferred is 'brevo'
-  if (preferred === "brevo") {
+  // 1. Direct Brevo send if preferred is 'brevo' OR if Resend is already at its 100/day limit
+  if (preferred === "brevo" || isResendQuotaReached()) {
     const brevoResult = await sendEmailViaBrevo({
       to: cleanEmail,
       subject: opts.subject,
@@ -104,7 +126,6 @@ export async function dispatchEmailWithFallback(
     });
 
     if (brevoResult.success) {
-      console.log(`[dispatchEmailWithFallback] Direct delivery to ${cleanEmail} via Brevo!`);
       return {
         success: true,
         provider: "brevo",
@@ -118,7 +139,7 @@ export async function dispatchEmailWithFallback(
     };
   }
 
-  // 2. Try Resend via Supabase Edge Function (if Supabase credentials are present)
+  // 2. Try Resend via Supabase Edge Function (Strictly capped at 100 emails/day)
   let edgeFnError = "";
   if (supabaseUrl && supabaseServiceKey) {
     try {
@@ -141,15 +162,23 @@ export async function dispatchEmailWithFallback(
       });
 
       if (edgeResponse.ok) {
+        globalThis.__resendSentCountToday = (globalThis.__resendSentCountToday || 0) + 1;
+        if (globalThis.__resendSentCountToday >= 100) {
+          console.log("[dispatchEmailWithFallback] Resend hit 100/100 daily limit. Hard stop on Resend! Switching all remaining emails to Brevo.");
+          globalThis.__resendExhaustedToday = true;
+        }
         return { success: true, provider: "resend" };
       }
 
       const errText = await edgeResponse.text();
       edgeFnError = errText;
-      console.warn(`[dispatchEmailWithFallback] Resend/EdgeFunction failed for ${cleanEmail}: ${errText}. Falling back to Brevo...`);
+      console.warn(`[dispatchEmailWithFallback] Resend rejected (${errText}). Hard stop: marking Resend exhausted & switching permanently to Brevo today!`);
+      // Resend returned an error (daily limit exceeded / rate limit) -> STOP Resend immediately
+      globalThis.__resendExhaustedToday = true;
     } catch (e: any) {
       edgeFnError = e.message;
-      console.warn(`[dispatchEmailWithFallback] Resend fetch exception for ${cleanEmail}: ${e.message}. Falling back to Brevo...`);
+      console.warn(`[dispatchEmailWithFallback] Resend exception: ${e.message}. Switching permanently to Brevo!`);
+      globalThis.__resendExhaustedToday = true;
     }
   }
 
@@ -173,7 +202,6 @@ export async function dispatchEmailWithFallback(
   });
 
   if (brevoResult.success) {
-    console.log(`[dispatchEmailWithFallback] Successfully delivered to ${cleanEmail} via Brevo fallback!`);
     return {
       success: true,
       provider: "brevo",
@@ -181,7 +209,6 @@ export async function dispatchEmailWithFallback(
     };
   }
 
-  // Both providers failed
   return {
     success: false,
     provider: "brevo",
