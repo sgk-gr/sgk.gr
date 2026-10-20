@@ -76,9 +76,12 @@ export const CAMPAIGN_TEMPLATES = {
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.6;">
     <li><strong>Έτοιμη ιστοσελίδα σε 24 ώρες</strong>, απολύτως συμβατή με τον νόμο.</li>
     <li><strong>Πιστοποιημένη διασύνδεση με το Γ.Ε.ΜΗ. (API)</strong> μέσω επίσημης πρόσβασης gov.gr.</li>
-    <li><strong>.gr Domain &amp; Hosting για 1 έτος</strong>, λογότυπο και εταιρικό email.</li>
+    <li><strong>.gr Domain &amp; Hosting για τον 1ο χρόνο</strong>, λογότυπο και εταιρικό email (περιλαμβάνονται).</li>
     <li><strong>Νόμιμο τιμολόγιο</strong> για τα έξοδα της εταιρείας σας.</li>
   </ul>
+  <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #cbd5e1; font-size: 13px; color: #475569; line-height: 1.5;">
+    🔄 <strong>Ετήσια Συνδρομή Φιλοξενίας:</strong> Από τον επόμενο χρόνο, η συνδρομή για τη διατήρηση του Hosting &amp; Domain παραμένει στα <strong>80€ / έτος (τελική με ΦΠΑ)</strong> — <strong>χωρίς καμία δέσμευση</strong>, με δυνατότητα διακοπής όποτε θέλετε.
+  </div>
 </div>
 
 <p style="margin: 0 0 14px 0; color: #475569; font-size: 14px; line-height: 1.5;">
@@ -112,9 +115,12 @@ export const CAMPAIGN_TEMPLATES = {
   <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #334155; line-height: 1.65;">
     <li><strong>Έτοιμη ιστοσελίδα σε 24 ώρες</strong>, συμβατή με τον Ν.4072/2012.</li>
     <li><strong>Πιστοποιημένη διασύνδεση με το Γ.Ε.ΜΗ. (API)</strong> μέσω επίσημης πρόσβασης gov.gr.</li>
-    <li><strong>.gr Domain &amp; Hosting για 1 έτος</strong>, λογότυπο και εταιρικό email.</li>
+    <li><strong>.gr Domain &amp; Hosting για τον 1ο χρόνο</strong>, λογότυπο και εταιρικό email (περιλαμβάνονται).</li>
     <li><strong>Νόμιμο τιμολόγιο</strong> για τα έξοδα της εταιρείας.</li>
   </ul>
+  <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #cbd5e1; font-size: 13px; color: #475569; line-height: 1.5;">
+    🔄 <strong>Ετήσια Συνδρομή Φιλοξενίας:</strong> Από τον επόμενο χρόνο, η συνδρομή για τη διατήρηση του Hosting &amp; Domain παραμένει στα <strong>80€ / έτος (τελική με ΦΠΑ)</strong> — <strong>χωρίς καμία δέσμευση</strong>, με δυνατότητα διακοπής όποτε θέλετε.
+  </div>
 </div>
 
 <p style="margin: 0 0 12px 0; color: #475569; font-size: 14px; line-height: 1.55;">

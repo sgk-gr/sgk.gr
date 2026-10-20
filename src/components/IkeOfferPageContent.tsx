@@ -328,7 +328,11 @@ function IkeOfferContent() {
                   </label>
                 </div>
 
-                <div className="flex justify-end pt-4">
+                <div className="text-[11px] text-white/90 bg-black/25 rounded-xl p-2.5 border border-white/15 leading-relaxed">
+                  🔄 <strong>Διαφάνεια &amp; Συνδρομή:</strong> Το αρχικό κόστος (80€ τελική με ΦΠΑ) καλύπτει κατασκευή, .gr domain &amp; hosting για τον 1ο χρόνο. Από τον 2ο χρόνο, η ετήσια συνδρομή ανανέωσης hosting παραμένει 80€/έτος με ΦΠΑ — <strong>χωρίς καμία δέσμευση</strong>, διακόπτετε όποτε θέλετε.
+                </div>
+
+                <div className="flex justify-end pt-2">
                   <button 
                     disabled={loading}
                     type="submit" 
