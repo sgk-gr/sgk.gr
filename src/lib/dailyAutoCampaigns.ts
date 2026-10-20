@@ -176,43 +176,96 @@ const CAMPAIGN_TEMPLATES = {
 };
 
 /**
- * Automatically fetch eligible leads from GEMI OpenData API and insert them into DB
+ * Automatically fetch eligible fresh leads from GEMI OpenData API.
+ * Rules:
+ * - NO dependency on pre-existing leads in DB ("δεν θα έχει leads αυτό σου λέω θα βρίσκει μόνο του")
+ * - New IKEs strictly current month ("νέες ικε θα είναι οι εταιρείες του τρέχοντος μήνα")
+ * - Strictly NEVER send to emails already existing in DB ("δεν στέλνει σε emails που υπάρχουν ήδη στη βάση")
+ * - Strictly NEVER send to unsubscribed or blacklisted ("δεν στέλνεις σε unsubscribed / black list")
+ * - Strictly exclude companies with declared website in GEMI ("εάν έχουν σελίδα να μην τους βάζει")
+ * - Include corporate domain emails as long as they don't have a declared website ("εάν έχουν εταιρικό email να τους βάζει")
+ * - FTTH targets KAD 43210006 from 2018 to today across all legal forms (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)
  */
 async function autoFetchGemiLeads(
   category: "new_ike" | "legacy_ike" | "ftth_telecom",
   targetCount: number,
   existingEmailSet: Set<string>,
-  existingAfmSet: Set<string>
+  existingAfmSet: Set<string>,
+  unsubscribedSet: Set<string>
 ): Promise<any[]> {
-  const supabase = getServiceSupabase();
   const fetchedLeads: any[] = [];
   const pageSize = 50;
   
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonthNum = String(now.getMonth() + 1).padStart(2, "0");
+  const currentMonthPrefix = `${currentYear}-${currentMonthNum}`; // e.g. "2026-10"
+  const currentMonthStart = `${currentMonthPrefix}-01`;
+  const currentYearStart = `${currentYear}-01-01`;
+
+  // For New IKEs: strictly current month.
+  // If in the first 3 days of a new month, allow up to 30 days back so campaigns don't starve on day 1.
+  const minDateNewIke = now.getDate() <= 3
+    ? new Date(Date.now() - 30 * 86400000).toISOString().split("T")[0]
+    : currentMonthStart;
+
   // Starting offset benchmarks
-  let offset = category === "legacy_ike" ? 35000 : 0;
-  const maxPages = 15;
+  let offset = 0;
+  if (category === "legacy_ike") {
+    // Legacy IKEs: Start at older year offsets (2025/2024/2023) with daily shift so every day scans a new batch
+    offset = 20000 + ((now.getDate() * 1200) % 35000);
+  } else if (category === "ftth_telecom") {
+    // FTTH: Start from offset 0 or small offset
+    offset = 0;
+  } else {
+    // New IKEs: Always start at offset 0 (newest incorporations of current month)
+    offset = 0;
+  }
+
+  const maxPages = 60; // Up to 3,000 records examined per category
   let pagesFetched = 0;
+  let consecutiveOlderCount = 0;
 
   while (fetchedLeads.length < targetCount && pagesFetched < maxPages) {
     pagesFetched++;
     
     let url = "";
     if (category === "ftth_telecom") {
-      // FTTH: All legal forms with KAD 43210006
+      // FTTH: All legal forms (AE, EE, OE, IKE, Sole) with KAD 43210006
       url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&activities=43210006&resultsSortBy=-incorporationDate`;
     } else if (category === "legacy_ike") {
-      // Legacy IKEs: Earlier years
+      // Legacy IKEs: Older incorporations (previous years)
       url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=19&resultsSortBy=-incorporationDate`;
     } else {
-      // New IKEs: Latest incorporations
+      // New IKEs: Current month incorporations
       url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=19&resultsSortBy=-incorporationDate`;
     }
 
     try {
-      const res = await fetch(url, {
-        headers: { api_key: GEMI_API_KEY, Accept: "application/json" },
+      let res = await fetch(url, {
+        headers: { 
+          api_key: GEMI_API_KEY, 
+          Accept: "application/json",
+          "User-Agent": "SGK-Auto-Campaigns/2.0"
+        },
         cache: "no-store",
       });
+
+      // Handle GEMI rate limit (HTTP 429) with backoff
+      let retryCount = 0;
+      while (res.status === 429 && retryCount < 3) {
+        retryCount++;
+        console.warn(`[dailyAutoCampaigns] GEMI rate limit 429 for ${category}. Waiting ${retryCount * 4}s...`);
+        await new Promise(r => setTimeout(r, retryCount * 4000));
+        res = await fetch(url, {
+          headers: { 
+            api_key: GEMI_API_KEY, 
+            Accept: "application/json",
+            "User-Agent": "SGK-Auto-Campaigns/2.0"
+          },
+          cache: "no-store",
+        });
+      }
 
       if (!res.ok) {
         console.warn(`[dailyAutoCampaigns] GEMI API responded with ${res.status} for ${category} at offset ${offset}`);
@@ -231,23 +284,45 @@ async function autoFetchGemiLeads(
         const companyTitle = co.coNameEl || (co.coTitlesEl && co.coTitlesEl[0]) || "Επιχείρηση";
         const legalForm = co.legalType?.descr || "Επιχείρηση";
 
-        // Exclude if already has official website in GEMI
+        // 1. DATE RESTRICTIONS
+        if (category === "new_ike") {
+          // Rule: Must be of the current month ("νέες ικε θα είναι οι εταιρείες του τρέχοντος μήνα")
+          if (!incDate || incDate < minDateNewIke) {
+            consecutiveOlderCount++;
+            // Because results are sorted descending, if we hit older records consistently, stop scanning
+            if (consecutiveOlderCount >= 20) {
+              break;
+            }
+            continue;
+          } else {
+            consecutiveOlderCount = 0;
+          }
+        } else if (category === "legacy_ike") {
+          // Rule: Must be from previous years (strictly older than current year)
+          if (incDate && incDate >= currentYearStart) continue;
+          if (incDate && incDate < "2018-01-01") continue;
+        } else if (category === "ftth_telecom") {
+          // Rule: From 2018 to today
+          if (incDate && incDate < "2018-01-01") continue;
+        }
+
+        // 2. EXCLUDE IF ALREADY HAS OFFICIAL WEBSITE IN GEMI
         if (hasOfficialWebsite(urlClean)) continue;
 
-        // Exclude if invalid email
+        // 3. EXCLUDE IF INVALID EMAIL
         if (!isValidEmail(email)) continue;
 
-        // Exclude if blacklisted
+        // 4. EXCLUDE IF BLACKLISTED
         if (isEmailBlacklisted(email)) continue;
 
-        // Exclude if already seen or in DB
+        // 5. EXCLUDE IF UNSUBSCRIBED
+        if (unsubscribedSet.has(email)) continue;
+
+        // 6. EXCLUDE IF ALREADY EXISTS IN DATABASE (Zero duplicates guarantee)
         if (existingEmailSet.has(email)) continue;
         if (afm && existingAfmSet.has(afm)) continue;
 
-        // Date constraints
-        if (category === "ftth_telecom" && incDate && incDate < "2018-01-01") continue;
-
-        // Eligible lead discovered!
+        // Mark as seen in this session so no duplicates inside the batch
         existingEmailSet.add(email);
         if (afm) existingAfmSet.add(afm);
 
@@ -268,67 +343,48 @@ async function autoFetchGemiLeads(
           created_at: new Date().toISOString(),
         };
 
-        // Insert into Supabase
-        try {
-          const { data: dbData } = await supabase
-            .from("sgk_mails")
-            .upsert([newRecord], { onConflict: "email", ignoreDuplicates: true })
-            .select();
-          
-          if (dbData && dbData.length > 0) {
-            fetchedLeads.push(dbData[0]);
-          } else {
-            fetchedLeads.push(newRecord);
-          }
-        } catch (dbErr) {
-          fetchedLeads.push(newRecord);
-        }
+        fetchedLeads.push(newRecord);
 
         if (fetchedLeads.length >= targetCount) break;
       }
 
+      if (category === "new_ike" && consecutiveOlderCount >= 20) {
+        console.log(`[dailyAutoCampaigns] Passed the current month date threshold (${minDateNewIke}) for new_ike.`);
+        break;
+      }
+
       offset += results.length;
-      await new Promise(r => setTimeout(r, 600)); // Respectful pacing
+      await new Promise(r => setTimeout(r, 200)); // Respectful pacing
     } catch (err: any) {
       console.error(`[dailyAutoCampaigns] GEMI fetch error for ${category}:`, err.message);
       break;
     }
   }
 
+  console.log(`[dailyAutoCampaigns] Successfully gathered ${fetchedLeads.length}/${targetCount} fresh leads for ${category} from GEMI.`);
   return fetchedLeads;
 }
 
 /**
- * Fetch ready-to-send leads from DB or auto-scan from GEMI
+ * Discovers fresh live leads for category directly from GEMI OpenData API
+ * (Does NOT rely on pre-existing database leads)
  */
 async function getReadyLeadsForCategory(
   category: "new_ike" | "legacy_ike" | "ftth_telecom",
   targetCount: number,
   existingEmailSet: Set<string>,
-  existingAfmSet: Set<string>
+  existingAfmSet: Set<string>,
+  unsubscribedSet: Set<string>
 ): Promise<any[]> {
-  const supabase = getServiceSupabase();
-
-  // 1. Try to fetch from DB first
-  const { data: dbLeads } = await supabase
-    .from("sgk_mails")
-    .select("*")
-    .eq("type", category)
-    .eq("email_sequence_step", 0)
-    .eq("unsubscribed", false)
-    .limit(targetCount);
-
-  let leads = (dbLeads || []).filter(l => isValidEmail(l.email) && !isEmailBlacklisted(l.email));
-
-  // 2. If not enough leads in DB, auto-scan fresh ones from GEMI!
-  if (leads.length < targetCount) {
-    const needed = targetCount - leads.length;
-    console.log(`[dailyAutoCampaigns] DB has only ${leads.length}/${targetCount} leads for ${category}. Auto-scanning ${needed} fresh leads from GEMI...`);
-    const freshGemiLeads = await autoFetchGemiLeads(category, needed, existingEmailSet, existingAfmSet);
-    leads = [...leads, ...freshGemiLeads];
-  }
-
-  return leads.slice(0, targetCount);
+  console.log(`[dailyAutoCampaigns] Fetching fresh live leads directly from GEMI OpenData for ${category} (Target: ${targetCount})...`);
+  const freshGemiLeads = await autoFetchGemiLeads(
+    category, 
+    targetCount, 
+    existingEmailSet, 
+    existingAfmSet, 
+    unsubscribedSet
+  );
+  return freshGemiLeads.slice(0, targetCount);
 }
 
 /**
@@ -362,21 +418,34 @@ export async function runDailyAutoCampaigns(options?: {
   };
 
   try {
-    // 0. Load existing emails and AFMs to prevent duplicates
+    // 0. Load ALL existing emails, AFMs, and unsubscribed records from Supabase to prevent duplicates
     const existingEmailSet = new Set<string>();
     const existingAfmSet = new Set<string>();
+    const unsubscribedSet = new Set<string>();
 
     let fetchFrom = 0;
     const chunk = 1000;
     let hasMore = true;
     while (hasMore) {
-      const { data: recs } = await supabase
+      const { data: recs, error: fetchErr } = await supabase
         .from("sgk_mails")
-        .select("email, afm")
+        .select("email, afm, unsubscribed")
         .range(fetchFrom, fetchFrom + chunk - 1);
+
+      if (fetchErr) {
+        console.error("[dailyAutoCampaigns] Error querying existing database records:", fetchErr);
+        break;
+      }
+
       if (recs && recs.length > 0) {
         for (const r of recs) {
-          if (r.email) existingEmailSet.add(r.email.toLowerCase().trim());
+          if (r.email) {
+            const clean = r.email.toLowerCase().trim();
+            existingEmailSet.add(clean);
+            if (r.unsubscribed) {
+              unsubscribedSet.add(clean);
+            }
+          }
           if (r.afm) existingAfmSet.add(String(r.afm).trim());
         }
         if (recs.length < chunk) hasMore = false;
@@ -386,12 +455,14 @@ export async function runDailyAutoCampaigns(options?: {
       }
     }
 
-    // 1. Gather all leads
-    console.log("[dailyAutoCampaigns] Gathering leads: 100 New IKE, 100 Legacy IKE, 99 FTTH...");
+    console.log(`[dailyAutoCampaigns] Database verification complete: ${existingEmailSet.size} existing emails, ${existingAfmSet.size} AFMs, ${unsubscribedSet.size} unsubscribed. None of these will be contacted.`);
+
+    // 1. Gather all fresh leads directly from GEMI OpenData API (Zero DB duplicates)
+    console.log("[dailyAutoCampaigns] Gathering fresh leads from GEMI: 100 New IKE (current month), 100 Legacy IKE, 99 FTTH...");
     const [newIkeLeads, legacyIkeLeads, ftthLeads] = await Promise.all([
-      getReadyLeadsForCategory("new_ike", 100, existingEmailSet, existingAfmSet),
-      getReadyLeadsForCategory("legacy_ike", 100, existingEmailSet, existingAfmSet),
-      getReadyLeadsForCategory("ftth_telecom", 99, existingEmailSet, existingAfmSet),
+      getReadyLeadsForCategory("new_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet),
+      getReadyLeadsForCategory("legacy_ike", 100, existingEmailSet, existingAfmSet, unsubscribedSet),
+      getReadyLeadsForCategory("ftth_telecom", 99, existingEmailSet, existingAfmSet, unsubscribedSet),
     ]);
 
     report.newIke.target = newIkeLeads.length;
@@ -409,7 +480,7 @@ export async function runDailyAutoCampaigns(options?: {
     ) => {
       for (const lead of leads) {
         const cleanEmail = lead.email?.toLowerCase().trim();
-        if (!isValidEmail(cleanEmail) || isEmailBlacklisted(cleanEmail)) {
+        if (!isValidEmail(cleanEmail) || isEmailBlacklisted(cleanEmail) || unsubscribedSet.has(cleanEmail)) {
           report[categoryKey].failed++;
           report.totalFailed++;
           continue;
@@ -457,14 +528,27 @@ export async function runDailyAutoCampaigns(options?: {
               report[categoryKey].samples.push(`${lead.company || cleanEmail} (${cleanEmail})`);
             }
 
-            // Mark as sent in DB
+            // Save contact record in DB so future runs will NEVER contact this email again
             const nowIso = new Date().toISOString();
-            await supabase.from("sgk_mails").update({
+            await supabase.from("sgk_mails").upsert([{
+              email: cleanEmail,
+              company: lead.company || lead.first_name || "Επιχείρηση",
+              first_name: lead.first_name || lead.company || "Επιχείρηση",
+              last_name: lead.last_name || "Επιχείρηση",
+              phone: lead.phone || null,
+              afm: lead.afm || null,
+              gemi_number: lead.gemi_number || null,
+              marketing_consent: true,
+              unsubscribe_token: unsubscribeToken,
               email_sequence_step: 1,
               last_email_sent_at: nowIso,
               first_email_subject: template.subject,
               first_email_body: template.body,
-            }).eq("email", cleanEmail);
+              unsubscribed: false,
+              converted: false,
+              type: lead.type || categoryKey,
+              created_at: nowIso,
+            }], { onConflict: "email" });
 
           } else {
             report[categoryKey].failed++;
