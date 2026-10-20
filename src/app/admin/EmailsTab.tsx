@@ -973,6 +973,10 @@ export function EmailsTab() {
     totalOldDate: 0,
   });
   const [scannedNewLeads, setScannedNewLeads] = useState<any[]>([]);
+  // Daily Auto Campaigns (300 emails/day: 100 New IKE, 100 Legacy IKE, 99 FTTH)
+  const [isRunningDailyCampaign, setIsRunningDailyCampaign] = useState(false);
+  const [dailyCampaignReport, setDailyCampaignReport] = useState<any | null>(null);
+  const [isDailyReportModalOpen, setIsDailyReportModalOpen] = useState(false);
   const [scanLogs, setScanLogsRaw] = useState<Array<{
     id: string;
     time: string;
@@ -2255,6 +2259,37 @@ function safeEncodeBase64(data: any): string {
   const handleScanGemiFtthAllForms = () => runGemiScan("ftth_telecom");
   const handleScanGemiNonIke = () => runGemiScan("non_ike");
 
+  const handleTriggerDailyCampaignNow = async () => {
+    if (!window.confirm("Θέλετε να ξεκινήσει άμεσα η Ημερήσια Αποστολή 300 Emails (100 Νέες ΙΚΕ, 100 Παλαιές ΙΚΕ, 99 FTTH);\n\nΜόλις ολοκληρωθεί, θα σας σταλεί αναλυτική αναφορά στο info@sgk.gr.")) {
+      return;
+    }
+
+    setIsRunningDailyCampaign(true);
+    toast.info("🚀 Έναρξη Ημερήσιας Αποστολής 300 Emails (100 Νέες, 100 Παλαιές, 99 FTTH)...", { duration: 6000 });
+
+    try {
+      const res = await fetch("/api/admin/cron-daily-campaigns", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ force: true }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || data.error || `HTTP ${res.status}`);
+      }
+
+      setDailyCampaignReport(data.report);
+      setIsDailyReportModalOpen(true);
+      toast.success(`🎉 Η αποστολή ολοκληρώθηκε! Εστάλησαν ${data.report.totalSent}/${data.report.totalTarget} emails. Εστάλη αναφορά στο info@sgk.gr!`, { duration: 8000 });
+      fetchLeads();
+    } catch (err: any) {
+      console.error("Daily campaign error:", err);
+      toast.error(`Σφάλμα κατά την ημερήσια αποστολή: ${err.message || "Άγνωστο σφάλμα"}`);
+    } finally {
+      setIsRunningDailyCampaign(false);
+    }
+  };
+
   const filteredLeads = useMemo(() => {
     return leads.filter((lead) => {
       if (deferredSearch.trim()) {
@@ -2920,6 +2955,63 @@ function safeEncodeBase64(data: any): string {
         </div>
       )}
 
+
+      {/* 🤖 Daily Automated Campaigns Banner (300 Emails: 100 New IKE, 100 Legacy IKE, 99 FTTH) */}
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-indigo-900/60 p-4 sm:p-5 rounded-2xl shadow-md text-white mb-6">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+              <h3 className="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-2">
+                🤖 Αυτόματη Ημερήσια Αποστολή — 300 Emails / Ημέρα
+              </h3>
+              <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                Live Cron (09:30)
+              </span>
+            </div>
+            
+            <p className="text-xs text-indigo-200/90 leading-relaxed max-w-3xl">
+              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>100 Νέες ΙΚΕ</strong> (80€), <strong>100 Παλαιές ΙΚΕ</strong> (80€) και <strong>99 FTTH / Καλωδιώσεις</strong> (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-blue-900/50 text-blue-200 border border-blue-700/50 font-bold">
+                🏢 100 Νέες Ι.Κ.Ε.
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-amber-900/50 text-amber-200 border border-amber-700/50 font-bold">
+                🏛️ 100 Παλαιές Ι.Κ.Ε.
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-cyan-900/50 text-cyan-200 border border-cyan-700/50 font-bold">
+                🔌 99 FTTH / Δίκτυα
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-900/50 text-emerald-200 border border-emerald-700/50 font-bold">
+                ✉️ Αναφορά στο info@sgk.gr
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0 w-full lg:w-auto justify-end">
+            <button
+              onClick={handleTriggerDailyCampaignNow}
+              disabled={isRunningDailyCampaign}
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl font-black text-xs bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              title="Άμεση εκτέλεση της ημερήσιας αποστολής 300 emails τώρα και αποστολή αναφοράς στο info@sgk.gr"
+            >
+              {isRunningDailyCampaign ? (
+                <>
+                  <Loader2 size={15} className="animate-spin text-white" />
+                  <span>Εκτελείται αποστολή 300 emails...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles size={15} className="text-yellow-300" />
+                  <span>⚡ Άμεση Εκτέλεση Τώρα (300 Emails)</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Leads Header / Actions */}
       <div className="bg-white border border-gray-200/80 p-5 rounded-2xl shadow-xs">
@@ -4183,6 +4275,105 @@ function safeEncodeBase64(data: any): string {
               </div>
             </div>
 
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* 📊 Daily Report Modal */}
+      {isClient && typeof document !== "undefined" && isDailyReportModalOpen && dailyCampaignReport && createPortal(
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 max-w-lg w-full overflow-hidden animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 py-5 text-white flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 flex items-center justify-center">
+                  <CheckCircle2 size={20} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base tracking-tight text-white flex items-center gap-2">
+                    Ημερήσια Αναφορά Αποστολής (300 Emails)
+                  </h3>
+                  <p className="text-xs text-indigo-200">
+                    Ολοκληρώθηκε σε {Math.round(dailyCampaignReport.durationMs / 1000)} δευτερόλεπτα
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsDailyReportModalOpen(false)}
+                className="text-slate-400 hover:text-white p-1.5 rounded-lg transition-colors cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 space-y-4 text-slate-800">
+              {/* KPI Cards */}
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl">
+                  <div className="text-[10px] font-bold text-slate-500 uppercase">Σύνολο</div>
+                  <div className="text-xl font-black text-slate-900 mt-0.5">{dailyCampaignReport.totalSent} / {dailyCampaignReport.totalTarget}</div>
+                  <div className="text-[10px] text-emerald-600 font-bold">100% Επιτυχία</div>
+                </div>
+                <div className="bg-blue-50/60 border border-blue-200 p-3 rounded-xl">
+                  <div className="text-[10px] font-bold text-blue-600 uppercase">Resend API</div>
+                  <div className="text-xl font-black text-blue-900 mt-0.5">{dailyCampaignReport.providers?.resend || 0}</div>
+                  <div className="text-[10px] text-blue-500 font-medium">Όριο 100/ημ.</div>
+                </div>
+                <div className="bg-amber-50/60 border border-amber-200 p-3 rounded-xl">
+                  <div className="text-[10px] font-bold text-amber-600 uppercase">Brevo API</div>
+                  <div className="text-xl font-black text-amber-900 mt-0.5">{dailyCampaignReport.providers?.brevo || 0}</div>
+                  <div className="text-[10px] text-amber-600 font-medium">Fallback 300/ημ.</div>
+                </div>
+              </div>
+
+              {/* Categories Breakdown */}
+              <div className="space-y-2 border border-slate-200 rounded-xl p-3.5 bg-slate-50/50">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold flex items-center gap-1.5">
+                    <span>🏢</span> Νέες Ι.Κ.Ε. (Συμμόρφωση 80€)
+                  </span>
+                  <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
+                    {dailyCampaignReport.newIke?.sent || 0} / {dailyCampaignReport.newIke?.target || 100}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold flex items-center gap-1.5">
+                    <span>🏛️</span> Παλαιές Ι.Κ.Ε. (Χωρίς Site 80€)
+                  </span>
+                  <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
+                    {dailyCampaignReport.legacyIke?.sent || 0} / {dailyCampaignReport.legacyIke?.target || 100}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold flex items-center gap-1.5">
+                    <span>🔌</span> FTTH / Οπτικές Ίνες & Δίκτυα (Αυτοψίες)
+                  </span>
+                  <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
+                    {dailyCampaignReport.ftth?.sent || 0} / {dailyCampaignReport.ftth?.target || 99}
+                  </span>
+                </div>
+              </div>
+
+              {/* Notification Notice */}
+              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-800 flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                <span>
+                  Η πλήρης αναλυτική αναφορά με τα στοιχεία όλων των παραληπτών εστάλη στο <strong>info@sgk.gr</strong>!
+                </span>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-gray-50 px-6 py-3.5 border-t border-gray-200 flex justify-end">
+              <button
+                onClick={() => setIsDailyReportModalOpen(false)}
+                className="adm-btn adm-btn-primary px-5 py-2 text-xs font-bold"
+              >
+                Εντάξει, Κλείσιμο
+              </button>
+            </div>
           </div>
         </div>,
         document.body

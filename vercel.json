@@ -1,3 +1,8 @@
 {
-    "crons": []
+    "crons": [
+        {
+            "path": "/api/admin/cron-daily-campaigns",
+            "schedule": "30 6 * * *"
+        }
+    ]
 }
