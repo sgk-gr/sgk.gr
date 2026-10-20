@@ -2430,33 +2430,88 @@ function safeEncodeBase64(data: any): string {
     });
   }, [sentLeads, sentCategoryFilter, sentSearchTerm]);
 
-  const formatRelativeTime = (dateString?: string | null): string => {
+  const formatGreekRelativeTime = (
+    dateString?: string | null,
+    options?: { isDateOnly?: boolean }
+  ): string => {
     if (!dateString) return "-";
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
+
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
+
+    // Minor future skew safeguard (less than 1 min in the future)
+    if (diffMs < -60000) {
+      return date.toLocaleDateString("el-GR");
+    }
+    if (diffMs < 45000) {
+      return "Μόλις τώρα";
+    }
+
     const diffSec = Math.floor(diffMs / 1000);
     const diffMin = Math.floor(diffSec / 60);
     const diffHour = Math.floor(diffMin / 60);
-    const diffDay = Math.floor(diffHour / 24);
 
-    if (diffSec < 60) return "Just now";
-    if (diffMin === 1) return "1min ago";
-    if (diffMin < 60) return `${diffMin}min ago`;
-    if (diffHour === 1) return "1h ago";
-    if (diffHour < 24) return `${diffHour}h ago`;
-    if (diffDay === 1) return "1d ago";
-    return date.toLocaleDateString("el-GR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+    // Check same calendar day (Σήμερα)
+    const isSameDay =
+      date.getDate() === now.getDate() &&
+      date.getMonth() === now.getMonth() &&
+      date.getFullYear() === now.getFullYear();
+
+    // Check yesterday (Χθες)
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    const isYesterday =
+      date.getDate() === yesterday.getDate() &&
+      date.getMonth() === yesterday.getMonth() &&
+      date.getFullYear() === yesterday.getFullYear();
+
+    if (options?.isDateOnly) {
+      if (isSameDay) return "Σήμερα";
+      if (isYesterday) return "Χθες";
+    } else {
+      if (diffMin < 60) {
+        return diffMin === 1 ? "Πριν από 1 λεπτό" : `Πριν από ${diffMin} λεπτά`;
+      }
+      if (diffHour < 24 && isSameDay) {
+        return diffHour === 1 ? "Πριν από 1 ώρα" : `Πριν από ${diffHour} ώρες`;
+      }
+      if (isYesterday) {
+        return "Χθες";
+      }
+    }
+
+    // Days calculation based on midnight boundaries
+    const startOfNow = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const startOfDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+    const diffDays = Math.max(1, Math.round((startOfNow - startOfDate) / (1000 * 60 * 60 * 24)));
+
+    if (diffDays === 1) return "Χθες";
+    if (diffDays < 7) return `Πριν από ${diffDays} μέρες`;
+    if (diffDays < 14) return "Πριν από 1 εβδομάδα";
+    if (diffDays < 30) return `Πριν από ${Math.floor(diffDays / 7)} εβδομάδες`;
+
+    const diffMonths = Math.floor(diffDays / 30.4375);
+    if (diffMonths <= 1) return "Πριν από 1 μήνα";
+    if (diffMonths < 12) return `Πριν από ${diffMonths} μήνες`;
+
+    const diffYears = Math.floor(diffDays / 365.25);
+    if (diffYears <= 1) return "Πριν από 1 χρόνο";
+    return `Πριν από ${diffYears} χρόνια`;
+  };
+
+  const formatRelativeTime = (dateString?: string | null): string => {
+    return formatGreekRelativeTime(dateString);
   };
 
   const formatEventTime = (dateString?: string | null): string => {
     const date = dateString ? new Date(dateString) : new Date();
-    return date.toLocaleString("en-US", {
-      month: "short",
+    return date.toLocaleString("el-GR", {
       day: "numeric",
-      hour: "numeric",
+      month: "short",
+      hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
     });
   };
 
@@ -3359,7 +3414,7 @@ function safeEncodeBase64(data: any): string {
                             <td className="py-3.5 px-4 whitespace-nowrap">
                               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                Delivered
+                                Παραδόθηκε
                               </span>
                             </td>
                             <td className="py-3.5 px-4 max-w-md">
@@ -3382,8 +3437,11 @@ function safeEncodeBase64(data: any): string {
                                 </span>
                               )}
                             </td>
-                            <td className="py-3.5 px-4 text-right font-mono text-[11px] text-slate-500 font-bold whitespace-nowrap">
-                              {formatRelativeTime(lead.last_email_sent_at || lead.created_at)}
+                            <td 
+                              className="py-3.5 px-4 text-right font-mono text-[11px] text-slate-500 font-bold whitespace-nowrap"
+                              title={lead.last_email_sent_at ? new Date(lead.last_email_sent_at).toLocaleString("el-GR") : (lead.created_at ? new Date(lead.created_at).toLocaleString("el-GR") : undefined)}
+                            >
+                              {formatGreekRelativeTime(lead.last_email_sent_at || lead.created_at)}
                             </td>
                             <td className="py-3.5 px-4 text-center">
                               <button
@@ -3690,12 +3748,20 @@ function safeEncodeBase64(data: any): string {
                             )}
                           </div>
                         </td>
-                        <td className="py-3 px-4 text-slate-500 font-mono text-xs">
-                          <div>{new Date(lead.created_at).toLocaleDateString("el-GR")}</div>
+                        <td className="py-3 px-4 font-mono text-xs">
+                          <div 
+                            className="font-bold text-slate-700" 
+                            title={`Ημ/νία Εγγραφής: ${lead.created_at ? new Date(lead.created_at).toLocaleString("el-GR") : "-"}`}
+                          >
+                            {formatGreekRelativeTime(lead.created_at, { isDateOnly: true })}
+                          </div>
                           {lead.last_email_sent_at && (
-                            <div className="text-[10px] text-blue-600 font-bold mt-1 flex items-center gap-1" title="Ημερομηνία & ώρα τελευταίας αποστολής">
-                              <Mail size={10} className="shrink-0" />
-                              <span>{new Date(lead.last_email_sent_at).toLocaleDateString("el-GR", { day: "2-digit", month: "2-digit" })} {new Date(lead.last_email_sent_at).toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" })}</span>
+                            <div 
+                              className="text-[10px] text-blue-700 font-bold mt-1 inline-flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100" 
+                              title={`Τελευταία αποστολή: ${new Date(lead.last_email_sent_at).toLocaleString("el-GR")}`}
+                            >
+                              <Mail size={10} className="shrink-0 text-blue-600" />
+                              <span>{formatGreekRelativeTime(lead.last_email_sent_at)}</span>
                             </div>
                           )}
                         </td>
@@ -3887,7 +3953,7 @@ function safeEncodeBase64(data: any): string {
             {/* Email Events Timeline */}
             <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/80">
               <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold mb-2">
-                EMAIL EVENTS (DELIVERY STATUS)
+                ΕΞΕΛΙΞΗ ΠΑΡΑΔΟΣΗΣ EMAIL
               </div>
               <div className="flex items-center gap-3">
                 {/* Sent Node */}
@@ -3896,7 +3962,7 @@ function safeEncodeBase64(data: any): string {
                     <Send size={11} />
                   </div>
                   <div className="text-xs">
-                    <div className="font-bold text-slate-800">Sent</div>
+                    <div className="font-bold text-slate-800">Αποστολή</div>
                     <div className="text-[10px] text-slate-500 font-mono">
                       {formatEventTime(selectedSentLead.last_email_sent_at || selectedSentLead.created_at)}
                     </div>
@@ -3912,7 +3978,7 @@ function safeEncodeBase64(data: any): string {
                     <Check size={12} strokeWidth={3} />
                   </div>
                   <div className="text-xs">
-                    <div className="font-black text-emerald-700">Delivered</div>
+                    <div className="font-black text-emerald-700">Παραδόθηκε</div>
                     <div className="text-[10px] text-emerald-600 font-mono font-bold">
                       {formatEventTime(selectedSentLead.last_email_sent_at || selectedSentLead.created_at)}
                     </div>
