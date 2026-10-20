@@ -2971,15 +2971,15 @@ function safeEncodeBase64(data: any): string {
             </div>
             
             <p className="text-xs text-indigo-200/90 leading-relaxed max-w-3xl">
-              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>100 Νέες ΙΚΕ</strong> (80€), <strong>100 Παλαιές ΙΚΕ</strong> (80€) και <strong>99 FTTH / Καλωδιώσεις</strong> (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
+              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>100 Νέες ΙΚΕ</strong> (τρέχοντος μήνα - 80€), <strong>100 Παλαιές ΙΚΕ</strong> (2018–2024 - 80€) και <strong>99 FTTH / Καλωδιώσεις</strong> (2018–σήμερα: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-blue-900/50 text-blue-200 border border-blue-700/50 font-bold">
-                🏢 100 Νέες Ι.Κ.Ε.
+                🏢 100 Νέες Ι.Κ.Ε. (Τρέχοντος Μήνα)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-amber-900/50 text-amber-200 border border-amber-700/50 font-bold">
-                🏛️ 100 Παλαιές Ι.Κ.Ε.
+                🏛️ 100 Παλαιές Ι.Κ.Ε. (2018–2024)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-cyan-900/50 text-cyan-200 border border-cyan-700/50 font-bold">
                 🔌 99 FTTH / Δίκτυα
@@ -3321,7 +3321,7 @@ function safeEncodeBase64(data: any): string {
               {statusFilter === 'tourism' && <span className="text-amber-700 font-black">✈️ Τουρισμός / Travel</span>}
               {statusFilter === 'operations_tech' && <span className="text-purple-700 font-black">⚡ Operations & Τεχνικές</span>}
               {statusFilter === 'new_ike' && <span className="text-emerald-600 font-black">🟢 Νέες ΙΚΕ (Αύγουστος 2026+)</span>}
-              {statusFilter === 'legacy' && <span className="text-amber-700 font-black">🏛️ Παλαιές ΙΚΕ (2018–2025)</span>}
+              {statusFilter === 'legacy' && <span className="text-amber-700 font-black">🏛️ Παλαιές ΙΚΕ (2018–2024)</span>}
               {statusFilter === 'new' && <span className="text-blue-600 font-black">➕ Νέοι (0/5)</span>}
               {statusFilter === 'active' && <span className="text-teal-600 font-black">⚡ Ενεργοί (1-4/5)</span>}
               {statusFilter === 'completed' && <span className="text-amber-600 font-black">✅ Ολοκληρωμένοι (5/5)</span>}

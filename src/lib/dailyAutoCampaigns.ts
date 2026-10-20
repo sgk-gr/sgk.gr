@@ -212,8 +212,8 @@ async function autoFetchGemiLeads(
   // Starting offset benchmarks
   let offset = 0;
   if (category === "legacy_ike") {
-    // Legacy IKEs: Start at older year offsets (2025/2024/2023) with daily shift so every day scans a new batch
-    offset = 20000 + ((now.getDate() * 1200) % 35000);
+    // Legacy IKEs (2018-2024): Start at offset ~25,000 (corresponding to 2024 down to 2018) with daily shift
+    offset = 25000 + ((now.getDate() * 1500) % 50000);
   } else if (category === "ftth_telecom") {
     // FTTH: Start from offset 0 or small offset
     offset = 0;
@@ -298,9 +298,8 @@ async function autoFetchGemiLeads(
             consecutiveOlderCount = 0;
           }
         } else if (category === "legacy_ike") {
-          // Rule: Must be from previous years (strictly older than current year)
-          if (incDate && incDate >= currentYearStart) continue;
-          if (incDate && incDate < "2018-01-01") continue;
+          // Rule: Strictly between 2018 and 2024 ("Παλιές ικε από 2018 έως 2024")
+          if (!incDate || incDate < "2018-01-01" || incDate > "2024-12-31") continue;
         } else if (category === "ftth_telecom") {
           // Rule: From 2018 to today
           if (incDate && incDate < "2018-01-01") continue;
@@ -628,8 +627,8 @@ export async function runDailyAutoCampaigns(options?: {
 
         <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <strong>🏛️ Παλαιές Ι.Κ.Ε. (Χωρίς Site 80€):</strong>
-            <div style="font-size: 12px; color: #64748b;">Ι.Κ.Ε. προηγούμενων ετών χωρίς δήλωση ιστοσελίδας</div>
+            <strong>🏛️ Παλαιές Ι.Κ.Ε. (2018–2024 χωρίς Site 80€):</strong>
+            <div style="font-size: 12px; color: #64748b;">Ι.Κ.Ε. συστάσεων 2018 έως 2024 χωρίς δήλωση ιστοσελίδας</div>
           </div>
           <div style="font-weight: 800; color: #0f172a; font-size: 15px;">
             ${report.legacyIke.sent} / ${report.legacyIke.target}
