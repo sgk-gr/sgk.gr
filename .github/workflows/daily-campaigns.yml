@@ -1,23 +1,23 @@
-name: Daily Auto Campaigns (300 Emails)
+name: Daily Auto Campaigns (400 Emails)
 
 on:
   schedule:
-    # Runs every day at 06:30 UTC (09:30 AM Greek time)
-    - cron: '30 6 * * *'
+    # Runs every day at 06:32 UTC (09:32 AM Greek time - 2 min after Vercel Cron as guaranteed backup)
+    - cron: '32 6 * * *'
   workflow_dispatch: # Allows manual trigger from GitHub anytime
 
 jobs:
   run-daily-campaigns:
-    name: Dispatch 300 Emails & Report to info@sgk.gr
+    name: Dispatch 400 Emails & Report to info@sgk.gr
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      - name: Trigger Daily 300 Campaigns API
+      - name: Trigger Daily 400 Campaigns API
         run: |
-          echo "🚀 Triggering SGK Daily Campaigns (100 New IKE, 100 Legacy IKE, 99 FTTH)..."
-          RESPONSE=$(curl -s -X POST "https://www.sgk.gr/api/admin/cron-daily-campaigns" \
+          echo "🚀 Triggering SGK Daily Campaigns (101 New IKE, 100 Legacy IKE, 100 FTTH, 99 Non-IKE)..."
+          RESPONSE=$(curl -s --max-time 300 -X POST "https://www.sgk.gr/api/admin/cron-daily-campaigns" \
             -H "Content-Type: application/json" \
-            -d '{"force": true, "source": "github_actions"}')
+            -d '{"force": false, "source": "github_actions"}')
           echo "Server Response:"
           echo "$RESPONSE"

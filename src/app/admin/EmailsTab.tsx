@@ -1366,9 +1366,19 @@ function safeEncodeBase64(data: any): string {
 
       if (isExecutingNow && !triggeredAutoRefresh) {
         triggeredAutoRefresh = true;
+        fetch("/api/admin/cron-daily-campaigns", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ force: false, source: "admin_auto_timer" }),
+        })
+          .then(() => fetchLeads())
+          .catch(() => {});
         setTimeout(() => {
           fetchLeads();
         }, 15000);
+        setTimeout(() => {
+          fetchLeads();
+        }, 45000);
       } else if (!isExecutingNow) {
         triggeredAutoRefresh = false;
       }

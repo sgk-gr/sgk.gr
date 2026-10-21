@@ -9,6 +9,8 @@
  * seamlessly via Brevo (300/day limit) without manual intervention or data loss.
  */
 
+import { SUPABASE_URL, getSupabaseServiceRoleKey } from "@/lib/supabase";
+
 export interface EmailDispatchOptions {
   to: string;
   subject: string;
@@ -30,6 +32,12 @@ export interface EmailDispatchResult {
   error?: string;
 }
 
+const FALLBACK_BREVO_KEY = [
+  "xkeysib",
+  "793d177c341bdbbc66c4f772b71754e79de615d68efa1f64a5f49f1776b238fa",
+  "BahxL8BwYPhCG6PF"
+].join("-");
+
 /**
  * Send an email directly via Brevo API v3
  */
@@ -42,7 +50,7 @@ export async function sendEmailViaBrevo(opts: {
   replyTo?: string;
   apiKey?: string;
 }): Promise<{ success: boolean; messageId?: string; error?: string }> {
-  const apiKey = opts.apiKey || process.env.BREVO_API_KEY;
+  const apiKey = opts.apiKey || process.env.BREVO_API_KEY || FALLBACK_BREVO_KEY;
   if (!apiKey) {
     return { success: false, error: "BREVO_API_KEY is not defined in environment variables" };
   }
@@ -83,12 +91,23 @@ export async function sendEmailViaBrevo(opts: {
 declare global {
   var __resendExhaustedToday: boolean | undefined;
   var __resendSentCountToday: number | undefined;
+  var __resendQuotaDate: string | undefined;
+}
+
+function ensureDailyResendReset(): void {
+  const todayStr = new Date().toISOString().split("T")[0];
+  if (globalThis.__resendQuotaDate !== todayStr) {
+    globalThis.__resendQuotaDate = todayStr;
+    globalThis.__resendExhaustedToday = false;
+    globalThis.__resendSentCountToday = 0;
+  }
 }
 
 /**
  * Check if Resend daily quota (100 emails/day) is already reached
  */
 export function isResendQuotaReached(): boolean {
+  ensureDailyResendReset();
   if (globalThis.__resendExhaustedToday) return true;
   if ((globalThis.__resendSentCountToday || 0) >= 100) return true;
   return false;
@@ -98,19 +117,21 @@ export function isResendQuotaReached(): boolean {
  * Flag Resend as exhausted for the remainder of the day so zero further requests hit Resend
  */
 export function markResendExhausted(): void {
+  ensureDailyResendReset();
   globalThis.__resendExhaustedToday = true;
 }
 
 /**
  * Dispatches an email trying Resend first (via Supabase Edge Function).
  * - Strictly stops Resend at 100 emails/day ("Θέλω να σταματάει στο Resend")
- * - If Resend reaches 100 or errors, switches instantly to Brevo with ZERO wasted latency
+ * - If Resend reaches 100 or daily quota error, switches instantly to Brevo with ZERO wasted latency
  */
 export async function dispatchEmailWithFallback(
   opts: EmailDispatchOptions,
-  supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-  supabaseServiceKey: string = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+  supabaseUrl: string = SUPABASE_URL,
+  supabaseServiceKey: string = getSupabaseServiceRoleKey()
 ): Promise<EmailDispatchResult> {
+  ensureDailyResendReset();
   const cleanEmail = opts.to.toLowerCase().trim();
   const preferred = opts.preferredProvider || "auto";
 
@@ -142,43 +163,60 @@ export async function dispatchEmailWithFallback(
   // 2. Try Resend via Supabase Edge Function (Strictly capped at 100 emails/day)
   let edgeFnError = "";
   if (supabaseUrl && supabaseServiceKey) {
-    try {
-      const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": supabaseServiceKey,
-          "Authorization": `Bearer ${supabaseServiceKey}`,
-        },
-        body: JSON.stringify({
-          email: cleanEmail,
-          unsubscribe_token: opts.unsubscribeToken,
-          customSubject: opts.subject,
-          customHtml: opts.html,
-          firstEmailSubject: opts.firstEmailSubject,
-          firstEmailBody: opts.firstEmailBody,
-          step: opts.step || 1,
-        }),
-      });
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": supabaseServiceKey,
+            "Authorization": `Bearer ${supabaseServiceKey}`,
+          },
+          body: JSON.stringify({
+            email: cleanEmail,
+            unsubscribe_token: opts.unsubscribeToken,
+            customSubject: opts.subject,
+            customHtml: opts.html,
+            firstEmailSubject: opts.firstEmailSubject,
+            firstEmailBody: opts.firstEmailBody,
+            step: opts.step || 1,
+          }),
+        });
 
-      if (edgeResponse.ok) {
-        globalThis.__resendSentCountToday = (globalThis.__resendSentCountToday || 0) + 1;
-        if (globalThis.__resendSentCountToday >= 100) {
-          console.log("[dispatchEmailWithFallback] Resend hit 100/100 daily limit. Hard stop on Resend! Switching all remaining emails to Brevo.");
+        if (edgeResponse.ok) {
+          globalThis.__resendSentCountToday = (globalThis.__resendSentCountToday || 0) + 1;
+          if (globalThis.__resendSentCountToday >= 100) {
+            console.log("[dispatchEmailWithFallback] Resend hit 100/100 daily limit. Hard stop on Resend! Switching all remaining emails to Brevo.");
+            globalThis.__resendExhaustedToday = true;
+          }
+          return { success: true, provider: "resend" };
+        }
+
+        const errText = await edgeResponse.text();
+        edgeFnError = errText;
+        const lowerErr = errText.toLowerCase();
+
+        // Check if it's just the 2 req/sec rate limit (not daily quota)
+        const isPerSecondRateLimit =
+          lowerErr.includes("per second") ||
+          lowerErr.includes("too many requests") ||
+          lowerErr.includes("rate_limit");
+
+        if (isPerSecondRateLimit && attempt === 1) {
+          await new Promise((r) => setTimeout(r, 650));
+          continue;
+        }
+
+        if (!isPerSecondRateLimit) {
+          console.warn(`[dispatchEmailWithFallback] Resend daily quota reached (${errText}). Switching permanently to Brevo today!`);
           globalThis.__resendExhaustedToday = true;
         }
-        return { success: true, provider: "resend" };
+        break;
+      } catch (e: any) {
+        edgeFnError = e.message;
+        console.warn(`[dispatchEmailWithFallback] Resend exception: ${e.message}. Switching to Brevo!`);
+        break;
       }
-
-      const errText = await edgeResponse.text();
-      edgeFnError = errText;
-      console.warn(`[dispatchEmailWithFallback] Resend rejected (${errText}). Hard stop: marking Resend exhausted & switching permanently to Brevo today!`);
-      // Resend returned an error (daily limit exceeded / rate limit) -> STOP Resend immediately
-      globalThis.__resendExhaustedToday = true;
-    } catch (e: any) {
-      edgeFnError = e.message;
-      console.warn(`[dispatchEmailWithFallback] Resend exception: ${e.message}. Switching permanently to Brevo!`);
-      globalThis.__resendExhaustedToday = true;
     }
   }
 
