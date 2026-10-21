@@ -3233,7 +3233,7 @@ function safeEncodeBase64(data: any): string {
       )}
 
 
-      {/* 🤖 Daily Automated Campaigns Banner (400 Emails: 101 New IKE, 100 Legacy IKE, 100 FTTH, 99 Non-IKE 100€) */}
+      {/* 🤖 Daily Automated Campaigns Banner (400 Emails: 150 New IKE, 100 Legacy IKE, 150 Non-IKE 100€) */}
       <div className="bg-gradient-to-r from-indigo-50/90 via-blue-50/80 to-emerald-50/90 border-2 border-indigo-200/90 p-5 rounded-2xl shadow-sm text-slate-800 mb-6">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="space-y-1.5">
@@ -3252,21 +3252,18 @@ function safeEncodeBase64(data: any): string {
             </div>
             
             <p className="text-xs text-slate-600 leading-relaxed max-w-3xl font-medium">
-              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>101 Νέες ΙΚΕ</strong> (τρέχοντος μήνα - 80€), <strong>100 Παλαιές ΙΚΕ</strong> (2018–2024 - 80€), <strong>100 FTTH / Καλωδιώσεις</strong> (2018–σήμερα) και <strong>99 Επιχειρήσεις &amp; Ατομικές εκτός ΙΚΕ</strong> (2018–σήμερα: ΑΕ, ΕΕ, ΟΕ, Ατομικές - 100€ με ΦΠΑ). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
+              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>150 Νέες ΙΚΕ</strong> (τρέχοντος μήνα - 80€), <strong>100 Παλαιές ΙΚΕ</strong> (2018–2025 - 80€) και <strong>150 Επιχειρήσεις &amp; Ατομικές εκτός ΙΚΕ</strong> (2018–σήμερα: ΑΕ, ΕΕ, ΟΕ, Ατομικές - 100€ με ΦΠΑ). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 font-bold shadow-xs">
-                🏢 101 Νέες Ι.Κ.Ε. (Τρέχοντος Μήνα)
+                🏢 150 Νέες Ι.Κ.Ε. (Τρέχοντος Μήνα)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 font-bold shadow-xs">
-                🏛️ 100 Παλαιές Ι.Κ.Ε. (2018–2024)
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-800 border border-cyan-200 font-bold shadow-xs">
-                🔌 100 FTTH / Δίκτυα
+                🏛️ 100 Παλαιές Ι.Κ.Ε. (2018–2025)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800 border border-purple-200 font-bold shadow-xs">
-                🚀 99 Επιχειρήσεις &amp; Ατομικές (100€)
+                🚀 150 Επιχειρήσεις &amp; Ατομικές (100€)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold shadow-xs">
                 ✉️ Αναφορά στο info@sgk.gr

@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Trigger Daily 400 Campaigns API
         run: |
-          echo "🚀 Triggering SGK Daily Campaigns (101 New IKE, 100 Legacy IKE, 100 FTTH, 99 Non-IKE)..."
+          echo "🚀 Triggering SGK Daily Campaigns (150 New IKE, 100 Legacy IKE, 150 Non-IKE)..."
           RESPONSE=$(curl -s -L --max-time 300 -X POST "https://www.sgk.gr/api/admin/cron-daily-campaigns" \
             -H "Content-Type: application/json" \
             -d '{"force": false, "source": "github_actions"}')
