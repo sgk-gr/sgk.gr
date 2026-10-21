@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
       newIkeTarget: url.searchParams.get("newIkeTarget") ? Number(url.searchParams.get("newIkeTarget")) : undefined,
       legacyIkeTarget: url.searchParams.get("legacyIkeTarget") ? Number(url.searchParams.get("legacyIkeTarget")) : undefined,
       ftthTarget: url.searchParams.get("ftthTarget") ? Number(url.searchParams.get("ftthTarget")) : undefined,
+      nonIkeTarget: url.searchParams.get("nonIkeTarget") ? Number(url.searchParams.get("nonIkeTarget")) : undefined,
     };
 
     // Prevent duplicate daily runs unless force=true
@@ -48,6 +49,7 @@ export async function GET(req: NextRequest) {
       newIkeTarget: typeof body.newIkeTarget === "number" ? body.newIkeTarget : undefined,
       legacyIkeTarget: typeof body.legacyIkeTarget === "number" ? body.legacyIkeTarget : undefined,
       ftthTarget: typeof body.ftthTarget === "number" ? body.ftthTarget : undefined,
+      nonIkeTarget: typeof body.nonIkeTarget === "number" ? body.nonIkeTarget : undefined,
     });
 
     return NextResponse.json({
@@ -84,6 +86,7 @@ export async function POST(req: NextRequest) {
       newIkeTarget: typeof body.newIkeTarget === "number" ? body.newIkeTarget : undefined,
       legacyIkeTarget: typeof body.legacyIkeTarget === "number" ? body.legacyIkeTarget : undefined,
       ftthTarget: typeof body.ftthTarget === "number" ? body.ftthTarget : undefined,
+      nonIkeTarget: typeof body.nonIkeTarget === "number" ? body.nonIkeTarget : undefined,
     });
 
     return NextResponse.json({

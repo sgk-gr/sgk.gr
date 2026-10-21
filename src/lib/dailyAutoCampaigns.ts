@@ -36,6 +36,7 @@ export interface DailyCronReport {
   newIke: { target: number; sent: number; failed: number; samples: string[] };
   legacyIke: { target: number; sent: number; failed: number; samples: string[] };
   ftth: { target: number; sent: number; failed: number; samples: string[] };
+  nonIke: { target: number; sent: number; failed: number; samples: string[] };
   providers: { resend: number; brevo: number };
   adminNotified: boolean;
   errors: string[];
@@ -178,6 +179,75 @@ export const CAMPAIGN_TEMPLATES = {
 </div>`,
     buttonText: "Δείτε Live Demo (2 λεπτά)",
     buttonLink: "https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta",
+  },
+  non_ike: {
+    subject: "Πλήρης Online Παρουσία, Google Maps & Αναγνώριση από ChatGPT (100€ με ΦΠΑ)",
+    body: `<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
+  Αποκτήστε πλήρη online παρουσία, Google Maps &amp; αναγνώριση από το ChatGPT.
+</h2>
+
+<p style="margin: 0 0 14px 0; color: #334155; font-size: 15px; line-height: 1.55;">
+  Στο σύγχρονο επιχειρείν, οι πελάτες δεν ψάχνουν πια σε παραδοσιακούς οδηγούς: <strong>αναζητούν στο Google Maps και ρωτούν απευθείας το ChatGPT</strong>. Εάν η επιχείρησή σας δεν εμφανίζεται εκεί, οι πελάτες καταλήγουν αναπόφευκτα στους ανταγωνιστές σας.
+</p>
+
+<!-- 3 Punchy Visual Cards (SGK Brand Colors: Blue, Emerald, Purple) -->
+<div style="background-color: #f8fafc; border-left: 4px solid #3b5bdb; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    🌐 1. Σύγχρονη Εταιρική Ιστοσελίδα (Mobile &amp; Ταχύτατη)
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Έτοιμη σε λίγες ημέρες, προσαρμοσμένη στις υπηρεσίες σας. Περιλαμβάνει <strong>κατοχύρωση .gr Domain (π.χ. onomasas.gr)</strong>, Hosting 1 έτους, πιστοποιητικό SSL, <strong>επαγγελματικό λογότυπο</strong>, <strong>εταιρικά emails</strong> (π.χ. info@..., sales@... κ.λπ.) και <strong>φόρμα επικοινωνίας</strong> για να λαμβάνετε άμεσα αιτήματα νέων πελατών στο κινητό σας!
+    <div style="margin-top: 5px; font-size: 12px;">
+      👉 <em>Δείτε πρόσφατο δείγμα πελάτη μας:</em> <a href="https://yolo8.eu/" target="_blank" style="color: #3b5bdb; font-weight: 700; text-decoration: underline;">yolo8.eu</a>
+    </div>
+  </div>
+</div>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #10b981; padding: 12px 14px; margin-bottom: 10px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    📍 2. Google Business Profile &amp; Χάρτες (Google Maps)
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Πλήρης ρύθμιση στον χάρτη της Google με ωράρια λειτουργίας (πότε ανοίγετε &amp; πότε κλείνετε), τηλέφωνο και διεύθυνση, ώστε όταν πελάτες στην περιοχή σας ψάχνουν τις υπηρεσίες σας, να σας βρίσκουν πρώτους και να σας καλούν απευθείας.
+  </div>
+</div>
+
+<div style="background-color: #f8fafc; border-left: 4px solid #8b5cf6; padding: 12px 14px; margin-bottom: 14px; border-radius: 0 8px 8px 0;">
+  <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">
+    🤖 3. Το ChatGPT θα γνωρίζει για εσάς και θα σας προτείνει
+  </div>
+  <div style="font-size: 13px; color: #475569; line-height: 1.45;">
+    Όταν κάποιος ρωτάει στο ChatGPT (π.χ. <em>«θέλω επαγγελματία ή συνεργάτη στην περιοχή μου»</em>), η τεχνητή νοημοσύνη θα γνωρίζει την επιχείρησή σας και θα σας προτείνει αμέσως να σας καλέσουν και να σας προτιμήσουν!
+  </div>
+</div>
+
+<!-- Price Card (100€ με ΦΠΑ) -->
+<div style="background-color: #eff6ff; border: 1.5px solid #bfdbfe; padding: 13px 16px; border-radius: 10px; margin-bottom: 16px; text-align: center;">
+  <div style="font-size: 13px; font-weight: 800; color: #1e40af; margin-bottom: 3px;">
+    Ολοκληρωμένο Πακέτο Online Παρουσίας
+  </div>
+  <div style="font-size: 22px; font-weight: 900; color: #1e3a8a;">
+    100 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική τιμή με ΦΠΑ 24%)</span>
+  </div>
+  <div style="font-size: 12.5px; color: #1e3a8a; font-weight: 700; margin-top: 5px; line-height: 1.4;">
+    🎯 Ξεχωρίζετε από τον ανταγωνισμό &amp; κερδίζετε νέους πελάτες
+  </div>
+  <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
+    ✓ Τιμολόγιο για τα έξοδα της επιχείρησής σας &nbsp;|&nbsp; ✓ Καμία κρυφή χρέωση
+  </div>
+  <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #bfdbfe; font-size: 12px; color: #475569; line-height: 1.45;">
+    🔄 <strong>Ετήσια Ανανέωση:</strong> Από τον 2ο χρόνο, η συνδρομή για φιλοξενία (hosting) και domain παραμένει στα 80€/έτος με ΦΠΑ — <strong>χωρίς καμία δέσμευση</strong>, διακοπή όποτε θέλετε.
+  </div>
+</div>
+
+<!-- Direct Reply / Call Strip -->
+<div style="text-align: center; font-size: 14px; color: #334155; margin-top: 14px; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+  Απαντήστε σε αυτό το email ή καλέστε μας:<br/>
+  <a href="tel:2111140013" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14.5px;">☎️ 211 114 0013</a> &nbsp;|&nbsp; 
+  <a href="tel:6999524389" style="color: #3b5bdb; font-weight: 700; text-decoration: none; font-size: 14.5px;">📱 6999 524 389</a>
+</div>`,
+    buttonText: "Εκδήλωση Ενδιαφέροντος (100€)",
+    buttonLink: "https://www.sgk.gr/estimate",
   }
 };
 
@@ -193,7 +263,7 @@ export const CAMPAIGN_TEMPLATES = {
  * - FTTH targets KAD 43210006 from 2018 to today across all legal forms (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές)
  */
 async function autoFetchGemiLeads(
-  category: "new_ike" | "legacy_ike" | "ftth_telecom",
+  category: "new_ike" | "legacy_ike" | "ftth_telecom" | "non_ike",
   targetCount: number,
   existingEmailSet: Set<string>,
   existingAfmSet: Set<string>,
@@ -223,6 +293,9 @@ async function autoFetchGemiLeads(
   } else if (category === "ftth_telecom") {
     // FTTH: Start from offset 0 or small offset
     offset = 0;
+  } else if (category === "non_ike") {
+    // Non-IKE businesses (2018–today: AE, EE, OE, Sole): Rolling offset with daily shift
+    offset = (now.getDate() * 2000) % 60000;
   } else {
     // New IKEs: Always start at offset 0 (newest incorporations of current month)
     offset = 0;
@@ -242,6 +315,9 @@ async function autoFetchGemiLeads(
     } else if (category === "legacy_ike") {
       // Legacy IKEs: Older incorporations (previous years)
       url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=19&resultsSortBy=-incorporationDate`;
+    } else if (category === "non_ike") {
+      // Non-IKE: AE (1), EPE (2), OE/EE (4), Sole (16)
+      url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=1,2,4,16&resultsSortBy=-incorporationDate`;
     } else {
       // New IKEs: Current month incorporations
       url = `${GEMI_API_BASE}/companies?isActive=true&resultsSize=${pageSize}&resultsOffset=${offset}&legalTypes=19&resultsSortBy=-incorporationDate`;
@@ -310,6 +386,10 @@ async function autoFetchGemiLeads(
         } else if (category === "ftth_telecom") {
           // Rule: From 2018 to today
           if (incDate && incDate < "2018-01-01") continue;
+        } else if (category === "non_ike") {
+          // Rule: All businesses except IKE from 2018 to today
+          if (incDate && incDate < "2018-01-01") continue;
+          if (co.legalType?.id === 19 || (co.legalType?.descr || "").includes("Ι.Κ.Ε.")) continue;
         }
 
         // 2. EXCLUDE IF ALREADY HAS OFFICIAL WEBSITE IN GEMI
@@ -376,7 +456,7 @@ async function autoFetchGemiLeads(
  * (Does NOT rely on pre-existing database leads)
  */
 async function getReadyLeadsForCategory(
-  category: "new_ike" | "legacy_ike" | "ftth_telecom",
+  category: "new_ike" | "legacy_ike" | "ftth_telecom" | "non_ike",
   targetCount: number,
   existingEmailSet: Set<string>,
   existingAfmSet: Set<string>,
@@ -394,7 +474,7 @@ async function getReadyLeadsForCategory(
 }
 
 /**
- * Main Daily Automated Execution: 100 New IKE + 100 Legacy IKE + 99 FTTH = 299 emails + Report to info@sgk.gr
+ * Main Daily Automated Execution: 101 New IKE + 100 Legacy IKE + 100 FTTH + 99 Non-IKE = 400 emails (300 Brevo + 100 Resend) + Report to info@sgk.gr
  */
 export async function runDailyAutoCampaigns(options?: {
   force?: boolean;
@@ -402,6 +482,7 @@ export async function runDailyAutoCampaigns(options?: {
   newIkeTarget?: number;
   legacyIkeTarget?: number;
   ftthTarget?: number;
+  nonIkeTarget?: number;
 }): Promise<DailyCronReport> {
   if (globalThis.__isDailyCronRunning) {
     throw new Error("Η ημερήσια αυτόματη αποστολή εκτελείται ήδη αυτή τη στιγμή.");
@@ -412,19 +493,21 @@ export async function runDailyAutoCampaigns(options?: {
   const supabase = getServiceSupabase();
   const errors: string[] = [];
 
-  const newTarget = typeof options?.newIkeTarget === "number" ? options.newIkeTarget : 100;
+  const newTarget = typeof options?.newIkeTarget === "number" ? options.newIkeTarget : 101;
   const legacyTarget = typeof options?.legacyIkeTarget === "number" ? options.legacyIkeTarget : 100;
-  const ftthTarget = typeof options?.ftthTarget === "number" ? options.ftthTarget : 99;
+  const ftthTarget = typeof options?.ftthTarget === "number" ? options.ftthTarget : 100;
+  const nonIkeTarget = typeof options?.nonIkeTarget === "number" ? options.nonIkeTarget : 99;
 
   const report: DailyCronReport = {
     timestamp: new Date().toISOString(),
     durationMs: 0,
-    totalTarget: newTarget + legacyTarget + ftthTarget,
+    totalTarget: newTarget + legacyTarget + ftthTarget + nonIkeTarget,
     totalSent: 0,
     totalFailed: 0,
     newIke: { target: newTarget, sent: 0, failed: 0, samples: [] },
     legacyIke: { target: legacyTarget, sent: 0, failed: 0, samples: [] },
     ftth: { target: ftthTarget, sent: 0, failed: 0, samples: [] },
+    nonIke: { target: nonIkeTarget, sent: 0, failed: 0, samples: [] },
     providers: { resend: 0, brevo: 0 },
     adminNotified: false,
     errors: [],
@@ -482,16 +565,21 @@ export async function runDailyAutoCampaigns(options?: {
     console.log(`[dailyAutoCampaigns] Gathering fresh leads from GEMI: ${ftthTarget} FTTH (KAD 43210006)...`);
     const ftthLeads = await getReadyLeadsForCategory("ftth_telecom", ftthTarget, existingEmailSet, existingAfmSet, unsubscribedSet);
 
+    await new Promise(r => setTimeout(r, 600));
+    console.log(`[dailyAutoCampaigns] Gathering fresh leads from GEMI: ${nonIkeTarget} Non-IKE Businesses (2018–today: AE, EE, OE, Sole)...`);
+    const nonIkeLeads = await getReadyLeadsForCategory("non_ike", nonIkeTarget, existingEmailSet, existingAfmSet, unsubscribedSet);
+
     report.newIke.target = newIkeLeads.length;
     report.legacyIke.target = legacyIkeLeads.length;
     report.ftth.target = ftthLeads.length;
-    report.totalTarget = newIkeLeads.length + legacyIkeLeads.length + ftthLeads.length;
+    report.nonIke.target = nonIkeLeads.length;
+    report.totalTarget = newIkeLeads.length + legacyIkeLeads.length + ftthLeads.length + nonIkeLeads.length;
 
-    console.log(`[dailyAutoCampaigns] Ready to dispatch: ${newIkeLeads.length} New IKE, ${legacyIkeLeads.length} Legacy IKE, ${ftthLeads.length} FTTH. (Total: ${report.totalTarget})`);
+    console.log(`[dailyAutoCampaigns] Ready to dispatch: ${newIkeLeads.length} New IKE, ${legacyIkeLeads.length} Legacy IKE, ${ftthLeads.length} FTTH, ${nonIkeLeads.length} Non-IKE. (Total: ${report.totalTarget})`);
 
     // Helper to send a batch of leads using concurrent worker chunks (prevents Vercel 60s timeout)
     const dispatchCategoryList = async (
-      categoryKey: "newIke" | "legacyIke" | "ftth",
+      categoryKey: "newIke" | "legacyIke" | "ftth" | "nonIke",
       leads: any[],
       template: { subject: string; body: string; buttonText: string; buttonLink: string }
     ) => {
@@ -590,10 +678,11 @@ export async function runDailyAutoCampaigns(options?: {
       }
     };
 
-    // 2. Dispatch the 3 categories
+    // 2. Dispatch the 4 categories
     await dispatchCategoryList("newIke", newIkeLeads, CAMPAIGN_TEMPLATES.new_ike);
     await dispatchCategoryList("legacyIke", legacyIkeLeads, CAMPAIGN_TEMPLATES.legacy_ike);
     await dispatchCategoryList("ftth", ftthLeads, CAMPAIGN_TEMPLATES.ftth);
+    await dispatchCategoryList("nonIke", nonIkeLeads, CAMPAIGN_TEMPLATES.non_ike);
 
     report.durationMs = Date.now() - startTime;
     report.errors = errors.slice(0, 10);
@@ -643,7 +732,7 @@ export async function runDailyAutoCampaigns(options?: {
         <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
           <div>
             <strong>🏢 Νέες Ι.Κ.Ε. (Συμμόρφωση 80€):</strong>
-            <div style="font-size: 12px; color: #64748b;">Στοχευμένες νέες συστάσεις από ΓΕΜΗ</div>
+            <div style="font-size: 12px; color: #64748b;">Στοχευμένες νέες συστάσεις τρέχοντος μήνα από ΓΕΜΗ</div>
           </div>
           <div style="font-weight: 800; color: #0f172a; font-size: 15px;">
             ${report.newIke.sent} / ${report.newIke.target}
@@ -660,13 +749,23 @@ export async function runDailyAutoCampaigns(options?: {
           </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
           <div>
             <strong>🔌 FTTH / Οπτικές Ίνες &amp; Δίκτυα:</strong>
             <div style="font-size: 12px; color: #64748b;">ΚΑΔ 43210006 (ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές) για Εφαρμογή Αυτοψίας</div>
           </div>
           <div style="font-weight: 800; color: #0f172a; font-size: 15px;">
             ${report.ftth.sent} / ${report.ftth.target}
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong>🚀 Επιχειρήσεις &amp; Ατομικές (εκτός ΙΚΕ - 100€ με ΦΠΑ):</strong>
+            <div style="font-size: 12px; color: #64748b;">ΑΕ, ΕΕ, ΟΕ &amp; Ατομικές 2018–σήμερα για πλήρη Online παρουσία, Google Maps &amp; ChatGPT</div>
+          </div>
+          <div style="font-weight: 800; color: #0f172a; font-size: 15px;">
+            ${report.nonIke.sent} / ${report.nonIke.target}
           </div>
         </div>
       </div>
@@ -676,7 +775,8 @@ export async function runDailyAutoCampaigns(options?: {
         <strong>Δείγμα Παραληπτών:</strong><br/>
         &bull; <em>Νέες ΙΚΕ:</em> ${report.newIke.samples.slice(0, 2).join(", ") || "-"}<br/>
         &bull; <em>Παλαιές ΙΚΕ:</em> ${report.legacyIke.samples.slice(0, 2).join(", ") || "-"}<br/>
-        &bull; <em>FTTH:</em> ${report.ftth.samples.slice(0, 2).join(", ") || "-"}
+        &bull; <em>FTTH:</em> ${report.ftth.samples.slice(0, 2).join(", ") || "-"}<br/>
+        &bull; <em>Επιχειρήσεις (εκτός ΙΚΕ):</em> ${report.nonIke.samples.slice(0, 2).join(", ") || "-"}
       </div>
 
       <p style="font-size: 11.5px; color: #94a3b8; margin: 0; text-align: center;">
@@ -686,7 +786,7 @@ export async function runDailyAutoCampaigns(options?: {
 
       const notificationHtml = buildProfessionalEmailHtml({
         businessName: "SGK Admin",
-        subject: `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (100 Νέες, 100 Παλαιές, 99 FTTH)`,
+        subject: `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (101 Νέες, 100 Παλαιές, 100 FTTH, 99 Επιχειρήσεις)`,
         bodyHtml: reportHtml,
         unsubscribeToken: "admin-notification",
       });
@@ -696,7 +796,7 @@ export async function runDailyAutoCampaigns(options?: {
         fromName: "SGK System Reports",
         fromEmail: "reports@sgk.gr",
         replyTo: "info@sgk.gr",
-        subject: `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (100 Νέες, 100 Παλαιές, 99 FTTH)`,
+        subject: `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (101 Νέες, 100 Παλαιές, 100 FTTH, 99 Επιχειρήσεις)`,
         html: notificationHtml,
         unsubscribeToken: "admin-notification",
         preferredProvider: isResendQuotaReached() ? "brevo" : "auto",

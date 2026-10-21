@@ -298,8 +298,8 @@ const templates = [
     defaultButtonLink: "https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta"
   },
   {
-    name: "🚀 Επιχειρήσεις & Ατομικές: Πλήρης Online Παρουσία 200€ (με ΦΠΑ)",
-    subject: "Πλήρης Online Παρουσία, Google Maps & Αναγνώριση από ChatGPT (200€ με ΦΠΑ)",
+    name: "🚀 Επιχειρήσεις & Ατομικές: Πλήρης Online Παρουσία 100€ (με ΦΠΑ)",
+    subject: "Πλήρης Online Παρουσία, Google Maps & Αναγνώριση από ChatGPT (100€ με ΦΠΑ)",
     body: `<h2 style="color: #0f172a; font-size: 20px; font-weight: 800; line-height: 1.35; margin: 0 0 12px 0;">
   Αποκτήστε πλήρη online παρουσία, Google Maps &amp; αναγνώριση από το ChatGPT.
 </h2>
@@ -335,23 +335,26 @@ const templates = [
     🤖 3. Το ChatGPT θα γνωρίζει για εσάς και θα σας προτείνει
   </div>
   <div style="font-size: 13px; color: #475569; line-height: 1.45;">
-    Όταν κάποιος ρωτάει στο ChatGPT (π.χ. <em>«θέλω υδραυλικό ή επαγγελματία στην περιοχή μου»</em>), η τεχνητή νοημοσύνη θα γνωρίζει την επιχείρησή σας και θα σας προτείνει αμέσως να σας καλέσουν και να σας προτιμήσουν!
+    Όταν κάποιος ρωτάει στο ChatGPT (π.χ. <em>«θέλω επαγγελματία ή συνεργάτη στην περιοχή μου»</em>), η τεχνητή νοημοσύνη θα γνωρίζει την επιχείρησή σας και θα σας προτείνει αμέσως να σας καλέσουν και να σας προτιμήσουν!
   </div>
 </div>
 
-<!-- Price Card -->
+<!-- Price Card (100€ με ΦΠΑ) -->
 <div style="background-color: #eff6ff; border: 1.5px solid #bfdbfe; padding: 13px 16px; border-radius: 10px; margin-bottom: 16px; text-align: center;">
   <div style="font-size: 13px; font-weight: 800; color: #1e40af; margin-bottom: 3px;">
     Ολοκληρωμένο Πακέτο Online Παρουσίας
   </div>
   <div style="font-size: 22px; font-weight: 900; color: #1e3a8a;">
-    200 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική τιμή με ΦΠΑ 24%)</span>
+    100 € <span style="font-size: 13px; font-weight: 600; color: #3b82f6;">(Τελική τιμή με ΦΠΑ 24%)</span>
   </div>
   <div style="font-size: 12.5px; color: #1e3a8a; font-weight: 700; margin-top: 5px; line-height: 1.4;">
     🎯 Ξεχωρίζετε από τον ανταγωνισμό &amp; κερδίζετε νέους πελάτες
   </div>
   <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
     ✓ Τιμολόγιο για τα έξοδα της επιχείρησής σας &nbsp;|&nbsp; ✓ Καμία κρυφή χρέωση
+  </div>
+  <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #bfdbfe; font-size: 12px; color: #475569; line-height: 1.45;">
+    🔄 <strong>Ετήσια Ανανέωση:</strong> Από τον 2ο χρόνο, η συνδρομή για φιλοξενία (hosting) και domain παραμένει στα 80€/έτος με ΦΠΑ — <strong>χωρίς καμία δέσμευση</strong>, διακοπή όποτε θέλετε.
   </div>
 </div>
 
@@ -2342,12 +2345,12 @@ function safeEncodeBase64(data: any): string {
   const handleScanGemiNonIke = () => runGemiScan("non_ike");
 
   const handleTriggerDailyCampaignNow = async () => {
-    if (!window.confirm("Θέλετε να ξεκινήσει άμεσα η Ημερήσια Αποστολή 300 Emails (100 Νέες ΙΚΕ, 100 Παλαιές ΙΚΕ, 99 FTTH);\n\nΜόλις ολοκληρωθεί, θα σας σταλεί αναλυτική αναφορά στο info@sgk.gr.")) {
+    if (!window.confirm("Θέλετε να ξεκινήσει άμεσα η Ημερήσια Αποστολή 400 Emails (101 Νέες ΙΚΕ, 100 Παλαιές ΙΚΕ, 100 FTTH, 99 Επιχειρήσεις εκτός ΙΚΕ 100€);\n\nΜόλις ολοκληρωθεί, θα σας σταλεί αναλυτική αναφορά στο info@sgk.gr.")) {
       return;
     }
 
     setIsRunningDailyCampaign(true);
-    toast.info("🚀 Έναρξη Ημερήσιας Αποστολής 300 Emails (100 Νέες, 100 Παλαιές, 99 FTTH)...", { duration: 6000 });
+    toast.info("🚀 Έναρξη Ημερήσιας Αποστολής 400 Emails (101 Νέες, 100 Παλαιές, 100 FTTH, 99 Επιχειρήσεις)...", { duration: 6000 });
 
     try {
       const res = await fetch("/api/admin/cron-daily-campaigns", {
@@ -2490,6 +2493,7 @@ function safeEncodeBase64(data: any): string {
         if (sentCategoryFilter === "ftth_telecom" && l.type !== "ftth_telecom") return false;
         if (sentCategoryFilter === "new_ike" && l.type !== "new_ike") return false;
         if (sentCategoryFilter === "legacy_ike" && l.type !== "legacy_ike") return false;
+        if (sentCategoryFilter === "non_ike" && l.type !== "non_ike" && l.type !== "new_business_presence") return false;
       }
       if (!sentSearchTerm.trim()) return true;
       const q = sentSearchTerm.toLowerCase().trim();
@@ -2614,6 +2618,11 @@ function safeEncodeBase64(data: any): string {
         body = body || CAMPAIGN_TEMPLATES.ftth.body;
         buttonText = CAMPAIGN_TEMPLATES.ftth.buttonText;
         buttonLink = CAMPAIGN_TEMPLATES.ftth.buttonLink;
+      } else if (lead.type === "non_ike" || lead.type === "new_business_presence") {
+        subject = subject || CAMPAIGN_TEMPLATES.non_ike.subject;
+        body = body || CAMPAIGN_TEMPLATES.non_ike.body;
+        buttonText = CAMPAIGN_TEMPLATES.non_ike.buttonText;
+        buttonLink = CAMPAIGN_TEMPLATES.non_ike.buttonLink;
       } else if (lead.type === "legacy_ike") {
         subject = subject || CAMPAIGN_TEMPLATES.legacy_ike.subject;
         body = body || CAMPAIGN_TEMPLATES.legacy_ike.body;
@@ -3214,14 +3223,14 @@ function safeEncodeBase64(data: any): string {
       )}
 
 
-      {/* 🤖 Daily Automated Campaigns Banner (300 Emails: 100 New IKE, 100 Legacy IKE, 99 FTTH) */}
+      {/* 🤖 Daily Automated Campaigns Banner (400 Emails: 101 New IKE, 100 Legacy IKE, 100 FTTH, 99 Non-IKE 100€) */}
       <div className="bg-gradient-to-r from-indigo-50/90 via-blue-50/80 to-emerald-50/90 border-2 border-indigo-200/90 p-5 rounded-2xl shadow-sm text-slate-800 mb-6">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <h3 className="text-sm sm:text-base font-black tracking-tight text-slate-900 flex items-center gap-2">
-                🤖 Αυτόματη Ημερήσια Αποστολή — 300 Emails / Ημέρα
+                🤖 Αυτόματη Ημερήσια Αποστολή — 400 Emails / Ημέρα
               </h3>
               <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 border border-indigo-300">
                 Live Cron (09:30)
@@ -3233,18 +3242,21 @@ function safeEncodeBase64(data: any): string {
             </div>
             
             <p className="text-xs text-slate-600 leading-relaxed max-w-3xl font-medium">
-              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>100 Νέες ΙΚΕ</strong> (τρέχοντος μήνα - 80€), <strong>100 Παλαιές ΙΚΕ</strong> (2018–2024 - 80€) και <strong>99 FTTH / Καλωδιώσεις</strong> (2018–σήμερα: ΑΕ, ΕΕ, ΟΕ, ΙΚΕ, Ατομικές). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
+              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>101 Νέες ΙΚΕ</strong> (τρέχοντος μήνα - 80€), <strong>100 Παλαιές ΙΚΕ</strong> (2018–2024 - 80€), <strong>100 FTTH / Καλωδιώσεις</strong> (2018–σήμερα) και <strong>99 Επιχειρήσεις &amp; Ατομικές εκτός ΙΚΕ</strong> (2018–σήμερα: ΑΕ, ΕΕ, ΟΕ, Ατομικές - 100€ με ΦΠΑ). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 font-bold shadow-xs">
-                🏢 100 Νέες Ι.Κ.Ε. (Τρέχοντος Μήνα)
+                🏢 101 Νέες Ι.Κ.Ε. (Τρέχοντος Μήνα)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 font-bold shadow-xs">
                 🏛️ 100 Παλαιές Ι.Κ.Ε. (2018–2024)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-800 border border-cyan-200 font-bold shadow-xs">
-                🔌 99 FTTH / Δίκτυα
+                🔌 100 FTTH / Δίκτυα
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800 border border-purple-200 font-bold shadow-xs">
+                🚀 99 Επιχειρήσεις &amp; Ατομικές (100€)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold shadow-xs">
                 ✉️ Αναφορά στο info@sgk.gr
@@ -3293,17 +3305,17 @@ function safeEncodeBase64(data: any): string {
               onClick={handleTriggerDailyCampaignNow}
               disabled={isRunningDailyCampaign}
               className="w-full sm:w-auto px-5 py-3 rounded-2xl font-black text-xs bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              title="Άμεση εκτέλεση της ημερήσιας αποστολής 300 emails τώρα και αποστολή αναφοράς στο info@sgk.gr"
+              title="Άμεση εκτέλεση της ημερήσιας αποστολής 400 emails τώρα και αποστολή αναφοράς στο info@sgk.gr"
             >
               {isRunningDailyCampaign ? (
                 <>
                   <Loader2 size={15} className="animate-spin text-white" />
-                  <span>Εκτελείται αποστολή 300 emails...</span>
+                  <span>Εκτελείται αποστολή 400 emails...</span>
                 </>
               ) : (
                 <>
                   <Sparkles size={15} className="text-yellow-300" />
-                  <span>⚡ Άμεση Εκτέλεση Τώρα (300 Emails)</span>
+                  <span>⚡ Άμεση Εκτέλεση Τώρα (400 Emails)</span>
                 </>
               )}
             </button>
@@ -3323,7 +3335,7 @@ function safeEncodeBase64(data: any): string {
               </span>
             </h2>
             <p className="text-xs text-slate-500 font-medium">
-              Αυτόματη ημερήσια αποστολή 300 emails &bull; Χειροκίνητη διαχείριση &amp; εισαγωγή νέων παραληπτών
+              Αυτόματη ημερήσια αποστολή 400 emails (300 Brevo + 100 Resend) &bull; Χειροκίνητη διαχείριση &amp; εισαγωγή νέων παραληπτών
             </p>
           </div>
 
@@ -3469,6 +3481,7 @@ function safeEncodeBase64(data: any): string {
                   <option value="ftth_telecom">🔌 FTTH / Οπτικές Ίνες</option>
                   <option value="new_ike">🏢 Νέες ΙΚΕ (80€)</option>
                   <option value="legacy_ike">🏛️ Παλαιές ΙΚΕ (2018–2024)</option>
+                  <option value="non_ike">🚀 Επιχειρήσεις &amp; Ατομικές (100€)</option>
                 </select>
               </div>
             </div>
@@ -3500,6 +3513,7 @@ function safeEncodeBase64(data: any): string {
                         const subject = lead.first_email_subject || (
                           lead.type === "ftth_telecom" ? CAMPAIGN_TEMPLATES.ftth.subject :
                           lead.type === "legacy_ike" ? CAMPAIGN_TEMPLATES.legacy_ike.subject :
+                          (lead.type === "non_ike" || lead.type === "new_business_presence") ? CAMPAIGN_TEMPLATES.non_ike.subject :
                           CAMPAIGN_TEMPLATES.new_ike.subject
                         );
                         return (
@@ -3542,6 +3556,10 @@ function safeEncodeBase64(data: any): string {
                               ) : lead.type === "legacy_ike" ? (
                                 <span className="px-2.5 py-1 rounded-lg text-[10.5px] font-black bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
                                   🏛️ Παλαιά ΙΚΕ
+                                </span>
+                              ) : (lead.type === "non_ike" || lead.type === "new_business_presence") ? (
+                                <span className="px-2.5 py-1 rounded-lg text-[10.5px] font-black bg-purple-50 text-purple-800 border border-purple-200 shadow-xs">
+                                  🚀 Επιχειρήσεις (100€)
                                 </span>
                               ) : (
                                 <span className="px-2.5 py-1 rounded-lg text-[10.5px] font-black bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
@@ -4919,7 +4937,7 @@ function safeEncodeBase64(data: any): string {
                     <span>🏢</span> Νέες Ι.Κ.Ε. (Συμμόρφωση 80€)
                   </span>
                   <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
-                    {dailyCampaignReport.newIke?.sent || 0} / {dailyCampaignReport.newIke?.target || 100}
+                    {dailyCampaignReport.newIke?.sent || 0} / {dailyCampaignReport.newIke?.target || 101}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
@@ -4932,10 +4950,18 @@ function safeEncodeBase64(data: any): string {
                 </div>
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-bold flex items-center gap-1.5">
-                    <span>🔌</span> FTTH / Οπτικές Ίνες & Δίκτυα (Αυτοψίες)
+                    <span>🔌</span> FTTH / Οπτικές Ίνες &amp; Δίκτυα (Αυτοψίες)
                   </span>
                   <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
-                    {dailyCampaignReport.ftth?.sent || 0} / {dailyCampaignReport.ftth?.target || 99}
+                    {dailyCampaignReport.ftth?.sent || 0} / {dailyCampaignReport.ftth?.target || 100}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold flex items-center gap-1.5">
+                    <span>🚀</span> Επιχειρήσεις &amp; Ατομικές (εκτός ΙΚΕ - 100€)
+                  </span>
+                  <span className="font-mono font-bold text-purple-700 bg-purple-100/70 px-2 py-0.5 rounded-md">
+                    {dailyCampaignReport.nonIke?.sent || 0} / {dailyCampaignReport.nonIke?.target || 99}
                   </span>
                 </div>
               </div>
