@@ -196,18 +196,28 @@ export async function dispatchEmailWithFallback(
         edgeFnError = errText;
         const lowerErr = errText.toLowerCase();
 
-        // Check if it's just the 2 req/sec rate limit (not daily quota)
-        const isPerSecondRateLimit =
+        // Check if it's a transient network/HTTP2 error or 2 req/sec rate limit (NOT daily quota)
+        const isTransientOrRateLimit =
           lowerErr.includes("per second") ||
           lowerErr.includes("too many requests") ||
-          lowerErr.includes("rate_limit");
+          lowerErr.includes("rate_limit") ||
+          lowerErr.includes("http2") ||
+          lowerErr.includes("connection") ||
+          lowerErr.includes("timeout") ||
+          lowerErr.includes("sendrequest");
 
-        if (isPerSecondRateLimit && attempt === 1) {
+        if (isTransientOrRateLimit && attempt === 1) {
           await new Promise((r) => setTimeout(r, 650));
           continue;
         }
 
-        if (!isPerSecondRateLimit) {
+        const isDailyQuotaError =
+          lowerErr.includes("daily") ||
+          lowerErr.includes("quota") ||
+          lowerErr.includes("monthly") ||
+          lowerErr.includes("you have reached");
+
+        if (isDailyQuotaError) {
           console.warn(`[dispatchEmailWithFallback] Resend daily quota reached (${errText}). Switching permanently to Brevo today!`);
           globalThis.__resendExhaustedToday = true;
         }
