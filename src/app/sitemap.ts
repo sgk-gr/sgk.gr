@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/`, priority: 1.0, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/ai-agents`, priority: 0.99, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/order-ai-agent`, priority: 0.99, changeFrequency: 'weekly' as const },
-    { url: `${baseUrl}/ike-offer`, priority: 0.95, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/kataskevi-istoselidas-ike`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/kataskevi-istoselidon`, priority: 0.90, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/web-development`, priority: 0.90, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/portfolio`, priority: 0.85, changeFrequency: 'weekly' as const },

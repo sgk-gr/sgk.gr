@@ -26,8 +26,13 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/kataskevi-istoselidas-ike',
-        destination: '/ike-offer',
+        source: '/ike-offer',
+        destination: '/kataskevi-istoselidas-ike',
+        permanent: true,
+      },
+      {
+        source: '/kataskevi-selidas-ike',
+        destination: '/kataskevi-istoselidas-ike',
         permanent: true,
       },
       {

@@ -8,7 +8,17 @@ import { usePathname } from "next/navigation";
 import JoJoChatModal from "./JoJoChatModal";
 
 const navItems = [
-  { label: "Υπηρεσίες", href: "/services", color: "bg-[#4ade80]" },
+  { 
+    label: "Υπηρεσίες", 
+    href: "/services", 
+    color: "bg-[#4ade80]",
+    submenu: [
+      { label: "⭐ Κατασκευή Ιστοσελίδας ΙΚΕ (80€ ΓΕΜΗ)", href: "/kataskevi-istoselidas-ike" },
+      { label: "Κατασκευή Ιστοσελίδων", href: "/kataskevi-istoselidon" },
+      { label: "Web Development & Custom Εφαρμογές", href: "/web-development" },
+      { label: "Όλες οι Υπηρεσίες", href: "/services" }
+    ]
+  },
   { 
     label: "AI Agents", 
     href: "/ai-agents", 
