@@ -474,7 +474,8 @@ async function getReadyLeadsForCategory(
 }
 
 /**
- * Main Daily Automated Execution: 101 New IKE + 100 Legacy IKE + 100 FTTH + 99 Non-IKE = 400 emails (300 Brevo + 100 Resend) + Report to info@sgk.gr
+ * Main Daily Automated Execution: 150 New IKE + 100 Legacy IKE + 150 Non-IKE = 400 emails (300 Brevo + 100 Resend) + Report to info@sgk.gr
+ * FTTH campaign is disabled per user request and budget redistributed to higher conversion business campaigns.
  */
 export async function runDailyAutoCampaigns(options?: {
   force?: boolean;
@@ -493,10 +494,10 @@ export async function runDailyAutoCampaigns(options?: {
   const supabase = getServiceSupabase();
   const errors: string[] = [];
 
-  const newTarget = typeof options?.newIkeTarget === "number" ? options.newIkeTarget : 101;
+  const newTarget = typeof options?.newIkeTarget === "number" ? options.newIkeTarget : 150;
   const legacyTarget = typeof options?.legacyIkeTarget === "number" ? options.legacyIkeTarget : 100;
-  const ftthTarget = typeof options?.ftthTarget === "number" ? options.ftthTarget : 100;
-  const nonIkeTarget = typeof options?.nonIkeTarget === "number" ? options.nonIkeTarget : 99;
+  const ftthTarget = typeof options?.ftthTarget === "number" ? options.ftthTarget : 0;
+  const nonIkeTarget = typeof options?.nonIkeTarget === "number" ? options.nonIkeTarget : 150;
 
   const report: DailyCronReport = {
     timestamp: new Date().toISOString(),
@@ -780,6 +781,7 @@ export async function runDailyAutoCampaigns(options?: {
           </div>
         </div>
 
+        ${report.ftth.target > 0 ? `
         <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
           <div>
             <strong>🔌 FTTH / Οπτικές Ίνες &amp; Δίκτυα:</strong>
@@ -788,7 +790,7 @@ export async function runDailyAutoCampaigns(options?: {
           <div style="font-weight: 800; color: #0f172a; font-size: 15px;">
             ${report.ftth.sent} / ${report.ftth.target}
           </div>
-        </div>
+        </div>` : ""}
 
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
@@ -806,7 +808,7 @@ export async function runDailyAutoCampaigns(options?: {
         <strong>Δείγμα Παραληπτών:</strong><br/>
         &bull; <em>Νέες ΙΚΕ:</em> ${report.newIke.samples.slice(0, 2).join(", ") || "-"}<br/>
         &bull; <em>Παλαιές ΙΚΕ:</em> ${report.legacyIke.samples.slice(0, 2).join(", ") || "-"}<br/>
-        &bull; <em>FTTH:</em> ${report.ftth.samples.slice(0, 2).join(", ") || "-"}<br/>
+        ${report.ftth.target > 0 ? `&bull; <em>FTTH:</em> ${report.ftth.samples.slice(0, 2).join(", ") || "-"}<br/>` : ""}
         &bull; <em>Επιχειρήσεις (εκτός ΙΚΕ):</em> ${report.nonIke.samples.slice(0, 2).join(", ") || "-"}
       </div>
 
@@ -815,9 +817,11 @@ export async function runDailyAutoCampaigns(options?: {
       </p>
       `;
 
+      const reportSubject = `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (${report.newIke.target} Νέες, ${report.legacyIke.target} Παλαιές, ${report.nonIke.target} Επιχειρήσεις)`;
+
       const notificationHtml = buildProfessionalEmailHtml({
         businessName: "SGK Admin",
-        subject: `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (101 Νέες, 100 Παλαιές, 100 FTTH, 99 Επιχειρήσεις)`,
+        subject: reportSubject,
         bodyHtml: reportHtml,
         unsubscribeToken: "admin-notification",
       });
@@ -827,7 +831,7 @@ export async function runDailyAutoCampaigns(options?: {
         fromName: "SGK System Reports",
         fromEmail: "reports@sgk.gr",
         replyTo: "info@sgk.gr",
-        subject: `📊 Ημερήσια Αναφορά SGK: ${report.totalSent}/${report.totalTarget} Emails (101 Νέες, 100 Παλαιές, 100 FTTH, 99 Επιχειρήσεις)`,
+        subject: reportSubject,
         html: notificationHtml,
         unsubscribeToken: "admin-notification",
         preferredProvider: isResendQuotaReached() ? "brevo" : "auto",

@@ -1642,11 +1642,6 @@ const compressImage = (file: File | Blob, watermark?: string): Promise<Blob | Fi
 
 export default function AutopsiaPage() {
     const [showEngineerSigSetup, setShowEngineerSigSetup] = useState(false);
-    useEffect(() => {
-        if (!localStorage.getItem("autopsia_engineer_signature")) {
-            setShowEngineerSigSetup(true);
-        }
-    }, []);
 
     const searchParams = useSearchParams();
     const customerUrlParam = searchParams ? searchParams.get("customer") : null;
@@ -2991,12 +2986,9 @@ export default function AutopsiaPage() {
             <header className={cn("sticky top-0 z-30 -mx-3 sm:-mx-6 px-3 sm:px-6 py-3 mb-4 bg-white/80 backdrop-blur-xl border-b border-slate-200/70", customerUrlParam && "hidden")}>
                 <div className="max-w-[1600px] mx-auto flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                        <div className="h-11 w-11 shrink-0 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-600/25">
-                            <Zap className="h-5 w-5 text-white" />
-                        </div>
+                        <img src="/logo-icon.webp" alt="Fiber Flow" className="h-11 w-11 shrink-0 rounded-2xl object-cover shadow-md shadow-blue-600/20 border border-slate-200/60" />
                         <div className="min-w-0">
-                            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight leading-tight truncate">Αυτοψίες FTTH</h1>
-                            <p className="text-xs text-slate-500 font-medium truncate">Σύστημα 7 Εντύπων ΟΤΕ • {customers?.length || 0} κτήρια</p>
+                            <h1 className="text-xl sm:text-2xl font-normal text-slate-900 tracking-tight leading-tight truncate font-sans" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>Fiber Flow</h1>
                         </div>
                     </div>
 
@@ -3009,13 +3001,28 @@ export default function AutopsiaPage() {
                             <span>Νέα Αυτοψία</span>
                         </Button>
 
-                        <Button onClick={() => setShowEngineerSigSetup(true)} variant="outline" className="h-10 px-3 rounded-2xl flex items-center gap-2 border-slate-200 bg-white text-slate-700 hover:bg-slate-50 cursor-pointer" title="Υπογραφή Τεχνικού">
-                            <PenLine className="h-4 w-4 text-blue-600" />
-                            <span className="hidden md:inline text-sm font-semibold">Υπογραφή Τεχνικού</span>
-                        </Button>
-                        <Button onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); window.location.reload(); }} variant="outline" className="h-10 w-10 p-0 rounded-2xl flex items-center justify-center border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 cursor-pointer" title="Διαγραφή Υπογραφής Τεχνικού">
-                            <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="h-10 px-3 rounded-2xl flex items-center gap-2 border-slate-200 bg-white text-slate-700 hover:bg-slate-50 shadow-xs cursor-pointer" title="Ρυθμίσεις">
+                                    <Settings className="h-4 w-4 text-slate-700" />
+                                    <span className="hidden sm:inline text-sm font-semibold">Ρυθμίσεις</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-60 p-1.5 rounded-2xl shadow-xl bg-white border-slate-200">
+                                <DropdownMenuLabel className="text-xs font-bold text-slate-500 uppercase tracking-wider px-2 py-1">
+                                    Ρυθμίσεις
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => setShowEngineerSigSetup(true)} className="cursor-pointer flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-800 hover:bg-blue-50 hover:text-blue-600 font-semibold text-sm">
+                                    <PenLine className="h-4 w-4 text-blue-600" />
+                                    <span>Υπογραφή Μηχανικού</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); toast.success("Η υπογραφή διαγράφηκε"); }} className="cursor-pointer flex items-center gap-2.5 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 font-semibold text-sm">
+                                    <Trash2 className="h-4 w-4 text-rose-600" />
+                                    <span>Διαγραφή Υπογραφής</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
 
                         {user && (
                             <DropdownMenu>
@@ -3037,7 +3044,7 @@ export default function AutopsiaPage() {
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem onClick={() => setStatusFilter("pending")} className="cursor-pointer flex items-center gap-2">
-                                            <Zap className="h-4 w-4 text-amber-500" /> Εκκρεμείς Αυτοψίες
+                                            <Zap className="h-4 w-4 text-[#FA4516]" /> Εκκρεμείς Αυτοψίες
                                         </DropdownMenuItem>
                                         <DropdownMenuItem onClick={() => setStatusFilter("ready")} className="cursor-pointer flex items-center gap-2">
                                             <CheckCircle2 className="h-4 w-4 text-emerald-500" /> Έτοιμες για Αποστολή
@@ -3071,7 +3078,7 @@ export default function AutopsiaPage() {
             <section className={cn("max-w-[1600px] mx-auto mb-5 space-y-3", customerUrlParam && "hidden")}>
                 <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     {([
-                        { key: "pending", label: "Εκκρεμείς", sub: "σε εκκρεμότητα", count: pendingCount, Icon: Zap, activeCls: "bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-orange-500/25", iconCls: "bg-amber-100 text-amber-600" },
+                        { key: "pending", label: "Εκκρεμείς", sub: "σε εκκρεμότητα", count: pendingCount, Icon: Zap, activeCls: "bg-[#FA4516] text-white shadow-lg shadow-[#FA4516]/30", iconCls: "bg-[#FA4516]/10 text-[#FA4516]" },
                         { key: "ready", label: "Έτοιμες", sub: "για αποστολή", count: readyCount, Icon: CheckCircle2, activeCls: "bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25", iconCls: "bg-emerald-100 text-emerald-600" },
                     ] as const).map(({ key, label, sub, count, Icon, activeCls, iconCls }) => {
                         const active = statusFilter === key;

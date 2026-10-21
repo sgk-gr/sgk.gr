@@ -2355,12 +2355,12 @@ function safeEncodeBase64(data: any): string {
   const handleScanGemiNonIke = () => runGemiScan("non_ike");
 
   const handleTriggerDailyCampaignNow = async () => {
-    if (!window.confirm("Θέλετε να ξεκινήσει άμεσα η Ημερήσια Αποστολή 400 Emails (101 Νέες ΙΚΕ, 100 Παλαιές ΙΚΕ, 100 FTTH, 99 Επιχειρήσεις εκτός ΙΚΕ 100€);\n\nΜόλις ολοκληρωθεί, θα σας σταλεί αναλυτική αναφορά στο info@sgk.gr.")) {
+    if (!window.confirm("Θέλετε να ξεκινήσει άμεσα η Ημερήσια Αποστολή 400 Emails (150 Νέες ΙΚΕ, 100 Παλαιές ΙΚΕ, 150 Επιχειρήσεις εκτός ΙΚΕ 100€);\n\nΜόλις ολοκληρωθεί, θα σας σταλεί αναλυτική αναφορά στο info@sgk.gr.")) {
       return;
     }
 
     setIsRunningDailyCampaign(true);
-    toast.info("🚀 Έναρξη Ημερήσιας Αποστολής 400 Emails (101 Νέες, 100 Παλαιές, 100 FTTH, 99 Επιχειρήσεις)...", { duration: 6000 });
+    toast.info("🚀 Έναρξη Ημερήσιας Αποστολής 400 Emails (150 Νέες, 100 Παλαιές, 150 Επιχειρήσεις)...", { duration: 6000 });
 
     try {
       const res = await fetch("/api/admin/cron-daily-campaigns", {
@@ -4947,7 +4947,7 @@ function safeEncodeBase64(data: any): string {
                     <span>🏢</span> Νέες Ι.Κ.Ε. (Συμμόρφωση 80€)
                   </span>
                   <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
-                    {dailyCampaignReport.newIke?.sent || 0} / {dailyCampaignReport.newIke?.target || 101}
+                    {dailyCampaignReport.newIke?.sent || 0} / {dailyCampaignReport.newIke?.target || 150}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
@@ -4958,20 +4958,22 @@ function safeEncodeBase64(data: any): string {
                     {dailyCampaignReport.legacyIke?.sent || 0} / {dailyCampaignReport.legacyIke?.target || 100}
                   </span>
                 </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="font-bold flex items-center gap-1.5">
-                    <span>🔌</span> FTTH / Οπτικές Ίνες &amp; Δίκτυα (Αυτοψίες)
-                  </span>
-                  <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
-                    {dailyCampaignReport.ftth?.sent || 0} / {dailyCampaignReport.ftth?.target || 100}
-                  </span>
-                </div>
+                {(dailyCampaignReport.ftth?.target || 0) > 0 && (
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold flex items-center gap-1.5">
+                      <span>🔌</span> FTTH / Οπτικές Ίνες &amp; Δίκτυα (Αυτοψίες)
+                    </span>
+                    <span className="font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md">
+                      {dailyCampaignReport.ftth?.sent || 0} / {dailyCampaignReport.ftth?.target}
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-bold flex items-center gap-1.5">
                     <span>🚀</span> Επιχειρήσεις &amp; Ατομικές (εκτός ΙΚΕ - 100€)
                   </span>
                   <span className="font-mono font-bold text-purple-700 bg-purple-100/70 px-2 py-0.5 rounded-md">
-                    {dailyCampaignReport.nonIke?.sent || 0} / {dailyCampaignReport.nonIke?.target || 99}
+                    {dailyCampaignReport.nonIke?.sent || 0} / {dailyCampaignReport.nonIke?.target || 150}
                   </span>
                 </div>
               </div>

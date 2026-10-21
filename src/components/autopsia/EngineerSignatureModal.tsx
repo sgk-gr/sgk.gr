@@ -10,11 +10,13 @@ interface EngineerSignatureModalProps {
 }
 
 export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignatureModalProps) {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [hasDrawn, setHasDrawn] = useState(false);
     const [hasExistingSaved, setHasExistingSaved] = useState(false);
 
-    const loadSignatureToCanvas = useCallback((canvas: HTMLCanvasElement) => {
+    const initCanvas = useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
@@ -24,6 +26,7 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
         ctx.strokeStyle = "#0000FF";
         ctx.lineWidth = 3;
         ctx.lineCap = "round";
+        ctx.lineJoin = "round";
 
         const saved = typeof window !== "undefined" ? localStorage.getItem("autopsia_engineer_signature") : null;
         if (saved) {
@@ -40,41 +43,73 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
         }
     }, []);
 
-    const setupCanvas = (canvas: HTMLCanvasElement | null) => {
-        canvasRef.current = canvas;
-        if (canvas) {
-            loadSignatureToCanvas(canvas);
-        }
+    useEffect(() => {
+        if (!open) return;
+        const timer = setTimeout(() => {
+            initCanvas();
+        }, 60);
+        return () => clearTimeout(timer);
+    }, [open, initCanvas]);
+
+    const getCanvasCoordinates = (clientX: number, clientY: number) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return { x: 0, y: 0 };
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / (rect.width || 1);
+        const scaleY = canvas.height / (rect.height || 1);
+        return {
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY,
+        };
     };
 
-    useEffect(() => {
-        if (open && canvasRef.current) {
-            loadSignatureToCanvas(canvasRef.current);
-        }
-    }, [open, loadSignatureToCanvas]);
-
     const handleClear = () => {
-        if (!canvasRef.current) return;
         const canvas = canvasRef.current;
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
         if (ctx) {
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "#0000FF";
+            ctx.lineWidth = 3;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
         }
         setHasDrawn(false);
     };
 
     const handleSave = () => {
-        if (!hasDrawn) {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // Check if canvas has non-white drawing
+        let hasContent = hasDrawn;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+            try {
+                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imgData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    if (data[i] < 240 || data[i + 1] < 240 || data[i + 2] < 240) {
+                        hasContent = true;
+                        break;
+                    }
+                }
+            } catch {
+                hasContent = true;
+            }
+        }
+
+        if (!hasContent) {
             toast.error("Παρακαλώ υπογράψτε πριν αποθηκεύσετε.");
             return;
         }
-        if (!canvasRef.current) return;
         
-        const dataUrl = canvasRef.current.toDataURL("image/jpeg", 0.95);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
         localStorage.setItem("autopsia_engineer_signature", dataUrl);
         setHasExistingSaved(true);
-        toast.success("Η υπογραφή τεχνικού/μηχανικού αποθηκεύτηκε επιτυχώς!");
+        setHasDrawn(true);
+        toast.success("Η υπογραφή Μηχανικού αποθηκεύτηκε επιτυχώς!");
         onOpenChange(false);
     };
 
@@ -94,64 +129,77 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
                 {hasExistingSaved && (
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
                         <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                        <span>Υπάρχει αποθηκευμένη υπογραφή (προβάλλεται στο πλαίσιο παρακάτω)</span>
+                        <span>Υπάρχει αποθηκευμένη υπογραφή (μπορείτε να υπογράψετε ξανά)</span>
                     </div>
                 )}
 
                 <div className="py-2">
                     <div className="border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50 overflow-hidden touch-none relative shadow-inner">
                         <canvas
-                            ref={setupCanvas}
+                            ref={canvasRef}
                             width={450}
                             height={250}
-                            className="w-full cursor-crosshair bg-white"
+                            className="w-full cursor-crosshair bg-white block"
                             onMouseDown={(e) => {
-                                const canvas = e.currentTarget;
+                                const canvas = canvasRef.current;
+                                if (!canvas) return;
                                 const ctx = canvas.getContext('2d');
                                 if (!ctx) return;
+                                const { x, y } = getCanvasCoordinates(e.clientX, e.clientY);
                                 ctx.beginPath();
-                                ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+                                ctx.moveTo(x, y);
                                 (canvas as any).isDrawing = true;
                                 setHasDrawn(true);
                             }}
                             onMouseMove={(e) => {
-                                const canvas = e.currentTarget;
-                                if (!(canvas as any).isDrawing) return;
+                                const canvas = canvasRef.current;
+                                if (!canvas || !(canvas as any).isDrawing) return;
                                 const ctx = canvas.getContext('2d');
                                 if (!ctx) return;
-                                ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+                                const { x, y } = getCanvasCoordinates(e.clientX, e.clientY);
+                                ctx.lineTo(x, y);
                                 ctx.stroke();
+                                setHasDrawn(true);
                             }}
-                            onMouseUp={(e) => (e.currentTarget as any).isDrawing = false}
+                            onMouseUp={() => {
+                                if (canvasRef.current) (canvasRef.current as any).isDrawing = false;
+                            }}
+                            onMouseLeave={() => {
+                                if (canvasRef.current) (canvasRef.current as any).isDrawing = false;
+                            }}
                             onTouchStart={(e) => {
-                                const canvas = e.currentTarget;
-                                const rect = canvas.getBoundingClientRect();
-                                const touch = e.touches[0];
+                                const canvas = canvasRef.current;
+                                if (!canvas || !e.touches[0]) return;
                                 const ctx = canvas.getContext('2d');
                                 if (!ctx) return;
+                                const touch = e.touches[0];
+                                const { x, y } = getCanvasCoordinates(touch.clientX, touch.clientY);
                                 ctx.beginPath();
-                                ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+                                ctx.moveTo(x, y);
                                 (canvas as any).isDrawing = true;
                                 setHasDrawn(true);
                             }}
                             onTouchMove={(e) => {
-                                const canvas = e.currentTarget;
-                                if (!(canvas as any).isDrawing) return;
-                                const rect = canvas.getBoundingClientRect();
-                                const touch = e.touches[0];
+                                const canvas = canvasRef.current;
+                                if (!canvas || !(canvas as any).isDrawing || !e.touches[0]) return;
                                 const ctx = canvas.getContext('2d');
                                 if (!ctx) return;
-                                ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+                                const touch = e.touches[0];
+                                const { x, y } = getCanvasCoordinates(touch.clientX, touch.clientY);
+                                ctx.lineTo(x, y);
                                 ctx.stroke();
+                                setHasDrawn(true);
                             }}
-                            onTouchEnd={(e) => (e.currentTarget as any).isDrawing = false}
+                            onTouchEnd={() => {
+                                if (canvasRef.current) (canvasRef.current as any).isDrawing = false;
+                            }}
                         />
                         <Button 
                             variant="destructive" 
                             size="icon" 
                             className="absolute top-2.5 right-2.5 h-8 w-8 rounded-full shadow-md z-10 opacity-80 hover:opacity-100 transition-opacity"
                             onClick={handleClear}
-                            title="Καθαρισμός υπογραφής"
+                            title="Καθαρισμός"
                         >
                             <Trash2 className="h-4 w-4" />
                         </Button>

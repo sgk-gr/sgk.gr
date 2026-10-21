@@ -17,7 +17,7 @@ async function hasAlreadySentDailyQuotaToday(): Promise<boolean> {
       .from("sgk_mails")
       .select("id", { count: "exact", head: true })
       .gte("last_email_sent_at", todayStartUtc);
-    return (count || 0) >= 200;
+    return (count || 0) >= 390;
   } catch {
     return false;
   }
