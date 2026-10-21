@@ -8,7 +8,7 @@ import {
   FileCheck, Calculator, Sparkles, Phone, Edit3, UserPlus, Save, User,
   Terminal, Globe, ShieldAlert, CheckCircle, Info, Ban, Target,
   ChevronDown, ChevronUp, History, Server, Zap,
-  Eye, Code, FileText, Copy, ExternalLink, Inbox
+  Eye, Code, FileText, Copy, ExternalLink, Inbox, Clock
 } from "lucide-react";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted, GLOBAL_BLACKLIST_EMAILS, GLOBAL_BLACKLIST_DOMAINS } from "@/lib/blacklist";
@@ -985,6 +985,19 @@ export function EmailsTab() {
   const [isRunningDailyCampaign, setIsRunningDailyCampaign] = useState(false);
   const [dailyCampaignReport, setDailyCampaignReport] = useState<any | null>(null);
   const [isDailyReportModalOpen, setIsDailyReportModalOpen] = useState(false);
+  const [cronCountdown, setCronCountdown] = useState<{
+    hours: number;
+    minutes: number;
+    seconds: number;
+    isExecutingNow: boolean;
+    formatted: string;
+  }>({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    isExecutingNow: false,
+    formatted: "--:--:--",
+  });
   const [scanLogs, setScanLogsRaw] = useState<Array<{
     id: string;
     time: string;
@@ -1325,6 +1338,59 @@ function safeEncodeBase64(data: any): string {
     setLoading(false);
     return allLeads;
   };
+
+  // Automated Daily Campaign Countdown Timer (Runs every day at 09:30 Athens time / 06:30 UTC)
+  useEffect(() => {
+    let triggeredAutoRefresh = false;
+
+    const calculateCountdown = () => {
+      const now = new Date();
+      // Vercel cron schedule: "30 6 * * *" = 06:30:00 UTC (which is exactly 09:30 AM Greece time)
+      const target = new Date();
+      target.setUTCHours(6, 30, 0, 0);
+
+      // If already passed today, target tomorrow at 06:30 UTC
+      if (now.getTime() >= target.getTime()) {
+        target.setUTCDate(target.getUTCDate() + 1);
+      }
+
+      const diffMs = target.getTime() - now.getTime();
+
+      // If within 2 minutes after 09:30 (execution window)
+      const previousRunTime = target.getTime() - (24 * 60 * 60 * 1000);
+      const msSinceRun = now.getTime() - previousRunTime;
+      const isExecutingNow = msSinceRun >= 0 && msSinceRun < (120 * 1000);
+
+      if (isExecutingNow && !triggeredAutoRefresh) {
+        triggeredAutoRefresh = true;
+        setTimeout(() => {
+          fetchLeads();
+        }, 15000);
+      } else if (!isExecutingNow) {
+        triggeredAutoRefresh = false;
+      }
+
+      const totalSec = Math.max(0, Math.floor(diffMs / 1000));
+      const hours = Math.floor(totalSec / 3600);
+      const minutes = Math.floor((totalSec % 3600) / 60);
+      const seconds = totalSec % 60;
+
+      const pad = (n: number) => n.toString().padStart(2, "0");
+      const formatted = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+      setCronCountdown({
+        hours,
+        minutes,
+        seconds,
+        isExecutingNow,
+        formatted,
+      });
+    };
+
+    calculateCountdown();
+    const interval = setInterval(calculateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleUpdateLeadHostingPrice = async (leadId: string, newPriceStr: string) => {
     const trimmed = newPriceStr.trim();
@@ -3152,13 +3218,17 @@ function safeEncodeBase64(data: any): string {
       <div className="bg-gradient-to-r from-indigo-50/90 via-blue-50/80 to-emerald-50/90 border-2 border-indigo-200/90 p-5 rounded-2xl shadow-sm text-slate-800 mb-6">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="space-y-1.5">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <h3 className="text-sm sm:text-base font-black tracking-tight text-slate-900 flex items-center gap-2">
                 🤖 Αυτόματη Ημερήσια Αποστολή — 300 Emails / Ημέρα
               </h3>
               <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 border border-indigo-300">
                 Live Cron (09:30)
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-mono text-[11px] font-black shadow-2xs">
+                <Clock size={11} className="text-emerald-600 animate-pulse" />
+                <span>{cronCountdown.isExecutingNow ? "Εκτελείται τώρα!" : `Σε: ${cronCountdown.formatted}`}</span>
               </span>
             </div>
             
@@ -3182,11 +3252,47 @@ function safeEncodeBase64(data: any): string {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0 w-full lg:w-auto justify-end">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full lg:w-auto justify-end">
+            {/* Live Digital Countdown Timer Card */}
+            <div className="flex items-center gap-3 bg-white/95 backdrop-blur-xs border-2 border-indigo-200/90 px-3.5 py-2 rounded-2xl shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
+                <Clock size={18} className={cronCountdown.isExecutingNow ? "animate-spin text-emerald-600" : "animate-pulse"} />
+              </div>
+              <div className="text-left">
+                <div className="text-[9.5px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                  <span className={`w-1.5 h-1.5 rounded-full ${cronCountdown.isExecutingNow ? "bg-amber-500 animate-ping" : "bg-emerald-500 animate-pulse"}`} />
+                  <span>ΑΝΤΙΣΤΡΟΦΗ ΜΕΤΡΗΣΗ (09:30)</span>
+                </div>
+                {cronCountdown.isExecutingNow ? (
+                  <div className="text-xs font-black text-emerald-600 flex items-center gap-1.5 mt-0.5">
+                    <Loader2 size={13} className="animate-spin text-emerald-600" />
+                    <span>Εκτελείται αποστολή...</span>
+                  </div>
+                ) : (
+                  <div className="font-mono text-sm sm:text-base font-black text-slate-900 tracking-wider flex items-center gap-1 mt-0.5">
+                    <span className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded-md border border-slate-200 font-bold" title="Ώρες">
+                      {cronCountdown.hours.toString().padStart(2, "0")}
+                      <span className="text-[9px] font-sans font-bold text-slate-400 ml-0.5">ω</span>
+                    </span>
+                    <span className="text-slate-400 font-bold">:</span>
+                    <span className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded-md border border-slate-200 font-bold" title="Λεπτά">
+                      {cronCountdown.minutes.toString().padStart(2, "0")}
+                      <span className="text-[9px] font-sans font-bold text-slate-400 ml-0.5">λ</span>
+                    </span>
+                    <span className="text-slate-400 font-bold">:</span>
+                    <span className="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-md border border-emerald-300 font-black animate-pulse" title="Δευτερόλεπτα">
+                      {cronCountdown.seconds.toString().padStart(2, "0")}
+                      <span className="text-[9px] font-sans font-bold text-emerald-600 ml-0.5">δ</span>
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <button
               onClick={handleTriggerDailyCampaignNow}
               disabled={isRunningDailyCampaign}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-black text-xs bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full sm:w-auto px-5 py-3 rounded-2xl font-black text-xs bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               title="Άμεση εκτέλεση της ημερήσιας αποστολής 300 emails τώρα και αποστολή αναφοράς στο info@sgk.gr"
             >
               {isRunningDailyCampaign ? (
