@@ -2,8 +2,13 @@ name: Daily Auto Campaigns (400 Emails)
 
 on:
   schedule:
-    # Runs every day at 06:32 UTC (09:32 AM Greek time - 2 min after Vercel Cron as guaranteed backup)
-    - cron: '32 6 * * *'
+    # Primary trigger: 06:30 UTC (09:30 AM Greek time)
+    - cron: '30 6 * * *'
+    # Backup trigger: 06:35 UTC (09:35 AM Greek time - skips automatically if 06:30 already succeeded)
+    - cron: '35 6 * * *'
+  push:
+    paths:
+      - '.github/workflows/daily-campaigns.yml'
   workflow_dispatch: # Allows manual trigger from GitHub anytime
 
 jobs:
@@ -16,7 +21,7 @@ jobs:
       - name: Trigger Daily 400 Campaigns API
         run: |
           echo "🚀 Triggering SGK Daily Campaigns (101 New IKE, 100 Legacy IKE, 100 FTTH, 99 Non-IKE)..."
-          RESPONSE=$(curl -s --max-time 300 -X POST "https://www.sgk.gr/api/admin/cron-daily-campaigns" \
+          RESPONSE=$(curl -s -L --max-time 300 -X POST "https://www.sgk.gr/api/admin/cron-daily-campaigns" \
             -H "Content-Type: application/json" \
             -d '{"force": false, "source": "github_actions"}')
           echo "Server Response:"
