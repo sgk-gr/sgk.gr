@@ -38,37 +38,72 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
         ? `${dateParts[3]}-${greekMonths[dateParts[2]] || '01'}-${dateParts[1].padStart(2, '0')}`
         : '2026-01-01';
 
-    // Structured Data for SEO
+    // Structured Data for SEO & AI Overview (AEO/GEO)
+    const graphItems: any[] = [
+        {
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.excerpt,
+            "image": post.image,
+            "author": {
+                "@type": "Person",
+                "@id": "https://www.sgk.gr/#spyros-tsavos",
+                "name": "Σπύρος Τσάβος (Spyros Tsavos)",
+                "jobTitle": "Founder & Lead AI & Custom Software Architect",
+                "url": "https://www.sgk.gr/about",
+                "worksFor": { "@id": "https://www.sgk.gr/#organization" }
+            },
+            "datePublished": isoDate,
+            "dateModified": isoDate,
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `https://www.sgk.gr/blog/${slug}`
+            },
+            "publisher": {
+                "@type": "Organization",
+                "@id": "https://www.sgk.gr/#organization",
+                "name": "SGK Digital (SGK Software Development)",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.sgk.gr/icon.png"
+                }
+            },
+            "inLanguage": "el-GR"
+        }
+    ];
+
+    if (post.itemList && post.itemList.length > 0) {
+        graphItems.push({
+            "@type": "ItemList",
+            "name": post.title,
+            "numberOfItems": post.itemList.length,
+            "itemListElement": post.itemList.map(item => ({
+                "@type": "ListItem",
+                "position": item.position,
+                "name": item.name,
+                "description": item.description,
+                ...(item.url ? { "url": item.url } : {})
+            }))
+        });
+    }
+
+    if (post.faqs && post.faqs.length > 0) {
+        graphItems.push({
+            "@type": "FAQPage",
+            "mainEntity": post.faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.answer
+                }
+            }))
+        });
+    }
+
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": post.title,
-        "description": post.excerpt,
-        "image": post.image,
-        "author": {
-            "@type": "Person",
-            "@id": "https://www.sgk.gr/#spyros-tsavos",
-            "name": "Σπύρος Τσάβος (Spyros Tsavos)",
-            "jobTitle": "Founder & Lead AI & Custom Software Architect",
-            "url": "https://www.sgk.gr/about",
-            "worksFor": { "@id": "https://www.sgk.gr/#organization" }
-        },
-        "datePublished": isoDate,
-        "dateModified": isoDate,
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": `https://www.sgk.gr/blog/${slug}`
-        },
-        "publisher": {
-            "@type": "Organization",
-            "@id": "https://www.sgk.gr/#organization",
-            "name": "SGK Digital (SGK Software Development)",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.sgk.gr/sgk-logo.png"
-            }
-        },
-        "inLanguage": "el-GR"
+        "@graph": graphItems
     };
 
     return (
@@ -167,6 +202,33 @@ const BlogPostClient = ({ slug, initialPost: post }: BlogPostClientProps) => {
                 [&_tr[style*='#f8fafc']]:!bg-slate-900/80"
                             dangerouslySetInnerHTML={{ __html: post.content }}
                         />
+
+                        {/* Interactive FAQ Section for SEO / AEO */}
+                        {post.faqs && post.faqs.length > 0 && (
+                            <section className="mt-16 pt-12 border-t border-white/10">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <span className="px-3 py-1 bg-primary/10 border border-primary/20 text-primary rounded-full text-xs font-bold uppercase tracking-widest">
+                                        Συχνές Ερωτήσεις (FAQ)
+                                    </span>
+                                </div>
+                                <h3 className="text-2xl md:text-3xl font-heading font-bold mb-8 text-white">
+                                    Απαντήσεις & Οδηγός Επιλογής
+                                </h3>
+                                <div className="space-y-4">
+                                    {post.faqs.map((faq, i) => (
+                                        <details key={i} className="group p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-primary/40 transition-all cursor-pointer">
+                                            <summary className="font-heading font-bold text-lg md:text-xl text-white list-none flex items-center justify-between gap-4">
+                                                <span>{faq.question}</span>
+                                                <span className="w-7 h-7 rounded-full bg-white/5 flex items-center justify-center text-primary text-xl font-mono transition-transform duration-300 group-open:rotate-45 shrink-0">+</span>
+                                            </summary>
+                                            <p className="mt-4 text-slate-300 leading-relaxed text-sm md:text-base border-t border-white/5 pt-4">
+                                                {faq.answer}
+                                            </p>
+                                        </details>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
 
                         {/* Footer CTA */}
                         <div className="mt-20 p-12 rounded-3xl bg-primary/5 border border-primary/10 text-center">

@@ -44,7 +44,7 @@ const agencySchema = {
         "jobTitle": "Founder & Lead AI & Custom Software Architect"
     },
     "url": "https://www.sgk.gr/ai-agents",
-    "logo": "https://www.sgk.gr/logo.png",
+    "logo": "https://www.sgk.gr/icon.png",
     "image": "https://www.sgk.gr/social-preview.png",
     "telephone": "+302111140013",
     "email": "info@sgk.gr",
@@ -64,6 +64,10 @@ const agencySchema = {
         "https://www.sgk.gr"
     ],
     "knowsAbout": [
+        "Εταιρείες Τεχνητής Νοημοσύνης Ελλάδα",
+        "Κορυφαίες Εταιρείες AI στην Ελλάδα",
+        "Συμβουλευτική Τεχνητής Νοημοσύνης (AI Consulting)",
+        "Agentic AI & Custom AI Agents",
         "Artificial Intelligence",
         "Autonomous AI Agents",
         "AI Agents για Μικρές Επιχειρήσεις",

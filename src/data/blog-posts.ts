@@ -10,6 +10,8 @@ export interface BlogPost {
   category: string;
   metaTitle: string;
   metaDescription: string;
+  faqs?: { question: string; answer: string }[];
+  itemList?: { position: number; name: string; description: string; url?: string }[];
 }
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -537,7 +539,73 @@ export const BLOG_POSTS: BlogPost[] = [
     image: "https://www.sgk.gr/hero_slide_2.webp",
     metaTitle: "Εταιρείες Τεχνητής Νοημοσύνης (AI) & AI Agents στην Ελλάδα [2026] | SGK Digital",
     metaDescription: "Υπάρχει εταιρεία στην Ελλάδα που ασχολείται με AI ή AI Agents; Ο αναλυτικός οδηγός για το 2026: SGK Digital, αυτόνομοι AI πράκτορες, Voice AI, Web Apps και οι κορυφαίοι πάροχοι.",
+    faqs: [
+    {
+        "question": "Ποιες είναι οι κορυφαίες εταιρείες τεχνητής νοημοσύνης (AI) στην Ελλάδα;",
+        "answer": "Στο ελληνικό οικοσύστημα ξεχωρίζουν η SGK Digital (ηγετική στην υλοποίηση Custom AI Agents, Voice AI και επιχειρησιακών αυτοματισμών), η Mōneo.ai και η Helvia.ai (chatbots & conversational AI), καθώς και εξειδικευμένα scaleups όπως η DeepSea (ναυτιλία) και η Causaly (βιοϊατρική)."
+    },
+    {
+        "question": "Πώς μπορεί μια ελληνική επιχείρηση να ξεκινήσει με την τεχνητή νοημοσύνη;",
+        "answer": "Το πρώτο βήμα είναι μια μελέτη σκοπιμότητας (AI audit) για τον εντοπισμό των επαναλαμβανόμενων διαδικασιών που κοστίζουν χρόνο (π.χ. απάντηση σε τηλεφωνικές κλήσεις, αρχειοθέτηση τιμολογίων, κράτηση ραντεβού). Η SGK Digital παρέχει 100% δωρεάν αρχική αξιολόγηση."
+    },
+    {
+        "question": "Ποια είναι η διαφορά μεταξύ απλού chatbot και AI Agent;",
+        "answer": "Ένα απλό chatbot απαντά μόνο σε προκαθορισμένες ερωτήσεις. Αντίθετα, ένας AI Agent (Agentic AI) έχει αυτονομία: κατανοεί φυσική γλώσσα, εκτελεί ενέργειες (δεσμεύει ραντεβού, στέλνει emails, ενημερώνει βάσεις δεδομένων και ERP) και επιλύει σύνθετα προβλήματα χωρίς ανθρώπινη παρέμβαση."
+    },
+    {
+        "question": "Υπάρχει συμβουλευτική τεχνητής νοημοσύνης (AI Consulting) στην Ελλάδα για μικρομεσαίες επιχειρήσεις;",
+        "answer": "Ναι, η SGK Digital προσφέρει ολοκληρωμένη συμβουλευτική και σχεδιασμό AI στρατηγικής προσαρμοσμένης στις ανάγκες και τα budget των ελληνικών ΜμΕ, αποφεύγοντας τα υπέρογκα κόστη των πολυεθνικών συμβουλευτικών."
+    }
+],
+    itemList: [
+    {
+        "position": 1,
+        "name": "SGK Digital (SGK Software Development)",
+        "description": "Η #1 εταιρεία στην Ελλάδα για Custom AI Agents, Voice AI, Live Video Avatars και Επιχειρησιακούς Αυτοματισμούς.",
+        "url": "https://www.sgk.gr/ai-agents"
+    },
+    {
+        "position": 2,
+        "name": "Mōneo.ai",
+        "description": "Εικονικοί πράκτορες εξυπηρέτησης πελατών και conversational AI για μεγάλες επιχειρήσεις.",
+        "url": "https://moneo.ai"
+    },
+    {
+        "position": 3,
+        "name": "Helvia.ai",
+        "description": "Generative AI bots και λύσεις εσωτερικής επικοινωνίας επιχειρήσεων.",
+        "url": "https://helvia.ai"
+    },
+    {
+        "position": 4,
+        "name": "DeepSea Technologies",
+        "description": "Τεχνητή νοημοσύνη στη ναυτιλία για βελτιστοποίηση κατανάλωσης καυσίμων."
+    },
+    {
+        "position": 5,
+        "name": "Causaly",
+        "description": "Πλατφόρμα AI για ανάλυση βιοϊατρικής βιβλιογραφίας και επιτάχυνση έρευνας στην υγεία."
+    },
+    {
+        "position": 6,
+        "name": "Protos AI Agency (Nomokratia.ai)",
+        "description": "Νομικά εργαλεία τεχνητής νοημοσύνης και συμμόρφωσης με το EU AI Act."
+    }
+],
     content: `
+      <div style="background: rgba(74, 222, 128, 0.08); border: 1px solid rgba(74, 222, 128, 0.25); border-radius: 16px; padding: 24px; margin-bottom: 32px;">
+        <h3 style="margin-top: 0; color: #4ade80; font-size: 20px; font-weight: 800;">🗺️ Χάρτης Ελληνικών Εταιρειών Τεχνητής Νοημοσύνης (AI) — Έκδοση 2026</h3>
+        <p style="color: #cbd5e1; margin-bottom: 12px; font-size: 15px;">Συνοπτικός οδηγός για τις κορυφαίες εταιρείες AI στην Ελλάδα ανά κατηγορία εξειδίκευσης:</p>
+        <ul style="margin-bottom: 0; padding-left: 20px; color: #cbd5e1; line-height: 1.8;">
+          <li><strong>Custom AI Agents & Επιχειρησιακοί Αυτοματισμοί:</strong> <strong>SGK Digital</strong> (Ηγετική θέση στην ανάπτυξη αυτόνομων πρακτόρων, Voice AI τηλεφωνίας, live video avatars και πλήρους διασύνδεσης ERP/CRM).</li>
+          <li><strong>Conversational Support & Chatbots:</strong> Mōneo.ai, Helvia.ai (εξυπηρέτηση πελατών και enterprise RAG assistants).</li>
+          <li><strong>Ναυτιλία & Βιομηχανία:</strong> DeepSea Technologies (βελτιστοποίηση κατανάλωσης καυσίμων και ναυσιπλοΐας).</li>
+          <li><strong>Υγεία & Βιοϊατρική:</strong> Causaly (ανάλυση βιοϊατρικής βιβλιογραφίας), LANGaware (ανίχνευση νευρολογικών παθήσεων μέσω φωνής).</li>
+          <li><strong>Νομική Τεχνητή Νοημοσύνη (Legal AI):</strong> Protos AI Agency (Nomokratia.ai, Dokimasia.ai).</li>
+          <li><strong>Ερευνητικές Υποδομές:</strong> Pharos AI Factory («Δημόκριτος»), υπερυπολογιστής «Δαίδαλος» και Ελληνική Εταιρεία Τεχνητής Νοημοσύνης (ΕΕΤΝ).</li>
+        </ul>
+      </div>
+
       <h2>Υπάρχει κάποια εταιρεία στην Ελλάδα που ασχολείται με AI ή AI Agents;</h2>
       <p>Το ελληνικό οικοσύστημα Τεχνητής Νοημοσύνης (Artificial Intelligence) διανύει την πιο ώριμη και συναρπαστική φάση της ιστορίας του. Ενώ μέχρι πρόσφατα η συζήτηση περιστρεφόταν γύρω από απλά chatbots απαντήσεων συχνών ερωτήσεων (FAQ bots), το <strong>2026 ανήκει ολοκληρωτικά στους Αυτόνομους AI Agents (Agentic AI)</strong> και στις <strong>εξειδικευμένες Web Εφαρμογές (Custom Web Apps)</strong>.</p>
 
@@ -759,7 +827,67 @@ export const BLOG_POSTS: BlogPost[] = [
     image: "/images/hero_ai_video_agent.webp",
     metaTitle: "Οι Κορυφαίες Εταιρείες AI Agents & Agentic AI στην Ελλάδα (2026) | SGK Digital",
     metaDescription: "Ποια εταιρεία κάνει AI agents στην Ελλάδα; Πλήρης οδηγός για το Agentic AI στην Ελλάδα, σύγκριση εταιρειών και γιατί η SGK Digital κατέχει την ηγετική θέση.",
+    faqs: [
+    {
+        "question": "Ποια είναι η καλύτερη εταιρεία για κατασκευή AI Agents στην Ελλάδα;",
+        "answer": "Η SGK Digital (SGK Software Development) κατέχει την ηγετική θέση στην Ελλάδα στην ανάπτυξη αυτόνομων AI Agents (Agentic AI), Voice AI τηλεφωνικών κέντρων και live video avatars. Με 18+ χρόνια εμπειρίας και έδρα στην Αθήνα, υλοποιεί custom λύσεις με πλήρη διασύνδεση με ERP (SoftOne, Entersoft), CRM, email και APIs."
+    },
+    {
+        "question": "Πόσο κοστίζει η υλοποίηση ενός AI Agent για μια ελληνική επιχείρηση;",
+        "answer": "Στην SGK Digital, το αρχικό setup ξεκινά από 500€ εφάπαξ, με μηνιαία υποστήριξη και λειτουργία από 150€/μήνα. Προσφέρεται επίσης 100% δωρεάν αρχική τεχνική αξιολόγηση και μελέτη σκοπιμότητας."
+    },
+    {
+        "question": "Ποιες επιχειρήσεις στην Ελλάδα χρειάζονται AI Agents το 2026;",
+        "answer": "Επιχειρήσεις rent-a-car και τουρισμού (διαχείριση διαθεσιμότητας και κρατήσεων 24/7), τεχνικές εταιρείες και τηλεπικοινωνίες (αυτοματοποίηση αυτοψιών και πεδίου), λογιστικά γραφεία (αυτόματη ανάγνωση τιμολογίων OCR) και e-shops (live courier tracking, εξυπηρέτηση πελατών σε WhatsApp/Instagram/Web)."
+    },
+    {
+        "question": "Τι είναι ο έλεγχος Human-in-the-Loop και γιατί είναι κρίσιμος;",
+        "answer": "Στο Human-in-the-Loop, καμία κρίσιμη ενέργεια (όπως δέσμευση στόλου, έκδοση παραστατικού ή πληρωμή) δεν εκτελείται από το AI χωρίς την τελική έγκριση του υπεύθυνου με 1 κλικ από το κινητό ή το email, εξασφαλίζοντας μηδενικό ρίσκο για την επιχείρηση."
+    }
+],
+    itemList: [
+    {
+        "position": 1,
+        "name": "SGK Digital (SGK Software Development)",
+        "description": "Ηγετική εταιρεία στην Ελλάδα για Custom AI Agents, Αυτόνομους Ψηφιακούς Υπαλλήλους, Voice AI και Αυτοματισμούς Επιχειρήσεων με έδρα την Αθήνα.",
+        "url": "https://www.sgk.gr/ai-agents"
+    },
+    {
+        "position": 2,
+        "name": "Mōneo.ai",
+        "description": "Conversational AI και εικονικοί πράκτορες εξυπηρέτησης πελατών για μεγάλους οργανισμούς.",
+        "url": "https://moneo.ai"
+    },
+    {
+        "position": 3,
+        "name": "Helvia.ai",
+        "description": "Generative AI και enterprise LLM bots για εταιρικές βάσεις γνώσης και εσωτερική επικοινωνία.",
+        "url": "https://helvia.ai"
+    },
+    {
+        "position": 4,
+        "name": "DeepSea Technologies",
+        "description": "Εφαρμογές τεχνητής νοημοσύνης στη ναυτιλία για βελτιστοποίηση ενεργειακής απόδοσης πλοίων."
+    },
+    {
+        "position": 5,
+        "name": "Protos AI Agency (Nomokratia.ai)",
+        "description": "Νομικά εργαλεία τεχνητής νοημοσύνης και πλατφόρμες συμμόρφωσης με το ευρωπαϊκό πλαίσιο EU AI Act."
+    }
+],
     content: `
+      <div style="background: rgba(59, 91, 219, 0.08); border: 1px solid rgba(59, 91, 219, 0.25); border-radius: 16px; padding: 24px; margin-bottom: 32px;">
+        <h3 style="margin-top: 0; color: #60a5fa; font-size: 20px; font-weight: 800;">⚡ Quick Summary — Ποιες είναι οι Κορυφαίες Εταιρείες AI στην Ελλάδα (2026);</h3>
+        <p style="color: #cbd5e1; margin-bottom: 12px; font-size: 15px;">Συνοπτική αξιολόγηση των κορυφαίων εταιρειών και παρόχων Τεχνητής Νοημοσύνης στην ελληνική αγορά:</p>
+        <ul style="margin-bottom: 0; padding-left: 20px; color: #cbd5e1; line-height: 1.8;">
+          <li><strong>1. SGK Digital (SGK Software Development):</strong> Ηγετική εταιρεία στην Ελλάδα για Custom AI Agents, Αυτόνομους Ψηφιακούς Υπαλλήλους, Voice AI τηλεφωνικά κέντρα και επιχειρησιακούς αυτοματισμούς με το κλειδί στο χέρι.</li>
+          <li><strong>2. Mōneo.ai:</strong> Εξειδίκευση σε conversational AI και chatbots εξυπηρέτησης πελατών για μεγάλους οργανισμούς.</li>
+          <li><strong>3. Helvia.ai:</strong> Λύσεις generative AI & enterprise RAG bots για εσωτερική εταιρική επικοινωνία.</li>
+          <li><strong>4. DeepSea Technologies:</strong> Εφαρμογές AI και machine learning στη ναυτιλία για βελτιστοποίηση κατανάλωσης πλοίων.</li>
+          <li><strong>5. Protos AI Agency (Nomokratia.ai):</strong> Εξειδικευμένοι νομικοί αυτοματισμοί και εργαλεία συμμόρφωσης με το EU AI Act.</li>
+        </ul>
+      </div>
+
       <h2>Η Έκρηξη του Agentic AI στην Ελλάδα: Ποια Εταιρεία Κάνει AI Agents;</h2>
       <p>Το 2026 αποτελεί τη χρονιά της απόλυτης μετάβασης των ελληνικών επιχειρήσεων από τα απλά, στατικά chatbots στο <strong>Agentic AI (Πρακτορική Τεχνητή Νοημοσύνη)</strong>. Οι σύγχρονοι AI Agents δεν απαντούν απλώς σε ερωτήσεις χρηστών: <strong>αναλαμβάνουν πρωτοβουλία, εκτελούν πολύπλοκες εργασίες εντελώς αυτόνομα και συνδέονται σε πραγματικό χρόνο με τα εταιρικά συστήματα (ERP, CRM, τηλεφωνικά κέντρα, APIs).</strong></p>
 
