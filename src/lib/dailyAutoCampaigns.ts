@@ -528,10 +528,13 @@ export async function runDailyAutoCampaigns(options?: {
     let fetchFrom = 0;
     const chunk = 1000;
     let hasMore = true;
+    const todayStartUtc = new Date().toISOString().split("T")[0] + "T00:00:00.000Z";
+    let alreadySentTodayCount = 0;
+
     while (hasMore) {
       const { data: recs, error: fetchErr } = await supabase
         .from("sgk_mails")
-        .select("email, afm, unsubscribed, type")
+        .select("email, afm, unsubscribed, type, last_email_sent_at")
         .range(fetchFrom, fetchFrom + chunk - 1);
 
       if (fetchErr) {
@@ -549,6 +552,9 @@ export async function runDailyAutoCampaigns(options?: {
             }
           }
           if (r.afm) existingAfmSet.add(String(r.afm).trim());
+          if (r.last_email_sent_at && r.last_email_sent_at >= todayStartUtc) {
+            alreadySentTodayCount++;
+          }
           if (r.type === "new_ike") categoryCounts.new_ike++;
           else if (r.type === "legacy_ike") categoryCounts.legacy_ike++;
           else if (r.type === "ftth_telecom") categoryCounts.ftth_telecom++;
@@ -561,7 +567,12 @@ export async function runDailyAutoCampaigns(options?: {
       }
     }
 
-    console.log(`[dailyAutoCampaigns] Database verification complete: ${existingEmailSet.size} existing emails, ${existingAfmSet.size} AFMs, ${unsubscribedSet.size} unsubscribed. Category counts:`, categoryCounts);
+    // Strictly cap Resend at 100 emails/day across all runs using DB count:
+    // First 100 emails of the day -> Resend; remaining 300 -> Brevo directly.
+    const resendBudgetRemaining = Math.max(0, 100 - alreadySentTodayCount);
+    let resendAttemptedInRun = 0;
+
+    console.log(`[dailyAutoCampaigns] Database verification complete: ${existingEmailSet.size} existing emails, ${alreadySentTodayCount} sent today (Resend budget left: ${resendBudgetRemaining}). Category counts:`, categoryCounts);
 
     // Helper to send a batch of leads using adaptive concurrency (2/chunk for Resend 2 req/s limit, 10/chunk for Brevo)
     const dispatchCategoryList = async (
@@ -571,7 +582,7 @@ export async function runDailyAutoCampaigns(options?: {
     ) => {
       let i = 0;
       while (i < leads.length) {
-        const useBrevo = report.providers.resend >= 100 || isResendQuotaReached();
+        const useBrevo = resendAttemptedInRun >= resendBudgetRemaining || report.providers.resend >= 100 || isResendQuotaReached();
         const chunkSize = useBrevo ? 10 : 2;
         const chunk = leads.slice(i, i + chunkSize);
         i += chunkSize;
@@ -607,8 +618,12 @@ export async function runDailyAutoCampaigns(options?: {
               industry: lead.company,
             });
 
-            // Hard stop on Resend at 100/day: if report already has >= 100 on Resend or quota is reached, route to Brevo!
-            const preferred = (report.providers.resend >= 100 || isResendQuotaReached()) ? "brevo" : "auto";
+            // Hard stop on Resend at 100/day: strictly first 100 go to Resend, remaining 300 go directly to Brevo!
+            const canUseResend = resendAttemptedInRun < resendBudgetRemaining && report.providers.resend < 100 && !isResendQuotaReached();
+            if (canUseResend) {
+              resendAttemptedInRun++;
+            }
+            const preferred = canUseResend ? "auto" : "brevo";
 
             const result = await dispatchEmailWithFallback({
               to: cleanEmail,

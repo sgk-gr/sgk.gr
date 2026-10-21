@@ -163,70 +163,43 @@ export async function dispatchEmailWithFallback(
   // 2. Try Resend via Supabase Edge Function (Strictly capped at 100 emails/day)
   let edgeFnError = "";
   if (supabaseUrl && supabaseServiceKey) {
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": supabaseServiceKey,
-            "Authorization": `Bearer ${supabaseServiceKey}`,
-          },
-          body: JSON.stringify({
-            email: cleanEmail,
-            unsubscribe_token: opts.unsubscribeToken,
-            customSubject: opts.subject,
-            customHtml: opts.html,
-            firstEmailSubject: opts.firstEmailSubject,
-            firstEmailBody: opts.firstEmailBody,
-            step: opts.step || 1,
-          }),
-        });
+    // Increment BEFORE network call so concurrent calls never exceed 100
+    globalThis.__resendSentCountToday = (globalThis.__resendSentCountToday || 0) + 1;
+    if (globalThis.__resendSentCountToday >= 100) {
+      globalThis.__resendExhaustedToday = true;
+    }
 
-        if (edgeResponse.ok) {
-          globalThis.__resendSentCountToday = (globalThis.__resendSentCountToday || 0) + 1;
-          if (globalThis.__resendSentCountToday >= 100) {
-            console.log("[dispatchEmailWithFallback] Resend hit 100/100 daily limit. Hard stop on Resend! Switching all remaining emails to Brevo.");
-            globalThis.__resendExhaustedToday = true;
-          }
-          return { success: true, provider: "resend" };
-        }
+    try {
+      const edgeResponse = await fetch(`${supabaseUrl}/functions/v1/send-nurture-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": supabaseServiceKey,
+          "Authorization": `Bearer ${supabaseServiceKey}`,
+        },
+        body: JSON.stringify({
+          email: cleanEmail,
+          unsubscribe_token: opts.unsubscribeToken,
+          customSubject: opts.subject,
+          customHtml: opts.html,
+          firstEmailSubject: opts.firstEmailSubject,
+          firstEmailBody: opts.firstEmailBody,
+          step: opts.step || 1,
+        }),
+      });
 
-        const errText = await edgeResponse.text();
-        edgeFnError = errText;
-        const lowerErr = errText.toLowerCase();
-
-        // Check if it's a transient network/HTTP2 error or 2 req/sec rate limit (NOT daily quota)
-        const isTransientOrRateLimit =
-          lowerErr.includes("per second") ||
-          lowerErr.includes("too many requests") ||
-          lowerErr.includes("rate_limit") ||
-          lowerErr.includes("http2") ||
-          lowerErr.includes("connection") ||
-          lowerErr.includes("timeout") ||
-          lowerErr.includes("sendrequest");
-
-        if (isTransientOrRateLimit && attempt === 1) {
-          await new Promise((r) => setTimeout(r, 650));
-          continue;
-        }
-
-        const isDailyQuotaError =
-          lowerErr.includes("daily") ||
-          lowerErr.includes("quota") ||
-          lowerErr.includes("monthly") ||
-          lowerErr.includes("you have reached");
-
-        if (isDailyQuotaError) {
-          console.warn(`[dispatchEmailWithFallback] Resend daily quota reached (${errText}). Switching permanently to Brevo today!`);
-          globalThis.__resendExhaustedToday = true;
-        }
-        break;
-      } catch (e: any) {
-        edgeFnError = e.message;
-        console.warn(`[dispatchEmailWithFallback] Resend exception: ${e.message}. Switching to Brevo!`);
-        break;
+      if (edgeResponse.ok) {
+        return { success: true, provider: "resend" };
       }
+
+      const errText = await edgeResponse.text();
+      edgeFnError = errText;
+      console.warn(`[dispatchEmailWithFallback] Resend error (${errText}). Hard stop: switching permanently to Brevo today!`);
+      globalThis.__resendExhaustedToday = true;
+    } catch (e: any) {
+      edgeFnError = e.message;
+      console.warn(`[dispatchEmailWithFallback] Resend exception: ${e.message}. Hard stop: switching permanently to Brevo!`);
+      globalThis.__resendExhaustedToday = true;
     }
   }
 
