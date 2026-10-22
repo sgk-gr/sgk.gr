@@ -56,7 +56,9 @@ const WebsiteOfferPageContent = () => {
       <header className="bg-vivid-surface/90 backdrop-blur-md dark:bg-vivid-surface-dim/90 docked full-width top-0 sticky shadow-sm dark:bg-vivid-surface-container z-50">
         <div className="flex justify-between items-center w-full px-gutter py-base max-w-container-max mx-auto z-50">
           <div className="flex items-center">
-            <img src="/sgk-logo.png" alt="SGK Logo" className="h-14 md:h-20 w-auto object-contain brightness-0" />
+            <span className="font-heading font-extrabold text-3xl md:text-4xl tracking-tighter text-black">
+              sgk<span className="text-[#3b5bdb]">.</span>
+            </span>
           </div>
           <div className="flex items-center gap-4">
             <a href="tel:2111140013" className="hidden sm:flex items-center gap-1.5 font-label-bold text-label-bold text-vivid-on-surface hover:text-vivid-primary transition-all">
@@ -334,7 +336,9 @@ const WebsiteOfferPageContent = () => {
       <footer className="bg-vivid-surface-container-low dark:bg-vivid-surface-container-highest full-width bg-vivid-tertiary-fixed dark:bg-vivid-tertiary-container flat no shadows border-t border-vivid-surface-variant/20">
         <div className="flex flex-col md:flex-row justify-between items-center w-full px-gutter py-stack-lg max-w-container-max mx-auto gap-8">
           <div className="flex items-center">
-            <img src="/sgk-logo.png" alt="SGK Logo" className="h-10 md:h-12 w-auto object-contain brightness-0" />
+            <span className="font-heading font-extrabold text-2xl md:text-3xl tracking-tighter text-black">
+              sgk<span className="text-[#3b5bdb]">.</span>
+            </span>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="flex gap-4 text-vivid-on-tertiary-fixed-variant font-body-md text-body-md">

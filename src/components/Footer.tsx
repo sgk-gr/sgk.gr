@@ -99,7 +99,11 @@ const Footer = () => {
         {/* Bottom Main - Company Info, Services Nav & Newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-12 border-t border-white/5 mb-20">
           <div className="lg:col-span-4 flex flex-col gap-8">
-            <img src="/sgk-logo.png" alt="SGK Logo" className="h-16 w-auto self-start brightness-0 invert" />
+            <Link href="/" className="inline-flex items-center group self-start">
+              <span className="font-heading font-extrabold text-4xl tracking-tighter text-white transition-opacity group-hover:opacity-90">
+                sgk<span className="text-[#3b5bdb]">.</span>
+              </span>
+            </Link>
             <div className="space-y-1 text-sm text-white">
               <p className="font-bold text-white mb-2 text-base">SGK Software Development</p>
 
