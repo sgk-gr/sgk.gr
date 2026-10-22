@@ -10,6 +10,7 @@
  */
 
 import { SUPABASE_URL, getSupabaseServiceRoleKey } from "@/lib/supabase";
+import { isEmailBlacklisted } from "@/lib/blacklist";
 
 export interface EmailDispatchOptions {
   to: string;
@@ -160,6 +161,16 @@ export async function dispatchEmailWithFallback(
   ensureDailyResendReset();
   const cleanEmail = opts.to.toLowerCase().trim();
   const preferred = opts.preferredProvider || "auto";
+
+  // 0. HARD SUPPRESSION: Block blacklisted emails globally across ALL providers
+  if (isEmailBlacklisted(cleanEmail)) {
+    console.warn(`[dispatchEmailWithFallback] BLOCKED: ${cleanEmail} is in suppression blacklist.`);
+    return {
+      success: false,
+      provider: "brevo",
+      error: `Blocked: Recipient ${cleanEmail} is permanently suppressed/blacklisted.`,
+    };
+  }
 
   // 1. Direct Brevo send if preferred is 'brevo' OR if Resend is already at its 100/day limit
   if (preferred === "brevo" || isResendQuotaReached()) {
