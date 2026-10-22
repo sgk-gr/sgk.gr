@@ -1,5 +1,5 @@
 import { getServiceSupabase } from "@/lib/supabase";
-import { dispatchEmailWithFallback, isResendQuotaReached } from "@/lib/emailDispatcher";
+import { dispatchEmailWithFallback, isResendQuotaReached, getBrevoRemainingCredits } from "@/lib/emailDispatcher";
 import { buildProfessionalEmailHtml } from "@/lib/emailTemplates";
 import { isEmailBlacklisted } from "@/lib/blacklist";
 
@@ -494,10 +494,27 @@ export async function runDailyAutoCampaigns(options?: {
   const supabase = getServiceSupabase();
   const errors: string[] = [];
 
-  const newTarget = typeof options?.newIkeTarget === "number" ? options.newIkeTarget : 150;
-  const legacyTarget = typeof options?.legacyIkeTarget === "number" ? options.legacyIkeTarget : 100;
-  const ftthTarget = typeof options?.ftthTarget === "number" ? options.ftthTarget : 0;
-  const nonIkeTarget = typeof options?.nonIkeTarget === "number" ? options.nonIkeTarget : 150;
+  let newTarget = typeof options?.newIkeTarget === "number" ? options.newIkeTarget : 150;
+  let legacyTarget = typeof options?.legacyIkeTarget === "number" ? options.legacyIkeTarget : 100;
+  let ftthTarget = typeof options?.ftthTarget === "number" ? options.ftthTarget : 0;
+  let nonIkeTarget = typeof options?.nonIkeTarget === "number" ? options.nonIkeTarget : 150;
+
+  // Dynamically adapt targets to real available provider limits for today
+  try {
+    const brevoRemaining = await getBrevoRemainingCredits();
+    const totalAvailable = 100 + Math.max(0, brevoRemaining - 5); // 100 Resend + remaining Brevo (5 buffer)
+    const initialTotal = newTarget + legacyTarget + ftthTarget + nonIkeTarget;
+    if (initialTotal > totalAvailable && totalAvailable > 50) {
+      console.log(`[dailyAutoCampaigns] Scaling daily targets from ${initialTotal} to ${totalAvailable} to match provider credits (Brevo credits left: ${brevoRemaining})`);
+      const ratio = totalAvailable / initialTotal;
+      newTarget = Math.round(newTarget * ratio);
+      legacyTarget = Math.round(legacyTarget * ratio);
+      ftthTarget = ftthTarget > 0 ? Math.round(ftthTarget * ratio) : 0;
+      nonIkeTarget = Math.max(0, totalAvailable - newTarget - legacyTarget - ftthTarget);
+    }
+  } catch (err) {
+    console.warn("[dailyAutoCampaigns] Could not check Brevo credits, proceeding with standard targets:", err);
+  }
 
   const report: DailyCronReport = {
     timestamp: new Date().toISOString(),

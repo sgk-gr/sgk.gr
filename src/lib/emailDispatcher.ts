@@ -39,6 +39,32 @@ const FALLBACK_BREVO_KEY = [
 ].join("-");
 
 /**
+ * Query remaining Brevo email credits for today
+ */
+export async function getBrevoRemainingCredits(): Promise<number> {
+  const apiKey = process.env.BREVO_API_KEY || FALLBACK_BREVO_KEY;
+  if (!apiKey) return 300;
+  try {
+    const res = await fetch("https://api.brevo.com/v3/account", {
+      headers: {
+        "accept": "application/json",
+        "api-key": apiKey
+      },
+      cache: "no-store",
+    });
+    if (!res.ok) return 300;
+    const data = await res.json();
+    const sendLimitPlan = data.plan?.find((p: any) => p.creditsType === "sendLimit");
+    if (sendLimitPlan && typeof sendLimitPlan.credits === "number") {
+      return sendLimitPlan.credits;
+    }
+    return 300;
+  } catch {
+    return 300;
+  }
+}
+
+/**
  * Send an email directly via Brevo API v3
  */
 export async function sendEmailViaBrevo(opts: {
