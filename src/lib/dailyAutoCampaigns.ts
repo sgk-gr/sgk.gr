@@ -585,9 +585,10 @@ export async function runDailyAutoCampaigns(options?: {
       }
     }
 
-    // Strictly cap Resend at 100 emails/day across all runs using DB count:
-    // First 100 emails of the day -> Resend; remaining 300 -> Brevo directly.
-    const resendBudgetRemaining = Math.max(0, 100 - alreadySentTodayCount);
+    // Strictly cap Resend at 98 emails for leads across all runs:
+    // First 98 emails of the day -> Resend; remaining emails -> Brevo.
+    // 2 Resend slots are strictly reserved for immediate, zero-latency Admin Reports to info@sgk.gr!
+    const resendBudgetRemaining = Math.max(0, 98 - alreadySentTodayCount);
     let resendAttemptedInRun = 0;
 
     console.log(`[dailyAutoCampaigns] Database verification complete: ${existingEmailSet.size} existing emails, ${alreadySentTodayCount} sent today (Resend budget left: ${resendBudgetRemaining}). Category counts:`, categoryCounts);
@@ -744,14 +745,18 @@ export async function runDailyAutoCampaigns(options?: {
       const seconds = durationSeconds % 60;
       const durationStr = minutes > 0 ? `${minutes}λ και ${seconds}δ` : `${seconds} δευτερόλεπτα`;
 
+      const nowAthens = new Date();
+      const executionTimeStr = nowAthens.toLocaleTimeString("el-GR", { timeZone: "Europe/Athens", hour: "2-digit", minute: "2-digit" });
+      const executionDateStr = nowAthens.toLocaleDateString("el-GR", { timeZone: "Europe/Athens", day: "2-digit", month: "2-digit", year: "numeric" });
+
       const reportHtml = `
-      <h2 style="color: #0f172a; font-size: 20px; font-weight: 800; margin: 0 0 14px 0;">
+      <h2 style="color: #0f172a; font-size: 20px; font-weight: 800; margin: 0 0 8px 0;">
         📊 Ημερήσια Αυτόματη Αποστολή: ${report.totalSent}/${report.totalTarget} Emails
       </h2>
 
-      <p style="margin: 0 0 16px 0; color: #334155; font-size: 15px; line-height: 1.55;">
-        Η προγραμματισμένη ημερήσια καμπάνια ολοκληρώθηκε επιτυχώς σε <strong>${durationStr}</strong>.
-      </p>
+      <div style="font-size: 13px; color: #64748b; margin-bottom: 14px;">
+        🕒 <strong>Ημερομηνία &amp; Ώρα Εκτέλεσης:</strong> ${executionDateStr} στις ${executionTimeStr} (Ώρα Ελλάδας) &bull; Διάρκεια: <strong>${durationStr}</strong>
+      </div>
 
       <!-- KPI Grid -->
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px; border-collapse: separate; border-spacing: 6px;">
@@ -851,7 +856,7 @@ export async function runDailyAutoCampaigns(options?: {
         subject: reportSubject,
         html: notificationHtml,
         unsubscribeToken: "admin-notification",
-        preferredProvider: isResendQuotaReached() ? "brevo" : "auto",
+        preferredProvider: "resend", // Guaranteed immediate delivery to admin inbox without third-party queue delays
       });
 
       if (reportResult.success) {
