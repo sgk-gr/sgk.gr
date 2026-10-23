@@ -43,10 +43,11 @@
 
 ## 🛠️ Core AI Services & Autonomous Agents
 
-- [Custom AI Agents για Επιχειρήσεις (Για τα Πάντα)](https://www.sgk.gr/ai-agents): Αυτοματισμός για οποιαδήποτε διαδικασία: κρατήσεις rent-a-car, ραντεβού ιατρείων, διαχείριση και απάντηση emails, τιμολόγια OCR, μαζική ανάλυση PDFs και σύνδεση με οποιοδήποτε CRM/ERP/Calendar. Με επιλογή ανθρώπινης έγκρισης για κρίσιμες εργασίες.
-- [Voice AI Telephony (Τηλεφωνικά Κέντρα)](https://www.sgk.gr/ai-agents): Φωνητικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία και απόκριση κάτω από 800ms για εισερχόμενες και εξερχόμενων κλήσεων (κρατήσεις, ενημερώσεις, υποστήριξη) μέσω Asterisk, FreePBX, 3CX, Twilio.
-- [Smart Chat AI Agents (Omnichannel)](https://www.sgk.gr/ai-agents): Ενοποιημένος AI εγκέφαλος για Website Live Chat, WhatsApp Business, Instagram DM, Facebook Messenger και Email με live tracking courier (ACS, Speedex, BoxNow).
+- [AI Agents & SoftOne ERP Integration](https://www.sgk.gr/ai-agents-erp-softone): Αυτόνομοι AI agents συνδεδεμένοι με SoftOne & Entersoft ERP. Αυτόματο OCR τιμολογίων προμηθευτών, καταχώριση παραγγελιών B2B, αποθήκη και σύστημα ανθρώπινης έγκρισης (Human-in-the-Loop) για απόλυτη ασφάλεια.
+- [Voice AI Τηλεφωνικά Κέντρα στα Ελληνικά](https://www.sgk.gr/voice-ai-telefonia): Φωνητικοί πράκτορες με άπταιστη φυσική ελληνική ομιλία και απόκριση κάτω από 800ms για τηλεφωνικά κέντρα (Asterisk, 3CX, FreePBX, Twilio). 24/7 κρατήσεις, ραντεβού και εξυπηρέτηση χωρίς αναμονή.
+- [AI Agents για E-Commerce & E-Shop Support](https://www.sgk.gr/ai-agents-ecommerce): Omnichannel AI υποστήριξη σε Website Chat, WhatsApp, Instagram & Messenger με live tracking αποστολών courier (ACS, BoxNow, Speedex, Γενική) και αυτοματοποίηση επιστροφών.
 - [Live Video AI Agents & Ψηφιακοί Υπάλληλοι (24/7 WebRTC)](https://www.sgk.gr/order-ai-agent): Διαδραστικοί ψηφιακοί υπάλληλοι με ζωντανό video WebRTC, οπτική ταυτοποίηση KYC με κάμερα και άμεση σύνδεση με ERP/CRM. Setup 500€, μηνιαία πλάνα από 150€/μήνα.
+- [Custom AI Agents για Επιχειρήσεις (Όλες οι Υπηρεσίες)](https://www.sgk.gr/ai-agents): Ολοκληρωμένη επισκόπηση δυνατοτήτων agentic automation, multi-agent pipelines και δωρεάν αρχικής αξιολόγησης.
 
 ---
 

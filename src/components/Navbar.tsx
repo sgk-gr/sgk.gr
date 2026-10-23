@@ -24,11 +24,11 @@ const navItems = [
     href: "/ai-agents", 
     color: "bg-[#3b5bdb]",
     submenu: [
+      { label: "⭐ AI Agents & SoftOne ERP Integration", href: "/ai-agents-erp-softone" },
+      { label: "📞 Voice AI Τηλεφωνικά Κέντρα (PBX)", href: "/voice-ai-telefonia" },
+      { label: "🛍️ AI Agents για E-Commerce & Support", href: "/ai-agents-ecommerce" },
       { label: "✨ Live Video AI Agents (Demo)", href: "/liveavatar-demo2" },
-      { label: "Κατασκευή AI Agents & Custom AI", href: "/ai-agents" },
-      { label: "Voice AI & Τηλεφωνία (PBX)", href: "/ai-agents" },
-      { label: "Case Study: Sigmalabs AI", href: "/case-study/sigmalabs-ai" },
-      { label: "Case Study: Rekrua HR AI", href: "/case-study/rekrua" }
+      { label: "Όλοι οι AI Agents & Custom AI", href: "/ai-agents" }
     ]
   },
   { label: "Λύσεις", href: "/solutions", color: "bg-[#facc15]" },
