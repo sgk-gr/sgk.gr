@@ -1475,7 +1475,16 @@ const drawDigitalForm1 = async (customer: any, techData?: TechDescriptionData): 
     
     ctx.fillText("ΚΑΜΠΙΝΑ:", 1400, tableY + 110); 
     drawDottedLine(1550, tableY + 115, 2100, tableY + 115);
-    const cabinetVal = (customer.kampina || customer.cabinet_number || customer.chimney_number || "").toString().toUpperCase();
+    const cabinetVal = (
+        customer.chimney_type ||
+        customer.chimney_number ||
+        techData?.chimney_number ||
+        customer.autopsia_tech_data?.chimney_number ||
+        customer.kampina ||
+        customer.cabinet_number ||
+        customer.chimney ||
+        ""
+    ).toString().toUpperCase();
     if (cabinetVal) {
         ctx.save();
         ctx.font = "bold 32px Arial";
@@ -2986,9 +2995,11 @@ export default function AutopsiaPage() {
             <header className={cn("sticky top-0 z-30 -mx-3 sm:-mx-6 px-3 sm:px-6 py-3 mb-4 bg-white/80 backdrop-blur-xl border-b border-slate-200/70", customerUrlParam && "hidden")}>
                 <div className="max-w-[1600px] mx-auto flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                        <img src="/logo-icon.webp" alt="Fiber Flow" className="h-11 w-11 shrink-0 rounded-2xl object-cover shadow-md shadow-blue-600/20 border border-slate-200/60" />
+                        <img src="/icon.png" alt="SGK FIBER" className="h-10 w-10 shrink-0 rounded-2xl object-contain shadow-md shadow-blue-600/10 border border-slate-200/80 bg-white p-1" />
                         <div className="min-w-0">
-                            <h1 className="text-xl sm:text-2xl font-normal text-slate-900 tracking-tight leading-tight truncate font-sans" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>Fiber Flow</h1>
+                            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-tight truncate font-sans">
+                                SGK FIBER
+                            </h1>
                         </div>
                     </div>
 
@@ -3020,6 +3031,11 @@ export default function AutopsiaPage() {
                                 <DropdownMenuItem onClick={() => { localStorage.removeItem("autopsia_engineer_signature"); toast.success("Η υπογραφή διαγράφηκε"); }} className="cursor-pointer flex items-center gap-2.5 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 font-semibold text-sm">
                                     <Trash2 className="h-4 w-4 text-rose-600" />
                                     <span>Διαγραφή Υπογραφής</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => { localStorage.removeItem("sgk_fiber_auth"); window.location.reload(); }} className="cursor-pointer flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 font-semibold text-sm">
+                                    <LogOut className="h-4 w-4 text-slate-500" />
+                                    <span>Αποσύνδεση</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
