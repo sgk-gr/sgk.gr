@@ -1,5 +1,6 @@
 "use client";
 import { EngineerSignatureModal } from "./EngineerSignatureModal";
+import { EditCustomerModal } from "./EditCustomerModal";
 
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -1692,6 +1693,7 @@ export default function AutopsiaPage() {
     const [timelineOpen, setTimelineOpen] = useState(false);
     const [isNewAutopsiaOpen, setIsNewAutopsiaOpen] = useState(false);
     const [customerToDelete, setCustomerToDelete] = useState<any | null>(null);
+    const [customerToEdit, setCustomerToEdit] = useState<any | null>(null);
     const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number; category: string, floor?: string } | null>(null);
     const [fbFloors, setFbFloors] = useState<Record<string, string[]>>({});
     const [newFloorInput, setNewFloorInput] = useState<Record<string, string>>({});
@@ -3385,6 +3387,18 @@ export default function AutopsiaPage() {
                                                     type="button"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
+                                                        setCustomerToEdit(customer);
+                                                    }}
+                                                    className="inline-flex items-center justify-center h-7 px-2.5 rounded-full border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 transition-colors shrink-0 cursor-pointer text-xs font-bold gap-1 shadow-2xs"
+                                                    title="Επεξεργασία Στοιχείων Πελάτη"
+                                                >
+                                                    <Edit2 className="h-3.5 w-3.5 text-amber-700" />
+                                                    <span>Επεξεργασία</span>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
                                                         setCustomerToDelete(customer);
                                                     }}
                                                     className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors shrink-0 cursor-pointer"
@@ -4126,6 +4140,13 @@ export default function AutopsiaPage() {
                     setIsNewAutopsiaOpen(false);
                     setShowEngineerSigSetup(true);
                 }}
+            />
+
+            {/* Edit Customer Modal */}
+            <EditCustomerModal
+                customer={customerToEdit}
+                open={!!customerToEdit}
+                onOpenChange={(open) => !open && setCustomerToEdit(null)}
             />
 
             {/* Delete Confirmation Dialog */}
