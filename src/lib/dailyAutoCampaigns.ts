@@ -485,6 +485,31 @@ export async function runDailyAutoCampaigns(options?: {
   ftthTarget?: number;
   nonIkeTarget?: number;
 }): Promise<DailyCronReport> {
+  console.log("[dailyAutoCampaigns] Cold email outreach is PERMANENTLY DISABLED by administrator request.");
+  return {
+    timestamp: new Date().toISOString(),
+    durationMs: 0,
+    totalTarget: 0,
+    totalSent: 0,
+    totalFailed: 0,
+    newIke: { target: 0, sent: 0, failed: 0, samples: [] },
+    legacyIke: { target: 0, sent: 0, failed: 0, samples: [] },
+    ftth: { target: 0, sent: 0, failed: 0, samples: [] },
+    nonIke: { target: 0, sent: 0, failed: 0, samples: [] },
+    providers: { resend: 0, brevo: 0 },
+    adminNotified: false,
+    errors: ["Cold outreach campaigns have been permanently deleted and disabled."],
+  };
+}
+
+async function _deprecatedRunDailyAutoCampaigns(options?: {
+  force?: boolean;
+  dryRun?: boolean;
+  newIkeTarget?: number;
+  legacyIkeTarget?: number;
+  ftthTarget?: number;
+  nonIkeTarget?: number;
+}): Promise<DailyCronReport> {
   if (globalThis.__isDailyCronRunning) {
     throw new Error("Η ημερήσια αυτόματη αποστολή εκτελείται ήδη αυτή τη στιγμή.");
   }

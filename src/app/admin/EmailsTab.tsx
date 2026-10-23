@@ -1362,26 +1362,7 @@ function safeEncodeBase64(data: any): string {
       // If within 2 minutes after 09:30 (execution window)
       const previousRunTime = target.getTime() - (24 * 60 * 60 * 1000);
       const msSinceRun = now.getTime() - previousRunTime;
-      const isExecutingNow = msSinceRun >= 0 && msSinceRun < (120 * 1000);
-
-      if (isExecutingNow && !triggeredAutoRefresh) {
-        triggeredAutoRefresh = true;
-        fetch("/api/admin/cron-daily-campaigns", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ force: false, source: "admin_auto_timer" }),
-        })
-          .then(() => fetchLeads())
-          .catch(() => {});
-        setTimeout(() => {
-          fetchLeads();
-        }, 15000);
-        setTimeout(() => {
-          fetchLeads();
-        }, 45000);
-      } else if (!isExecutingNow) {
-        triggeredAutoRefresh = false;
-      }
+      const isExecutingNow = false;
 
       const totalSec = Math.max(0, Math.floor(diffMs / 1000));
       const hours = Math.floor(totalSec / 3600);
@@ -1801,6 +1782,10 @@ function safeEncodeBase64(data: any): string {
   };
 
   const handleSendCampaign = async () => {
+    toast.error("Η αποστολή cold emails έχει απενεργοποιηθεί οριστικά κατόπιν εντολής διαχειριστή.");
+    setIsCampaignModalOpen(false);
+    return;
+
     let targets: any[] = [];
 
     if (singleLeadTarget) {
@@ -2355,34 +2340,7 @@ function safeEncodeBase64(data: any): string {
   const handleScanGemiNonIke = () => runGemiScan("non_ike");
 
   const handleTriggerDailyCampaignNow = async () => {
-    if (!window.confirm("Θέλετε να ξεκινήσει άμεσα η Ημερήσια Αποστολή 400 Emails (150 Νέες ΙΚΕ, 100 Παλαιές ΙΚΕ, 150 Επιχειρήσεις εκτός ΙΚΕ 100€);\n\nΜόλις ολοκληρωθεί, θα σας σταλεί αναλυτική αναφορά στο info@sgk.gr.")) {
-      return;
-    }
-
-    setIsRunningDailyCampaign(true);
-    toast.info("🚀 Έναρξη Ημερήσιας Αποστολής 400 Emails (150 Νέες, 100 Παλαιές, 150 Επιχειρήσεις)...", { duration: 6000 });
-
-    try {
-      const res = await fetch("/api/admin/cron-daily-campaigns", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ force: true }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.message || data.error || `HTTP ${res.status}`);
-      }
-
-      setDailyCampaignReport(data.report);
-      setIsDailyReportModalOpen(true);
-      toast.success(`🎉 Η αποστολή ολοκληρώθηκε! Εστάλησαν ${data.report.totalSent}/${data.report.totalTarget} emails. Εστάλη αναφορά στο info@sgk.gr!`, { duration: 8000 });
-      fetchLeads();
-    } catch (err: any) {
-      console.error("Daily campaign error:", err);
-      toast.error(`Σφάλμα κατά την ημερήσια αποστολή: ${err.message || "Άγνωστο σφάλμα"}`);
-    } finally {
-      setIsRunningDailyCampaign(false);
-    }
+    toast.error("Η αποστολή cold emails έχει απενεργοποιηθεί οριστικά κατόπιν εντολής διαχειριστή.");
   };
 
   const filteredLeads = useMemo(() => {
@@ -3233,99 +3191,24 @@ function safeEncodeBase64(data: any): string {
       )}
 
 
-      {/* 🤖 Daily Automated Campaigns Banner (400 Emails: 150 New IKE, 100 Legacy IKE, 150 Non-IKE 100€) */}
-      <div className="bg-gradient-to-r from-indigo-50/90 via-blue-50/80 to-emerald-50/90 border-2 border-indigo-200/90 p-5 rounded-2xl shadow-sm text-slate-800 mb-6">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <h3 className="text-sm sm:text-base font-black tracking-tight text-slate-900 flex items-center gap-2">
-                🤖 Αυτόματη Ημερήσια Αποστολή — 400 Emails / Ημέρα
+      {/* 🛑 Cold Email Campaigns Disabled Banner */}
+      <div className="bg-slate-50 border-2 border-slate-200 p-5 rounded-2xl shadow-xs text-slate-800 mb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-rose-100 border border-rose-200 flex items-center justify-center text-rose-600 font-bold shrink-0 text-lg">
+              🛑
+            </div>
+            <div className="space-y-0.5">
+              <h3 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                <span>Η αποστολή Cold Emails έχει απενεργοποιηθεί οριστικά</span>
+                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300">
+                  Ανενεργό
+                </span>
               </h3>
-              <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 border border-indigo-300">
-                Live Cron (09:30)
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-mono text-[11px] font-black shadow-2xs">
-                <Clock size={11} className="text-emerald-600 animate-pulse" />
-                <span>{cronCountdown.isExecutingNow ? "Εκτελείται τώρα!" : `Σε: ${cronCountdown.formatted}`}</span>
-              </span>
+              <p className="text-xs text-slate-500 font-medium max-w-2xl">
+                Δεν αποστέλλονται πλέον αυτόματα ή μαζικά emails (ούτε για ΙΚΕ, ούτε για άλλες επιχειρήσεις). Όλα τα cron jobs και τα αυτόματα workflows έχουν αφαιρεθεί.
+              </p>
             </div>
-            
-            <p className="text-xs text-slate-600 leading-relaxed max-w-3xl font-medium">
-              Εκτελείται καθημερινά στις <strong>09:30</strong> (πρωί): Στέλνει <strong>150 Νέες ΙΚΕ</strong> (τρέχοντος μήνα - 80€), <strong>100 Παλαιές ΙΚΕ</strong> (2018–2025 - 80€) και <strong>150 Επιχειρήσεις &amp; Ατομικές εκτός ΙΚΕ</strong> (2018–σήμερα: ΑΕ, ΕΕ, ΟΕ, Ατομικές - 100€ με ΦΠΑ). Αν δεν υπάρχουν διαθέσιμα leads στη βάση, αντλεί αυτόματα από το ΓΕΜΗ. Με την ολοκλήρωση αποστέλλεται αναλυτική αναφορά στο <strong>info@sgk.gr</strong>.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 font-bold shadow-xs">
-                🏢 150 Νέες Ι.Κ.Ε. (Τρέχοντος Μήνα)
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 font-bold shadow-xs">
-                🏛️ 100 Παλαιές Ι.Κ.Ε. (2018–2025)
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800 border border-purple-200 font-bold shadow-xs">
-                🚀 150 Επιχειρήσεις &amp; Ατομικές (100€)
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold shadow-xs">
-                ✉️ Αναφορά στο info@sgk.gr
-              </span>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full lg:w-auto justify-end">
-            {/* Live Digital Countdown Timer Card */}
-            <div className="flex items-center gap-3 bg-white/95 backdrop-blur-xs border-2 border-indigo-200/90 px-3.5 py-2 rounded-2xl shadow-xs">
-              <div className="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shrink-0">
-                <Clock size={18} className={cronCountdown.isExecutingNow ? "animate-spin text-emerald-600" : "animate-pulse"} />
-              </div>
-              <div className="text-left">
-                <div className="text-[9.5px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                  <span className={`w-1.5 h-1.5 rounded-full ${cronCountdown.isExecutingNow ? "bg-amber-500 animate-ping" : "bg-emerald-500 animate-pulse"}`} />
-                  <span>ΑΝΤΙΣΤΡΟΦΗ ΜΕΤΡΗΣΗ (09:30)</span>
-                </div>
-                {cronCountdown.isExecutingNow ? (
-                  <div className="text-xs font-black text-emerald-600 flex items-center gap-1.5 mt-0.5">
-                    <Loader2 size={13} className="animate-spin text-emerald-600" />
-                    <span>Εκτελείται αποστολή...</span>
-                  </div>
-                ) : (
-                  <div className="font-mono text-sm sm:text-base font-black text-slate-900 tracking-wider flex items-center gap-1 mt-0.5">
-                    <span className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded-md border border-slate-200 font-bold" title="Ώρες">
-                      {cronCountdown.hours.toString().padStart(2, "0")}
-                      <span className="text-[9px] font-sans font-bold text-slate-400 ml-0.5">ω</span>
-                    </span>
-                    <span className="text-slate-400 font-bold">:</span>
-                    <span className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded-md border border-slate-200 font-bold" title="Λεπτά">
-                      {cronCountdown.minutes.toString().padStart(2, "0")}
-                      <span className="text-[9px] font-sans font-bold text-slate-400 ml-0.5">λ</span>
-                    </span>
-                    <span className="text-slate-400 font-bold">:</span>
-                    <span className="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-md border border-emerald-300 font-black animate-pulse" title="Δευτερόλεπτα">
-                      {cronCountdown.seconds.toString().padStart(2, "0")}
-                      <span className="text-[9px] font-sans font-bold text-emerald-600 ml-0.5">δ</span>
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <button
-              onClick={handleTriggerDailyCampaignNow}
-              disabled={isRunningDailyCampaign}
-              className="w-full sm:w-auto px-5 py-3 rounded-2xl font-black text-xs bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              title="Άμεση εκτέλεση της ημερήσιας αποστολής 400 emails τώρα και αποστολή αναφοράς στο info@sgk.gr"
-            >
-              {isRunningDailyCampaign ? (
-                <>
-                  <Loader2 size={15} className="animate-spin text-white" />
-                  <span>Εκτελείται αποστολή 400 emails...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles size={15} className="text-yellow-300" />
-                  <span>⚡ Άμεση Εκτέλεση Τώρα (400 Emails)</span>
-                </>
-              )}
-            </button>
           </div>
         </div>
       </div>

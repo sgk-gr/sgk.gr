@@ -5,6 +5,12 @@ import { dispatchEmailWithFallback } from "@/lib/emailDispatcher";
 
 export async function POST(req: Request) {
   try {
+    return NextResponse.json({
+      success: false,
+      error: "Η αποστολή cold emails έχει απενεργοποιηθεί οριστικά.",
+      disabled: true,
+    }, { status: 403 });
+
     const payload = await req.json();
     const {
       email,
