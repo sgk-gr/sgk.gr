@@ -416,10 +416,6 @@ function KataskeviIkeContent() {
                     </div>
                   </div>
 
-                  {/* Clear Pricing Note */}
-                  <div className="text-[11px] text-white/90 bg-black/20 rounded-lg p-2.5 border border-white/15 leading-relaxed">
-                    ✔ <strong>80€ Τελική Τιμή με ΦΠΑ:</strong> Καλύπτει κατασκευή, domain, SSL &amp; hosting για 1 έτος. Ανανέωση από τον 2ο χρόνο σταθερά 80€/έτος με ΦΠΑ — <strong>χωρίς καμία δέσμευση</strong>.
-                  </div>
 
                   {/* Opt-in GDPR Consent Checkbox */}
                   <div className="flex items-start gap-2 pt-1 text-[11px] text-white/90 leading-tight">

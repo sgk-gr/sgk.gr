@@ -422,9 +422,14 @@ serve(async (req) => {
                         <p style="margin: 0 0 8px 0; font-size: 13px; color: #475569;">
                             Δείτε πώς θα φαίνεται η δική σας ιστοσελίδα Ι.Κ.Ε. από τον τελευταίο μας πελάτη:
                         </p>
-                        <a href="https://www.sellascountryhouses.gr/" target="_blank" style="display:inline-block;background:#3b5bdb;color:#fff;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border-radius:10px;text-decoration:none;">
-                            Δείτε πρόσφατο δείγμα μας ↗
-                        </a>
+                        <div style="margin-top: 10px;">
+                            <a href="https://meltech-ike.gr/" target="_blank" style="display:inline-block;background:#3b5bdb;color:#fff;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border-radius:8px;text-decoration:none;margin-right:8px;margin-bottom:6px;">
+                                ⚡ MELTECH Ι.Κ.Ε. ↗
+                            </a>
+                            <a href="https://www.sellascountryhouses.gr/" target="_blank" style="display:inline-block;background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border-radius:8px;text-decoration:none;margin-bottom:6px;">
+                                🏡 Sellas Houses ↗
+                            </a>
+                        </div>
                     </div>
 
                     <p style="margin: 0 0 15px 0; color: #444444;">
