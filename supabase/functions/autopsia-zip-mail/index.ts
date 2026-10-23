@@ -16,7 +16,7 @@ serve(async (req) => {
     }
 
     try {
-        const { customer } = await req.json();
+        const { customer, downloadOnly } = await req.json();
 
         let toEmails = ['info@sgk.gr'];
         if (customer?.autopsia_tech_data?.recipient_email) {
@@ -59,6 +59,18 @@ serve(async (req) => {
             attachments.push({
                 filename: `Autopsia_${customer.sr || customer.id}.zip`,
                 content: encode(zipBytes),
+            });
+        }
+
+        if (downloadOnly) {
+            return new Response(JSON.stringify({
+                success: fileCount > 0,
+                zipBase64: attachments[0]?.content || null,
+                fileName: `Autopsia_${customer.sr || customer.id}.zip`,
+                fileCount
+            }), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+                status: 200,
             });
         }
 

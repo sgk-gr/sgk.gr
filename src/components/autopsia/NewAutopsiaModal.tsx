@@ -29,9 +29,10 @@ const DEFAULT_CONTRACTORS = [
 interface NewAutopsiaModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    onOpenEngineerSig?: () => void;
 }
 
-export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) {
+export function NewAutopsiaModal({ open, onOpenChange, onOpenEngineerSig }: NewAutopsiaModalProps) {
     const queryClient = useQueryClient();
     const [loading, setLoading] = useState(false);
     
@@ -48,6 +49,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
     const [phone, setPhone] = useState("");
     const [managerPhone, setManagerPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [tk, setTk] = useState("52100");
     const [floor, setFloor] = useState("");
     const [city, setCity] = useState<string>("Καστοριά");
     const [savedCities, setSavedCities] = useState<string[]>(DEFAULT_CITIES);
@@ -139,6 +141,14 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
         loadConfig();
     }, [open, loadConfig]);
 
+    const getDefaultTkForCity = (cityName: string) => {
+        const l = cityName.toLowerCase();
+        if (l.includes("φλώρινα")) return "53100";
+        if (l.includes("καστοριά")) return "52100";
+        if (l.includes("αθήνα") || l.includes("athens")) return "10431";
+        return "52100";
+    };
+
     const resetForm = () => {
         setSr("");
         setBuildingId("");
@@ -149,6 +159,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
         setPhone("");
         setManagerPhone("");
         setAddress("");
+        setTk("52100");
         setFloor("");
         setIsAddingCity(false);
         setNewCityName("");
@@ -261,6 +272,13 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // 1. Verify engineer signature exists before creating an autopsy
+        const engineerSig = typeof window !== "undefined" ? window.localStorage.getItem("autopsia_engineer_signature") : null;
+        if (!engineerSig) {
+            toast.error("Απαιτείται υπογραφή μηχανικού πριν την προσθήκη αυτοψίας! Παρακαλώ καταχωρήστε πρώτα την υπογραφή σας.");
+            return;
+        }
+
         if (!lastName.trim()) {
             toast.error("Παρακαλώ συμπληρώστε το Επίθετο.");
             return;
@@ -284,6 +302,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
             const finalCityName = isAddingCity ? newCityName.trim() : city;
             const finalContractorName = isAddingContractor ? newContractorName.trim() : contractor;
             const finalRecipientEmail = isAddingContractor ? (newContractorEmail.trim() || "info@sgk.gr") : recipientEmail;
+            const finalTk = (tk.trim() || getDefaultTkForCity(finalCityName));
             
             // Auto-add if they typed it but didn't click save
             if (isAddingCity && finalCityName) {
@@ -308,6 +327,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                 first_name: firstName.trim() || "",
                 last_name: lastName.trim(),
                 address: address.trim(),
+                tk: finalTk,
                 city: finalCityName,
                 is_kastoria: isKastoria,
                 is_florina: isFlorina,
@@ -328,6 +348,8 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                     priority: priority,
                     latitude: parsedLat,
                     longitude: parsedLng,
+                    postal_code: finalTk,
+                    tk: finalTk,
                     chimney_number: cleanChimney,
                     contractor: finalContractorName,
                     contractor_email: finalRecipientEmail,
@@ -373,6 +395,25 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+                    {typeof window !== "undefined" && !window.localStorage.getItem("autopsia_engineer_signature") && (
+                        <div className="flex items-center justify-between p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium">
+                            <div className="flex items-center gap-2">
+                                <span className="text-base">⚠️</span>
+                                <span><strong>Προσοχή:</strong> Δεν έχει καταχωρηθεί ψηφιακή υπογραφή μηχανικού.</span>
+                            </div>
+                            {onOpenEngineerSig && (
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    onClick={onOpenEngineerSig}
+                                    className="h-7 px-2.5 text-xs bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg shadow-xs"
+                                >
+                                    Υπογραφή Τώρα
+                                </Button>
+                            )}
+                        </div>
+                    )}
+
                     {/* Identification Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div className="space-y-1">
@@ -437,8 +478,8 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                         </div>
                     </div>
 
-                    {/* Address & Floor */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* Address, TK & Floor */}
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                         <div className="sm:col-span-2 space-y-1">
                             <Label htmlFor="address" className="text-xs font-bold text-slate-700">
                                 Διεύθυνση <span className="text-red-500">*</span>
@@ -453,7 +494,20 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                             />
                         </div>
 
-                        <div className="space-y-1">
+                        <div className="sm:col-span-1 space-y-1">
+                            <Label htmlFor="tk" className="text-xs font-bold text-slate-700">
+                                Τ.Κ.
+                            </Label>
+                            <Input
+                                id="tk"
+                                placeholder="π.χ. 52100"
+                                value={tk}
+                                onChange={(e) => setTk(e.target.value)}
+                                className="h-9 bg-white border-slate-300 text-slate-900 font-medium text-xs sm:text-sm focus-visible:ring-1 focus-visible:ring-blue-500"
+                            />
+                        </div>
+
+                        <div className="sm:col-span-1 space-y-1">
                             <Label htmlFor="floor" className="text-xs font-bold text-slate-700">Όροφος</Label>
                             <Input
                                 id="floor"
@@ -495,6 +549,7 @@ export function NewAutopsiaModal({ open, onOpenChange }: NewAutopsiaModalProps) 
                                             setNewCityName("");
                                         } else {
                                             setCity(val);
+                                            setTk(getDefaultTkForCity(val));
                                         }
                                     }}>
                                         <SelectTrigger className="h-8 bg-white border-slate-300 text-slate-900 text-xs font-semibold">

@@ -74,6 +74,104 @@ const templateNameOffsets: Record<string, { x: number, y: number, fontSize: numb
     'aut_tech': null,
 };
 
+export function getCustomerTk(customer: any): string {
+    const raw = customer?.tk || 
+                customer?.postal_code || 
+                customer?.autopsia_tech_data?.postal_code || 
+                customer?.autopsia_tech_data?.tk;
+    if (raw && String(raw).trim()) return String(raw).trim();
+    const city = String(customer?.city || "").toLowerCase();
+    if (city.includes("φλώρινα") || customer?.is_florina) return "53100";
+    if (city.includes("καστοριά") || customer?.is_kastoria) return "52100";
+    if (city.includes("αθήνα") || city.includes("athens")) return "10431";
+    return "52100";
+}
+
+const loadSafeImage = async (src: string | null | undefined): Promise<HTMLImageElement | null> => {
+    if (!src) return null;
+    const cleanSrc = String(src).trim();
+    if (!cleanSrc) return null;
+
+    try {
+        let finalSrc = cleanSrc;
+        // If it's a remote URL, fetch as blob to completely bypass CORS & cache quirks on canvas
+        if (!cleanSrc.startsWith("data:") && !cleanSrc.startsWith("blob:")) {
+            try {
+                const urlToFetch = getTimestampedUrl(cleanSrc);
+                const res = await fetch(urlToFetch);
+                if (res.ok) {
+                    const blob = await res.blob();
+                    finalSrc = URL.createObjectURL(blob);
+                }
+            } catch (fetchErr) {
+                console.warn("fetch blob failed in loadSafeImage, falling back to direct URL:", fetchErr);
+            }
+        }
+
+        return await new Promise<HTMLImageElement | null>((resolve) => {
+            const img = new window.Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => {
+                const retryImg = new window.Image();
+                retryImg.crossOrigin = "anonymous";
+                retryImg.onload = () => resolve(retryImg);
+                retryImg.onerror = () => resolve(null);
+                retryImg.src = cleanSrc;
+            };
+            img.src = finalSrc;
+        });
+    } catch (e) {
+        console.warn("loadSafeImage error:", e);
+        return null;
+    }
+};
+
+const drawSignatureBlue = (
+    ctx: CanvasRenderingContext2D,
+    img: HTMLImageElement,
+    x: number,
+    y: number,
+    width: number,
+    height: number
+) => {
+    try {
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = img.naturalWidth || img.width || width;
+        tempCanvas.height = img.naturalHeight || img.height || height;
+        const tempCtx = tempCanvas.getContext("2d");
+        if (!tempCtx) {
+            ctx.drawImage(img, x, y, width, height);
+            return;
+        }
+        tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+        const imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            const alpha = data[i + 3];
+            if (alpha === 0) continue;
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            const brightness = (r + g + b) / 3;
+            // Transparent for white / light grey paper background
+            if (brightness > 220) {
+                data[i + 3] = 0;
+            } else {
+                // Tint pen stroke crisp blue
+                data[i] = 0;
+                data[i + 1] = 0;
+                data[i + 2] = 255;
+                data[i + 3] = Math.max(alpha, 255 - brightness);
+            }
+        }
+        tempCtx.putImageData(imgData, 0, 0);
+        ctx.drawImage(tempCanvas, x, y, width, height);
+    } catch (e) {
+        console.warn("drawSignatureBlue error:", e);
+        ctx.drawImage(img, x, y, width, height);
+    }
+};
+
 // Digital Template Generator for Declaration (aut_decl)
 const drawDigitalDecl = async (customer: any, adt: string, signatureUrl?: string | null): Promise<string> => {
     const canvas = document.createElement("canvas");
@@ -182,7 +280,7 @@ const drawDigitalDecl = async (customer: any, adt: string, signatureUrl?: string
         ctx.fillText(".............................................. Αρ. ........., Τ.Κ. |__|__|__|__|__|", 720, 640);
         
         // Fill TK digits
-        const tk = customer.is_florina ? "53100" : "52100";
+        const tk = getCustomerTk(customer);
         ctx.font = "bold 34px Arial";
         ctx.fillStyle = "black";
         const tkStartX = 1410; // Moved to the left to start from the first box
@@ -264,43 +362,20 @@ const drawDigitalDecl = async (customer: any, adt: string, signatureUrl?: string
         
         ctx.fillText("Ονοματεπώνυμο & Υπογραφή:", 150, 1650);
 
-        // Draw Signature if exists
-        if (signatureUrl) {
-            const sigImg = new window.Image();
-            sigImg.crossOrigin = "anonymous";
-            sigImg.src = getTimestampedUrl(signatureUrl);
-            await new Promise((resolve) => {
-                sigImg.onload = () => {
-        sigImg.onerror = () => resolve(null);
-                    try {
-                        // Create a temporary canvas to tint the signature blue
-                        const tempCanvas = document.createElement("canvas");
-                        tempCanvas.width = sigImg.naturalWidth || sigImg.width || 500;
-                        tempCanvas.height = sigImg.naturalHeight || sigImg.height || 250;
-                        const tempCtx = tempCanvas.getContext("2d");
-                        if (tempCtx) {
-                            tempCtx.drawImage(sigImg, 0, 0);
-                            tempCtx.globalCompositeOperation = 'source-in';
-                            tempCtx.fillStyle = '#0000FF';
-                            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-                            // Draw the tinted signature under the text
-                            ctx.drawImage(tempCanvas, 200, 1680, 500, 250);
-                        } else {
-                            ctx.drawImage(sigImg, 200, 1680, 500, 250);
-                        }
-                    } catch (err) {
-                        console.error("Error drawing signature:", err);
-                        try {
-                            ctx.drawImage(sigImg, 200, 1680, 500, 250);
-                        } catch (_) {}
-                    }
-                    resolve(null);
-                };
-                sigImg.onerror = (err) => {
-                    console.error("Error loading signature in drawDigitalDecl:", err);
-                    resolve(null);
-                };
-            });
+        // Customer Full Name next to label
+        const fullNameDecl = `${customer.last_name || ""} ${customer.first_name || ""}`.trim().toUpperCase();
+        if (fullNameDecl) {
+            ctx.font = "bold 34px Arial";
+            ctx.fillText(fullNameDecl, 600, 1650);
+        }
+
+        // Draw Signature if exists (Blue tint, background cleaned)
+        const sigTarget = signatureUrl || customer?.signature_url || customer?.autopsia_signature_url;
+        if (sigTarget) {
+            const sigImg = await loadSafeImage(sigTarget);
+            if (sigImg) {
+                drawSignatureBlue(ctx, sigImg, 200, 1680, 500, 250);
+            }
         }
 
         // Separator line
@@ -478,7 +553,7 @@ const drawDigitalReport = async (customer: any, fatherName: string): Promise<str
     ctx.fillText("Τ.Κ.:", 1600, currentY + 45);
     ctx.font = "bold 36px Arial";
     ctx.fillStyle = "black";
-    const tk = "52100";
+    const tk = getCustomerTk(customer);
     for(let i=0; i<tk.length; i++) {
         ctx.fillText(tk[i], 1720 + (i * 30), currentY + 45); // Less spacing
     }
@@ -1051,48 +1126,12 @@ const drawDigitalTech = async (customer: any, techData: TechDescriptionData, sig
     
     ctx.fillText("Υπογραφή Μηχανικού", 1400, currentY);
     
-    // --- Permanent Engineer Signature ---
-    const engSigImg = new window.Image();
-    engSigImg.src = window.localStorage.getItem("autopsia_engineer_signature") || "/engineer_sig.jpg";
-    await new Promise((resolve) => {
-        engSigImg.onload = () => {
-        engSigImg.onerror = () => resolve(null);
-            // Tint it blue like the others
-            const tempCanvas = document.createElement("canvas");
-            tempCanvas.width = engSigImg.width;
-            tempCanvas.height = engSigImg.height;
-            const tempCtx = tempCanvas.getContext("2d");
-            if (tempCtx) {
-                tempCtx.drawImage(engSigImg, 0, 0);
-                
-                // Get image data to remove white background and tint blue
-                const imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-                const data = imgData.data;
-                
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i];
-                    const g = data[i+1];
-                    const b = data[i+2];
-                    
-                    // Calculate brightness (average)
-                    const brightness = (r + g + b) / 3;
-                    
-                    // Make it transparent based on brightness (white = transparent)
-                    data[i+3] = 255 - brightness;
-                    
-                    // Force it to be Blue
-                    data[i] = 0;   // R
-                    data[i+1] = 0; // G
-                    data[i+2] = 255; // B
-                }
-                
-                tempCtx.putImageData(imgData, 0, 0);
-                ctx.drawImage(tempCanvas, 1750, currentY - 120, 450, 200);
-            }
-            resolve(null);
-        };
-        engSigImg.onerror = () => resolve(null); // Continue if image not found
-    });
+    // --- Permanent Engineer Signature (Blue tinted) ---
+    const engSigSrc = (typeof window !== "undefined" ? window.localStorage.getItem("autopsia_engineer_signature") : null) || "/engineer_sig.jpg";
+    const engSigImg = await loadSafeImage(engSigSrc);
+    if (engSigImg) {
+        drawSignatureBlue(ctx, engSigImg, 1750, currentY - 120, 450, 200);
+    }
 
     currentY += 70;
     // Materials Box
@@ -1117,46 +1156,15 @@ const drawDigitalTech = async (customer: any, techData: TechDescriptionData, sig
     ctx.fillText("Όνομα & Υπογραφή Διαχειριστή", 1400, currentY + 200);
     drawDots(1950, currentY + 200, 35);
 
-    // Signatures rendering (Blue)
-    if (signatureUrl) {
-        const sigImg = new window.Image();
-        sigImg.crossOrigin = "anonymous";
-        sigImg.src = getTimestampedUrl(signatureUrl);
-        await new Promise((resolve) => {
-            sigImg.onload = () => {
-        sigImg.onerror = () => resolve(null);
-                try {
-                    const tempCanvas = document.createElement("canvas");
-                    tempCanvas.width = sigImg.naturalWidth || sigImg.width || 450;
-                    tempCanvas.height = sigImg.naturalHeight || sigImg.height || 120;
-                    const tempCtx = tempCanvas.getContext("2d");
-                    if (tempCtx) {
-                        tempCtx.drawImage(sigImg, 0, 0);
-                        tempCtx.globalCompositeOperation = 'source-in';
-                        tempCtx.fillStyle = '#0000FF'; // Blue Pen
-                        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-                        
-                        // Draw for Customer and Manager
-                        ctx.drawImage(tempCanvas, 1900, currentY + 10, 450, 120);
-                        ctx.drawImage(tempCanvas, 1900, currentY + 120, 450, 120);
-                    } else {
-                        ctx.drawImage(sigImg, 1900, currentY + 10, 450, 120);
-                        ctx.drawImage(sigImg, 1900, currentY + 120, 450, 120);
-                    }
-                } catch (err) {
-                    console.error("Error drawing signature in tech:", err);
-                    try {
-                        ctx.drawImage(sigImg, 1900, currentY + 10, 450, 120);
-                        ctx.drawImage(sigImg, 1900, currentY + 120, 450, 120);
-                    } catch (_) {}
-                }
-                resolve(null);
-            };
-            sigImg.onerror = (err) => {
-                console.error("Error loading signature in drawDigitalTech:", err);
-                resolve(null);
-            };
-        });
+    // Signatures rendering for Customer and Manager (Blue)
+    const sigTarget = signatureUrl || customer?.signature_url || customer?.autopsia_signature_url;
+    if (sigTarget) {
+        const sigImg = await loadSafeImage(sigTarget);
+        if (sigImg) {
+            // Draw for Customer and Manager
+            drawSignatureBlue(ctx, sigImg, 1900, currentY + 10, 450, 120);
+            drawSignatureBlue(ctx, sigImg, 1900, currentY + 120, 450, 120);
+        }
     }
 
     // Bottom Legal Text
@@ -1203,7 +1211,9 @@ const drawDigitalForm1 = async (customer: any, techData?: TechDescriptionData): 
     ctx.font = "bold 32px Arial";
     ctx.fillText("ΔΙΕΥΘΥΝΣΗ:", 120, 160);
     ctx.font = "32px Arial";
-    ctx.fillText((customer.address || "").toUpperCase(), 350, 160);
+    const tk = getCustomerTk(customer);
+    const fullAddr = (customer.address || "").toUpperCase() + (tk ? ` (Τ.Κ. ${tk})` : "");
+    ctx.fillText(fullAddr, 350, 160);
     drawDottedLine(350, 170, 2350, 170);
 
     ctx.font = "bold 32px Arial";
@@ -1478,7 +1488,7 @@ const drawDigitalForm1 = async (customer: any, techData?: TechDescriptionData): 
     const cabinetVal = (
         customer.chimney_type ||
         customer.chimney_number ||
-        techData?.chimney_number ||
+        (techData as any)?.chimney_number ||
         customer.autopsia_tech_data?.chimney_number ||
         customer.kampina ||
         customer.cabinet_number ||
@@ -1901,6 +1911,8 @@ export default function AutopsiaPage() {
     const [tempFatherName, setTempFatherName] = useState<string>("");
     const [currentCustomerForChimney, setCurrentCustomerForChimney] = useState<any>(null);
     const [tempChimney, setTempChimney] = useState<string>("");
+    const [currentCustomerForTk, setCurrentCustomerForTk] = useState<any>(null);
+    const [tempTk, setTempTk] = useState<string>("");
     const [isTechModalOpen, setIsTechModalOpen] = useState(false);
     const [selectedCustomerIdForTech, setSelectedCustomerIdForTech] = useState<string | null>(null);
     const [customersTechData, setCustomersTechData] = useState<Record<string, TechDescriptionData>>(() => {
@@ -2516,6 +2528,32 @@ export default function AutopsiaPage() {
         },
     });
 
+    const saveTkMutation = useMutation({
+        mutationFn: async ({ id, tk }: { id: string; tk: string }) => {
+            const clean = tk.trim();
+            const customer = customers?.find(c => c.id === id);
+            const currentTech = customer?.autopsia_tech_data || customersTechData[id] || {};
+            const { error } = await supabase.from("customers").update({
+                tk: clean,
+                autopsia_tech_data: {
+                    ...currentTech,
+                    postal_code: clean,
+                    tk: clean
+                }
+            } as any).eq("id", id);
+            if (error) throw error;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["customers-autopsia2-pending"] });
+            queryClient.invalidateQueries({ queryKey: ["customers"] });
+            toast.success("Ο Ταχυδρομικός Κώδικας (Τ.Κ.) αποθηκεύτηκε!");
+            setCurrentCustomerForTk(null);
+        },
+        onError: (err: any) => {
+            toast.error("Σφάλμα κατά την αποθήκευση Τ.Κ.: " + err.message);
+        }
+    });
+
     const deleteCustomerMutation = useMutation({
         mutationFn: async (id: string) => {
             const { error } = await supabase.from("customers").delete().eq("id", id);
@@ -2534,16 +2572,75 @@ export default function AutopsiaPage() {
 
     const saveSignatureMutation = useMutation({
         mutationFn: async ({ id, signature_url }: { id: string; signature_url: string }) => {
-            const { error } = await supabase.from("customers").update({ signature_url } as any).eq("id", id);
-            if (error) throw error;
+            // 1. Update customer signature in DB
+            const { error: sigErr } = await supabase.from("customers").update({ signature_url } as any).eq("id", id);
+            if (sigErr) throw sigErr;
+
+            // 2. Fetch fresh customer record
+            const { data: customer, error: fetchErr } = await supabase
+                .from("customers")
+                .select("*")
+                .eq("id", id)
+                .single();
+            if (fetchErr || !customer) return;
+
+            // 3. Immediately regenerate digital declaration & tech description with the new signature
+            try {
+                const techData = customer.autopsia_tech_data || customersTechData[id] || {};
+                const declDataUrl = await drawDigitalDecl(customer, customer.adt || "", signature_url);
+                const techDataUrl = await drawDigitalTech(customer, techData, signature_url);
+
+                let updatedPhotos: string[] = Array.isArray(customer.photo_urls) ? [...customer.photo_urls] : [];
+                const customerPrefix = customer.sr || customer.id;
+
+                if (declDataUrl) {
+                    const res = await fetch(declDataUrl);
+                    const blob = await res.blob();
+                    const fileName = `${customerPrefix}_YD_Diaxeiristi.jpg`;
+                    const file = new File([blob], fileName, { type: 'image/jpeg' });
+                    const publicUrl = await uploadToR2(file, fileName);
+                    if (publicUrl) {
+                        updatedPhotos = updatedPhotos.filter((url: string) => {
+                            const lower = decodeURIComponent(url.toLowerCase());
+                            return !lower.includes('yd_diaxeiristi') && !lower.includes('aut_decl') && !lower.includes('υδ_διαχειριστή');
+                        });
+                        updatedPhotos.push(publicUrl);
+                    }
+                }
+
+                if (techDataUrl) {
+                    const res = await fetch(techDataUrl);
+                    const blob = await res.blob();
+                    const fileName = `${customerPrefix}_Texn_Perigrafi.jpg`;
+                    const file = new File([blob], fileName, { type: 'image/jpeg' });
+                    const publicUrl = await uploadToR2(file, fileName);
+                    if (publicUrl) {
+                        updatedPhotos = updatedPhotos.filter((url: string) => {
+                            const lower = decodeURIComponent(url.toLowerCase());
+                            return !lower.includes('texn_perigrafi') && !lower.includes('aut_tech') && !lower.includes('τεχν_περιγραφή');
+                        });
+                        updatedPhotos.push(publicUrl);
+                    }
+                }
+
+                await supabase.from("customers").update({
+                    photo_urls: updatedPhotos
+                } as any).eq("id", id);
+            } catch (regenErr) {
+                console.error("Auto-regeneration of signed documents failed:", regenErr);
+            }
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["customers-autopsia2-pending"] });
-            toast.success("Η υπογραφή αποθηκεύτηκε!");
+            queryClient.invalidateQueries({ queryKey: ["customers"] });
+            toast.success("Η υπογραφή αποθηκεύτηκε και τα ψηφιακά έγγραφα (Υ.Δ. & Τεχνική) ενημερώθηκαν!");
             setCurrentCustomerForSignature(null);
             setIsSavingSignature(false);
         },
-        onError: () => setIsSavingSignature(false),
+        onError: (err: any) => {
+            toast.error("Σφάλμα αποθήκευσης υπογραφής: " + err.message);
+            setIsSavingSignature(false);
+        },
     });
 
     const toggleReadyMutation = useMutation({
@@ -2598,6 +2695,74 @@ export default function AutopsiaPage() {
             queryClient.invalidateQueries({ queryKey: ["customers-autopsia2-pending"] });
         }
     });
+
+        // Cloud sync engineer signature if missing locally
+    useEffect(() => {
+        const syncEngineerSig = async () => {
+            if (typeof window === "undefined") return;
+            const localSig = window.localStorage.getItem("autopsia_engineer_signature");
+            if (!localSig) {
+                try {
+                    const { data } = await supabase
+                        .from("customers")
+                        .select("signature_url, autopsia_tech_data")
+                        .eq("id", "c0000000-0000-0000-0000-000000000001")
+                        .single();
+                    const cloudSig = data?.autopsia_tech_data?.engineer_signature || data?.signature_url;
+                    if (cloudSig) {
+                        window.localStorage.setItem("autopsia_engineer_signature", cloudSig);
+                    }
+                } catch (e) {
+                    console.warn("Could not sync engineer signature from cloud:", e);
+                }
+            }
+        };
+        syncEngineerSig();
+    }, []);
+
+    const handleOpenNewAutopsia = () => {
+        const engineerSig = typeof window !== "undefined" ? window.localStorage.getItem("autopsia_engineer_signature") : null;
+        if (!engineerSig) {
+            toast.error("Απαιτείται υπογραφή μηχανικού πριν την προσθήκη αυτοψίας! Παρακαλώ καταχωρήστε πρώτα την υπογραφή σας.");
+            setShowEngineerSigSetup(true);
+            return;
+        }
+        setIsNewAutopsiaOpen(true);
+    };
+
+    const handleDownloadZip = async (customer: any) => {
+        const toastId = toast.loading("Προετοιμασία λήψης φακέλου ZIP...");
+        try {
+            const { data, error } = await supabase.functions.invoke("autopsia-zip-mail", {
+                body: { customer, downloadOnly: true }
+            });
+            if (error) throw error;
+            if (!data?.zipBase64) {
+                throw new Error("Δεν βρέθηκαν έντυπα για τη δημιουργία ZIP.");
+            }
+            const byteCharacters = atob(data.zipBase64);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: "application/zip" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = data.fileName || `Autopsia_${customer.sr || customer.id}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            toast.success(`Το αρχείο ${data.fileName} κατέβηκε επιτυχώς (${data.fileCount} έντυπα)!`);
+        } catch (err: any) {
+            console.error("Download ZIP error:", err);
+            toast.error("Σφάλμα κατά τη λήψη ZIP: " + (err.message || "Αποτυχία"));
+        } finally {
+            toast.dismiss(toastId);
+        }
+    };
 
     const validCustomers = useMemo(() => {
         return (customers || []).filter(c => !c.thanasis_akyri && c.project_status !== "cancelled" && c.project_status !== "canceled" && c.project_status !== "se-anamoni");
@@ -3005,7 +3170,7 @@ export default function AutopsiaPage() {
 
                     <div className="flex items-center gap-2 shrink-0">
                         <Button
-                            onClick={() => setIsNewAutopsiaOpen(true)}
+                            onClick={handleOpenNewAutopsia}
                             className="hidden sm:inline-flex h-10 px-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold gap-2 shadow-md shadow-blue-600/20 cursor-pointer"
                         >
                             <Plus className="h-4 w-4 stroke-[2.5]" />
@@ -3055,7 +3220,7 @@ export default function AutopsiaPage() {
                                         </div>
                                     </DropdownMenuLabel>
                                     <div className="max-h-[300px] overflow-y-auto">
-                                        <DropdownMenuItem onClick={() => setIsNewAutopsiaOpen(true)} className="cursor-pointer flex items-center gap-2 text-blue-600 font-bold">
+                                        <DropdownMenuItem onClick={handleOpenNewAutopsia} className="cursor-pointer flex items-center gap-2 text-blue-600 font-bold">
                                             <Plus className="h-4 w-4" /> Νέα Αυτοψία
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
@@ -3152,7 +3317,7 @@ export default function AutopsiaPage() {
                         {customers?.length === 0 ? "Δεν υπάρχει καμία καταχωρημένη αυτοψία. Πατήστε παρακάτω για προσθήκη." : "Δεν βρέθηκαν αποτελέσματα με τα επιλεγμένα φίλτρα."}
                     </p>
                     <Button
-                        onClick={() => setIsNewAutopsiaOpen(true)}
+                        onClick={handleOpenNewAutopsia}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-bold h-11 px-5 rounded-2xl text-sm inline-flex items-center gap-2 shadow-md shadow-blue-600/20"
                     >
                         <Plus className="h-4 w-4" />
@@ -3217,6 +3382,18 @@ export default function AutopsiaPage() {
                                             ) : (
                                                 <button type="button" className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-dashed border-blue-200 px-2.5 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100 cursor-pointer" onClick={(e) => { e.stopPropagation(); setCurrentCustomerForChimney(customer); setTempChimney(""); }}><Plus className="h-3 w-3" /> Προσθήκη Καμπίνας</button>
                                             )}
+                                            <button 
+                                                type="button" 
+                                                className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-xs font-bold text-emerald-800 hover:bg-emerald-100 cursor-pointer transition-colors" 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setCurrentCustomerForTk(customer);
+                                                    setTempTk(getCustomerTk(customer));
+                                                }}
+                                                title="Επεξεργασία Τ.Κ."
+                                            >
+                                                Τ.Κ.: {getCustomerTk(customer)} <PenLine className="inline h-3 w-3" />
+                                            </button>
                                             {customer.floor && <span className="inline-flex items-center rounded-full bg-orange-50 border border-orange-100 px-2.5 py-1 text-xs font-bold text-orange-800">Όροφος: {customer.floor}</span>}
                                             {customer.building_id && <span className="inline-flex items-center rounded-full bg-slate-50 border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600">ID: {customer.building_id}</span>}
                                             <span className="text-slate-600">{customer.first_name} {customer.last_name}</span>
@@ -3241,6 +3418,18 @@ export default function AutopsiaPage() {
                                                     title="Διαγραφή Αυτοψίας"
                                                 >
                                                     <Trash2 className="h-3.5 w-3.5" />
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDownloadZip(customer);
+                                                    }}
+                                                    className="inline-flex items-center justify-center h-7 px-2.5 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors shrink-0 cursor-pointer font-bold text-xs gap-1"
+                                                    title="Λήψη Φακέλου ZIP"
+                                                >
+                                                    <Package className="h-3.5 w-3.5" />
+                                                    <span>ZIP</span>
                                                 </button>
                                                 {ready && <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">📦 Έτοιμη</span>}
                                                 {customer.is_kastoria && <span className="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">📍 Καστοριά</span>}
@@ -3398,7 +3587,7 @@ export default function AutopsiaPage() {
             {!customerUrlParam && (
                 <button
                     type="button"
-                    onClick={() => setIsNewAutopsiaOpen(true)}
+                    onClick={handleOpenNewAutopsia}
                     className="sm:hidden fixed right-4 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-40 h-14 pl-4 pr-5 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold shadow-xl shadow-blue-600/35 flex items-center gap-2 active:scale-95 transition-transform cursor-pointer"
                     aria-label="Νέα Αυτοψία"
                 >
@@ -3535,6 +3724,47 @@ export default function AutopsiaPage() {
                             disabled={saveChimneyNumberMutation.isPending}
                         >
                             {saveChimneyNumberMutation.isPending ? "Αποθήκευση..." : "Αποθήκευση"}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Postal Code (TK) Dialog */}
+            <Dialog open={!!currentCustomerForTk} onOpenChange={(open) => !open && setCurrentCustomerForTk(null)}>
+                <DialogContent aria-describedby={undefined} className="sm:max-w-[425px] bg-white text-slate-950 border-slate-200 shadow-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2 text-slate-950 font-bold">
+                            <PenLine className="h-4 w-4 text-primary" />
+                            Ταχυδρομικός Κώδικας (Τ.Κ.)
+                        </DialogTitle>
+                        <DialogDescription className="text-slate-700 font-medium">
+                            Εισάγετε τον Τ.Κ. για {currentCustomerForTk?.address}.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <Input
+                            placeholder="π.χ. 52100"
+                            value={tempTk}
+                            onChange={(e) => setTempTk(e.target.value)}
+                            className="bg-white text-slate-950 border-slate-300 font-bold"
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    saveTkMutation.mutate({
+                                        id: currentCustomerForTk.id,
+                                        tk: tempTk
+                                    });
+                                }
+                            }}
+                        />
+                        <Button
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold"
+                            onClick={() => saveTkMutation.mutate({
+                                id: currentCustomerForTk.id,
+                                tk: tempTk
+                            })}
+                            disabled={saveTkMutation.isPending}
+                        >
+                            {saveTkMutation.isPending ? "Αποθήκευση..." : "Αποθήκευση"}
                         </Button>
                     </div>
                 </DialogContent>
@@ -3931,6 +4161,10 @@ export default function AutopsiaPage() {
             <NewAutopsiaModal
                 open={isNewAutopsiaOpen}
                 onOpenChange={setIsNewAutopsiaOpen}
+                onOpenEngineerSig={() => {
+                    setIsNewAutopsiaOpen(false);
+                    setShowEngineerSigSetup(true);
+                }}
             />
 
             {/* Delete Confirmation Dialog */}

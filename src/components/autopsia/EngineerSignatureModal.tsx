@@ -3,6 +3,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import { PenLine, Trash2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabaseAutopsia as supabase } from "@/lib/autopsia/supabase";
+
+const AUTOPSIA_CONFIG_ID = "c0000000-0000-0000-0000-000000000001";
 
 interface EngineerSignatureModalProps {
     open: boolean;
@@ -14,7 +17,7 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
     const [hasDrawn, setHasDrawn] = useState(false);
     const [hasExistingSaved, setHasExistingSaved] = useState(false);
 
-    const initCanvas = useCallback(() => {
+    const initCanvas = useCallback(async () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
@@ -28,7 +31,24 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
 
-        const saved = typeof window !== "undefined" ? localStorage.getItem("autopsia_engineer_signature") : null;
+        let saved = typeof window !== "undefined" ? localStorage.getItem("autopsia_engineer_signature") : null;
+        if (!saved) {
+            try {
+                const { data } = await supabase
+                    .from("customers")
+                    .select("signature_url, autopsia_tech_data")
+                    .eq("id", AUTOPSIA_CONFIG_ID)
+                    .single();
+                const cloudSig = data?.autopsia_tech_data?.engineer_signature || data?.signature_url;
+                if (cloudSig) {
+                    saved = cloudSig;
+                    localStorage.setItem("autopsia_engineer_signature", cloudSig);
+                }
+            } catch (err) {
+                console.warn("Could not check Supabase for engineer signature:", err);
+            }
+        }
+
         if (saved) {
             setHasExistingSaved(true);
             const img = new Image();
@@ -78,7 +98,7 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
         setHasDrawn(false);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -109,6 +129,27 @@ export function EngineerSignatureModal({ open, onOpenChange }: EngineerSignature
         localStorage.setItem("autopsia_engineer_signature", dataUrl);
         setHasExistingSaved(true);
         setHasDrawn(true);
+
+        // Also persist to Supabase row c0000000-0000-0000-0000-000000000001
+        try {
+            const { data: existing } = await supabase
+                .from("customers")
+                .select("autopsia_tech_data")
+                .eq("id", AUTOPSIA_CONFIG_ID)
+                .single();
+
+            const curTech = existing?.autopsia_tech_data || {};
+            await supabase.from("customers").update({
+                signature_url: dataUrl,
+                autopsia_tech_data: {
+                    ...curTech,
+                    engineer_signature: dataUrl
+                }
+            } as any).eq("id", AUTOPSIA_CONFIG_ID);
+        } catch (dbErr) {
+            console.warn("Could not sync engineer signature with Supabase:", dbErr);
+        }
+
         toast.success("Η υπογραφή Μηχανικού αποθηκεύτηκε επιτυχώς!");
         onOpenChange(false);
     };
