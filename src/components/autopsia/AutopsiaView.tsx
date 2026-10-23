@@ -2534,7 +2534,6 @@ export default function AutopsiaPage() {
             const customer = customers?.find(c => c.id === id);
             const currentTech = customer?.autopsia_tech_data || customersTechData[id] || {};
             const { error } = await supabase.from("customers").update({
-                tk: clean,
                 autopsia_tech_data: {
                     ...currentTech,
                     postal_code: clean,
@@ -2543,7 +2542,15 @@ export default function AutopsiaPage() {
             } as any).eq("id", id);
             if (error) throw error;
         },
-        onSuccess: () => {
+        onSuccess: (_, variables) => {
+            setCustomersTechData(prev => ({
+                ...prev,
+                [variables.id]: {
+                    ...(prev[variables.id] || {}),
+                    postal_code: variables.tk,
+                    tk: variables.tk
+                }
+            }));
             queryClient.invalidateQueries({ queryKey: ["customers-autopsia2-pending"] });
             queryClient.invalidateQueries({ queryKey: ["customers"] });
             toast.success("Ο Ταχυδρομικός Κώδικας (Τ.Κ.) αποθηκεύτηκε!");
@@ -2728,40 +2735,6 @@ export default function AutopsiaPage() {
             return;
         }
         setIsNewAutopsiaOpen(true);
-    };
-
-    const handleDownloadZip = async (customer: any) => {
-        const toastId = toast.loading("Προετοιμασία λήψης φακέλου ZIP...");
-        try {
-            const { data, error } = await supabase.functions.invoke("autopsia-zip-mail", {
-                body: { customer, downloadOnly: true }
-            });
-            if (error) throw error;
-            if (!data?.zipBase64) {
-                throw new Error("Δεν βρέθηκαν έντυπα για τη δημιουργία ZIP.");
-            }
-            const byteCharacters = atob(data.zipBase64);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: "application/zip" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = data.fileName || `Autopsia_${customer.sr || customer.id}.zip`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            toast.success(`Το αρχείο ${data.fileName} κατέβηκε επιτυχώς (${data.fileCount} έντυπα)!`);
-        } catch (err: any) {
-            console.error("Download ZIP error:", err);
-            toast.error("Σφάλμα κατά τη λήψη ZIP: " + (err.message || "Αποτυχία"));
-        } finally {
-            toast.dismiss(toastId);
-        }
     };
 
     const validCustomers = useMemo(() => {
@@ -3418,18 +3391,6 @@ export default function AutopsiaPage() {
                                                     title="Διαγραφή Αυτοψίας"
                                                 >
                                                     <Trash2 className="h-3.5 w-3.5" />
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDownloadZip(customer);
-                                                    }}
-                                                    className="inline-flex items-center justify-center h-7 px-2.5 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors shrink-0 cursor-pointer font-bold text-xs gap-1"
-                                                    title="Λήψη Φακέλου ZIP"
-                                                >
-                                                    <Package className="h-3.5 w-3.5" />
-                                                    <span>ZIP</span>
                                                 </button>
                                                 {ready && <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">📦 Έτοιμη</span>}
                                                 {customer.is_kastoria && <span className="text-[10px] font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full border border-purple-200">📍 Καστοριά</span>}

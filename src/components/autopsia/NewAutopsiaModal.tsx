@@ -327,7 +327,6 @@ export function NewAutopsiaModal({ open, onOpenChange, onOpenEngineerSig }: NewA
                 first_name: firstName.trim() || "",
                 last_name: lastName.trim(),
                 address: address.trim(),
-                tk: finalTk,
                 city: finalCityName,
                 is_kastoria: isKastoria,
                 is_florina: isFlorina,
