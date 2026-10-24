@@ -9,6 +9,7 @@ import SecuritySection from "@/components/SecuritySection";
 import AboutSection from "@/components/AboutSection";
 import BlogSection from "@/components/BlogSection";
 import SectionDivider from "@/components/SectionDivider";
+import IkeBannerSection from "@/components/IkeBannerSection";
 
 import LiveVideoAgentSection from "@/components/LiveVideoAgentSection";
 
@@ -38,7 +39,10 @@ export default function IndexClient() {
             <SectionDivider leftColor="bg-[#3b5bdb]" rightColor="bg-pink-500" />
             <ServicesSection />
             
-            <SectionDivider leftColor="bg-pink-500" rightColor="bg-white" />
+            <SectionDivider leftColor="bg-pink-500" rightColor="bg-[#0a0f1d]" />
+            <IkeBannerSection />
+            
+            <SectionDivider leftColor="bg-[#0a0f1d]" rightColor="bg-white" />
             <AboutSection />
             
             <SectionDivider leftColor="bg-white" rightColor="bg-[#facc15]" />

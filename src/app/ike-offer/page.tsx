@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Επαγγελματική κατασκευή υποχρεωτικής ιστοσελίδας ΙΚΕ εντός 24 ωρών, 100% συμβατή με τις απαιτήσεις του ΓΕΜΗ (Άρθρο 47 §2 Ν.4072/2012, ΚΥΑ 46982/2025). Κόστος 80€ τελική τιμή με ΦΠΑ (περιλαμβάνει .gr domain, hosting 1 έτους, SSL & εταιρικό email).",
   keywords: "κατασκευη ιστοσελιδας ικε, ιστοσελιδα ικε γεμη, υποχρεωτικη ιστοσελιδα ικε, ιστοσελιδα ικε 80 ευρω, ιστοσελιδα ικε σε 24 ωρες, αρθρο 47 ν 4072 2012 ιστοσελιδα ικε, κυα 46982 2025 ιστοσελιδα ικε, προθεσμια 30 ημερων ιστοσελιδα ικε γεμη, προστιμο ιστοσελιδας ικε γεμη, πιστοποιημενος παροχος ιστοσελιδων ικε γεμη, sgk digital ικε, σπυρος τσαβος",
   alternates: {
-    canonical: "https://www.sgk.gr/ike-offer",
+    canonical: "https://www.sgk.gr/kataskevi-istoselidas-ike",
   },
   openGraph: {
     title: "Υποχρεωτική Ιστοσελίδα ΙΚΕ σε 24 Ώρες (80€) — ΓΕΜΗ | SGK Digital",
@@ -59,7 +59,7 @@ const serviceSchema = {
     "priceCurrency": "EUR",
     "priceValidUntil": "2027-12-31",
     "availability": "https://schema.org/InStock",
-    "url": "https://www.sgk.gr/ike-offer"
+    "url": "https://www.sgk.gr/kataskevi-istoselidas-ike"
   },
   "areaServed": {
     "@type": "Country",
