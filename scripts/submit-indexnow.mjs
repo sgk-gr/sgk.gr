@@ -13,14 +13,23 @@ const INDEXNOW_KEY_LOCATION = `https://${INDEXNOW_HOST}/${INDEXNOW_KEY}.txt`;
 
 const DEFAULT_URLS = [
   'https://www.sgk.gr',
-  'https://www.sgk.gr/blog',
-  'https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies',
+  'https://www.sgk.gr/blog/etaireies-technitis-noimosynis-ai-agents-ellada',
+  'https://www.sgk.gr/blog/koryfaies-etaireies-ai-agents-agentic-ai-ellada-2026',
+  'https://www.sgk.gr/kataskevi-istoselidas-ike',
+  'https://www.sgk.gr/ike-offer',
+  'https://www.sgk.gr/blog/ypoxreotiki-istoselida-ike-nomos-4072-2012-prostima-gemi',
   'https://www.sgk.gr/ai-agents',
+  'https://www.sgk.gr/ai-agents-erp-softone',
+  'https://www.sgk.gr/voice-ai-telefonia',
+  'https://www.sgk.gr/ai-agents-ecommerce',
   'https://www.sgk.gr/order-ai-agent',
-  'https://www.sgk.gr/case-studies',
-  'https://www.sgk.gr/roi-calculator',
-  'https://www.sgk.gr/contact',
-  'https://www.sgk.gr/pricing',
+  'https://www.sgk.gr/web-development',
+  'https://www.sgk.gr/case-study/km-fiber',
+  'https://www.sgk.gr/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta',
+  'https://www.sgk.gr/blog/pos-i-sgk-aftomatopoiise-tilepikoinonies-optikes-ines-ai-aftopsies',
+  'https://www.sgk.gr/blog',
+  'https://www.sgk.gr/estimate',
+  'https://www.sgk.gr/about',
 ];
 
 async function main() {

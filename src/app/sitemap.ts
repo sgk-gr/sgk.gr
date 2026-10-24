@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/portfolio`, priority: 0.85, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/services`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/solutions`, priority: 0.80, changeFrequency: 'monthly' as const },
-    { url: `${baseUrl}/about`, priority: 0.80, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/about`, priority: 0.95, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/innovation`, priority: 0.80, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/estimate`, priority: 0.85, changeFrequency: 'monthly' as const },
     { url: `${baseUrl}/blog`, priority: 0.90, changeFrequency: 'weekly' as const },
