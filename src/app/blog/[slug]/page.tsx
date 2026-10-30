@@ -1,7 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import BlogPostClient from "./BlogPostClient";
 import { BLOG_POSTS } from "@/data/blog-posts";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 interface Props {
     params: Promise<{ slug: string }>;
@@ -16,7 +16,8 @@ export async function generateMetadata(
 
     if (!post) {
         return {
-            title: "Post Not Found",
+            title: "Blog | SGK Digital",
+            robots: { index: false, follow: true },
         };
     }
 
@@ -71,7 +72,27 @@ export default async function BlogPostPage({ params }: Props) {
     const post = BLOG_POSTS.find((p) => p.slug === slug);
 
     if (!post) {
-        notFound();
+        const lower = slug.toLowerCase();
+        if (
+            lower.includes("eshop") ||
+            lower.includes("ecommerce") ||
+            lower.includes("pay-as-you-grow") ||
+            lower.includes("payg") ||
+            lower.includes("woocommerce") ||
+            lower.includes("shopify")
+        ) {
+            permanentRedirect("/kataskevi-istoselidon");
+        }
+        if (lower.includes("ike") || lower.includes("gemi")) {
+            permanentRedirect("/kataskevi-istoselidas-ike");
+        }
+        if (lower.includes("ftth") || lower.includes("optik")) {
+            permanentRedirect("/blog/pos-aftomatopoiisame-aftopsies-optikon-inon-ftth-se-5-lepta");
+        }
+        if (lower.includes("ai") || lower.includes("agent")) {
+            permanentRedirect("/ai-agents");
+        }
+        permanentRedirect("/blog");
     }
 
     const isPillarIke = slug === "ypoxreotiki-istoselida-ike-nomos-4072-2012-prostima-gemi";
