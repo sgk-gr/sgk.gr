@@ -22,7 +22,7 @@ export default function IkeBannerSection() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-              Κατασκευή Σελίδας για ΙΚΕ σε <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">24 Ώρες</span>
+              Κατασκευή Ιστοσελίδας για ΙΚΕ σε <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">24 Ώρες (80€)</span>
             </h2>
 
             <p className="text-slate-300 text-base md:text-lg leading-relaxed mb-8 max-w-2xl">

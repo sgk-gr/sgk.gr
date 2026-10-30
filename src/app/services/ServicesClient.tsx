@@ -99,7 +99,77 @@ export default function ServicesClient() {
         </div>
       </section>
 
-      <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-pink-500" />
+      <SectionDivider leftColor="bg-[#4ade80]" rightColor="bg-blue-600" />
+
+      {/* --- Service: IKE Website (Image Right, Blue/Dark Box Left) --- */}
+      <section className="w-full bg-[#0a0f1d] py-24 md:py-32 text-white">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col-reverse md:flex-row relative items-center">
+            
+            {/* Left Box */}
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="w-full md:w-[48%] bg-[#111827] border border-blue-500/30 p-8 md:p-14 relative z-10 md:-mr-[8%] mt-[-40px] md:mt-0 shadow-2xl rounded-xl"
+            >
+              <div className="inline-block bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4 border border-blue-500/30">
+                ΝΟΜΟΣ 4072/2012 • ΚΥΑ 46982/2025
+              </div>
+              
+              <h2 className="text-white text-3xl md:text-5xl font-light mb-6 leading-tight">
+                Κατασκευή Ιστοσελίδας για ΙΚΕ <br /> 
+                <span className="font-bold text-[#4ade80]">80€ Τελική Τιμή σε 24h</span>
+              </h2>
+              
+              <ul className="space-y-5 mb-10">
+                <li className="flex items-start text-slate-200 text-[15px] md:text-base">
+                  <span className="w-3 h-3 bg-[#4ade80] mr-3.5 shrink-0 mt-1.5"></span>
+                  <span><strong>100% Συμμόρφωση ΓΕΜΗ:</strong> Πλήρης κάλυψη του Άρθρου 47 §2 για αποφυγή προστίμων έως 100.000€.</span>
+                </li>
+                <li className="flex items-start text-slate-200 text-[15px] md:text-base">
+                  <span className="w-3 h-3 bg-[#4ade80] mr-3.5 shrink-0 mt-1.5"></span>
+                  <span><strong>80€ Τελική Τιμή με ΦΠΑ 24%:</strong> Χωρίς κρυφές χρεώσεις (περιλαμβάνει τιμολόγιο εξόδου).</span>
+                </li>
+                <li className="flex items-start text-slate-200 text-[15px] md:text-base">
+                  <span className="w-3 h-3 bg-[#4ade80] mr-3.5 shrink-0 mt-1.5"></span>
+                  <span><strong>Όλα Έτοιμα:</strong> Κατοχύρωση .gr Domain, 1 έτος Cloud Hosting, SSL &amp; Εταιρικό Email.</span>
+                </li>
+                <li className="flex items-start text-slate-200 text-[15px] md:text-base">
+                  <span className="w-3 h-3 bg-[#4ade80] mr-3.5 shrink-0 mt-1.5"></span>
+                  <span><strong>Αυτόματη Άντληση από API ΓΕΜΗ:</strong> Βάζετε μόνο το ΑΦΜ σας και παραλαμβάνετε έτοιμο link σε 24 ώρες.</span>
+                </li>
+              </ul>
+              
+              <Link 
+                href="/kataskevi-istoselidas-ike"
+                className="inline-block bg-[#4ade80] text-black hover:bg-[#22c55e] transition-colors duration-300 font-bold py-4 px-10 rounded-sm shadow-lg w-full sm:w-auto text-lg text-center"
+              >
+                Παραγγελία Ιστοσελίδας ΙΚΕ (80€)
+              </Link>
+            </motion.div>
+
+            {/* Right Image */}
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="w-full md:w-[60%] relative h-[450px] md:h-[650px] z-0 rounded-xl overflow-hidden shadow-2xl border border-white/10"
+            >
+              <Image 
+                src="/hero_slide_4.webp" 
+                alt="Κατασκευή Ιστοσελίδας για ΙΚΕ ΓΕΜΗ" 
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider leftColor="bg-blue-600" rightColor="bg-pink-500" />
 
       {/* --- Service 2: Websites (Image Left, Blue Box Right) --- */}
       <section className="w-full bg-[#f4f2ea] py-24 md:py-32">

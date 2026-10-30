@@ -41,7 +41,7 @@ export const BLOG_POSTS: BlogPost[] = [
           <div style="color: #38bdf8; font-weight: 700; font-size: 15px;">
             Η SGK Digital παραδίδει νόμιμη ιστοσελίδα ΙΚΕ σε 24 ώρες με μόνο 80€ (τελική τιμή με ΦΠΑ).
           </div>
-          <a href="/ike-offer" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 13px; transition: background 0.2s;">
+          <a href="/kataskevi-istoselidas-ike" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 13px; transition: background 0.2s;">
             Άμεση Παραγγελία Ιστοσελίδας ΙΚΕ &rarr;
           </a>
         </div>
@@ -431,7 +431,7 @@ export const BLOG_POSTS: BlogPost[] = [
           Συμπληρώστε τη σύντομη φόρμα παραγγελίας με τον Αριθμό ΓΕΜΗ ή το ΑΦΜ σας και η ομάδα της SGK Digital θα δημιουργήσει την ιστοσελίδα σας με ζωντανή σύνδεση OpenData API αυθημερόν.
         </p>
         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
-          <a href="/ike-offer" style="background: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; box-shadow: 0 4px 14px rgba(37,99,235,0.4);">
+          <a href="/kataskevi-istoselidas-ike" style="background: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; box-shadow: 0 4px 14px rgba(37,99,235,0.4);">
             Παραγγελία Ιστοσελίδας ΙΚΕ (80€) &rarr;
           </a>
           <a href="tel:2111140013" style="background: rgba(255,255,255,0.08); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 14px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px;">
@@ -1231,7 +1231,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li>Πλήρη σχεδιασμό, άμεση παράδοση του URL για καταχώρηση στο ΓΕΜΗ και επίσημο τιμολόγιο εξόδων.</li>
       </ul>
 
-      <p>Μην αφήνετε την επιχείρησή σας εκτεθειμένη σε πρόστιμα. <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Παραγγείλτε την ιστοσελίδα ΙΚΕ για το ΓΕΜΗ σε 24 ώρες μόνο με 80€!</a></p>
+      <p>Μην αφήνετε την επιχείρησή σας εκτεθειμένη σε πρόστιμα. <a href="/kataskevi-istoselidas-ike" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Παραγγείλτε την ιστοσελίδα ΙΚΕ για το ΓΕΜΗ σε 24 ώρες μόνο με 80€!</a></p>
     `,
   },
   {
@@ -1948,7 +1948,7 @@ export const BLOG_POSTS: BlogPost[] = [
         <li><strong>Ολοκληρωμένο Πακέτο:</strong> Περιλαμβάνει σχεδιασμό Λογότυπου, Εταιρικό Email, κατοχύρωση Domain name (.gr) για 2 έτη, φιλοξενία (hosting) για 1 έτος, πιστοποιητικό ασφαλείας SSL και πλήρη συμμόρφωση GDPR.</li>
         <li><strong>Μόνο 80€ (συμπεριλαμβανομένου ΦΠΑ):</strong> Μια εφάπαξ πληρωμή, χωρίς κρυφές χρεώσεις, με έκδοση κανονικού τιμολογίου εξόδων.</li>
       </ul>
-      <p>Μην ρισκάρετε πρόστιμα και καθυστερήσεις. <a href="/ike-offer" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Δείτε το πλήρες πακέτο Κατασκευής Ιστοσελίδας ΙΚΕ (80€) και παραγγείλτε online σε 24 ώρες!</a></p>
+      <p>Μην ρισκάρετε πρόστιμα και καθυστερήσεις. <a href="/kataskevi-istoselidas-ike" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Δείτε το πλήρες πακέτο Κατασκευής Ιστοσελίδας ΙΚΕ (80€) και παραγγείλτε online σε 24 ώρες!</a></p>
       <p style="margin-top: 16px; font-size: 14px; color: #64748b;">
         💡 <em>Ενδιαφέρεστε για πλήρη αυτοματοποίηση της νέας σας επιχείρησης; Ανακαλύψτε τους αυτόνομους <a href="/ai-agents" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">AI Agents για επιχειρήσεις</a> και αποκτήστε 24/7 εξυπηρέτηση πελατών με <a href="/order-ai-agent" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">Live Video AI Agents (Ψηφιακούς Υπαλλήλους)</a>.</em>
       </p>

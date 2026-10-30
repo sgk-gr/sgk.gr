@@ -89,7 +89,7 @@ export const CAMPAIGN_TEMPLATES = {
   Δείγματα πελατών μας: meltech-ike.gr, sellascountryhouses.gr<br/><br/><em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα και καλή συνέχεια!)</em>
 </p>`,
     buttonText: "Έναρξη Ιστοσελίδας ΙΚΕ (80€)",
-    buttonLink: "https://www.sgk.gr/ike-offer",
+    buttonLink: "https://www.sgk.gr/kataskevi-istoselidas-ike",
   },
   legacy_ike: {
     subject: "Ενημέρωση Γ.Ε.ΜΗ.: Έλεγχος & τακτοποίηση εταιρικής ιστοσελίδας (80€ με ΦΠΑ)",
@@ -128,7 +128,7 @@ export const CAMPAIGN_TEMPLATES = {
   Δείγματα πελατών μας: meltech-ike.gr, sellascountryhouses.gr<br/><br/><em>(Αν το έχετε ήδη τακτοποιήσει, αγνοήστε το μήνυμα.)</em>
 </p>`,
     buttonText: "Έναρξη Ιστοσελίδας ΙΚΕ (80€)",
-    buttonLink: "https://www.sgk.gr/ike-offer",
+    buttonLink: "https://www.sgk.gr/kataskevi-istoselidas-ike",
   },
   ftth: {
     subject: "FTTH: Αυτοψία πολυκατοικίας σε 5' από το κινητό (χωρίς back-office & χαρτιά)",

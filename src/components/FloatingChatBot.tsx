@@ -50,7 +50,7 @@ const renderFormattedContent = (content: string) => {
     
     // Auto-correct any legacy or broken URLs
     if (url.includes("ikeer") || url.includes("kataskevi-istoselidas-ike")) {
-      url = "https://www.sgk.gr/ike-offer";
+      url = "https://www.sgk.gr/kataskevi-istoselidas-ike";
     }
 
     parts.push(

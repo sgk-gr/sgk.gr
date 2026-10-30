@@ -16,7 +16,6 @@ const DEFAULT_URLS = [
   'https://www.sgk.gr/blog/etaireies-technitis-noimosynis-ai-agents-ellada',
   'https://www.sgk.gr/blog/koryfaies-etaireies-ai-agents-agentic-ai-ellada-2026',
   'https://www.sgk.gr/kataskevi-istoselidas-ike',
-  'https://www.sgk.gr/ike-offer',
   'https://www.sgk.gr/blog/ypoxreotiki-istoselida-ike-nomos-4072-2012-prostima-gemi',
   'https://www.sgk.gr/ai-agents',
   'https://www.sgk.gr/ai-agents-erp-softone',

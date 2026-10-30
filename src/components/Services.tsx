@@ -8,7 +8,7 @@ const services = [
   {
     title: "Ιστοσελίδα ΙΚΕ (ΓΕΜΗ)",
     description: "Πλήρης νομική συμμόρφωση για τη νέα σας Ι.Κ.Ε. εντός 24 ωρών. Περιλαμβάνει .gr domain, hosting, SSL και δημοσίευση στο ΓΕΜΗ.",
-    href: "/ike-offer",
+    href: "/kataskevi-istoselidas-ike",
     icon: <Code2 size={28} className="text-white" />,
     color: "bg-[#3b5bdb]"
   },

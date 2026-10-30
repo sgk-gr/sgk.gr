@@ -6,12 +6,12 @@ import { usePathname } from "next/navigation";
 export default function GlobalPromoBar() {
   const pathname = usePathname();
   
-  // Do not show the promo bar on doc pages, admin pages, elv8 requirements, liveavatar demo, order-ai-agent, ike-offer, or ftth-autopsia
-  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements" || pathname.startsWith("/liveavatar-demo") || pathname.startsWith("/order-ai-agent") || pathname === "/ike-offer" || pathname.startsWith("/ftth-autopsia")) {
+  // Do not show the promo bar on doc pages, admin pages, elv8 requirements, liveavatar demo, order-ai-agent, ike-offer, kataskevi-istoselidas-ike, or ftth-autopsia
+  if (!pathname || pathname.startsWith("/doc") || pathname.startsWith("/admin") || pathname === "/elv8-requirements" || pathname.startsWith("/liveavatar-demo") || pathname.startsWith("/order-ai-agent") || pathname === "/ike-offer" || pathname === "/kataskevi-istoselidas-ike" || pathname.startsWith("/ftth-autopsia")) {
     return null;
   }
 
-  const targetHref = "/ike-offer";
+  const targetHref = "/kataskevi-istoselidas-ike";
 
   return (
     <div className="global-promo-bar fixed bottom-0 left-0 w-full bg-[#3b5bdb] text-white text-xs md:text-sm text-center py-2.5 z-50 border-t border-white/20 shadow-[0_-4px_10px_rgba(0,0,0,0.15)] whitespace-nowrap overflow-hidden text-ellipsis px-2 print:hidden no-print">

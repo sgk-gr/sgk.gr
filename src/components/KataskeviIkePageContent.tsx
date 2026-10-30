@@ -246,9 +246,9 @@ function KataskeviIkeContent() {
 
               {/* Punchy Title */}
               <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-heading font-black tracking-tight leading-[1.08] text-black mb-6">
-                Κατασκευή Σελίδας <br className="hidden sm:inline" />
+                Κατασκευή Ιστοσελίδας <br className="hidden sm:inline" />
                 για ΙΚΕ &amp; ΓΕΜΗ <br />
-                <span className="text-[#3b5bdb]">Μόνο 80€ Τελική Τιμή</span>
+                <span className="text-[#3b5bdb]">Μόνο 80€ Τελική Τιμή με ΦΠΑ</span>
               </h1>
 
               {/* Clear Subtitle */}
@@ -317,7 +317,7 @@ function KataskeviIkeContent() {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
 
                 <h2 className="text-2xl font-heading font-black mb-1 text-white">
-                  Άμεση Παραγγελία Σελίδας ΙΚΕ
+                  Άμεση Παραγγελία Ιστοσελίδας ΙΚΕ
                 </h2>
                 <p className="text-xs text-blue-100 mb-6 font-normal leading-relaxed">
                   Συμπληρώστε το <strong>ΑΦΜ της εταιρείας σας</strong> για αυτόματη άντληση στοιχείων και παράδοση σε 24 ώρες.
@@ -833,7 +833,7 @@ function KataskeviIkeContent() {
             ΑΜΕΣΗ ΕΞΥΠΗΡΕΤΗΣΗ
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-black mb-4">
-            Χρειάζεστε Σελίδα ΙΚΕ Εντός 24 Ωρών;
+            Χρειάζεστε Ιστοσελίδα ΙΚΕ Εντός 24 Ωρών;
           </h2>
           <p className="text-blue-100 text-base max-w-xl mx-auto mb-8 font-normal">
             Μόνο 80€ τελική τιμή με ΦΠΑ. Συμπληρώστε το ΑΦΜ σας και αναλαμβάνουμε άμεσα την κατασκευή και ανάρτηση όλων των νόμιμων στοιχείων.

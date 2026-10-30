@@ -17,7 +17,7 @@ const slides = [
     description: "Πλήρης εταιρική ιστοσελίδα Ι.Κ.Ε. για το ΓΕΜΗ σε 24 ώρες με domain .gr, hosting, email και SSL μόνο με 80€.",
     image: "/hero_slide_4.webp",
     linkText: "Δες την προσφορά (80€)",
-    linkUrl: "/ike-offer"
+    linkUrl: "/kataskevi-istoselidas-ike"
   },
   {
     title: (

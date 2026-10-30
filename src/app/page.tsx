@@ -130,7 +130,7 @@ const ikeWebsiteServiceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": "https://www.sgk.gr/#ike-gemi-website-service",
-    "name": "Κατασκευή Σελίδας για ΙΚΕ & Ιστοσελίδας ΓΕΜΗ σε 24 Ώρες (80€ Τελική με ΦΠΑ)",
+    "name": "Κατασκευή Ιστοσελίδας για ΙΚΕ σε 24 Ώρες (80€ Τελική με ΦΠΑ) — ΓΕΜΗ | SGK Digital",
     "serviceType": "Statutory I.K.E. Corporate Website Development & GEMI Compliance",
     "description": "Πλήρης κατασκευή της υποχρεωτικής εταιρικής ιστοσελίδας Ι.Κ.Ε. σύμφωνα με το Άρθρο 47 §2 του Ν.4072/2012 και την ΚΥΑ 46982/2025 για το Γ.Ε.ΜΗ. Παραδίδεται εντός 24 ωρών με τελικό κόστος 80€ (συμπεριλαμβανομένου ΦΠΑ 24%) και περιλαμβάνει αυτόματη άντληση στοιχείων από το API του ΓΕΜΗ, κατοχύρωση .gr domain, φιλοξενία (hosting) 1 έτους, SSL, εταιρικό email και όλα τα υποχρεωτικά στοιχεία δημοσιότητας.",
     "provider": { "@id": "https://www.sgk.gr/#organization" },

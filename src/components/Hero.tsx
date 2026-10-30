@@ -37,7 +37,7 @@ const slides = [
     ),
     description: "Ολοκληρωμένη εταιρική ιστοσελίδα για τη νέα σας Ι.Κ.Ε. με 100% συμμόρφωση στις προδιαγραφές ΓΕΜΗ. Περιλαμβάνει .gr domain για 2 έτη, ταχύτατο hosting, εταιρικό email, SSL και δημοσίευση ισολογισμών μόνο με 80€.",
     buttonText: "Δες την προσφορά (80€)",
-    buttonLink: "/ike-offer",
+    buttonLink: "/kataskevi-istoselidas-ike",
     image: "/hero_slide_4.webp"
   },
   {
