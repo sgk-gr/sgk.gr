@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const corePages = [
     { url: `${baseUrl}/`, priority: 1.0, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/ai-agents`, priority: 0.99, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/ai-agents-greece`, priority: 1.0, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/ai-agents-erp-softone`, priority: 0.98, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/voice-ai-telefonia`, priority: 0.98, changeFrequency: 'weekly' as const },
     { url: `${baseUrl}/ai-agents-ecommerce`, priority: 0.98, changeFrequency: 'weekly' as const },

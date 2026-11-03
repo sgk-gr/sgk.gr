@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "AI Agents Ελλάδα | Agentic AI & Αυτόνομοι Πράκτορες Τεχνητής Νοημοσύνης | SGK Digital",
+    title: "Εταιρεία AI Agents & Αυτοματισμών στην Ελλάδα | SGK Digital",
     description: "Η SGK Digital σχεδιάζει και υλοποιεί AI agents για επιχειρήσεις σε όλη την Ελλάδα — από μικρές επιχειρήσεις και ενοικιάσεις αυτοκινήτων (rent a car) μέχρι μεγάλους οργανισμούς. Οι agents απαντούν σε πελάτες, κλείνουν ραντεβού & κρατήσεις και συνδέονται με email, ημερολόγιο, CRM και ERP. Δωρεάν αξιολόγηση & ανθρώπινη έγκριση (Human-in-the-Loop). Αυτοματοποιούμε τα πάντα.",
     keywords: "ai agents ελλαδα, σπυρος τσαβος, spyros tsavos, ai agents μικρες επιχειρησεις, ai agents rent a car ενοικιασεις αυτοκινητων, κρατησεις ραντεβου ai agents, εταιρειες ai agents ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, agentic ai greece, ai agency ελλαδα, custom ai agents, custom εφαρμογες, ai ψηφιακοι υπαλληλοι, voice ai agents ελλαδα, human in the loop ai, erp ai integration softone entersoft, video ai customer support",
     alternates: {

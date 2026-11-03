@@ -180,6 +180,7 @@ const Footer = () => {
           {/* Services Navigation */}
           <nav className="lg:col-span-3 flex flex-col gap-3" aria-label="Υπηρεσίες">
             <h3 className="text-sm font-bold uppercase tracking-widest text-white/60 mb-2">Υπηρεσίες</h3>
+            <Link href="/ai-agents-greece" className="text-sm text-blue-400 font-bold hover:text-white transition-colors">AI Agents Ελλάδα (Εταιρείες)</Link>
             <Link href="/ai-agents" className="text-sm text-cyan-400 font-bold hover:text-white transition-colors">Κατασκευή AI Agents & Custom AI</Link>
             <Link href="/order-ai-agent" className="text-sm text-emerald-400 font-bold hover:text-white transition-colors">Live Video AI Agents (24/7)</Link>
             <Link href="/web-development" className="text-sm text-white hover:text-primary transition-colors">Web Development & Custom Apps</Link>
