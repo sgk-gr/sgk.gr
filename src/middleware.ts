@@ -116,27 +116,36 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/estimate", req.url), 301);
   }
 
-  // 2. Hosting suspension check for managed client domains
-  const host = req.headers.get("host") || "";
-  try {
-    const res = await fetch(`https://www.sgk.gr/api/hosting/status?domain=${encodeURIComponent(host)}`, {
-      cache: "no-store",
-    });
+  // 2. Hosting suspension check for managed client domains (skip completely for sgk.gr & internal domains)
+  const host = (req.headers.get("host") || "").toLowerCase().trim();
+  const isInternalHost = 
+    !host || 
+    host.includes("sgk.gr") || 
+    host.includes("localhost") || 
+    host.includes("127.0.0.1") || 
+    host.includes("vercel.app");
 
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.active === false && data.suspendedHtml) {
-        return new NextResponse(data.suspendedHtml, {
-          status: 404,
-          headers: {
-            "Content-Type": "text/html; charset=utf-8",
-            "Cache-Control": "no-store, max-age=0",
-          },
-        });
+  if (!isInternalHost) {
+    try {
+      const res = await fetch(`https://www.sgk.gr/api/hosting/status?domain=${encodeURIComponent(host)}`, {
+        cache: "no-store",
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.active === false && data.suspendedHtml) {
+          return new NextResponse(data.suspendedHtml, {
+            status: 404,
+            headers: {
+              "Content-Type": "text/html; charset=utf-8",
+              "Cache-Control": "no-store, max-age=0",
+            },
+          });
+        }
       }
+    } catch (err) {
+      // Fail-safe: Always proceed so site is never blocked on network hiccup
     }
-  } catch (err) {
-    // Fail-safe: Always proceed so site is never blocked on network hiccup
   }
 
   return NextResponse.next();
@@ -149,7 +158,8 @@ export const config = {
      * - api (API endpoints - vital so /api/hosting/status & cron routes never deadlock)
      * - admin (Admin panel - vital so administration is always accessible)
      * - _next/static, _next/image, favicon.ico
+     * - static assets (.svg, .png, .jpg, .webp, .ico, .xml, .txt, fonts) to serve directly via CDN without invoking CPU
      */
-    "/((?!api|admin|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|admin|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|xml|txt|woff|woff2)$).*)",
   ],
 };
