@@ -230,23 +230,37 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // If domain is not managed in sgk_mails, allow it
+    // If domain is not managed in sgk_mails, allow it (cache on CDN for 1 hour)
     if (!matchedClient) {
-      return NextResponse.json({
-        active: true,
-        message: "Domain not registered under hosting management",
-      });
+      return NextResponse.json(
+        {
+          active: true,
+          message: "Domain not registered under hosting management",
+        },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        }
+      );
     }
 
     // Check if client is paid
     if (matchedHosting?.paid === true) {
-      return NextResponse.json({
-        active: true,
-        status: "active",
-        paid: true,
-        domain: cleanDomain,
-        renewalDate: matchedHosting.customExpiresAt,
-      });
+      return NextResponse.json(
+        {
+          active: true,
+          status: "active",
+          paid: true,
+          domain: cleanDomain,
+          renewalDate: matchedHosting.customExpiresAt,
+        },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        }
+      );
     }
 
     // Calculate renewal date
@@ -257,13 +271,20 @@ export async function GET(req: NextRequest) {
 
     // If active and daysRemaining > 0, website stays active
     if (daysRemaining > 0) {
-      return NextResponse.json({
-        active: true,
-        status: "active",
-        daysRemaining,
-        renewalDate,
-        domain: cleanDomain,
-      });
+      return NextResponse.json(
+        {
+          active: true,
+          status: "active",
+          daysRemaining,
+          renewalDate,
+          domain: cleanDomain,
+        },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        }
+      );
     }
 
     // If expired and NOT paid: SUSPEND!
