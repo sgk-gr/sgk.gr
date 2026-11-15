@@ -17,6 +17,16 @@ export default function RenigenPage() {
       <div className="container mx-auto px-6 max-w-5xl space-y-16">
         {/* Hero */}
         <section className="space-y-6 text-center max-w-3xl mx-auto">
+          <div className="flex justify-center">
+            <img
+              src="/renigen-logo.png"
+              alt="Renigen"
+              width={96}
+              height={96}
+              className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-contain shadow-lg"
+            />
+          </div>
+
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-neutral-300">
             <Sparkles className="w-3.5 h-3.5 text-blue-400" />
             <span>Autonomous AI Video Studio by SGK</span>
@@ -45,6 +55,17 @@ export default function RenigenPage() {
             >
               <span>Terms of Service</span>
             </Link>
+          </div>
+        </section>
+
+        {/* App Screenshot */}
+        <section className="max-w-5xl mx-auto">
+          <div className="rounded-2xl border border-white/10 bg-black/60 p-2 md:p-3 shadow-2xl overflow-hidden">
+            <img
+              src="/renigen-app-preview.jpg"
+              alt="Renigen Autonomous AI Video Studio Interface"
+              className="w-full h-auto rounded-xl object-cover"
+            />
           </div>
         </section>
 
