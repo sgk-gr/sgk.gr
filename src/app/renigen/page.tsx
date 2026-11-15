@@ -42,6 +42,9 @@ export default function RenigenPage() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 font-medium text-sm">
+              <span>Soon for download</span>
+            </span>
             <Link
               href="/renigen/privacy"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-colors"
