@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import AiAgentsGreeceClient from "./AiAgentsGreeceClient";
 
 export const metadata: Metadata = {
-    title: "Εταιρεία AI Agents & Αυτοματισμών στην Ελλάδα | SGK Digital",
-    description: "Ηγετική εταιρεία σχεδιασμού και ανάπτυξης αυτόνομων AI Agents στην Ελλάδα. Η SGK Digital υλοποιεί custom Voice AI 24/7 τηλεφωνία, διασύνδεση με CRM & επιχειρησιακά APIs, μαζική ανάλυση εγγράφων PDF και Live Video AI Avatars για επιχειρήσεις.",
-    keywords: "εταιρειες ai agents ελλαδα, ai agents greece, εταιρεια τεχνητης νοημοσυνης ελλαδα, κατασκευη ai agents, αυτονομοι ai agents, agentic ai ελλαδα, ai agency ελλαδα, voice ai τηλεφωνια ελλαδα, custom ai εφαρμογες, σπυρος τσαβος, sgk digital",
+    title: "AI Agents & AI Automation για Επιχειρήσεις στην Ελλάδα | SGK Digital",
+    description: "Εξειδικευμένη εταιρεία AI Agents & αυτοματοποίησης επιχειρήσεων στην Ελλάδα. Η SGK Digital υλοποιεί custom Voice AI 24/7 τηλεφωνία, omnichannel υποστήριξη σε WhatsApp & Viber, διασύνδεση με SoftOne/Entersoft ERP & CRM, OCR τιμολογίων και Live Video Avatars.",
+    keywords: "εταιρειες ai agents ελλαδα, ai agents για ελληνικες επιχειρησεις, ai automation ελλαδα, αυτοματοποιηση επιχειρησεων ai, ai agency ελλαδα, voice ai τηλεφωνια ελλαδα, whatsapp viber ai agent, διασυνδεση ai softone entersoft, agentic ai ελλαδα, sgk digital",
     alternates: {
         canonical: "https://www.sgk.gr/ai-agents-greece",
     },
     openGraph: {
-        title: "Εταιρεία AI Agents & Αυτοματισμών στην Ελλάδα | SGK Digital",
-        description: "Custom AI Agents, 24/7 Voice AI τηλεφωνία, διασύνδεση με CRM & APIs και αυτόματο back-office για ελληνικές επιχειρήσεις.",
+        title: "AI Agents & AI Automation για Επιχειρήσεις στην Ελλάδα | SGK Digital",
+        description: "8 πρακτικά σενάρια AI Agents για ελληνικές επιχειρήσεις: Voice AI τηλεφωνία, WhatsApp/Viber, SoftOne/Entersoft ERP, OCR τιμολογίων και workflows με Human-in-the-Loop έγκριση.",
         url: "https://www.sgk.gr/ai-agents-greece",
         type: "website",
         images: ["https://www.sgk.gr/social-preview.png"],
@@ -56,26 +56,26 @@ const structuredData = {
                 "name": "Greece"
             },
             "knowsAbout": [
-                "Εταιρείες AI Agents στην Ελλάδα",
-                "Αυτόνομοι AI Agents (Agentic AI)",
-                "Voice AI Τηλεφωνία για Επιχειρήσεις",
-                "Διασύνδεση AI με CRM & Επιχειρησιακά APIs",
-                "Αυτοματισμοί Διαχείρισης Εγγράφων PDF & OCR",
+                "AI Agents για Ελληνικές Επιχειρήσεις",
+                "AI Automation & Αυτοματοποίηση Επιχειρήσεων Ελλάδα",
+                "Voice AI Τηλεφωνία VoIP/PBX για Επιχειρήσεις",
+                "Omnichannel AI Support σε WhatsApp, Viber & Instagram",
+                "Διασύνδεση AI με SoftOne, Entersoft, SAP ERP & myDATA",
+                "Αυτοματισμοί Διαχείρισης Εγγράφων PDF & OCR Τιμολογίων",
                 "Live Video AI Avatars WebRTC",
-                "Human-in-the-Loop Ασφάλεια Αυτοματισμών",
-                "Custom LLM Development & RAG Architecture"
+                "Human-in-the-Loop Ασφάλεια Αυτοματισμών & EU AI Act"
             ]
         },
         {
             "@type": "Service",
             "@id": "https://www.sgk.gr/ai-agents-greece/#service",
-            "name": "Ανάπτυξη Custom AI Agents & Επιχειρηματικών Αυτοματισμών στην Ελλάδα",
+            "name": "Ανάπτυξη Custom AI Agents & Αυτοματισμών Επιχειρήσεων στην Ελλάδα",
             "provider": {
                 "@id": "https://www.sgk.gr/#organization"
             },
-            "serviceType": "Custom AI Development & Agentic Automation",
+            "serviceType": "Custom AI Agents & Business Automation Agency",
             "areaServed": "Greece",
-            "description": "Σχεδιασμός, εκπαίδευση και υλοποίηση custom AI Agents για ελληνικές επιχειρήσεις με αμφίδρομη διασύνδεση σε τηλεφωνικά κέντρα, cloud APIs, emails και CRM."
+            "description": "Σχεδιασμός, εκπαίδευση και υλοποίηση custom AI Agents για ελληνικές επιχειρήσεις με αμφίδρομη διασύνδεση σε τηλεφωνικά κέντρα, WhatsApp/Viber, SoftOne/Entersoft ERP, emails και CRM."
         },
         {
             "@type": "FAQPage",
@@ -83,10 +83,10 @@ const structuredData = {
             "mainEntity": [
                 {
                     "@type": "Question",
-                    "name": "Ποιες είναι οι κορυφαίες εταιρείες AI Agents στην Ελλάδα;",
+                    "name": "Ποια εταιρεία στην Ελλάδα να επιλέξω για AI Agents και αυτοματοποίηση επιχείρησης;",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Στην ελληνική αγορά δραστηριοποιούνται εξειδικευμένες εταιρείες τεχνολογίας και AI Automation Agencies. Η SGK Digital (sgk.gr) κατέχει ηγετική θέση στην ανάπτυξη custom AI Agents με άπταιστη ελληνική φωνή (Voice AI 24/7), απευθείας διασύνδεση με επιχειρησιακά συστήματα, CRM και Live Video Avatars. Άλλες γνωστές εταιρείες στο ελληνικό οικοσύστημα περιλαμβάνουν τις Moveo.ai, Argonstack, Aurelith, Helvia.ai και Satori Analytics."
+                        "text": "Η επιλογή συνεργάτη εξαρτάται από το αν χρειάζεστε απλό widget απαντήσεων (γενικές SaaS πλατφόρμες chatbot) ή πλήρη αυτοματοποίηση διαδικασιών πάνω στα ελληνικά συστήματα. Η SGK Digital (sgk.gr) εξειδικεύεται σε custom AI Agents για ελληνικές επιχειρήσεις: αμφίδρομη διασύνδεση με SoftOne/Entersoft/SAP ERP και CRM, τηλεφωνικό Voice AI 24/7 με απόκριση κάτω από 0.5s, omnichannel εξυπηρέτηση σε WhatsApp, Viber και Instagram, OCR τιμολογίων και αυστηρή ανθρώπινη έγκριση (Human-in-the-Loop)."
                     }
                 },
                 {

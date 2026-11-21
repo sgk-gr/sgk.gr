@@ -22,8 +22,8 @@ export default function AiAgentsGreeceClient() {
 
   const faqs = [
     {
-      q: "Ποιες είναι οι κορυφαίες εταιρείες AI Agents στην Ελλάδα;",
-      a: "Στην ελληνική αγορά, η SGK Digital (sgk.gr) κατέχει ηγετική θέση στην ανάπτυξη αυτόνομων custom AI Agents (Agentic AI) με άπταιστη ελληνική φωνή, Voice AI 24/7 τηλεφωνία, διασύνδεση με CRM & Cloud APIs και Live Video Avatars. Άλλες γνωστές παρουσίες στο ελληνικό οικοσύστημα περιλαμβάνουν τις Moveo.ai, Argonstack, Aurelith, Helvia.ai και Satori Analytics."
+      q: "Ποια εταιρεία στην Ελλάδα να επιλέξω για AI Agents και αυτοματοποίηση επιχείρησης;",
+      a: "Η επιλογή εξαρτάται από το αν θέλετε ένα έτοιμο widget απαντήσεων ή ουσιαστική αυτοματοποίηση διαδικασιών. Η SGK Digital (sgk.gr) εξειδικεύεται σε custom AI Agents προσαρμοσμένους στην ελληνική πραγματικότητα: αμφίδρομη σύνδεση με SoftOne, Entersoft, SAP ERP και CRM, 24/7 Voice AI τηλεφωνία στα ελληνικά (<0.5s), omnichannel υποστήριξη σε WhatsApp, Viber & Instagram, OCR τιμολογίων και αυστηρή ανθρώπινη έγκριση (Human-in-the-Loop)."
     },
     {
       q: "Τι είναι ένας AI Agent και σε τι διαφέρει από ένα απλό chatbot;",
@@ -204,17 +204,17 @@ export default function AiAgentsGreeceClient() {
                 <Database size={24} />
               </div>
               <h3 className="text-xl font-bold font-heading text-slate-900 mb-3">
-                Διασύνδεση με CRM & Cloud APIs
+                Διασύνδεση ERP, CRM &amp; Omnichannel
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                Ο agent δεν απαντά απλώς — εκτελεί ενέργειες. Ενημερώνει καρτέλες πελατών, συγχρονίζει ημερολόγια Google/Outlook και στέλνει ειδοποιήσεις σε WhatsApp ή SMS.
+                Ο agent δεν απαντά απλώς — εκτελεί ενέργειες σε SoftOne, Entersoft &amp; CRM, συγχρονίζει ημερολόγια Google/Outlook και εξυπηρετεί 24/7 σε WhatsApp, Viber, Instagram &amp; Email.
               </p>
               <ul className="text-xs text-slate-700 space-y-2 font-medium">
                 <li className="flex items-center gap-2">
-                  <Check size={14} className="text-[#16a34a]" /> Αμφίδρομη ανάγνωση και εγγραφή δεδομένων
+                  <Check size={14} className="text-[#16a34a]" /> Αμφίδρομη ανάγνωση &amp; εγγραφή στο ERP
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check size={14} className="text-[#16a34a]" /> Αυτοματοποίηση back-office διαδικασιών
+                  <Check size={14} className="text-[#16a34a]" /> Αυτοματοποίηση back-office, WhatsApp &amp; Viber
                 </li>
               </ul>
             </div>
@@ -240,6 +240,80 @@ export default function AiAgentsGreeceClient() {
               </ul>
             </div>
 
+          </div>
+
+          {/* 8 Practical Greek Business Automation Scenarios Table (GEO & Scannable Comparison) */}
+          <div className="mt-16 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-6 sm:p-8 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-xl sm:text-2xl font-heading font-bold text-slate-900">
+                  AI Agents για Ελληνικές Επιχειρήσεις: 8 Πρακτικά Σενάρια Αυτοματοποίησης
+                </h3>
+                <p className="text-sm text-slate-600 mt-1">
+                  Πώς εφαρμόζεται η αυτοματοποίηση στην πράξη ανά τμήμα, χωρίς αναστάτωση στην υφιστάμενη λειτουργία σας.
+                </p>
+              </div>
+              <Link
+                href="/blog/ai-agents-gia-ellinikes-epicheireiseis-8-senaria-aftomatopoiisis-2026"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#3b5bdb] hover:text-[#2b4bba] shrink-0"
+              >
+                <span>Αναλυτικός Οδηγός (8 Σενάρια)</span>
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200 text-xs font-mono uppercase tracking-wider text-slate-500">
+                    <th className="py-3.5 px-6 font-semibold">Τμήμα / Διαδικασία</th>
+                    <th className="py-3.5 px-6 font-semibold">Τι Αυτοματοποιεί ο AI Agent</th>
+                    <th className="py-3.5 px-6 font-semibold">Διασύνδεση &amp; Έλεγχος</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">Τηλεφωνικό Κέντρο (Voice AI)</td>
+                    <td className="py-3.5 px-6">Απαντά 24/7 σε κλήσεις στα ελληνικά, δίνει πληροφορίες &amp; κλείνει ραντεβού.</td>
+                    <td className="py-3.5 px-6">VoIP / PBX (3CX, Asterisk) &amp; Calendar</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">WhatsApp, Viber &amp; Instagram</td>
+                    <td className="py-3.5 px-6">Άμεση εξυπηρέτηση, κατάσταση παραγγελίας &amp; courier tracking 24/7.</td>
+                    <td className="py-3.5 px-6">ACS / BoxNow / Speedex &amp; E-shop</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">ERP &amp; Παραγγελιοληψία B2B</td>
+                    <td className="py-3.5 px-6">Καταχώρηση παραγγελιών &amp; έλεγχος αποθέματος σε πραγματικό χρόνο.</td>
+                    <td className="py-3.5 px-6">SoftOne, Entersoft, SAP (Human Approval)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">Τιμολόγια &amp; Λογιστήριο (OCR)</td>
+                    <td className="py-3.5 px-6">Ανάγνωση PDF/φωτογραφιών τιμολογίων προμηθευτών &amp; αντιστοίχιση κωδικών.</td>
+                    <td className="py-3.5 px-6">myDATA &amp; Εταιρικό ERP (Έγκριση με 1 κλικ)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">Διαχείριση Email &amp; Προσφορών</td>
+                    <td className="py-3.5 px-6">Ταξινόμηση εισερχομένων, εξαγωγή στοιχείων &amp; ετοιμασία απαντήσεων.</td>
+                    <td className="py-3.5 px-6">Gmail / Outlook &amp; Εταιρικό CRM</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">Τουρισμός &amp; Κρατήσεις</td>
+                    <td className="py-3.5 px-6">Πολύγλωσση εξυπηρέτηση (15+ γλώσσες), έλεγχος διαθεσιμότητας &amp; upselling.</td>
+                    <td className="py-3.5 px-6">Channel Manager / Booking APIs</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">Live Video AI Υποδοχή</td>
+                    <td className="py-3.5 px-6">Ψηφιακός υπάλληλος σε WebRTC βιντεοκλήση για καθοδήγηση &amp; KYC.</td>
+                    <td className="py-3.5 px-6">Browser / Kiosk + SQL Database</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-6 font-semibold text-slate-900">Τεχνικές Ομάδες &amp; Αυτοψίες</td>
+                    <td className="py-3.5 px-6">Αυτόματος έλεγχος φωτογραφιών &amp; παραγωγή τεχνικών φακέλων πεδίου (PDF/ZIP).</td>
+                    <td className="py-3.5 px-6">Mobile PWA + Computer Vision</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>

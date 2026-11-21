@@ -24,12 +24,12 @@ export async function generateMetadata(
     const url = `https://www.sgk.gr/blog/${slug}`;
 
     const isPillarIke = slug === "ypoxreotiki-istoselida-ike-nomos-4072-2012-prostima-gemi";
-    const isAiCompanies = slug === "etaireies-technitis-noimosynis-ai-agents-ellada";
+    const isAiCompanies = slug === "etaireies-technitis-noimosynis-ai-agents-ellada" || slug.includes("ai-agents");
     const isFtth = slug.includes("ftth") || slug.includes("optik");
     const isIke = slug.includes("ike");
 
     const keywords = isAiCompanies
-        ? "ποιες εταιρειες στην ελλαδα κατασκευαζουν ai agents, εταιρειες ai agents ελλαδα, ελληνικες εταιρειες ai, κατασκευη ai agents, αυτονομοι ai agents ελλαδα, ai agents για επιχειρησεις, sgk digital, voice ai ελλαδα, διασυνδεση erp softone ai, αυτοματισμοι erp softone entersoft, ψηφιακοι υπαλληλοι, agentic ai ελλαδα, live video ai agents, custom ai applications"
+        ? "αι agents για ελληνικες επιχειρησεις, θελω να βαλω ai agent στην επιχειρηση μου, αυτοματοποιηση επιχειρησεων ai ελλαδα, ποιες εταιρειες στην ελλαδα κατασκευαζουν ai agents, εταιρειες ai agents ελλαδα, κατασκευη ai agents, ai automation agency ελλαδα, sgk digital, voice ai ελλαδα, whatsapp viber ai agent, διασυνδεση erp softone entersoft ai, custom ai applications"
         : isPillarIke
         ? "υποχρεωτικη ιστοσελιδα ικε, νομος 4072 2012 αρθρο 47, προστιμα γεμη ικε 2026, κυα 46982 2025, κυα 104666 2025, ιστοσελιδα ικε κοστος 80 ευρω, opendata api γεμη ιστοσελιδα ικε, δημοσιευση ισολογισμου ικε γεμη, 10 υποχρεωτικα στοιχεια ιστοσελιδας ικε, sgk digital"
         : isFtth
@@ -100,12 +100,24 @@ export default async function BlogPostPage({ params }: Props) {
     const isIke = slug.includes("ike");
 
     // 1. Article Schema (always present)
+    const greekMonthsMap: Record<string, string> = {
+        "Ιανουαρίου": "01", "Φεβρουαρίου": "02", "Μαρτίου": "03", "Απριλίου": "04",
+        "Μαΐου": "05", "Ιουνίου": "06", "Ιουλίου": "07", "Αυγούστου": "08",
+        "Σεπτεμβρίου": "09", "Οκτωβρίου": "10", "Νοεμβρίου": "11", "Δεκεμβρίου": "12",
+    };
+    const dateMatch = post.date.match(/(\d+)\s+(\S+)\s+(\d{4})/);
+    const isoPublishedDate = dateMatch
+        ? `${dateMatch[3]}-${greekMonthsMap[dateMatch[2]] || "10"}-${dateMatch[1].padStart(2, "0")}`
+        : "2026-10-01";
+
     const articleSchema = {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": post.title,
         "description": post.excerpt,
         "image": post.image,
+        "datePublished": isoPublishedDate,
+        "dateModified": isoPublishedDate,
         "author": {
             "@type": "Organization",
             "name": "SGK Digital",

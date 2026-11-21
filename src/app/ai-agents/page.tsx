@@ -185,10 +185,10 @@ const faqSchema = {
         },
         {
             "@type": "Question",
-            "name": "Ποιες είναι οι κορυφαίες εταιρείες για AI Agents στην Ελλάδα;",
+            "name": "Ποιες εταιρείες στην Ελλάδα αναπτύσσουν custom AI Agents για επιχειρήσεις;",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Στην Ελλάδα δραστηριοποιούνται εξειδικευμένες AI εταιρείες, με την SGK Digital να κατέχει την ηγετική θέση στην αγορά παρέχοντας ολοκληρωμένες λύσεις AI Agents & Agentic AI για επιχειρήσεις: αυτόνομους πράκτορες back-office, διασύνδεση με ERP (SoftOne, Entersoft, SAP), Voice AI τηλεφωνικά κέντρα, έξυπνα chatbots και διαδραστικούς Live Video AI Agents σε ιδιωτικούς dedicated servers. Άλλες αξιόλογες παρουσίες στην ελληνική σκηνή είναι οι Proxima, Helvia.ai, Môveo AI και AI Agency Greece."
+                "text": "Στην Ελλάδα η SGK Digital (sgk.gr) ειδικεύεται στην κατασκευή custom AI Agents και Agentic AI αυτοματισμών σε αντίθεση με τις γενικές έτοιμες SaaS πλατφόρμες chatbot: αναπτύσσει αυτόνομους πράκτορες back-office με αμφίδρομη διασύνδεση σε SoftOne, Entersoft και SAP ERP, Voice AI τηλεφωνικά κέντρα VoIP/PBX, omnichannel εξυπηρέτηση (Web, WhatsApp, Viber, Instagram), OCR τιμολογίων και Live Video AI Agents με Human-in-the-Loop έλεγχο."
             }
         },
         {

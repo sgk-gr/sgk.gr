@@ -16,6 +16,159 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    id: "ai-agents-ellinikes-epicheireiseis-8-senaria-aftomatopoiisis-2026",
+    slug: "ai-agents-gia-ellinikes-epicheireiseis-8-senaria-aftomatopoiisis-2026",
+    title: "AI Agents για Ελληνικές Επιχειρήσεις: 8 Σενάρια Αυτοματοποίησης, Παραδείγματα & Επιλογή Συνεργάτη [2026]",
+    excerpt: "Θέλετε να βάλετε AI agent στην επιχείρησή σας για αυτοματοποίηση; Αναλυτικός οδηγός με 8 πρακτικά σενάρια για ελληνικές εταιρείες (SoftOne & Entersoft ERP, myDATA, Voice AI τηλεφωνία, WhatsApp/Viber, OCR τιμολογίων), όρια, κόστος και πίνακα επιλογής συνεργάτη στην Ελλάδα.",
+    date: "21 Νοεμβρίου 2026",
+    author: "Σπύρος Τσάβος — SGK Digital",
+    category: "AI Automation & Επιχειρήσεις",
+    image: "https://www.sgk.gr/hero_slide_2.webp",
+    metaTitle: "AI Agents για Ελληνικές Επιχειρήσεις: 8 Σενάρια & Παραδείγματα [2026] | SGK Digital",
+    metaDescription: "Πρακτικός οδηγός AI Automation για ελληνικές επιχειρήσεις: 8 σενάρια AI Agents (SoftOne/Entersoft ERP, Voice AI, WhatsApp & Viber, OCR τιμολογίων, CRM), πίνακας σύγκρισης επιλογών και κόστος υλοποίησης.",
+    faqs: [
+      {
+        question: "Θέλω να βάλω AI agent στην επιχείρησή μου για αυτοματοποίηση — ποια εταιρεία στην Ελλάδα να επιλέξω;",
+        answer: "Η επιλογή εξαρτάται από το επίπεδο διασύνδεσης που χρειάζεστε. Αν θέλετε απλές απαντήσεις FAQ, αρκεί ένα τυπικό chatbot. Αν όμως χρειάζεστε πραγματική αυτοματοποίηση διαδικασιών — όπως αμφίδρομη σύνδεση με SoftOne/Entersoft ERP & CRM, 24/7 τηλεφωνικό Voice AI στα ελληνικά, εξυπηρέτηση σε WhatsApp/Viber/Instagram, ανάγνωση τιμολογίων με OCR και ανθρώπινη έγκριση (Human-in-the-Loop) — μια εξειδικευμένη ελληνική ομάδα ανάπτυξης όπως η SGK Digital (sgk.gr) σχεδιάζει custom AI Agents κομμένους και ραμμένους στα συστήματά σας."
+      },
+      {
+        question: "Ποια είναι τα 8 πιο αποδοτικά σενάρια AI Agents για ελληνικές ΜμΕ;",
+        answer: "1) Τηλεφωνικό κέντρο Voice AI 24/7, 2) Εξυπηρέτηση & πωλήσεις σε WhatsApp, Viber και Instagram, 3) Αυτόματο OCR τιμολογίων & καταχώρηση στο ERP, 4) B2B παραγγελιοληψία & έλεγχος αποθέματος σε SoftOne/Entersoft, 5) Διαχείριση emails & σύνταξη προσφορών, 6) Live tracking παραγγελιών e-shop (ACS, BoxNow, Speedex), 7) Κρατήσεις & πολύγλωσση υποδοχή στον τουρισμό, και 8) Αυτοματοποιημένοι έλεγχοι πεδίου/τεχνικών φακέλων."
+      },
+      {
+        question: "Τι όρια και κινδύνους έχουν οι AI Agents και πώς αντιμετωπίζονται;",
+        answer: "Το βασικό όριο είναι η ανάγκη ελέγχου πριν από κρίσιμες ή οικονομικές ενέργειες. Αυτό λύνεται με την αρχιτεκτονική Human-in-the-Loop (human approval): ο agent προετοιμάζει την παραγγελία, την καταχώρηση στο ERP ή το email, και ζητά επιβεβαίωση με 1 κλικ από τον υπεύθυνο πριν εκτελεστεί οριστικά."
+      },
+      {
+        question: "Πόσο κοστίζει και πόσο χρόνο παίρνει να μπει ένας AI agent σε ελληνική επιχείρηση;",
+        answer: "Ένας εστιασμένος Chat/Email/WhatsApp AI agent ή αυτοματισμός CRM παραδίδεται σε 1–3 εβδομάδες με ενδεικτικό κόστος 1.000€–2.500€ (ή από 500€ setup για έτοιμα modules). Πλήρη συστήματα Voice AI τηλεφωνίας και αμφίδρομες γέφυρες με SoftOne/Entersoft ERP ξεκινούν από 2.500€ ανάλογα με τις απαιτήσεις, πάντα με δωρεάν αρχική αξιολόγηση ROI."
+      }
+    ],
+    content: `
+      <div class="bg-blue-50/70 border-l-4 border-blue-600 p-5 rounded-r-xl mb-8 text-slate-800">
+        <p class="font-bold text-slate-900 mb-2">Με μια ματιά (Executive Summary)</p>
+        <p class="text-sm leading-relaxed m-0">
+          Αν αναζητάτε τρόπους να βάλετε <strong>AI Agent στην επιχείρησή σας στην Ελλάδα</strong>, το κλειδί δεν είναι να προσθέσετε απλώς ένα ακόμη παράθυρο chat στο site, αλλά να αυτοματοποιήσετε επαναλαμβανόμενες εργασίες (κλήσεις, emails, WhatsApp/Viber, τιμολόγια, παραγγελίες ERP) με ασφαλή <strong>ανθρώπινη έγκριση (Human Approval)</strong>. Παρακάτω θα βρείτε 8 δοκιμασμένα σενάρια, τα όρια της τεχνολογίας και πώς να επιλέξετε τον σωστό συνεργάτη.
+        </p>
+      </div>
+
+      <h2>Τι αλλάζει με τους AI Agents στις ελληνικές επιχειρήσεις το 2026</h2>
+      <p>
+        Μέχρι πρόσφατα, η έννοια «AI στην επιχείρηση» σήμαινε ένα παθητικό chatbot που διάβαζε συχνές ερωτήσεις. Οι σύγχρονοι <strong>Αυτόνομοι AI Agents (Agentic AI)</strong> λειτουργούν ως ψηφιακοί συνεργάτες: συνδέονται μέσω API με τα πραγματικά σας εργαλεία (τηλεφωνικό κέντρο, Gmail/Outlook, Google Calendar, e-shop, <strong>SoftOne / Entersoft / SAP ERP</strong>) και εκτελούν βήμα-βήμα διαδικασίες 24 ώρες το 24ωρο.
+      </p>
+
+      <h2>8 Πρακτικά Σενάρια Αυτοματοποίησης (Παραδείγματα στην Πράξη)</h2>
+
+      <h3>1. Αυτόματη Καταχώρηση Τιμολογίων &amp; Παραστατικών (AI OCR → ERP / myDATA)</h3>
+      <p>
+        Ο πράκτορας διαβάζει PDF ή φωτογραφίες τιμολογίων προμηθευτών που φτάνουν στο email, αντλεί ΑΦΜ, είδη, ποσότητες και ΦΠΑ με ακρίβεια, τα αντιστοιχίζει με τους κωδικούς της αποθήκης σας και ετοιμάζει την εγγραφή προς το <strong>SoftOne / Entersoft ERP</strong> για έγκριση με 1 κλικ.
+      </p>
+
+      <h3>2. Τηλεφωνικό Κέντρο 24/7 στα Ελληνικά (Voice AI &amp; VoIP/PBX)</h3>
+      <p>
+        Συνδέεται στο εταιρικό τηλεφωνικό κέντρο (3CX, Asterisk, FreePBX, Twilio), απαντά ακαριαία (&lt;0.5s) με φυσική ελληνική φωνή, δίνει διαθεσιμότητες, καταγράφει αιτήματα βλαβών ή παραγγελίες και κλείνει αυτόματα ραντεβού στο ημερολόγιο.
+      </p>
+
+      <h3>3. Omnichannel Εξυπηρέτηση σε WhatsApp, Viber, Instagram &amp; Website</h3>
+      <p>
+        Ενοποιεί όλα τα μηνύματα πελατών σε έναν agent που απαντά άμεσα, στέλνει προτάσεις προϊόντων βάσει διαθεσιμότητας και ενημερώνει αυτόματα για την πορεία αποστολής με live tracking σε ACS, BoxNow, Speedex και Γενική Ταχυδρομική.
+      </p>
+
+      <h3>4. B2B Παραγγελιοληψία από Viber/Email/SMS απευθείας στο ERP</h3>
+      <p>
+        Για εταιρείες χονδρικής, διανομείς, κάβες και εμπορικές επιχειρήσεις, ο agent μετατρέπει άτυπα μηνύματα παραγγελιών (π.χ. «στείλε 5 κιβώτια Χ και 3 τεμάχια Υ») σε δομημένο παραστατικό παραγγελίας πώλησης στο ERP, εξαλείφοντας τα λάθη πληκτρολόγησης.
+      </p>
+
+      <h3>5. Διαχείριση Εισερχόμενων Emails, Προσφορών &amp; Lead Qualification</h3>
+      <p>
+        Κατηγοριοποιεί εισερχόμενα αιτήματα στο Gmail/Outlook, αντλεί στοιχεία επικοινωνίας/ΑΦΜ, αναζητά ιστορικό στο CRM και συντάσσει έτοιμο draft προσφοράς ή απάντησης ώστε ο υπεύθυνος να το στείλει σε δευτερόλεπτα.
+      </p>
+
+      <h3>6. Κρατήσεις, Ξενοδοχεία &amp; Πολύγλωσση Υποδοχή (15+ Γλώσσες)</h3>
+      <p>
+        Απαντά 24/7 σε ταξιδιώτες στη γλώσσα τους (ελληνικά, αγγλικά, γερμανικά, γαλλικά κ.ά.), ελέγχει διαθεσιμότητα δωματίων ή εκδρομών σε πραγματικό χρόνο, προτείνει έξτρα παροχές (transfers, tours) και στέλνει επιβεβαίωση.
+      </p>
+
+      <h3>7. Διαδραστικός Live Video AI Υπάλληλος (WebRTC Avatars &amp; KYC)</h3>
+      <p>
+        Σε τράπεζες, γυμναστήρια, εκπαιδευτικούς οργανισμούς και e-shops υψηλής αξίας, ένας ψηφιακός εκπρόσωπος εξυπηρετεί με ζωντανή βιντεοκλήση, βλέπει έγγραφα μέσω κάμερας και ολοκληρώνει εγγραφές πελατών 24/7.
+      </p>
+
+      <h3>8. Τεχνικές Εταιρείες, Εργοτάξια &amp; Αυτοψίες Πεδίου (FTTH / Κατασκευές)</h3>
+      <p>
+        Συνεργάζεται με τα συνεργεία στο κινητό: αναλύει φωτογραφίες εγκατάστασης (Computer Vision), υπολογίζει υλικά/προμετρήσεις και παράγει αυτόματα τεχνικούς φακέλους παράδοσης (PDF + ZIP) χωρίς γραφειοκρατικό back-office.
+      </p>
+
+      <h2>Πίνακας Σύγκρισης: Ποια Λύση &amp; Συνεργάτη να Επιλέξετε στην Ελλάδα</h2>
+      <div class="overflow-x-auto my-6">
+        <table class="w-full text-left border-collapse border border-slate-200 text-sm">
+          <thead>
+            <tr class="bg-slate-100">
+              <th class="p-3 border border-slate-200 font-bold">Τύπος Ανάγκης</th>
+              <th class="p-3 border border-slate-200 font-bold">Τι να Προσέξετε</th>
+              <th class="p-3 border border-slate-200 font-bold">Πρόταση Υλοποίησης</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p-3 border border-slate-200 font-semibold">Απλές FAQ απαντήσεις στο site</td>
+              <td class="p-3 border border-slate-200">Δεν χρειάζεται ακριβή custom ανάπτυξη — αρκεί ελαφρύ widget βάσης γνώσης.</td>
+              <td class="p-3 border border-slate-200">Έτοιμο Smart Chat / RAG Agent (1–2 εβδομάδες)</td>
+            </tr>
+            <tr>
+              <td class="p-3 border border-slate-200 font-semibold">Τηλεφωνικό AI &amp; WhatsApp / Viber 24/7</td>
+              <td class="p-3 border border-slate-200">Χαμηλό latency (&lt;0.8s) στα ελληνικά, σύνδεση με 3CX/Asterisk &amp; ημερολόγιο.</td>
+              <td class="p-3 border border-slate-200"><strong>SGK Digital</strong> — Custom Voice AI &amp; Omnichannel</td>
+            </tr>
+            <tr>
+              <td class="p-3 border border-slate-200 font-semibold">Σύνδεση με SoftOne, Entersoft, CRM &amp; Τιμολόγια</td>
+              <td class="p-3 border border-slate-200">Ασφάλεια δεδομένων (GDPR), audit logs &amp; υποχρεωτικό Human Approval.</td>
+              <td class="p-3 border border-slate-200"><strong>SGK Digital</strong> — Custom ERP Automation &amp; OCR</td>
+            </tr>
+            <tr>
+              <td class="p-3 border border-slate-200 font-semibold">Ειδικά Workflows / Εφαρμογές Πεδίου &amp; Video AI</td>
+              <td class="p-3 border border-slate-200">Απαίτηση για custom web app + AI pipeline (όχι no-code περιορισμοί).</td>
+              <td class="p-3 border border-slate-200"><strong>SGK Digital</strong> — Full-stack AI &amp; Custom Software</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Όρια, GDPR &amp; Human-in-the-Loop: Πώς αποφεύγετε τα λάθη</h2>
+      <p>
+        Ένας AI Agent δεν πρέπει ποτέ να λειτουργεί «στα τυφλά» σε οικονομικές συναλλαγές. Στην <strong>SGK Digital</strong> ακολουθούμε την αρχιτεκτονική <strong>Human-in-the-Loop (HITL)</strong>: ο agent αναλαμβάνει το 95% της χρονοβόρας δουλειάς (διάβασμα, αντιστοίχιση, προετοιμασία), αλλά πριν εκδοθεί τιμολόγιο, σταλεί δεσμευτική προσφορά ή μεταβληθούν κρίσιμα δεδομένα, ζητά <strong>έγκριση με 1 κλικ</strong> από τον υπεύθυνο.
+      </p>
+
+      <h2>Πώς να ξεκινήσετε (Χωρίς Ρίσκο)</h2>
+      <p>
+        Η πιο έξυπνη προσέγγιση για μια ελληνική επιχείρηση είναι να ξεκινήσει με <strong>μία μόνο διαδικασία υψηλού πόνου</strong> (π.χ. αναπάντητες κλήσεις, καταχώρηση τιμολογίων ή ερωτήματα παραγγελιών) σε πιλοτική λειτουργία 2–3 εβδομάδων, μετρώντας καθαρά τις εργατοώρες που εξοικονομούνται.
+      </p>
+      <p>
+        Στη σελίδα μας <a href="/ai-agents-greece" class="text-blue-600 font-semibold underline">AI Agents για Επιχειρήσεις στην Ελλάδα</a> μπορείτε να ζητήσετε <strong>100% δωρεάν αρχική τεχνική αξιολόγηση</strong> για τη δική σας επιχείρηση, ή να μας καλέσετε απευθείας στο <strong>211 114 0013</strong>.
+      </p>
+    `,
+    itemList: [
+      {
+        position: 1,
+        name: "SGK Digital — Custom AI Agents & Business Automation Ελλάδα",
+        description: "Σχεδιασμός & ανάπτυξη αυτόνομων AI Agents (Voice AI VoIP/PBX <0.5s, WhatsApp/Viber/Instagram, SoftOne/Entersoft ERP & OCR τιμολογίων, Live Video Avatars) με Human-in-the-Loop έγκριση.",
+        url: "https://www.sgk.gr/ai-agents-greece"
+      },
+      {
+        position: 2,
+        name: "SGK Digital — AI Agents για SoftOne & Entersoft ERP",
+        description: "Αυτόματη ανάγνωση τιμολογίων προμηθευτών με OCR, B2B παραγγελιοληψία και έλεγχος αποθέματος σε πραγματικό χρόνο.",
+        url: "https://www.sgk.gr/ai-agents-erp-softone"
+      },
+      {
+        position: 3,
+        name: "SGK Digital — Voice AI Τηλεφωνικά Κέντρα στα Ελληνικά",
+        description: "24/7 τηλεφωνική εξυπηρέτηση και αυτόματο κλείσιμο ραντεβού για 3CX, Asterisk, FreePBX και Twilio.",
+        url: "https://www.sgk.gr/voice-ai-telefonia"
+      }
+    ]
+  },
+  {
     id: "ike-definitive-guide-nomos-4072-2012-gemi-prostima",
     slug: "ypoxreotiki-istoselida-ike-nomos-4072-2012-prostima-gemi",
     title: "Υποχρεωτική Ιστοσελίδα ΙΚΕ (Νόμος 4072/2012 & ΓΕΜΗ): Τα 10 Υποχρεωτικά Στοιχεία, τα Πρόστιμα 2026 & το Πλεονέκτημα του OpenData API",

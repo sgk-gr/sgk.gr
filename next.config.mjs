@@ -25,6 +25,14 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // 0. Canonical apex -> www Permanent Redirect (308)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'sgk.gr' }],
+        destination: 'https://www.sgk.gr/:path*',
+        permanent: true,
+      },
+
       // 1. IKE Legacy URLs
       {
         source: '/ike-offer',
